@@ -10,7 +10,7 @@ const getApiBaseUrl = () => {
     return 'http://localhost:3001';
   }
   // Production / PoC: use env var so you can set it per deployment
-  return process.env.EXPO_PUBLIC_API_URL ?? 'https://your-api.vercel.app';
+  return process.env.EXPO_PUBLIC_API_URL ?? 'https://send-it-ke7r.onrender.com';
 };
 
 export const API_BASE_URL = getApiBaseUrl();
