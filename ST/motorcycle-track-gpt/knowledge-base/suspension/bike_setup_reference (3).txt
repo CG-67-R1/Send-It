@@ -1,0 +1,44 @@
+
+Bike Setup and Relevant Information for Motorcycle Racing:
+
+1. Bike Model: 
+    - Year, make, model.
+2. Weight:
+    - Bike weight (without rider).
+    - Rider weight with gear.
+
+3. Suspension Settings:
+    - Front suspension spring rate.
+    - Rear suspension spring rate.
+    - Front fork oil height.
+    - Oil viscosity.
+    - Front compression settings (clicks).
+    - Front rebound settings (clicks).
+    - Rear compression settings (clicks).
+    - Rear rebound settings (clicks).
+    
+4. Tyre Information:
+    - Front tyre size.
+    - Rear tyre size.
+    - Tyre brand and model (e.g., Pirelli Diablo Supercorsa).
+    - Tyre pressures (front and rear).
+
+5. Gear Ratio:
+    - Front sprocket size (teeth).
+    - Rear sprocket size (teeth).
+
+6. Aerodynamics:
+    - Any modifications affecting aerodynamics (winglets, fairing changes).
+
+7. Engine Tuning:
+    - Any engine tuning or modifications.
+    
+8. Environmental Conditions:
+    - Air temperature.
+    - Track temperature.
+
+9. Track Information:
+    - Track name.
+    - Key features (length, types of turns, straight lengths).
+
+This reference will serve to ensure the bike's setup is optimally configured for performance under specific racing conditions and environments.

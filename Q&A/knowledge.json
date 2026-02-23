@@ -1,0 +1,24 @@
+{
+  "_meta": {
+    "version": 2,
+    "description": "Single source of truth for Q&A search and trivia. All entries have id and origin. Run 'node api/ingestQA.js' to scrape Q&A folder and remove originals."
+  },
+  "documents": [
+    { "id": "doc-1", "origin": "seed", "title": "Track day basics", "content": "A track day is a supervised session on a closed circuit. You ride in groups by pace (novice, intermediate, advanced). Bring a helmet, leathers or approved gear, and tape or remove mirrors and lights as per org rules." },
+    { "id": "doc-2", "origin": "seed", "title": "Racing line", "content": "The racing line is the fastest path through a corner: outside to inside (apex) to outside. You brake in a straight line, turn in, hit the apex, then accelerate out. Late apex is used for tight corners or when you need to accelerate earlier onto a straight." }
+  ],
+  "qa": [
+    { "id": "qa-1", "origin": "seed", "q": "What does BP mean in motorcycle riding?", "a": "Body position. Leaning off the bike into the corner to help turn and keep the bike more upright." },
+    { "id": "qa-2", "origin": "seed", "q": "What is trail braking?", "a": "Carrying a small amount of front brake into the turn after turn-in, then releasing gradually. It keeps the front loaded and can tighten the line." },
+    { "id": "qa-3", "origin": "seed", "q": "What is the apex of a corner?", "a": "The point where the bike is closest to the inside of the corner—the tightest part of your line." },
+    { "id": "qa-4", "origin": "seed", "q": "What does 'hot pit' mean?", "a": "A quick stop in the pit lane without going to the garage—e.g. for fuel or a tire change—then back on track." },
+    { "id": "qa-5", "origin": "seed", "q": "What is a knee slider for?", "a": "Protection and a reference: when it touches the pavement you know you are near the lean angle limit for that corner." },
+    { "id": "qa-6", "origin": "seed", "q": "What does 'green flag' mean?", "a": "Track is live; racing or session is on. Go when it's your group." },
+    { "id": "qa-7", "origin": "seed", "q": "What is a chicane?", "a": "A tight S-shaped section of track used to slow bikes before a straight or for variety." },
+    { "id": "qa-8", "origin": "seed", "q": "What does 'red flag' mean?", "a": "Session stopped. Slow down, no passing, return to pit as directed." },
+    { "id": "qa-9", "origin": "seed", "q": "What is a slipstream?", "a": "Riding in the air pocket behind another bike to reduce drag and gain speed, often used before a pass." },
+    { "id": "qa-10", "origin": "seed", "q": "What is a warm-up lap?", "a": "A lap before the race or session to warm tires and get a final look at the track." },
+    { "id": "qa-11", "origin": "seed", "q": "What does 'pick up the bike' mean?", "a": "Stand the bike up to vertical (or more) to finish the corner and get on the gas, reducing lean." },
+    { "id": "qa-12", "origin": "seed", "q": "What is a track day org?", "a": "Organization that rents the circuit and runs the day: groups, briefings, flags, and rules." }
+  ]
+}

@@ -1,0 +1,179 @@
+{
+  "actions": [
+    {
+      "name": "convert_units",
+      "description": "Convert between different units for motorcycle track day use. Supports pressure (PSI/bar), weight (kg/lbs), temperature (°C/°F), length (mm/inches), and spring rate (N/mm to lbs/in).",
+      "parameters": {
+        "type": "object",
+        "properties": {
+          "value": {
+            "type": "number",
+            "description": "The numeric value to convert"
+          },
+          "from_unit": {
+            "type": "string",
+            "enum": ["psi", "bar", "kg", "lbs", "celsius", "fahrenheit", "mm", "inches", "n_per_mm", "lbs_per_in"],
+            "description": "The unit to convert from"
+          },
+          "to_unit": {
+            "type": "string",
+            "enum": ["psi", "bar", "kg", "lbs", "celsius", "fahrenheit", "mm", "inches", "n_per_mm", "lbs_per_in"],
+            "description": "The unit to convert to"
+          }
+        },
+        "required": ["value", "from_unit", "to_unit"]
+      }
+    },
+    {
+      "name": "calculate_tire_pressure",
+      "description": "Calculate tire pressure changes based on temperature or provide pressure recommendations. Converts between cold and hot pressures based on temperature rise, or calculates expected hot pressure from cold starting pressure.",
+      "parameters": {
+        "type": "object",
+        "properties": {
+          "cold_pressure": {
+            "type": "number",
+            "description": "Cold tire pressure in PSI (optional if calculating from hot)"
+          },
+          "hot_pressure": {
+            "type": "number",
+            "description": "Hot tire pressure in PSI (optional if calculating from cold)"
+          },
+          "cold_temp": {
+            "type": "number",
+            "description": "Cold temperature in Celsius"
+          },
+          "hot_temp": {
+            "type": "number",
+            "description": "Hot temperature in Celsius (or expected hot temp)"
+          },
+          "brand": {
+            "type": "string",
+            "enum": ["pirelli", "dunlop", "metzeler", "bridgestone", "michelin", "generic"],
+            "description": "Tire brand for brand-specific calculations (optional)"
+          },
+          "calculation_type": {
+            "type": "string",
+            "enum": ["cold_to_hot", "hot_to_cold", "pressure_rise"],
+            "description": "Type of calculation: cold_to_hot (calculate hot from cold), hot_to_cold (calculate cold from hot), or pressure_rise (calculate expected rise)"
+          }
+        },
+        "required": ["cold_temp", "hot_temp", "calculation_type"]
+      }
+    },
+    {
+      "name": "calculate_spring_rate",
+      "description": "Calculate recommended spring rate for motorcycle suspension based on rider weight, bike weight, motion ratio, and desired sag. Returns spring rate in both N/mm and lbs/in.",
+      "parameters": {
+        "type": "object",
+        "properties": {
+          "rider_weight_kg": {
+            "type": "number",
+            "description": "Rider weight in full gear (kg)"
+          },
+          "bike_weight_kg": {
+            "type": "number",
+            "description": "Bike weight (kg). If not provided, will use typical values based on bike category."
+          },
+          "motion_ratio": {
+            "type": "number",
+            "description": "Motion ratio (wheel travel / shock stroke). Typical: front ~1.0, rear ~2.0-2.5"
+          },
+          "desired_sag_mm": {
+            "type": "number",
+            "description": "Desired static sag in mm. Typical: front 30-35mm, rear 25-30mm for track use"
+          },
+          "location": {
+            "type": "string",
+            "enum": ["front", "rear"],
+            "description": "Front or rear suspension"
+          },
+          "bike_category": {
+            "type": "string",
+            "enum": ["superbike_1000cc", "supersport_600cc", "small_300cc"],
+            "description": "Bike category for default motion ratio if not provided (optional)"
+          }
+        },
+        "required": ["rider_weight_kg", "desired_sag_mm", "location"]
+      }
+    },
+    {
+      "name": "calculate_suspension_geometry",
+      "description": "Calculate suspension geometry changes (rake, trail, wheelbase) from ride height adjustments. Predicts handling characteristics from geometry changes.",
+      "parameters": {
+        "type": "object",
+        "properties": {
+          "current_rake_degrees": {
+            "type": "number",
+            "description": "Current rake angle in degrees"
+          },
+          "current_trail_mm": {
+            "type": "number",
+            "description": "Current trail in mm"
+          },
+          "wheelbase_mm": {
+            "type": "number",
+            "description": "Wheelbase in mm"
+          },
+          "front_height_change_mm": {
+            "type": "number",
+            "description": "Change in front ride height in mm (positive = raise, negative = lower)"
+          },
+          "rear_height_change_mm": {
+            "type": "number",
+            "description": "Change in rear ride height in mm (positive = raise, negative = lower)"
+          }
+        },
+        "required": ["current_rake_degrees", "current_trail_mm", "wheelbase_mm", "front_height_change_mm", "rear_height_change_mm"]
+      }
+    },
+    {
+      "name": "analyze_lap_times",
+      "description": "Analyze lap times, calculate improvements, pace analysis, and consistency metrics. Compares current lap time to previous or target times.",
+      "parameters": {
+        "type": "object",
+        "properties": {
+          "current_lap_time": {
+            "type": "string",
+            "description": "Current lap time in format MM:SS.mmm or M:SS.mmm (e.g., '1:45.234' or '1:45.2')"
+          },
+          "previous_lap_time": {
+            "type": "string",
+            "description": "Previous lap time for comparison (optional)"
+          },
+          "target_lap_time": {
+            "type": "string",
+            "description": "Target lap time to compare against (optional)"
+          },
+          "session_number": {
+            "type": "integer",
+            "description": "Session number for tracking (optional)"
+          },
+          "analysis_type": {
+            "type": "string",
+            "enum": ["improvement", "pace", "consistency", "all"],
+            "description": "Type of analysis: improvement (vs previous), pace (vs target), consistency, or all"
+          }
+        },
+        "required": ["current_lap_time"]
+      }
+    }
+  ],
+  "notes": {
+    "implementation": "These schemas follow OpenAI's function calling format. When adding to ChatGPT Custom GPT:",
+    "steps": [
+      "1. Go to ChatGPT → Create → Configure → Actions",
+      "2. Click 'Create new action'",
+      "3. Choose 'Import from URL' or 'Add manually'",
+      "4. For manual: Copy the schema for one action at a time",
+      "5. You'll need to provide an API endpoint or use Code Interpreter for calculations"
+    ],
+    "important": "These are schema definitions. You'll need to either:",
+    "options": [
+      "A) Use Code Interpreter (Python) to perform calculations",
+      "B) Create API endpoints that perform the calculations",
+      "C) Use ChatGPT's built-in calculation abilities (may work for simple conversions)"
+    ],
+    "recommendation": "Start with Unit Conversion - it can work with Code Interpreter or ChatGPT's built-in math. For complex calculations, Code Interpreter is easiest."
+  }
+}
+

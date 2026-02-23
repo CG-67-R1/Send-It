@@ -1,0 +1,43 @@
+{
+  "expo": {
+    "name": "Send It",
+    "slug": "send-it",
+    "version": "1.0.0",
+    "orientation": "portrait",
+    "userInterfaceStyle": "automatic",
+    "splash": {
+      "resizeMode": "contain",
+      "backgroundColor": "#0f172a"
+    },
+    "assetBundlePatterns": ["**/*"],
+    "web": {
+      "output": "static"
+    },
+    "ios": {
+      "supportsTablet": true,
+      "bundleIdentifier": "com.roadrace.app"
+    },
+    "android": {
+      "adaptiveIcon": {
+        "backgroundColor": "#0f172a"
+      },
+      "package": "com.roadrace.app"
+    },
+    "scheme": "roadrace",
+    "plugins": [
+      "expo-notifications",
+      [
+        "expo-calendar",
+        {
+          "calendarPermission": "Send It uses your calendar to add race events and reminders."
+        }
+      ],
+      [
+        "expo-image-picker",
+        {
+          "photosPermission": "Send It uses your photos so you can set a picture of your bike on the home screen."
+        }
+      ]
+    ]
+  }
+}

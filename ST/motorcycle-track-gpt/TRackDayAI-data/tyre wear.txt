@@ -1,0 +1,244 @@
+- In this video, we're gonna be taking a look at tyres.
+Specifically, we're gonna take a look at
+the different types of tyre wear
+that you can find across different track day
+and racing paddocks to give you a better idea
+on what they mean and what you can do to fix them.
+(motorcycle engine roaring) (soft music)
+So my intention here is to help you learn more
+about performance riding tyre wear,
+so that you're better equipped
+to deal with any nasty where should you encounter it.
+However, the nature of this subject is quite complex,
+and oftentimes, the cause and fix
+of certain way isn't always clear cut.
+With that said, please take this as a more
+simplified Beginner's Guide to tyre wear,
+not the definitive manual.
+And lastly, before we jump into the first type,
+I wanted to quickly give credit to
+Dave Moss of Dave Moss Tuning.
+Everything that's gone into this video
+and the article that is based on has come from the mountains
+of advice that Dave has given over the years.
+Dave is the man when it comes to tyre wear,
+suspension tuning and bike setup.
+So if you want to learn more about this subject,
+then check him out through the various channels
+which I've linked in the description down below.
+Okay, with all of that said,
+I'm now gonna jump behind the screen to kick this off.
+Cold Tear
+So the first couple we're gonna look at are probably
+the most common you see around track day paddocks,
+and they're typically caused by incorrect tyre pressures.
+The first is cold tear,
+Cold tear is caused by the tyre being over inflated.
+When the tyre is over inflated,
+the contact patch on the ground is too small,
+so it cannot generate heat that is widespread enough
+to bring the carcass of the tyre
+up to operating temperature.
+Instead, what happens is the surface of the tyre
+super heats very quickly while the carcass stays
+below operating temperature
+meaning the surface of the tyre is ripped straight off.
+As for the symptoms,
+the tears associated with cold tear
+are quite deep into the carcass
+and a somewhat fingernail shaped.
+If you can get your fingernail out under them
+and almost peel a sizable chunk of the rubber back,
+then this is a surefire sign of cold tear.
+The next common type is hot tear.
+Hot tear is caused by the tyre being under inflated,
+and under inflated tyre
+causes the contact patch to be too large on the ground,
+which in turn means the tyre overheats.
+When the whole of the tyre overheats,
+the surface gets hot and is melted off very quickly
+and is pitched away due to the centrifugal force
+created when the tyre spins.
+At first glance, it's quite similar to cold tear,
+but because the whole tyre is overheating,
+instead of just the surface,
+the rubber comes off with less effort
+as opposed to being ripped off a cold carcass
+like you see with cold tear,
+which means hot tearing isn't as deep,
+and those are the symptoms you can expect to find.
+As I said, it doesn't take much for the surface rubber
+to come off of an under inflated tyre
+because the whole tyre is overheating.
+So the tears on a tyre experiencing hot tear
+are fairly shallow and more spread out
+and you shouldn't be able to get your fingernail
+deep under them like you can with cold tear.
+You may also notice looking at the tyre that the tears
+come down into the center of it
+in an arc shape because of that centrifugal force.
+Suspension
+Okay, now we're gonna move on
+to suspension related tyre wear.
+When we start talking about suspension
+and how incorrect settings can affect tyre wear,
+it's difficult to explain what symptoms mean what,
+because not every form of wear is unique
+to one particular component of the suspension.
+However, what I want to give you here,
+is an outline of some points that should help you
+better determine if your tyre problems
+could possibly be suspension related.
+If your suspension settings,
+meaning rebound, compression, sag or spring rate
+are incorrectly set to the point
+where they're asking the tyre
+to act as part of the suspension,
+you are immediately going to see unusual wear or tearing
+because the tyre simply
+wasn't designed to be used in that way.
+To the untrained eye, tyre wear brought on
+from incorrect suspension could quite easily be palmed off
+as a pressure related problem.
+But there are some differences and some questions
+you can ask yourself to get you started
+on the right path to fixing it.
+First is, do you know if you have the correct spring?
+If your spring is either too hard
+or too soft for your weight,
+the carcass of the tyre will be put under a lot of strain
+because it's being asked to act
+as a significant part of the suspension.
+This means the tyre ends up quickly
+shredding itself to pieces because of the incorrect loads.
+Is the affected area uniform in width?
+Have a look at the thickness of the tear,
+if you notice the width of the tear is not uniform
+and changes considerably as you follow it around the tyre,
+then this is a good indicator
+that something is wrong with the suspension,
+usually rebounds being out of adjustment.
+Does the tear go all the way around?
+If it does, that may be poor tyre pressure or geometry.
+However, if it doesn't,
+and you follow the tear around the tyre
+to notice that it's not continuous,
+meaning there's an affected area,
+then a sizable area where it's clean,
+then some more damage, then it goes clean again,
+this is another indicator that a suspension setting is out,
+most probably rebound or compression
+or even a combination of them both
+Are the edges of the tread raised?
+If you have a raised area on either the leading
+or back edge of the tread,
+this is a strong sign that rebound damping on the forks
+or Shock is set either too fast or too slow.
+Usually, if it's on the leading edge, rebound is too slow,
+and if it's on the back edge, it's too fast.
+by answering these questions,
+you should be able to determine
+whether or not you have a suspension related issue.
+Geometry Tear
+Next, we're gonna move on to Geometry tears.
+Specifically, these tears can come from
+poor weight distribution as a result of your setup.
+First, not enough weight on the front.
+This type of wear is not quite as common
+as things like hot and cold tear,
+as it comes from incorrect geometry set up
+which usually affects the front tyre.
+What you see in the picture
+is a result of there not being enough weight on the tyre,
+so it cannot get to operating temperature.
+This means it cannot get proper grip or traction,
+and as a result, the front tyre pushes
+and drags across the ground
+when the rider gets on the throttle,
+rather than rolling over it as it should.
+The surface then gets super heated and subsequently torn up.
+With not enough weight on the front,
+what you'll see is a much smaller band of tearing
+that looks very similar to hot tear on a rear tyre.
+Only the band will be about five to 10 millimeters thick,
+usually about halfway between
+the center of the tyre and the edge.
+Also, it will typically be uniform
+all the way around the tyre.
+And the second of the geometry tears we're gonna look at,
+is a result of too much weight on the front.
+What happens in this instance is that
+when you start to steer the bike and lean it into a corner,
+because of the excessive weight on the front,
+it will actually plow across the ground rather than rolling
+and it's only when you finished leaning the bike
+and you get back to the throttle that you take weight
+away from the front and the tyre is relieved.
+As well as having too much weight on the front,
+this type of tear can often be caused by the front end
+being too soft in conjunction with too much weight.
+As for symptoms with too much weight on the front,
+it will be the edge third of the tyre
+that is showing signs of incorrect wear.
+So the affected area is quite large.
+If your tyre is showing bad wear patterns on the edge third,
+where the start of the wear,
+that's the bit closest to the middle of the tyre
+follows the circumference of the tyre uniformly,
+you can be pretty sure you're suffering from geometry tear
+and have too much weight on the front.
+Tire Discoloration
+Okay, so this next thing we're gonna talk about
+isn't so much about wear,
+but more so a common question you see about tyres,
+and that is tyre discoloration,
+specifically when the tyres turn blue.
+This is a question you often see come up from a rider
+that's recently used the tyres
+and they've let the tyres cool,
+and many would suggest that the tyres are finished,
+but this isn't completely true.
+So what makes it blue?
+Tyres actually contain oils that help keep them soft,
+and the Bluey greeny tint that you see on the tires
+is just the oil was coming to the surface.
+So why are they on the surface?
+After the tyres have been used
+to the point where they gain significant heat.
+When they cooled down again,
+the oils in the tyre will often come to the surface.
+When you go back out and ride the bike again,
+these surface oils are scrubbed off
+and it's only when you come back in
+and let the tyres cool down again,
+that you'll see more oils coming to the surface.
+Each time you take the tyre through this heat cycle,
+you are losing the oils that keep the tyre soft.
+That's why the more heat cycles a tyre has been through,
+the less effective the rubber is going to be for you.
+Okay, the last thing I wanted to cover here
+is what we want to see from our tyres,
+and it looks something like this,
+if you have a pattern like this,
+which looks like a beach where the tide has gone out,
+your tyres are wearing nicely.
+Now, this doesn't mean to say that they'll give you
+absolute optimum performance.
+For instance, races will often sacrifice tyre life
+for better performance,
+but it does mean that you're likely to see
+great longevity from your tyre.
+Okay, that covers our look
+at many of these surface level issues
+that you may find with your tyres.
+Once again like I said up top,
+this is a fairly simplified guide to tyre wear and tearing
+is there are normally a multitude of factors
+that can come into play,
+things like pressures, suspension makeup,
+how the riders ride the bike
+and even the nature of the track that you're riding.
+So my only intention here
+is to give you some baseline knowledge
+so that you can head in the right direction
+to getting your tyre problems fixed.

@@ -1,0 +1,22 @@
+{
+  "name": "roadrace-headlines-api",
+  "version": "1.0.0",
+  "description": "API that aggregates motorcycle racing headlines from multiple sites",
+  "main": "server.js",
+  "type": "module",
+  "scripts": {
+    "start": "node server.js",
+    "dev": "node --watch server.js",
+    "ingest-qa": "node ingestQA.js",
+    "scrape-pdfs": "node scrapePdfsToJson.js",
+    "build-trivia": "node buildTriviaBank.js"
+  },
+  "dependencies": {
+    "cheerio": "^1.0.0",
+    "cors": "^2.8.5",
+    "express": "^4.21.0",
+    "node-fetch": "^3.3.2",
+    "pdf-parse": "^1.1.1",
+    "rss-parser": "^3.13.0"
+  }
+}
