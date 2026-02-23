@@ -37,8 +37,7 @@
         {
           "photosPermission": "Send It uses your photos so you can set a picture of your bike on the home screen."
         }
-      ],
-      "expo-asset"
+      ]
     ]
   }
 }
