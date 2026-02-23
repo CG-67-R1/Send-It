@@ -9,10 +9,10 @@
       "resizeMode": "contain",
       "backgroundColor": "#0f172a"
     },
-    "assetBundlePatterns": ["**/*"],
-    "web": {
-      "output": "static"
-    },
+    "assetBundlePatterns": [
+      "**/*"
+    ],
+    "web": {},
     "ios": {
       "supportsTablet": true,
       "bundleIdentifier": "com.roadrace.app"
@@ -37,7 +37,8 @@
         {
           "photosPermission": "Send It uses your photos so you can set a picture of your bike on the home screen."
         }
-      ]
+      ],
+      "expo-asset"
     ]
   }
 }

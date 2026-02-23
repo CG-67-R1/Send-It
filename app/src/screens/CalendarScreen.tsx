@@ -12,7 +12,7 @@ import {
 } from 'react-native';
 import { useFocusEffect } from '@react-navigation/native';
 import * as Calendar from 'expo-calendar';
-import { CALENDAR_URL } from '../constants/api';
+import { CALENDAR_URL } from '../../constants/api';
 import type { CalendarEvent } from '../types';
 
 const SERIES_COLORS: Record<string, string> = {
