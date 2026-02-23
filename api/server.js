@@ -14,6 +14,14 @@ app.get('/health', (_, res) => {
   res.json({ ok: true });
 });
 
+app.get('/', (_, res) => {
+  res.json({
+    name: 'Send It API',
+    health: '/health',
+    endpoints: ['/headlines', '/sources', '/qa/search', '/qa/trivia', '/calendar'],
+  });
+});
+
 app.get('/sources', (_, res) => {
   res.json({ sources: BUILTIN_SOURCES });
 });
