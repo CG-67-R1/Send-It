@@ -148,7 +148,18 @@ npm install -g vercel
 
 3. After deploy, Vercel will print a URL like `https://send-it-poc-xxx.vercel.app`. Open it in a browser — you should see the Send It app. Headlines, QA, and Calendar will call your Render API (first load after idle may be slow due to Render’s free spin-up).
 
-### 3.3 (Optional) Set env var in Vercel for future builds
+### 3.3 Deploy from Git (GitHub → Vercel) — avoid the `api/` folder
+
+If you **Import** the repo (e.g. `CG-67-R1/Send-It`) in Vercel instead of deploying `dist` via CLI:
+
+1. In Vercel: **Project → Settings → General**.
+2. Set **Root Directory** to **`app`** and save.  
+   **Important:** If you leave the root as the repo root, Vercel will treat the repo’s `api/` folder as serverless functions. Those files (e.g. `buildTriviaBank.js`) pull in large dependencies and can exceed Vercel’s 300 MB function size limit. Using Root Directory `app` limits the build to the Expo app only; your real API stays on Render.
+3. **Environment Variables:** Add `EXPO_PUBLIC_API_URL` = your Render API URL (e.g. `https://send-it-ke7r.onrender.com`).
+4. **Build & Output:** The `app/vercel.json` in the repo sets build to `npx expo export --platform web` and output to `dist`. No need to change these if the file is present.
+5. Redeploy (e.g. **Deployments → … → Redeploy**).
+
+### 3.4 (Optional) Set env var in Vercel for future builds
 
 If you use Vercel’s “Import project” from Git and build from source:
 
