@@ -4,14 +4,23 @@ import { StatusBar } from 'expo-status-bar';
 import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
+import * as Sentry from 'sentry-expo';
 import { HeadlinesScreen } from './src/screens/HeadlinesScreen';
+import { HeadlinesListScreen } from './src/screens/HeadlinesListScreen';
 import { HeadlinesSettingsScreen } from './src/screens/HeadlinesSettingsScreen';
 import { QAScreen } from './src/screens/QAScreen';
 import { CalendarScreen } from './src/screens/CalendarScreen';
 import { RiderCoachScreen } from './src/screens/RiderCoachScreen';
 import { ImportTrackNotesScreen } from './src/screens/ImportTrackNotesScreen';
+import { TrackWalkScreen } from './src/screens/TrackWalkScreen';
 import { OnboardingScreen } from './src/screens/OnboardingScreen';
 import { getOnboardingDone } from './src/storage/onboarding';
+
+Sentry.init({
+  dsn: process.env.EXPO_PUBLIC_SENTRY_DSN ?? undefined,
+  enableInExpoDevelopment: true,
+  debug: __DEV__,
+});
 
 const Stack = createNativeStackNavigator();
 const Tab = createBottomTabNavigator();
@@ -25,11 +34,11 @@ const headerOptions = {
 function HeadlinesStack() {
   return (
     <Stack.Navigator screenOptions={headerOptions}>
-      <Stack.Screen
-        name="Headlines"
-        component={HeadlinesScreen}
-        options={({ navigation }) => ({
-          title: 'Send It',
+        <Stack.Screen
+          name="Headlines"
+          component={HeadlinesScreen}
+          options={({ navigation }) => ({
+            title: 'RoadRacer',
           headerRight: () => (
             <TouchableOpacity
               onPress={() => navigation.navigate('HeadlinesSettings')}
@@ -39,6 +48,11 @@ function HeadlinesStack() {
             </TouchableOpacity>
           ),
         })}
+      />
+      <Stack.Screen
+        name="HeadlinesList"
+        component={HeadlinesListScreen}
+        options={{ title: 'Latest headlines' }}
       />
       <Stack.Screen
         name="HeadlinesSettings"
@@ -76,6 +90,23 @@ function RiderCoachStack() {
   );
 }
 
+function TrackWalkStack() {
+  return (
+    <Stack.Navigator screenOptions={headerOptions}>
+      <Stack.Screen
+        name="TrackWalk"
+        component={TrackWalkScreen}
+        options={{ title: 'Track Walk' }}
+      />
+      <Stack.Screen
+        name="ImportTrackNotes"
+        component={ImportTrackNotesScreen}
+        options={{ title: 'Import track notes' }}
+      />
+    </Stack.Navigator>
+  );
+}
+
 function MainTabs() {
   return (
     <Tab.Navigator
@@ -90,6 +121,11 @@ function MainTabs() {
       <Tab.Screen name="HeadlinesTab" component={HeadlinesStack} options={{ title: 'Headlines' }} />
       <Tab.Screen name="CalendarTab" component={CalendarScreen} options={{ title: "What's On" }} />
       <Tab.Screen name="Q&A" component={QAScreen} options={{ title: 'Q & A' }} />
+      <Tab.Screen
+        name="TrackWalkTab"
+        component={TrackWalkStack}
+        options={{ title: 'Track Walk' }}
+      />
       <Tab.Screen
         name="RiderCoachTab"
         component={RiderCoachStack}

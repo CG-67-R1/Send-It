@@ -2,6 +2,7 @@ import React, { useCallback, useState } from 'react';
 import {
   ActivityIndicator,
   Alert,
+  Image,
   KeyboardAvoidingView,
   Platform,
   ScrollView,
@@ -12,14 +13,17 @@ import {
   View,
 } from 'react-native';
 import * as Clipboard from 'expo-clipboard';
+import * as ImagePicker from 'expo-image-picker';
+import { AppLogo } from '../components/AppLogo';
 
 type Props = {
-  onSendToCoach?: (payload: { trackName: string; notes: string }) => Promise<void>;
+  onSendToCoach?: (payload: { trackName: string; notes: string; photoUris: string[] }) => Promise<void>;
 };
 
 export function ImportTrackNotesScreen({ onSendToCoach }: Props) {
   const [notes, setNotes] = useState('');
   const [trackName, setTrackName] = useState('');
+  const [photos, setPhotos] = useState<string[]>([]);
   const [pasting, setPasting] = useState(false);
   const [sending, setSending] = useState(false);
 
@@ -39,6 +43,20 @@ export function ImportTrackNotesScreen({ onSendToCoach }: Props) {
     }
   }, []);
 
+  const handleAddPhoto = useCallback(async () => {
+    try {
+      const result = await ImagePicker.launchImageLibraryAsync({
+        mediaTypes: ImagePicker.MediaTypeOptions.Images,
+        quality: 0.7,
+      });
+      if (!result.canceled && result.assets && result.assets.length > 0) {
+        setPhotos((prev) => [...prev, ...result.assets.map((a) => a.uri)]);
+      }
+    } catch {
+      Alert.alert('Couldn’t open photos', 'Try again or attach photos later.');
+    }
+  }, []);
+
   const handleSendToCoach = useCallback(async () => {
     const trimmed = notes.trim();
     if (!trimmed) {
@@ -51,6 +69,7 @@ export function ImportTrackNotesScreen({ onSendToCoach }: Props) {
         await onSendToCoach({
           trackName: trackName.trim() || 'Imported track',
           notes: trimmed,
+          photoUris: photos,
         });
       } finally {
         setSending(false);
@@ -60,7 +79,7 @@ export function ImportTrackNotesScreen({ onSendToCoach }: Props) {
     // Placeholder when coach API not connected
     Alert.alert(
       'Send to coach',
-      'When the coach is connected, your notes will be sent for summarising and then you can add them to your track log.',
+      'When the coach is connected, your notes (and any attached photos) will be sent for summarising and then you can add them to your track log.',
       [{ text: 'OK' }]
     );
   }, [notes, trackName, onSendToCoach]);
@@ -76,6 +95,9 @@ export function ImportTrackNotesScreen({ onSendToCoach }: Props) {
         keyboardShouldPersistTaps="handled"
         showsVerticalScrollIndicator={false}
       >
+        <View style={styles.logoRow}>
+          <AppLogo size={28} />
+        </View>
         <Text style={styles.heroTitle}>Import track notes</Text>
         <Text style={styles.heroSubtitle}>
           Paste notes shared by another rider (e.g. from Messages or WhatsApp). The coach can then
@@ -104,6 +126,26 @@ export function ImportTrackNotesScreen({ onSendToCoach }: Props) {
           placeholderTextColor="#64748b"
           maxLength={80}
         />
+
+        <View style={styles.photosSection}>
+          <Text style={styles.label}>Photos (optional)</Text>
+          <ScrollView
+            horizontal
+            showsHorizontalScrollIndicator={false}
+            contentContainerStyle={styles.photosRow}
+          >
+            {photos.map((uri) => (
+              <Image key={uri} source={{ uri }} style={styles.photoThumb} />
+            ))}
+            <TouchableOpacity
+              style={styles.addPhotoButton}
+              onPress={handleAddPhoto}
+              activeOpacity={0.7}
+            >
+              <Text style={styles.addPhotoText}>Add photo</Text>
+            </TouchableOpacity>
+          </ScrollView>
+        </View>
 
         <Text style={styles.label}>Notes</Text>
         <TextInput
@@ -141,6 +183,10 @@ const styles = StyleSheet.create({
   scrollContent: {
     paddingHorizontal: 20,
     paddingBottom: 40,
+  },
+  logoRow: {
+    marginTop: 8,
+    marginBottom: 4,
   },
   heroTitle: {
     fontSize: 22,
@@ -194,6 +240,32 @@ const styles = StyleSheet.create({
     color: '#f8fafc',
     minHeight: 160,
     marginBottom: 20,
+  },
+  photosSection: {
+    marginBottom: 20,
+  },
+  photosRow: {
+    alignItems: 'center',
+  },
+  photoThumb: {
+    width: 72,
+    height: 72,
+    borderRadius: 10,
+    marginRight: 12,
+    backgroundColor: '#020617',
+  },
+  addPhotoButton: {
+    paddingVertical: 10,
+    paddingHorizontal: 16,
+    borderRadius: 10,
+    borderWidth: 1,
+    borderColor: '#475569',
+    backgroundColor: '#020617',
+  },
+  addPhotoText: {
+    fontSize: 14,
+    fontWeight: '600',
+    color: '#f59e0b',
   },
   sendButton: {
     paddingVertical: 14,

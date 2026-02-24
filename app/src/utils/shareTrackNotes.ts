@@ -17,7 +17,7 @@ export type ShareTrackNotesOptions = {
 export async function shareTrackNotes(options: ShareTrackNotesOptions): Promise<void> {
   const { trackName, summary, dateLabel } = options;
   const title = dateLabel ? `${trackName} – ${dateLabel}` : trackName;
-  const message = `${title}\n\n${summary}\n\n— Shared from Send It`;
+  const message = `${title}\n\n${summary}\n\n— Shared from RoadRacer`;
   await Share.share({
     message,
     title: Platform.OS === 'ios' ? title : undefined,
