@@ -1,4 +1,4 @@
-import React, { useCallback, useState } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 import {
   ActivityIndicator,
   ScrollView,
@@ -8,7 +8,12 @@ import {
   TouchableOpacity,
   View,
 } from 'react-native';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import * as Analytics from 'expo-firebase-analytics';
 import { QA_SEARCH_URL, QA_TRIVIA_URL } from '../../constants/api';
+import { AppLogo } from '../components/AppLogo';
+
+const TRIVIA_BEST_SCORE_KEY = 'ROADRACER_TRIVIA_BEST';
 
 type TriviaState = 'idle' | 'playing' | 'result' | 'failed';
 type QATab = 'ask' | 'trivia';
@@ -53,7 +58,9 @@ export function QAScreen() {
   const [triviaState, setTriviaState] = useState<TriviaState>('idle');
   const [triviaCorrect, setTriviaCorrect] = useState(0);
   const [triviaWrong, setTriviaWrong] = useState(0);
-  const [triviaUsed, setTriviaUsed] = useState<number[]>([]);
+  const [triviaUsedGlobal, setTriviaUsedGlobal] = useState<number[]>([]);
+  const [triviaUsedAus, setTriviaUsedAus] = useState<number[]>([]);
+  const [triviaDifficulty, setTriviaDifficulty] = useState(2);
   const [triviaQuestion, setTriviaQuestion] = useState<{
     question: string;
     options: string[];
@@ -63,6 +70,37 @@ export function QAScreen() {
   const [triviaLoading, setTriviaLoading] = useState(false);
   const [triviaResult, setTriviaResult] = useState<{ title: string; message: string } | null>(null);
   const [triviaFailMessage, setTriviaFailMessage] = useState<string | null>(null);
+  const [lastAnswerCorrect, setLastAnswerCorrect] = useState<boolean | null>(null);
+  const [triviaBestScore, setTriviaBestScore] = useState<number>(0);
+  const [triviaNewBest, setTriviaNewBest] = useState(false);
+
+  useEffect(() => {
+    let cancelled = false;
+    (async () => {
+      try {
+        const raw = await AsyncStorage.getItem(TRIVIA_BEST_SCORE_KEY);
+        const n = raw != null ? parseInt(raw, 10) : 0;
+        if (!cancelled && !isNaN(n)) setTriviaBestScore(n);
+      } catch (_) {}
+    })();
+    return () => { cancelled = true; };
+  }, []);
+
+  const saveTriviaBestIfBetter = useCallback(async (correctCount: number) => {
+    try {
+      const raw = await AsyncStorage.getItem(TRIVIA_BEST_SCORE_KEY);
+      const best = raw != null ? parseInt(raw, 10) : 0;
+      if (isNaN(best) || correctCount <= best) return;
+      await AsyncStorage.setItem(TRIVIA_BEST_SCORE_KEY, String(correctCount));
+      setTriviaBestScore(correctCount);
+      setTriviaNewBest(true);
+    } catch (_) {}
+  }, []);
+
+  const getRegionForOrder = useCallback((correct: number, wrong: number): 'global' | 'au' => {
+    const index = correct + wrong;
+    return index % 3 === 2 ? 'au' : 'global';
+  }, []);
 
   const onSearch = useCallback(async () => {
     const q = query.trim();
@@ -86,17 +124,32 @@ export function QAScreen() {
   }, [query]);
 
   const fetchTriviaQuestion = useCallback(
-    async (usedOverride?: number[], correctCount?: number, wrongCount?: number) => {
+    async (usedOverride?: number[], correctCount?: number, wrongCount?: number, difficultyOverride?: number) => {
       setTriviaLoading(true);
-      const used = usedOverride ?? triviaUsed;
       const correct = correctCount ?? triviaCorrect;
       const wrong = wrongCount ?? triviaWrong;
+      const difficulty = difficultyOverride ?? triviaDifficulty;
+      const region = getRegionForOrder(correct, wrong);
+      const defaultUsed = region === 'au' ? triviaUsedAus : triviaUsedGlobal;
+      const used = usedOverride ?? defaultUsed;
       try {
-        const usedStr = used.join(',');
-        const url = usedStr ? `${QA_TRIVIA_URL}?used=${usedStr}` : QA_TRIVIA_URL;
+        const params: string[] = [];
+        if (used.length) params.push(`used=${used.join(',')}`);
+        if (typeof difficulty === 'number' && Number.isFinite(difficulty)) {
+          params.push(`difficulty=${difficulty}`);
+        }
+        params.push(`region=${region}`);
+        const url = `${QA_TRIVIA_URL}?${params.join('&')}`;
         const res = await fetch(url, { signal: AbortSignal.timeout(8000) });
         const data = await res.json();
         if (data.error) {
+          Analytics.logEvent('trivia_end', {
+            result: 'complete',
+            correct,
+            wrong,
+            difficulty,
+          }).catch(() => {});
+          saveTriviaBestIfBetter(correct);
           setTriviaState('result');
           setTriviaResult(
             getTriviaResult(correct, wrong) ?? {
@@ -107,6 +160,7 @@ export function QAScreen() {
           setTriviaQuestion(null);
           return;
         }
+        setLastAnswerCorrect(null);
         setTriviaQuestion({
           question: data.question,
           options: data.options,
@@ -118,57 +172,115 @@ export function QAScreen() {
         setTriviaQuestion(null);
         setTriviaWrong(0);
         setTriviaCorrect(0);
-        setTriviaUsed([]);
+        setTriviaUsedGlobal([]);
+        setTriviaUsedAus([]);
+        setTriviaDifficulty(2);
       } finally {
         setTriviaLoading(false);
       }
     },
-    [triviaUsed, triviaCorrect, triviaWrong]
+    [triviaUsedGlobal, triviaUsedAus, triviaCorrect, triviaWrong, triviaDifficulty, getRegionForOrder, saveTriviaBestIfBetter]
   );
 
   const startTrivia = useCallback(() => {
+    Analytics.logEvent('trivia_start').catch(() => {});
+    setTriviaNewBest(false);
     setTriviaState('playing');
     setTriviaCorrect(0);
     setTriviaWrong(0);
-    setTriviaUsed([]);
+    setTriviaUsedGlobal([]);
+    setTriviaUsedAus([]);
+    setTriviaDifficulty(2);
     setTriviaQuestion(null);
     setTriviaResult(null);
     setTriviaFailMessage(null);
-    fetchTriviaQuestion([], 0, 0);
+    fetchTriviaQuestion([], 0, 0, 2);
   }, [fetchTriviaQuestion]);
 
   const onTriviaAnswer = useCallback(
     (chosenIndex: number) => {
       if (!triviaQuestion || triviaLoading) return;
       const correct = chosenIndex === triviaQuestion.correctIndex;
-      const newCorrect = triviaCorrect + (correct ? 1 : 0);
-      const newWrong = triviaWrong + (correct ? 0 : 1);
-      const usedNow = [...triviaUsed, triviaQuestion.triviaIndex];
+      const currentCorrect = triviaCorrect;
+      const currentWrong = triviaWrong;
+      const currentRegion = getRegionForOrder(currentCorrect, currentWrong);
 
-      setTriviaUsed(usedNow);
+      Analytics.logEvent('trivia_answer', {
+        correct,
+        difficulty: triviaDifficulty,
+        region: currentRegion,
+      }).catch(() => {});
+
+      setLastAnswerCorrect(correct);
+      const newCorrect = currentCorrect + (correct ? 1 : 0);
+      const newWrong = currentWrong + (correct ? 0 : 1);
+
+      const updatedGlobalUsed =
+        currentRegion === 'global'
+          ? [...triviaUsedGlobal, triviaQuestion.triviaIndex]
+          : triviaUsedGlobal;
+      const updatedAusUsed =
+        currentRegion === 'au'
+          ? [...triviaUsedAus, triviaQuestion.triviaIndex]
+          : triviaUsedAus;
+
+      setTriviaUsedGlobal(updatedGlobalUsed);
+      setTriviaUsedAus(updatedAusUsed);
       setTriviaCorrect(newCorrect);
       setTriviaWrong(newWrong);
       setTriviaQuestion(null);
 
+      const currentDifficulty = triviaDifficulty;
+      let nextDifficulty = currentDifficulty;
+      if (correct) {
+        nextDifficulty = currentDifficulty + 2;
+        if (nextDifficulty > 10) nextDifficulty = 2;
+      }
+      setTriviaDifficulty(nextDifficulty);
+
       if (newWrong >= 3) {
+        Analytics.logEvent('trivia_end', {
+          result: 'failed',
+          correct: newCorrect,
+          wrong: newWrong,
+          difficulty: nextDifficulty,
+        }).catch(() => {});
+        saveTriviaBestIfBetter(newCorrect);
         setTriviaState('failed');
         setTriviaFailMessage("Three strikes—time to hit the manual and try again.");
         return;
       }
 
-      fetchTriviaQuestion(usedNow, newCorrect, newWrong);
+      const nextRegion = getRegionForOrder(newCorrect, newWrong);
+      const usedNow = nextRegion === 'au' ? updatedAusUsed : updatedGlobalUsed;
+      fetchTriviaQuestion(usedNow, newCorrect, newWrong, nextDifficulty);
     },
-    [triviaQuestion, triviaLoading, triviaCorrect, triviaWrong, triviaUsed, fetchTriviaQuestion]
+    [
+      triviaQuestion,
+      triviaLoading,
+      triviaCorrect,
+      triviaWrong,
+      triviaUsedGlobal,
+      triviaUsedAus,
+      triviaDifficulty,
+      getRegionForOrder,
+      fetchTriviaQuestion,
+      saveTriviaBestIfBetter,
+    ]
   );
 
   const resetTrivia = useCallback(() => {
     setTriviaState('idle');
     setTriviaCorrect(0);
     setTriviaWrong(0);
-    setTriviaUsed([]);
+    setTriviaUsedGlobal([]);
+    setTriviaUsedAus([]);
+    setTriviaDifficulty(2);
     setTriviaQuestion(null);
     setTriviaResult(null);
     setTriviaFailMessage(null);
+    setLastAnswerCorrect(null);
+    setTriviaNewBest(false);
   }, []);
 
   return (
@@ -177,6 +289,9 @@ export function QAScreen() {
       contentContainerStyle={styles.content}
       keyboardShouldPersistTaps="handled"
     >
+      <View style={styles.logoRow}>
+        <AppLogo size={28} />
+      </View>
       <View style={styles.tabBar}>
         <TouchableOpacity
           style={[styles.tab, activeTab === 'ask' && styles.tabActive]}
@@ -258,6 +373,9 @@ export function QAScreen() {
         <Text style={styles.sectionSubtitle}>
           Test your knowledge. 3 wrong = fail. 5 right = track rider. 8+ = Track Guru!
         </Text>
+        {triviaState === 'idle' && triviaBestScore > 0 && (
+          <Text style={styles.bestScoreIdle}>Your best: {triviaBestScore} correct</Text>
+        )}
 
         {triviaState === 'idle' && (
           <TouchableOpacity style={styles.triviaStartBtn} onPress={startTrivia}>
@@ -267,6 +385,16 @@ export function QAScreen() {
 
         {triviaState === 'playing' && triviaLoading && !triviaQuestion && (
           <View style={styles.triviaLoading}>
+            {lastAnswerCorrect !== null && (
+              <View style={styles.triviaFeedbackImageWrap}>
+                <Text style={styles.triviaFeedbackEmoji}>
+                  {lastAnswerCorrect ? '🏍️' : '💥'}
+                </Text>
+                <Text style={styles.triviaFeedbackText}>
+                  {lastAnswerCorrect ? 'Nice one!' : 'Oops!'}
+                </Text>
+              </View>
+            )}
             <ActivityIndicator size="large" color="#f59e0b" />
             <Text style={styles.loadingLabel}>Loading question…</Text>
           </View>
@@ -274,9 +402,12 @@ export function QAScreen() {
 
         {triviaState === 'playing' && triviaQuestion && (
           <View style={styles.triviaCard}>
-            <Text style={styles.score}>
-              ✓ {triviaCorrect} &nbsp; ✗ {triviaWrong}
-            </Text>
+            <View style={styles.scoreRow}>
+              <Text style={styles.score}>
+                ✓ {triviaCorrect} &nbsp; ✗ {triviaWrong}
+              </Text>
+              <Text style={styles.bestScore}>Best: {triviaBestScore}</Text>
+            </View>
             <Text style={styles.questionText}>{triviaQuestion.question}</Text>
             {triviaQuestion.options.map((opt, i) => (
               <TouchableOpacity
@@ -295,6 +426,9 @@ export function QAScreen() {
           <View style={styles.resultBox}>
             <Text style={styles.failTitle}>Quiz over</Text>
             <Text style={styles.failMessage}>{triviaFailMessage}</Text>
+            <Text style={styles.scoreSummary}>Score: {triviaCorrect} correct</Text>
+            <Text style={styles.bestScore}>Best: {triviaBestScore}</Text>
+            {triviaNewBest && <Text style={styles.newBestText}>New best!</Text>}
             <TouchableOpacity style={styles.resetBtn} onPress={resetTrivia}>
               <Text style={styles.resetBtnText}>Try again</Text>
             </TouchableOpacity>
@@ -308,6 +442,8 @@ export function QAScreen() {
             <Text style={styles.scoreSummary}>
               Score: {triviaCorrect} correct
             </Text>
+            <Text style={styles.bestScore}>Best: {triviaBestScore}</Text>
+            {triviaNewBest && <Text style={styles.newBestText}>New best!</Text>}
             <TouchableOpacity style={styles.resetBtn} onPress={resetTrivia}>
               <Text style={styles.resetBtnText}>Play again</Text>
             </TouchableOpacity>
@@ -327,6 +463,10 @@ const styles = StyleSheet.create({
   content: {
     padding: 20,
     paddingBottom: 40,
+  },
+  logoRow: {
+    marginBottom: 12,
+    alignItems: 'flex-start',
   },
   tabBar: {
     flexDirection: 'row',
@@ -385,8 +525,10 @@ const styles = StyleSheet.create({
     paddingHorizontal: 20,
     paddingVertical: 12,
     borderRadius: 10,
-    minWidth: 80,
+    minWidth: 88,
+    minHeight: 48,
     alignItems: 'center',
+    justifyContent: 'center',
   },
   searchBtnDisabled: {
     opacity: 0.7,
@@ -439,17 +581,18 @@ const styles = StyleSheet.create({
     lineHeight: 22,
   },
   triviaStartBtn: {
-    backgroundColor: '#1e293b',
-    paddingVertical: 16,
+    backgroundColor: '#f59e0b',
+    paddingVertical: 18,
     borderRadius: 12,
     alignItems: 'center',
     borderWidth: 2,
-    borderColor: '#f59e0b',
+    borderColor: '#e5a507',
+    minHeight: 56,
   },
   triviaStartBtnText: {
-    color: '#f59e0b',
-    fontSize: 17,
-    fontWeight: '600',
+    color: '#0f172a',
+    fontSize: 18,
+    fontWeight: '700',
   },
   triviaLoading: {
     alignItems: 'center',
@@ -460,15 +603,56 @@ const styles = StyleSheet.create({
     color: '#94a3b8',
     fontSize: 15,
   },
+  triviaFeedbackImageWrap: {
+    marginBottom: 16,
+    alignItems: 'center',
+  },
+  triviaFeedbackImage: {
+    width: 240,
+    height: 180,
+    borderRadius: 12,
+  },
+  triviaFeedbackEmoji: {
+    fontSize: 80,
+    marginBottom: 8,
+  },
+  triviaFeedbackText: {
+    marginTop: 8,
+    fontSize: 18,
+    fontWeight: '700',
+    color: '#f8fafc',
+  },
   triviaCard: {
     backgroundColor: '#1e293b',
     borderRadius: 12,
     padding: 16,
     marginTop: 8,
   },
+  scoreRow: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+    marginBottom: 12,
+  },
   score: {
     fontSize: 13,
     color: '#94a3b8',
+  },
+  bestScore: {
+    fontSize: 13,
+    color: '#f59e0b',
+    fontWeight: '600',
+    marginBottom: 8,
+  },
+  newBestText: {
+    fontSize: 15,
+    color: '#22c55e',
+    fontWeight: '700',
+    marginBottom: 12,
+  },
+  bestScoreIdle: {
+    fontSize: 14,
+    color: '#f59e0b',
     marginBottom: 12,
   },
   questionText: {
@@ -479,10 +663,13 @@ const styles = StyleSheet.create({
     lineHeight: 24,
   },
   optionBtn: {
-    backgroundColor: '#0f172a',
-    padding: 14,
-    borderRadius: 10,
-    marginBottom: 8,
+    backgroundColor: '#1e293b',
+    padding: 16,
+    borderRadius: 12,
+    marginBottom: 10,
+    minHeight: 52,
+    borderWidth: 2,
+    borderColor: '#f59e0b',
   },
   optionText: {
     fontSize: 15,
@@ -525,12 +712,15 @@ const styles = StyleSheet.create({
   },
   resetBtn: {
     backgroundColor: '#f59e0b',
-    paddingVertical: 12,
+    paddingVertical: 14,
     borderRadius: 10,
     alignItems: 'center',
+    minHeight: 48,
+    justifyContent: 'center',
   },
   resetBtnText: {
     color: '#0f172a',
-    fontWeight: '600',
+    fontWeight: '700',
+    fontSize: 16,
   },
 });

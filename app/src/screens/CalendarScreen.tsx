@@ -14,6 +14,7 @@ import { useFocusEffect } from '@react-navigation/native';
 import * as Calendar from 'expo-calendar';
 import { CALENDAR_URL } from '../../constants/api';
 import type { CalendarEvent } from '../types';
+import { AppLogo } from '../components/AppLogo';
 
 const SERIES_COLORS: Record<string, string> = {
   motogp: '#e11d48',
@@ -103,7 +104,7 @@ export function CalendarScreen() {
       }
       const { start, end } = eventDates(item.startDate, item.endDate);
       const location = [item.venue, item.country].filter(Boolean).join(', ');
-      const notes = item.url ? `Added from Send It\n${item.url}` : 'Added from Send It';
+      const notes = item.url ? `Added from RoadRacer\n${item.url}` : 'Added from RoadRacer';
       await Calendar.createEventInCalendarAsync({
         title: `${item.seriesLabel}: ${item.title}`,
         startDate: start,
@@ -138,13 +139,14 @@ export function CalendarScreen() {
             {[item.venue, item.country].filter(Boolean).join(', ')}
           </Text>
         )}
+        {item.url ? <Text style={styles.tapHint}>Tap to open link →</Text> : null}
       </TouchableOpacity>
       <TouchableOpacity
         style={styles.reminderButton}
         onPress={() => addReminder(item)}
         activeOpacity={0.7}
       >
-        <Text style={styles.reminderButtonText}>Add reminder</Text>
+        <Text style={styles.reminderButtonText}>+ Add reminder</Text>
       </TouchableOpacity>
     </View>
   );
@@ -187,6 +189,7 @@ export function CalendarScreen() {
       }
       ListHeaderComponent={
         <View style={styles.header}>
+          <AppLogo size={32} />
           <Text style={styles.headerTitle}>What's on</Text>
           <Text style={styles.headerSubtitle}>
             MotoGP • WorldSBK • Australian road racing (ASBK). Tap to open links.
@@ -224,9 +227,12 @@ const styles = StyleSheet.create({
   retryButton: {
     marginTop: 16,
     paddingHorizontal: 24,
-    paddingVertical: 12,
+    paddingVertical: 14,
+    minHeight: 48,
     backgroundColor: '#f59e0b',
-    borderRadius: 8,
+    borderRadius: 10,
+    justifyContent: 'center',
+    alignItems: 'center',
   },
   retryText: {
     color: '#0f172a',
@@ -240,6 +246,7 @@ const styles = StyleSheet.create({
     paddingHorizontal: 20,
     paddingTop: 16,
     paddingBottom: 12,
+    gap: 8,
   },
   headerTitle: {
     fontSize: 28,
@@ -257,25 +264,35 @@ const styles = StyleSheet.create({
     backgroundColor: '#1e293b',
     borderRadius: 12,
     borderLeftWidth: 4,
+    borderWidth: 1,
+    borderColor: '#334155',
     overflow: 'hidden',
   },
   itemContent: {
     padding: 16,
     paddingBottom: 8,
+    minHeight: 60,
+  },
+  tapHint: {
+    fontSize: 13,
+    color: '#f59e0b',
+    marginTop: 6,
+    fontWeight: '600',
   },
   reminderButton: {
     alignSelf: 'flex-start',
     marginHorizontal: 16,
     marginBottom: 12,
-    paddingVertical: 8,
-    paddingHorizontal: 12,
-    backgroundColor: 'rgba(245, 158, 11, 0.2)',
+    paddingVertical: 10,
+    paddingHorizontal: 16,
+    backgroundColor: '#f59e0b',
     borderRadius: 8,
+    minHeight: 44,
   },
   reminderButtonText: {
-    fontSize: 14,
-    fontWeight: '600',
-    color: '#f59e0b',
+    fontSize: 15,
+    fontWeight: '700',
+    color: '#0f172a',
   },
   itemHeader: {
     flexDirection: 'row',

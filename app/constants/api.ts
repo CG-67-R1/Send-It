@@ -1,13 +1,14 @@
-// Use your machine's LAN IP when testing on a physical device (e.g. 'http://192.168.1.100:3001')
-// For Android emulator use 'http://10.0.2.2:3001', for iOS simulator 'http://localhost:3001'
-// For deployed PoC: set EXPO_PUBLIC_API_URL at build time (e.g. in Vercel/Netlify env vars)
+// Use your machine's LAN IP when testing on a physical device (e.g. 'http://192.168.1.13:3001')
+// For Android emulator use 'http://10.0.2.2:3001'
 import { Platform } from 'react-native';
+
+const DEV_MACHINE_IP = '192.168.1.13';
+const API_PORT = 3001;
 
 const getApiBaseUrl = () => {
   if (__DEV__) {
-    // Emulator/Simulator
-    if (Platform.OS === 'android') return 'http://10.0.2.2:3001';
-    return 'http://localhost:3001';
+    if (Platform.OS === 'android') return `http://10.0.2.2:${API_PORT}`;
+    return `http://${DEV_MACHINE_IP}:${API_PORT}`;
   }
   // Production / PoC: use env var so you can set it per deployment
   return process.env.EXPO_PUBLIC_API_URL ?? 'https://send-it-ke7r.onrender.com';
