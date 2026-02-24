@@ -7,12 +7,13 @@ import * as cheerio from 'cheerio';
 import Parser from 'rss-parser';
 
 export const BUILTIN_SOURCES = [
+  { id: 'mcnews', name: 'MCNews (AU)' },
   { id: 'amcn', name: 'AMCN' },
+  { id: 'asbk', name: 'ASBK' },
   { id: 'mcn', name: 'MCN' },
   { id: 'motor_sport', name: 'Motor Sport' },
   { id: 'motor_sport_motogp', name: 'Motor Sport MotoGP' },
   { id: 'bennetts', name: 'Bennetts BikeSocial' },
-  { id: 'asbk', name: 'ASBK' },
   { id: 'worldsbk', name: 'WorldSBK' },
   { id: 'motogp', name: 'MotoGP' },
 ];
@@ -50,6 +51,27 @@ function parseDate(str) {
   if (!str) return null;
   const d = new Date(str);
   return isNaN(d.getTime()) ? null : d.toISOString().slice(0, 10);
+}
+
+/** MCNews.com.au – Australian motorcycle news (local/AU). */
+export async function scrapeMCNews() {
+  const html = await safeFetch('https://www.mcnews.com.au/');
+  if (!html) return [];
+  const $ = cheerio.load(html);
+  const items = [];
+  $('a[href*="mcnews.com.au"]').each((_, el) => {
+    const href = $(el).attr('href');
+    const text = $(el).text().trim();
+    // Skip nav, gallery, about – want article paths like /article-slug/ or /category/article/
+    if (!href || !text || text.length < 20 || text.length > 200) return;
+    const path = href.replace(/^https?:\/\/[^/]+/i, '').replace(/\?.*$/, '');
+    if (path.length < 10 || /^\/(about|contact|gallery|forum|popular-reading)/i.test(path)) return;
+    const url = href.startsWith('http') ? href : `https://www.mcnews.com.au${href}`;
+    if (!items.some((i) => i.url === url)) {
+      items.push({ title: text, url, source: 'MCNews (AU)', sourceId: 'mcnews', date: null });
+    }
+  });
+  return items.slice(0, 20);
 }
 
 export async function scrapeAMCN() {
@@ -181,12 +203,13 @@ export async function scrapeMotoGP() {
 }
 
 const allScrapers = [
+  scrapeMCNews,
   scrapeAMCN,
+  scrapeASBK,
   scrapeMCN,
   scrapeMotorSportMagazine,
   scrapeMotorSportMotoGP,
   scrapeBennetts,
-  scrapeASBK,
   scrapeWorldSBK,
   scrapeMotoGP,
 ];

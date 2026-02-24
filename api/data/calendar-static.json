@@ -32,5 +32,13 @@
     { "title": "ASBK Round 6", "venue": "One Raceway", "country": "Australia", "startDate": "2025-09-06", "endDate": "2025-09-07", "url": "https://www.asbk.com.au/", "series": "ASBK" },
     { "title": "ASBK Round 7", "venue": "Shell V-Power Motorsport Park", "country": "Australia", "startDate": "2025-10-03", "endDate": "2025-10-05", "url": "https://www.asbk.com.au/", "series": "ASBK" },
     { "title": "ASBK Grand Finale", "venue": "Phillip Island Grand Prix Circuit", "country": "Australia", "startDate": "2025-11-07", "endDate": "2025-11-09", "url": "https://www.asbk.com.au/", "series": "ASBK" }
+  ],
+  "australia_club": [
+    { "title": "SA Road Race – State Round", "venue": "Mallala Motor Sport Park", "country": "Australia", "startDate": "2025-03-15", "endDate": "2025-03-16", "url": "https://www.motorcyclingsa.org.au/riders/calendar/", "series": "au_club", "seriesLabel": "Motorcycling SA" },
+    { "title": "VIC Road Race – Broadford", "venue": "Broadford Motorcycle Complex", "country": "Australia", "startDate": "2025-03-22", "endDate": "2025-03-23", "url": "https://www.motorcyclingvic.com.au/calendar/", "series": "au_club", "seriesLabel": "Motorcycling Victoria" },
+    { "title": "NSW St George Road Race", "venue": "Sydney Motorsport Park", "country": "Australia", "startDate": "2025-04-05", "endDate": "2025-04-06", "url": "https://motorcycling.com.au/riders/calendar/", "series": "au_club", "seriesLabel": "Motorcycling NSW" },
+    { "title": "Mac Park Race Meeting", "venue": "McDonald Park (Mac Park)", "country": "Australia", "startDate": "2025-04-12", "endDate": "2025-04-13", "url": "https://macparkraceway.org.au/", "series": "au_club", "seriesLabel": "Mount Gambier MCC" },
+    { "title": "QLD Road Race – Queensland Raceway", "venue": "Queensland Raceway", "country": "Australia", "startDate": "2025-04-19", "endDate": "2025-04-20", "url": "https://www.mqld.org.au/riders/calendar/", "series": "au_club", "seriesLabel": "Motorcycling Queensland" },
+    { "title": "Phoenix MCC Track Day", "venue": "Mallala Motor Sport Park", "country": "Australia", "startDate": "2025-05-03", "endDate": "2025-05-03", "url": "https://phoenixmcc.org.au/track-calendar/", "series": "au_club", "seriesLabel": "Phoenix MCC (SA)" }
   ]
 }

@@ -165,7 +165,11 @@ export async function getCalendarEvents(bypassCache = false) {
   const australia = (staticData.australia || []).map((e) =>
     normalizeStaticEvent('asbk', { ...e, series: 'asbk', seriesLabel: 'ASBK' })
   );
-  const auClub = loadAuEvents();
+  const auClubFromFile = loadAuEvents();
+  const auClubStatic = (staticData.australia_club || []).map((e) =>
+    normalizeStaticEvent(e.series || 'au_club', { ...e, seriesLabel: e.seriesLabel || 'AU Road Race' })
+  );
+  const auClub = [...auClubFromFile, ...auClubStatic];
   const worldsbk = await fetchWorldSBK();
   const all = [
     // Highest interest: Aussie national + club/state road-race events
@@ -173,7 +177,6 @@ export async function getCalendarEvents(bypassCache = false) {
     ...australia,
     // Then world championships + junior/support series
     ...motogp,
-    ...australia,
     ...worldsbk,
   ].filter((e) => e.startDate);
   all.sort((a, b) => {
