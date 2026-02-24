@@ -1,0 +1,3208 @@
+{
+  "Q&A": {
+    "easy": [
+      {
+        "id": "E0001",
+        "difficulty": "easy",
+        "question": "Pick the correct statement: How many venues were used for the first World Championship season in 1949?",
+        "options": [
+          "10 venues",
+          "18 venues",
+          "One venue: the Moon",
+          "3 venues",
+          "Six venues"
+        ],
+        "correct_index": 4,
+        "stupid_index": 2,
+        "source": "MotoGP Source Book (Sixty Years of World Championship)",
+        "topic": "history"
+      },
+      {
+        "id": "E0002",
+        "difficulty": "easy",
+        "question": "Which class appeared at every round in 1949?",
+        "options": [
+          "The 350cc class",
+          "The 125cc class",
+          "The 250cc class",
+          "The unicorn class",
+          "The 500cc class"
+        ],
+        "correct_index": 4,
+        "stupid_index": 3,
+        "source": "MotoGP Source Book (Sixty Years of World Championship)",
+        "topic": "history"
+      },
+      {
+        "id": "E0003",
+        "difficulty": "easy",
+        "question": "Which class appeared at every round in 1949?",
+        "options": [
+          "The 125cc class",
+          "The 250cc class",
+          "The 350cc class",
+          "The unicorn class",
+          "The 500cc class"
+        ],
+        "correct_index": 4,
+        "stupid_index": 3,
+        "source": "MotoGP Source Book (Sixty Years of World Championship)",
+        "topic": "history"
+      },
+      {
+        "id": "E0004",
+        "difficulty": "easy",
+        "question": "Across the seasons studied, how many corners did riders typically navigate per lap?",
+        "options": [
+          "5 ± 1 corners",
+          "40 ± 10 corners",
+          "25 ± 5 corners",
+          "15 ± 2 corners",
+          "Two corners: left and right"
+        ],
+        "correct_index": 3,
+        "stupid_index": 4,
+        "source": "Journal of Sports Sciences (MotoGP rider load, 2013–2015)",
+        "topic": "physiology"
+      },
+      {
+        "id": "E0005",
+        "difficulty": "easy",
+        "question": "Pick the correct statement: In dry conditions, what was the approximate mean race duration reported?",
+        "options": [
+          "43:07 ± 1:39 minutes",
+          "60:00 ± 5:00 minutes",
+          "4 seconds total",
+          "20:00 ± 2:00 minutes",
+          "90:00 ± 10:00 minutes"
+        ],
+        "correct_index": 0,
+        "stupid_index": 2,
+        "source": "Journal of Sports Sciences (MotoGP rider load, 2013–2015)",
+        "topic": "physiology"
+      },
+      {
+        "id": "E0006",
+        "difficulty": "easy",
+        "question": "Pick the correct statement: How many venues were used for the first World Championship season in 1949?",
+        "options": [
+          "Six venues",
+          "3 venues",
+          "One venue: the Moon",
+          "18 venues",
+          "10 venues"
+        ],
+        "correct_index": 0,
+        "stupid_index": 2,
+        "source": "MotoGP Source Book (Sixty Years of World Championship)",
+        "topic": "history"
+      },
+      {
+        "id": "E0007",
+        "difficulty": "easy",
+        "question": "In 1949, how many rounds did the 250cc championship include?",
+        "options": [
+          "One million events",
+          "Six events",
+          "Four events",
+          "Five events",
+          "Three events"
+        ],
+        "correct_index": 2,
+        "stupid_index": 0,
+        "source": "MotoGP Source Book (Sixty Years of World Championship)",
+        "topic": "history"
+      },
+      {
+        "id": "E0008",
+        "difficulty": "easy",
+        "question": "Pick the correct statement: In 1949, how many rounds did the 350cc championship include?",
+        "options": [
+          "Zero rounds, because it didn’t exist",
+          "Six rounds",
+          "Three rounds",
+          "Four rounds",
+          "Five rounds"
+        ],
+        "correct_index": 4,
+        "stupid_index": 0,
+        "source": "MotoGP Source Book (Sixty Years of World Championship)",
+        "topic": "history"
+      },
+      {
+        "id": "E0009",
+        "difficulty": "easy",
+        "question": "In 1949, how many rounds did the 125cc championship include?",
+        "options": [
+          "Five events",
+          "Seventy-two events",
+          "Four events",
+          "Three events",
+          "Six events"
+        ],
+        "correct_index": 3,
+        "stupid_index": 1,
+        "source": "MotoGP Source Book (Sixty Years of World Championship)",
+        "topic": "history"
+      },
+      {
+        "id": "E0010",
+        "difficulty": "easy",
+        "question": "In the 2013–2015 analysis, what happened to mean speed across competitions?",
+        "options": [
+          "It decreased sharply",
+          "It increased (about 161.7 to 164.5 km/h)",
+          "It became unpredictable",
+          "It exceeded the speed of light",
+          "It stayed exactly the same"
+        ],
+        "correct_index": 1,
+        "stupid_index": 3,
+        "source": "Journal of Sports Sciences (MotoGP rider load, 2013–2015)",
+        "topic": "physiology"
+      },
+      {
+        "id": "E0011",
+        "difficulty": "easy",
+        "question": "In 1949, how many rounds did the 350cc championship include?",
+        "options": [
+          "Four rounds",
+          "Zero rounds, because it didn’t exist",
+          "Six rounds",
+          "Three rounds",
+          "Five rounds"
+        ],
+        "correct_index": 4,
+        "stupid_index": 1,
+        "source": "MotoGP Source Book (Sixty Years of World Championship)",
+        "topic": "history"
+      },
+      {
+        "id": "E0012",
+        "difficulty": "easy",
+        "question": "Which venue was the only purpose-built circuit among the six 1949 World Championship venues?",
+        "options": [
+          "The car park behind a pub",
+          "Spa-Francorchamps",
+          "Assen",
+          "Isle of Man",
+          "Monza"
+        ],
+        "correct_index": 4,
+        "stupid_index": 0,
+        "source": "MotoGP Source Book (Sixty Years of World Championship)",
+        "topic": "history"
+      },
+      {
+        "id": "E0013",
+        "difficulty": "easy",
+        "question": "In 1949, how many rounds did the 250cc championship include?",
+        "options": [
+          "Six events",
+          "Four events",
+          "One million events",
+          "Five events",
+          "Three events"
+        ],
+        "correct_index": 1,
+        "stupid_index": 2,
+        "source": "MotoGP Source Book (Sixty Years of World Championship)",
+        "topic": "history"
+      },
+      {
+        "id": "E0014",
+        "difficulty": "easy",
+        "question": "In 1949, how many rounds did the 250cc championship include?",
+        "options": [
+          "Six events",
+          "One million events",
+          "Five events",
+          "Three events",
+          "Four events"
+        ],
+        "correct_index": 4,
+        "stupid_index": 1,
+        "source": "MotoGP Source Book (Sixty Years of World Championship)",
+        "topic": "history"
+      },
+      {
+        "id": "E0015",
+        "difficulty": "easy",
+        "question": "In 1949, how many rounds did the 250cc championship include?",
+        "options": [
+          "Five events",
+          "Four events",
+          "Three events",
+          "One million events",
+          "Six events"
+        ],
+        "correct_index": 1,
+        "stupid_index": 3,
+        "source": "MotoGP Source Book (Sixty Years of World Championship)",
+        "topic": "history"
+      },
+      {
+        "id": "E0016",
+        "difficulty": "easy",
+        "question": "How many venues were used for the first World Championship season in 1949?",
+        "options": [
+          "3 venues",
+          "18 venues",
+          "One venue: the Moon",
+          "10 venues",
+          "Six venues"
+        ],
+        "correct_index": 4,
+        "stupid_index": 2,
+        "source": "MotoGP Source Book (Sixty Years of World Championship)",
+        "topic": "history"
+      },
+      {
+        "id": "E0017",
+        "difficulty": "easy",
+        "question": "From 1978 to 1993, how many times did Americans win the 500cc world championship?",
+        "options": [
+          "13 billion times",
+          "5 times",
+          "16 times",
+          "13 times",
+          "8 times"
+        ],
+        "correct_index": 3,
+        "stupid_index": 0,
+        "source": "Grand Prix Motorcycle Racers: The American Heroes (Norm DeWitt)",
+        "topic": "history"
+      },
+      {
+        "id": "E0018",
+        "difficulty": "easy",
+        "question": "How many venues were used for the first World Championship season in 1949?",
+        "options": [
+          "Six venues",
+          "10 venues",
+          "3 venues",
+          "One venue: the Moon",
+          "18 venues"
+        ],
+        "correct_index": 0,
+        "stupid_index": 3,
+        "source": "MotoGP Source Book (Sixty Years of World Championship)",
+        "topic": "history"
+      },
+      {
+        "id": "E0019",
+        "difficulty": "easy",
+        "question": "In 1949, how many rounds did the 125cc championship include?",
+        "options": [
+          "Seventy-two events",
+          "Six events",
+          "Three events",
+          "Four events",
+          "Five events"
+        ],
+        "correct_index": 2,
+        "stupid_index": 0,
+        "source": "MotoGP Source Book (Sixty Years of World Championship)",
+        "topic": "history"
+      },
+      {
+        "id": "E0020",
+        "difficulty": "easy",
+        "question": "Pick the correct statement: In top-class GP racing (2013–2015), about how many times did riders brake per race?",
+        "options": [
+          "75 ± 10 times",
+          "175 ± 42 times",
+          "17 ± 4 times",
+          "275 ± 20 times",
+          "None — they only use vibes"
+        ],
+        "correct_index": 1,
+        "stupid_index": 4,
+        "source": "Journal of Sports Sciences (MotoGP rider load, 2013–2015)",
+        "topic": "physiology"
+      },
+      {
+        "id": "E0021",
+        "difficulty": "easy",
+        "question": "Which class appeared at every round in 1949?",
+        "options": [
+          "The 125cc class",
+          "The 250cc class",
+          "The 500cc class",
+          "The 350cc class",
+          "The unicorn class"
+        ],
+        "correct_index": 2,
+        "stupid_index": 4,
+        "source": "MotoGP Source Book (Sixty Years of World Championship)",
+        "topic": "history"
+      },
+      {
+        "id": "E0022",
+        "difficulty": "easy",
+        "question": "Pick the correct statement: How many venues were used for the first World Championship season in 1949?",
+        "options": [
+          "Six venues",
+          "18 venues",
+          "3 venues",
+          "One venue: the Moon",
+          "10 venues"
+        ],
+        "correct_index": 0,
+        "stupid_index": 3,
+        "source": "MotoGP Source Book (Sixty Years of World Championship)",
+        "topic": "history"
+      },
+      {
+        "id": "E0023",
+        "difficulty": "easy",
+        "question": "Pick the correct statement: In 1949, how many rounds did the 350cc championship include?",
+        "options": [
+          "Five rounds",
+          "Three rounds",
+          "Four rounds",
+          "Zero rounds, because it didn’t exist",
+          "Six rounds"
+        ],
+        "correct_index": 0,
+        "stupid_index": 3,
+        "source": "MotoGP Source Book (Sixty Years of World Championship)",
+        "topic": "history"
+      },
+      {
+        "id": "E0024",
+        "difficulty": "easy",
+        "question": "What was the approximate mean race distance in dry conditions in the study?",
+        "options": [
+          "72.0 ± 5.0 km",
+          "50.0 ± 2.0 km",
+          "1172 km in a straight line",
+          "117.2 ± 3.1 km",
+          "200.0 ± 10.0 km"
+        ],
+        "correct_index": 3,
+        "stupid_index": 2,
+        "source": "Journal of Sports Sciences (MotoGP rider load, 2013–2015)",
+        "topic": "physiology"
+      },
+      {
+        "id": "E0025",
+        "difficulty": "easy",
+        "question": "What was the approximate mean race distance in dry conditions in the study?",
+        "options": [
+          "50.0 ± 2.0 km",
+          "72.0 ± 5.0 km",
+          "117.2 ± 3.1 km",
+          "1172 km in a straight line",
+          "200.0 ± 10.0 km"
+        ],
+        "correct_index": 2,
+        "stupid_index": 3,
+        "source": "Journal of Sports Sciences (MotoGP rider load, 2013–2015)",
+        "topic": "physiology"
+      },
+      {
+        "id": "E0026",
+        "difficulty": "easy",
+        "question": "In top-class GP racing (2013–2015), about how many times did riders lean to corner per race?",
+        "options": [
+          "250 ± 30 times",
+          "Exactly once, like a bus",
+          "372 ± 48 times",
+          "520 ± 60 times",
+          "120 ± 20 times"
+        ],
+        "correct_index": 2,
+        "stupid_index": 1,
+        "source": "Journal of Sports Sciences (MotoGP rider load, 2013–2015)",
+        "topic": "physiology"
+      },
+      {
+        "id": "E0027",
+        "difficulty": "easy",
+        "question": "In dry conditions, roughly how long did riders spend braking per lap time (as a share of racing time)?",
+        "options": [
+          "About 80%",
+          "About 2700%",
+          "About 50%",
+          "About 27% of racing time",
+          "About 5%"
+        ],
+        "correct_index": 3,
+        "stupid_index": 1,
+        "source": "Journal of Sports Sciences (MotoGP rider load, 2013–2015)",
+        "topic": "physiology"
+      },
+      {
+        "id": "E0028",
+        "difficulty": "easy",
+        "question": "Across the seasons studied, how many corners did riders typically navigate per lap?",
+        "options": [
+          "25 ± 5 corners",
+          "40 ± 10 corners",
+          "15 ± 2 corners",
+          "5 ± 1 corners",
+          "Two corners: left and right"
+        ],
+        "correct_index": 2,
+        "stupid_index": 4,
+        "source": "Journal of Sports Sciences (MotoGP rider load, 2013–2015)",
+        "topic": "physiology"
+      },
+      {
+        "id": "E0029",
+        "difficulty": "easy",
+        "question": "In 1949, how many rounds did the 250cc championship include?",
+        "options": [
+          "Six events",
+          "Three events",
+          "Five events",
+          "Four events",
+          "One million events"
+        ],
+        "correct_index": 3,
+        "stupid_index": 4,
+        "source": "MotoGP Source Book (Sixty Years of World Championship)",
+        "topic": "history"
+      },
+      {
+        "id": "E0030",
+        "difficulty": "easy",
+        "question": "Approximately what fraction of braking actions generated inertial stresses greater than 10 m/s²?",
+        "options": [
+          "About 1 out of 10 (10%)",
+          "About 1 out of 2 (50%)",
+          "About 1 out of 20 (5%)",
+          "All of them, plus the paddock",
+          "About 1 out of 4 (25%)"
+        ],
+        "correct_index": 4,
+        "stupid_index": 3,
+        "source": "Journal of Sports Sciences (MotoGP rider load, 2013–2015)",
+        "topic": "physiology"
+      },
+      {
+        "id": "E0031",
+        "difficulty": "easy",
+        "question": "Pick the correct statement: Which class appeared at every round in 1949?",
+        "options": [
+          "The 350cc class",
+          "The unicorn class",
+          "The 250cc class",
+          "The 125cc class",
+          "The 500cc class"
+        ],
+        "correct_index": 4,
+        "stupid_index": 1,
+        "source": "MotoGP Source Book (Sixty Years of World Championship)",
+        "topic": "history"
+      },
+      {
+        "id": "E0032",
+        "difficulty": "easy",
+        "question": "From 1978 to 1993, how many times did Americans win the 500cc world championship?",
+        "options": [
+          "5 times",
+          "13 billion times",
+          "8 times",
+          "13 times",
+          "16 times"
+        ],
+        "correct_index": 3,
+        "stupid_index": 1,
+        "source": "Grand Prix Motorcycle Racers: The American Heroes (Norm DeWitt)",
+        "topic": "history"
+      },
+      {
+        "id": "E0033",
+        "difficulty": "easy",
+        "question": "Which venue was the only purpose-built circuit among the six 1949 World Championship venues?",
+        "options": [
+          "Monza",
+          "Spa-Francorchamps",
+          "The car park behind a pub",
+          "Assen",
+          "Isle of Man"
+        ],
+        "correct_index": 0,
+        "stupid_index": 2,
+        "source": "MotoGP Source Book (Sixty Years of World Championship)",
+        "topic": "history"
+      },
+      {
+        "id": "E0034",
+        "difficulty": "easy",
+        "question": "How many venues were used for the first World Championship season in 1949?",
+        "options": [
+          "Six venues",
+          "18 venues",
+          "3 venues",
+          "10 venues",
+          "One venue: the Moon"
+        ],
+        "correct_index": 0,
+        "stupid_index": 4,
+        "source": "MotoGP Source Book (Sixty Years of World Championship)",
+        "topic": "history"
+      },
+      {
+        "id": "E0035",
+        "difficulty": "easy",
+        "question": "From 1978 to 1993, how many times did Americans win the 500cc world championship?",
+        "options": [
+          "13 times",
+          "5 times",
+          "13 billion times",
+          "16 times",
+          "8 times"
+        ],
+        "correct_index": 0,
+        "stupid_index": 2,
+        "source": "Grand Prix Motorcycle Racers: The American Heroes (Norm DeWitt)",
+        "topic": "history"
+      },
+      {
+        "id": "E0036",
+        "difficulty": "easy",
+        "question": "Which venue was the only purpose-built circuit among the six 1949 World Championship venues?",
+        "options": [
+          "Spa-Francorchamps",
+          "Isle of Man",
+          "Monza",
+          "The car park behind a pub",
+          "Assen"
+        ],
+        "correct_index": 2,
+        "stupid_index": 3,
+        "source": "MotoGP Source Book (Sixty Years of World Championship)",
+        "topic": "history"
+      },
+      {
+        "id": "E0037",
+        "difficulty": "easy",
+        "question": "Which venue was the only purpose-built circuit among the six 1949 World Championship venues?",
+        "options": [
+          "Isle of Man",
+          "Monza",
+          "Spa-Francorchamps",
+          "Assen",
+          "The car park behind a pub"
+        ],
+        "correct_index": 1,
+        "stupid_index": 4,
+        "source": "MotoGP Source Book (Sixty Years of World Championship)",
+        "topic": "history"
+      },
+      {
+        "id": "E0038",
+        "difficulty": "easy",
+        "question": "Pick the correct statement: How many venues were used for the first World Championship season in 1949?",
+        "options": [
+          "10 venues",
+          "3 venues",
+          "18 venues",
+          "One venue: the Moon",
+          "Six venues"
+        ],
+        "correct_index": 4,
+        "stupid_index": 3,
+        "source": "MotoGP Source Book (Sixty Years of World Championship)",
+        "topic": "history"
+      },
+      {
+        "id": "E0039",
+        "difficulty": "easy",
+        "question": "Which class appeared at every round in 1949?",
+        "options": [
+          "The 125cc class",
+          "The 350cc class",
+          "The unicorn class",
+          "The 500cc class",
+          "The 250cc class"
+        ],
+        "correct_index": 3,
+        "stupid_index": 2,
+        "source": "MotoGP Source Book (Sixty Years of World Championship)",
+        "topic": "history"
+      },
+      {
+        "id": "E0040",
+        "difficulty": "easy",
+        "question": "In 1949, how many rounds did the 350cc championship include?",
+        "options": [
+          "Zero rounds, because it didn’t exist",
+          "Five rounds",
+          "Four rounds",
+          "Three rounds",
+          "Six rounds"
+        ],
+        "correct_index": 1,
+        "stupid_index": 0,
+        "source": "MotoGP Source Book (Sixty Years of World Championship)",
+        "topic": "history"
+      },
+      {
+        "id": "E0041",
+        "difficulty": "easy",
+        "question": "Pick the correct statement: How often did riders perform a braking action during racing, on average (2013–2015)?",
+        "options": [
+          "Every 30 seconds",
+          "Every 11.6 ± 4.1 seconds",
+          "Only on Wednesdays",
+          "Every 2 minutes",
+          "Every 2 seconds"
+        ],
+        "correct_index": 1,
+        "stupid_index": 2,
+        "source": "Journal of Sports Sciences (MotoGP rider load, 2013–2015)",
+        "topic": "physiology"
+      },
+      {
+        "id": "E0042",
+        "difficulty": "easy",
+        "question": "The DeWitt book describes American dominance across how many seasons from 1978 to 1993?",
+        "options": [
+          "1600 seasons",
+          "12 seasons",
+          "10 seasons",
+          "20 seasons",
+          "16 seasons"
+        ],
+        "correct_index": 4,
+        "stupid_index": 0,
+        "source": "Grand Prix Motorcycle Racers: The American Heroes (Norm DeWitt)",
+        "topic": "history"
+      },
+      {
+        "id": "E0043",
+        "difficulty": "easy",
+        "question": "The DeWitt book describes American dominance across how many seasons from 1978 to 1993?",
+        "options": [
+          "10 seasons",
+          "1600 seasons",
+          "12 seasons",
+          "16 seasons",
+          "20 seasons"
+        ],
+        "correct_index": 3,
+        "stupid_index": 1,
+        "source": "Grand Prix Motorcycle Racers: The American Heroes (Norm DeWitt)",
+        "topic": "history"
+      },
+      {
+        "id": "E0044",
+        "difficulty": "easy",
+        "question": "In 1949, how many rounds did the 350cc championship include?",
+        "options": [
+          "Three rounds",
+          "Zero rounds, because it didn’t exist",
+          "Five rounds",
+          "Four rounds",
+          "Six rounds"
+        ],
+        "correct_index": 2,
+        "stupid_index": 1,
+        "source": "MotoGP Source Book (Sixty Years of World Championship)",
+        "topic": "history"
+      },
+      {
+        "id": "E0045",
+        "difficulty": "easy",
+        "question": "Pick the correct statement: From 1978 to 1993, how many times did Americans win the 500cc world championship?",
+        "options": [
+          "8 times",
+          "13 billion times",
+          "13 times",
+          "16 times",
+          "5 times"
+        ],
+        "correct_index": 2,
+        "stupid_index": 1,
+        "source": "Grand Prix Motorcycle Racers: The American Heroes (Norm DeWitt)",
+        "topic": "history"
+      },
+      {
+        "id": "E0046",
+        "difficulty": "easy",
+        "question": "Pick the correct statement: In which year did the Isle of Man TT stop being a Grand Prix World Championship round?",
+        "options": [
+          "1969",
+          "3026",
+          "1976",
+          "1992",
+          "1984"
+        ],
+        "correct_index": 2,
+        "stupid_index": 1,
+        "source": "MotoGP Source Book (Sixty Years of World Championship)",
+        "topic": "history"
+      },
+      {
+        "id": "E0047",
+        "difficulty": "easy",
+        "question": "In top-class GP racing (2013–2015), approximately how many times did riders lean to corner per race?",
+        "options": [
+          "120 ± 20 times",
+          "250 ± 30 times",
+          "520 ± 60 times",
+          "372 ± 48 times",
+          "Exactly once, like a bus"
+        ],
+        "correct_index": 3,
+        "stupid_index": 4,
+        "source": "Journal of Sports Sciences (MotoGP rider load, 2013–2015)",
+        "topic": "physiology"
+      },
+      {
+        "id": "E0048",
+        "difficulty": "easy",
+        "question": "From 1978 to 1993, how many times did Americans win the 500cc world championship?",
+        "options": [
+          "13 times",
+          "8 times",
+          "16 times",
+          "13 billion times",
+          "5 times"
+        ],
+        "correct_index": 0,
+        "stupid_index": 3,
+        "source": "Grand Prix Motorcycle Racers: The American Heroes (Norm DeWitt)",
+        "topic": "history"
+      },
+      {
+        "id": "E0049",
+        "difficulty": "easy",
+        "question": "Approximately what fraction of braking actions generated inertial stresses greater than 10 m/s²?",
+        "options": [
+          "All of them, plus the paddock",
+          "About 1 out of 2 (50%)",
+          "About 1 out of 4 (25%)",
+          "About 1 out of 10 (10%)",
+          "About 1 out of 20 (5%)"
+        ],
+        "correct_index": 2,
+        "stupid_index": 0,
+        "source": "Journal of Sports Sciences (MotoGP rider load, 2013–2015)",
+        "topic": "physiology"
+      },
+      {
+        "id": "E0050",
+        "difficulty": "easy",
+        "question": "Pick the correct statement: In 1949, how many rounds did the 350cc championship include?",
+        "options": [
+          "Zero rounds, because it didn’t exist",
+          "Four rounds",
+          "Three rounds",
+          "Six rounds",
+          "Five rounds"
+        ],
+        "correct_index": 4,
+        "stupid_index": 0,
+        "source": "MotoGP Source Book (Sixty Years of World Championship)",
+        "topic": "history"
+      },
+      {
+        "id": "E0051",
+        "difficulty": "easy",
+        "question": "Pick the correct statement: In which year did the Isle of Man TT stop being a Grand Prix World Championship round?",
+        "options": [
+          "1969",
+          "1984",
+          "1976",
+          "3026",
+          "1992"
+        ],
+        "correct_index": 2,
+        "stupid_index": 3,
+        "source": "MotoGP Source Book (Sixty Years of World Championship)",
+        "topic": "history"
+      },
+      {
+        "id": "E0052",
+        "difficulty": "easy",
+        "question": "From 1978 to 1993, how many times did Americans win the 500cc world championship?",
+        "options": [
+          "13 billion times",
+          "16 times",
+          "8 times",
+          "13 times",
+          "5 times"
+        ],
+        "correct_index": 3,
+        "stupid_index": 0,
+        "source": "Grand Prix Motorcycle Racers: The American Heroes (Norm DeWitt)",
+        "topic": "history"
+      },
+      {
+        "id": "E0053",
+        "difficulty": "easy",
+        "question": "The DeWitt book describes American dominance across how many seasons from 1978 to 1993?",
+        "options": [
+          "20 seasons",
+          "10 seasons",
+          "12 seasons",
+          "1600 seasons",
+          "16 seasons"
+        ],
+        "correct_index": 4,
+        "stupid_index": 3,
+        "source": "Grand Prix Motorcycle Racers: The American Heroes (Norm DeWitt)",
+        "topic": "history"
+      },
+      {
+        "id": "E0054",
+        "difficulty": "easy",
+        "question": "In dry conditions, roughly how long did riders spend braking per lap time (as a share of racing time)?",
+        "options": [
+          "About 80%",
+          "About 50%",
+          "About 27% of racing time",
+          "About 5%",
+          "About 2700%"
+        ],
+        "correct_index": 2,
+        "stupid_index": 4,
+        "source": "Journal of Sports Sciences (MotoGP rider load, 2013–2015)",
+        "topic": "physiology"
+      },
+      {
+        "id": "E0055",
+        "difficulty": "easy",
+        "question": "In which year did the Isle of Man TT stop being a Grand Prix World Championship round?",
+        "options": [
+          "1969",
+          "1992",
+          "1984",
+          "3026",
+          "1976"
+        ],
+        "correct_index": 4,
+        "stupid_index": 3,
+        "source": "MotoGP Source Book (Sixty Years of World Championship)",
+        "topic": "history"
+      },
+      {
+        "id": "E0056",
+        "difficulty": "easy",
+        "question": "Pick the correct statement: From 1978 to 1993, how many times did Americans win the 500cc world championship?",
+        "options": [
+          "16 times",
+          "13 billion times",
+          "8 times",
+          "5 times",
+          "13 times"
+        ],
+        "correct_index": 4,
+        "stupid_index": 1,
+        "source": "Grand Prix Motorcycle Racers: The American Heroes (Norm DeWitt)",
+        "topic": "history"
+      },
+      {
+        "id": "E0057",
+        "difficulty": "easy",
+        "question": "In which year did the Isle of Man TT stop being a Grand Prix World Championship round?",
+        "options": [
+          "3026",
+          "1976",
+          "1969",
+          "1984",
+          "1992"
+        ],
+        "correct_index": 1,
+        "stupid_index": 0,
+        "source": "MotoGP Source Book (Sixty Years of World Championship)",
+        "topic": "history"
+      },
+      {
+        "id": "E0058",
+        "difficulty": "easy",
+        "question": "The DeWitt book describes American dominance across how many seasons from 1978 to 1993?",
+        "options": [
+          "20 seasons",
+          "16 seasons",
+          "1600 seasons",
+          "12 seasons",
+          "10 seasons"
+        ],
+        "correct_index": 1,
+        "stupid_index": 2,
+        "source": "Grand Prix Motorcycle Racers: The American Heroes (Norm DeWitt)",
+        "topic": "history"
+      },
+      {
+        "id": "E0059",
+        "difficulty": "easy",
+        "question": "Pick the correct statement: From 1978 to 1993, how many times did Americans win the 500cc world championship?",
+        "options": [
+          "5 times",
+          "13 billion times",
+          "13 times",
+          "8 times",
+          "16 times"
+        ],
+        "correct_index": 2,
+        "stupid_index": 1,
+        "source": "Grand Prix Motorcycle Racers: The American Heroes (Norm DeWitt)",
+        "topic": "history"
+      },
+      {
+        "id": "E0060",
+        "difficulty": "easy",
+        "question": "What percentage of braking actions were initiated over 300 km/h in the 2013–2015 analysis?",
+        "options": [
+          "1.3%",
+          "6.6%",
+          "31.2%",
+          "13.2%",
+          "1320%"
+        ],
+        "correct_index": 3,
+        "stupid_index": 4,
+        "source": "Journal of Sports Sciences (MotoGP rider load, 2013–2015)",
+        "topic": "physiology"
+      },
+      {
+        "id": "E0061",
+        "difficulty": "easy",
+        "question": "Across the seasons studied, how many corners did riders typically navigate per lap?",
+        "options": [
+          "Two corners: left and right",
+          "15 ± 2 corners",
+          "40 ± 10 corners",
+          "5 ± 1 corners",
+          "25 ± 5 corners"
+        ],
+        "correct_index": 1,
+        "stupid_index": 0,
+        "source": "Journal of Sports Sciences (MotoGP rider load, 2013–2015)",
+        "topic": "physiology"
+      },
+      {
+        "id": "E0062",
+        "difficulty": "easy",
+        "question": "Which class appeared at every round in 1949?",
+        "options": [
+          "The 350cc class",
+          "The 125cc class",
+          "The 500cc class",
+          "The unicorn class",
+          "The 250cc class"
+        ],
+        "correct_index": 2,
+        "stupid_index": 3,
+        "source": "MotoGP Source Book (Sixty Years of World Championship)",
+        "topic": "history"
+      },
+      {
+        "id": "E0063",
+        "difficulty": "easy",
+        "question": "Pick the correct statement: In dry conditions, what was the approximate mean race duration reported?",
+        "options": [
+          "90:00 ± 10:00 minutes",
+          "20:00 ± 2:00 minutes",
+          "4 seconds total",
+          "43:07 ± 1:39 minutes",
+          "60:00 ± 5:00 minutes"
+        ],
+        "correct_index": 3,
+        "stupid_index": 2,
+        "source": "Journal of Sports Sciences (MotoGP rider load, 2013–2015)",
+        "topic": "physiology"
+      },
+      {
+        "id": "E0064",
+        "difficulty": "easy",
+        "question": "The DeWitt book describes American dominance across how many seasons from 1978 to 1993?",
+        "options": [
+          "1600 seasons",
+          "20 seasons",
+          "16 seasons",
+          "12 seasons",
+          "10 seasons"
+        ],
+        "correct_index": 2,
+        "stupid_index": 0,
+        "source": "Grand Prix Motorcycle Racers: The American Heroes (Norm DeWitt)",
+        "topic": "history"
+      },
+      {
+        "id": "E0065",
+        "difficulty": "easy",
+        "question": "In the 2013–2015 analysis, what happened to mean speed across competitions?",
+        "options": [
+          "It became unpredictable",
+          "It increased (about 161.7 to 164.5 km/h)",
+          "It exceeded the speed of light",
+          "It stayed exactly the same",
+          "It decreased sharply"
+        ],
+        "correct_index": 1,
+        "stupid_index": 2,
+        "source": "Journal of Sports Sciences (MotoGP rider load, 2013–2015)",
+        "topic": "physiology"
+      },
+      {
+        "id": "E0066",
+        "difficulty": "easy",
+        "question": "Which class appeared at every round in 1949?",
+        "options": [
+          "The 500cc class",
+          "The unicorn class",
+          "The 350cc class",
+          "The 250cc class",
+          "The 125cc class"
+        ],
+        "correct_index": 0,
+        "stupid_index": 1,
+        "source": "MotoGP Source Book (Sixty Years of World Championship)",
+        "topic": "history"
+      },
+      {
+        "id": "E0067",
+        "difficulty": "easy",
+        "question": "Pick the correct statement: In 1949, how many rounds did the 125cc championship include?",
+        "options": [
+          "Six events",
+          "Four events",
+          "Five events",
+          "Seventy-two events",
+          "Three events"
+        ],
+        "correct_index": 4,
+        "stupid_index": 3,
+        "source": "MotoGP Source Book (Sixty Years of World Championship)",
+        "topic": "history"
+      },
+      {
+        "id": "E0068",
+        "difficulty": "easy",
+        "question": "Pick the correct statement: In 1949, how many rounds did the 350cc championship include?",
+        "options": [
+          "Four rounds",
+          "Six rounds",
+          "Three rounds",
+          "Zero rounds, because it didn’t exist",
+          "Five rounds"
+        ],
+        "correct_index": 4,
+        "stupid_index": 3,
+        "source": "MotoGP Source Book (Sixty Years of World Championship)",
+        "topic": "history"
+      },
+      {
+        "id": "E0069",
+        "difficulty": "easy",
+        "question": "Pick the correct statement: In 1949, how many rounds did the 250cc championship include?",
+        "options": [
+          "Four events",
+          "One million events",
+          "Five events",
+          "Six events",
+          "Three events"
+        ],
+        "correct_index": 0,
+        "stupid_index": 1,
+        "source": "MotoGP Source Book (Sixty Years of World Championship)",
+        "topic": "history"
+      },
+      {
+        "id": "E0070",
+        "difficulty": "easy",
+        "question": "In the 2013–2015 analysis, what happened to mean speed across competitions?",
+        "options": [
+          "It decreased sharply",
+          "It stayed exactly the same",
+          "It became unpredictable",
+          "It exceeded the speed of light",
+          "It increased (about 161.7 to 164.5 km/h)"
+        ],
+        "correct_index": 4,
+        "stupid_index": 3,
+        "source": "Journal of Sports Sciences (MotoGP rider load, 2013–2015)",
+        "topic": "physiology"
+      },
+      {
+        "id": "E0071",
+        "difficulty": "easy",
+        "question": "Pick the correct statement: In dry conditions, what was the approximate mean race duration reported?",
+        "options": [
+          "20:00 ± 2:00 minutes",
+          "4 seconds total",
+          "90:00 ± 10:00 minutes",
+          "60:00 ± 5:00 minutes",
+          "43:07 ± 1:39 minutes"
+        ],
+        "correct_index": 4,
+        "stupid_index": 1,
+        "source": "Journal of Sports Sciences (MotoGP rider load, 2013–2015)",
+        "topic": "physiology"
+      },
+      {
+        "id": "E0072",
+        "difficulty": "easy",
+        "question": "In top-class GP racing (2013–2015), approximately how many times did riders brake per race?",
+        "options": [
+          "275 ± 20 times",
+          "75 ± 10 times",
+          "None — they only use vibes",
+          "175 ± 42 times",
+          "17 ± 4 times"
+        ],
+        "correct_index": 3,
+        "stupid_index": 2,
+        "source": "Journal of Sports Sciences (MotoGP rider load, 2013–2015)",
+        "topic": "physiology"
+      },
+      {
+        "id": "E0073",
+        "difficulty": "easy",
+        "question": "Pick the correct statement: In 1949, how many rounds did the 125cc championship include?",
+        "options": [
+          "Six events",
+          "Three events",
+          "Seventy-two events",
+          "Four events",
+          "Five events"
+        ],
+        "correct_index": 1,
+        "stupid_index": 2,
+        "source": "MotoGP Source Book (Sixty Years of World Championship)",
+        "topic": "history"
+      },
+      {
+        "id": "E0074",
+        "difficulty": "easy",
+        "question": "The DeWitt book describes American dominance across how many seasons from 1978 to 1993?",
+        "options": [
+          "10 seasons",
+          "16 seasons",
+          "1600 seasons",
+          "20 seasons",
+          "12 seasons"
+        ],
+        "correct_index": 1,
+        "stupid_index": 2,
+        "source": "Grand Prix Motorcycle Racers: The American Heroes (Norm DeWitt)",
+        "topic": "history"
+      },
+      {
+        "id": "E0075",
+        "difficulty": "easy",
+        "question": "Which class appeared at every round in 1949?",
+        "options": [
+          "The 250cc class",
+          "The 500cc class",
+          "The 350cc class",
+          "The unicorn class",
+          "The 125cc class"
+        ],
+        "correct_index": 1,
+        "stupid_index": 3,
+        "source": "MotoGP Source Book (Sixty Years of World Championship)",
+        "topic": "history"
+      },
+      {
+        "id": "E0076",
+        "difficulty": "easy",
+        "question": "In which year did the Isle of Man TT stop being a Grand Prix World Championship round?",
+        "options": [
+          "1969",
+          "1976",
+          "3026",
+          "1992",
+          "1984"
+        ],
+        "correct_index": 1,
+        "stupid_index": 2,
+        "source": "MotoGP Source Book (Sixty Years of World Championship)",
+        "topic": "history"
+      },
+      {
+        "id": "E0077",
+        "difficulty": "easy",
+        "question": "In 1949, how many rounds did the 250cc championship include?",
+        "options": [
+          "Five events",
+          "Six events",
+          "One million events",
+          "Four events",
+          "Three events"
+        ],
+        "correct_index": 3,
+        "stupid_index": 2,
+        "source": "MotoGP Source Book (Sixty Years of World Championship)",
+        "topic": "history"
+      },
+      {
+        "id": "E0078",
+        "difficulty": "easy",
+        "question": "How often did riders perform a braking action during racing, on average (2013–2015)?",
+        "options": [
+          "Every 11.6 ± 4.1 seconds",
+          "Every 30 seconds",
+          "Every 2 minutes",
+          "Only on Wednesdays",
+          "Every 2 seconds"
+        ],
+        "correct_index": 0,
+        "stupid_index": 3,
+        "source": "Journal of Sports Sciences (MotoGP rider load, 2013–2015)",
+        "topic": "physiology"
+      },
+      {
+        "id": "E0079",
+        "difficulty": "easy",
+        "question": "The DeWitt book describes American dominance across how many seasons from 1978 to 1993?",
+        "options": [
+          "20 seasons",
+          "12 seasons",
+          "16 seasons",
+          "1600 seasons",
+          "10 seasons"
+        ],
+        "correct_index": 2,
+        "stupid_index": 3,
+        "source": "Grand Prix Motorcycle Racers: The American Heroes (Norm DeWitt)",
+        "topic": "history"
+      },
+      {
+        "id": "E0080",
+        "difficulty": "easy",
+        "question": "From 1978 to 1993, how many times did Americans win the 500cc world championship?",
+        "options": [
+          "16 times",
+          "5 times",
+          "13 times",
+          "13 billion times",
+          "8 times"
+        ],
+        "correct_index": 2,
+        "stupid_index": 3,
+        "source": "Grand Prix Motorcycle Racers: The American Heroes (Norm DeWitt)",
+        "topic": "history"
+      },
+      {
+        "id": "E0081",
+        "difficulty": "easy",
+        "question": "Which class appeared at every round in 1949?",
+        "options": [
+          "The 500cc class",
+          "The 125cc class",
+          "The 250cc class",
+          "The 350cc class",
+          "The unicorn class"
+        ],
+        "correct_index": 0,
+        "stupid_index": 4,
+        "source": "MotoGP Source Book (Sixty Years of World Championship)",
+        "topic": "history"
+      },
+      {
+        "id": "E0082",
+        "difficulty": "easy",
+        "question": "Pick the correct statement: Which class appeared at every round in 1949?",
+        "options": [
+          "The 350cc class",
+          "The 125cc class",
+          "The unicorn class",
+          "The 250cc class",
+          "The 500cc class"
+        ],
+        "correct_index": 4,
+        "stupid_index": 2,
+        "source": "MotoGP Source Book (Sixty Years of World Championship)",
+        "topic": "history"
+      },
+      {
+        "id": "E0083",
+        "difficulty": "easy",
+        "question": "In 1949, how many rounds did the 125cc championship include?",
+        "options": [
+          "Seventy-two events",
+          "Five events",
+          "Four events",
+          "Six events",
+          "Three events"
+        ],
+        "correct_index": 4,
+        "stupid_index": 0,
+        "source": "MotoGP Source Book (Sixty Years of World Championship)",
+        "topic": "history"
+      },
+      {
+        "id": "E0084",
+        "difficulty": "easy",
+        "question": "In top-class GP racing (2013–2015), about how many times did riders lean to corner per race?",
+        "options": [
+          "250 ± 30 times",
+          "520 ± 60 times",
+          "120 ± 20 times",
+          "372 ± 48 times",
+          "Exactly once, like a bus"
+        ],
+        "correct_index": 3,
+        "stupid_index": 4,
+        "source": "Journal of Sports Sciences (MotoGP rider load, 2013–2015)",
+        "topic": "physiology"
+      },
+      {
+        "id": "E0085",
+        "difficulty": "easy",
+        "question": "In 1949, how many rounds did the 125cc championship include?",
+        "options": [
+          "Four events",
+          "Five events",
+          "Seventy-two events",
+          "Six events",
+          "Three events"
+        ],
+        "correct_index": 4,
+        "stupid_index": 2,
+        "source": "MotoGP Source Book (Sixty Years of World Championship)",
+        "topic": "history"
+      },
+      {
+        "id": "E0086",
+        "difficulty": "easy",
+        "question": "In 1949, how many rounds did the 250cc championship include?",
+        "options": [
+          "One million events",
+          "Three events",
+          "Five events",
+          "Four events",
+          "Six events"
+        ],
+        "correct_index": 3,
+        "stupid_index": 0,
+        "source": "MotoGP Source Book (Sixty Years of World Championship)",
+        "topic": "history"
+      },
+      {
+        "id": "E0087",
+        "difficulty": "easy",
+        "question": "The DeWitt book describes American dominance across how many seasons from 1978 to 1993?",
+        "options": [
+          "1600 seasons",
+          "10 seasons",
+          "20 seasons",
+          "12 seasons",
+          "16 seasons"
+        ],
+        "correct_index": 4,
+        "stupid_index": 0,
+        "source": "Grand Prix Motorcycle Racers: The American Heroes (Norm DeWitt)",
+        "topic": "history"
+      },
+      {
+        "id": "E0088",
+        "difficulty": "easy",
+        "question": "From 1978 to 1993, how many times did Americans win the 500cc world championship?",
+        "options": [
+          "13 times",
+          "5 times",
+          "13 billion times",
+          "16 times",
+          "8 times"
+        ],
+        "correct_index": 0,
+        "stupid_index": 2,
+        "source": "Grand Prix Motorcycle Racers: The American Heroes (Norm DeWitt)",
+        "topic": "history"
+      },
+      {
+        "id": "E0089",
+        "difficulty": "easy",
+        "question": "In the 2013–2015 analysis, what happened to mean speed across competitions?",
+        "options": [
+          "It increased (about 161.7 to 164.5 km/h)",
+          "It stayed exactly the same",
+          "It became unpredictable",
+          "It exceeded the speed of light",
+          "It decreased sharply"
+        ],
+        "correct_index": 0,
+        "stupid_index": 3,
+        "source": "Journal of Sports Sciences (MotoGP rider load, 2013–2015)",
+        "topic": "physiology"
+      },
+      {
+        "id": "E0090",
+        "difficulty": "easy",
+        "question": "In 1949, how many rounds did the 350cc championship include?",
+        "options": [
+          "Six rounds",
+          "Five rounds",
+          "Three rounds",
+          "Four rounds",
+          "Zero rounds, because it didn’t exist"
+        ],
+        "correct_index": 1,
+        "stupid_index": 4,
+        "source": "MotoGP Source Book (Sixty Years of World Championship)",
+        "topic": "history"
+      },
+      {
+        "id": "E0091",
+        "difficulty": "easy",
+        "question": "From 1978 to 1993, how many times did Americans win the 500cc world championship?",
+        "options": [
+          "13 times",
+          "13 billion times",
+          "16 times",
+          "5 times",
+          "8 times"
+        ],
+        "correct_index": 0,
+        "stupid_index": 1,
+        "source": "Grand Prix Motorcycle Racers: The American Heroes (Norm DeWitt)",
+        "topic": "history"
+      },
+      {
+        "id": "E0092",
+        "difficulty": "easy",
+        "question": "What percentage of braking actions were initiated over 300 km/h in the 2013–2015 analysis?",
+        "options": [
+          "1.3%",
+          "13.2%",
+          "6.6%",
+          "1320%",
+          "31.2%"
+        ],
+        "correct_index": 1,
+        "stupid_index": 3,
+        "source": "Journal of Sports Sciences (MotoGP rider load, 2013–2015)",
+        "topic": "physiology"
+      },
+      {
+        "id": "E0093",
+        "difficulty": "easy",
+        "question": "Pick the correct statement: Across the seasons studied, how many corners did riders typically navigate per lap?",
+        "options": [
+          "Two corners: left and right",
+          "15 ± 2 corners",
+          "25 ± 5 corners",
+          "5 ± 1 corners",
+          "40 ± 10 corners"
+        ],
+        "correct_index": 1,
+        "stupid_index": 0,
+        "source": "Journal of Sports Sciences (MotoGP rider load, 2013–2015)",
+        "topic": "physiology"
+      },
+      {
+        "id": "E0094",
+        "difficulty": "easy",
+        "question": "In which year did the Isle of Man TT stop being a Grand Prix World Championship round?",
+        "options": [
+          "1969",
+          "1992",
+          "1976",
+          "1984",
+          "3026"
+        ],
+        "correct_index": 2,
+        "stupid_index": 4,
+        "source": "MotoGP Source Book (Sixty Years of World Championship)",
+        "topic": "history"
+      },
+      {
+        "id": "E0095",
+        "difficulty": "easy",
+        "question": "Pick the correct statement: The DeWitt book describes American dominance across how many seasons from 1978 to 1993?",
+        "options": [
+          "20 seasons",
+          "12 seasons",
+          "16 seasons",
+          "1600 seasons",
+          "10 seasons"
+        ],
+        "correct_index": 2,
+        "stupid_index": 3,
+        "source": "Grand Prix Motorcycle Racers: The American Heroes (Norm DeWitt)",
+        "topic": "history"
+      },
+      {
+        "id": "E0096",
+        "difficulty": "easy",
+        "question": "In 1949, how many rounds did the 125cc championship include?",
+        "options": [
+          "Seventy-two events",
+          "Three events",
+          "Five events",
+          "Six events",
+          "Four events"
+        ],
+        "correct_index": 1,
+        "stupid_index": 0,
+        "source": "MotoGP Source Book (Sixty Years of World Championship)",
+        "topic": "history"
+      },
+      {
+        "id": "E0097",
+        "difficulty": "easy",
+        "question": "What share of braking actions were initiated above 260 km/h in the 2013–2015 analysis?",
+        "options": [
+          "Over 40%",
+          "Over 4000%",
+          "About 20%",
+          "About 5%",
+          "About 90%"
+        ],
+        "correct_index": 0,
+        "stupid_index": 1,
+        "source": "Journal of Sports Sciences (MotoGP rider load, 2013–2015)",
+        "topic": "physiology"
+      },
+      {
+        "id": "E0098",
+        "difficulty": "easy",
+        "question": "In dry conditions, roughly how long did riders spend braking per lap time (as a share of racing time)?",
+        "options": [
+          "About 2700%",
+          "About 50%",
+          "About 27% of racing time",
+          "About 5%",
+          "About 80%"
+        ],
+        "correct_index": 2,
+        "stupid_index": 0,
+        "source": "Journal of Sports Sciences (MotoGP rider load, 2013–2015)",
+        "topic": "physiology"
+      },
+      {
+        "id": "E0099",
+        "difficulty": "easy",
+        "question": "How many venues were used for the first World Championship season in 1949?",
+        "options": [
+          "3 venues",
+          "One venue: the Moon",
+          "Six venues",
+          "10 venues",
+          "18 venues"
+        ],
+        "correct_index": 2,
+        "stupid_index": 1,
+        "source": "MotoGP Source Book (Sixty Years of World Championship)",
+        "topic": "history"
+      },
+      {
+        "id": "E0100",
+        "difficulty": "easy",
+        "question": "In 1949, how many rounds did the 250cc championship include?",
+        "options": [
+          "Five events",
+          "Six events",
+          "Four events",
+          "Three events",
+          "One million events"
+        ],
+        "correct_index": 2,
+        "stupid_index": 4,
+        "source": "MotoGP Source Book (Sixty Years of World Championship)",
+        "topic": "history"
+      }
+    ],
+    "hard": [
+      {
+        "id": "H0001",
+        "difficulty": "hard",
+        "question": "Pick the correct statement: In the 2013–2015 analysis, what happened to mean speed across competitions?",
+        "options": [
+          "It increased (about 161.7 to 164.5 km/h)",
+          "It exceeded the speed of light",
+          "It decreased sharply",
+          "It stayed exactly the same",
+          "It became unpredictable"
+        ],
+        "correct_index": 0,
+        "stupid_index": 1,
+        "source": "Journal of Sports Sciences (MotoGP rider load, 2013–2015)",
+        "topic": "physiology"
+      },
+      {
+        "id": "H0002",
+        "difficulty": "hard",
+        "question": "In dry conditions, what was the approximate mean race duration reported?",
+        "options": [
+          "43:07 ± 1:39 minutes",
+          "4 seconds total",
+          "60:00 ± 5:00 minutes",
+          "20:00 ± 2:00 minutes",
+          "90:00 ± 10:00 minutes"
+        ],
+        "correct_index": 0,
+        "stupid_index": 1,
+        "source": "Journal of Sports Sciences (MotoGP rider load, 2013–2015)",
+        "topic": "physiology"
+      },
+      {
+        "id": "H0003",
+        "difficulty": "hard",
+        "question": "Pick the correct statement: What share of braking actions were initiated above 260 km/h in the 2013–2015 analysis?",
+        "options": [
+          "Over 40%",
+          "About 90%",
+          "Over 4000%",
+          "About 5%",
+          "About 20%"
+        ],
+        "correct_index": 0,
+        "stupid_index": 2,
+        "source": "Journal of Sports Sciences (MotoGP rider load, 2013–2015)",
+        "topic": "physiology"
+      },
+      {
+        "id": "H0004",
+        "difficulty": "hard",
+        "question": "Pick the correct statement: Across the seasons studied, how many braking actions per lap were typical?",
+        "options": [
+          "7 ± 1 braking actions",
+          "12 ± 3",
+          "0 — braking is optional",
+          "2 ± 1",
+          "20 ± 5"
+        ],
+        "correct_index": 0,
+        "stupid_index": 2,
+        "source": "Journal of Sports Sciences (MotoGP rider load, 2013–2015)",
+        "topic": "physiology"
+      },
+      {
+        "id": "H0005",
+        "difficulty": "hard",
+        "question": "Pick the correct statement: In dry conditions, roughly how long did riders spend braking per lap time (as a share of racing time)?",
+        "options": [
+          "About 27% of racing time",
+          "About 2700%",
+          "About 80%",
+          "About 5%",
+          "About 50%"
+        ],
+        "correct_index": 0,
+        "stupid_index": 1,
+        "source": "Journal of Sports Sciences (MotoGP rider load, 2013–2015)",
+        "topic": "physiology"
+      },
+      {
+        "id": "H0006",
+        "difficulty": "hard",
+        "question": "What percentage of braking actions were initiated over 300 km/h in the 2013–2015 analysis?",
+        "options": [
+          "1.3%",
+          "6.6%",
+          "31.2%",
+          "13.2%",
+          "1320%"
+        ],
+        "correct_index": 3,
+        "stupid_index": 4,
+        "source": "Journal of Sports Sciences (MotoGP rider load, 2013–2015)",
+        "topic": "physiology"
+      },
+      {
+        "id": "H0007",
+        "difficulty": "hard",
+        "question": "Across the seasons studied, how many corners did riders typically navigate per lap?",
+        "options": [
+          "Two corners: left and right",
+          "15 ± 2 corners",
+          "25 ± 5 corners",
+          "5 ± 1 corners",
+          "40 ± 10 corners"
+        ],
+        "correct_index": 1,
+        "stupid_index": 0,
+        "source": "Journal of Sports Sciences (MotoGP rider load, 2013–2015)",
+        "topic": "physiology"
+      },
+      {
+        "id": "H0008",
+        "difficulty": "hard",
+        "question": "Pick the correct statement: Approximately what fraction of braking actions generated inertial stresses greater than 10 m/s²?",
+        "options": [
+          "About 1 out of 4 (25%)",
+          "About 1 out of 2 (50%)",
+          "About 1 out of 20 (5%)",
+          "All of them, plus the paddock",
+          "About 1 out of 10 (10%)"
+        ],
+        "correct_index": 0,
+        "stupid_index": 3,
+        "source": "Journal of Sports Sciences (MotoGP rider load, 2013–2015)",
+        "topic": "physiology"
+      },
+      {
+        "id": "H0009",
+        "difficulty": "hard",
+        "question": "Pick the correct statement: In the 2013–2015 analysis, what happened to mean speed across competitions?",
+        "options": [
+          "It exceeded the speed of light",
+          "It stayed exactly the same",
+          "It became unpredictable",
+          "It decreased sharply",
+          "It increased (about 161.7 to 164.5 km/h)"
+        ],
+        "correct_index": 4,
+        "stupid_index": 0,
+        "source": "Journal of Sports Sciences (MotoGP rider load, 2013–2015)",
+        "topic": "physiology"
+      },
+      {
+        "id": "H0010",
+        "difficulty": "hard",
+        "question": "Which venue was the only purpose-built circuit among the six 1949 World Championship venues?",
+        "options": [
+          "Spa-Francorchamps",
+          "The car park behind a pub",
+          "Assen",
+          "Isle of Man",
+          "Monza"
+        ],
+        "correct_index": 4,
+        "stupid_index": 1,
+        "source": "MotoGP Source Book (Sixty Years of World Championship)",
+        "topic": "history"
+      },
+      {
+        "id": "H0011",
+        "difficulty": "hard",
+        "question": "In dry conditions, roughly how long did riders spend braking per lap time (as a share of racing time)?",
+        "options": [
+          "About 2700%",
+          "About 27% of racing time",
+          "About 5%",
+          "About 80%",
+          "About 50%"
+        ],
+        "correct_index": 1,
+        "stupid_index": 0,
+        "source": "Journal of Sports Sciences (MotoGP rider load, 2013–2015)",
+        "topic": "physiology"
+      },
+      {
+        "id": "H0012",
+        "difficulty": "hard",
+        "question": "Pick the correct statement: Approximately what fraction of braking actions generated inertial stresses greater than 10 m/s²?",
+        "options": [
+          "About 1 out of 4 (25%)",
+          "About 1 out of 10 (10%)",
+          "All of them, plus the paddock",
+          "About 1 out of 2 (50%)",
+          "About 1 out of 20 (5%)"
+        ],
+        "correct_index": 0,
+        "stupid_index": 2,
+        "source": "Journal of Sports Sciences (MotoGP rider load, 2013–2015)",
+        "topic": "physiology"
+      },
+      {
+        "id": "H0013",
+        "difficulty": "hard",
+        "question": "Pick the correct statement: What share of braking actions were initiated above 260 km/h in the 2013–2015 analysis?",
+        "options": [
+          "Over 40%",
+          "About 5%",
+          "Over 4000%",
+          "About 20%",
+          "About 90%"
+        ],
+        "correct_index": 0,
+        "stupid_index": 2,
+        "source": "Journal of Sports Sciences (MotoGP rider load, 2013–2015)",
+        "topic": "physiology"
+      },
+      {
+        "id": "H0014",
+        "difficulty": "hard",
+        "question": "What share of braking actions were initiated above 260 km/h in the 2013–2015 analysis?",
+        "options": [
+          "Over 4000%",
+          "Over 40%",
+          "About 20%",
+          "About 5%",
+          "About 90%"
+        ],
+        "correct_index": 1,
+        "stupid_index": 0,
+        "source": "Journal of Sports Sciences (MotoGP rider load, 2013–2015)",
+        "topic": "physiology"
+      },
+      {
+        "id": "H0015",
+        "difficulty": "hard",
+        "question": "Pick the correct statement: What was the approximate mean race distance in dry conditions in the study?",
+        "options": [
+          "200.0 ± 10.0 km",
+          "72.0 ± 5.0 km",
+          "50.0 ± 2.0 km",
+          "117.2 ± 3.1 km",
+          "1172 km in a straight line"
+        ],
+        "correct_index": 3,
+        "stupid_index": 4,
+        "source": "Journal of Sports Sciences (MotoGP rider load, 2013–2015)",
+        "topic": "physiology"
+      },
+      {
+        "id": "H0016",
+        "difficulty": "hard",
+        "question": "Pick the correct statement: In the 2013–2015 analysis, what happened to mean speed across competitions?",
+        "options": [
+          "It stayed exactly the same",
+          "It exceeded the speed of light",
+          "It increased (about 161.7 to 164.5 km/h)",
+          "It decreased sharply",
+          "It became unpredictable"
+        ],
+        "correct_index": 2,
+        "stupid_index": 1,
+        "source": "Journal of Sports Sciences (MotoGP rider load, 2013–2015)",
+        "topic": "physiology"
+      },
+      {
+        "id": "H0017",
+        "difficulty": "hard",
+        "question": "Pick the correct statement: Across the seasons studied, how many braking actions per lap were typical?",
+        "options": [
+          "7 ± 1 braking actions",
+          "0 — braking is optional",
+          "20 ± 5",
+          "2 ± 1",
+          "12 ± 3"
+        ],
+        "correct_index": 0,
+        "stupid_index": 1,
+        "source": "Journal of Sports Sciences (MotoGP rider load, 2013–2015)",
+        "topic": "physiology"
+      },
+      {
+        "id": "H0018",
+        "difficulty": "hard",
+        "question": "How often did riders perform a braking action during racing, on average (2013–2015)?",
+        "options": [
+          "Every 11.6 ± 4.1 seconds",
+          "Only on Wednesdays",
+          "Every 2 seconds",
+          "Every 30 seconds",
+          "Every 2 minutes"
+        ],
+        "correct_index": 0,
+        "stupid_index": 1,
+        "source": "Journal of Sports Sciences (MotoGP rider load, 2013–2015)",
+        "topic": "physiology"
+      },
+      {
+        "id": "H0019",
+        "difficulty": "hard",
+        "question": "In dry conditions, roughly how long did riders spend braking per lap time (as a share of racing time)?",
+        "options": [
+          "About 5%",
+          "About 2700%",
+          "About 50%",
+          "About 27% of racing time",
+          "About 80%"
+        ],
+        "correct_index": 3,
+        "stupid_index": 1,
+        "source": "Journal of Sports Sciences (MotoGP rider load, 2013–2015)",
+        "topic": "physiology"
+      },
+      {
+        "id": "H0020",
+        "difficulty": "hard",
+        "question": "Approximately what fraction of braking actions generated inertial stresses greater than 10 m/s²?",
+        "options": [
+          "All of them, plus the paddock",
+          "About 1 out of 10 (10%)",
+          "About 1 out of 2 (50%)",
+          "About 1 out of 4 (25%)",
+          "About 1 out of 20 (5%)"
+        ],
+        "correct_index": 3,
+        "stupid_index": 0,
+        "source": "Journal of Sports Sciences (MotoGP rider load, 2013–2015)",
+        "topic": "physiology"
+      },
+      {
+        "id": "H0021",
+        "difficulty": "hard",
+        "question": "Pick the correct statement: What share of braking actions were initiated above 260 km/h in the 2013–2015 analysis?",
+        "options": [
+          "About 90%",
+          "About 20%",
+          "Over 40%",
+          "Over 4000%",
+          "About 5%"
+        ],
+        "correct_index": 2,
+        "stupid_index": 3,
+        "source": "Journal of Sports Sciences (MotoGP rider load, 2013–2015)",
+        "topic": "physiology"
+      },
+      {
+        "id": "H0022",
+        "difficulty": "hard",
+        "question": "Pick the correct statement: Across the seasons studied, how many braking actions per lap were typical?",
+        "options": [
+          "0 — braking is optional",
+          "7 ± 1 braking actions",
+          "12 ± 3",
+          "20 ± 5",
+          "2 ± 1"
+        ],
+        "correct_index": 1,
+        "stupid_index": 0,
+        "source": "Journal of Sports Sciences (MotoGP rider load, 2013–2015)",
+        "topic": "physiology"
+      },
+      {
+        "id": "H0023",
+        "difficulty": "hard",
+        "question": "How many venues were used for the first World Championship season in 1949?",
+        "options": [
+          "Six venues",
+          "One venue: the Moon",
+          "3 venues",
+          "18 venues",
+          "10 venues"
+        ],
+        "correct_index": 0,
+        "stupid_index": 1,
+        "source": "MotoGP Source Book (Sixty Years of World Championship)",
+        "topic": "history"
+      },
+      {
+        "id": "H0024",
+        "difficulty": "hard",
+        "question": "Pick the correct statement: Across the seasons studied, how many corners did riders typically navigate per lap?",
+        "options": [
+          "25 ± 5 corners",
+          "Two corners: left and right",
+          "40 ± 10 corners",
+          "15 ± 2 corners",
+          "5 ± 1 corners"
+        ],
+        "correct_index": 3,
+        "stupid_index": 1,
+        "source": "Journal of Sports Sciences (MotoGP rider load, 2013–2015)",
+        "topic": "physiology"
+      },
+      {
+        "id": "H0025",
+        "difficulty": "hard",
+        "question": "What was the approximate mean race distance in dry conditions in the study?",
+        "options": [
+          "50.0 ± 2.0 km",
+          "200.0 ± 10.0 km",
+          "72.0 ± 5.0 km",
+          "117.2 ± 3.1 km",
+          "1172 km in a straight line"
+        ],
+        "correct_index": 3,
+        "stupid_index": 4,
+        "source": "Journal of Sports Sciences (MotoGP rider load, 2013–2015)",
+        "topic": "physiology"
+      },
+      {
+        "id": "H0026",
+        "difficulty": "hard",
+        "question": "What was the approximate mean race distance in dry conditions in the study?",
+        "options": [
+          "1172 km in a straight line",
+          "50.0 ± 2.0 km",
+          "200.0 ± 10.0 km",
+          "117.2 ± 3.1 km",
+          "72.0 ± 5.0 km"
+        ],
+        "correct_index": 3,
+        "stupid_index": 0,
+        "source": "Journal of Sports Sciences (MotoGP rider load, 2013–2015)",
+        "topic": "physiology"
+      },
+      {
+        "id": "H0027",
+        "difficulty": "hard",
+        "question": "Across the seasons studied, how many braking actions per lap were typical?",
+        "options": [
+          "2 ± 1",
+          "20 ± 5",
+          "0 — braking is optional",
+          "7 ± 1 braking actions",
+          "12 ± 3"
+        ],
+        "correct_index": 3,
+        "stupid_index": 2,
+        "source": "Journal of Sports Sciences (MotoGP rider load, 2013–2015)",
+        "topic": "physiology"
+      },
+      {
+        "id": "H0028",
+        "difficulty": "hard",
+        "question": "Pick the correct statement: Approximately what fraction of braking actions generated inertial stresses greater than 10 m/s²?",
+        "options": [
+          "About 1 out of 4 (25%)",
+          "About 1 out of 20 (5%)",
+          "About 1 out of 2 (50%)",
+          "About 1 out of 10 (10%)",
+          "All of them, plus the paddock"
+        ],
+        "correct_index": 0,
+        "stupid_index": 4,
+        "source": "Journal of Sports Sciences (MotoGP rider load, 2013–2015)",
+        "topic": "physiology"
+      },
+      {
+        "id": "H0029",
+        "difficulty": "hard",
+        "question": "Approximately what fraction of braking actions generated inertial stresses greater than 10 m/s²?",
+        "options": [
+          "About 1 out of 10 (10%)",
+          "About 1 out of 20 (5%)",
+          "About 1 out of 4 (25%)",
+          "About 1 out of 2 (50%)",
+          "All of them, plus the paddock"
+        ],
+        "correct_index": 2,
+        "stupid_index": 4,
+        "source": "Journal of Sports Sciences (MotoGP rider load, 2013–2015)",
+        "topic": "physiology"
+      },
+      {
+        "id": "H0030",
+        "difficulty": "hard",
+        "question": "Approximately what fraction of braking actions generated inertial stresses greater than 10 m/s²?",
+        "options": [
+          "All of them, plus the paddock",
+          "About 1 out of 2 (50%)",
+          "About 1 out of 20 (5%)",
+          "About 1 out of 10 (10%)",
+          "About 1 out of 4 (25%)"
+        ],
+        "correct_index": 4,
+        "stupid_index": 0,
+        "source": "Journal of Sports Sciences (MotoGP rider load, 2013–2015)",
+        "topic": "physiology"
+      },
+      {
+        "id": "H0031",
+        "difficulty": "hard",
+        "question": "In top-class GP racing (2013–2015), about how many times did riders lean to corner per race?",
+        "options": [
+          "372 ± 48 times",
+          "Exactly once, like a bus",
+          "250 ± 30 times",
+          "120 ± 20 times",
+          "520 ± 60 times"
+        ],
+        "correct_index": 0,
+        "stupid_index": 1,
+        "source": "Journal of Sports Sciences (MotoGP rider load, 2013–2015)",
+        "topic": "physiology"
+      },
+      {
+        "id": "H0032",
+        "difficulty": "hard",
+        "question": "Pick the correct statement: In 1949, how many rounds did the 250cc championship include?",
+        "options": [
+          "Four events",
+          "Five events",
+          "Three events",
+          "Six events",
+          "One million events"
+        ],
+        "correct_index": 0,
+        "stupid_index": 4,
+        "source": "MotoGP Source Book (Sixty Years of World Championship)",
+        "topic": "history"
+      },
+      {
+        "id": "H0033",
+        "difficulty": "hard",
+        "question": "Pick the correct statement: Which class appeared at every round in 1949?",
+        "options": [
+          "The 125cc class",
+          "The 350cc class",
+          "The 500cc class",
+          "The unicorn class",
+          "The 250cc class"
+        ],
+        "correct_index": 2,
+        "stupid_index": 3,
+        "source": "MotoGP Source Book (Sixty Years of World Championship)",
+        "topic": "history"
+      },
+      {
+        "id": "H0034",
+        "difficulty": "hard",
+        "question": "In the 2013–2015 analysis, what happened to mean speed across competitions?",
+        "options": [
+          "It increased (about 161.7 to 164.5 km/h)",
+          "It stayed exactly the same",
+          "It exceeded the speed of light",
+          "It decreased sharply",
+          "It became unpredictable"
+        ],
+        "correct_index": 0,
+        "stupid_index": 2,
+        "source": "Journal of Sports Sciences (MotoGP rider load, 2013–2015)",
+        "topic": "physiology"
+      },
+      {
+        "id": "H0035",
+        "difficulty": "hard",
+        "question": "How often did riders perform a braking action during racing, on average (2013–2015)?",
+        "options": [
+          "Every 30 seconds",
+          "Only on Wednesdays",
+          "Every 2 seconds",
+          "Every 2 minutes",
+          "Every 11.6 ± 4.1 seconds"
+        ],
+        "correct_index": 4,
+        "stupid_index": 1,
+        "source": "Journal of Sports Sciences (MotoGP rider load, 2013–2015)",
+        "topic": "physiology"
+      },
+      {
+        "id": "H0036",
+        "difficulty": "hard",
+        "question": "Pick the correct statement: Approximately what fraction of braking actions generated inertial stresses greater than 10 m/s²?",
+        "options": [
+          "About 1 out of 4 (25%)",
+          "About 1 out of 10 (10%)",
+          "All of them, plus the paddock",
+          "About 1 out of 2 (50%)",
+          "About 1 out of 20 (5%)"
+        ],
+        "correct_index": 0,
+        "stupid_index": 2,
+        "source": "Journal of Sports Sciences (MotoGP rider load, 2013–2015)",
+        "topic": "physiology"
+      },
+      {
+        "id": "H0037",
+        "difficulty": "hard",
+        "question": "In the 2013–2015 analysis, what happened to mean speed across competitions?",
+        "options": [
+          "It decreased sharply",
+          "It increased (about 161.7 to 164.5 km/h)",
+          "It became unpredictable",
+          "It stayed exactly the same",
+          "It exceeded the speed of light"
+        ],
+        "correct_index": 1,
+        "stupid_index": 4,
+        "source": "Journal of Sports Sciences (MotoGP rider load, 2013–2015)",
+        "topic": "physiology"
+      },
+      {
+        "id": "H0038",
+        "difficulty": "hard",
+        "question": "Across the seasons studied, how many braking actions per lap were typical?",
+        "options": [
+          "12 ± 3",
+          "0 — braking is optional",
+          "20 ± 5",
+          "7 ± 1 braking actions",
+          "2 ± 1"
+        ],
+        "correct_index": 3,
+        "stupid_index": 1,
+        "source": "Journal of Sports Sciences (MotoGP rider load, 2013–2015)",
+        "topic": "physiology"
+      },
+      {
+        "id": "H0039",
+        "difficulty": "hard",
+        "question": "Approximately what fraction of braking actions generated inertial stresses greater than 10 m/s²?",
+        "options": [
+          "About 1 out of 4 (25%)",
+          "About 1 out of 10 (10%)",
+          "About 1 out of 2 (50%)",
+          "About 1 out of 20 (5%)",
+          "All of them, plus the paddock"
+        ],
+        "correct_index": 0,
+        "stupid_index": 4,
+        "source": "Journal of Sports Sciences (MotoGP rider load, 2013–2015)",
+        "topic": "physiology"
+      },
+      {
+        "id": "H0040",
+        "difficulty": "hard",
+        "question": "From 1978 to 1993, how many times did Americans win the 500cc world championship?",
+        "options": [
+          "5 times",
+          "8 times",
+          "13 times",
+          "13 billion times",
+          "16 times"
+        ],
+        "correct_index": 2,
+        "stupid_index": 3,
+        "source": "Grand Prix Motorcycle Racers: The American Heroes (Norm DeWitt)",
+        "topic": "history"
+      },
+      {
+        "id": "H0041",
+        "difficulty": "hard",
+        "question": "In top-class GP racing (2013–2015), about how many times did riders lean to corner per race?",
+        "options": [
+          "Exactly once, like a bus",
+          "372 ± 48 times",
+          "250 ± 30 times",
+          "520 ± 60 times",
+          "120 ± 20 times"
+        ],
+        "correct_index": 1,
+        "stupid_index": 0,
+        "source": "Journal of Sports Sciences (MotoGP rider load, 2013–2015)",
+        "topic": "physiology"
+      },
+      {
+        "id": "H0042",
+        "difficulty": "hard",
+        "question": "What share of braking actions were initiated above 260 km/h in the 2013–2015 analysis?",
+        "options": [
+          "Over 40%",
+          "About 90%",
+          "About 5%",
+          "About 20%",
+          "Over 4000%"
+        ],
+        "correct_index": 0,
+        "stupid_index": 4,
+        "source": "Journal of Sports Sciences (MotoGP rider load, 2013–2015)",
+        "topic": "physiology"
+      },
+      {
+        "id": "H0043",
+        "difficulty": "hard",
+        "question": "In top-class GP racing (2013–2015), about how many times did riders brake per race?",
+        "options": [
+          "175 ± 42 times",
+          "275 ± 20 times",
+          "17 ± 4 times",
+          "75 ± 10 times",
+          "None — they only use vibes"
+        ],
+        "correct_index": 0,
+        "stupid_index": 4,
+        "source": "Journal of Sports Sciences (MotoGP rider load, 2013–2015)",
+        "topic": "physiology"
+      },
+      {
+        "id": "H0044",
+        "difficulty": "hard",
+        "question": "In the 2013–2015 analysis, what happened to mean speed across competitions?",
+        "options": [
+          "It decreased sharply",
+          "It became unpredictable",
+          "It increased (about 161.7 to 164.5 km/h)",
+          "It exceeded the speed of light",
+          "It stayed exactly the same"
+        ],
+        "correct_index": 2,
+        "stupid_index": 3,
+        "source": "Journal of Sports Sciences (MotoGP rider load, 2013–2015)",
+        "topic": "physiology"
+      },
+      {
+        "id": "H0045",
+        "difficulty": "hard",
+        "question": "Pick the correct statement: How often did riders perform a braking action during racing, on average (2013–2015)?",
+        "options": [
+          "Every 2 seconds",
+          "Every 2 minutes",
+          "Only on Wednesdays",
+          "Every 11.6 ± 4.1 seconds",
+          "Every 30 seconds"
+        ],
+        "correct_index": 3,
+        "stupid_index": 2,
+        "source": "Journal of Sports Sciences (MotoGP rider load, 2013–2015)",
+        "topic": "physiology"
+      },
+      {
+        "id": "H0046",
+        "difficulty": "hard",
+        "question": "Pick the correct statement: How often did riders perform a braking action during racing, on average (2013–2015)?",
+        "options": [
+          "Every 11.6 ± 4.1 seconds",
+          "Every 30 seconds",
+          "Only on Wednesdays",
+          "Every 2 minutes",
+          "Every 2 seconds"
+        ],
+        "correct_index": 0,
+        "stupid_index": 2,
+        "source": "Journal of Sports Sciences (MotoGP rider load, 2013–2015)",
+        "topic": "physiology"
+      },
+      {
+        "id": "H0047",
+        "difficulty": "hard",
+        "question": "Pick the correct statement: Across the seasons studied, how many braking actions per lap were typical?",
+        "options": [
+          "20 ± 5",
+          "0 — braking is optional",
+          "7 ± 1 braking actions",
+          "12 ± 3",
+          "2 ± 1"
+        ],
+        "correct_index": 2,
+        "stupid_index": 1,
+        "source": "Journal of Sports Sciences (MotoGP rider load, 2013–2015)",
+        "topic": "physiology"
+      },
+      {
+        "id": "H0048",
+        "difficulty": "hard",
+        "question": "What percentage of braking actions were initiated over 300 km/h in the 2013–2015 analysis?",
+        "options": [
+          "1.3%",
+          "31.2%",
+          "1320%",
+          "13.2%",
+          "6.6%"
+        ],
+        "correct_index": 3,
+        "stupid_index": 2,
+        "source": "Journal of Sports Sciences (MotoGP rider load, 2013–2015)",
+        "topic": "physiology"
+      },
+      {
+        "id": "H0049",
+        "difficulty": "hard",
+        "question": "Pick the correct statement: In the 2013–2015 analysis, what happened to mean speed across competitions?",
+        "options": [
+          "It became unpredictable",
+          "It decreased sharply",
+          "It stayed exactly the same",
+          "It exceeded the speed of light",
+          "It increased (about 161.7 to 164.5 km/h)"
+        ],
+        "correct_index": 4,
+        "stupid_index": 3,
+        "source": "Journal of Sports Sciences (MotoGP rider load, 2013–2015)",
+        "topic": "physiology"
+      },
+      {
+        "id": "H0050",
+        "difficulty": "hard",
+        "question": "In dry conditions, what was the approximate mean race duration reported?",
+        "options": [
+          "60:00 ± 5:00 minutes",
+          "20:00 ± 2:00 minutes",
+          "4 seconds total",
+          "43:07 ± 1:39 minutes",
+          "90:00 ± 10:00 minutes"
+        ],
+        "correct_index": 3,
+        "stupid_index": 2,
+        "source": "Journal of Sports Sciences (MotoGP rider load, 2013–2015)",
+        "topic": "physiology"
+      },
+      {
+        "id": "H0051",
+        "difficulty": "hard",
+        "question": "How often did riders perform a braking action during racing, on average (2013–2015)?",
+        "options": [
+          "Every 30 seconds",
+          "Every 11.6 ± 4.1 seconds",
+          "Every 2 seconds",
+          "Only on Wednesdays",
+          "Every 2 minutes"
+        ],
+        "correct_index": 1,
+        "stupid_index": 3,
+        "source": "Journal of Sports Sciences (MotoGP rider load, 2013–2015)",
+        "topic": "physiology"
+      },
+      {
+        "id": "H0052",
+        "difficulty": "hard",
+        "question": "Pick the correct statement: How often did riders perform a braking action during racing, on average (2013–2015)?",
+        "options": [
+          "Every 2 seconds",
+          "Only on Wednesdays",
+          "Every 11.6 ± 4.1 seconds",
+          "Every 2 minutes",
+          "Every 30 seconds"
+        ],
+        "correct_index": 2,
+        "stupid_index": 1,
+        "source": "Journal of Sports Sciences (MotoGP rider load, 2013–2015)",
+        "topic": "physiology"
+      },
+      {
+        "id": "H0053",
+        "difficulty": "hard",
+        "question": "In dry conditions, what was the approximate mean race duration reported?",
+        "options": [
+          "20:00 ± 2:00 minutes",
+          "4 seconds total",
+          "60:00 ± 5:00 minutes",
+          "43:07 ± 1:39 minutes",
+          "90:00 ± 10:00 minutes"
+        ],
+        "correct_index": 3,
+        "stupid_index": 1,
+        "source": "Journal of Sports Sciences (MotoGP rider load, 2013–2015)",
+        "topic": "physiology"
+      },
+      {
+        "id": "H0054",
+        "difficulty": "hard",
+        "question": "In top-class GP racing (2013–2015), approximately how many times did riders brake per race?",
+        "options": [
+          "None — they only use vibes",
+          "275 ± 20 times",
+          "175 ± 42 times",
+          "75 ± 10 times",
+          "17 ± 4 times"
+        ],
+        "correct_index": 2,
+        "stupid_index": 0,
+        "source": "Journal of Sports Sciences (MotoGP rider load, 2013–2015)",
+        "topic": "physiology"
+      },
+      {
+        "id": "H0055",
+        "difficulty": "hard",
+        "question": "In dry conditions, what was the approximate mean race duration reported?",
+        "options": [
+          "20:00 ± 2:00 minutes",
+          "43:07 ± 1:39 minutes",
+          "60:00 ± 5:00 minutes",
+          "90:00 ± 10:00 minutes",
+          "4 seconds total"
+        ],
+        "correct_index": 1,
+        "stupid_index": 4,
+        "source": "Journal of Sports Sciences (MotoGP rider load, 2013–2015)",
+        "topic": "physiology"
+      },
+      {
+        "id": "H0056",
+        "difficulty": "hard",
+        "question": "Pick the correct statement: Across the seasons studied, how many braking actions per lap were typical?",
+        "options": [
+          "7 ± 1 braking actions",
+          "12 ± 3",
+          "2 ± 1",
+          "0 — braking is optional",
+          "20 ± 5"
+        ],
+        "correct_index": 0,
+        "stupid_index": 3,
+        "source": "Journal of Sports Sciences (MotoGP rider load, 2013–2015)",
+        "topic": "physiology"
+      },
+      {
+        "id": "H0057",
+        "difficulty": "hard",
+        "question": "Which class appeared at every round in 1949?",
+        "options": [
+          "The 125cc class",
+          "The 500cc class",
+          "The unicorn class",
+          "The 250cc class",
+          "The 350cc class"
+        ],
+        "correct_index": 1,
+        "stupid_index": 2,
+        "source": "MotoGP Source Book (Sixty Years of World Championship)",
+        "topic": "history"
+      },
+      {
+        "id": "H0058",
+        "difficulty": "hard",
+        "question": "In 1949, how many rounds did the 250cc championship include?",
+        "options": [
+          "Six events",
+          "One million events",
+          "Five events",
+          "Three events",
+          "Four events"
+        ],
+        "correct_index": 4,
+        "stupid_index": 1,
+        "source": "MotoGP Source Book (Sixty Years of World Championship)",
+        "topic": "history"
+      },
+      {
+        "id": "H0059",
+        "difficulty": "hard",
+        "question": "Pick the correct statement: In dry conditions, what was the approximate mean race duration reported?",
+        "options": [
+          "90:00 ± 10:00 minutes",
+          "60:00 ± 5:00 minutes",
+          "4 seconds total",
+          "20:00 ± 2:00 minutes",
+          "43:07 ± 1:39 minutes"
+        ],
+        "correct_index": 4,
+        "stupid_index": 2,
+        "source": "Journal of Sports Sciences (MotoGP rider load, 2013–2015)",
+        "topic": "physiology"
+      },
+      {
+        "id": "H0060",
+        "difficulty": "hard",
+        "question": "In the 2013–2015 analysis, what happened to mean speed across competitions?",
+        "options": [
+          "It stayed exactly the same",
+          "It became unpredictable",
+          "It exceeded the speed of light",
+          "It decreased sharply",
+          "It increased (about 161.7 to 164.5 km/h)"
+        ],
+        "correct_index": 4,
+        "stupid_index": 2,
+        "source": "Journal of Sports Sciences (MotoGP rider load, 2013–2015)",
+        "topic": "physiology"
+      },
+      {
+        "id": "H0061",
+        "difficulty": "hard",
+        "question": "Pick the correct statement: What share of braking actions were initiated above 260 km/h in the 2013–2015 analysis?",
+        "options": [
+          "About 20%",
+          "Over 40%",
+          "About 5%",
+          "About 90%",
+          "Over 4000%"
+        ],
+        "correct_index": 1,
+        "stupid_index": 4,
+        "source": "Journal of Sports Sciences (MotoGP rider load, 2013–2015)",
+        "topic": "physiology"
+      },
+      {
+        "id": "H0062",
+        "difficulty": "hard",
+        "question": "Across the seasons studied, how many corners did riders typically navigate per lap?",
+        "options": [
+          "15 ± 2 corners",
+          "5 ± 1 corners",
+          "40 ± 10 corners",
+          "Two corners: left and right",
+          "25 ± 5 corners"
+        ],
+        "correct_index": 0,
+        "stupid_index": 3,
+        "source": "Journal of Sports Sciences (MotoGP rider load, 2013–2015)",
+        "topic": "physiology"
+      },
+      {
+        "id": "H0063",
+        "difficulty": "hard",
+        "question": "In dry conditions, roughly how long did riders spend braking per lap time (as a share of racing time)?",
+        "options": [
+          "About 2700%",
+          "About 27% of racing time",
+          "About 80%",
+          "About 50%",
+          "About 5%"
+        ],
+        "correct_index": 1,
+        "stupid_index": 0,
+        "source": "Journal of Sports Sciences (MotoGP rider load, 2013–2015)",
+        "topic": "physiology"
+      },
+      {
+        "id": "H0064",
+        "difficulty": "hard",
+        "question": "In top-class GP racing (2013–2015), about how many times did riders brake per race?",
+        "options": [
+          "275 ± 20 times",
+          "None — they only use vibes",
+          "75 ± 10 times",
+          "17 ± 4 times",
+          "175 ± 42 times"
+        ],
+        "correct_index": 4,
+        "stupid_index": 1,
+        "source": "Journal of Sports Sciences (MotoGP rider load, 2013–2015)",
+        "topic": "physiology"
+      },
+      {
+        "id": "H0065",
+        "difficulty": "hard",
+        "question": "In dry conditions, what was the approximate mean race duration reported?",
+        "options": [
+          "4 seconds total",
+          "60:00 ± 5:00 minutes",
+          "90:00 ± 10:00 minutes",
+          "43:07 ± 1:39 minutes",
+          "20:00 ± 2:00 minutes"
+        ],
+        "correct_index": 3,
+        "stupid_index": 0,
+        "source": "Journal of Sports Sciences (MotoGP rider load, 2013–2015)",
+        "topic": "physiology"
+      },
+      {
+        "id": "H0066",
+        "difficulty": "hard",
+        "question": "What share of braking actions were initiated above 260 km/h in the 2013–2015 analysis?",
+        "options": [
+          "About 90%",
+          "Over 40%",
+          "About 5%",
+          "About 20%",
+          "Over 4000%"
+        ],
+        "correct_index": 1,
+        "stupid_index": 4,
+        "source": "Journal of Sports Sciences (MotoGP rider load, 2013–2015)",
+        "topic": "physiology"
+      },
+      {
+        "id": "H0067",
+        "difficulty": "hard",
+        "question": "What percentage of braking actions were initiated over 300 km/h in the 2013–2015 analysis?",
+        "options": [
+          "13.2%",
+          "1320%",
+          "1.3%",
+          "31.2%",
+          "6.6%"
+        ],
+        "correct_index": 0,
+        "stupid_index": 1,
+        "source": "Journal of Sports Sciences (MotoGP rider load, 2013–2015)",
+        "topic": "physiology"
+      },
+      {
+        "id": "H0068",
+        "difficulty": "hard",
+        "question": "Pick the correct statement: In top-class GP racing (2013–2015), about how many times did riders lean to corner per race?",
+        "options": [
+          "520 ± 60 times",
+          "250 ± 30 times",
+          "120 ± 20 times",
+          "Exactly once, like a bus",
+          "372 ± 48 times"
+        ],
+        "correct_index": 4,
+        "stupid_index": 3,
+        "source": "Journal of Sports Sciences (MotoGP rider load, 2013–2015)",
+        "topic": "physiology"
+      },
+      {
+        "id": "H0069",
+        "difficulty": "hard",
+        "question": "Pick the correct statement: In 1949, how many rounds did the 125cc championship include?",
+        "options": [
+          "Four events",
+          "Seventy-two events",
+          "Six events",
+          "Three events",
+          "Five events"
+        ],
+        "correct_index": 3,
+        "stupid_index": 1,
+        "source": "MotoGP Source Book (Sixty Years of World Championship)",
+        "topic": "history"
+      },
+      {
+        "id": "H0070",
+        "difficulty": "hard",
+        "question": "Which venue was the only purpose-built circuit among the six 1949 World Championship venues?",
+        "options": [
+          "Isle of Man",
+          "Assen",
+          "Spa-Francorchamps",
+          "Monza",
+          "The car park behind a pub"
+        ],
+        "correct_index": 3,
+        "stupid_index": 4,
+        "source": "MotoGP Source Book (Sixty Years of World Championship)",
+        "topic": "history"
+      },
+      {
+        "id": "H0071",
+        "difficulty": "hard",
+        "question": "Which venue was the only purpose-built circuit among the six 1949 World Championship venues?",
+        "options": [
+          "The car park behind a pub",
+          "Spa-Francorchamps",
+          "Isle of Man",
+          "Assen",
+          "Monza"
+        ],
+        "correct_index": 4,
+        "stupid_index": 0,
+        "source": "MotoGP Source Book (Sixty Years of World Championship)",
+        "topic": "history"
+      },
+      {
+        "id": "H0072",
+        "difficulty": "hard",
+        "question": "In the 2013–2015 analysis, what happened to mean speed across competitions?",
+        "options": [
+          "It increased (about 161.7 to 164.5 km/h)",
+          "It exceeded the speed of light",
+          "It stayed exactly the same",
+          "It became unpredictable",
+          "It decreased sharply"
+        ],
+        "correct_index": 0,
+        "stupid_index": 1,
+        "source": "Journal of Sports Sciences (MotoGP rider load, 2013–2015)",
+        "topic": "physiology"
+      },
+      {
+        "id": "H0073",
+        "difficulty": "hard",
+        "question": "Across the seasons studied, how many corners did riders typically navigate per lap?",
+        "options": [
+          "15 ± 2 corners",
+          "Two corners: left and right",
+          "5 ± 1 corners",
+          "25 ± 5 corners",
+          "40 ± 10 corners"
+        ],
+        "correct_index": 0,
+        "stupid_index": 1,
+        "source": "Journal of Sports Sciences (MotoGP rider load, 2013–2015)",
+        "topic": "physiology"
+      },
+      {
+        "id": "H0074",
+        "difficulty": "hard",
+        "question": "Pick the correct statement: What percentage of braking actions were initiated over 300 km/h in the 2013–2015 analysis?",
+        "options": [
+          "1320%",
+          "6.6%",
+          "31.2%",
+          "1.3%",
+          "13.2%"
+        ],
+        "correct_index": 4,
+        "stupid_index": 0,
+        "source": "Journal of Sports Sciences (MotoGP rider load, 2013–2015)",
+        "topic": "physiology"
+      },
+      {
+        "id": "H0075",
+        "difficulty": "hard",
+        "question": "In dry conditions, roughly how long did riders spend braking per lap time (as a share of racing time)?",
+        "options": [
+          "About 5%",
+          "About 27% of racing time",
+          "About 2700%",
+          "About 80%",
+          "About 50%"
+        ],
+        "correct_index": 1,
+        "stupid_index": 2,
+        "source": "Journal of Sports Sciences (MotoGP rider load, 2013–2015)",
+        "topic": "physiology"
+      },
+      {
+        "id": "H0076",
+        "difficulty": "hard",
+        "question": "What share of braking actions were initiated above 260 km/h in the 2013–2015 analysis?",
+        "options": [
+          "Over 4000%",
+          "About 90%",
+          "About 5%",
+          "About 20%",
+          "Over 40%"
+        ],
+        "correct_index": 4,
+        "stupid_index": 0,
+        "source": "Journal of Sports Sciences (MotoGP rider load, 2013–2015)",
+        "topic": "physiology"
+      },
+      {
+        "id": "H0077",
+        "difficulty": "hard",
+        "question": "What was the approximate mean race distance in dry conditions in the study?",
+        "options": [
+          "1172 km in a straight line",
+          "72.0 ± 5.0 km",
+          "200.0 ± 10.0 km",
+          "117.2 ± 3.1 km",
+          "50.0 ± 2.0 km"
+        ],
+        "correct_index": 3,
+        "stupid_index": 0,
+        "source": "Journal of Sports Sciences (MotoGP rider load, 2013–2015)",
+        "topic": "physiology"
+      },
+      {
+        "id": "H0078",
+        "difficulty": "hard",
+        "question": "In the 2013–2015 analysis, what happened to mean speed across competitions?",
+        "options": [
+          "It exceeded the speed of light",
+          "It became unpredictable",
+          "It stayed exactly the same",
+          "It decreased sharply",
+          "It increased (about 161.7 to 164.5 km/h)"
+        ],
+        "correct_index": 4,
+        "stupid_index": 0,
+        "source": "Journal of Sports Sciences (MotoGP rider load, 2013–2015)",
+        "topic": "physiology"
+      },
+      {
+        "id": "H0079",
+        "difficulty": "hard",
+        "question": "In 1949, how many rounds did the 350cc championship include?",
+        "options": [
+          "Three rounds",
+          "Four rounds",
+          "Five rounds",
+          "Zero rounds, because it didn’t exist",
+          "Six rounds"
+        ],
+        "correct_index": 2,
+        "stupid_index": 3,
+        "source": "MotoGP Source Book (Sixty Years of World Championship)",
+        "topic": "history"
+      },
+      {
+        "id": "H0080",
+        "difficulty": "hard",
+        "question": "In dry conditions, what was the approximate mean race duration reported?",
+        "options": [
+          "43:07 ± 1:39 minutes",
+          "60:00 ± 5:00 minutes",
+          "90:00 ± 10:00 minutes",
+          "20:00 ± 2:00 minutes",
+          "4 seconds total"
+        ],
+        "correct_index": 0,
+        "stupid_index": 4,
+        "source": "Journal of Sports Sciences (MotoGP rider load, 2013–2015)",
+        "topic": "physiology"
+      },
+      {
+        "id": "H0081",
+        "difficulty": "hard",
+        "question": "Pick the correct statement: Approximately what fraction of braking actions generated inertial stresses greater than 10 m/s²?",
+        "options": [
+          "About 1 out of 20 (5%)",
+          "About 1 out of 10 (10%)",
+          "About 1 out of 2 (50%)",
+          "All of them, plus the paddock",
+          "About 1 out of 4 (25%)"
+        ],
+        "correct_index": 4,
+        "stupid_index": 3,
+        "source": "Journal of Sports Sciences (MotoGP rider load, 2013–2015)",
+        "topic": "physiology"
+      },
+      {
+        "id": "H0082",
+        "difficulty": "hard",
+        "question": "Pick the correct statement: In top-class GP racing (2013–2015), about how many times did riders lean to corner per race?",
+        "options": [
+          "520 ± 60 times",
+          "120 ± 20 times",
+          "Exactly once, like a bus",
+          "372 ± 48 times",
+          "250 ± 30 times"
+        ],
+        "correct_index": 3,
+        "stupid_index": 2,
+        "source": "Journal of Sports Sciences (MotoGP rider load, 2013–2015)",
+        "topic": "physiology"
+      },
+      {
+        "id": "H0083",
+        "difficulty": "hard",
+        "question": "Across the seasons studied, how many corners did riders typically navigate per lap?",
+        "options": [
+          "25 ± 5 corners",
+          "40 ± 10 corners",
+          "Two corners: left and right",
+          "15 ± 2 corners",
+          "5 ± 1 corners"
+        ],
+        "correct_index": 3,
+        "stupid_index": 2,
+        "source": "Journal of Sports Sciences (MotoGP rider load, 2013–2015)",
+        "topic": "physiology"
+      },
+      {
+        "id": "H0084",
+        "difficulty": "hard",
+        "question": "From 1978 to 1993, how many times did Americans win the 500cc world championship?",
+        "options": [
+          "13 times",
+          "13 billion times",
+          "8 times",
+          "16 times",
+          "5 times"
+        ],
+        "correct_index": 0,
+        "stupid_index": 1,
+        "source": "Grand Prix Motorcycle Racers: The American Heroes (Norm DeWitt)",
+        "topic": "history"
+      },
+      {
+        "id": "H0085",
+        "difficulty": "hard",
+        "question": "Pick the correct statement: Across the seasons studied, how many corners did riders typically navigate per lap?",
+        "options": [
+          "15 ± 2 corners",
+          "Two corners: left and right",
+          "5 ± 1 corners",
+          "40 ± 10 corners",
+          "25 ± 5 corners"
+        ],
+        "correct_index": 0,
+        "stupid_index": 1,
+        "source": "Journal of Sports Sciences (MotoGP rider load, 2013–2015)",
+        "topic": "physiology"
+      },
+      {
+        "id": "H0086",
+        "difficulty": "hard",
+        "question": "Across the seasons studied, how many braking actions per lap were typical?",
+        "options": [
+          "12 ± 3",
+          "7 ± 1 braking actions",
+          "0 — braking is optional",
+          "2 ± 1",
+          "20 ± 5"
+        ],
+        "correct_index": 1,
+        "stupid_index": 2,
+        "source": "Journal of Sports Sciences (MotoGP rider load, 2013–2015)",
+        "topic": "physiology"
+      },
+      {
+        "id": "H0087",
+        "difficulty": "hard",
+        "question": "In 1949, how many rounds did the 125cc championship include?",
+        "options": [
+          "Five events",
+          "Six events",
+          "Three events",
+          "Four events",
+          "Seventy-two events"
+        ],
+        "correct_index": 2,
+        "stupid_index": 4,
+        "source": "MotoGP Source Book (Sixty Years of World Championship)",
+        "topic": "history"
+      },
+      {
+        "id": "H0088",
+        "difficulty": "hard",
+        "question": "Pick the correct statement: In the 2013–2015 analysis, what happened to mean speed across competitions?",
+        "options": [
+          "It became unpredictable",
+          "It decreased sharply",
+          "It increased (about 161.7 to 164.5 km/h)",
+          "It exceeded the speed of light",
+          "It stayed exactly the same"
+        ],
+        "correct_index": 2,
+        "stupid_index": 3,
+        "source": "Journal of Sports Sciences (MotoGP rider load, 2013–2015)",
+        "topic": "physiology"
+      },
+      {
+        "id": "H0089",
+        "difficulty": "hard",
+        "question": "Pick the correct statement: In top-class GP racing (2013–2015), about how many times did riders lean to corner per race?",
+        "options": [
+          "250 ± 30 times",
+          "120 ± 20 times",
+          "372 ± 48 times",
+          "520 ± 60 times",
+          "Exactly once, like a bus"
+        ],
+        "correct_index": 2,
+        "stupid_index": 4,
+        "source": "Journal of Sports Sciences (MotoGP rider load, 2013–2015)",
+        "topic": "physiology"
+      },
+      {
+        "id": "H0090",
+        "difficulty": "hard",
+        "question": "What was the approximate mean race distance in dry conditions in the study?",
+        "options": [
+          "117.2 ± 3.1 km",
+          "1172 km in a straight line",
+          "72.0 ± 5.0 km",
+          "200.0 ± 10.0 km",
+          "50.0 ± 2.0 km"
+        ],
+        "correct_index": 0,
+        "stupid_index": 1,
+        "source": "Journal of Sports Sciences (MotoGP rider load, 2013–2015)",
+        "topic": "physiology"
+      },
+      {
+        "id": "H0091",
+        "difficulty": "hard",
+        "question": "What share of braking actions were initiated above 260 km/h in the 2013–2015 analysis?",
+        "options": [
+          "About 90%",
+          "Over 40%",
+          "Over 4000%",
+          "About 5%",
+          "About 20%"
+        ],
+        "correct_index": 1,
+        "stupid_index": 2,
+        "source": "Journal of Sports Sciences (MotoGP rider load, 2013–2015)",
+        "topic": "physiology"
+      },
+      {
+        "id": "H0092",
+        "difficulty": "hard",
+        "question": "How many venues were used for the first World Championship season in 1949?",
+        "options": [
+          "3 venues",
+          "Six venues",
+          "One venue: the Moon",
+          "10 venues",
+          "18 venues"
+        ],
+        "correct_index": 1,
+        "stupid_index": 2,
+        "source": "MotoGP Source Book (Sixty Years of World Championship)",
+        "topic": "history"
+      },
+      {
+        "id": "H0093",
+        "difficulty": "hard",
+        "question": "What percentage of braking actions were initiated over 300 km/h in the 2013–2015 analysis?",
+        "options": [
+          "6.6%",
+          "13.2%",
+          "1.3%",
+          "1320%",
+          "31.2%"
+        ],
+        "correct_index": 1,
+        "stupid_index": 3,
+        "source": "Journal of Sports Sciences (MotoGP rider load, 2013–2015)",
+        "topic": "physiology"
+      },
+      {
+        "id": "H0094",
+        "difficulty": "hard",
+        "question": "In dry conditions, roughly how long did riders spend braking per lap time (as a share of racing time)?",
+        "options": [
+          "About 2700%",
+          "About 80%",
+          "About 50%",
+          "About 5%",
+          "About 27% of racing time"
+        ],
+        "correct_index": 4,
+        "stupid_index": 0,
+        "source": "Journal of Sports Sciences (MotoGP rider load, 2013–2015)",
+        "topic": "physiology"
+      },
+      {
+        "id": "H0095",
+        "difficulty": "hard",
+        "question": "Pick the correct statement: Across the seasons studied, how many braking actions per lap were typical?",
+        "options": [
+          "0 — braking is optional",
+          "2 ± 1",
+          "12 ± 3",
+          "7 ± 1 braking actions",
+          "20 ± 5"
+        ],
+        "correct_index": 3,
+        "stupid_index": 0,
+        "source": "Journal of Sports Sciences (MotoGP rider load, 2013–2015)",
+        "topic": "physiology"
+      },
+      {
+        "id": "H0096",
+        "difficulty": "hard",
+        "question": "In top-class GP racing (2013–2015), about how many times did riders lean to corner per race?",
+        "options": [
+          "Exactly once, like a bus",
+          "372 ± 48 times",
+          "250 ± 30 times",
+          "520 ± 60 times",
+          "120 ± 20 times"
+        ],
+        "correct_index": 1,
+        "stupid_index": 0,
+        "source": "Journal of Sports Sciences (MotoGP rider load, 2013–2015)",
+        "topic": "physiology"
+      },
+      {
+        "id": "H0097",
+        "difficulty": "hard",
+        "question": "Pick the correct statement: In dry conditions, roughly how long did riders spend braking per lap time (as a share of racing time)?",
+        "options": [
+          "About 27% of racing time",
+          "About 2700%",
+          "About 5%",
+          "About 50%",
+          "About 80%"
+        ],
+        "correct_index": 0,
+        "stupid_index": 1,
+        "source": "Journal of Sports Sciences (MotoGP rider load, 2013–2015)",
+        "topic": "physiology"
+      },
+      {
+        "id": "H0098",
+        "difficulty": "hard",
+        "question": "Pick the correct statement: From 1978 to 1993, how many times did Americans win the 500cc world championship?",
+        "options": [
+          "13 billion times",
+          "5 times",
+          "16 times",
+          "8 times",
+          "13 times"
+        ],
+        "correct_index": 4,
+        "stupid_index": 0,
+        "source": "Grand Prix Motorcycle Racers: The American Heroes (Norm DeWitt)",
+        "topic": "history"
+      },
+      {
+        "id": "H0099",
+        "difficulty": "hard",
+        "question": "What percentage of braking actions were initiated over 300 km/h in the 2013–2015 analysis?",
+        "options": [
+          "1.3%",
+          "1320%",
+          "6.6%",
+          "13.2%",
+          "31.2%"
+        ],
+        "correct_index": 3,
+        "stupid_index": 1,
+        "source": "Journal of Sports Sciences (MotoGP rider load, 2013–2015)",
+        "topic": "physiology"
+      },
+      {
+        "id": "H0100",
+        "difficulty": "hard",
+        "question": "Across the seasons studied, how many braking actions per lap were typical?",
+        "options": [
+          "20 ± 5",
+          "7 ± 1 braking actions",
+          "0 — braking is optional",
+          "2 ± 1",
+          "12 ± 3"
+        ],
+        "correct_index": 1,
+        "stupid_index": 2,
+        "source": "Journal of Sports Sciences (MotoGP rider load, 2013–2015)",
+        "topic": "physiology"
+      }
+    ]
+  }
+}

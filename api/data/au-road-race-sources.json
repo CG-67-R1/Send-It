@@ -1,0 +1,262 @@
+{
+  "meta": {
+    "generated_at_local": "2026-02-24T00:00:00+10:30",
+    "timezone": "Australia/Adelaide",
+    "period": {
+      "start_date": "2026-02-24",
+      "end_date": "2027-02-23"
+    },
+    "check_schedule": {
+      "frequency": "weekly",
+      "rrule": "FREQ=WEEKLY;BYDAY=MO;BYHOUR=6;BYMINUTE=0;BYSECOND=0"
+    },
+    "event_scope": {
+      "discipline": "road_race",
+      "include_keywords": [
+        "Road Race",
+        "Road Racing",
+        "RR",
+        "Race Meeting",
+        "Championship",
+        "State Titles",
+        "ASBK",
+        "Historic Road Race",
+        "Junior Road Race",
+        "Sidecar"
+      ],
+      "exclude_keywords": [
+        "Motocross",
+        "MX",
+        "Enduro",
+        "Trials",
+        "Trial",
+        "Dirt Track",
+        "Speedway",
+        "Minikhana",
+        "Supermoto",
+        "Hillclimb"
+      ]
+    }
+  },
+  "sources": [
+    {
+      "id": "gov_ma_national_calendar",
+      "name": "Motorcycling Australia (MA) - National Calendar",
+      "type": "governing_body_calendar",
+      "jurisdiction": "AU",
+      "url": "https://www.ma.org.au/ma-calendar/",
+      "notes": "National calendar; filter to road race via keywords/discipline where available."
+    },
+    {
+      "id": "gov_sa_calendar",
+      "name": "Motorcycling South Australia - Calendar",
+      "type": "governing_body_calendar",
+      "jurisdiction": "SA",
+      "url": "https://www.motorcyclingsa.org.au/riders/calendar/",
+      "notes": "Permit-based calendar; contains multiple disciplines."
+    },
+    {
+      "id": "gov_vic_calendar",
+      "name": "Motorcycling Victoria - Calendar",
+      "type": "governing_body_calendar",
+      "jurisdiction": "VIC",
+      "url": "https://www.motorcyclingvic.com.au/calendar/",
+      "notes": "Permit-based calendar; contains multiple disciplines."
+    },
+    {
+      "id": "gov_qld_calendar",
+      "name": "Motorcycling Queensland - Riders Calendar",
+      "type": "governing_body_calendar",
+      "jurisdiction": "QLD",
+      "url": "https://www.mqld.org.au/riders/calendar/",
+      "notes": "Multi-discipline calendar; filter to road race."
+    },
+    {
+      "id": "gov_nsw_calendar",
+      "name": "Motorcycling NSW - Riders Calendar",
+      "type": "governing_body_calendar",
+      "jurisdiction": "NSW",
+      "url": "https://motorcycling.com.au/riders/calendar/",
+      "notes": "Multi-discipline calendar; road race items appear here (e.g., St George series)."
+    },
+    {
+      "id": "gov_tas_calendar",
+      "name": "Motorcycling Tasmania - Riders Calendar",
+      "type": "governing_body_calendar",
+      "jurisdiction": "TAS",
+      "url": "https://www.mtas.org.au/riders/calendar/",
+      "notes": "Multi-discipline calendar; filter to road race."
+    },
+    {
+      "id": "gov_nt_calendar",
+      "name": "Motorcycling Northern Territory - Riders Calendar",
+      "type": "governing_body_calendar",
+      "jurisdiction": "NT",
+      "url": "https://www.mant.org.au/riders/calendar/",
+      "notes": "Multi-discipline calendar; filter to road race."
+    },
+    {
+      "id": "gov_wa_calendar",
+      "name": "Motorcycling Western Australia - Calendar",
+      "type": "governing_body_calendar",
+      "jurisdiction": "WA",
+      "url": "https://www.motorcyclingwa.org.au/calendar/",
+      "notes": "Multi-discipline calendar; filter to road race."
+    },
+    {
+      "id": "club_sa_phoenixmcc",
+      "name": "Phoenix Motorcycle Club (SA) - Track Calendar",
+      "type": "club_calendar",
+      "jurisdiction": "SA",
+      "url": "https://phoenixmcc.org.au/track-calendar/",
+      "notes": "Road race + practice/ride days."
+    },
+    {
+      "id": "club_sa_mount_gambier_mcc",
+      "name": "Mount Gambier Motor Cycle Club (Mac Park) - Calendar",
+      "type": "club_calendar",
+      "jurisdiction": "SA",
+      "url": "https://macparkraceway.org.au/?page_id=33",
+      "notes": "Mac Park event listing (race meetings + ride/practice days)."
+    },
+    {
+      "id": "club_sa_atujara",
+      "name": "Atujara MCC (SA) - Calendar",
+      "type": "club_calendar",
+      "jurisdiction": "SA",
+      "url": "https://atujara.org.au/calendar/",
+      "notes": "Multi-discipline club; filter to road race."
+    },
+    {
+      "id": "club_sa_hmcrrsa",
+      "name": "Historic Motor Cycle Racing Register of SA - Website",
+      "type": "club_updates_page",
+      "jurisdiction": "SA",
+      "url": "https://historicmotorcycleracing.org/",
+      "notes": "No dedicated public calendar detected; use as an announcements source and cross-check with MSA/MA calendars."
+    },
+    {
+      "id": "club_qld_motorcycle_sportsmen",
+      "name": "Motorcycle Sportsmen of Queensland - Calendar of Events",
+      "type": "club_calendar",
+      "jurisdiction": "QLD",
+      "url": "https://www.motorcyclesportsmen.com.au/calendar-of-events/",
+      "notes": "Road race focus."
+    },
+    {
+      "id": "club_nt_terra",
+      "name": "Top End Road Racing Association (TERRA) - Calendar",
+      "type": "club_calendar",
+      "jurisdiction": "NT",
+      "url": "https://www.terra.org.au/",
+      "notes": "Calendar is in site navigation (\"CALENDAR\")."
+    },
+    {
+      "id": "club_vic_hartwell",
+      "name": "Hartwell Motorcycle Club (VIC) - Events",
+      "type": "club_calendar",
+      "jurisdiction": "VIC",
+      "url": "https://hartwellmcc.org/events/",
+      "notes": "Road race rounds listed directly."
+    },
+    {
+      "id": "club_vic_preston",
+      "name": "Preston Motorcycle Club (VIC) - Website",
+      "type": "club_homepage",
+      "jurisdiction": "VIC",
+      "url": "https://www.prestonmcc.org.au/",
+      "notes": "No obvious standalone public calendar page found on-site; rely on MV/MA calendars + Broadford/Computime listings + club social posts."
+    },
+    {
+      "id": "club_vic_computime",
+      "name": "Computime - Calendar (VIC club road race entries/events)",
+      "type": "aggregator_calendar",
+      "jurisdiction": "VIC",
+      "url": "https://www.computime.com.au/calendar/calendar",
+      "notes": "Useful aggregator for VIC motorcycle competition calendar items."
+    },
+    {
+      "id": "club_vic_hmrav",
+      "name": "Historic Motorcycle Racing Association Victoria (HMRAV) - Events page",
+      "type": "club_calendar",
+      "jurisdiction": "VIC",
+      "url": "https://www.hmrav.org/2017-events/",
+      "notes": "Lists upcoming historic events (road race + some hillclimb). Apply exclude_keywords."
+    },
+    {
+      "id": "club_au_ohvale",
+      "name": "Ohvale Australia - Calendar",
+      "type": "series_calendar",
+      "jurisdiction": "AU",
+      "url": "https://www.ohvale.com.au/calendar",
+      "notes": "Mini racing series calendar; may not always be circuit road racing, but often relevant."
+    },
+    {
+      "id": "club_nsw_st_george",
+      "name": "St George Motorcycle Club (NSW) - Race Events",
+      "type": "club_calendar",
+      "jurisdiction": "NSW",
+      "url": "https://www.stgeorgemcc.com/race-events/",
+      "notes": "Road race series pages live under /race-events/."
+    },
+    {
+      "id": "club_nsw_mrc_of_nsw",
+      "name": "Motorcycle Racing Club of NSW (NSW) - Club directory listing",
+      "type": "club_directory_reference",
+      "jurisdiction": "NSW",
+      "url": "https://motorcycling.com.au/clubs/club-directory/motorcycle-racing-club-of-nsw/",
+      "notes": "No confirmed standalone public calendar page found; track via MNSW/MA calendars and Ridernet event links when published."
+    },
+    {
+      "id": "club_nsw_almcc",
+      "name": "Annandale–Leichhardt Motorcycle Club (NSW) - Club Events posts",
+      "type": "club_updates_page",
+      "jurisdiction": "NSW",
+      "url": "https://almcc.com.au/category/club-events/",
+      "notes": "Not a structured calendar; announcements/posts only."
+    },
+    {
+      "id": "club_tas_tmcc",
+      "name": "Tasmanian Motorcycle Club (TAS) - RevolutioniseSport Calendar download",
+      "type": "club_calendar",
+      "jurisdiction": "TAS",
+      "url": "https://www.tasmanianmotorcycleclub.org.au/events/calendar/download",
+      "notes": "Calendar feed/download endpoint."
+    },
+    {
+      "id": "club_tas_srct",
+      "name": "Sports Riders Club of Tasmania (SRCT) - Baskerville dates",
+      "type": "club_calendar",
+      "jurisdiction": "TAS",
+      "url": "https://srct.org.au/baskerville-dates/",
+      "notes": "Road ride/race date listings."
+    }
+  ],
+  "output_expectation": {
+    "dedupe_keys": [
+      "name",
+      "start_date",
+      "location",
+      "organiser"
+    ],
+    "normalise": {
+      "date_format": "YYYY-MM-DD",
+      "time_format": "HH:mm",
+      "default_timezone": "Australia/Adelaide"
+    },
+    "event_fields": [
+      "name",
+      "start_date",
+      "end_date",
+      "state",
+      "venue",
+      "organiser",
+      "source_id",
+      "source_url",
+      "entry_url",
+      "discipline",
+      "notes"
+    ]
+  }
+}
+

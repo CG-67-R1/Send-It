@@ -10,12 +10,14 @@ Mobile app that shows **latest headlines** from motorcycle and racing news sites
 ## Sources (aggregated)
 
 - **AMCN** (Australian Motorcycle News)
-- **MCN** (Motorcycle News UK)
-- **Motor Sport Magazine** (F1 & MotoGP)
-- **Bennetts BikeSocial**
+- **mcnews.com.au**
 - **ASBK** (Australian Superbike Championship)
-- **WorldSBK**
 - **MotoGP.com**
+- **Motor Sport Magazine** (F1 & MotoGP)
+- **gpone.com**
+- **Bennetts BikeSocial**
+- **MCN** (Motorcycle News UK)
+
 
 ## Features
 

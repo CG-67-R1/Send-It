@@ -11,6 +11,9 @@ app/web-build/
 .env.local
 *.local
 
+# IDE / editor
+.cursor/
+
 # OS
 .DS_Store
 Thumbs.db

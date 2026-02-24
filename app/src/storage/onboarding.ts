@@ -8,6 +8,8 @@ export interface OnboardingAnswers {
   favouriteRider: string;
   activity: 'race' | 'track_days' | 'just_love_bikes';
   knowsJustSendIt: boolean;
+  /** Name, race number or nickname shown on the home screen (optional for backward compatibility) */
+  riderNickname?: string;
 }
 
 export async function getOnboardingDone(): Promise<boolean> {

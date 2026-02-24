@@ -22,6 +22,7 @@ import {
 import { requestNotificationPermissions } from '../notifications/priority1Notifications';
 import { SOURCES_URL } from '../../constants/api';
 import type { CustomSource, PriorityOrder, Source } from '../types';
+import { AppLogo } from '../components/AppLogo';
 
 export function HeadlinesSettingsScreen() {
   const [builtinSources, setBuiltinSources] = useState<Source[]>([]);
@@ -140,6 +141,9 @@ export function HeadlinesSettingsScreen() {
 
   return (
     <ScrollView style={styles.container} contentContainerStyle={styles.content}>
+      <View style={styles.logoRow}>
+        <AppLogo size={28} />
+      </View>
       <View style={styles.section}>
         <Text style={styles.sectionTitle}>Notifications</Text>
         <Text style={styles.sectionSubtitle}>
@@ -263,6 +267,10 @@ export function HeadlinesSettingsScreen() {
 const styles = StyleSheet.create({
   container: { flex: 1, backgroundColor: '#0f172a' },
   content: { padding: 20, paddingBottom: 40 },
+  logoRow: {
+    marginBottom: 8,
+    alignItems: 'flex-start',
+  },
   section: { marginBottom: 28 },
   sectionTitle: { fontSize: 20, fontWeight: '700', color: '#f8fafc', marginBottom: 4 },
   sectionSubtitle: { fontSize: 13, color: '#64748b', marginBottom: 12 },

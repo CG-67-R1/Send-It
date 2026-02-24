@@ -34,8 +34,9 @@ export function OnboardingScreen({ onComplete }: OnboardingScreenProps) {
   const [favouriteRider, setFavouriteRider] = useState('');
   const [activity, setActivity] = useState<Activity | null>(null);
   const [knowsJustSendIt, setKnowsJustSendIt] = useState<boolean | null>(null);
+  const [riderNickname, setRiderNickname] = useState('');
 
-  const totalSteps = 6; // welcome, bike, rider, activity, just send it, summary
+  const totalSteps = 7; // welcome, bike, rider, activity, just send it, nickname, summary
 
   const handleFinish = async () => {
     const answers: OnboardingAnswers = {
@@ -43,6 +44,7 @@ export function OnboardingScreen({ onComplete }: OnboardingScreenProps) {
       favouriteRider: favouriteRider.trim() || 'my hero',
       activity: activity ?? 'just_love_bikes',
       knowsJustSendIt: knowsJustSendIt ?? false,
+      riderNickname: riderNickname.trim() || 'Rider',
     };
     await setOnboardingAnswers(answers);
     await setOnboardingDone();
@@ -56,6 +58,8 @@ export function OnboardingScreen({ onComplete }: OnboardingScreenProps) {
     if (step === 4) return knowsJustSendIt !== null;
     return true;
   };
+
+  const isLastStep = step === totalSteps - 1;
 
   const handleNext = () => {
     if (step < totalSteps - 1) setStep((s) => s + 1);
@@ -90,7 +94,7 @@ export function OnboardingScreen({ onComplete }: OnboardingScreenProps) {
         {/* Step 0: Welcome */}
         {step === 0 && (
           <View style={styles.step}>
-            <Text style={styles.title}>Welcome to Send It</Text>
+            <Text style={styles.title}>Welcome to RoadRacer</Text>
             <Text style={styles.subtitle}>
               Before we get you to the good stuff — headlines, calendar, rider coach — we need to know who you are. (Don’t worry, it’s quick.)
             </Text>
@@ -190,14 +194,33 @@ export function OnboardingScreen({ onComplete }: OnboardingScreenProps) {
           </View>
         )}
 
-        {/* Step 5: Summary */}
+        {/* Step 5: Name / race number / nickname */}
         {step === 5 && (
+          <View style={styles.step}>
+            <Text style={styles.title}>What should we call you?</Text>
+            <Text style={styles.subtitle}>
+              Your name, race number or a nickname — it’ll show on your home screen.
+            </Text>
+            <TextInput
+              style={styles.input}
+              placeholder="e.g. Alex, #42, Speedy..."
+              placeholderTextColor="#64748b"
+              value={riderNickname}
+              onChangeText={setRiderNickname}
+              autoCapitalize="words"
+              autoCorrect={false}
+            />
+          </View>
+        )}
+
+        {/* Step 6: Summary */}
+        {step === 6 && (
           <View style={styles.step}>
             <Text style={styles.title}>You’re in the right place</Text>
             <Text style={styles.summaryText}>{getRiderFact(favouriteRider.trim())}</Text>
             <Text style={styles.summaryText}>{getBikeFact(favouriteBike.trim())}</Text>
             <Text style={styles.summaryClosing}>
-              Whether you race, do track days, or just love bikes — Send It is here for headlines, what’s on, Q&A, and rider coach. Time to send it. 🏁
+              Whether you race, do track days, or just love bikes — RoadRacer is here for headlines, what’s on, Q&A, and rider coach. Time to send it. 🏁
             </Text>
           </View>
         )}
@@ -209,13 +232,13 @@ export function OnboardingScreen({ onComplete }: OnboardingScreenProps) {
             </TouchableOpacity>
           )}
           <TouchableOpacity
-            style={[styles.nextButton, !canNext() && step < 5 && styles.nextButtonDisabled]}
+            style={[styles.nextButton, !canNext() && !isLastStep && styles.nextButtonDisabled]}
             onPress={handleNext}
-            disabled={step < 5 && !canNext()}
+            disabled={!isLastStep && !canNext()}
             activeOpacity={0.8}
           >
             <Text style={styles.nextButtonLabel}>
-              {step === totalSteps - 1 ? "Let's go" : 'Next'}
+              {isLastStep ? "Let's go" : 'Next'}
             </Text>
           </TouchableOpacity>
         </View>

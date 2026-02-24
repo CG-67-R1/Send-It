@@ -1,7 +1,7 @@
 {
   "expo": {
-    "name": "Send It",
-    "slug": "send-it",
+    "name": "RoadRacer",
+    "slug": "roadracer",
     "version": "1.0.0",
     "orientation": "portrait",
     "userInterfaceStyle": "automatic",
@@ -29,15 +29,20 @@
       [
         "expo-calendar",
         {
-          "calendarPermission": "Send It uses your calendar to add race events and reminders."
+          "calendarPermission": "RoadRacer uses your calendar to add race events and reminders."
         }
       ],
       [
         "expo-image-picker",
         {
-          "photosPermission": "Send It uses your photos so you can set a picture of your bike on the home screen."
+          "photosPermission": "RoadRacer uses your photos so you can set a picture of your bike on the home screen."
         }
-      ]
-    ]
+      ],
+      "expo-speech-recognition",
+      "sentry-expo"
+    ],
+    "extra": {
+      "sentryDsn": "${EXPO_PUBLIC_SENTRY_DSN}"
+    }
   }
 }

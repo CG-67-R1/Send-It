@@ -1,29 +1,92 @@
-import React, { useState } from 'react';
+import React, { useCallback, useRef, useState } from 'react';
 import {
-  Linking,
+  ActivityIndicator,
+  KeyboardAvoidingView,
+  Platform,
   ScrollView,
   StyleSheet,
   Text,
+  TextInput,
   TouchableOpacity,
   View,
 } from 'react-native';
-import { TRACKDAY_RIDER_AI_URL } from '../../constants/api';
+import { API_BASE_URL } from '../../constants/api';
+import { AppLogo } from '../components/AppLogo';
 
 type CoachTab = 'coach' | 'bikesetup';
 
+type ChatMessage = { role: 'user' | 'assistant'; content: string };
+
+const ROADRACE_CHAT_URL = `${API_BASE_URL}/roadrace-ai/chat`;
+
 export function RiderCoachScreen() {
   const [activeTab, setActiveTab] = useState<CoachTab>('coach');
+  const [coachMessages, setCoachMessages] = useState<ChatMessage[]>([]);
+  const [bikeMessages, setBikeMessages] = useState<ChatMessage[]>([]);
+  const [input, setInput] = useState('');
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState<string | null>(null);
+  const scrollRef = useRef<ScrollView>(null);
+
+  const messages = activeTab === 'coach' ? coachMessages : bikeMessages;
+  const setMessages = activeTab === 'coach' ? setCoachMessages : setBikeMessages;
+
+  const sendMessage = useCallback(async () => {
+    const text = input.trim();
+    if (!text || loading) return;
+
+    setInput('');
+    setError(null);
+    const userMsg: ChatMessage = { role: 'user', content: text };
+    setMessages((prev) => [...prev, userMsg]);
+    setLoading(true);
+
+    const history = activeTab === 'coach' ? coachMessages : bikeMessages;
+    const historyForApi = history.map((m) => ({ role: m.role, content: m.content }));
+
+    try {
+      const res = await fetch(ROADRACE_CHAT_URL, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          message: text,
+          mode: activeTab,
+          history: historyForApi,
+        }),
+        signal: AbortSignal.timeout(60000),
+      });
+      const data = await res.json();
+
+      if (!res.ok) {
+        setMessages((prev) => prev.slice(0, -1));
+        setError(data?.error || 'Request failed');
+        return;
+      }
+
+      const reply = typeof data?.reply === 'string' ? data.reply.trim() : '';
+      if (reply) {
+        setMessages((prev) => [...prev, { role: 'assistant', content: reply }]);
+      }
+      setTimeout(() => scrollRef.current?.scrollToEnd({ animated: true }), 100);
+    } catch (e) {
+      setMessages((prev) => prev.slice(0, -1));
+      setError(e instanceof Error ? e.message : 'Network error');
+    } finally {
+      setLoading(false);
+    }
+  }, [input, loading, activeTab, coachMessages, bikeMessages]);
 
   return (
     <View style={styles.container}>
+      <View style={styles.logoRow}>
+        <AppLogo size={28} />
+      </View>
       <View style={styles.tabBar}>
         <TouchableOpacity
           style={[styles.tab, activeTab === 'coach' && styles.tabActive]}
           onPress={() => setActiveTab('coach')}
         >
-          <Text style={[styles.tabText, activeTab === 'coach' && styles.tabTextActive]}>
-            Coach
-          </Text>
+          <Text style={[styles.tabText, activeTab === 'coach' && styles.tabTextActive]}>Coach</Text>
         </TouchableOpacity>
         <TouchableOpacity
           style={[styles.tab, activeTab === 'bikesetup' && styles.tabActive]}
@@ -35,58 +98,106 @@ export function RiderCoachScreen() {
         </TouchableOpacity>
       </View>
 
-      <ScrollView
-        style={styles.scroll}
-        contentContainerStyle={styles.scrollContent}
-        keyboardShouldPersistTaps="handled"
-        showsVerticalScrollIndicator={false}
+      <KeyboardAvoidingView
+        style={styles.chatArea}
+        behavior={Platform.OS === 'ios' ? 'padding' : undefined}
+        keyboardVerticalOffset={Platform.OS === 'ios' ? 90 : 0}
       >
-        {/* Coach tab – keep mounted so state stays live */}
-        <View style={[styles.panel, activeTab !== 'coach' && styles.panelHidden]}>
-          <View style={styles.hero}>
-            <Text style={styles.heroTitle}>Rider Coach</Text>
-            <Text style={styles.heroSubtitle}>
-              Your road racing AI coach. Tips, technique, and race craft—ready when you are.
-            </Text>
+        <ScrollView
+          ref={scrollRef}
+          style={styles.scroll}
+          contentContainerStyle={styles.scrollContent}
+          keyboardShouldPersistTaps="handled"
+          showsVerticalScrollIndicator={false}
+        >
+          {/* Coach panel – mounted so state stays live */}
+          <View style={[styles.panel, activeTab !== 'coach' && styles.panelHidden]}>
+            {coachMessages.length === 0 && (
+              <View style={styles.welcome}>
+                <Text style={styles.welcomeTitle}>Rider Coach</Text>
+                <Text style={styles.welcomeSubtitle}>
+                  Ask about technique, lines, braking, and race craft. Your AI coach is here—no need
+                  to leave the app.
+                </Text>
+              </View>
+            )}
+            {coachMessages.map((m, i) => (
+              <View
+                key={i}
+                style={[styles.bubble, m.role === 'user' ? styles.bubbleUser : styles.bubbleAssistant]}
+              >
+                <Text style={m.role === 'user' ? styles.bubbleTextUser : styles.bubbleTextAssistant}>
+                  {m.content}
+                </Text>
+              </View>
+            ))}
+            {activeTab === 'coach' && loading && (
+              <View style={[styles.bubble, styles.bubbleAssistant]}>
+                <ActivityIndicator size="small" color="#94a3b8" />
+              </View>
+            )}
           </View>
-          <View style={styles.card}>
-            <Text style={styles.cardLabel}>Trackday Rider AI</Text>
-            <Text style={styles.cardText}>
-              Chat with your AI coach for technique, lines, and race craft. Opens in your browser.
-            </Text>
-            <TouchableOpacity
-              style={styles.primaryButton}
-              onPress={() => Linking.openURL(TRACKDAY_RIDER_AI_URL)}
-              activeOpacity={0.8}
-            >
-              <Text style={styles.primaryButtonText}>Open Trackday Rider AI</Text>
-            </TouchableOpacity>
-          </View>
-        </View>
 
-        {/* Bike Setup tab – keep mounted so state stays live */}
-        <View style={[styles.panel, activeTab !== 'bikesetup' && styles.panelHidden]}>
-          <View style={styles.hero}>
-            <Text style={styles.heroTitle}>Bike Setup</Text>
-            <Text style={styles.heroSubtitle}>
-              Technical assistant for suspension, gearing, and bike setup.
-            </Text>
+          {/* Bike Setup panel – mounted so state stays live */}
+          <View style={[styles.panel, activeTab !== 'bikesetup' && styles.panelHidden]}>
+            {bikeMessages.length === 0 && (
+              <View style={styles.welcome}>
+                <Text style={styles.welcomeTitle}>Bike Setup</Text>
+                <Text style={styles.welcomeSubtitle}>
+                  Ask about suspension, gearing, tyres, and setup. Your technical AI is here—no need
+                  to leave the app.
+                </Text>
+              </View>
+            )}
+            {bikeMessages.map((m, i) => (
+              <View
+                key={i}
+                style={[styles.bubble, m.role === 'user' ? styles.bubbleUser : styles.bubbleAssistant]}
+              >
+                <Text style={m.role === 'user' ? styles.bubbleTextUser : styles.bubbleTextAssistant}>
+                  {m.content}
+                </Text>
+              </View>
+            ))}
+            {activeTab === 'bikesetup' && loading && (
+              <View style={[styles.bubble, styles.bubbleAssistant]}>
+                <ActivityIndicator size="small" color="#94a3b8" />
+              </View>
+            )}
           </View>
-          <View style={styles.card}>
-            <Text style={styles.cardLabel}>Trackday Rider AI</Text>
-            <Text style={styles.cardText}>
-              Ask about suspension, gearing, and bike setup. Same AI, technical focus.
-            </Text>
-            <TouchableOpacity
-              style={styles.primaryButton}
-              onPress={() => Linking.openURL(TRACKDAY_RIDER_AI_URL)}
-              activeOpacity={0.8}
-            >
-              <Text style={styles.primaryButtonText}>Open Trackday Rider AI</Text>
-            </TouchableOpacity>
+        </ScrollView>
+
+        {error ? (
+          <View style={styles.errorBar}>
+            <Text style={styles.errorText}>{error}</Text>
           </View>
+        ) : null}
+
+        <View style={styles.inputRow}>
+          <TextInput
+            style={styles.input}
+            placeholder={activeTab === 'coach' ? 'Ask your coach…' : 'Ask about setup…'}
+            placeholderTextColor="#64748b"
+            value={input}
+            onChangeText={setInput}
+            onSubmitEditing={sendMessage}
+            editable={!loading}
+            multiline
+            maxLength={2000}
+          />
+          <TouchableOpacity
+            style={[styles.sendBtn, loading && styles.sendBtnDisabled]}
+            onPress={sendMessage}
+            disabled={loading}
+          >
+            {loading ? (
+              <ActivityIndicator size="small" color="#0f172a" />
+            ) : (
+              <Text style={styles.sendBtnText}>Send</Text>
+            )}
+          </TouchableOpacity>
         </View>
-      </ScrollView>
+      </KeyboardAvoidingView>
     </View>
   );
 }
@@ -95,6 +206,11 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: '#0f172a',
+  },
+  logoRow: {
+    marginHorizontal: 20,
+    marginTop: 12,
+    marginBottom: 4,
   },
   tabBar: {
     flexDirection: 'row',
@@ -122,12 +238,15 @@ const styles = StyleSheet.create({
   tabTextActive: {
     color: '#0f172a',
   },
+  chatArea: {
+    flex: 1,
+  },
   scroll: {
     flex: 1,
   },
   scrollContent: {
-    paddingHorizontal: 20,
-    paddingBottom: 40,
+    paddingHorizontal: 16,
+    paddingBottom: 16,
   },
   panel: {
     marginBottom: 24,
@@ -138,49 +257,92 @@ const styles = StyleSheet.create({
     opacity: 0,
     pointerEvents: 'none',
   },
-  hero: {
-    marginBottom: 20,
+  welcome: {
+    marginBottom: 16,
+    paddingVertical: 12,
   },
-  heroTitle: {
-    fontSize: 22,
+  welcomeTitle: {
+    fontSize: 18,
     fontWeight: '700',
     color: '#f8fafc',
+    marginBottom: 4,
   },
-  heroSubtitle: {
+  welcomeSubtitle: {
     fontSize: 14,
     color: '#94a3b8',
-    marginTop: 6,
     lineHeight: 20,
   },
-  card: {
-    backgroundColor: '#1e293b',
+  bubble: {
+    maxWidth: '88%',
+    padding: 12,
     borderRadius: 12,
-    padding: 18,
-    borderLeftWidth: 4,
+    marginBottom: 10,
+  },
+  bubbleUser: {
+    alignSelf: 'flex-end',
+    backgroundColor: '#f59e0b',
+  },
+  bubbleAssistant: {
+    alignSelf: 'flex-start',
+    backgroundColor: '#1e293b',
+    borderLeftWidth: 3,
     borderLeftColor: '#f59e0b',
   },
-  cardLabel: {
-    fontSize: 14,
-    fontWeight: '600',
-    color: '#f59e0b',
-    marginBottom: 8,
+  bubbleTextUser: {
+    fontSize: 15,
+    color: '#0f172a',
+    lineHeight: 22,
   },
-  cardText: {
+  bubbleTextAssistant: {
     fontSize: 15,
     color: '#e2e8f0',
     lineHeight: 22,
-    marginBottom: 16,
   },
-  primaryButton: {
-    backgroundColor: '#f59e0b',
-    paddingVertical: 14,
-    paddingHorizontal: 20,
+  errorBar: {
+    paddingHorizontal: 16,
+    paddingVertical: 8,
+    backgroundColor: '#7f1d1d',
+  },
+  errorText: {
+    fontSize: 13,
+    color: '#fecaca',
+  },
+  inputRow: {
+    flexDirection: 'row',
+    alignItems: 'flex-end',
+    paddingHorizontal: 16,
+    paddingVertical: 12,
+    paddingBottom: Platform.OS === 'ios' ? 24 : 12,
+    backgroundColor: '#0f172a',
+    borderTopWidth: 1,
+    borderTopColor: '#1e293b',
+    gap: 10,
+  },
+  input: {
+    flex: 1,
+    minHeight: 44,
+    maxHeight: 100,
+    backgroundColor: '#1e293b',
     borderRadius: 10,
-    alignItems: 'center',
-  },
-  primaryButtonText: {
+    paddingHorizontal: 14,
+    paddingVertical: 12,
     fontSize: 16,
-    fontWeight: '700',
+    color: '#e2e8f0',
+  },
+  sendBtn: {
+    backgroundColor: '#f59e0b',
+    paddingHorizontal: 20,
+    paddingVertical: 12,
+    borderRadius: 10,
+    justifyContent: 'center',
+    minHeight: 44,
+  },
+  sendBtnDisabled: {
+    opacity: 0.7,
+  },
+  sendBtnText: {
+    fontSize: 16,
+    fontWeight: '600',
     color: '#0f172a',
   },
 });
