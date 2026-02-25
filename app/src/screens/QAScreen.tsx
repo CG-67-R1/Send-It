@@ -1,6 +1,7 @@
 import React, { useCallback, useEffect, useState } from 'react';
 import {
   ActivityIndicator,
+  Image,
   ScrollView,
   StyleSheet,
   Text,
@@ -11,6 +12,7 @@ import {
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import * as Analytics from 'expo-firebase-analytics';
 import { QA_TRIVIA_URL, ROADRACE_CHAT_URL } from '../../constants/api';
+import { THE_GOAT_SOURCE } from '../constants/avatars';
 import { AppLogo } from '../components/AppLogo';
 
 const TRIVIA_BEST_SCORE_KEY = 'ROADRACER_TRIVIA_BEST';
@@ -451,6 +453,9 @@ export function QAScreen() {
 
         {triviaState === 'result' && triviaResult && (
           <View style={styles.resultBox}>
+            {triviaCorrect >= 8 && (
+              <Image source={THE_GOAT_SOURCE} style={styles.theGoatImage} resizeMode="contain" />
+            )}
             <Text style={styles.ratingTitle}>{triviaResult.title}</Text>
             <Text style={styles.ratingMessage}>{triviaResult.message}</Text>
             <Text style={styles.scoreSummary}>
@@ -696,6 +701,11 @@ const styles = StyleSheet.create({
     marginTop: 8,
     borderLeftWidth: 4,
     borderLeftColor: '#f59e0b',
+  },
+  theGoatImage: {
+    width: '100%',
+    height: 120,
+    marginBottom: 12,
   },
   failTitle: {
     fontSize: 20,

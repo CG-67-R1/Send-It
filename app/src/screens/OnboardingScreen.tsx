@@ -30,21 +30,8 @@ const ACTIVITY_OPTIONS: { value: Activity; label: string }[] = [
   { value: 'just_love_bikes', label: "Just love bikes 🏍️" },
 ];
 
-const AVATAR_IDS = ['avatar-1', 'avatar-2', 'avatar-3', 'avatar-4', 'avatar-5', 'avatar-6', 'avatar-7', 'avatar-8', 'avatar-9', 'avatar-10', 'avatar-11', 'avatar-12'] as const;
-const AVATAR_SOURCES: Record<string, number> = {
-  'avatar-1': require('../../assets/avatars/avatar-1.png'),
-  'avatar-2': require('../../assets/avatars/avatar-2.png'),
-  'avatar-3': require('../../assets/avatars/avatar-3.png'),
-  'avatar-4': require('../../assets/avatars/avatar-4.png'),
-  'avatar-5': require('../../assets/avatars/avatar-5.png'),
-  'avatar-6': require('../../assets/avatars/avatar-6.png'),
-  'avatar-7': require('../../assets/avatars/avatar-7.png'),
-  'avatar-8': require('../../assets/avatars/avatar-8.png'),
-  'avatar-9': require('../../assets/avatars/avatar-9.png'),
-  'avatar-10': require('../../assets/avatars/avatar-10.png'),
-  'avatar-11': require('../../assets/avatars/avatar-11.png'),
-  'avatar-12': require('../../assets/avatars/avatar-12.png'),
-};
+import { AVATAR_IDS, AVATAR_SOURCES, NO_FACE_IDS } from '../constants/avatars';
+
 const CUSTOM_AVATAR_ID = 'custom';
 
 interface OnboardingScreenProps {
@@ -58,7 +45,9 @@ export function OnboardingScreen({ onComplete }: OnboardingScreenProps) {
   const [activity, setActivity] = useState<Activity | null>(null);
   const [avatarId, setAvatarId] = useState<string | null>(null);
   const [customAvatarUri, setCustomAvatarUri] = useState<string | null>(null);
+  const [noFaceFrameId, setNoFaceFrameId] = useState<string | null>(null);
   const [pickingAvatar, setPickingAvatar] = useState(false);
+  const [choosingFrame, setChoosingFrame] = useState(false);
   const [riderNickname, setRiderNickname] = useState('');
 
   const totalSteps = 7; // welcome, bike, rider, activity, avatar, nickname, summary
@@ -68,7 +57,8 @@ export function OnboardingScreen({ onComplete }: OnboardingScreenProps) {
       favouriteBike: favouriteBike.trim() || 'my bike',
       favouriteRider: favouriteRider.trim() || 'my hero',
       activity: activity ?? 'just_love_bikes',
-      avatarId: avatarId ?? 'avatar-1',
+      avatarId: avatarId ?? 'devil',
+      noFaceFrameId: avatarId === CUSTOM_AVATAR_ID ? noFaceFrameId : undefined,
       riderNickname: riderNickname.trim() || 'Rider',
     };
     await setOnboardingAnswers(answers);
@@ -76,15 +66,18 @@ export function OnboardingScreen({ onComplete }: OnboardingScreenProps) {
     onComplete();
   };
 
-  const pickCustomAvatar = async () => {
+  const startFaceUpload = () => setChoosingFrame(true);
+
+  const pickFacePhotoForFrame = async (frameId: string) => {
     if (pickingAvatar) return;
     setPickingAvatar(true);
+    setChoosingFrame(false);
     try {
       const { status } = await ImagePicker.requestMediaLibraryPermissionsAsync();
       if (status !== 'granted') {
         Alert.alert(
           'Photo access',
-          'Allow photo access to use your own photo as your avatar.',
+          'Allow photo access to use your face in the frame.',
           [{ text: 'OK' }, { text: 'Open Settings', onPress: () => Linking.openSettings() }]
         );
         return;
@@ -98,6 +91,7 @@ export function OnboardingScreen({ onComplete }: OnboardingScreenProps) {
       if (!result.canceled && result.assets[0]) {
         const uri = await setAvatarPhotoUri(result.assets[0].uri);
         setCustomAvatarUri(uri);
+        setNoFaceFrameId(frameId);
         setAvatarId(CUSTOM_AVATAR_ID);
       }
     } catch (e) {
@@ -217,38 +211,61 @@ export function OnboardingScreen({ onComplete }: OnboardingScreenProps) {
         {step === 4 && (
           <View style={styles.step}>
             <Text style={styles.title}>Pick your avatar</Text>
-            <Text style={styles.subtitle}>Choose one of the options below or upload your own photo. It'll show next to your name on the home screen.</Text>
-            <View style={styles.avatarGrid}>
-              {AVATAR_IDS.map((id) => (
+            <Text style={styles.subtitle}>Choose an avatar, or add your face to a frame. It'll show next to your name on the home screen.</Text>
+            {choosingFrame ? (
+              <>
+                <Text style={styles.framePrompt}>Choose a frame for your photo</Text>
+                <View style={styles.avatarGrid}>
+                  {NO_FACE_IDS.map((id) => (
+                    <TouchableOpacity
+                      key={id}
+                      style={styles.avatarCell}
+                      onPress={() => pickFacePhotoForFrame(id)}
+                      activeOpacity={0.8}
+                      disabled={pickingAvatar}
+                    >
+                      <Image source={AVATAR_SOURCES[id]} style={styles.avatarImage} resizeMode="cover" />
+                    </TouchableOpacity>
+                  ))}
+                </View>
+                {pickingAvatar && <ActivityIndicator size="small" color="#f59e0b" style={{ marginTop: 8 }} />}
+                <TouchableOpacity style={styles.optionButton} onPress={() => setChoosingFrame(false)} activeOpacity={0.8}>
+                  <Text style={styles.optionLabel}>Back to avatars</Text>
+                </TouchableOpacity>
+              </>
+            ) : (
+              <>
+                <View style={styles.avatarGrid}>
+                  {AVATAR_IDS.map((id) => (
+                    <TouchableOpacity
+                      key={id}
+                      style={[styles.avatarCell, avatarId === id && styles.avatarCellActive]}
+                      onPress={() => setAvatarId(id)}
+                      activeOpacity={0.8}
+                    >
+                      <Image source={AVATAR_SOURCES[id]} style={styles.avatarImage} resizeMode="cover" />
+                    </TouchableOpacity>
+                  ))}
+                </View>
                 <TouchableOpacity
-                  key={id}
-                  style={[styles.avatarCell, avatarId === id && styles.avatarCellActive]}
-                  onPress={() => setAvatarId(id)}
+                  style={[styles.optionButton, avatarId === CUSTOM_AVATAR_ID && styles.optionButtonActive]}
+                  onPress={startFaceUpload}
+                  disabled={pickingAvatar}
                   activeOpacity={0.8}
                 >
-                  <Image source={AVATAR_SOURCES[id]} style={styles.avatarImage} resizeMode="cover" />
-                </TouchableOpacity>
-              ))}
-            </View>
-            <TouchableOpacity
-              style={[styles.optionButton, avatarId === CUSTOM_AVATAR_ID && styles.optionButtonActive]}
-              onPress={pickCustomAvatar}
-              disabled={pickingAvatar}
-              activeOpacity={0.8}
-            >
-              {pickingAvatar ? (
-                <ActivityIndicator size="small" color="#f59e0b" />
-              ) : customAvatarUri ? (
+              {customAvatarUri ? (
                 <View style={styles.customAvatarPreview}>
                   <Image source={{ uri: customAvatarUri }} style={styles.customAvatarImage} resizeMode="cover" />
                   <Text style={[styles.optionLabel, styles.optionLabelActive]}>Your photo (tap to change)</Text>
                 </View>
               ) : (
                 <Text style={[styles.optionLabel, avatarId === CUSTOM_AVATAR_ID && styles.optionLabelActive]}>
-                  Upload my photo
+                  Upload my photo (pick a frame)
                 </Text>
               )}
             </TouchableOpacity>
+              </>
+            )}
           </View>
         )}
 
@@ -378,6 +395,11 @@ const styles = StyleSheet.create({
   },
   optionLabelActive: {
     color: '#f59e0b',
+  },
+  framePrompt: {
+    fontSize: 16,
+    color: '#94a3b8',
+    marginBottom: 12,
   },
   avatarGrid: {
     flexDirection: 'row',

@@ -19,21 +19,7 @@ import { getBikePhotoUri, setBikePhotoUri, clearBikePhoto } from '../storage/bik
 import { getAvatarPhotoUri } from '../storage/avatarPhoto';
 import { getOnboardingAnswers } from '../storage/onboarding';
 import { AppLogo } from '../components/AppLogo';
-
-const AVATAR_SOURCES: Record<string, number> = {
-  'avatar-1': require('../../assets/avatars/avatar-1.png'),
-  'avatar-2': require('../../assets/avatars/avatar-2.png'),
-  'avatar-3': require('../../assets/avatars/avatar-3.png'),
-  'avatar-4': require('../../assets/avatars/avatar-4.png'),
-  'avatar-5': require('../../assets/avatars/avatar-5.png'),
-  'avatar-6': require('../../assets/avatars/avatar-6.png'),
-  'avatar-7': require('../../assets/avatars/avatar-7.png'),
-  'avatar-8': require('../../assets/avatars/avatar-8.png'),
-  'avatar-9': require('../../assets/avatars/avatar-9.png'),
-  'avatar-10': require('../../assets/avatars/avatar-10.png'),
-  'avatar-11': require('../../assets/avatars/avatar-11.png'),
-  'avatar-12': require('../../assets/avatars/avatar-12.png'),
-};
+import { AVATAR_SOURCES } from '../constants/avatars';
 
 type HeadlinesStackParamList = {
   Headlines: undefined;
@@ -45,7 +31,7 @@ export function HeadlinesScreen() {
   const navigation = useNavigation<NativeStackNavigationProp<HeadlinesStackParamList, 'Headlines'>>();
   const [bikePhotoUri, setBikePhotoUriState] = useState<string | null>(null);
   const [nickname, setNickname] = useState<string>('');
-  const [avatarId, setAvatarId] = useState<string>('avatar-1');
+  const [avatarId, setAvatarId] = useState<string>('devil');
   const [customAvatarUri, setCustomAvatarUri] = useState<string | null>(null);
   const [pickingPhoto, setPickingPhoto] = useState(false);
 
@@ -57,7 +43,7 @@ export function HeadlinesScreen() {
     ]);
     setBikePhotoUriState(uri);
     setNickname(answers?.riderNickname?.trim() || answers?.favouriteRider?.trim() || 'Rider');
-    setAvatarId(answers?.avatarId ?? 'avatar-1');
+    setAvatarId(answers?.avatarId ?? 'devil');
     setCustomAvatarUri(answers?.avatarId === 'custom' ? avatarUri : null);
   }, []);
 

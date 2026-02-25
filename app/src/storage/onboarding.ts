@@ -9,8 +9,10 @@ export interface OnboardingAnswers {
   activity: 'race' | 'track_days' | 'just_love_bikes';
   /** Optional for backward compatibility; prefer avatarId. */
   knowsJustSendIt?: boolean;
-  /** Predefined avatar id (e.g. 'avatar-1') or 'custom' when using uploaded photo. */
+  /** Predefined avatar id (e.g. 'devil', 'black_no_face') or 'custom' when using uploaded photo. */
   avatarId?: string;
+  /** When avatarId is 'custom', which no_face frame was chosen (e.g. 'black_no_face'). */
+  noFaceFrameId?: string;
   /** Name, race number or nickname shown on the home screen (optional for backward compatibility) */
   riderNickname?: string;
 }
