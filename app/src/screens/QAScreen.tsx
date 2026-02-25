@@ -323,12 +323,12 @@ export function QAScreen() {
 
       {activeTab === 'ask' && (
       <View style={styles.section}>
-        <Text style={styles.sectionTitle}>Ask a question</Text>
-        <Text style={styles.sectionSubtitle}>Ask the AI coach—answers riding and technique questions.</Text>
+        <Text style={styles.sectionTitle}>Got a question?</Text>
+        <Text style={styles.sectionSubtitle}>Ask away - trivia, research, bike tech....its up to you!</Text>
         <View style={styles.searchRow}>
           <TextInput
             style={styles.input}
-            placeholder="e.g. What is trail braking?"
+            placeholder="e.g. What is trail braking? ... or ... Who won the TT in 1994?"
             placeholderTextColor="#64748b"
             value={query}
             onChangeText={setQuery}
