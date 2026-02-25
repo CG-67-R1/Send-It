@@ -16,6 +16,7 @@ import { ImportTrackNotesScreen } from './src/screens/ImportTrackNotesScreen';
 import { TrackWalkScreen } from './src/screens/TrackWalkScreen';
 import { OnboardingScreen } from './src/screens/OnboardingScreen';
 import { getOnboardingDone } from './src/storage/onboarding';
+import { AppLogo } from './src/components/AppLogo';
 
 Sentry.init({
   dsn: process.env.EXPO_PUBLIC_SENTRY_DSN ?? undefined,
@@ -39,7 +40,7 @@ function HeadlinesStack() {
           name="Headlines"
           component={HeadlinesScreen}
           options={({ navigation }) => ({
-            title: 'RoadRacer',
+            headerTitle: () => <AppLogo size={40} />,
           headerRight: () => (
             <TouchableOpacity
               onPress={() => navigation.navigate('HeadlinesSettings')}

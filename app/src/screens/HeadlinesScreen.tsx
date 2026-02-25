@@ -124,7 +124,7 @@ export function HeadlinesScreen() {
       >
         <View style={[styles.heroImageContainer, { height: heroHeight }]}>
           <View style={styles.heroLogoWrap} pointerEvents="none">
-            <AppLogo size={64} />
+            <AppLogo size={112} />
           </View>
           {bikePhotoUri ? (
             <Image source={{ uri: bikePhotoUri }} style={styles.heroImage} resizeMode="cover" />
