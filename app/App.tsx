@@ -52,7 +52,7 @@ function HeadlinesStack() {
       <Stack.Screen
         name="HeadlinesList"
         component={HeadlinesListScreen}
-        options={{ title: 'Latest headlines' }}
+        options={{ title: 'Bike News' }}
       />
       <Stack.Screen
         name="HeadlinesSettings"
@@ -70,7 +70,7 @@ function RiderCoachStack() {
         name="RiderCoach"
         component={RiderCoachScreen}
         options={({ navigation }) => ({
-          title: 'Rider Coach & Tech',
+          title: 'Coach & Bike Setup',
           headerRight: () => (
             <TouchableOpacity
               onPress={() => navigation.navigate('ImportTrackNotes')}
@@ -119,7 +119,7 @@ function MainTabs() {
       }}
     >
       <Tab.Screen name="HeadlinesTab" component={HeadlinesStack} options={{ title: 'Headlines' }} />
-      <Tab.Screen name="CalendarTab" component={CalendarScreen} options={{ title: "What's On" }} />
+      <Tab.Screen name="CalendarTab" component={CalendarScreen} options={{ title: 'Events' }} />
       <Tab.Screen name="Q&A" component={QAScreen} options={{ title: 'Q & A' }} />
       <Tab.Screen
         name="TrackWalkTab"
@@ -129,7 +129,7 @@ function MainTabs() {
       <Tab.Screen
         name="RiderCoachTab"
         component={RiderCoachStack}
-        options={{ title: 'Rider Coach' }}
+        options={{ title: 'Coach & Bike Setup' }}
       />
     </Tab.Navigator>
   );

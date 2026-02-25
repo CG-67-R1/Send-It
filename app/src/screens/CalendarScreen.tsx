@@ -190,7 +190,7 @@ export function CalendarScreen() {
       ListHeaderComponent={
         <View style={styles.header}>
           <AppLogo size={32} />
-          <Text style={styles.headerTitle}>What's on</Text>
+          <Text style={styles.headerTitle}>Events</Text>
           <Text style={styles.headerSubtitle}>
             MotoGP • WorldSBK • Australian road racing (ASBK). Tap to open links.
           </Text>

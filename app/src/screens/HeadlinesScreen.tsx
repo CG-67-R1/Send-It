@@ -172,10 +172,10 @@ export function HeadlinesScreen() {
 
       <View style={styles.buttons}>
         <TouchableOpacity style={styles.navButton} onPress={goToHeadlines} activeOpacity={0.8}>
-          <Text style={styles.navButtonText}>Latest headlines</Text>
+          <Text style={styles.navButtonText}>Bike News</Text>
         </TouchableOpacity>
         <TouchableOpacity style={styles.navButton} onPress={goToCalendar} activeOpacity={0.8}>
-          <Text style={styles.navButtonText}>What's on</Text>
+          <Text style={styles.navButtonText}>Events</Text>
         </TouchableOpacity>
         <TouchableOpacity style={styles.navButton} onPress={goToQA} activeOpacity={0.8}>
           <Text style={styles.navButtonText}>Q & A</Text>
@@ -184,7 +184,7 @@ export function HeadlinesScreen() {
           <Text style={styles.navButtonText}>Track Walk / Track Notes</Text>
         </TouchableOpacity>
         <TouchableOpacity style={styles.navButton} onPress={goToRiderCoach} activeOpacity={0.8}>
-          <Text style={styles.navButtonText}>Rider coach & tech</Text>
+          <Text style={styles.navButtonText}>Coach & Bike Setup</Text>
         </TouchableOpacity>
         <TouchableOpacity style={styles.settingsButton} onPress={goToSettings} activeOpacity={0.8}>
           <Text style={styles.settingsButtonText}>Headlines settings</Text>

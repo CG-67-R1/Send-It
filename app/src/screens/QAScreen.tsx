@@ -10,7 +10,7 @@ import {
 } from 'react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import * as Analytics from 'expo-firebase-analytics';
-import { QA_SEARCH_URL, QA_TRIVIA_URL } from '../../constants/api';
+import { QA_TRIVIA_URL, ROADRACE_CHAT_URL } from '../../constants/api';
 import { AppLogo } from '../components/AppLogo';
 
 const TRIVIA_BEST_SCORE_KEY = 'ROADRACER_TRIVIA_BEST';
@@ -109,14 +109,25 @@ export function QAScreen() {
     setSearchError(null);
     setSearchResults([]);
     try {
-      const res = await fetch(
-        `${QA_SEARCH_URL}?q=${encodeURIComponent(q)}`,
-        { signal: AbortSignal.timeout(10000) }
-      );
+      const res = await fetch(ROADRACE_CHAT_URL, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ message: q, mode: 'coach', history: [] }),
+        signal: AbortSignal.timeout(60000),
+      });
       const data = await res.json();
-      setSearchResults(Array.isArray(data.results) ? data.results : []);
+      if (!res.ok) {
+        setSearchError(data?.error || 'Request failed');
+        return;
+      }
+      const reply = typeof data?.reply === 'string' ? data.reply.trim() : '';
+      if (reply) {
+        setSearchResults([{ title: 'Answer', content: reply }]);
+      } else {
+        setSearchError('No response from coach');
+      }
     } catch (e) {
-      setSearchError(e instanceof Error ? e.message : 'Search failed');
+      setSearchError(e instanceof Error ? e.message : 'Request failed');
       setSearchResults([]);
     } finally {
       setSearchLoading(false);
@@ -253,7 +264,10 @@ export function QAScreen() {
 
       const nextRegion = getRegionForOrder(newCorrect, newWrong);
       const usedNow = nextRegion === 'au' ? updatedAusUsed : updatedGlobalUsed;
-      fetchTriviaQuestion(usedNow, newCorrect, newWrong, nextDifficulty);
+      // Show correct/incorrect feedback for 1 second before loading next question
+      setTimeout(() => {
+        fetchTriviaQuestion(usedNow, newCorrect, newWrong, nextDifficulty);
+      }, 1000);
     },
     [
       triviaQuestion,
@@ -310,7 +324,7 @@ export function QAScreen() {
       {activeTab === 'ask' && (
       <View style={styles.section}>
         <Text style={styles.sectionTitle}>Ask a question</Text>
-        <Text style={styles.sectionSubtitle}>Search the knowledge base for an answer.</Text>
+        <Text style={styles.sectionSubtitle}>Ask the AI coach—answers riding and technique questions.</Text>
         <View style={styles.searchRow}>
           <TextInput
             style={styles.input}
@@ -362,7 +376,7 @@ export function QAScreen() {
             ))}
           </View>
         ) : query.trim() && !searchLoading && !searchError ? (
-          <Text style={styles.hint}>No matches. Try different keywords.</Text>
+          <Text style={styles.hint}>Ask a question above to get an answer from the coach.</Text>
         ) : null}
       </View>
       )}

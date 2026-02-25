@@ -159,8 +159,8 @@ export function HeadlinesListScreen() {
       ListHeaderComponent={
         <View style={styles.header}>
           <AppLogo size={32} />
-          <Text style={styles.headerTitle}>Latest headlines</Text>
-          <Text style={styles.headerSubtitle}>Tap to open • Pull down to refresh • Order in Settings</Text>
+          <Text style={styles.headerTitle}>Bike News</Text>
+          <Text style={styles.headerSubtitle}>Tap to open • Pull down to refresh • Order in Headlines settings</Text>
         </View>
       }
     />
