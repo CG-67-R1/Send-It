@@ -2,6 +2,7 @@ import React, { useCallback, useState } from 'react';
 import {
   ActivityIndicator,
   Alert,
+  Dimensions,
   Image,
   Linking,
   ScrollView,
@@ -103,37 +104,36 @@ export function HeadlinesScreen() {
   const goToSettings = () => navigation.navigate('HeadlinesSettings');
 
   const displayName = nickname.toUpperCase();
+  const { height: windowHeight } = Dimensions.get('window');
+  const heroHeight = windowHeight * 0.6;
+  const buttonsHeight = windowHeight * 0.4;
+  const pocBikeImage = require('../../assets/home-poc-bike.png');
 
   return (
     <ScrollView
       style={styles.container}
-      contentContainerStyle={styles.content}
+      contentContainerStyle={[styles.content, { minHeight: windowHeight }]}
       showsVerticalScrollIndicator={false}
     >
       <TouchableOpacity
-        style={styles.heroTouchable}
+        style={[styles.heroTouchable, { height: heroHeight }]}
         onPress={pickBikePhoto}
         onLongPress={bikePhotoUri ? removeBikePhoto : undefined}
         activeOpacity={0.95}
         disabled={pickingPhoto}
       >
-        <View style={styles.heroImageContainer}>
+        <View style={[styles.heroImageContainer, { height: heroHeight }]}>
           <View style={styles.heroLogoWrap} pointerEvents="none">
             <AppLogo size={64} />
           </View>
           {bikePhotoUri ? (
             <Image source={{ uri: bikePhotoUri }} style={styles.heroImage} resizeMode="cover" />
           ) : (
+            <Image source={pocBikeImage} style={styles.heroImage} resizeMode="cover" />
+          )}
+          {pickingPhoto && (
             <View style={styles.heroPlaceholder}>
-              {pickingPhoto ? (
-                <ActivityIndicator size="large" color="#f59e0b" />
-              ) : (
-                <>
-                  <Text style={styles.heroPlaceholderIcon}>🏍️</Text>
-                  <Text style={styles.heroPlaceholderTitle}>Your bike</Text>
-                  <Text style={styles.heroPlaceholderSubtitle}>Tap to add a photo</Text>
-                </>
-              )}
+              <ActivityIndicator size="large" color="#f59e0b" />
             </View>
           )}
           {/* Vignette overlay: darken edges */}
@@ -163,14 +163,14 @@ export function HeadlinesScreen() {
               end={{ x: 0, y: 0.5 }}
             />
           </View>
-          {/* Nickname in racing style at bottom of image */}
+          {/* Rider name centered on screen */}
           <View style={styles.nicknameWrap} pointerEvents="none">
             <Text style={styles.nickname}>{displayName}</Text>
           </View>
         </View>
       </TouchableOpacity>
 
-      <View style={styles.buttons}>
+      <View style={[styles.buttons, { minHeight: buttonsHeight }]}>
         <TouchableOpacity style={styles.navButton} onPress={goToHeadlines} activeOpacity={0.8}>
           <Text style={styles.navButtonText}>Bike News</Text>
         </TouchableOpacity>
@@ -208,7 +208,6 @@ const styles = StyleSheet.create({
   },
   heroImageContainer: {
     width: '100%',
-    aspectRatio: 16 / 9,
     backgroundColor: '#1e293b',
     overflow: 'hidden',
   },
@@ -227,20 +226,7 @@ const styles = StyleSheet.create({
     ...StyleSheet.absoluteFillObject,
     justifyContent: 'center',
     alignItems: 'center',
-  },
-  heroPlaceholderIcon: {
-    fontSize: 48,
-    marginBottom: 8,
-  },
-  heroPlaceholderTitle: {
-    fontSize: 20,
-    fontWeight: '700',
-    color: '#f8fafc',
-  },
-  heroPlaceholderSubtitle: {
-    fontSize: 14,
-    color: '#94a3b8',
-    marginTop: 4,
+    backgroundColor: 'rgba(0,0,0,0.4)',
   },
   vignetteOverlay: {
     ...StyleSheet.absoluteFillObject,
@@ -266,23 +252,20 @@ const styles = StyleSheet.create({
     right: 0,
   },
   nicknameWrap: {
-    position: 'absolute',
-    left: 0,
-    right: 0,
-    bottom: 0,
+    ...StyleSheet.absoluteFillObject,
+    justifyContent: 'center',
+    alignItems: 'center',
     paddingHorizontal: 20,
-    paddingVertical: 16,
-    paddingBottom: 20,
   },
   nickname: {
-    fontSize: 28,
-    fontWeight: '800',
+    fontFamily: 'RaceSport',
+    fontSize: 32,
     color: '#fff',
     textTransform: 'uppercase',
     letterSpacing: 4,
     textShadowColor: 'rgba(0,0,0,0.9)',
     textShadowOffset: { width: 0, height: 1 },
-    textShadowRadius: 4,
+    textShadowRadius: 6,
   },
   buttons: {
     paddingHorizontal: 20,
@@ -302,8 +285,8 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
   },
   navButtonText: {
+    fontFamily: 'RaceSport',
     fontSize: 17,
-    fontWeight: '700',
     color: '#f8fafc',
   },
   settingsButton: {
@@ -319,8 +302,8 @@ const styles = StyleSheet.create({
     borderRadius: 10,
   },
   settingsButtonText: {
+    fontFamily: 'RaceSport',
     fontSize: 15,
-    fontWeight: '600',
     color: '#94a3b8',
   },
 });

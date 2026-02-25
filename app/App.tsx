@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { ActivityIndicator, Text, TouchableOpacity, View } from 'react-native';
 import { StatusBar } from 'expo-status-bar';
+import { useFonts } from 'expo-font';
 import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
@@ -138,11 +139,15 @@ function MainTabs() {
 export default function App() {
   const [onboardingComplete, setOnboardingComplete] = useState<boolean | null>(null);
 
+  const [fontsLoaded] = useFonts({
+    RaceSport: require('./assets/fonts/RaceSport.ttf'),
+  });
+
   useEffect(() => {
     getOnboardingDone().then(setOnboardingComplete);
   }, []);
 
-  if (onboardingComplete === null) {
+  if (!fontsLoaded || onboardingComplete === null) {
     return (
       <View style={{ flex: 1, backgroundColor: '#0f172a', justifyContent: 'center', alignItems: 'center' }}>
         <StatusBar style="light" />
