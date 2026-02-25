@@ -171,38 +171,22 @@ export function HeadlinesScreen() {
               end={{ x: 0, y: 0.5 }}
             />
           </View>
-          {/* Avatar + rider name aligned to bottom of image, no background */}
+          {/* Name (left) + avatar (right) at bottom of image; avatar full image in front, not circled */}
           <View style={styles.nicknameWrap} pointerEvents="none">
+            <Text style={styles.nickname}>{displayName}</Text>
             {avatarId === 'custom' && customAvatarUri ? (
               <Image
                 source={{ uri: customAvatarUri }}
-                style={[
-                  styles.avatarImage,
-                  {
-                    width: avatarSize,
-                    height: avatarSize,
-                    borderRadius: avatarSize / 2,
-                    backgroundColor: 'transparent',
-                  },
-                ]}
-                resizeMode="cover"
+                style={[styles.avatarImage, { width: avatarSize, height: avatarSize }]}
+                resizeMode="contain"
               />
             ) : AVATAR_SOURCES[avatarId] != null ? (
               <Image
                 source={AVATAR_SOURCES[avatarId]}
-                style={[
-                  styles.avatarImage,
-                  {
-                    width: avatarSize,
-                    height: avatarSize,
-                    borderRadius: avatarSize / 2,
-                    backgroundColor: 'transparent',
-                  },
-                ]}
-                resizeMode="cover"
+                style={[styles.avatarImage, { width: avatarSize, height: avatarSize }]}
+                resizeMode="contain"
               />
             ) : null}
-            <Text style={styles.nickname}>{displayName}</Text>
           </View>
         </View>
       </TouchableOpacity>
@@ -296,7 +280,7 @@ const styles = StyleSheet.create({
     right: 0,
     bottom: 0,
     flexDirection: 'row',
-    justifyContent: 'center',
+    justifyContent: 'flex-end',
     alignItems: 'flex-end',
     paddingHorizontal: 20,
     paddingBottom: 16,
