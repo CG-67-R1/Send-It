@@ -7,7 +7,10 @@ export interface OnboardingAnswers {
   favouriteBike: string;
   favouriteRider: string;
   activity: 'race' | 'track_days' | 'just_love_bikes';
-  knowsJustSendIt: boolean;
+  /** Optional for backward compatibility; prefer avatarId. */
+  knowsJustSendIt?: boolean;
+  /** Predefined avatar id (e.g. 'avatar-1') or 'custom' when using uploaded photo. */
+  avatarId?: string;
   /** Name, race number or nickname shown on the home screen (optional for backward compatibility) */
   riderNickname?: string;
 }

@@ -16,8 +16,24 @@ import * as ImagePicker from 'expo-image-picker';
 import { useFocusEffect, useNavigation } from '@react-navigation/native';
 import type { NativeStackNavigationProp } from '@react-navigation/native-stack';
 import { getBikePhotoUri, setBikePhotoUri, clearBikePhoto } from '../storage/bikePhoto';
+import { getAvatarPhotoUri } from '../storage/avatarPhoto';
 import { getOnboardingAnswers } from '../storage/onboarding';
 import { AppLogo } from '../components/AppLogo';
+
+const AVATAR_SOURCES: Record<string, number> = {
+  'avatar-1': require('../../assets/avatars/avatar-1.png'),
+  'avatar-2': require('../../assets/avatars/avatar-2.png'),
+  'avatar-3': require('../../assets/avatars/avatar-3.png'),
+  'avatar-4': require('../../assets/avatars/avatar-4.png'),
+  'avatar-5': require('../../assets/avatars/avatar-5.png'),
+  'avatar-6': require('../../assets/avatars/avatar-6.png'),
+  'avatar-7': require('../../assets/avatars/avatar-7.png'),
+  'avatar-8': require('../../assets/avatars/avatar-8.png'),
+  'avatar-9': require('../../assets/avatars/avatar-9.png'),
+  'avatar-10': require('../../assets/avatars/avatar-10.png'),
+  'avatar-11': require('../../assets/avatars/avatar-11.png'),
+  'avatar-12': require('../../assets/avatars/avatar-12.png'),
+};
 
 type HeadlinesStackParamList = {
   Headlines: undefined;
@@ -29,15 +45,20 @@ export function HeadlinesScreen() {
   const navigation = useNavigation<NativeStackNavigationProp<HeadlinesStackParamList, 'Headlines'>>();
   const [bikePhotoUri, setBikePhotoUriState] = useState<string | null>(null);
   const [nickname, setNickname] = useState<string>('');
+  const [avatarId, setAvatarId] = useState<string>('avatar-1');
+  const [customAvatarUri, setCustomAvatarUri] = useState<string | null>(null);
   const [pickingPhoto, setPickingPhoto] = useState(false);
 
   const loadData = useCallback(async () => {
-    const [uri, answers] = await Promise.all([
+    const [uri, answers, avatarUri] = await Promise.all([
       getBikePhotoUri(),
       getOnboardingAnswers(),
+      getAvatarPhotoUri(),
     ]);
     setBikePhotoUriState(uri);
     setNickname(answers?.riderNickname?.trim() || answers?.favouriteRider?.trim() || 'Rider');
+    setAvatarId(answers?.avatarId ?? 'avatar-1');
+    setCustomAvatarUri(answers?.avatarId === 'custom' ? avatarUri : null);
   }, []);
 
   useFocusEffect(
@@ -163,8 +184,13 @@ export function HeadlinesScreen() {
               end={{ x: 0, y: 0.5 }}
             />
           </View>
-          {/* Rider name centered on screen */}
+          {/* Avatar + rider name centered on screen */}
           <View style={styles.nicknameWrap} pointerEvents="none">
+            {avatarId === 'custom' && customAvatarUri ? (
+              <Image source={{ uri: customAvatarUri }} style={styles.avatarImage} resizeMode="cover" />
+            ) : AVATAR_SOURCES[avatarId] != null ? (
+              <Image source={AVATAR_SOURCES[avatarId]} style={styles.avatarImage} resizeMode="cover" />
+            ) : null}
             <Text style={styles.nickname}>{displayName}</Text>
           </View>
         </View>
@@ -253,9 +279,16 @@ const styles = StyleSheet.create({
   },
   nicknameWrap: {
     ...StyleSheet.absoluteFillObject,
+    flexDirection: 'row',
     justifyContent: 'center',
     alignItems: 'center',
     paddingHorizontal: 20,
+    gap: 12,
+  },
+  avatarImage: {
+    width: 48,
+    height: 48,
+    borderRadius: 24,
   },
   nickname: {
     fontFamily: 'RaceSport',

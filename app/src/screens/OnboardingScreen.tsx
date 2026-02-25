@@ -1,5 +1,9 @@
 import React, { useState } from 'react';
 import {
+  ActivityIndicator,
+  Alert,
+  Image,
+  Linking,
   StyleSheet,
   Text,
   TextInput,
@@ -9,12 +13,14 @@ import {
   KeyboardAvoidingView,
   Platform,
 } from 'react-native';
+import * as ImagePicker from 'expo-image-picker';
 import { getRiderFact, getBikeFact } from '../onboardingContent';
 import {
   setOnboardingDone,
   setOnboardingAnswers,
   type OnboardingAnswers,
 } from '../storage/onboarding';
+import { setAvatarPhotoUri } from '../storage/avatarPhoto';
 
 type Activity = 'race' | 'track_days' | 'just_love_bikes';
 
@@ -23,6 +29,23 @@ const ACTIVITY_OPTIONS: { value: Activity; label: string }[] = [
   { value: 'track_days', label: 'Track days only 🛞' },
   { value: 'just_love_bikes', label: "Just love bikes 🏍️" },
 ];
+
+const AVATAR_IDS = ['avatar-1', 'avatar-2', 'avatar-3', 'avatar-4', 'avatar-5', 'avatar-6', 'avatar-7', 'avatar-8', 'avatar-9', 'avatar-10', 'avatar-11', 'avatar-12'] as const;
+const AVATAR_SOURCES: Record<string, number> = {
+  'avatar-1': require('../../assets/avatars/avatar-1.png'),
+  'avatar-2': require('../../assets/avatars/avatar-2.png'),
+  'avatar-3': require('../../assets/avatars/avatar-3.png'),
+  'avatar-4': require('../../assets/avatars/avatar-4.png'),
+  'avatar-5': require('../../assets/avatars/avatar-5.png'),
+  'avatar-6': require('../../assets/avatars/avatar-6.png'),
+  'avatar-7': require('../../assets/avatars/avatar-7.png'),
+  'avatar-8': require('../../assets/avatars/avatar-8.png'),
+  'avatar-9': require('../../assets/avatars/avatar-9.png'),
+  'avatar-10': require('../../assets/avatars/avatar-10.png'),
+  'avatar-11': require('../../assets/avatars/avatar-11.png'),
+  'avatar-12': require('../../assets/avatars/avatar-12.png'),
+};
+const CUSTOM_AVATAR_ID = 'custom';
 
 interface OnboardingScreenProps {
   onComplete: () => void;
@@ -33,17 +56,19 @@ export function OnboardingScreen({ onComplete }: OnboardingScreenProps) {
   const [favouriteBike, setFavouriteBike] = useState('');
   const [favouriteRider, setFavouriteRider] = useState('');
   const [activity, setActivity] = useState<Activity | null>(null);
-  const [knowsJustSendIt, setKnowsJustSendIt] = useState<boolean | null>(null);
+  const [avatarId, setAvatarId] = useState<string | null>(null);
+  const [customAvatarUri, setCustomAvatarUri] = useState<string | null>(null);
+  const [pickingAvatar, setPickingAvatar] = useState(false);
   const [riderNickname, setRiderNickname] = useState('');
 
-  const totalSteps = 7; // welcome, bike, rider, activity, just send it, nickname, summary
+  const totalSteps = 7; // welcome, bike, rider, activity, avatar, nickname, summary
 
   const handleFinish = async () => {
     const answers: OnboardingAnswers = {
       favouriteBike: favouriteBike.trim() || 'my bike',
       favouriteRider: favouriteRider.trim() || 'my hero',
       activity: activity ?? 'just_love_bikes',
-      knowsJustSendIt: knowsJustSendIt ?? false,
+      avatarId: avatarId ?? 'avatar-1',
       riderNickname: riderNickname.trim() || 'Rider',
     };
     await setOnboardingAnswers(answers);
@@ -51,11 +76,43 @@ export function OnboardingScreen({ onComplete }: OnboardingScreenProps) {
     onComplete();
   };
 
+  const pickCustomAvatar = async () => {
+    if (pickingAvatar) return;
+    setPickingAvatar(true);
+    try {
+      const { status } = await ImagePicker.requestMediaLibraryPermissionsAsync();
+      if (status !== 'granted') {
+        Alert.alert(
+          'Photo access',
+          'Allow photo access to use your own photo as your avatar.',
+          [{ text: 'OK' }, { text: 'Open Settings', onPress: () => Linking.openSettings() }]
+        );
+        return;
+      }
+      const result = await ImagePicker.launchImageLibraryAsync({
+        mediaTypes: ['images'],
+        allowsEditing: true,
+        aspect: [1, 1],
+        quality: 0.8,
+      });
+      if (!result.canceled && result.assets[0]) {
+        const uri = await setAvatarPhotoUri(result.assets[0].uri);
+        setCustomAvatarUri(uri);
+        setAvatarId(CUSTOM_AVATAR_ID);
+      }
+    } catch (e) {
+      const msg = e instanceof Error ? e.message : 'Could not pick image';
+      Alert.alert('Error', msg);
+    } finally {
+      setPickingAvatar(false);
+    }
+  };
+
   const canNext = () => {
     if (step === 1) return favouriteBike.trim().length > 0;
     if (step === 2) return favouriteRider.trim().length > 0;
     if (step === 3) return activity !== null;
-    if (step === 4) return knowsJustSendIt !== null;
+    if (step === 4) return avatarId !== null;
     return true;
   };
 
@@ -156,41 +213,42 @@ export function OnboardingScreen({ onComplete }: OnboardingScreenProps) {
           </View>
         )}
 
-        {/* Step 4: Just Send it! */}
+        {/* Step 4: Pick avatar */}
         {step === 4 && (
           <View style={styles.step}>
-            <Text style={styles.title}>Do you know what “Just Send it!” means?</Text>
-            <Text style={styles.subtitle}>Be honest. There are no wrong answers here.</Text>
-            <View style={styles.yesNoRow}>
-              <TouchableOpacity
-                style={[styles.yesNoButton, knowsJustSendIt === true && styles.yesNoButtonActive]}
-                onPress={() => setKnowsJustSendIt(true)}
-                activeOpacity={0.8}
-              >
-                <Text style={[styles.yesNoLabel, knowsJustSendIt === true && styles.optionLabelActive]}>
-                  Yeah, I know
-                </Text>
-              </TouchableOpacity>
-              <TouchableOpacity
-                style={[styles.yesNoButton, knowsJustSendIt === false && styles.yesNoButtonActive]}
-                onPress={() => setKnowsJustSendIt(false)}
-                activeOpacity={0.8}
-              >
-                <Text style={[styles.yesNoLabel, knowsJustSendIt === false && styles.optionLabelActive]}>
-                  No idea
-                </Text>
-              </TouchableOpacity>
+            <Text style={styles.title}>Pick your avatar</Text>
+            <Text style={styles.subtitle}>Choose one of the options below or upload your own photo. It'll show next to your name on the home screen.</Text>
+            <View style={styles.avatarGrid}>
+              {AVATAR_IDS.map((id) => (
+                <TouchableOpacity
+                  key={id}
+                  style={[styles.avatarCell, avatarId === id && styles.avatarCellActive]}
+                  onPress={() => setAvatarId(id)}
+                  activeOpacity={0.8}
+                >
+                  <Image source={AVATAR_SOURCES[id]} style={styles.avatarImage} resizeMode="cover" />
+                </TouchableOpacity>
+              ))}
             </View>
-            {knowsJustSendIt !== null && (
-              <View style={styles.justSendItBox}>
-                <Text style={styles.justSendItTitle}>“Just Send it!”</Text>
-                <Text style={styles.justSendItText}>
-                  {knowsJustSendIt
-                    ? "You already get it — commit, don’t overthink it, and trust the bike. We like you."
-                    : "It’s what you say right before you stop overthinking and open the throttle. It means: commit, go for it, and leave the doubt in the pits. Consider yourself initiated. 🏍️"}
+            <TouchableOpacity
+              style={[styles.optionButton, avatarId === CUSTOM_AVATAR_ID && styles.optionButtonActive]}
+              onPress={pickCustomAvatar}
+              disabled={pickingAvatar}
+              activeOpacity={0.8}
+            >
+              {pickingAvatar ? (
+                <ActivityIndicator size="small" color="#f59e0b" />
+              ) : customAvatarUri ? (
+                <View style={styles.customAvatarPreview}>
+                  <Image source={{ uri: customAvatarUri }} style={styles.customAvatarImage} resizeMode="cover" />
+                  <Text style={[styles.optionLabel, styles.optionLabelActive]}>Your photo (tap to change)</Text>
+                </View>
+              ) : (
+                <Text style={[styles.optionLabel, avatarId === CUSTOM_AVATAR_ID && styles.optionLabelActive]}>
+                  Upload my photo
                 </Text>
-              </View>
-            )}
+              )}
+            </TouchableOpacity>
           </View>
         )}
 
@@ -320,6 +378,37 @@ const styles = StyleSheet.create({
   },
   optionLabelActive: {
     color: '#f59e0b',
+  },
+  avatarGrid: {
+    flexDirection: 'row',
+    flexWrap: 'wrap',
+    gap: 12,
+    marginBottom: 16,
+  },
+  avatarCell: {
+    width: 64,
+    height: 64,
+    borderRadius: 32,
+    overflow: 'hidden',
+    borderWidth: 2,
+    borderColor: '#334155',
+  },
+  avatarCellActive: {
+    borderColor: '#f59e0b',
+  },
+  avatarImage: {
+    width: '100%',
+    height: '100%',
+  },
+  customAvatarPreview: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: 12,
+  },
+  customAvatarImage: {
+    width: 48,
+    height: 48,
+    borderRadius: 24,
   },
   yesNoRow: {
     flexDirection: 'row',
