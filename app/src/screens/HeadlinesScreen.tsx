@@ -171,21 +171,25 @@ export function HeadlinesScreen() {
               end={{ x: 0, y: 0.5 }}
             />
           </View>
-          {/* Name (left) + avatar (right) at bottom of image; avatar full image in front, not circled */}
+          {/* Name (left) + avatar (right) at bottom; avatar overlays as figure only, no box */}
           <View style={styles.nicknameWrap} pointerEvents="none">
             <Text style={styles.nickname}>{displayName}</Text>
             {avatarId === 'custom' && customAvatarUri ? (
-              <Image
-                source={{ uri: customAvatarUri }}
-                style={[styles.avatarImage, { width: avatarSize, height: avatarSize }]}
-                resizeMode="contain"
-              />
+              <View style={styles.avatarOverlayWrap}>
+                <Image
+                  source={{ uri: customAvatarUri }}
+                  style={[styles.avatarImage, { width: avatarSize, height: avatarSize }]}
+                  resizeMode="contain"
+                />
+              </View>
             ) : AVATAR_SOURCES[avatarId] != null ? (
-              <Image
-                source={AVATAR_SOURCES[avatarId]}
-                style={[styles.avatarImage, { width: avatarSize, height: avatarSize }]}
-                resizeMode="contain"
-              />
+              <View style={styles.avatarOverlayWrap}>
+                <Image
+                  source={AVATAR_SOURCES[avatarId]}
+                  style={[styles.avatarImage, { width: avatarSize, height: avatarSize }]}
+                  resizeMode="contain"
+                />
+              </View>
             ) : null}
           </View>
         </View>
@@ -286,8 +290,13 @@ const styles = StyleSheet.create({
     paddingBottom: 16,
     gap: 12,
   },
+  avatarOverlayWrap: {
+    backgroundColor: 'transparent',
+    overflow: 'visible',
+  },
   avatarImage: {
     backgroundColor: 'transparent',
+    overflow: 'visible',
   },
   nickname: {
     fontFamily: 'RaceSport',
