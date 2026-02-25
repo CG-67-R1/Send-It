@@ -114,7 +114,7 @@ export function HeadlinesScreen() {
   const { height: windowHeight } = Dimensions.get('window');
   const heroHeight = windowHeight * 0.6;
   const buttonsHeight = windowHeight * 0.4;
-  const avatarSize = Math.round(heroHeight * 0.3);
+  const avatarSize = Math.round(heroHeight * 0.6); // 60% of image height (double previous 30%)
   const pocBikeImage = require('../../assets/home-poc-bike.png');
 
   return (
@@ -171,18 +171,34 @@ export function HeadlinesScreen() {
               end={{ x: 0, y: 0.5 }}
             />
           </View>
-          {/* Avatar + rider name centered on screen (avatar = 30% of image height) */}
+          {/* Avatar + rider name aligned to bottom of image, no background */}
           <View style={styles.nicknameWrap} pointerEvents="none">
             {avatarId === 'custom' && customAvatarUri ? (
               <Image
                 source={{ uri: customAvatarUri }}
-                style={[styles.avatarImage, { width: avatarSize, height: avatarSize, borderRadius: avatarSize / 2 }]}
+                style={[
+                  styles.avatarImage,
+                  {
+                    width: avatarSize,
+                    height: avatarSize,
+                    borderRadius: avatarSize / 2,
+                    backgroundColor: 'transparent',
+                  },
+                ]}
                 resizeMode="cover"
               />
             ) : AVATAR_SOURCES[avatarId] != null ? (
               <Image
                 source={AVATAR_SOURCES[avatarId]}
-                style={[styles.avatarImage, { width: avatarSize, height: avatarSize, borderRadius: avatarSize / 2 }]}
+                style={[
+                  styles.avatarImage,
+                  {
+                    width: avatarSize,
+                    height: avatarSize,
+                    borderRadius: avatarSize / 2,
+                    backgroundColor: 'transparent',
+                  },
+                ]}
                 resizeMode="cover"
               />
             ) : null}
@@ -234,9 +250,11 @@ const styles = StyleSheet.create({
   },
   heroLogoWrap: {
     position: 'absolute',
-    top: 16,
-    left: 20,
+    top: 0,
+    left: 0,
     zIndex: 2,
+    paddingTop: 8,
+    paddingLeft: 8,
   },
   heroImage: {
     ...StyleSheet.absoluteFillObject,
@@ -273,15 +291,19 @@ const styles = StyleSheet.create({
     right: 0,
   },
   nicknameWrap: {
-    ...StyleSheet.absoluteFillObject,
+    position: 'absolute',
+    left: 0,
+    right: 0,
+    bottom: 0,
     flexDirection: 'row',
     justifyContent: 'center',
-    alignItems: 'center',
+    alignItems: 'flex-end',
     paddingHorizontal: 20,
+    paddingBottom: 16,
     gap: 12,
   },
   avatarImage: {
-    /* size set inline to 30% of hero height */
+    backgroundColor: 'transparent',
   },
   nickname: {
     fontFamily: 'RaceSport',
