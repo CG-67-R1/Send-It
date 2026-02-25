@@ -239,7 +239,7 @@ export function HeadlinesScreen() {
           <Text style={styles.navButtonText}>Coach & Bike Setup</Text>
         </TouchableOpacity>
         <TouchableOpacity style={styles.settingsButton} onPress={goToSettings} activeOpacity={0.8}>
-          <Text style={styles.settingsButtonText}>Headlines settings</Text>
+          <Text style={styles.settingsButtonText}>News settings</Text>
         </TouchableOpacity>
       </View>
     </ScrollView>
@@ -333,7 +333,7 @@ const styles = StyleSheet.create({
     overflow: 'visible',
   },
   nickname: {
-    fontFamily: 'RaceSport',
+    fontFamily: 'Race Sport',
     fontSize: 32,
     color: '#fff',
     textTransform: 'uppercase',
@@ -360,7 +360,7 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
   },
   navButtonText: {
-    fontFamily: 'RaceSport',
+    fontFamily: 'Race Sport',
     fontSize: 17,
     color: '#f8fafc',
   },
@@ -377,7 +377,7 @@ const styles = StyleSheet.create({
     borderRadius: 10,
   },
   settingsButtonText: {
-    fontFamily: 'RaceSport',
+    fontFamily: 'Race Sport',
     fontSize: 15,
     color: '#94a3b8',
   },

@@ -45,28 +45,55 @@ export function ChangeAvatarScreen() {
 
   const startFaceUpload = () => setChoosingFrame(true);
 
-  const pickFacePhotoForFrame = async (frameId: string) => {
+  const pickFacePhotoForFrame = async (frameId: string, useCamera: boolean) => {
     if (pickingAvatar) return;
     setPickingAvatar(true);
     setChoosingFrame(false);
     try {
-      const { status } = await ImagePicker.requestCameraPermissionsAsync();
-      if (status !== 'granted') {
-        Alert.alert(
-          'Camera access',
-          'Allow camera access to take your face photo for the avatar.',
-          [{ text: 'OK' }, { text: 'Open Settings', onPress: () => Linking.openSettings() }]
-        );
-        return;
+      if (useCamera) {
+        const { status } = await ImagePicker.requestCameraPermissionsAsync();
+        if (status !== 'granted') {
+          Alert.alert(
+            'Camera access',
+            'Allow camera access to take your face photo for the avatar.',
+            [{ text: 'OK' }, { text: 'Open Settings', onPress: () => Linking.openSettings() }]
+          );
+          setPickingAvatar(false);
+          return;
+        }
+      } else {
+        const { status } = await ImagePicker.requestMediaLibraryPermissionsAsync();
+        if (status !== 'granted') {
+          Alert.alert(
+            'Photo access',
+            'Allow photo access to choose your face image.',
+            [{ text: 'OK' }, { text: 'Open Settings', onPress: () => Linking.openSettings() }]
+          );
+          setPickingAvatar(false);
+          return;
+        }
       }
-      const result = await ImagePicker.launchCameraAsync({
-        cameraType: ImagePicker.CameraType.Front,
-        allowsEditing: true,
-        aspect: [1, 1],
-        quality: 0.8,
-      });
+      const result = useCamera
+        ? await ImagePicker.launchCameraAsync({
+            cameraType: ImagePicker.CameraType.Front,
+            allowsEditing: true,
+            aspect: [1, 1],
+            quality: 0.8,
+          })
+        : await ImagePicker.launchImageLibraryAsync({
+            mediaTypes: ['images'],
+            allowsEditing: true,
+            aspect: [1, 1],
+            quality: 0.8,
+          });
       if (!result.canceled && result.assets[0]) {
-        const uri = await setAvatarPhotoUri(result.assets[0].uri);
+        const assetUri = result.assets[0].uri;
+        let uri: string;
+        try {
+          uri = await setAvatarPhotoUri(assetUri);
+        } catch {
+          uri = assetUri;
+        }
         setCustomAvatarUri(uri);
         setNoFaceFrameId(frameId);
         setAvatarId(CUSTOM_AVATAR_ID);
@@ -105,7 +132,18 @@ export function ChangeAvatarScreen() {
               <TouchableOpacity
                 key={id}
                 style={styles.avatarCell}
-                onPress={() => pickFacePhotoForFrame(id)}
+                onPress={() => {
+                  if (pickingAvatar) return;
+                  Alert.alert(
+                    'Add your face',
+                    'Take a photo with the camera or choose from your library.',
+                    [
+                      { text: 'Cancel', style: 'cancel' },
+                      { text: 'Take photo', onPress: () => pickFacePhotoForFrame(id, true) },
+                      { text: 'Choose from library', onPress: () => pickFacePhotoForFrame(id, false) },
+                    ]
+                  );
+                }}
                 activeOpacity={0.8}
                 disabled={pickingAvatar}
               >

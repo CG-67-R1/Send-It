@@ -60,7 +60,7 @@ function HeadlinesStack() {
       <Stack.Screen
         name="HeadlinesSettings"
         component={HeadlinesSettingsScreen}
-        options={{ title: 'Headlines settings' }}
+        options={{ title: 'News settings' }}
       />
       <Stack.Screen
         name="ChangeAvatar"
@@ -147,7 +147,7 @@ export default function App() {
   const [onboardingComplete, setOnboardingComplete] = useState<boolean | null>(null);
 
   const [fontsLoaded] = useFonts({
-    RaceSport: require('./assets/fonts/RaceSport.ttf'),
+    'Race Sport': require('./assets/fonts/RaceSport.ttf'),
   });
 
   useEffect(() => {

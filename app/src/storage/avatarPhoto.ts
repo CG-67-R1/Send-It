@@ -16,12 +16,19 @@ export async function getAvatarPhotoUri(): Promise<string | null> {
 }
 
 export async function setAvatarPhotoUri(sourceUri: string): Promise<string> {
-  const dir = FileSystem.documentDirectory;
-  if (!dir) throw new Error('No document directory');
-  const destUri = `${dir}${AVATAR_PHOTO_FILENAME}`;
-  await FileSystem.copyAsync({ from: sourceUri, to: destUri });
-  await AsyncStorage.setItem(KEY_AVATAR_PHOTO_URI, destUri);
-  return destUri;
+  try {
+    const dir = FileSystem.documentDirectory;
+    if (dir) {
+      const destUri = `${dir}${AVATAR_PHOTO_FILENAME}`;
+      await FileSystem.copyAsync({ from: sourceUri, to: destUri });
+      await AsyncStorage.setItem(KEY_AVATAR_PHOTO_URI, destUri);
+      return destUri;
+    }
+  } catch {
+    // On device, copy can fail (e.g. content URI). Store source URI so UI still updates.
+  }
+  await AsyncStorage.setItem(KEY_AVATAR_PHOTO_URI, sourceUri);
+  return sourceUri;
 }
 
 export async function clearAvatarPhoto(): Promise<void> {
