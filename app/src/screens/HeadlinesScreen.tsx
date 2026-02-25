@@ -114,6 +114,7 @@ export function HeadlinesScreen() {
   const { height: windowHeight } = Dimensions.get('window');
   const heroHeight = windowHeight * 0.6;
   const buttonsHeight = windowHeight * 0.4;
+  const avatarSize = Math.round(heroHeight * 0.3);
   const pocBikeImage = require('../../assets/home-poc-bike.png');
 
   return (
@@ -131,7 +132,7 @@ export function HeadlinesScreen() {
       >
         <View style={[styles.heroImageContainer, { height: heroHeight }]}>
           <View style={styles.heroLogoWrap} pointerEvents="none">
-            <AppLogo size={160} />
+            <AppLogo size={480} />
           </View>
           {bikePhotoUri ? (
             <Image source={{ uri: bikePhotoUri }} style={styles.heroImage} resizeMode="cover" />
@@ -170,12 +171,20 @@ export function HeadlinesScreen() {
               end={{ x: 0, y: 0.5 }}
             />
           </View>
-          {/* Avatar + rider name centered on screen */}
+          {/* Avatar + rider name centered on screen (avatar = 30% of image height) */}
           <View style={styles.nicknameWrap} pointerEvents="none">
             {avatarId === 'custom' && customAvatarUri ? (
-              <Image source={{ uri: customAvatarUri }} style={styles.avatarImage} resizeMode="cover" />
+              <Image
+                source={{ uri: customAvatarUri }}
+                style={[styles.avatarImage, { width: avatarSize, height: avatarSize, borderRadius: avatarSize / 2 }]}
+                resizeMode="cover"
+              />
             ) : AVATAR_SOURCES[avatarId] != null ? (
-              <Image source={AVATAR_SOURCES[avatarId]} style={styles.avatarImage} resizeMode="cover" />
+              <Image
+                source={AVATAR_SOURCES[avatarId]}
+                style={[styles.avatarImage, { width: avatarSize, height: avatarSize, borderRadius: avatarSize / 2 }]}
+                resizeMode="cover"
+              />
             ) : null}
             <Text style={styles.nickname}>{displayName}</Text>
           </View>
@@ -272,9 +281,7 @@ const styles = StyleSheet.create({
     gap: 12,
   },
   avatarImage: {
-    width: 48,
-    height: 48,
-    borderRadius: 24,
+    /* size set inline to 30% of hero height */
   },
   nickname: {
     fontFamily: 'RaceSport',

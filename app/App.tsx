@@ -9,6 +9,7 @@ import * as Sentry from 'sentry-expo';
 import { HeadlinesScreen } from './src/screens/HeadlinesScreen';
 import { HeadlinesListScreen } from './src/screens/HeadlinesListScreen';
 import { HeadlinesSettingsScreen } from './src/screens/HeadlinesSettingsScreen';
+import { ChangeAvatarScreen } from './src/screens/ChangeAvatarScreen';
 import { QAScreen } from './src/screens/QAScreen';
 import { CalendarScreen } from './src/screens/CalendarScreen';
 import { RiderCoachScreen } from './src/screens/RiderCoachScreen';
@@ -60,6 +61,11 @@ function HeadlinesStack() {
         name="HeadlinesSettings"
         component={HeadlinesSettingsScreen}
         options={{ title: 'Headlines settings' }}
+      />
+      <Stack.Screen
+        name="ChangeAvatar"
+        component={ChangeAvatarScreen}
+        options={{ title: 'Change avatar' }}
       />
     </Stack.Navigator>
   );

@@ -211,10 +211,10 @@ export function OnboardingScreen({ onComplete }: OnboardingScreenProps) {
         {step === 4 && (
           <View style={styles.step}>
             <Text style={styles.title}>Pick your avatar</Text>
-            <Text style={styles.subtitle}>Choose an avatar, or add your face to a frame. It'll show next to your name on the home screen.</Text>
+            <Text style={styles.subtitle}>Choose an avatar, or add your face to a frame (you'll pick a frame, then we'll ask for your photo). It'll show next to your name on the home screen.</Text>
             {choosingFrame ? (
               <>
-                <Text style={styles.framePrompt}>Choose a frame for your photo</Text>
+                <Text style={styles.framePrompt}>Pick a frame — next we'll ask for your face photo</Text>
                 <View style={styles.avatarGrid}>
                   {NO_FACE_IDS.map((id) => (
                     <TouchableOpacity
@@ -260,7 +260,7 @@ export function OnboardingScreen({ onComplete }: OnboardingScreenProps) {
                 </View>
               ) : (
                 <Text style={[styles.optionLabel, avatarId === CUSTOM_AVATAR_ID && styles.optionLabelActive]}>
-                  Upload my photo (pick a frame)
+                  Add my face (pick a frame, then your photo)
                 </Text>
               )}
             </TouchableOpacity>

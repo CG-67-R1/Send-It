@@ -10,6 +10,7 @@ import {
   TouchableOpacity,
   View,
 } from 'react-native';
+import { useNavigation } from '@react-navigation/native';
 import {
   getCustomSources,
   getPriorityOrder,
@@ -25,6 +26,7 @@ import type { CustomSource, PriorityOrder, Source } from '../types';
 import { AppLogo } from '../components/AppLogo';
 
 export function HeadlinesSettingsScreen() {
+  const navigation = useNavigation();
   const [builtinSources, setBuiltinSources] = useState<Source[]>([]);
   const [customSources, setCustomSourcesState] = useState<CustomSource[]>([]);
   const [priority, setPriorityState] = useState<PriorityOrder>([]);
@@ -143,6 +145,17 @@ export function HeadlinesSettingsScreen() {
     <ScrollView style={styles.container} contentContainerStyle={styles.content}>
       <View style={styles.logoRow}>
         <AppLogo size={28} />
+      </View>
+      <View style={styles.section}>
+        <Text style={styles.sectionTitle}>Profile</Text>
+        <TouchableOpacity
+          style={styles.changeAvatarRow}
+          onPress={() => navigation.navigate('ChangeAvatar' as never)}
+          activeOpacity={0.8}
+        >
+          <Text style={styles.changeAvatarLabel}>Change avatar</Text>
+          <Text style={styles.changeAvatarChevron}>›</Text>
+        </TouchableOpacity>
       </View>
       <View style={styles.section}>
         <Text style={styles.sectionTitle}>Notifications</Text>
@@ -274,6 +287,17 @@ const styles = StyleSheet.create({
   section: { marginBottom: 28 },
   sectionTitle: { fontSize: 20, fontWeight: '700', color: '#f8fafc', marginBottom: 4 },
   sectionSubtitle: { fontSize: 13, color: '#64748b', marginBottom: 12 },
+  changeAvatarRow: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'space-between',
+    paddingVertical: 14,
+    paddingHorizontal: 4,
+    borderBottomWidth: 1,
+    borderBottomColor: '#334155',
+  },
+  changeAvatarLabel: { fontSize: 16, color: '#e2e8f0', fontWeight: '500' },
+  changeAvatarChevron: { fontSize: 20, color: '#94a3b8' },
   notifyRow: {
     flexDirection: 'row',
     alignItems: 'center',
