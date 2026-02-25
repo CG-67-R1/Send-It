@@ -33,6 +33,7 @@ export function HeadlinesScreen() {
   const [nickname, setNickname] = useState<string>('');
   const [avatarId, setAvatarId] = useState<string>('devil');
   const [customAvatarUri, setCustomAvatarUri] = useState<string | null>(null);
+  const [noFaceFrameId, setNoFaceFrameId] = useState<string | null>(null);
   const [pickingPhoto, setPickingPhoto] = useState(false);
 
   const loadData = useCallback(async () => {
@@ -45,6 +46,7 @@ export function HeadlinesScreen() {
     setNickname(answers?.riderNickname?.trim() || answers?.favouriteRider?.trim() || 'Rider');
     setAvatarId(answers?.avatarId ?? 'devil');
     setCustomAvatarUri(answers?.avatarId === 'custom' ? avatarUri : null);
+    setNoFaceFrameId(answers?.noFaceFrameId ?? null);
   }, []);
 
   useFocusEffect(
@@ -171,16 +173,41 @@ export function HeadlinesScreen() {
               end={{ x: 0, y: 0.5 }}
             />
           </View>
-          {/* Name (left) + avatar (right) at bottom; avatar overlays as figure only, no box */}
+          {/* Name (left) + avatar (right) at bottom; custom = face placed inside no_face frame */}
           <View style={styles.nicknameWrap} pointerEvents="none">
             <Text style={styles.nickname}>{displayName}</Text>
             {avatarId === 'custom' && customAvatarUri ? (
               <View style={styles.avatarOverlayWrap}>
-                <Image
-                  source={{ uri: customAvatarUri }}
-                  style={[styles.avatarImage, { width: avatarSize, height: avatarSize }]}
-                  resizeMode="contain"
-                />
+                {noFaceFrameId && AVATAR_SOURCES[noFaceFrameId] != null ? (
+                  <View style={[styles.faceInFrameWrap, { width: avatarSize, height: avatarSize }]}>
+                    <Image
+                      source={{ uri: customAvatarUri }}
+                      style={[
+                        styles.faceInFramePhoto,
+                        {
+                          position: 'absolute',
+                          width: Math.round(avatarSize * 0.38),
+                          height: Math.round(avatarSize * 0.38),
+                          borderRadius: Math.round(avatarSize * 0.19),
+                          left: Math.round(avatarSize * 0.31),
+                          top: Math.round(avatarSize * 0.22),
+                        },
+                      ]}
+                      resizeMode="cover"
+                    />
+                    <Image
+                      source={AVATAR_SOURCES[noFaceFrameId]}
+                      style={[styles.avatarImage, { width: avatarSize, height: avatarSize }]}
+                      resizeMode="contain"
+                    />
+                  </View>
+                ) : (
+                  <Image
+                    source={{ uri: customAvatarUri }}
+                    style={[styles.avatarImage, { width: avatarSize, height: avatarSize }]}
+                    resizeMode="contain"
+                  />
+                )}
               </View>
             ) : AVATAR_SOURCES[avatarId] != null ? (
               <View style={styles.avatarOverlayWrap}>
@@ -293,6 +320,13 @@ const styles = StyleSheet.create({
   avatarOverlayWrap: {
     backgroundColor: 'transparent',
     overflow: 'visible',
+  },
+  faceInFrameWrap: {
+    position: 'relative',
+    backgroundColor: 'transparent',
+  },
+  faceInFramePhoto: {
+    backgroundColor: 'transparent',
   },
   avatarImage: {
     backgroundColor: 'transparent',

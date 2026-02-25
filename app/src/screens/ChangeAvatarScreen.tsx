@@ -50,17 +50,17 @@ export function ChangeAvatarScreen() {
     setPickingAvatar(true);
     setChoosingFrame(false);
     try {
-      const { status } = await ImagePicker.requestMediaLibraryPermissionsAsync();
+      const { status } = await ImagePicker.requestCameraPermissionsAsync();
       if (status !== 'granted') {
         Alert.alert(
-          'Photo access',
-          'Allow photo access to use your face in the frame.',
+          'Camera access',
+          'Allow camera access to take your face photo for the avatar.',
           [{ text: 'OK' }, { text: 'Open Settings', onPress: () => Linking.openSettings() }]
         );
         return;
       }
-      const result = await ImagePicker.launchImageLibraryAsync({
-        mediaTypes: ['images'],
+      const result = await ImagePicker.launchCameraAsync({
+        cameraType: ImagePicker.CameraType.Front,
         allowsEditing: true,
         aspect: [1, 1],
         quality: 0.8,
@@ -72,7 +72,7 @@ export function ChangeAvatarScreen() {
         setAvatarId(CUSTOM_AVATAR_ID);
       }
     } catch (e) {
-      const msg = e instanceof Error ? e.message : 'Could not pick image';
+      const msg = e instanceof Error ? e.message : 'Could not take photo';
       Alert.alert('Error', msg);
     } finally {
       setPickingAvatar(false);
