@@ -121,7 +121,7 @@ export function ChangeAvatarScreen() {
     <ScrollView style={styles.container} contentContainerStyle={styles.content}>
       <Text style={styles.title}>Change avatar</Text>
       <Text style={styles.subtitle}>
-        Choose an avatar, or add your face to a frame (pick a frame, then we'll ask for your photo).
+        Choose an avatar, or upload your photo (pick a frame, then take or choose a photo).
       </Text>
 
       {choosingFrame ? (
@@ -183,7 +183,7 @@ export function ChangeAvatarScreen() {
               </View>
             ) : (
               <Text style={[styles.optionLabel, avatarId === CUSTOM_AVATAR_ID && styles.optionLabelActive]}>
-                Add my face (pick a frame, then your photo)
+                Upload my photo (pick a frame, then take or choose photo)
               </Text>
             )}
           </TouchableOpacity>

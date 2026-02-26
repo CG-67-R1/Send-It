@@ -129,7 +129,12 @@ export function QAScreen() {
         setSearchError('No response from coach');
       }
     } catch (e) {
-      setSearchError(e instanceof Error ? e.message : 'Request failed');
+      const rawMessage = e instanceof Error ? e.message : 'Request failed';
+      const friendly =
+        __DEV__ && rawMessage.toLowerCase().includes('network request failed')
+          ? "Couldn't reach the RoadRace API from Expo. Make sure the API is running (cd api && npm run dev) and that DEV_MACHINE_IP in app/constants/api.ts matches your computer's LAN IP."
+          : rawMessage;
+      setSearchError(friendly);
       setSearchResults([]);
     } finally {
       setSearchLoading(false);
@@ -181,7 +186,13 @@ export function QAScreen() {
           triviaIndex: data.triviaIndex,
         });
       } catch (e) {
-        setTriviaState('idle');
+        const rawMessage = e instanceof Error ? e.message : 'Trivia request failed';
+        const friendly =
+          __DEV__ && rawMessage.toLowerCase().includes('network request failed')
+            ? "Couldn't reach the RoadRace API for trivia. In Expo, make sure the API is running (cd api && npm run dev) and that DEV_MACHINE_IP in app/constants/api.ts matches your computer's LAN IP."
+            : rawMessage;
+        setTriviaState('failed');
+        setTriviaFailMessage(friendly);
         setTriviaQuestion(null);
         setTriviaWrong(0);
         setTriviaCorrect(0);
