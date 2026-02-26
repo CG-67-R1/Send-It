@@ -13,6 +13,8 @@ import {
 import { useFocusEffect } from '@react-navigation/native';
 import * as Calendar from 'expo-calendar';
 import { CALENDAR_URL } from '../../constants/api';
+// Local fallback data if API is unreachable
+const LOCAL_STATIC = require('../data/calendar-static.json');
 import type { CalendarEvent } from '../types';
 import { AppLogo } from '../components/AppLogo';
 
@@ -65,16 +67,69 @@ export function CalendarScreen() {
       const res = await fetch(url, { signal: AbortSignal.timeout(15000) });
       const data = await res.json();
       const list = Array.isArray(data.events) ? data.events : [];
-      setEvents(list);
+      if (list.length > 0) {
+        setEvents(list);
+        return;
+      }
+      // If API returns no events, fall back to local static data.
+      const local = buildLocalEvents();
+      setEvents(local);
     } catch (e) {
       const message = e instanceof Error ? e.message : 'Failed to load calendar';
       setError(message);
-      setEvents([]);
+      // Fall back to bundled static events so the screen isn't empty.
+      const local = buildLocalEvents();
+      setEvents(local);
     } finally {
       setLoading(false);
       setRefreshing(false);
     }
   }, []);
+
+  function buildLocalEvents(): CalendarEvent[] {
+    try {
+      const staticData = LOCAL_STATIC || {};
+      const motogp = (staticData.motogp || []).map((e: any) => ({
+        series: 'motogp',
+        seriesLabel: 'MotoGP',
+        title: e.title,
+        venue: e.venue ?? null,
+        country: e.country ?? null,
+        startDate: e.startDate,
+        endDate: e.endDate || e.startDate,
+        url: e.url ?? null,
+      }));
+      const australia = (staticData.australia || []).map((e: any) => ({
+        series: 'asbk',
+        seriesLabel: 'ASBK',
+        title: e.title,
+        venue: e.venue ?? null,
+        country: e.country ?? null,
+        startDate: e.startDate,
+        endDate: e.endDate || e.startDate,
+        url: e.url ?? null,
+      }));
+      const auClub = (staticData.australia_club || []).map((e: any) => ({
+        series: e.series || 'au_club',
+        seriesLabel: e.seriesLabel || 'AU Road Race',
+        title: e.title,
+        venue: e.venue ?? null,
+        country: e.country ?? null,
+        startDate: e.startDate,
+        endDate: e.endDate || e.startDate,
+        url: e.url ?? null,
+      }));
+      const todayIso = new Date().toISOString().slice(0, 10);
+      const all = [...auClub, ...australia, ...motogp]
+        .filter((e) => e.startDate)
+        // Only keep events that are today or in the future so old seasons (e.g. 2025) don't show in 2026+
+        .filter((e) => (e.endDate || e.startDate) >= todayIso);
+      all.sort((a, b) => a.startDate.localeCompare(b.startDate));
+      return all;
+    } catch {
+      return [];
+    }
+  }
 
   useFocusEffect(
     useCallback(() => {
