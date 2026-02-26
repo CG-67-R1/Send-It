@@ -19,11 +19,14 @@ import { OnboardingScreen } from './src/screens/OnboardingScreen';
 import { getOnboardingDone } from './src/storage/onboarding';
 import { AppLogo } from './src/components/AppLogo';
 
-Sentry.init({
-  dsn: process.env.EXPO_PUBLIC_SENTRY_DSN ?? undefined,
-  enableInExpoDevelopment: true,
-  debug: __DEV__,
-});
+// Only init Sentry when not in dev to avoid "[RUNTIME NOT READY]" on device (native bridge not ready yet)
+if (!__DEV__) {
+  Sentry.init({
+    dsn: process.env.EXPO_PUBLIC_SENTRY_DSN ?? undefined,
+    enableInExpoDevelopment: false,
+    debug: false,
+  });
+}
 
 const Stack = createNativeStackNavigator();
 const Tab = createBottomTabNavigator();
@@ -31,7 +34,7 @@ const Tab = createBottomTabNavigator();
 const headerOptions = {
   headerStyle: { backgroundColor: '#0f172a' },
   headerTintColor: '#f8fafc',
-  headerTitleStyle: { fontWeight: '700', fontSize: 18 },
+  headerTitleStyle: { fontWeight: '700' as const, fontSize: 18 },
 };
 
 function HeadlinesStack() {
@@ -41,7 +44,7 @@ function HeadlinesStack() {
           name="Headlines"
           component={HeadlinesScreen}
           options={({ navigation }) => ({
-            headerTitle: () => <AppLogo size={40} />,
+            headerTitle: () => <AppLogo size={80} />,
           headerRight: () => (
             <TouchableOpacity
               onPress={() => navigation.navigate('HeadlinesSettings')}
