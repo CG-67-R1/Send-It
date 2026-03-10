@@ -8,20 +8,22 @@ import {
   ScrollView,
   KeyboardAvoidingView,
   Platform,
+  Linking,
 } from 'react-native';
-import { getRiderFact, getBikeFact } from '../onboardingContent';
+import { getRiderFact, getBikeFact, RACING_STATES, getRacingStateInfo } from '../onboardingContent';
 import {
   setOnboardingDone,
   setOnboardingAnswers,
   type OnboardingAnswers,
 } from '../storage/onboarding';
 
-type Activity = 'race' | 'track_days' | 'just_love_bikes';
+type Activity = 'race' | 'track_days' | 'just_love_bikes' | 'race_one_day';
 
 const ACTIVITY_OPTIONS: { value: Activity; label: string }[] = [
-  { value: 'race', label: "I race 🏁" },
+  { value: 'race', label: 'I race 🏁' },
   { value: 'track_days', label: 'Track days only 🛞' },
-  { value: 'just_love_bikes', label: "Just love bikes 🏍️" },
+  { value: 'just_love_bikes', label: 'Just love bikes 🏍️' },
+  { value: 'race_one_day', label: 'Want to have a go at racing one day!' },
 ];
 
 interface OnboardingScreenProps {
@@ -34,9 +36,13 @@ export function OnboardingScreen({ onComplete }: OnboardingScreenProps) {
   const [favouriteRider, setFavouriteRider] = useState('');
   const [activity, setActivity] = useState<Activity | null>(null);
   const [knowsJustSendIt, setKnowsJustSendIt] = useState<boolean | null>(null);
+  const [wantsRacingInfo, setWantsRacingInfo] = useState<boolean | null>(null);
+  const [selectedStateCode, setSelectedStateCode] = useState<string | null>(null);
+  const [wantsRacingEmailInfo, setWantsRacingEmailInfo] = useState<boolean | null>(null);
+  const [racingEmail, setRacingEmail] = useState('');
   const [riderNickname, setRiderNickname] = useState('');
 
-  const totalSteps = 7; // welcome, bike, rider, activity, just send it, nickname, summary
+  const totalSteps = 8; // welcome, bike, rider, activity, future racer info, Just Send It, nickname, summary
 
   const handleFinish = async () => {
     const answers: OnboardingAnswers = {
@@ -45,6 +51,9 @@ export function OnboardingScreen({ onComplete }: OnboardingScreenProps) {
       activity: activity ?? 'just_love_bikes',
       knowsJustSendIt: knowsJustSendIt ?? false,
       riderNickname: riderNickname.trim() || 'Rider',
+      futureRacer: activity === 'race_one_day' || undefined,
+      racingStateCode: selectedStateCode ?? undefined,
+      racingInfoEmail: racingEmail.trim() || undefined,
     };
     await setOnboardingAnswers(answers);
     await setOnboardingDone();
@@ -55,13 +64,49 @@ export function OnboardingScreen({ onComplete }: OnboardingScreenProps) {
     if (step === 1) return favouriteBike.trim().length > 0;
     if (step === 2) return favouriteRider.trim().length > 0;
     if (step === 3) return activity !== null;
-    if (step === 4) return knowsJustSendIt !== null;
+    if (step === 4) {
+      // Future racer info step
+      if (activity !== 'race_one_day') return true;
+      if (wantsRacingInfo === null) return false;
+      if (!wantsRacingInfo) return true;
+      if (!selectedStateCode) return false;
+      if (wantsRacingEmailInfo === null) return false;
+      if (wantsRacingEmailInfo === true) {
+        return racingEmail.trim().length > 3 && racingEmail.includes('@');
+      }
+      return true;
+    }
+    if (step === 5) return knowsJustSendIt !== null;
     return true;
   };
 
   const isLastStep = step === totalSteps - 1;
 
-  const handleNext = () => {
+  const handleNext = async () => {
+    if (step === 4 && activity === 'race_one_day' && wantsRacingInfo && wantsRacingEmailInfo) {
+      const stateInfo = selectedStateCode ? getRacingStateInfo(selectedStateCode) : undefined;
+      const subject = encodeURIComponent('RoadRace – Future racer enquiry');
+      const bodyLines = [
+        'A RoadRace user wants to learn how to go racing.',
+        '',
+        `Favourite bike: ${favouriteBike || 'N/A'}`,
+        `Favourite rider: ${favouriteRider || 'N/A'}`,
+        `Riding activity: wants to race one day`,
+        `State: ${stateInfo ? stateInfo.name : selectedStateCode || 'N/A'}`,
+        `Contact email: ${racingEmail || 'N/A'}`,
+      ];
+      const body = encodeURIComponent(bodyLines.join('\n'));
+      const mailtoUrl = `mailto:projectapex@outlook.com.au?subject=${subject}&body=${body}`;
+      try {
+        const supported = await Linking.canOpenURL(mailtoUrl);
+        if (supported) {
+          await Linking.openURL(mailtoUrl);
+        }
+      } catch {
+        // Fail silently if email app cannot be opened.
+      }
+    }
+
     if (step < totalSteps - 1) setStep((s) => s + 1);
     else handleFinish();
   };
@@ -156,8 +201,204 @@ export function OnboardingScreen({ onComplete }: OnboardingScreenProps) {
           </View>
         )}
 
-        {/* Step 4: Just Send it! */}
+        {/* Step 4: Future racer flow (optional) */}
         {step === 4 && (
+          <View style={styles.step}>
+            {activity === 'race_one_day' && (
+              <>
+                <Text style={styles.title}>Thinking about racing one day?</Text>
+                <Text style={styles.subtitle}>
+                  Would you like to learn how easy it is to get racing in your state and the most
+                  affordable classes?
+                </Text>
+                <View style={styles.yesNoRow}>
+                  <TouchableOpacity
+                    style={[
+                      styles.yesNoButton,
+                      wantsRacingInfo === true && styles.yesNoButtonActive,
+                    ]}
+                    onPress={() => setWantsRacingInfo(true)}
+                    activeOpacity={0.8}
+                  >
+                    <Text
+                      style={[
+                        styles.yesNoLabel,
+                        wantsRacingInfo === true && styles.optionLabelActive,
+                      ]}
+                    >
+                      Yes, show me
+                    </Text>
+                  </TouchableOpacity>
+                  <TouchableOpacity
+                    style={[
+                      styles.yesNoButton,
+                      wantsRacingInfo === false && styles.yesNoButtonActive,
+                    ]}
+                    onPress={() => setWantsRacingInfo(false)}
+                    activeOpacity={0.8}
+                  >
+                    <Text
+                      style={[
+                        styles.yesNoLabel,
+                        wantsRacingInfo === false && styles.optionLabelActive,
+                      ]}
+                    >
+                      Not right now
+                    </Text>
+                  </TouchableOpacity>
+                </View>
+
+                {wantsRacingInfo && (
+                  <>
+                    <Text style={styles.subtitle}>Pick which state you live in:</Text>
+                    <View style={styles.stateList}>
+                      {RACING_STATES.map((state) => (
+                        <TouchableOpacity
+                          key={state.code}
+                          style={[
+                            styles.optionButton,
+                            selectedStateCode === state.code && styles.optionButtonActive,
+                          ]}
+                          onPress={() => setSelectedStateCode(state.code)}
+                          activeOpacity={0.8}
+                        >
+                          <Text
+                            style={[
+                              styles.optionLabel,
+                              selectedStateCode === state.code && styles.optionLabelActive,
+                            ]}
+                          >
+                            {state.name}
+                          </Text>
+                        </TouchableOpacity>
+                      ))}
+                    </View>
+
+                    {selectedStateCode && (
+                      <>
+                        {(() => {
+                          const info = getRacingStateInfo(selectedStateCode);
+                          if (!info) return null;
+                          return (
+                            <View style={styles.justSendItBox}>
+                              <Text style={styles.justSendItTitle}>
+                                Getting racing in {info.name}
+                              </Text>
+                              <Text style={styles.justSendItText}>
+                                Here are some of the road race clubs, classes and coaches to get you
+                                started.
+                              </Text>
+                              <Text style={[styles.justSendItText, { marginTop: 8 }]}>
+                                Clubs:
+                              </Text>
+                              {info.clubs.map((club) => (
+                                <Text key={club.name} style={styles.justSendItText}>
+                                  • {club.name} – {club.location}
+                                  {club.website ? ` – ${club.website}` : ''}
+                                  {club.email ? ` – ${club.email}` : ''}
+                                </Text>
+                              ))}
+                              <Text style={[styles.justSendItText, { marginTop: 8 }]}>
+                                Common competition classes:
+                              </Text>
+                              {info.classes.map((cls) => (
+                                <Text key={cls} style={styles.justSendItText}>
+                                  • {cls}
+                                </Text>
+                              ))}
+                              <Text style={[styles.justSendItText, { marginTop: 8 }]}>
+                                Recommended local coaches:
+                              </Text>
+                              {info.coaches.map((coach) => (
+                                <Text key={coach.name} style={styles.justSendItText}>
+                                  • {coach.name} – {coach.description}
+                                  {coach.website ? ` – ${coach.website}` : ''}
+                                  {coach.email ? ` – ${coach.email}` : ''}
+                                </Text>
+                              ))}
+                            </View>
+                          );
+                        })()}
+
+                        <Text style={[styles.subtitle, { marginTop: 16 }]}>
+                          Would you like to receive more information from RoadRace?
+                        </Text>
+                        <View style={styles.yesNoRow}>
+                          <TouchableOpacity
+                            style={[
+                              styles.yesNoButton,
+                              wantsRacingEmailInfo === true && styles.yesNoButtonActive,
+                            ]}
+                            onPress={() => setWantsRacingEmailInfo(true)}
+                            activeOpacity={0.8}
+                          >
+                            <Text
+                              style={[
+                                styles.yesNoLabel,
+                                wantsRacingEmailInfo === true && styles.optionLabelActive,
+                              ]}
+                            >
+                              Yes, email me
+                            </Text>
+                          </TouchableOpacity>
+                          <TouchableOpacity
+                            style={[
+                              styles.yesNoButton,
+                              wantsRacingEmailInfo === false && styles.yesNoButtonActive,
+                            ]}
+                            onPress={() => setWantsRacingEmailInfo(false)}
+                            activeOpacity={0.8}
+                          >
+                            <Text
+                              style={[
+                                styles.yesNoLabel,
+                                wantsRacingEmailInfo === false && styles.optionLabelActive,
+                              ]}
+                            >
+                              No thanks
+                            </Text>
+                          </TouchableOpacity>
+                        </View>
+
+                        {wantsRacingEmailInfo && (
+                          <>
+                            <Text style={styles.subtitle}>
+                              Drop your email and we’ll send you a simple “how to start racing”
+                              guide for your state.
+                            </Text>
+                            <TextInput
+                              style={styles.input}
+                              placeholder="you@example.com"
+                              placeholderTextColor="#64748b"
+                              keyboardType="email-address"
+                              autoCapitalize="none"
+                              autoCorrect={false}
+                              value={racingEmail}
+                              onChangeText={setRacingEmail}
+                            />
+                            <Text style={{ color: '#94a3b8', fontSize: 13, marginTop: 8 }}>
+                              We’ll email your answers to the RoadRace team at
+                              {' '}
+                              projectapex@outlook.com.au so they can get in touch.
+                            </Text>
+                          </>
+                        )}
+                      </>
+                    )}
+                  </>
+                )}
+              </>
+            )}
+            {!activity || activity !== 'race_one_day' ? (
+              <Text style={styles.subtitle}>
+                You’re all set here — hit Next to keep going.
+              </Text>
+            ) : null}
+          </View>
+        )}
+
+        {/* Step 5: Just Send it! */}
+        {step === 5 && (
           <View style={styles.step}>
             <Text style={styles.title}>Do you know what “Just Send it!” means?</Text>
             <Text style={styles.subtitle}>Be honest. There are no wrong answers here.</Text>
@@ -194,8 +435,8 @@ export function OnboardingScreen({ onComplete }: OnboardingScreenProps) {
           </View>
         )}
 
-        {/* Step 5: Name / race number / nickname */}
-        {step === 5 && (
+        {/* Step 6: Name / race number / nickname */}
+        {step === 6 && (
           <View style={styles.step}>
             <Text style={styles.title}>What should we call you?</Text>
             <Text style={styles.subtitle}>
@@ -213,8 +454,8 @@ export function OnboardingScreen({ onComplete }: OnboardingScreenProps) {
           </View>
         )}
 
-        {/* Step 6: Summary */}
-        {step === 6 && (
+        {/* Step 7: Summary */}
+        {step === 7 && (
           <View style={styles.step}>
             <Text style={styles.title}>You’re in the right place</Text>
             <Text style={styles.summaryText}>{getRiderFact(favouriteRider.trim())}</Text>
@@ -261,6 +502,11 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     gap: 8,
     marginBottom: 32,
+  },
+  stateList: {
+    marginTop: 8,
+    marginBottom: 16,
+    gap: 8,
   },
   progressDot: {
     width: 8,

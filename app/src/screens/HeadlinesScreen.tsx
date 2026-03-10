@@ -1,4 +1,4 @@
-import React, { useCallback, useState } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 import {
   ActivityIndicator,
   Alert,
@@ -16,6 +16,7 @@ import * as ImagePicker from 'expo-image-picker';
 import { useFocusEffect, useNavigation } from '@react-navigation/native';
 import type { NativeStackNavigationProp } from '@react-navigation/native-stack';
 import { getBikePhotoUri, setBikePhotoUri, clearBikePhoto } from '../storage/bikePhoto';
+import { HEADLINES_URL } from '../../constants/api';
 import { getOnboardingAnswers } from '../storage/onboarding';
 import { AppLogo } from '../components/AppLogo';
 
@@ -30,6 +31,19 @@ export function HeadlinesScreen() {
   const [bikePhotoUri, setBikePhotoUriState] = useState<string | null>(null);
   const [nickname, setNickname] = useState<string>('');
   const [pickingPhoto, setPickingPhoto] = useState(false);
+  const [hasPrefetchedHeadlines, setHasPrefetchedHeadlines] = useState(false);
+
+  useEffect(() => {
+    if (hasPrefetchedHeadlines) return;
+    setHasPrefetchedHeadlines(true);
+    (async () => {
+      try {
+        await fetch(HEADLINES_URL, { signal: AbortSignal.timeout(25000) });
+      } catch {
+        // Best-effort warm-up only.
+      }
+    })();
+  }, [hasPrefetchedHeadlines]);
 
   const loadData = useCallback(async () => {
     const [uri, answers] = await Promise.all([

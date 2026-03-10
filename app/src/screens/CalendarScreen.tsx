@@ -189,7 +189,7 @@ export function CalendarScreen() {
       }
       ListHeaderComponent={
         <View style={styles.header}>
-          <AppLogo size={32} />
+          <AppLogo size={80} />
           <Text style={styles.headerTitle}>Events</Text>
           <Text style={styles.headerSubtitle}>
             MotoGP • WorldSBK • Australian road racing (ASBK). Tap to open links.
@@ -247,6 +247,7 @@ const styles = StyleSheet.create({
     paddingTop: 16,
     paddingBottom: 12,
     gap: 8,
+    alignItems: 'center',
   },
   headerTitle: {
     fontSize: 28,

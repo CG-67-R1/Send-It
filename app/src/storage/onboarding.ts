@@ -6,10 +6,21 @@ const KEY_ONBOARDING_ANSWERS = '@roadrace_onboarding_answers';
 export interface OnboardingAnswers {
   favouriteBike: string;
   favouriteRider: string;
-  activity: 'race' | 'track_days' | 'just_love_bikes';
-  knowsJustSendIt: boolean;
+  activity: 'race' | 'track_days' | 'just_love_bikes' | 'race_one_day';
+  /** Optional for backward compatibility; prefer avatarId. */
+  knowsJustSendIt?: boolean;
+  /** Predefined avatar id (e.g. 'devil', 'black_no_face') or 'custom' when using uploaded photo. */
+  avatarId?: string;
+  /** When avatarId is 'custom', which no_face frame was chosen (e.g. 'black_no_face'). */
+  noFaceFrameId?: string;
   /** Name, race number or nickname shown on the home screen (optional for backward compatibility) */
   riderNickname?: string;
+  /** Future racer flow: whether they picked \"Want to have a go at racing one day!\" */
+  futureRacer?: boolean;
+  /** Future racer flow: state they selected for learning how to race (e.g. 'NSW'). */
+  racingStateCode?: string;
+  /** Future racer flow: email address for follow-up info, if they opted in. */
+  racingInfoEmail?: string;
 }
 
 export async function getOnboardingDone(): Promise<boolean> {

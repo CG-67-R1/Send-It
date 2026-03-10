@@ -128,3 +128,229 @@ export function getBikeFact(bikeName: string): string {
   const found = BIKE_FACTS.find((b) => matchBike(bikeName, b.terms));
   return found ? found.fact : DEFAULT_BIKE_FACT;
 }
+
+export interface RacingClub {
+  name: string;
+  location: string;
+  website?: string;
+  email?: string;
+}
+
+export interface RacingCoach {
+  name: string;
+  description: string;
+  website?: string;
+  email?: string;
+}
+
+export interface RacingStateInfo {
+  code: string;
+  name: string;
+  clubs: RacingClub[];
+  classes: string[];
+  coaches: RacingCoach[];
+}
+
+export const RACING_STATES: RacingStateInfo[] = [
+  {
+    code: 'NSW',
+    name: 'New South Wales',
+    clubs: [
+      {
+        name: 'St George Motorcycle Club',
+        location: 'Sydney Motorsport Park, Eastern Creek',
+        website: 'https://stgeorgemcc.com',
+        email: 'secretary@stgeorgemcc.com',
+      },
+      {
+        name: 'Motorcycling NSW',
+        location: 'NSW (state body)',
+        website: 'https://motorcycling.com.au',
+        email: 'info@motorcycling.com.au',
+      },
+    ],
+    classes: [
+      'Junior and senior production classes (300–400cc)',
+      'Supersport (600cc)',
+      'Superbike / Unlimited',
+      'Clubman / newcomer-friendly grades',
+    ],
+    coaches: [
+      {
+        name: 'MotoDNA / motoDNA Rider Academy',
+        description: 'Coaching days at Sydney Motorsport Park focused on safe, fast riding and race prep.',
+        website: 'https://motodna.com.au',
+      },
+    ],
+  },
+  {
+    code: 'VIC',
+    name: 'Victoria',
+    clubs: [
+      {
+        name: 'Preston Motorcycle Club',
+        location: 'Broadford State Motorcycle Sports Complex & Phillip Island',
+        website: 'https://prestonmcc.com.au',
+        email: 'info@prestonmcc.com.au',
+      },
+      {
+        name: 'Motorcycling Victoria',
+        location: 'Victoria (state body)',
+        website: 'https://motorcyclingvic.com.au',
+        email: 'info@motorcyclingvic.com.au',
+      },
+    ],
+    classes: [
+      'Pony Express / club-level road race classes',
+      'Supersport (600cc)',
+      'Superbike',
+      'Historic and twin-cup style categories',
+    ],
+    coaches: [
+      {
+        name: 'MotoDNA / motoDNA Rider Academy',
+        description: 'Regular coaching at Broadford and Phillip Island.',
+        website: 'https://motodna.com.au',
+      },
+    ],
+  },
+  {
+    code: 'QLD',
+    name: 'Queensland',
+    clubs: [
+      {
+        name: 'MQ Road Race clubs (via Motorcycling Queensland)',
+        location: 'Morgan Park Raceway & Queensland Raceway',
+        website: 'https://mqld.org.au',
+        email: 'info@mqld.org.au',
+      },
+    ],
+    classes: [
+      'Juniors and senior production (300–400cc)',
+      'Supersport / Supersport 300',
+      'Superbike',
+    ],
+    coaches: [
+      {
+        name: 'MotoDNA / motoDNA Rider Academy',
+        description: 'Coaching days and race-prep programs in QLD.',
+        website: 'https://motodna.com.au',
+      },
+    ],
+  },
+  {
+    code: 'SA',
+    name: 'South Australia',
+    clubs: [
+      {
+        name: 'Motorcycling SA affiliated road race clubs',
+        location: 'The Bend Motorsport Park and other venues',
+        website: 'https://motorcyclingsa.org.au',
+      },
+    ],
+    classes: [
+      'Club-level production classes',
+      'Supersport',
+      'Superbike',
+    ],
+    coaches: [
+      {
+        name: 'Local track day providers',
+        description: 'Check Motorcycling SA or your local club for upcoming coaching days.',
+        website: 'https://motorcyclingsa.org.au',
+      },
+    ],
+  },
+  {
+    code: 'WA',
+    name: 'Western Australia',
+    clubs: [
+      {
+        name: 'Motorcycling WA road race clubs',
+        location: 'Collie Motorplex & Wanneroo Raceway (Carco.com.au Raceway)',
+        website: 'https://motorcyclingwa.org.au',
+      },
+    ],
+    classes: [
+      'Clubman and newcomer classes',
+      'Supersport',
+      'Superbike',
+    ],
+    coaches: [
+      {
+        name: 'Local race coaches',
+        description:
+          'WA clubs regularly run coaching and mentoring days — check with your chosen club for current contacts.',
+      },
+    ],
+  },
+  {
+    code: 'TAS',
+    name: 'Tasmania',
+    clubs: [
+      {
+        name: 'Motorcycling Tasmania road race clubs',
+        location: 'Symmons Plains and local circuits',
+        website: 'https://mtas.org.au',
+      },
+    ],
+    classes: [
+      'Lightweight and production-based classes',
+      'Supersport',
+      'Superbike',
+    ],
+    coaches: [
+      {
+        name: 'Local club coaches',
+        description: 'Tasmanian clubs commonly pair newcomers with experienced racers to get started.',
+      },
+    ],
+  },
+  {
+    code: 'ACT',
+    name: 'Australian Capital Territory',
+    clubs: [
+      {
+        name: 'ACT-based riders (via Motorcycling NSW)',
+        location: 'Often race at Wakefield Park / NSW circuits',
+        website: 'https://motorcycling.com.au',
+      },
+    ],
+    classes: [
+      'Access to NSW club-level classes',
+      'Production, Supersport and Superbike',
+    ],
+    coaches: [
+      {
+        name: 'MotoDNA / NSW-based coaches',
+        description: 'Most ACT riders train and race through NSW-based clubs and coaches.',
+      },
+    ],
+  },
+  {
+    code: 'NT',
+    name: 'Northern Territory',
+    clubs: [
+      {
+        name: 'Local NT road race and track day organisers',
+        location: 'Hidden Valley and regional circuits/events',
+        website: 'https://www.motorsportsnt.com.au',
+      },
+    ],
+    classes: [
+      'Local club-level categories',
+      'Track days with timing and coaching',
+    ],
+    coaches: [
+      {
+        name: 'Local track coaches',
+        description:
+          'NT events often include coaching sessions — check with your event organiser or club for details.',
+      },
+    ],
+  },
+];
+
+export function getRacingStateInfo(code: string): RacingStateInfo | undefined {
+  return RACING_STATES.find((s) => s.code === code);
+}

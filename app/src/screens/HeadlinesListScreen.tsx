@@ -1,4 +1,4 @@
-import React, { useCallback, useState } from 'react';
+import React, { useCallback, useMemo, useState } from 'react';
 import {
   ActivityIndicator,
   FlatList,
@@ -22,6 +22,8 @@ import { notifyNewPriority1Headlines } from '../notifications/priority1Notificat
 import type { Headline } from '../types';
 import { AppLogo } from '../components/AppLogo';
 
+const LOCAL_SOURCE_IDS = ['mcnews', 'amcn', 'asbk'];
+
 function sortByPriority(headlines: Headline[], priorityOrder: string[]): Headline[] {
   const orderMap = new Map(priorityOrder.map((id, i) => [id, i]));
   return [...headlines].sort((a, b) => {
@@ -37,6 +39,8 @@ export function HeadlinesListScreen() {
   const [loading, setLoading] = useState(true);
   const [refreshing, setRefreshing] = useState(false);
   const [error, setError] = useState<string | null>(null);
+  const [viewMode, setViewMode] = useState<'world' | 'local' | 'custom'>('world');
+  const [customSourceIds, setCustomSourceIds] = useState<string[]>([]);
 
   const fetchHeadlines = useCallback(async (isRefresh = false) => {
     if (isRefresh) setRefreshing(true);
@@ -47,6 +51,8 @@ export function HeadlinesListScreen() {
         getPriorityOrder(),
         getCustomSources(),
       ]);
+
+      setCustomSourceIds(customSources.map((s) => s.id));
 
       const url = isRefresh ? `${HEADLINES_URL}?refresh=1` : HEADLINES_URL;
       const res = await fetch(url, { signal: AbortSignal.timeout(25000) });
@@ -122,6 +128,20 @@ export function HeadlinesListScreen() {
 
   const keyExtractor = (item: Headline) => item.url;
 
+  const filteredHeadlines = useMemo(() => {
+    if (viewMode === 'custom') {
+      if (customSourceIds.length === 0) return [];
+      return headlines.filter((h) => customSourceIds.includes(h.sourceId));
+    }
+    if (viewMode === 'local') {
+      return headlines.filter((h) => LOCAL_SOURCE_IDS.includes(h.sourceId));
+    }
+    // World: everything that isn't local or custom
+    return headlines.filter(
+      (h) => !LOCAL_SOURCE_IDS.includes(h.sourceId) && !customSourceIds.includes(h.sourceId)
+    );
+  }, [headlines, viewMode, customSourceIds]);
+
   if (loading && headlines.length === 0) {
     return (
       <View style={styles.centered}>
@@ -145,7 +165,7 @@ export function HeadlinesListScreen() {
 
   return (
     <FlatList
-      data={headlines}
+      data={filteredHeadlines}
       renderItem={renderItem}
       keyExtractor={keyExtractor}
       contentContainerStyle={styles.list}
@@ -158,10 +178,82 @@ export function HeadlinesListScreen() {
       }
       ListHeaderComponent={
         <View style={styles.header}>
-          <AppLogo size={32} />
+          <AppLogo size={80} />
           <Text style={styles.headerTitle}>Bike News</Text>
-          <Text style={styles.headerSubtitle}>Tap to open • Pull down to refresh • Order in Headlines settings</Text>
+          <Text style={styles.headerSubtitle}>
+            Tap to open • Pull down to refresh • Order in News settings
+          </Text>
+          <View style={styles.modeSwitcher}>
+            <TouchableOpacity
+              style={[
+                styles.modeButton,
+                viewMode === 'world' && styles.modeButtonActive,
+              ]}
+              onPress={() => setViewMode('world')}
+              activeOpacity={0.8}
+            >
+              <Text
+                style={[
+                  styles.modeButtonText,
+                  viewMode === 'world' && styles.modeButtonTextActive,
+                ]}
+              >
+                World
+              </Text>
+            </TouchableOpacity>
+            <TouchableOpacity
+              style={[
+                styles.modeButton,
+                viewMode === 'local' && styles.modeButtonActive,
+              ]}
+              onPress={() => setViewMode('local')}
+              activeOpacity={0.8}
+            >
+              <Text
+                style={[
+                  styles.modeButtonText,
+                  viewMode === 'local' && styles.modeButtonTextActive,
+                ]}
+              >
+                Aus
+              </Text>
+            </TouchableOpacity>
+            <TouchableOpacity
+              style={[
+                styles.modeButton,
+                viewMode === 'custom' && styles.modeButtonActive,
+              ]}
+              onPress={() => setViewMode('custom')}
+              activeOpacity={0.8}
+            >
+              <Text
+                style={[
+                  styles.modeButtonText,
+                  viewMode === 'custom' && styles.modeButtonTextActive,
+                ]}
+              >
+                Custom
+              </Text>
+            </TouchableOpacity>
+          </View>
+          <Text style={styles.modeHint}>
+            World: everything • Aus: MCNews/AMCN/ASBK • Custom: your feeds
+          </Text>
         </View>
+      }
+      ListEmptyComponent={
+        !loading && !error ? (
+          <View style={styles.emptyState}>
+            <Text style={styles.emptyTitle}>No headlines in this view yet</Text>
+            <Text style={styles.emptySubtitle}>
+              {viewMode === 'custom'
+                ? 'Add up to 4 custom feeds in News settings.'
+                : viewMode === 'local'
+                ? 'No recent Australian headlines were found. Try World view.'
+                : 'No headlines available right now. Pull down to refresh.'}
+            </Text>
+          </View>
+        ) : null
       }
     />
   );
@@ -214,6 +306,7 @@ const styles = StyleSheet.create({
     paddingTop: 16,
     paddingBottom: 12,
     gap: 8,
+    alignItems: 'center',
   },
   headerTitle: {
     fontSize: 28,
@@ -224,6 +317,35 @@ const styles = StyleSheet.create({
     fontSize: 14,
     color: '#64748b',
     marginTop: 4,
+  },
+  modeSwitcher: {
+    flexDirection: 'row',
+    marginTop: 12,
+    backgroundColor: '#020617',
+    borderRadius: 999,
+    padding: 3,
+  },
+  modeButton: {
+    flex: 1,
+    paddingVertical: 6,
+    borderRadius: 999,
+    alignItems: 'center',
+  },
+  modeButtonActive: {
+    backgroundColor: '#f59e0b',
+  },
+  modeButtonText: {
+    fontSize: 13,
+    fontWeight: '600',
+    color: '#e2e8f0',
+  },
+  modeButtonTextActive: {
+    color: '#0f172a',
+  },
+  modeHint: {
+    marginTop: 8,
+    fontSize: 12,
+    color: '#94a3b8',
   },
   item: {
     marginBottom: 12,
@@ -254,5 +376,22 @@ const styles = StyleSheet.create({
     fontSize: 16,
     color: '#e2e8f0',
     lineHeight: 22,
+  },
+  emptyState: {
+    paddingTop: 40,
+    paddingHorizontal: 16,
+    alignItems: 'center',
+  },
+  emptyTitle: {
+    fontSize: 16,
+    fontWeight: '600',
+    color: '#e2e8f0',
+    marginBottom: 4,
+    textAlign: 'center',
+  },
+  emptySubtitle: {
+    fontSize: 13,
+    color: '#64748b',
+    textAlign: 'center',
   },
 });

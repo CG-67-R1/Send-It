@@ -7,6 +7,8 @@ import {
   TextInput,
   TouchableOpacity,
   View,
+  Animated,
+  ImageSourcePropType,
 } from 'react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import * as Analytics from 'expo-firebase-analytics';
@@ -14,6 +16,7 @@ import { QA_TRIVIA_URL, ROADRACE_CHAT_URL } from '../../constants/api';
 import { AppLogo } from '../components/AppLogo';
 
 const TRIVIA_BEST_SCORE_KEY = 'ROADRACER_TRIVIA_BEST';
+const THE_GOAT_SOURCE: ImageSourcePropType = require('../../avatar/the_goat.png');
 
 type TriviaState = 'idle' | 'playing' | 'result' | 'failed';
 type QATab = 'ask' | 'trivia';
@@ -73,6 +76,30 @@ export function QAScreen() {
   const [lastAnswerCorrect, setLastAnswerCorrect] = useState<boolean | null>(null);
   const [triviaBestScore, setTriviaBestScore] = useState<number>(0);
   const [triviaNewBest, setTriviaNewBest] = useState(false);
+  const [goatExplosionVisible, setGoatExplosionVisible] = useState(false);
+  const [goatExplosionShown, setGoatExplosionShown] = useState(false);
+  const goatExplosionScale = React.useRef(new Animated.Value(0.1)).current;
+
+  const triggerGoatExplosion = useCallback(() => {
+    if (goatExplosionShown) return;
+    setGoatExplosionShown(true);
+    setGoatExplosionVisible(true);
+    goatExplosionScale.setValue(0.1);
+    Animated.spring(goatExplosionScale, {
+      toValue: 1.6,
+      friction: 3,
+      useNativeDriver: true,
+    }).start();
+    setTimeout(() => {
+      Animated.timing(goatExplosionScale, {
+        toValue: 1,
+        duration: 400,
+        useNativeDriver: true,
+      }).start(() => {
+        setGoatExplosionVisible(false);
+      });
+    }, 10000);
+  }, [goatExplosionScale, goatExplosionShown]);
 
   useEffect(() => {
     let cancelled = false;
@@ -226,6 +253,10 @@ export function QAScreen() {
       const newCorrect = currentCorrect + (correct ? 1 : 0);
       const newWrong = currentWrong + (correct ? 0 : 1);
 
+      if (correct && newCorrect >= 12) {
+        triggerGoatExplosion();
+      }
+
       const updatedGlobalUsed =
         currentRegion === 'global'
           ? [...triviaUsedGlobal, triviaQuestion.triviaIndex]
@@ -295,6 +326,8 @@ export function QAScreen() {
     setTriviaFailMessage(null);
     setLastAnswerCorrect(null);
     setTriviaNewBest(false);
+    setGoatExplosionVisible(false);
+    setGoatExplosionShown(false);
   }, []);
 
   return (
@@ -304,7 +337,7 @@ export function QAScreen() {
       keyboardShouldPersistTaps="handled"
     >
       <View style={styles.logoRow}>
-        <AppLogo size={28} />
+        <AppLogo size={80} />
       </View>
       <View style={styles.tabBar}>
         <TouchableOpacity
@@ -465,6 +498,15 @@ export function QAScreen() {
         )}
       </View>
       )}
+      {goatExplosionVisible && (
+        <View style={styles.goatExplosionOverlay} pointerEvents="none">
+          <Animated.Image
+            source={THE_GOAT_SOURCE}
+            style={[styles.goatExplosionImage, { transform: [{ scale: goatExplosionScale }] }]}
+            resizeMode="contain"
+          />
+        </View>
+      )}
     </ScrollView>
   );
 }
@@ -480,7 +522,7 @@ const styles = StyleSheet.create({
   },
   logoRow: {
     marginBottom: 12,
-    alignItems: 'flex-start',
+    alignItems: 'center',
   },
   tabBar: {
     flexDirection: 'row',
@@ -736,5 +778,19 @@ const styles = StyleSheet.create({
     color: '#0f172a',
     fontWeight: '700',
     fontSize: 16,
+  },
+  goatExplosionOverlay: {
+    position: 'absolute',
+    left: 0,
+    right: 0,
+    top: 0,
+    bottom: 0,
+    justifyContent: 'center',
+    alignItems: 'center',
+    backgroundColor: 'rgba(15, 23, 42, 0.9)',
+  },
+  goatExplosionImage: {
+    width: 260,
+    height: 260,
   },
 });

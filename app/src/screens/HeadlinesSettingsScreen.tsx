@@ -92,6 +92,13 @@ export function HeadlinesSettingsScreen() {
     const url = addUrl.trim();
     const name = addName.trim();
     if (!url || !name) return;
+    if (customSources.length >= 4) {
+      Alert.alert(
+        'Custom feed limit',
+        'You can add up to 4 custom news feeds. Remove one before adding another.'
+      );
+      return;
+    }
     setAdding(true);
     try {
       const newSource = await addCustomSource(url, name);
@@ -103,7 +110,7 @@ export function HeadlinesSettingsScreen() {
     } finally {
       setAdding(false);
     }
-  }, [addUrl, addName, priority]);
+  }, [addUrl, addName, priority, customSources.length]);
 
   const handleRemoveCustom = useCallback(
     (id: string) => {
@@ -142,7 +149,7 @@ export function HeadlinesSettingsScreen() {
   return (
     <ScrollView style={styles.container} contentContainerStyle={styles.content}>
       <View style={styles.logoRow}>
-        <AppLogo size={28} />
+        <AppLogo size={80} />
       </View>
       <View style={styles.section}>
         <Text style={styles.sectionTitle}>Notifications</Text>
@@ -269,7 +276,7 @@ const styles = StyleSheet.create({
   content: { padding: 20, paddingBottom: 40 },
   logoRow: {
     marginBottom: 8,
-    alignItems: 'flex-start',
+    alignItems: 'center',
   },
   section: { marginBottom: 28 },
   sectionTitle: { fontSize: 20, fontWeight: '700', color: '#f8fafc', marginBottom: 4 },
