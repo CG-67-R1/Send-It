@@ -49,6 +49,7 @@ export function OnboardingScreen({ onComplete }: OnboardingScreenProps) {
   /** Local URI from ImagePicker until onboarding completes (then copied to app documents). */
   const [avatarFaceUri, setAvatarFaceUri] = useState<string | null>(null);
   const [riderNickname, setRiderNickname] = useState('');
+  const [finishing, setFinishing] = useState(false);
 
   const totalSteps = 8; // welcome, bike, rider, activity, future racer info, Just Send It, nickname, summary
 
@@ -131,6 +132,7 @@ export function OnboardingScreen({ onComplete }: OnboardingScreenProps) {
   const isLastStep = step === totalSteps - 1;
 
   const handleNext = async () => {
+    if (finishing) return;
     if (step === 4 && activity === 'race_one_day' && wantsRacingInfo && wantsRacingEmailInfo) {
       const stateInfo = selectedStateCode ? getRacingStateInfo(selectedStateCode) : undefined;
       const subject = encodeURIComponent('RoadRace – Future racer enquiry');
@@ -155,8 +157,21 @@ export function OnboardingScreen({ onComplete }: OnboardingScreenProps) {
       }
     }
 
-    if (step < totalSteps - 1) setStep((s) => s + 1);
-    else handleFinish();
+    if (step < totalSteps - 1) {
+      setStep((s) => s + 1);
+      return;
+    }
+    setFinishing(true);
+    try {
+      await handleFinish();
+    } catch (e) {
+      Alert.alert(
+        'Could not finish setup',
+        e instanceof Error ? e.message : 'Something went wrong saving your profile. Please try again.'
+      );
+    } finally {
+      setFinishing(false);
+    }
   };
 
   const handleBack = () => {
@@ -588,13 +603,16 @@ export function OnboardingScreen({ onComplete }: OnboardingScreenProps) {
             </TouchableOpacity>
           )}
           <TouchableOpacity
-            style={[styles.nextButton, !canNext() && !isLastStep && styles.nextButtonDisabled]}
+            style={[
+              styles.nextButton,
+              (finishing || (!isLastStep && !canNext())) && styles.nextButtonDisabled,
+            ]}
             onPress={handleNext}
-            disabled={!isLastStep && !canNext()}
+            disabled={finishing || (!isLastStep && !canNext())}
             activeOpacity={0.8}
           >
             <Text style={styles.nextButtonLabel}>
-              {isLastStep ? "Let's go" : 'Next'}
+              {finishing ? 'Saving…' : isLastStep ? "Let's go" : 'Next'}
             </Text>
           </TouchableOpacity>
         </View>
