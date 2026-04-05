@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 import {
   StyleSheet,
   Text,
@@ -10,14 +10,17 @@ import {
   Platform,
   Linking,
   Image,
+  Alert,
 } from 'react-native';
+import * as ImagePicker from 'expo-image-picker';
 import { getRiderFact, getBikeFact, RACING_STATES, getRacingStateInfo } from '../onboardingContent';
 import {
   setOnboardingDone,
   setOnboardingAnswers,
   type OnboardingAnswers,
 } from '../storage/onboarding';
-import { AVATAR_PRESETS } from '../avatar/presets';
+import { AVATAR_PRESETS, getAvatarPreset } from '../avatar/presets';
+import { setAvatarFacePhotoUri, clearAvatarFacePhoto } from '../storage/avatarFacePhoto';
 
 type Activity = 'race' | 'track_days' | 'just_love_bikes' | 'race_one_day';
 
@@ -43,11 +46,46 @@ export function OnboardingScreen({ onComplete }: OnboardingScreenProps) {
   const [wantsRacingEmailInfo, setWantsRacingEmailInfo] = useState<boolean | null>(null);
   const [racingEmail, setRacingEmail] = useState('');
   const [avatarId, setAvatarId] = useState<string | null>(null);
+  /** Local URI from ImagePicker until onboarding completes (then copied to app documents). */
+  const [avatarFaceUri, setAvatarFaceUri] = useState<string | null>(null);
   const [riderNickname, setRiderNickname] = useState('');
 
   const totalSteps = 8; // welcome, bike, rider, activity, future racer info, Just Send It, nickname, summary
 
+  const selectedAvatarPreset = avatarId ? getAvatarPreset(avatarId) : undefined;
+
+  useEffect(() => {
+    if (!selectedAvatarPreset?.hasFaceHole) {
+      setAvatarFaceUri(null);
+    }
+  }, [avatarId, selectedAvatarPreset?.hasFaceHole]);
+
+  const pickAvatarFace = useCallback(async () => {
+    try {
+      const { status } = await ImagePicker.requestMediaLibraryPermissionsAsync();
+      if (status !== 'granted') {
+        Alert.alert('Photos', 'Allow access to add your face to the rider avatar.', [
+          { text: 'OK' },
+          { text: 'Settings', onPress: () => Linking.openSettings() },
+        ]);
+        return;
+      }
+      const result = await ImagePicker.launchImageLibraryAsync({
+        mediaTypes: ['images'],
+        allowsEditing: true,
+        aspect: [1, 1],
+        quality: 0.85,
+      });
+      if (!result.canceled && result.assets[0]) {
+        setAvatarFaceUri(result.assets[0].uri);
+      }
+    } catch (e) {
+      Alert.alert('Error', e instanceof Error ? e.message : 'Could not pick image');
+    }
+  }, []);
+
   const handleFinish = async () => {
+    const preset = getAvatarPreset(avatarId);
     const answers: OnboardingAnswers = {
       favouriteBike: favouriteBike.trim() || 'my bike',
       favouriteRider: favouriteRider.trim() || 'my hero',
@@ -58,7 +96,13 @@ export function OnboardingScreen({ onComplete }: OnboardingScreenProps) {
       racingStateCode: selectedStateCode ?? undefined,
       racingInfoEmail: racingEmail.trim() || undefined,
       avatarId: avatarId ?? undefined,
+      noFaceFrameId: preset?.hasFaceHole && avatarId ? avatarId : undefined,
     };
+    if (preset?.hasFaceHole && avatarFaceUri) {
+      await setAvatarFacePhotoUri(avatarFaceUri);
+    } else {
+      await clearAvatarFacePhoto();
+    }
     await setOnboardingAnswers(answers);
     await setOnboardingDone();
     onComplete();
@@ -444,8 +488,8 @@ export function OnboardingScreen({ onComplete }: OnboardingScreenProps) {
           <View style={styles.step}>
             <Text style={styles.title}>What should we call you?</Text>
             <Text style={styles.subtitle}>
-              Your name, race number or a nickname — and pick an avatar for your home screen. Swipe
-              sideways for more. Leathers with a blank face are for a future “add your photo” step.
+              Pick an avatar for your home screen (swipe sideways for more). For leathers with a
+              blank face, you can add your photo below.
             </Text>
             <ScrollView
               horizontal
@@ -478,12 +522,41 @@ export function OnboardingScreen({ onComplete }: OnboardingScreenProps) {
                   </Text>
                   {preset.hasFaceHole ? (
                     <Text style={styles.avatarFaceHoleHint} numberOfLines={1}>
-                      Photo later
+                      Face slot
                     </Text>
                   ) : null}
                 </TouchableOpacity>
               ))}
             </ScrollView>
+            {selectedAvatarPreset?.hasFaceHole ? (
+              <View style={styles.faceUploadSection}>
+                <Text style={styles.faceUploadTitle}>Your face (optional)</Text>
+                <Text style={styles.faceUploadHint}>
+                  Square crop works best. It appears in the white oval on your rider.
+                </Text>
+                <View style={styles.faceUploadRow}>
+                  <TouchableOpacity style={styles.faceUploadButton} onPress={pickAvatarFace} activeOpacity={0.85}>
+                    <Text style={styles.faceUploadButtonText}>
+                      {avatarFaceUri ? 'Change photo' : 'Add photo'}
+                    </Text>
+                  </TouchableOpacity>
+                  {avatarFaceUri ? (
+                    <TouchableOpacity
+                      style={styles.faceRemoveButton}
+                      onPress={() => setAvatarFaceUri(null)}
+                      activeOpacity={0.85}
+                    >
+                      <Text style={styles.faceRemoveButtonText}>Remove</Text>
+                    </TouchableOpacity>
+                  ) : null}
+                </View>
+                {avatarFaceUri ? (
+                  <View style={styles.facePreviewBadge}>
+                    <Image source={{ uri: avatarFaceUri }} style={styles.facePreviewImage} resizeMode="cover" />
+                  </View>
+                ) : null}
+              </View>
+            ) : null}
             <TextInput
               style={styles.input}
               placeholder="e.g. Alex, #42, Speedy..."
@@ -742,5 +815,65 @@ const styles = StyleSheet.create({
     fontSize: 10,
     color: '#64748b',
     textAlign: 'center',
+  },
+  faceUploadSection: {
+    marginBottom: 20,
+    padding: 14,
+    borderRadius: 12,
+    backgroundColor: '#020617',
+    borderWidth: 1,
+    borderColor: '#1e293b',
+  },
+  faceUploadTitle: {
+    fontSize: 16,
+    fontWeight: '700',
+    color: '#e2e8f0',
+    marginBottom: 6,
+  },
+  faceUploadHint: {
+    fontSize: 13,
+    color: '#94a3b8',
+    marginBottom: 12,
+    lineHeight: 20,
+  },
+  faceUploadRow: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: 12,
+    flexWrap: 'wrap',
+  },
+  faceUploadButton: {
+    backgroundColor: '#f59e0b',
+    paddingVertical: 10,
+    paddingHorizontal: 16,
+    borderRadius: 10,
+  },
+  faceUploadButtonText: {
+    color: '#0f172a',
+    fontWeight: '700',
+    fontSize: 15,
+  },
+  faceRemoveButton: {
+    paddingVertical: 10,
+    paddingHorizontal: 12,
+  },
+  faceRemoveButtonText: {
+    color: '#94a3b8',
+    fontWeight: '600',
+    fontSize: 15,
+  },
+  facePreviewBadge: {
+    marginTop: 12,
+    alignSelf: 'flex-start',
+    width: 72,
+    height: 72,
+    borderRadius: 36,
+    overflow: 'hidden',
+    borderWidth: 2,
+    borderColor: '#f59e0b',
+  },
+  facePreviewImage: {
+    width: '100%',
+    height: '100%',
   },
 });

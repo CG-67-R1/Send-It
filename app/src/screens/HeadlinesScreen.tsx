@@ -16,9 +16,10 @@ import * as ImagePicker from 'expo-image-picker';
 import { useFocusEffect, useNavigation } from '@react-navigation/native';
 import type { NativeStackNavigationProp } from '@react-navigation/native-stack';
 import { getBikePhotoUri, setBikePhotoUri, clearBikePhoto } from '../storage/bikePhoto';
+import { getAvatarFacePhotoUri } from '../storage/avatarFacePhoto';
 import { HEADLINES_URL } from '../../constants/api';
 import { getOnboardingAnswers } from '../storage/onboarding';
-import { getAvatarSource } from '../avatar/presets';
+import { getAvatarPreset, getAvatarSource, getFaceHoleLayout } from '../avatar/presets';
 import { AppLogo } from '../components/AppLogo';
 
 type HeadlinesStackParamList = {
@@ -34,6 +35,8 @@ export function HeadlinesScreen() {
   const [pickingPhoto, setPickingPhoto] = useState(false);
   const [hasPrefetchedHeadlines, setHasPrefetchedHeadlines] = useState(false);
   const [avatarSource, setAvatarSource] = useState<any | null>(null);
+  const [avatarId, setAvatarId] = useState<string | null>(null);
+  const [avatarFaceUri, setAvatarFaceUri] = useState<string | null>(null);
 
   useEffect(() => {
     if (hasPrefetchedHeadlines) return;
@@ -48,13 +51,17 @@ export function HeadlinesScreen() {
   }, [hasPrefetchedHeadlines]);
 
   const loadData = useCallback(async () => {
-    const [uri, answers] = await Promise.all([
+    const [uri, answers, faceUri] = await Promise.all([
       getBikePhotoUri(),
       getOnboardingAnswers(),
+      getAvatarFacePhotoUri(),
     ]);
     setBikePhotoUriState(uri);
     setNickname(answers?.riderNickname?.trim() || answers?.favouriteRider?.trim() || 'Rider');
-    setAvatarSource(getAvatarSource(answers?.avatarId));
+    const aid = answers?.avatarId ?? null;
+    setAvatarId(aid);
+    setAvatarSource(getAvatarSource(aid));
+    setAvatarFaceUri(faceUri);
   }, []);
 
   useFocusEffect(
@@ -126,6 +133,11 @@ export function HeadlinesScreen() {
   const buttonsHeight = windowHeight * 0.4;
   const pocBikeImage = require('../../assets/home-poc-bike.png');
 
+  const faceHoleLayout = getFaceHoleLayout(avatarId);
+  const showFaceComposite = Boolean(
+    getAvatarPreset(avatarId)?.hasFaceHole && avatarFaceUri && faceHoleLayout && avatarSource
+  );
+
   return (
     <ScrollView
       style={styles.container}
@@ -182,11 +194,30 @@ export function HeadlinesScreen() {
           </View>
           {/* Avatar + rider name overlay */}
           <View style={styles.nicknameWrap} pointerEvents="none">
-            {avatarSource && (
+            {avatarSource ? (
               <View style={styles.avatarBadge}>
                 <Image source={avatarSource} style={styles.avatarBadgeImage} resizeMode="contain" />
+                {showFaceComposite ? (
+                  <View
+                    style={[
+                      styles.avatarFaceClip,
+                      {
+                        width: `${faceHoleLayout!.widthPct * 100}%`,
+                        height: `${faceHoleLayout!.heightPct * 100}%`,
+                        left: `${faceHoleLayout!.leftPct * 100}%`,
+                        top: `${faceHoleLayout!.topPct * 100}%`,
+                      },
+                    ]}
+                  >
+                    <Image
+                      source={{ uri: avatarFaceUri! }}
+                      style={StyleSheet.absoluteFillObject}
+                      resizeMode="cover"
+                    />
+                  </View>
+                ) : null}
               </View>
-            )}
+            ) : null}
             <Text style={styles.nickname}>{displayName}</Text>
           </View>
         </View>
@@ -303,6 +334,12 @@ const styles = StyleSheet.create({
   avatarBadgeImage: {
     width: '100%',
     height: '100%',
+  },
+  avatarFaceClip: {
+    position: 'absolute',
+    borderRadius: 999,
+    overflow: 'hidden',
+    zIndex: 2,
   },
   buttons: {
     paddingHorizontal: 20,

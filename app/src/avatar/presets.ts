@@ -100,3 +100,27 @@ export function getAvatarPreset(id: string | null | undefined): AvatarPreset | u
   if (!id) return undefined;
   return AVATAR_PRESETS.find((p) => p.id === id);
 }
+
+/** Where to place the user’s face photo (percent of badge box). Tune per art if needed. */
+export type FaceHoleLayout = {
+  widthPct: number;
+  heightPct: number;
+  leftPct: number;
+  topPct: number;
+};
+
+const DEFAULT_FACE_HOLE_LAYOUT: FaceHoleLayout = {
+  widthPct: 0.38,
+  heightPct: 0.38,
+  leftPct: 0.31,
+  topPct: 0.18,
+};
+
+/** Per-frame overrides (optional). Keys match `AvatarPreset.id`. */
+const FACE_HOLE_LAYOUT_OVERRIDES: Partial<Record<string, FaceHoleLayout>> = {};
+
+export function getFaceHoleLayout(avatarId: string | null | undefined): FaceHoleLayout | null {
+  const preset = getAvatarPreset(avatarId);
+  if (!preset?.hasFaceHole) return null;
+  return FACE_HOLE_LAYOUT_OVERRIDES[avatarId ?? ''] ?? DEFAULT_FACE_HOLE_LAYOUT;
+}
