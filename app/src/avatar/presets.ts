@@ -9,8 +9,8 @@ export interface AvatarPreset {
 }
 
 /**
- * All bundled avatar art in `app/avatar/`.
- * Face-hole variants are flagged for a future "add your face" flow.
+ * User-selectable avatars (onboarding / profile / home hero).
+ * Not listed here: `the_goat.png` — reserved for gamified moments only (see QAScreen trivia).
  */
 export const AVATAR_PRESETS: AvatarPreset[] = [
   // Face-hole / leathers (upload-your-face planned)
@@ -87,12 +87,6 @@ export const AVATAR_PRESETS: AvatarPreset[] = [
     label: 'Goat',
     hasFaceHole: false,
     source: require('../../avatar/goat.png'),
-  },
-  {
-    id: 'the_goat',
-    label: 'The GOAT',
-    hasFaceHole: false,
-    source: require('../../avatar/the_goat.png'),
   },
 ];
 

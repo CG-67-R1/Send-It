@@ -16,6 +16,7 @@ import { QA_TRIVIA_URL, ROADRACE_CHAT_URL } from '../../constants/api';
 import { AppLogo } from '../components/AppLogo';
 
 const TRIVIA_BEST_SCORE_KEY = 'ROADRACER_TRIVIA_BEST';
+/** Gamification overlay only — not a user profile / onboarding avatar. */
 const THE_GOAT_SOURCE: ImageSourcePropType = require('../../avatar/the_goat.png');
 
 type TriviaState = 'idle' | 'playing' | 'result' | 'failed';
