@@ -444,9 +444,16 @@ export function OnboardingScreen({ onComplete }: OnboardingScreenProps) {
           <View style={styles.step}>
             <Text style={styles.title}>What should we call you?</Text>
             <Text style={styles.subtitle}>
-              Your name, race number or a nickname — and pick an avatar to show on your home screen.
+              Your name, race number or a nickname — and pick an avatar for your home screen. Swipe
+              sideways for more. Leathers with a blank face are for a future “add your photo” step.
             </Text>
-            <View style={styles.avatarRow}>
+            <ScrollView
+              horizontal
+              showsHorizontalScrollIndicator={false}
+              style={styles.avatarScroll}
+              contentContainerStyle={styles.avatarScrollContent}
+              nestedScrollEnabled
+            >
               {AVATAR_PRESETS.map((preset) => (
                 <TouchableOpacity
                   key={preset.id}
@@ -465,13 +472,18 @@ export function OnboardingScreen({ onComplete }: OnboardingScreenProps) {
                       styles.avatarLabel,
                       avatarId === preset.id && styles.avatarLabelActive,
                     ]}
-                    numberOfLines={1}
+                    numberOfLines={2}
                   >
                     {preset.label}
                   </Text>
+                  {preset.hasFaceHole ? (
+                    <Text style={styles.avatarFaceHoleHint} numberOfLines={1}>
+                      Photo later
+                    </Text>
+                  ) : null}
                 </TouchableOpacity>
               ))}
-            </View>
+            </ScrollView>
             <TextInput
               style={styles.input}
               placeholder="e.g. Alex, #42, Speedy..."
@@ -680,17 +692,22 @@ const styles = StyleSheet.create({
     color: '#0f172a',
     fontWeight: '700',
   },
-  avatarRow: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
+  avatarScroll: {
     marginBottom: 20,
+    maxHeight: 200,
+  },
+  avatarScrollContent: {
+    flexDirection: 'row',
+    alignItems: 'flex-start',
     gap: 12,
+    paddingVertical: 4,
+    paddingRight: 8,
   },
   avatarChoice: {
-    flex: 1,
+    width: 104,
     alignItems: 'center',
     paddingVertical: 10,
-    paddingHorizontal: 4,
+    paddingHorizontal: 6,
     borderRadius: 12,
     backgroundColor: '#020617',
     borderWidth: 1,
@@ -719,5 +736,11 @@ const styles = StyleSheet.create({
   },
   avatarLabelActive: {
     color: '#facc15',
+  },
+  avatarFaceHoleHint: {
+    marginTop: 4,
+    fontSize: 10,
+    color: '#64748b',
+    textAlign: 'center',
   },
 });
