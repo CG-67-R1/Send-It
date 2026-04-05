@@ -1,13 +1,28 @@
 // Use your machine's LAN IP when testing on a physical device (e.g. 'http://192.168.1.13:3001')
-// For Android emulator use 'http://10.0.2.2:3001'
+// Android emulator: 'http://10.0.2.2:3001' (do not use expo-constants isDevice — removed in SDK 50+)
 import { Platform } from 'react-native';
 
 const DEV_MACHINE_IP = '192.168.1.13';
 const API_PORT = 3001;
 
+/** Best-effort: AVD / emulator images usually expose model/fingerprint hints. */
+function isLikelyAndroidEmulator(): boolean {
+  if (Platform.OS !== 'android') return false;
+  if (process.env.EXPO_PUBLIC_ANDROID_EMULATOR_HOST === '1') return true;
+  if (process.env.EXPO_PUBLIC_ANDROID_USE_LAN === '1') return false;
+  const c = Platform.constants as Record<string, unknown> | undefined;
+  const model = String(c?.Model ?? c?.model ?? '');
+  const fingerprint = String(c?.Fingerprint ?? c?.fingerprint ?? '');
+  return /sdk|google_sdk|Emulator|generic|gphone|android_sdk|unknown/i.test(
+    `${model} ${fingerprint}`
+  );
+}
+
 const getApiBaseUrl = () => {
   if (__DEV__) {
-    if (Platform.OS === 'android') return `http://10.0.2.2:${API_PORT}`;
+    if (Platform.OS === 'android' && isLikelyAndroidEmulator()) {
+      return `http://10.0.2.2:${API_PORT}`;
+    }
     return `http://${DEV_MACHINE_IP}:${API_PORT}`;
   }
   // Production / PoC: use env var so you can set it per deployment

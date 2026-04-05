@@ -1,7 +1,10 @@
 import React, { useCallback, useEffect, useState } from 'react';
 import {
   Alert,
+  Image,
+  Linking,
   Modal,
+  Platform,
   ScrollView,
   StyleSheet,
   Switch,
@@ -10,6 +13,8 @@ import {
   TouchableOpacity,
   View,
 } from 'react-native';
+import * as ImagePicker from 'expo-image-picker';
+import { useFocusEffect } from '@react-navigation/native';
 import {
   getCustomSources,
   getPriorityOrder,
@@ -23,10 +28,18 @@ import { requestNotificationPermissions } from '../notifications/priority1Notifi
 import { SOURCES_URL } from '../../constants/api';
 import type { CustomSource, PriorityOrder, Source } from '../types';
 import { AppLogo } from '../components/AppLogo';
+import { AvatarFaceCameraModal } from '../components/AvatarFaceCameraModal';
+import { getAvatarPreset } from '../avatar/presets';
+import { getOnboardingAnswers } from '../storage/onboarding';
+import { getAvatarFacePhotoUri, setAvatarFacePhotoUri } from '../storage/avatarFacePhoto';
 import { useOnboardingReset } from '../context/OnboardingResetContext';
 
 export function HeadlinesSettingsScreen() {
   const onboardingReset = useOnboardingReset();
+  const [avatarId, setAvatarId] = useState<string | null>(null);
+  const [facePreviewUri, setFacePreviewUri] = useState<string | null>(null);
+  const [faceCameraOpen, setFaceCameraOpen] = useState(false);
+  const [faceBusy, setFaceBusy] = useState(false);
   const [builtinSources, setBuiltinSources] = useState<Source[]>([]);
   const [customSources, setCustomSourcesState] = useState<CustomSource[]>([]);
   const [priority, setPriorityState] = useState<PriorityOrder>([]);
@@ -62,6 +75,96 @@ export function HeadlinesSettingsScreen() {
   useEffect(() => {
     load();
   }, [load]);
+
+  const loadRiderFace = useCallback(async () => {
+    const [answers, uri] = await Promise.all([getOnboardingAnswers(), getAvatarFacePhotoUri()]);
+    setAvatarId(answers?.avatarId ?? null);
+    setFacePreviewUri(uri);
+  }, []);
+
+  useFocusEffect(
+    useCallback(() => {
+      void loadRiderFace();
+    }, [loadRiderFace])
+  );
+
+  const riderPreset = avatarId ? getAvatarPreset(avatarId) : undefined;
+  const showRiderPhotoControls = Boolean(riderPreset?.hasFaceHole);
+
+  const pickRiderFaceFromLibrary = useCallback(async () => {
+    if (faceBusy) return;
+    setFaceBusy(true);
+    try {
+      const { status } = await ImagePicker.requestMediaLibraryPermissionsAsync();
+      if (status !== 'granted') {
+        Alert.alert('Photos', 'Allow access to choose a photo for your rider avatar.', [
+          { text: 'OK' },
+          { text: 'Settings', onPress: () => Linking.openSettings() },
+        ]);
+        return;
+      }
+      const result = await ImagePicker.launchImageLibraryAsync({
+        mediaTypes: ['images'],
+        allowsEditing: true,
+        aspect: [1, 1],
+        quality: 0.85,
+      });
+      if (!result.canceled && result.assets[0]) {
+        const saved = await setAvatarFacePhotoUri(result.assets[0].uri);
+        setFacePreviewUri(saved);
+      }
+    } catch (e) {
+      Alert.alert('Error', e instanceof Error ? e.message : 'Could not pick image');
+    } finally {
+      setFaceBusy(false);
+    }
+  }, [faceBusy]);
+
+  const takeRiderFaceWithSystemCamera = useCallback(async () => {
+    if (faceBusy) return;
+    setFaceBusy(true);
+    try {
+      const { status } = await ImagePicker.requestCameraPermissionsAsync();
+      if (status !== 'granted') {
+        Alert.alert('Camera', 'Allow camera access to take your rider photo.', [
+          { text: 'OK' },
+          { text: 'Settings', onPress: () => Linking.openSettings() },
+        ]);
+        return;
+      }
+      const result = await ImagePicker.launchCameraAsync({
+        mediaTypes: ['images'],
+        allowsEditing: true,
+        aspect: [1, 1],
+        quality: 0.85,
+      });
+      if (!result.canceled && result.assets[0]) {
+        const saved = await setAvatarFacePhotoUri(result.assets[0].uri);
+        setFacePreviewUri(saved);
+      }
+    } catch (e) {
+      Alert.alert('Error', e instanceof Error ? e.message : 'Could not take photo');
+    } finally {
+      setFaceBusy(false);
+    }
+  }, [faceBusy]);
+
+  const openRiderFaceCamera = useCallback(() => {
+    if (Platform.OS === 'web') {
+      void takeRiderFaceWithSystemCamera();
+    } else {
+      setFaceCameraOpen(true);
+    }
+  }, [takeRiderFaceWithSystemCamera]);
+
+  const onRiderFaceCaptured = useCallback(async (uri: string) => {
+    try {
+      const saved = await setAvatarFacePhotoUri(uri);
+      setFacePreviewUri(saved);
+    } catch (e) {
+      Alert.alert('Error', e instanceof Error ? e.message : 'Could not save photo');
+    }
+  }, []);
 
   // When built-in sources first load, if priority is empty init from built-in order
   useEffect(() => {
@@ -178,6 +281,51 @@ export function HeadlinesSettingsScreen() {
       <View style={styles.logoRow}>
         <AppLogo size={80} />
       </View>
+
+      {showRiderPhotoControls ? (
+        <View style={styles.section}>
+          <Text style={styles.sectionTitle}>Rider photo</Text>
+          <Text style={styles.sectionSubtitle}>
+            Update the photo that appears in your leathers on the home screen. Same crop guide as during
+            onboarding on this device.
+          </Text>
+          <View style={styles.riderFaceRow}>
+            {facePreviewUri ? (
+              <Image
+                key={facePreviewUri}
+                source={{ uri: facePreviewUri.split('?')[0] }}
+                style={styles.riderFacePreview}
+                resizeMode="cover"
+              />
+            ) : (
+              <View style={styles.riderFacePreviewPlaceholder}>
+                <Text style={styles.riderFacePreviewPlaceholderText}>No photo</Text>
+              </View>
+            )}
+            <View style={styles.riderFaceButtons}>
+              <TouchableOpacity
+                style={[styles.riderFaceBtn, faceBusy && styles.riderFaceBtnDisabled]}
+                onPress={openRiderFaceCamera}
+                disabled={faceBusy}
+                activeOpacity={0.85}
+              >
+                <Text style={styles.riderFaceBtnText}>
+                  {facePreviewUri ? 'Retake photo' : 'Take photo'}
+                </Text>
+              </TouchableOpacity>
+              <TouchableOpacity
+                style={[styles.riderFaceBtnSecondary, faceBusy && styles.riderFaceBtnDisabled]}
+                onPress={pickRiderFaceFromLibrary}
+                disabled={faceBusy}
+                activeOpacity={0.85}
+              >
+                <Text style={styles.riderFaceBtnSecondaryText}>From library</Text>
+              </TouchableOpacity>
+            </View>
+          </View>
+        </View>
+      ) : null}
+
       <View style={styles.section}>
         <Text style={styles.sectionTitle}>Notifications</Text>
         <Text style={styles.sectionSubtitle}>
@@ -276,6 +424,12 @@ export function HeadlinesSettingsScreen() {
         </View>
       ) : null}
 
+      <AvatarFaceCameraModal
+        visible={faceCameraOpen}
+        onClose={() => setFaceCameraOpen(false)}
+        onCapture={onRiderFaceCaptured}
+      />
+
       <Modal
         visible={pickerSlot !== null}
         transparent
@@ -320,6 +474,49 @@ const styles = StyleSheet.create({
   section: { marginBottom: 28 },
   sectionTitle: { fontSize: 20, fontWeight: '700', color: '#f8fafc', marginBottom: 4 },
   sectionSubtitle: { fontSize: 13, color: '#64748b', marginBottom: 12 },
+  riderFaceRow: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: 14,
+  },
+  riderFacePreview: {
+    width: 72,
+    height: 72,
+    borderRadius: 36,
+    borderWidth: 1,
+    borderColor: 'rgba(245, 158, 11, 0.45)',
+    backgroundColor: '#1e293b',
+  },
+  riderFacePreviewPlaceholder: {
+    width: 72,
+    height: 72,
+    borderRadius: 36,
+    borderWidth: 1,
+    borderColor: '#334155',
+    backgroundColor: '#1e293b',
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  riderFacePreviewPlaceholderText: { fontSize: 11, color: '#64748b' },
+  riderFaceButtons: { flex: 1, gap: 8 },
+  riderFaceBtn: {
+    backgroundColor: '#f59e0b',
+    paddingVertical: 12,
+    paddingHorizontal: 14,
+    borderRadius: 8,
+    alignItems: 'center',
+  },
+  riderFaceBtnDisabled: { opacity: 0.55 },
+  riderFaceBtnText: { color: '#0f172a', fontWeight: '600', fontSize: 15 },
+  riderFaceBtnSecondary: {
+    paddingVertical: 10,
+    paddingHorizontal: 14,
+    borderRadius: 8,
+    borderWidth: 1,
+    borderColor: '#475569',
+    alignItems: 'center',
+  },
+  riderFaceBtnSecondaryText: { color: '#94a3b8', fontWeight: '600', fontSize: 14 },
   notifyRow: {
     flexDirection: 'row',
     alignItems: 'center',
@@ -358,6 +555,16 @@ const styles = StyleSheet.create({
   },
   addButtonDisabled: { opacity: 0.6 },
   addButtonText: { color: '#0f172a', fontWeight: '600', fontSize: 16 },
+  devResetButton: {
+    alignSelf: 'flex-start',
+    paddingVertical: 12,
+    paddingHorizontal: 16,
+    borderRadius: 8,
+    borderWidth: 1,
+    borderColor: '#475569',
+    backgroundColor: '#1e293b',
+  },
+  devResetButtonText: { color: '#94a3b8', fontWeight: '600', fontSize: 15 },
   customList: { marginTop: 16 },
   customListTitle: { fontSize: 14, fontWeight: '600', color: '#94a3b8', marginBottom: 8 },
   customRow: {

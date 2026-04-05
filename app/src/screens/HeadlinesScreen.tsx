@@ -5,6 +5,7 @@ import {
   Dimensions,
   Image,
   Linking,
+  Platform,
   ScrollView,
   StyleSheet,
   Text,
@@ -15,12 +16,15 @@ import { LinearGradient } from 'expo-linear-gradient';
 import * as ImagePicker from 'expo-image-picker';
 import { useFocusEffect, useNavigation } from '@react-navigation/native';
 import type { NativeStackNavigationProp } from '@react-navigation/native-stack';
+import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { getBikePhotoUri, setBikePhotoUri, clearBikePhoto } from '../storage/bikePhoto';
 import { getAvatarFacePhotoUri } from '../storage/avatarFacePhoto';
 import { HEADLINES_URL } from '../../constants/api';
 import { getOnboardingAnswers } from '../storage/onboarding';
+import { HERO_AVATAR_BADGE_SIZE } from '../avatar/heroBadgeSizing';
 import { getAvatarPreset, getAvatarSource, getFaceHoleLayout } from '../avatar/presets';
 import { AppLogo } from '../components/AppLogo';
+import { AvatarFaceEllipse } from '../components/AvatarFaceEllipse';
 
 type HeadlinesStackParamList = {
   Headlines: undefined;
@@ -29,6 +33,7 @@ type HeadlinesStackParamList = {
 };
 
 export function HeadlinesScreen() {
+  const insets = useSafeAreaInsets();
   const navigation = useNavigation<NativeStackNavigationProp<HeadlinesStackParamList, 'Headlines'>>();
   const [bikePhotoUri, setBikePhotoUriState] = useState<string | null>(null);
   const [nickname, setNickname] = useState<string>('');
@@ -133,10 +138,12 @@ export function HeadlinesScreen() {
   const buttonsHeight = windowHeight * 0.4;
   const pocBikeImage = require('../../assets/home-poc-bike.png');
 
+  const avatarPreset = getAvatarPreset(avatarId);
   const faceHoleLayout = getFaceHoleLayout(avatarId);
   const showFaceComposite = Boolean(
-    getAvatarPreset(avatarId)?.hasFaceHole && avatarFaceUri && faceHoleLayout && avatarSource
+    avatarPreset?.hasFaceHole && avatarFaceUri && faceHoleLayout && avatarSource
   );
+  const faceBehindAvatar = avatarPreset?.compositeFaceBehindAvatar !== false;
 
   return (
     <ScrollView
@@ -191,34 +198,45 @@ export function HeadlinesScreen() {
               start={{ x: 1, y: 0.5 }}
               end={{ x: 0, y: 0.5 }}
             />
+            {/* Extra corner darkening so bottom-right avatar + name stay readable */}
+            <LinearGradient
+              pointerEvents="none"
+              colors={['transparent', 'rgba(0,0,0,0.35)']}
+              style={styles.vignetteCorner}
+              start={{ x: 0.2, y: 0.2 }}
+              end={{ x: 1, y: 1 }}
+            />
           </View>
-          {/* Avatar + rider name overlay */}
-          <View style={styles.nicknameWrap} pointerEvents="none">
+          {/* Avatar + rider name: bottom-right, over bike photo */}
+          <View
+            style={[
+              styles.heroAvatarCluster,
+              {
+                paddingBottom: Math.max(insets.bottom, 12) + 4,
+                paddingRight: Math.max(insets.right, 12),
+              },
+            ]}
+            pointerEvents="none"
+          >
             {avatarSource ? (
-              <View style={styles.avatarBadge}>
-                <Image source={avatarSource} style={styles.avatarBadgeImage} resizeMode="contain" />
-                {showFaceComposite ? (
-                  <View
-                    style={[
-                      styles.avatarFaceClip,
-                      {
-                        width: `${faceHoleLayout!.widthPct * 100}%`,
-                        height: `${faceHoleLayout!.heightPct * 100}%`,
-                        left: `${faceHoleLayout!.leftPct * 100}%`,
-                        top: `${faceHoleLayout!.topPct * 100}%`,
-                      },
-                    ]}
-                  >
-                    <Image
-                      source={{ uri: avatarFaceUri! }}
-                      style={StyleSheet.absoluteFillObject}
-                      resizeMode="cover"
+              <View style={styles.avatarShadowWrap}>
+                <View style={styles.avatarBadge}>
+                  {showFaceComposite && faceHoleLayout ? (
+                    <AvatarFaceEllipse
+                      key={avatarFaceUri}
+                      badgeSize={HERO_AVATAR_BADGE_SIZE}
+                      avatarSource={avatarSource}
+                      faceUri={avatarFaceUri!}
+                      layout={faceHoleLayout}
+                      faceBehindAvatar={faceBehindAvatar}
                     />
-                  </View>
-                ) : null}
+                  ) : (
+                    <Image source={avatarSource} style={styles.avatarBadgeImage} resizeMode="contain" />
+                  )}
+                </View>
               </View>
             ) : null}
-            <Text style={styles.nickname}>{displayName}</Text>
+            <Text style={styles.nicknameHero}>{displayName}</Text>
           </View>
         </View>
       </TouchableOpacity>
@@ -304,42 +322,51 @@ const styles = StyleSheet.create({
     left: undefined,
     right: 0,
   },
-  nicknameWrap: {
-    ...StyleSheet.absoluteFillObject,
-    justifyContent: 'center',
-    alignItems: 'center',
-    paddingHorizontal: 20,
-    gap: 12,
-    flexDirection: 'column',
+  vignetteCorner: {
+    position: 'absolute',
+    right: 0,
+    bottom: 0,
+    width: '55%',
+    height: '45%',
   },
-  nickname: {
+  heroAvatarCluster: {
+    position: 'absolute',
+    right: 0,
+    bottom: 0,
+    alignItems: 'flex-end',
+    gap: 8,
+    maxWidth: '92%',
+  },
+  nicknameHero: {
     fontFamily: 'RaceSport',
-    fontSize: 32,
+    fontSize: 26,
     color: '#fff',
     textTransform: 'uppercase',
-    letterSpacing: 4,
+    letterSpacing: 3,
+    textAlign: 'right',
     textShadowColor: 'rgba(0,0,0,0.9)',
     textShadowOffset: { width: 0, height: 1 },
     textShadowRadius: 6,
   },
+  avatarShadowWrap: {
+    shadowColor: '#000',
+    shadowOffset: { width: 0, height: 6 },
+    shadowOpacity: 0.45,
+    shadowRadius: 12,
+    ...(Platform.OS === 'android' ? { elevation: 14 } : {}),
+  },
   avatarBadge: {
-    width: 80,
-    height: 80,
-    borderRadius: 40,
+    width: HERO_AVATAR_BADGE_SIZE,
+    height: HERO_AVATAR_BADGE_SIZE,
+    borderRadius: HERO_AVATAR_BADGE_SIZE / 2,
     overflow: 'hidden',
-    borderWidth: 2,
-    borderColor: '#f59e0b',
-    backgroundColor: '#020617',
+    borderWidth: 1,
+    borderColor: 'rgba(245, 158, 11, 0.45)',
+    backgroundColor: 'transparent',
   },
   avatarBadgeImage: {
     width: '100%',
     height: '100%',
-  },
-  avatarFaceClip: {
-    position: 'absolute',
-    borderRadius: 999,
-    overflow: 'hidden',
-    zIndex: 2,
   },
   buttons: {
     paddingHorizontal: 20,

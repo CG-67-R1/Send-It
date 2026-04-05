@@ -21,6 +21,7 @@ import {
 } from '../storage/onboarding';
 import { AVATAR_PRESETS, getAvatarPreset } from '../avatar/presets';
 import { setAvatarFacePhotoUri, clearAvatarFacePhoto } from '../storage/avatarFacePhoto';
+import { AvatarFaceCameraModal } from '../components/AvatarFaceCameraModal';
 
 type Activity = 'race' | 'track_days' | 'just_love_bikes' | 'race_one_day';
 
@@ -40,7 +41,6 @@ export function OnboardingScreen({ onComplete }: OnboardingScreenProps) {
   const [favouriteBike, setFavouriteBike] = useState('');
   const [favouriteRider, setFavouriteRider] = useState('');
   const [activity, setActivity] = useState<Activity | null>(null);
-  const [knowsJustSendIt, setKnowsJustSendIt] = useState<boolean | null>(null);
   const [wantsRacingInfo, setWantsRacingInfo] = useState<boolean | null>(null);
   const [selectedStateCode, setSelectedStateCode] = useState<string | null>(null);
   const [wantsRacingEmailInfo, setWantsRacingEmailInfo] = useState<boolean | null>(null);
@@ -50,8 +50,9 @@ export function OnboardingScreen({ onComplete }: OnboardingScreenProps) {
   const [avatarFaceUri, setAvatarFaceUri] = useState<string | null>(null);
   const [riderNickname, setRiderNickname] = useState('');
   const [finishing, setFinishing] = useState(false);
+  const [faceCameraOpen, setFaceCameraOpen] = useState(false);
 
-  const totalSteps = 8; // welcome, bike, rider, activity, future racer info, Just Send It, nickname, summary
+  const totalSteps = 7; // welcome, bike, rider, activity, future racer info, nickname+avatar, summary
 
   const selectedAvatarPreset = avatarId ? getAvatarPreset(avatarId) : undefined;
 
@@ -61,11 +62,11 @@ export function OnboardingScreen({ onComplete }: OnboardingScreenProps) {
     }
   }, [avatarId, selectedAvatarPreset?.hasFaceHole]);
 
-  const pickAvatarFace = useCallback(async () => {
+  const pickAvatarFaceFromLibrary = useCallback(async () => {
     try {
       const { status } = await ImagePicker.requestMediaLibraryPermissionsAsync();
       if (status !== 'granted') {
-        Alert.alert('Photos', 'Allow access to add your face to the rider avatar.', [
+        Alert.alert('Photos', 'Allow access to choose a photo for your rider avatar.', [
           { text: 'OK' },
           { text: 'Settings', onPress: () => Linking.openSettings() },
         ]);
@@ -85,13 +86,46 @@ export function OnboardingScreen({ onComplete }: OnboardingScreenProps) {
     }
   }, []);
 
+  /** Web / fallback: system camera with square crop. Native uses AvatarFaceCameraModal (oval guide). */
+  const takeAvatarFaceWithSystemCamera = useCallback(async () => {
+    try {
+      const { status } = await ImagePicker.requestCameraPermissionsAsync();
+      if (status !== 'granted') {
+        Alert.alert('Camera', 'Allow camera access to take your rider photo.', [
+          { text: 'OK' },
+          { text: 'Settings', onPress: () => Linking.openSettings() },
+        ]);
+        return;
+      }
+      const result = await ImagePicker.launchCameraAsync({
+        mediaTypes: ['images'],
+        allowsEditing: true,
+        aspect: [1, 1],
+        quality: 0.85,
+      });
+      if (!result.canceled && result.assets[0]) {
+        setAvatarFaceUri(result.assets[0].uri);
+      }
+    } catch (e) {
+      Alert.alert('Error', e instanceof Error ? e.message : 'Could not take photo');
+    }
+  }, []);
+
+  const openAvatarFaceCamera = useCallback(() => {
+    if (Platform.OS === 'web') {
+      void takeAvatarFaceWithSystemCamera();
+    } else {
+      setFaceCameraOpen(true);
+    }
+  }, [takeAvatarFaceWithSystemCamera]);
+
   const handleFinish = async () => {
     const preset = getAvatarPreset(avatarId);
     const answers: OnboardingAnswers = {
       favouriteBike: favouriteBike.trim() || 'my bike',
       favouriteRider: favouriteRider.trim() || 'my hero',
       activity: activity ?? 'just_love_bikes',
-      knowsJustSendIt: knowsJustSendIt ?? false,
+      knowsJustSendIt: false,
       riderNickname: riderNickname.trim() || 'Rider',
       futureRacer: activity === 'race_one_day' || undefined,
       racingStateCode: selectedStateCode ?? undefined,
@@ -125,7 +159,6 @@ export function OnboardingScreen({ onComplete }: OnboardingScreenProps) {
       }
       return true;
     }
-    if (step === 5) return knowsJustSendIt !== null;
     return true;
   };
 
@@ -179,6 +212,7 @@ export function OnboardingScreen({ onComplete }: OnboardingScreenProps) {
   };
 
   return (
+    <>
     <KeyboardAvoidingView
       style={styles.container}
       behavior={Platform.OS === 'ios' ? 'padding' : undefined}
@@ -460,46 +494,8 @@ export function OnboardingScreen({ onComplete }: OnboardingScreenProps) {
           </View>
         )}
 
-        {/* Step 5: Just Send it! */}
+        {/* Step 5: Pick avatar + nickname */}
         {step === 5 && (
-          <View style={styles.step}>
-            <Text style={styles.title}>Do you know what “Just Send it!” means?</Text>
-            <Text style={styles.subtitle}>Be honest. There are no wrong answers here.</Text>
-            <View style={styles.yesNoRow}>
-              <TouchableOpacity
-                style={[styles.yesNoButton, knowsJustSendIt === true && styles.yesNoButtonActive]}
-                onPress={() => setKnowsJustSendIt(true)}
-                activeOpacity={0.8}
-              >
-                <Text style={[styles.yesNoLabel, knowsJustSendIt === true && styles.optionLabelActive]}>
-                  Yeah, I know
-                </Text>
-              </TouchableOpacity>
-              <TouchableOpacity
-                style={[styles.yesNoButton, knowsJustSendIt === false && styles.yesNoButtonActive]}
-                onPress={() => setKnowsJustSendIt(false)}
-                activeOpacity={0.8}
-              >
-                <Text style={[styles.yesNoLabel, knowsJustSendIt === false && styles.optionLabelActive]}>
-                  No idea
-                </Text>
-              </TouchableOpacity>
-            </View>
-            {knowsJustSendIt !== null && (
-              <View style={styles.justSendItBox}>
-                <Text style={styles.justSendItTitle}>“Just Send it!”</Text>
-                <Text style={styles.justSendItText}>
-                  {knowsJustSendIt
-                    ? "You already get it — commit, don’t overthink it, and trust the bike. We like you."
-                    : "It’s what you say right before you stop overthinking and open the throttle. It means: commit, go for it, and leave the doubt in the pits. Consider yourself initiated. 🏍️"}
-                </Text>
-              </View>
-            )}
-          </View>
-        )}
-
-        {/* Step 6: Pick avatar + nickname */}
-        {step === 6 && (
           <View style={styles.step}>
             <Text style={styles.title}>What should we call you?</Text>
             <Text style={styles.subtitle}>
@@ -547,12 +543,22 @@ export function OnboardingScreen({ onComplete }: OnboardingScreenProps) {
               <View style={styles.faceUploadSection}>
                 <Text style={styles.faceUploadTitle}>Your face (optional)</Text>
                 <Text style={styles.faceUploadHint}>
-                  Square crop works best. It appears in the white oval on your rider.
+                  Take a selfie with an oval guide (matches the hole on your rider), or pick a square-cropped
+                  photo from your library.
                 </Text>
                 <View style={styles.faceUploadRow}>
-                  <TouchableOpacity style={styles.faceUploadButton} onPress={pickAvatarFace} activeOpacity={0.85}>
+                  <TouchableOpacity style={styles.faceUploadButton} onPress={openAvatarFaceCamera} activeOpacity={0.85}>
                     <Text style={styles.faceUploadButtonText}>
-                      {avatarFaceUri ? 'Change photo' : 'Add photo'}
+                      {avatarFaceUri ? 'Retake photo' : 'Take photo'}
+                    </Text>
+                  </TouchableOpacity>
+                  <TouchableOpacity
+                    style={styles.faceLibraryButton}
+                    onPress={pickAvatarFaceFromLibrary}
+                    activeOpacity={0.85}
+                  >
+                    <Text style={styles.faceLibraryButtonText}>
+                      {avatarFaceUri ? 'Library' : 'From library'}
                     </Text>
                   </TouchableOpacity>
                   {avatarFaceUri ? (
@@ -584,8 +590,8 @@ export function OnboardingScreen({ onComplete }: OnboardingScreenProps) {
           </View>
         )}
 
-        {/* Step 7: Summary */}
-        {step === 7 && (
+        {/* Step 6: Summary */}
+        {step === 6 && (
           <View style={styles.step}>
             <Text style={styles.title}>You’re in the right place</Text>
             <Text style={styles.summaryText}>{getRiderFact(favouriteRider.trim())}</Text>
@@ -618,6 +624,12 @@ export function OnboardingScreen({ onComplete }: OnboardingScreenProps) {
         </View>
       </ScrollView>
     </KeyboardAvoidingView>
+    <AvatarFaceCameraModal
+      visible={faceCameraOpen}
+      onClose={() => setFaceCameraOpen(false)}
+      onCapture={(uri) => setAvatarFaceUri(uri)}
+    />
+    </>
   );
 }
 
@@ -869,6 +881,19 @@ const styles = StyleSheet.create({
   faceUploadButtonText: {
     color: '#0f172a',
     fontWeight: '700',
+    fontSize: 15,
+  },
+  faceLibraryButton: {
+    paddingVertical: 10,
+    paddingHorizontal: 14,
+    borderRadius: 10,
+    borderWidth: 1,
+    borderColor: '#475569',
+    backgroundColor: '#0f172a',
+  },
+  faceLibraryButtonText: {
+    color: '#e2e8f0',
+    fontWeight: '600',
     fontSize: 15,
   },
   faceRemoveButton: {

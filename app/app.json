@@ -38,6 +38,14 @@
           "photosPermission": "RoadRacer uses your photos so you can set a picture of your bike on the home screen."
         }
       ],
+      [
+        "expo-camera",
+        {
+          "cameraPermission": "RoadRacer uses your camera to place your face in the rider avatar.",
+          "microphonePermission": false,
+          "recordAudioAndroid": false
+        }
+      ],
       "expo-speech-recognition",
       "sentry-expo"
     ],

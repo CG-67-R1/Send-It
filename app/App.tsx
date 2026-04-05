@@ -3,9 +3,9 @@ import { ActivityIndicator, Text, TouchableOpacity, View } from 'react-native';
 import { StatusBar } from 'expo-status-bar';
 import { useFonts } from 'expo-font';
 import { NavigationContainer } from '@react-navigation/native';
+import { SafeAreaProvider } from 'react-native-safe-area-context';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
-import * as Sentry from 'sentry-expo';
 import { HeadlinesScreen } from './src/screens/HeadlinesScreen';
 import { HeadlinesListScreen } from './src/screens/HeadlinesListScreen';
 import { HeadlinesSettingsScreen } from './src/screens/HeadlinesSettingsScreen';
@@ -17,12 +17,6 @@ import { TrackWalkScreen } from './src/screens/TrackWalkScreen';
 import { OnboardingScreen } from './src/screens/OnboardingScreen';
 import { getOnboardingDone, resetOnboardingForRetest } from './src/storage/onboarding';
 import { OnboardingResetContext } from './src/context/OnboardingResetContext';
-
-Sentry.init({
-  dsn: process.env.EXPO_PUBLIC_SENTRY_DSN ?? undefined,
-  enableInExpoDevelopment: true,
-  debug: __DEV__,
-});
 
 const Stack = createNativeStackNavigator();
 const Tab = createBottomTabNavigator();
@@ -148,35 +142,54 @@ export default function App() {
     getOnboardingDone().then(setOnboardingComplete);
   }, []);
 
+  // Load Sentry after the native runtime is ready. Eager `import 'sentry-expo'` can throw
+  // (e.g. tslib `__extends` / Hermes) during the initial module graph before RN is initialized.
+  useEffect(() => {
+    const dsn = process.env.EXPO_PUBLIC_SENTRY_DSN;
+    if (!dsn) return;
+    let cancelled = false;
+    void import('sentry-expo')
+      .then((Sentry) => {
+        if (cancelled) return;
+        Sentry.init({
+          dsn,
+          enableInExpoDevelopment: true,
+          debug: __DEV__,
+        });
+      })
+      .catch((e) => {
+        if (__DEV__) console.warn('[Sentry] init skipped:', e);
+      });
+    return () => {
+      cancelled = true;
+    };
+  }, []);
+
   const resetOnboarding = useCallback(async () => {
     await resetOnboardingForRetest();
     setOnboardingComplete(false);
   }, []);
 
-  if (!fontsLoaded || onboardingComplete === null) {
-    return (
-      <View style={{ flex: 1, backgroundColor: '#0f172a', justifyContent: 'center', alignItems: 'center' }}>
-        <StatusBar style="light" />
-        <ActivityIndicator size="large" color="#f59e0b" />
-      </View>
-    );
-  }
-
-  if (!onboardingComplete) {
-    return (
-      <OnboardingResetContext.Provider value={{ resetOnboarding }}>
-        <StatusBar style="light" />
-        <OnboardingScreen onComplete={() => setOnboardingComplete(true)} />
-      </OnboardingResetContext.Provider>
-    );
-  }
-
   return (
-    <OnboardingResetContext.Provider value={{ resetOnboarding }}>
-      <NavigationContainer>
-        <StatusBar style="light" />
-        <MainTabs />
-      </NavigationContainer>
-    </OnboardingResetContext.Provider>
+    <SafeAreaProvider>
+      {!fontsLoaded || onboardingComplete === null ? (
+        <View style={{ flex: 1, backgroundColor: '#0f172a', justifyContent: 'center', alignItems: 'center' }}>
+          <StatusBar style="light" />
+          <ActivityIndicator size="large" color="#f59e0b" />
+        </View>
+      ) : !onboardingComplete ? (
+        <OnboardingResetContext.Provider value={{ resetOnboarding }}>
+          <StatusBar style="light" />
+          <OnboardingScreen onComplete={() => setOnboardingComplete(true)} />
+        </OnboardingResetContext.Provider>
+      ) : (
+        <OnboardingResetContext.Provider value={{ resetOnboarding }}>
+          <NavigationContainer>
+            <StatusBar style="light" />
+            <MainTabs />
+          </NavigationContainer>
+        </OnboardingResetContext.Provider>
+      )}
+    </SafeAreaProvider>
   );
 }

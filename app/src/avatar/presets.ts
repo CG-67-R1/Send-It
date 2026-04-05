@@ -5,6 +5,12 @@ export interface AvatarPreset {
   label: string;
   /** When true, this art is a "face hole" frame — user photo can be composited later. */
   hasFaceHole: boolean;
+  /**
+   * When true, the face photo is drawn *under* the avatar PNG. The PNG must have a **transparent**
+   * hole (alpha) where the face shows through. When false/undefined, the face is drawn *on top*
+   * (covers a solid white hole in the art).
+   */
+  compositeFaceBehindAvatar?: boolean;
   source: ImageSourcePropType;
 }
 
@@ -18,42 +24,49 @@ export const AVATAR_PRESETS: AvatarPreset[] = [
     id: 'black_no_face',
     label: 'Black leathers',
     hasFaceHole: true,
+    compositeFaceBehindAvatar: true,
     source: require('../../avatar/black_no_face.png'),
   },
   {
     id: 'blue_no_face',
     label: 'Blue leathers',
     hasFaceHole: true,
+    compositeFaceBehindAvatar: true,
     source: require('../../avatar/blue_no_face.png'),
   },
   {
     id: 'pink_no_face',
     label: 'Pink leathers',
     hasFaceHole: true,
+    compositeFaceBehindAvatar: true,
     source: require('../../avatar/pink_no_face.png'),
   },
   {
     id: 'red_no_face',
     label: 'Red leathers',
     hasFaceHole: true,
+    compositeFaceBehindAvatar: true,
     source: require('../../avatar/red_no_face.png'),
   },
   {
     id: 'yellow_no_face',
     label: 'Yellow leathers',
     hasFaceHole: true,
+    compositeFaceBehindAvatar: true,
     source: require('../../avatar/yellow_no_face.png'),
   },
   {
     id: 'orange_no_face',
     label: 'Orange leathers',
     hasFaceHole: true,
+    compositeFaceBehindAvatar: true,
     source: require('../../avatar/orange_no_face.png'),
   },
   {
     id: 'purple_no_face',
     label: 'Purple leathers',
     hasFaceHole: true,
+    compositeFaceBehindAvatar: true,
     // Filename uses a dot before _no_face
     source: require('../../avatar/purple._no_face.png'),
   },
@@ -109,11 +122,15 @@ export type FaceHoleLayout = {
   topPct: number;
 };
 
-const DEFAULT_FACE_HOLE_LAYOUT: FaceHoleLayout = {
-  widthPct: 0.38,
-  heightPct: 0.38,
-  leftPct: 0.31,
-  topPct: 0.18,
+/**
+ * Oval hole (ellipse) — closer to the white oval in the leathers art than a circle.
+ * Expressed as fractions of the badge box; scales with `HERO_AVATAR_BADGE_SIZE` / `heroBadgeSizing.ts`.
+ */
+export const DEFAULT_FACE_HOLE_LAYOUT: FaceHoleLayout = {
+  widthPct: 0.34,
+  heightPct: 0.42,
+  leftPct: 0.33,
+  topPct: 0.15,
 };
 
 /** Per-frame overrides (optional). Keys match `AvatarPreset.id`. */
@@ -123,4 +140,9 @@ export function getFaceHoleLayout(avatarId: string | null | undefined): FaceHole
   const preset = getAvatarPreset(avatarId);
   if (!preset?.hasFaceHole) return null;
   return FACE_HOLE_LAYOUT_OVERRIDES[avatarId ?? ''] ?? DEFAULT_FACE_HOLE_LAYOUT;
+}
+
+/** Width/height ratio of the face hole bounding box (matches camera crop & ellipse). */
+export function getFaceHoleAspectRatio(layout: FaceHoleLayout): number {
+  return layout.widthPct / layout.heightPct;
 }
