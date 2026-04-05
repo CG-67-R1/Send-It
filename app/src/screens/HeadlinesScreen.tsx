@@ -18,6 +18,7 @@ import type { NativeStackNavigationProp } from '@react-navigation/native-stack';
 import { getBikePhotoUri, setBikePhotoUri, clearBikePhoto } from '../storage/bikePhoto';
 import { HEADLINES_URL } from '../../constants/api';
 import { getOnboardingAnswers } from '../storage/onboarding';
+import { getAvatarSource } from '../avatar/presets';
 import { AppLogo } from '../components/AppLogo';
 
 type HeadlinesStackParamList = {
@@ -32,6 +33,7 @@ export function HeadlinesScreen() {
   const [nickname, setNickname] = useState<string>('');
   const [pickingPhoto, setPickingPhoto] = useState(false);
   const [hasPrefetchedHeadlines, setHasPrefetchedHeadlines] = useState(false);
+  const [avatarSource, setAvatarSource] = useState<any | null>(null);
 
   useEffect(() => {
     if (hasPrefetchedHeadlines) return;
@@ -52,6 +54,7 @@ export function HeadlinesScreen() {
     ]);
     setBikePhotoUriState(uri);
     setNickname(answers?.riderNickname?.trim() || answers?.favouriteRider?.trim() || 'Rider');
+    setAvatarSource(getAvatarSource(answers?.avatarId));
   }, []);
 
   useFocusEffect(
@@ -177,8 +180,13 @@ export function HeadlinesScreen() {
               end={{ x: 0, y: 0.5 }}
             />
           </View>
-          {/* Rider name centered on screen */}
+          {/* Avatar + rider name overlay */}
           <View style={styles.nicknameWrap} pointerEvents="none">
+            {avatarSource && (
+              <View style={styles.avatarBadge}>
+                <Image source={avatarSource} style={styles.avatarBadgeImage} resizeMode="contain" />
+              </View>
+            )}
             <Text style={styles.nickname}>{displayName}</Text>
           </View>
         </View>
@@ -270,6 +278,8 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
     paddingHorizontal: 20,
+    gap: 12,
+    flexDirection: 'column',
   },
   nickname: {
     fontFamily: 'RaceSport',
@@ -280,6 +290,19 @@ const styles = StyleSheet.create({
     textShadowColor: 'rgba(0,0,0,0.9)',
     textShadowOffset: { width: 0, height: 1 },
     textShadowRadius: 6,
+  },
+  avatarBadge: {
+    width: 80,
+    height: 80,
+    borderRadius: 40,
+    overflow: 'hidden',
+    borderWidth: 2,
+    borderColor: '#f59e0b',
+    backgroundColor: '#020617',
+  },
+  avatarBadgeImage: {
+    width: '100%',
+    height: '100%',
   },
   buttons: {
     paddingHorizontal: 20,

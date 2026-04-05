@@ -29,7 +29,7 @@ const Tab = createBottomTabNavigator();
 const headerOptions = {
   headerStyle: { backgroundColor: '#0f172a' },
   headerTintColor: '#f8fafc',
-  headerTitleStyle: { fontWeight: '700', fontSize: 18 },
+  headerTitleStyle: { fontWeight: '700' as const, fontSize: 18 },
 };
 
 function HeadlinesStack() {

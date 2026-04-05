@@ -9,6 +9,7 @@ import {
   KeyboardAvoidingView,
   Platform,
   Linking,
+  Image,
 } from 'react-native';
 import { getRiderFact, getBikeFact, RACING_STATES, getRacingStateInfo } from '../onboardingContent';
 import {
@@ -16,6 +17,7 @@ import {
   setOnboardingAnswers,
   type OnboardingAnswers,
 } from '../storage/onboarding';
+import { AVATAR_PRESETS } from '../avatar/presets';
 
 type Activity = 'race' | 'track_days' | 'just_love_bikes' | 'race_one_day';
 
@@ -40,6 +42,7 @@ export function OnboardingScreen({ onComplete }: OnboardingScreenProps) {
   const [selectedStateCode, setSelectedStateCode] = useState<string | null>(null);
   const [wantsRacingEmailInfo, setWantsRacingEmailInfo] = useState<boolean | null>(null);
   const [racingEmail, setRacingEmail] = useState('');
+  const [avatarId, setAvatarId] = useState<string | null>(null);
   const [riderNickname, setRiderNickname] = useState('');
 
   const totalSteps = 8; // welcome, bike, rider, activity, future racer info, Just Send It, nickname, summary
@@ -54,6 +57,7 @@ export function OnboardingScreen({ onComplete }: OnboardingScreenProps) {
       futureRacer: activity === 'race_one_day' || undefined,
       racingStateCode: selectedStateCode ?? undefined,
       racingInfoEmail: racingEmail.trim() || undefined,
+      avatarId: avatarId ?? undefined,
     };
     await setOnboardingAnswers(answers);
     await setOnboardingDone();
@@ -435,13 +439,39 @@ export function OnboardingScreen({ onComplete }: OnboardingScreenProps) {
           </View>
         )}
 
-        {/* Step 6: Name / race number / nickname */}
+        {/* Step 6: Pick avatar + nickname */}
         {step === 6 && (
           <View style={styles.step}>
             <Text style={styles.title}>What should we call you?</Text>
             <Text style={styles.subtitle}>
-              Your name, race number or a nickname — it’ll show on your home screen.
+              Your name, race number or a nickname — and pick an avatar to show on your home screen.
             </Text>
+            <View style={styles.avatarRow}>
+              {AVATAR_PRESETS.map((preset) => (
+                <TouchableOpacity
+                  key={preset.id}
+                  style={[
+                    styles.avatarChoice,
+                    avatarId === preset.id && styles.avatarChoiceActive,
+                  ]}
+                  onPress={() => setAvatarId(preset.id)}
+                  activeOpacity={0.8}
+                >
+                  <View style={styles.avatarImageWrap}>
+                    <Image source={preset.source} style={styles.avatarImage} resizeMode="contain" />
+                  </View>
+                  <Text
+                    style={[
+                      styles.avatarLabel,
+                      avatarId === preset.id && styles.avatarLabelActive,
+                    ]}
+                    numberOfLines={1}
+                  >
+                    {preset.label}
+                  </Text>
+                </TouchableOpacity>
+              ))}
+            </View>
             <TextInput
               style={styles.input}
               placeholder="e.g. Alex, #42, Speedy..."
@@ -649,5 +679,45 @@ const styles = StyleSheet.create({
     fontSize: 16,
     color: '#0f172a',
     fontWeight: '700',
+  },
+  avatarRow: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    marginBottom: 20,
+    gap: 12,
+  },
+  avatarChoice: {
+    flex: 1,
+    alignItems: 'center',
+    paddingVertical: 10,
+    paddingHorizontal: 4,
+    borderRadius: 12,
+    backgroundColor: '#020617',
+    borderWidth: 1,
+    borderColor: '#1e293b',
+  },
+  avatarChoiceActive: {
+    borderColor: '#f59e0b',
+    backgroundColor: '#0f172a',
+  },
+  avatarImageWrap: {
+    width: 64,
+    height: 64,
+    borderRadius: 32,
+    overflow: 'hidden',
+    marginBottom: 6,
+    backgroundColor: '#020617',
+  },
+  avatarImage: {
+    width: '100%',
+    height: '100%',
+  },
+  avatarLabel: {
+    fontSize: 12,
+    color: '#94a3b8',
+    textAlign: 'center',
+  },
+  avatarLabelActive: {
+    color: '#facc15',
   },
 });

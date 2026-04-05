@@ -19,7 +19,7 @@ Mobile app that shows **latest headlines** from motorcycle and racing news sites
 - **MCN** (Motorcycle News UK)
 
 
-## Features
+## Features (current)
 
 - **Headlines page:** Aggregated headlines from 8 built-in sources; tap to open the article; updates when the app opens; pull-to-refresh.
 - **Priority order:** In **Settings** (Headlines settings), a numbered priority grid with a dropdown per position. Set which source appears first (e.g. MotoGP = 1), second, and so on. The Headlines list is ordered by this priority.
@@ -82,22 +82,46 @@ npx expo start
   `cd api && npm run scrape-pdfs`  
   (Requires `npm install` in `api/` first – installs `pdf-parse` and other dependencies.)
 
-## Project layout
+## Project layout (simplified)
 
 ```
 RoadRace/
-├── api/                 # Headlines API (Node.js)
+├── api/                 # Headlines + Q&A API (Node.js / Express)
 │   ├── server.js        # Express server, GET /headlines
 │   ├── scrapers.js      # Per-site scrapers, 15-min cache
 │   └── package.json
 ├── app/                 # Expo (React Native) app
-│   ├── App.tsx          # Root with Headlines screen
-│   ├── index.js         # Entry
-│   ├── constants/api.ts # API base URL
+│   ├── App.tsx                 # Root navigation (tabs + stacks)
+│   ├── constants/api.ts        # API base URL + EXPO_PUBLIC_API_URL support
 │   └── src/
-│       ├── screens/HeadlinesScreen.tsx  # List + links + refresh
-│       └── types.ts
+│       ├── screens/            # All main screens (Headlines, Calendar, Q&A, Track Walk, Rider Coach, Onboarding)
+│       ├── storage/            # AsyncStorage helpers (onboarding, avatar, bike photo, settings)
+│       ├── notifications/      # Priority-1 headline notifications
+│       └── components/         # Shared UI components (e.g. AppLogo)
 └── README.md
+
+For more detail, see:
+
+- `PROJECT_STATUS_AND_PRE_PRODUCTION.md` – current health checks, remaining work before production, and quick reference.
+- `POC_HOSTING_GUIDE.md` – notes on hosting API (Render) and web build (Vercel).
+- `SCREEN_BRIEF_FOR_VISUALS.md` – per-screen UX and visual intent.
+
+## Branch & workflow (for learning)
+
+- Keep `main` (and tag `v0.1-poc-stable`) as your **stable baseline**.
+- Use `clean-restart` as your **working branch** for this phase while you tidy and add features.
+- For new work, create short-lived branches from `clean-restart`, e.g.:
+  - `feature/onboarding-future-racer`
+  - `feature/headlines-views`
+  - `feature/qa-goat-celebration`
+- Open a PR from each feature branch back into `clean-restart`, review the diff, then merge.
+- When you’re happy with `clean-restart`, fast-forward or merge it into `main` and push so Vercel/Render can deploy from `main`.
+
+Before merging into `main`, run:
+
+```bash
+cd api && npm test || npm start   # basic health / manual check
+cd ../app && npx tsc --noEmit     # TypeScript check
 ```
 
 ## Deploying the API

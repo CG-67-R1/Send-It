@@ -1,5 +1,5 @@
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import * as FileSystem from 'expo-file-system';
+import * as FileSystem from 'expo-file-system/legacy';
 
 const KEY_BIKE_PHOTO_URI = '@roadrace_bike_photo_uri';
 const BIKE_PHOTO_FILENAME = 'bike_photo.jpg';
@@ -8,7 +8,7 @@ export async function getBikePhotoUri(): Promise<string | null> {
   try {
     const uri = await AsyncStorage.getItem(KEY_BIKE_PHOTO_URI);
     if (!uri) return null;
-    const exists = await FileSystem.getInfoAsync(uri, { size: false });
+    const exists = await FileSystem.getInfoAsync(uri);
     return exists.exists ? uri : null;
   } catch {
     return null;
