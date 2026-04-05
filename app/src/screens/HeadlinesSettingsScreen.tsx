@@ -23,8 +23,10 @@ import { requestNotificationPermissions } from '../notifications/priority1Notifi
 import { SOURCES_URL } from '../../constants/api';
 import type { CustomSource, PriorityOrder, Source } from '../types';
 import { AppLogo } from '../components/AppLogo';
+import { useOnboardingReset } from '../context/OnboardingResetContext';
 
 export function HeadlinesSettingsScreen() {
+  const onboardingReset = useOnboardingReset();
   const [builtinSources, setBuiltinSources] = useState<Source[]>([]);
   const [customSources, setCustomSourcesState] = useState<CustomSource[]>([]);
   const [priority, setPriorityState] = useState<PriorityOrder>([]);
@@ -131,6 +133,31 @@ export function HeadlinesSettingsScreen() {
     [priority]
   );
 
+  const handleResetOnboarding = useCallback(() => {
+    if (!onboardingReset || !__DEV__) return;
+    Alert.alert(
+      'Reset onboarding',
+      'This clears your profile answers and the avatar face photo, then runs the welcome flow again. Headlines settings are kept.',
+      [
+        { text: 'Cancel', style: 'cancel' },
+        {
+          text: 'Reset',
+          style: 'destructive',
+          onPress: async () => {
+            try {
+              await onboardingReset.resetOnboarding();
+            } catch (e) {
+              Alert.alert(
+                'Could not reset',
+                e instanceof Error ? e.message : 'Something went wrong. Try again.'
+              );
+            }
+          },
+        },
+      ]
+    );
+  }, [onboardingReset]);
+
   const handleNotifyPriority1Toggle = useCallback(async (value: boolean) => {
     if (value) {
       const granted = await requestNotificationPermissions();
@@ -236,6 +263,18 @@ export function HeadlinesSettingsScreen() {
           </View>
         )}
       </View>
+
+      {__DEV__ && onboardingReset ? (
+        <View style={styles.section}>
+          <Text style={styles.sectionTitle}>Developer</Text>
+          <Text style={styles.sectionSubtitle}>
+            Re-run onboarding without reinstalling the app (Expo Go / dev builds).
+          </Text>
+          <TouchableOpacity style={styles.devResetButton} onPress={handleResetOnboarding} activeOpacity={0.85}>
+            <Text style={styles.devResetButtonText}>Reset onboarding</Text>
+          </TouchableOpacity>
+        </View>
+      ) : null}
 
       <Modal
         visible={pickerSlot !== null}

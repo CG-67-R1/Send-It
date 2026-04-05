@@ -1,4 +1,5 @@
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import { clearAvatarFacePhoto } from './avatarFacePhoto';
 
 const KEY_ONBOARDING_DONE = '@roadrace_onboarding_done';
 const KEY_ONBOARDING_ANSWERS = '@roadrace_onboarding_answers';
@@ -50,3 +51,18 @@ export async function getOnboardingAnswers(): Promise<OnboardingAnswers | null> 
 export async function setOnboardingAnswers(answers: OnboardingAnswers): Promise<void> {
   await AsyncStorage.setItem(KEY_ONBOARDING_ANSWERS, JSON.stringify(answers));
 }
+
+/** Clears onboarding completion flag and saved answers (e.g. to re-run welcome flow). */
+export async function resetOnboardingStorage(): Promise<void> {
+  await AsyncStorage.multiRemove([KEY_ONBOARDING_DONE, KEY_ONBOARDING_ANSWERS]);
+}
+
+/**
+ * Full reset for re-testing onboarding: clears answers + saved face-in-hole image.
+ * Does not clear bike hero photo or headlines settings.
+ */
+export async function resetOnboardingForRetest(): Promise<void> {
+  await clearAvatarFacePhoto();
+  await resetOnboardingStorage();
+}
+

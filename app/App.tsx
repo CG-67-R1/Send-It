@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 import { ActivityIndicator, Text, TouchableOpacity, View } from 'react-native';
 import { StatusBar } from 'expo-status-bar';
 import { useFonts } from 'expo-font';
@@ -15,7 +15,8 @@ import { RiderCoachScreen } from './src/screens/RiderCoachScreen';
 import { ImportTrackNotesScreen } from './src/screens/ImportTrackNotesScreen';
 import { TrackWalkScreen } from './src/screens/TrackWalkScreen';
 import { OnboardingScreen } from './src/screens/OnboardingScreen';
-import { getOnboardingDone } from './src/storage/onboarding';
+import { getOnboardingDone, resetOnboardingForRetest } from './src/storage/onboarding';
+import { OnboardingResetContext } from './src/context/OnboardingResetContext';
 
 Sentry.init({
   dsn: process.env.EXPO_PUBLIC_SENTRY_DSN ?? undefined,
@@ -147,6 +148,11 @@ export default function App() {
     getOnboardingDone().then(setOnboardingComplete);
   }, []);
 
+  const resetOnboarding = useCallback(async () => {
+    await resetOnboardingForRetest();
+    setOnboardingComplete(false);
+  }, []);
+
   if (!fontsLoaded || onboardingComplete === null) {
     return (
       <View style={{ flex: 1, backgroundColor: '#0f172a', justifyContent: 'center', alignItems: 'center' }}>
@@ -158,17 +164,19 @@ export default function App() {
 
   if (!onboardingComplete) {
     return (
-      <>
+      <OnboardingResetContext.Provider value={{ resetOnboarding }}>
         <StatusBar style="light" />
         <OnboardingScreen onComplete={() => setOnboardingComplete(true)} />
-      </>
+      </OnboardingResetContext.Provider>
     );
   }
 
   return (
-    <NavigationContainer>
-      <StatusBar style="light" />
-      <MainTabs />
-    </NavigationContainer>
+    <OnboardingResetContext.Provider value={{ resetOnboarding }}>
+      <NavigationContainer>
+        <StatusBar style="light" />
+        <MainTabs />
+      </NavigationContainer>
+    </OnboardingResetContext.Provider>
   );
 }
