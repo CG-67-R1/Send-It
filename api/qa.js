@@ -250,16 +250,16 @@ export async function getTriviaQuestion(usedIndices = [], options = {}) {
   }
   while (wrongs.length < 3) wrongs.push('(No other answer)');
 
-  const options = [correct.a, ...wrongs];
-  for (let i = options.length - 1; i > 0; i--) {
+  const choices = [correct.a, ...wrongs];
+  for (let i = choices.length - 1; i > 0; i--) {
     const j = Math.floor(Math.random() * (i + 1));
-    [options[i], options[j]] = [options[j], options[i]];
+    [choices[i], choices[j]] = [choices[j], choices[i]];
   }
-  const correctOptionIndex = options.indexOf(correct.a);
+  const correctOptionIndex = choices.indexOf(correct.a);
 
   return {
     question: correct.q,
-    options,
+    options: choices,
     correctIndex: correctOptionIndex,
     triviaIndex: correctIndex,
   };
