@@ -65,6 +65,10 @@ export function HeadlinesSettingsScreen() {
     setNotifyPriority1State(notify);
     try {
       const res = await fetch(SOURCES_URL, { signal: AbortSignal.timeout(5000) });
+      if (!res.ok) {
+        setBuiltinSources([]);
+        return;
+      }
       const data = await res.json();
       if (data.sources) setBuiltinSources(data.sources);
     } catch {
@@ -208,14 +212,17 @@ export function HeadlinesSettingsScreen() {
     try {
       const newSource = await addCustomSource(url, name);
       setCustomSourcesState((prev) => [...prev, newSource]);
-      setPriorityState((prev) => [...prev, newSource.id]);
-      await setPriorityOrder([...priority, newSource.id]);
+      setPriorityState((prev) => {
+        const next = [...prev, newSource.id];
+        void setPriorityOrder(next);
+        return next;
+      });
       setAddUrl('');
       setAddName('');
     } finally {
       setAdding(false);
     }
-  }, [addUrl, addName, priority, customSources.length]);
+  }, [addUrl, addName, customSources.length]);
 
   const handleRemoveCustom = useCallback(
     (id: string) => {
@@ -227,13 +234,16 @@ export function HeadlinesSettingsScreen() {
           onPress: async () => {
             await removeCustomSource(id);
             setCustomSourcesState((prev) => prev.filter((s) => s.id !== id));
-            setPriorityState((prev) => prev.filter((sid) => sid !== id));
-            await setPriorityOrder(priority.filter((sid) => sid !== id));
+            setPriorityState((prev) => {
+              const next = prev.filter((sid) => sid !== id);
+              void setPriorityOrder(next);
+              return next;
+            });
           },
         },
       ]);
     },
-    [priority]
+    []
   );
 
   const handleResetOnboarding = useCallback(() => {

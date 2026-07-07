@@ -14,6 +14,7 @@ import {
 } from 'react-native';
 import * as Clipboard from 'expo-clipboard';
 import * as ImagePicker from 'expo-image-picker';
+import { ROADRACE_CHAT_URL } from '../../constants/api';
 import { AppLogo } from '../components/AppLogo';
 
 type Props = {
@@ -46,7 +47,7 @@ export function ImportTrackNotesScreen({ onSendToCoach }: Props) {
   const handleAddPhoto = useCallback(async () => {
     try {
       const result = await ImagePicker.launchImageLibraryAsync({
-        mediaTypes: ImagePicker.MediaTypeOptions.Images,
+        mediaTypes: ['images'],
         quality: 0.7,
       });
       if (!result.canceled && result.assets && result.assets.length > 0) {
@@ -57,32 +58,62 @@ export function ImportTrackNotesScreen({ onSendToCoach }: Props) {
     }
   }, []);
 
+  const sendNotesToCoach = useCallback(
+    async (payload: { trackName: string; notes: string; photoUris: string[] }) => {
+      const photoNote =
+        payload.photoUris.length > 0
+          ? `\n\n[User attached ${payload.photoUris.length} photo(s) — summarise the written notes; photos are for context only.]`
+          : '';
+      const message = `Summarise these track notes for "${payload.trackName}" into clear, actionable coaching points (corners, braking, lines, setup hints):\n\n${payload.notes}${photoNote}`;
+
+      const res = await fetch(ROADRACE_CHAT_URL, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ message, mode: 'coach', history: [] }),
+        signal: AbortSignal.timeout(60000),
+      });
+      const data = await res.json();
+      if (!res.ok) {
+        throw new Error(typeof data?.error === 'string' ? data.error : 'Coach request failed');
+      }
+      const reply = typeof data?.reply === 'string' ? data.reply.trim() : '';
+      if (!reply) {
+        throw new Error('No response from coach');
+      }
+      await Clipboard.setStringAsync(reply);
+      Alert.alert(
+        'Coach summary ready',
+        'The coach summary was copied to your clipboard. Paste it into your track log or share it.',
+        [{ text: 'OK' }]
+      );
+    },
+    []
+  );
+
   const handleSendToCoach = useCallback(async () => {
     const trimmed = notes.trim();
     if (!trimmed) {
       Alert.alert('No notes', 'Paste or type track notes first.');
       return;
     }
-    if (onSendToCoach) {
-      setSending(true);
-      try {
-        await onSendToCoach({
-          trackName: trackName.trim() || 'Imported track',
-          notes: trimmed,
-          photoUris: photos,
-        });
-      } finally {
-        setSending(false);
+    const payload = {
+      trackName: trackName.trim() || 'Imported track',
+      notes: trimmed,
+      photoUris: photos,
+    };
+    setSending(true);
+    try {
+      if (onSendToCoach) {
+        await onSendToCoach(payload);
+      } else {
+        await sendNotesToCoach(payload);
       }
-      return;
+    } catch (e) {
+      Alert.alert('Send failed', e instanceof Error ? e.message : 'Could not reach coach');
+    } finally {
+      setSending(false);
     }
-    // Placeholder when coach API not connected
-    Alert.alert(
-      'Send to coach',
-      'When the coach is connected, your notes (and any attached photos) will be sent for summarising and then you can add them to your track log.',
-      [{ text: 'OK' }]
-    );
-  }, [notes, trackName, onSendToCoach]);
+  }, [notes, trackName, photos, onSendToCoach, sendNotesToCoach]);
 
   return (
     <KeyboardAvoidingView

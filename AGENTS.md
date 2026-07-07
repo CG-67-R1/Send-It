@@ -16,10 +16,8 @@ Dependencies for both are installed by the update script (`npm ci` in each). Nod
 
 ### Non-obvious caveats
 
-- **Web app → API URL in dev is hardcoded.** `app/constants/api.ts` returns `http://192.168.1.13:3001` (the `DEV_MACHINE_IP`) for web/dev regardless of `EXPO_PUBLIC_API_URL` (that env var is only honored in production builds). To let the web app reach the local API without editing code, alias that IP onto loopback for the session:
-  `sudo ifconfig lo:0 192.168.1.13 netmask 255.255.255.255 up`
-  Then the browser on this VM reaches the API the app expects. (This is a per-session network setup, not a dependency.)
-- **Onboarding avatar step can crash the browser renderer.** Onboarding step 5 (avatar picker) renders ~14 large PNGs (~15MB total, from `app/avatar/`) at once, which can crash the Chrome renderer with "Aw, Snap! (Error code: 4)" even on a 15GB VM. To skip the first-run onboarding gate for testing, set these in the browser console and reload:
+- **Web/iOS simulator API URL:** In dev, `app/constants/api.ts` uses `http://localhost:3001` for web and iOS simulator. Android emulator uses `10.0.2.2:3001`; physical devices use `EXPO_PUBLIC_DEV_MACHINE_IP` or the `DEV_MACHINE_IP` constant. Set `EXPO_PUBLIC_API_URL` to override in any environment.
+- **Onboarding avatar step can stress the browser.** Step 5 loads large PNG avatars; on web this can still crash Chrome with "Aw, Snap!" on low-memory VMs. To skip onboarding for testing, set in the browser console and reload:
   `localStorage.setItem('@roadrace_onboarding_done','true')`
   `localStorage.setItem('@roadrace_onboarding_answers', JSON.stringify({favouriteBike:'Yamaha R1', favouriteRider:'Valentino Rossi', activity:'just_love_bikes', riderNickname:'Tester'}))`
   (AsyncStorage on web = `localStorage`; keys are stored verbatim.)

@@ -37,7 +37,7 @@ export function TrackWalkScreen() {
 
   const requestVoice = useCallback(async () => {
     try {
-      const { ExpoSpeechRecognitionModule, useSpeechRecognitionEvent } = require('expo-speech-recognition');
+      const { ExpoSpeechRecognitionModule } = require('expo-speech-recognition');
       const result = await ExpoSpeechRecognitionModule.requestPermissionsAsync();
       if (!result.granted) {
         Alert.alert('Microphone', 'Allow microphone access to use voice notes.');

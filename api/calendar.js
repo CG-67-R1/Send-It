@@ -105,9 +105,9 @@ function loadAuEvents() {
 }
 
 /**
- * Fetch WorldSBK 2025 from TheSportsDB; group by round (one entry per weekend).
+ * Fetch WorldSBK season from TheSportsDB; group by round (one entry per weekend).
  */
-async function fetchWorldSBK(season = '2025') {
+async function fetchWorldSBK(season = String(new Date().getFullYear())) {
   const url = `https://www.thesportsdb.com/api/v1/json/${SPORTS_DB_KEY}/eventsseason.php?id=${WSBK_LEAGUE_ID}&s=${season}`;
   try {
     const res = await fetch(url, {
@@ -151,6 +151,15 @@ async function fetchWorldSBK(season = '2025') {
   }
 }
 
+async function fetchWorldSBKForCurrentSeason() {
+  const year = new Date().getFullYear();
+  let rounds = await fetchWorldSBK(String(year));
+  if (rounds.length === 0) {
+    rounds = await fetchWorldSBK(String(year + 1));
+  }
+  return rounds;
+}
+
 /**
  * Returns all calendar events (MotoGP, WorldSBK, Australia) sorted by startDate.
  */
@@ -170,7 +179,7 @@ export async function getCalendarEvents(bypassCache = false) {
     normalizeStaticEvent(e.series || 'au_club', { ...e, seriesLabel: e.seriesLabel || 'AU Road Race' })
   );
   const auClub = [...auClubFromFile, ...auClubStatic];
-  const worldsbk = await fetchWorldSBK();
+  const worldsbk = await fetchWorldSBKForCurrentSeason();
   const all = [
     // Highest interest: Aussie national + club/state road-race events
     ...auClub,

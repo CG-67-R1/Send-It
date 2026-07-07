@@ -66,6 +66,8 @@ export function RiderCoachScreen() {
       const reply = typeof data?.reply === 'string' ? data.reply.trim() : '';
       if (reply) {
         setMessages((prev) => [...prev, { role: 'assistant', content: reply }]);
+      } else {
+        setError('No response from coach');
       }
       setTimeout(() => scrollRef.current?.scrollToEnd({ animated: true }), 100);
     } catch (e) {

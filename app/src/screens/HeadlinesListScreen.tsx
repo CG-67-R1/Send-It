@@ -57,6 +57,11 @@ export function HeadlinesListScreen() {
       const url = isRefresh ? `${HEADLINES_URL}?refresh=1` : HEADLINES_URL;
       const res = await fetch(url, { signal: AbortSignal.timeout(25000) });
       const data = await res.json();
+      if (!res.ok) {
+        throw new Error(
+          typeof data?.error === 'string' ? data.error : `Headlines request failed (${res.status})`
+        );
+      }
       let list: Headline[] = Array.isArray(data.headlines) ? data.headlines : [];
       list = list.map((h: Headline) => ({ ...h, sourceId: h.sourceId || h.source?.toLowerCase().replace(/\s+/g, '_') || 'unknown' }));
 

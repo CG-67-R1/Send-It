@@ -19,14 +19,21 @@ function isLikelyAndroidEmulator(): boolean {
 }
 
 const getApiBaseUrl = () => {
+  const envUrl = process.env.EXPO_PUBLIC_API_URL?.replace(/\/$/, '');
+  if (envUrl) return envUrl;
+
   if (__DEV__) {
+    if (Platform.OS === 'web' || Platform.OS === 'ios') {
+      return `http://localhost:${API_PORT}`;
+    }
     if (Platform.OS === 'android' && isLikelyAndroidEmulator()) {
       return `http://10.0.2.2:${API_PORT}`;
     }
-    return `http://${DEV_MACHINE_IP}:${API_PORT}`;
+    const lanIp = process.env.EXPO_PUBLIC_DEV_MACHINE_IP ?? DEV_MACHINE_IP;
+    return `http://${lanIp}:${API_PORT}`;
   }
-  // Production / PoC: use env var so you can set it per deployment
-  return process.env.EXPO_PUBLIC_API_URL ?? 'https://send-it-ke7r.onrender.com';
+
+  return 'https://send-it-ke7r.onrender.com';
 };
 
 export const API_BASE_URL = getApiBaseUrl();

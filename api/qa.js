@@ -167,6 +167,107 @@ async function loadAusRatedTrivia() {
   return cachedAusTrivia;
 }
 
+/** Normalize trivia-bank.json items to the rated-bank shape. */
+function normalizeTriviaBankItem(item, index) {
+  const optionsRaw = Array.isArray(item.options) ? item.options : [];
+  const optionsArr = optionsRaw.map((opt) =>
+    typeof opt === 'string' ? opt : opt?.text ?? ''
+  );
+  let correctIndex =
+    typeof item.correct_index === 'number' ? item.correct_index : optionsRaw.findIndex((o) => o?.correct);
+  if (correctIndex < 0 || correctIndex >= optionsArr.length) correctIndex = 0;
+  return {
+    id: item.id || `bank-${index}`,
+    question: item.question || item.q || '',
+    options: optionsArr,
+    correct_index: correctIndex,
+    difficulty_rating: item.difficulty === 'hard' ? 4 : 2,
+  };
+}
+
+let cachedTriviaBank = null;
+let triviaBankLoad = 0;
+
+/** Load trivia-bank.json (built via npm run build-trivia) as a global fallback. */
+async function loadTriviaBank() {
+  if (cachedTriviaBank && Date.now() - triviaBankLoad < CACHE_MS) return cachedTriviaBank;
+  try {
+    const raw = await fs.readFile(TRIVIA_BANK_FILE, 'utf-8');
+    const data = JSON.parse(raw);
+    const easy = Array.isArray(data.easy) ? data.easy : [];
+    const hard = Array.isArray(data.hard) ? data.hard : [];
+    cachedTriviaBank = easy.concat(hard).map(normalizeTriviaBankItem);
+    triviaBankLoad = Date.now();
+  } catch (e) {
+    if (e.code !== 'ENOENT') console.error('trivia-bank.json load error:', e.message);
+    cachedTriviaBank = [];
+  }
+  return cachedTriviaBank;
+}
+
+function pickTriviaFromBank(bank, usedIndices, difficulty) {
+  const usedQuestionTexts = new Set(
+    usedIndices
+      .map((i) => (bank[i]?.question || bank[i]?.q || '').trim())
+      .filter(Boolean)
+  );
+  let available = bank
+    .map((_, i) => i)
+    .filter((i) => !usedIndices.includes(i))
+    .filter((i) => {
+      const q = (bank[i]?.question || bank[i]?.q || '').trim();
+      return !usedQuestionTexts.has(q);
+    });
+  if (available.length === 0) {
+    available = bank.map((_, i) => i).filter((i) => !usedIndices.includes(i));
+  }
+  if (available.length === 0) return { error: 'No more questions.' };
+
+  let triviaIndex;
+  if (typeof difficulty === 'number') {
+    let bestDiff = Infinity;
+    const bestIndices = [];
+    for (const i of available) {
+      const rawRating = bank[i].difficulty_rating;
+      const rating =
+        typeof rawRating === 'number'
+          ? rawRating
+          : rawRating != null
+          ? parseFloat(String(rawRating))
+          : NaN;
+      const ratingValue = Number.isFinite(rating) ? rating : 2;
+      const diff = Math.abs(ratingValue - difficulty);
+      if (diff < bestDiff) {
+        bestDiff = diff;
+        bestIndices.length = 0;
+        bestIndices.push(i);
+      } else if (diff === bestDiff) {
+        bestIndices.push(i);
+      }
+    }
+    const pool = bestIndices.length > 0 ? bestIndices : available;
+    triviaIndex = pool[Math.floor(Math.random() * pool.length)];
+  } else {
+    triviaIndex = available[Math.floor(Math.random() * available.length)];
+  }
+
+  const item = bank[triviaIndex];
+  const optionsArr = Array.isArray(item.options) ? item.options : [];
+  const correctIndex =
+    typeof item.correct_index === 'number' &&
+    item.correct_index >= 0 &&
+    item.correct_index < optionsArr.length
+      ? item.correct_index
+      : 0;
+
+  return {
+    question: item.question || item.q || '',
+    options: optionsArr,
+    correctIndex,
+    triviaIndex,
+  };
+}
+
 export async function getTriviaQuestion(usedIndices = [], options = {}) {
   const region = options.region === 'au' ? 'au' : 'global';
   const difficulty =
@@ -174,54 +275,17 @@ export async function getTriviaQuestion(usedIndices = [], options = {}) {
       ? options.difficulty
       : undefined;
 
-  const bank = region === 'au' ? await loadAusRatedTrivia() : await loadGlobalRatedTrivia();
-  if (bank.length > 0) {
-    const available = bank.map((_, i) => i).filter((i) => !usedIndices.includes(i));
-    if (available.length === 0) return { error: 'No more questions.' };
-
-    let triviaIndex;
-    if (typeof difficulty === 'number') {
-      let bestDiff = Infinity;
-      const bestIndices = [];
-      for (const i of available) {
-        const rawRating = bank[i].difficulty_rating;
-        const rating =
-          typeof rawRating === 'number'
-            ? rawRating
-            : rawRating != null
-            ? parseFloat(String(rawRating))
-            : NaN;
-        const ratingValue = Number.isFinite(rating) ? rating : 2;
-        const diff = Math.abs(ratingValue - difficulty);
-        if (diff < bestDiff) {
-          bestDiff = diff;
-          bestIndices.length = 0;
-          bestIndices.push(i);
-        } else if (diff === bestDiff) {
-          bestIndices.push(i);
-        }
-      }
-      const pool = bestIndices.length > 0 ? bestIndices : available;
-      triviaIndex = pool[Math.floor(Math.random() * pool.length)];
-    } else {
-      triviaIndex = available[Math.floor(Math.random() * available.length)];
+  let bank;
+  if (region === 'au') {
+    bank = await loadAusRatedTrivia();
+  } else {
+    bank = await loadGlobalRatedTrivia();
+    if (bank.length === 0) {
+      bank = await loadTriviaBank();
     }
-
-    const item = bank[triviaIndex];
-    const optionsArr = Array.isArray(item.options) ? item.options : [];
-    const correctIndex =
-      typeof item.correct_index === 'number' &&
-      item.correct_index >= 0 &&
-      item.correct_index < optionsArr.length
-        ? item.correct_index
-        : 0;
-
-    return {
-      question: item.question || item.q || '',
-      options: optionsArr,
-      correctIndex,
-      triviaIndex,
-    };
+  }
+  if (bank.length > 0) {
+    return pickTriviaFromBank(bank, usedIndices, difficulty);
   }
 
   const { qa } = await loadKnowledge();

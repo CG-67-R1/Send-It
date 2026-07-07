@@ -181,6 +181,9 @@ export function QAScreen() {
         const url = `${QA_TRIVIA_URL}?${params.join('&')}`;
         const res = await fetch(url, { signal: AbortSignal.timeout(8000) });
         const data = await res.json();
+        if (!res.ok) {
+          throw new Error(typeof data?.error === 'string' ? data.error : `Trivia failed (${res.status})`);
+        }
         if (data.error) {
           Analytics.logEvent('trivia_end', {
             result: 'complete',
@@ -207,13 +210,11 @@ export function QAScreen() {
           triviaIndex: data.triviaIndex,
         });
       } catch (e) {
-        setTriviaState('idle');
+        setTriviaFailMessage(
+          e instanceof Error ? e.message : 'Could not load trivia. Check the API is running.'
+        );
+        setTriviaState('failed');
         setTriviaQuestion(null);
-        setTriviaWrong(0);
-        setTriviaCorrect(0);
-        setTriviaUsedGlobal([]);
-        setTriviaUsedAus([]);
-        setTriviaDifficulty(2);
       } finally {
         setTriviaLoading(false);
       }

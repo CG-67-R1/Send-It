@@ -6,6 +6,7 @@ import {
   TouchableOpacity,
   View,
   ScrollView,
+  FlatList,
   KeyboardAvoidingView,
   Platform,
   Linking,
@@ -502,16 +503,19 @@ export function OnboardingScreen({ onComplete }: OnboardingScreenProps) {
               Pick an avatar for your home screen (swipe sideways for more). For leathers with a
               blank face, you can add your photo below.
             </Text>
-            <ScrollView
+            <FlatList
               horizontal
+              data={AVATAR_PRESETS}
+              keyExtractor={(preset) => preset.id}
               showsHorizontalScrollIndicator={false}
               style={styles.avatarScroll}
               contentContainerStyle={styles.avatarScrollContent}
-              nestedScrollEnabled
-            >
-              {AVATAR_PRESETS.map((preset) => (
+              initialNumToRender={4}
+              maxToRenderPerBatch={4}
+              windowSize={3}
+              removeClippedSubviews
+              renderItem={({ item: preset }) => (
                 <TouchableOpacity
-                  key={preset.id}
                   style={[
                     styles.avatarChoice,
                     avatarId === preset.id && styles.avatarChoiceActive,
@@ -537,8 +541,8 @@ export function OnboardingScreen({ onComplete }: OnboardingScreenProps) {
                     </Text>
                   ) : null}
                 </TouchableOpacity>
-              ))}
-            </ScrollView>
+              )}
+            />
             {selectedAvatarPreset?.hasFaceHole ? (
               <View style={styles.faceUploadSection}>
                 <Text style={styles.faceUploadTitle}>Your face (optional)</Text>

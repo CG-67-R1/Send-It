@@ -64,6 +64,11 @@ export function CalendarScreen() {
       const url = isRefresh ? `${CALENDAR_URL}?refresh=1` : CALENDAR_URL;
       const res = await fetch(url, { signal: AbortSignal.timeout(15000) });
       const data = await res.json();
+      if (!res.ok) {
+        throw new Error(
+          typeof data?.error === 'string' ? data.error : `Calendar request failed (${res.status})`
+        );
+      }
       const list = Array.isArray(data.events) ? data.events : [];
       setEvents(list);
     } catch (e) {
