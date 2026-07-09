@@ -1,5 +1,5 @@
 {
-  "updatedAt": "2026-07-09T10:50:30.161Z",
+  "updatedAt": "2026-07-09T14:47:04.960Z",
   "sourceIds": [
     "mcnews",
     "amcn",
@@ -80,8 +80,8 @@
       "imageUrl": null
     },
     {
-      "title": "Yamaha bets big on Martín and Ogura for MotoGP rebuild",
-      "url": "https://www.mcnews.com.au/jorge-martin-ai-ogura-yamaha-motogp-2027/",
+      "title": "Limited-run CFMOTO 675NK GP lands at $11,490 ride-away",
+      "url": "https://www.mcnews.com.au/cfmoto-675nk-gp-limited-release-australia/",
       "source": "MCNews (AU)",
       "sourceId": "mcnews",
       "date": null,
@@ -136,14 +136,6 @@
       "imageUrl": "https://www.mcnews.com.au/wp-content/uploads/2026/07/2027-KTM-450-EXC-F-6Days-7-750x422.jpg"
     },
     {
-      "title": "Limited-run CFMOTO 675NK GP lands at $11,490 ride-away",
-      "url": "https://www.mcnews.com.au/cfmoto-675nk-gp-limited-release-australia/",
-      "source": "MCNews (AU)",
-      "sourceId": "mcnews",
-      "date": null,
-      "imageUrl": null
-    },
-    {
       "title": "Bike Reviews / Products",
       "url": "https://www.mcnews.com.au/motorcycle-news/motorcycle-reviews/",
       "source": "MCNews (AU)",
@@ -166,6 +158,14 @@
       "sourceId": "mcnews",
       "date": null,
       "imageUrl": "https://www.mcnews.com.au/wp-content/uploads/2026/07/CFMOTO-Brembo-1-120x86.jpg"
+    },
+    {
+      "title": "TeamMoto Adds $500 Trade-Up Bonus For July Motorcycle Upgrades",
+      "url": "https://www.mcnews.com.au/teammoto-july-2026-trade-up-bonus/",
+      "source": "MCNews (AU)",
+      "sourceId": "mcnews",
+      "date": null,
+      "imageUrl": "https://www.mcnews.com.au/wp-content/uploads/2026/07/TM_Tradeup_7_MCNews_1920x1080px-120x86.jpg"
     },
     {
       "title": "GRID TALK | Gigi Dall’Igna His bikes changed MotoGP, but Ducati's Maestro says success starts with something far less complicated",
