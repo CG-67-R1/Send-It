@@ -8,11 +8,14 @@ const KEY_LAST_SEEN_P1_URLS = '@roadrace_headlines_last_seen_p1_urls';
 
 const DEFAULT_PRIORITY: PriorityOrder = [
   'motogp',
+  'motogpnews',
+  'peterbom',
+  'gpone',
   'worldsbk',
   'motor_sport_motogp',
+  'mcnews',
   'amcn',
   'asbk',
-  'motor_sport',
   'mcn',
   'bennetts',
 ];

@@ -4,6 +4,7 @@ export interface Headline {
   source: string;
   sourceId: string;
   date: string | null;
+  imageUrl?: string | null;
 }
 
 export interface HeadlinesResponse {

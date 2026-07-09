@@ -2,6 +2,7 @@ import React, { useCallback, useMemo, useState } from 'react';
 import {
   ActivityIndicator,
   FlatList,
+  Image,
   Linking,
   RefreshControl,
   StyleSheet,
@@ -21,8 +22,20 @@ import {
 import { notifyNewPriority1Headlines } from '../notifications/priority1Notifications';
 import type { Headline } from '../types';
 import { AppLogo } from '../components/AppLogo';
+import { interleaveAuQuota, LOCAL_SOURCE_IDS } from '../utils/headlinesFeed';
 
-const LOCAL_SOURCE_IDS = ['mcnews', 'amcn', 'asbk'];
+function HeadlineThumbnail({ uri }: { uri: string }) {
+  const [failed, setFailed] = useState(false);
+  if (failed) return null;
+  return (
+    <Image
+      source={{ uri }}
+      style={styles.thumbnail}
+      resizeMode="cover"
+      onError={() => setFailed(true)}
+    />
+  );
+}
 
 function sortByPriority(headlines: Headline[], priorityOrder: string[]): Headline[] {
   const orderMap = new Map(priorityOrder.map((id, i) => [id, i]));
@@ -55,7 +68,11 @@ export function HeadlinesListScreen() {
       setCustomSourceIds(customSources.map((s) => s.id));
 
       const url = isRefresh ? `${HEADLINES_URL}?refresh=1` : HEADLINES_URL;
-      const res = await fetch(url, { signal: AbortSignal.timeout(25000) });
+      const timeoutMs = isRefresh ? 90000 : 45000;
+      const res = await fetch(url, { signal: AbortSignal.timeout(timeoutMs) });
+      if (!res.ok) {
+        throw new Error(`Headlines API returned ${res.status}`);
+      }
       const data = await res.json();
       let list: Headline[] = Array.isArray(data.headlines) ? data.headlines : [];
       list = list.map((h: Headline) => ({ ...h, sourceId: h.sourceId || h.source?.toLowerCase().replace(/\s+/g, '_') || 'unknown' }));
@@ -68,10 +85,12 @@ export function HeadlinesListScreen() {
             body: JSON.stringify({
               customSources: customSources.map((s) => ({ url: s.url, name: s.name, id: s.id })),
             }),
-            signal: AbortSignal.timeout(15000),
+            signal: AbortSignal.timeout(20000),
           });
-          const customData = await customRes.json();
-          if (Array.isArray(customData.headlines)) list = [...list, ...customData.headlines];
+          if (customRes.ok) {
+            const customData = await customRes.json();
+            if (Array.isArray(customData.headlines)) list = [...list, ...customData.headlines];
+          }
         } catch {
           // ignore custom fetch failure
         }
@@ -97,7 +116,7 @@ export function HeadlinesListScreen() {
     } catch (e) {
       const message = e instanceof Error ? e.message : 'Failed to load headlines';
       setError(message);
-      setHeadlines([]);
+      if (!isRefresh) setHeadlines([]);
     } finally {
       setLoading(false);
       setRefreshing(false);
@@ -120,9 +139,16 @@ export function HeadlinesListScreen() {
       onPress={() => openLink(item.url)}
       activeOpacity={0.7}
     >
-      <Text style={styles.source}>{item.source}</Text>
-      <Text style={styles.title} numberOfLines={3}>{item.title}</Text>
-      <Text style={styles.tapHint}>Tap to open link →</Text>
+      <View style={styles.itemRow}>
+        {item.imageUrl ? (
+          <HeadlineThumbnail uri={item.imageUrl} />
+        ) : null}
+        <View style={styles.itemBody}>
+          <Text style={styles.source}>{item.source}</Text>
+          <Text style={styles.title} numberOfLines={3}>{item.title}</Text>
+          <Text style={styles.tapHint}>Tap to open link →</Text>
+        </View>
+      </View>
     </TouchableOpacity>
   );
 
@@ -134,12 +160,10 @@ export function HeadlinesListScreen() {
       return headlines.filter((h) => customSourceIds.includes(h.sourceId));
     }
     if (viewMode === 'local') {
-      return headlines.filter((h) => LOCAL_SOURCE_IDS.includes(h.sourceId));
+      return headlines.filter((h) => LOCAL_SOURCE_IDS.includes(h.sourceId as (typeof LOCAL_SOURCE_IDS)[number]));
     }
-    // World: everything that isn't local or custom
-    return headlines.filter(
-      (h) => !LOCAL_SOURCE_IDS.includes(h.sourceId) && !customSourceIds.includes(h.sourceId)
-    );
+    const pool = headlines.filter((h) => !customSourceIds.includes(h.sourceId));
+    return interleaveAuQuota(pool);
   }, [headlines, viewMode, customSourceIds]);
 
   if (loading && headlines.length === 0) {
@@ -237,7 +261,7 @@ export function HeadlinesListScreen() {
             </TouchableOpacity>
           </View>
           <Text style={styles.modeHint}>
-            World: everything • Aus: MCNews/AMCN/ASBK • Custom: your feeds
+            World: mixed feed (1 in 4 AU) • Aus: Australian only • Custom: your feeds
           </Text>
         </View>
       }
@@ -349,7 +373,7 @@ const styles = StyleSheet.create({
   },
   item: {
     marginBottom: 12,
-    padding: 16,
+    padding: 12,
     minHeight: 72,
     backgroundColor: '#1e293b',
     borderRadius: 12,
@@ -357,6 +381,21 @@ const styles = StyleSheet.create({
     borderLeftColor: '#f59e0b',
     borderWidth: 1,
     borderColor: '#334155',
+  },
+  itemRow: {
+    flexDirection: 'row',
+    gap: 12,
+    alignItems: 'flex-start',
+  },
+  thumbnail: {
+    width: 72,
+    height: 72,
+    borderRadius: 8,
+    backgroundColor: '#334155',
+  },
+  itemBody: {
+    flex: 1,
+    minWidth: 0,
   },
   tapHint: {
     fontSize: 13,

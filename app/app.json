@@ -3,6 +3,7 @@
     "name": "RoadRacer",
     "slug": "roadracer",
     "version": "1.0.0",
+    "jsEngine": "hermes",
     "orientation": "portrait",
     "userInterfaceStyle": "automatic",
     "splash": {

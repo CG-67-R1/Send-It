@@ -9,7 +9,9 @@
     "dev": "node --watch server.js",
     "ingest-qa": "node ingestQA.js",
     "scrape-pdfs": "node scrapePdfsToJson.js",
-    "build-trivia": "node buildTriviaBank.js"
+    "build-trivia": "node buildTriviaBank.js",
+    "refresh-au-headlines": "node scripts/refreshAuHeadlines.js",
+    "health-check": "node ../scripts/health-check.mjs"
   },
   "dependencies": {
     "cheerio": "^1.0.0",

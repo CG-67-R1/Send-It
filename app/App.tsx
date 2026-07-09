@@ -133,6 +133,9 @@ function MainTabs() {
 
 export default function App() {
   const [onboardingComplete, setOnboardingComplete] = useState<boolean | null>(null);
+  const isHermes = Boolean(
+    (globalThis as typeof globalThis & { HermesInternal?: unknown }).HermesInternal
+  );
 
   const [fontsLoaded] = useFonts({
     RaceSport: require('./assets/fonts/RaceSport.ttf'),
@@ -140,6 +143,12 @@ export default function App() {
 
   useEffect(() => {
     getOnboardingDone().then(setOnboardingComplete);
+  }, []);
+
+  useEffect(() => {
+    if (!__DEV__) return;
+    const isHermes = Boolean((globalThis as typeof globalThis & { HermesInternal?: unknown }).HermesInternal);
+    console.log(`[Runtime] JavaScript engine: ${isHermes ? 'Hermes' : 'non-Hermes'}`);
   }, []);
 
   // Load Sentry after the native runtime is ready. Eager `import 'sentry-expo'` can throw
@@ -184,10 +193,30 @@ export default function App() {
         </OnboardingResetContext.Provider>
       ) : (
         <OnboardingResetContext.Provider value={{ resetOnboarding }}>
-          <NavigationContainer>
-            <StatusBar style="light" />
-            <MainTabs />
-          </NavigationContainer>
+          <View style={{ flex: 1 }}>
+            <NavigationContainer>
+              <StatusBar style="light" />
+              <MainTabs />
+            </NavigationContainer>
+            {__DEV__ && isHermes ? (
+              <View
+                style={{
+                  position: 'absolute',
+                  top: 14,
+                  right: 14,
+                  paddingHorizontal: 10,
+                  paddingVertical: 6,
+                  borderRadius: 999,
+                  backgroundColor: 'rgba(245, 158, 11, 0.92)',
+                  borderWidth: 1,
+                  borderColor: '#0f172a',
+                }}
+                pointerEvents="none"
+              >
+                <Text style={{ color: '#0f172a', fontSize: 12, fontWeight: '700' }}>Hermes active</Text>
+              </View>
+            ) : null}
+          </View>
         </OnboardingResetContext.Provider>
       )}
     </SafeAreaProvider>
