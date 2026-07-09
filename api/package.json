@@ -11,6 +11,7 @@
     "scrape-pdfs": "node scrapePdfsToJson.js",
     "build-trivia": "node buildTriviaBank.js",
     "refresh-au-headlines": "node scripts/refreshAuHeadlines.js",
+    "refresh-au-calendar": "node scripts/refreshAuCalendar.js",
     "health-check": "node ../scripts/health-check.mjs"
   },
   "dependencies": {

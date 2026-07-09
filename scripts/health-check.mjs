@@ -14,6 +14,7 @@ const ROOT = path.resolve(__dirname, '..');
 const APP_DIR = path.join(ROOT, 'app');
 const API_DIR = path.join(ROOT, 'api');
 const AU_CACHE = path.join(API_DIR, 'data', 'au-headlines.json');
+const AU_CALENDAR_CACHE = path.join(API_DIR, 'data', 'au-road-race-events.json');
 
 const API_URL = process.env.API_URL || 'http://localhost:3001';
 const failures = [];
@@ -120,6 +121,46 @@ function checkAuCacheFile() {
   }
 }
 
+function checkAuCalendarCacheFile() {
+  if (!fs.existsSync(AU_CALENDAR_CACHE)) {
+    fail('api/data/au-road-race-events.json missing (run: cd api && npm run refresh-au-calendar)');
+    return;
+  }
+  const data = JSON.parse(fs.readFileSync(AU_CALENDAR_CACHE, 'utf8'));
+  const events = Array.isArray(data) ? data : (data.events || []);
+  if (!Array.isArray(events) || events.length < 10) {
+    fail(`AU calendar cache too small: ${events.length} events`);
+    return;
+  }
+  pass(`AU calendar cache: ${events.length} events (updated ${data.updatedAt || 'unknown'})`);
+
+  const govOrAgg = events.some((e) =>
+    (e.source_id || '').startsWith('gov_') || (e.source_id || '').includes('computime')
+  );
+  if (!govOrAgg) {
+    fail('AU calendar cache: no governing-body or aggregator source events');
+  } else {
+    pass('AU calendar cache: aggregator/governing-body source present');
+  }
+}
+
+async function checkCalendarModule() {
+  const calendarPath = pathToFileURL(path.join(API_DIR, 'calendar.js')).href;
+  const { getCalendarEvents } = await import(calendarPath);
+  const events = await getCalendarEvents(true);
+  if (!Array.isArray(events) || events.length < 20) {
+    fail(`calendar aggregation too few events: ${events?.length ?? 0}`);
+  } else {
+    pass(`calendar aggregation: ${events.length} events`);
+  }
+  const auFull = events.filter((e) => e.detailTier === 'full' || ['asbk', 'au_club'].includes(e.series));
+  if (auFull.length < 5) {
+    fail(`calendar AU full-detail events too few: ${auFull.length}`);
+  } else {
+    pass(`calendar AU full-detail events: ${auFull.length}`);
+  }
+}
+
 async function checkLiveApi() {
   try {
     const health = await fetch(`${API_URL}/health`, { signal: AbortSignal.timeout(8000) });
@@ -139,6 +180,18 @@ async function checkLiveApi() {
       fail(`API /headlines count low: ${data.headlines?.length ?? 0}`);
     } else {
       pass(`API /headlines: ${data.headlines.length} items`);
+    }
+
+    const calendarRes = await fetch(`${API_URL}/calendar`, { signal: AbortSignal.timeout(30000) });
+    if (!calendarRes.ok) {
+      fail(`API /calendar HTTP ${calendarRes.status}`);
+      return;
+    }
+    const calData = await calendarRes.json();
+    if (!Array.isArray(calData.events) || calData.events.length < 20) {
+      fail(`API /calendar count low: ${calData.events?.length ?? 0}`);
+    } else {
+      pass(`API /calendar: ${calData.events.length} events`);
     }
   } catch (e) {
     console.log(`  --  API not reachable at ${API_URL} (${e.message}) — start with: cd api && npm start`);
@@ -174,6 +227,16 @@ if (process.env.SKIP_SCRAPERS !== '1') {
 
 console.log('\nAU cache');
 checkAuCacheFile();
+
+console.log('\nAU calendar cache');
+checkAuCalendarCacheFile();
+
+console.log('\nCalendar module');
+try {
+  await checkCalendarModule();
+} catch (e) {
+  fail(`calendar module: ${e.message}`);
+}
 
 console.log('\nLive API (optional)');
 await checkLiveApi();

@@ -34,50 +34,63 @@
         "Speedway",
         "Minikhana",
         "Supermoto",
-        "Hillclimb"
+        "Hillclimb",
+        "Flat Track",
+        "Bracket Racing",
+        "ProMX",
+        "Pro MX"
       ]
+    },
+    "timely": {
+      "calendar_id": "54704199",
+      "road_race_tag": "677551074",
+      "base_url": "https://timelyapp.time.ly/api/calendars/54704199/export?format=ics&target=copy"
     }
   },
   "sources": [
     {
       "id": "gov_ma_national_calendar",
       "name": "Motorcycling Australia (MA) - National Calendar",
-      "type": "governing_body_calendar",
+      "type": "timely_ics",
       "jurisdiction": "AU",
       "url": "https://www.ma.org.au/ma-calendar/",
-      "notes": "National calendar; filter to road race via keywords/discipline where available."
+      "notes": "Timely ICS export; national road-race events (tags filter only)."
     },
     {
       "id": "gov_sa_calendar",
       "name": "Motorcycling South Australia - Calendar",
-      "type": "governing_body_calendar",
+      "type": "timely_ics",
       "jurisdiction": "SA",
       "url": "https://www.motorcyclingsa.org.au/riders/calendar/",
-      "notes": "Permit-based calendar; contains multiple disciplines."
+      "timely_filter_groups": "677439664",
+      "notes": "Timely ICS export; SA filter_groups + Road Race tag."
     },
     {
       "id": "gov_vic_calendar",
       "name": "Motorcycling Victoria - Calendar",
-      "type": "governing_body_calendar",
+      "type": "timely_ics",
       "jurisdiction": "VIC",
       "url": "https://www.motorcyclingvic.com.au/calendar/",
-      "notes": "Permit-based calendar; contains multiple disciplines."
+      "timely_filter_groups": "677439659",
+      "notes": "Timely ICS export; VIC filter_groups + Road Race tag."
     },
     {
       "id": "gov_qld_calendar",
       "name": "Motorcycling Queensland - Riders Calendar",
-      "type": "governing_body_calendar",
+      "type": "timely_ics",
       "jurisdiction": "QLD",
       "url": "https://www.mqld.org.au/riders/calendar/",
-      "notes": "Multi-discipline calendar; filter to road race."
+      "timely_filter_groups": "677439660",
+      "notes": "Timely ICS export; QLD filter_groups + Road Race tag."
     },
     {
       "id": "gov_nsw_calendar",
       "name": "Motorcycling NSW - Riders Calendar",
-      "type": "governing_body_calendar",
+      "type": "timely_ics",
       "jurisdiction": "NSW",
       "url": "https://motorcycling.com.au/riders/calendar/",
-      "notes": "Multi-discipline calendar; road race items appear here (e.g., St George series)."
+      "timely_filter_groups": "677439661",
+      "notes": "Timely ICS export; NSW filter_groups + Road Race tag."
     },
     {
       "id": "gov_tas_calendar",
@@ -85,23 +98,25 @@
       "type": "governing_body_calendar",
       "jurisdiction": "TAS",
       "url": "https://www.mtas.org.au/riders/calendar/",
-      "notes": "Multi-discipline calendar; filter to road race."
+      "notes": "Uses Ridernet (not Timely); HTML fallback scraper only."
     },
     {
       "id": "gov_nt_calendar",
       "name": "Motorcycling Northern Territory - Riders Calendar",
-      "type": "governing_body_calendar",
+      "type": "timely_ics",
       "jurisdiction": "NT",
       "url": "https://www.mant.org.au/riders/calendar/",
-      "notes": "Multi-discipline calendar; filter to road race."
+      "timely_filter_groups": "677439665",
+      "notes": "Timely ICS export; NT filter_groups + Road Race tag."
     },
     {
       "id": "gov_wa_calendar",
       "name": "Motorcycling Western Australia - Calendar",
-      "type": "governing_body_calendar",
+      "type": "timely_ics",
       "jurisdiction": "WA",
       "url": "https://www.motorcyclingwa.org.au/calendar/",
-      "notes": "Multi-discipline calendar; filter to road race."
+      "timely_filter_groups": "677439663",
+      "notes": "Timely ICS export; WA filter_groups + Road Race tag."
     },
     {
       "id": "club_sa_phoenixmcc",
@@ -165,7 +180,17 @@
       "type": "club_homepage",
       "jurisdiction": "VIC",
       "url": "https://www.prestonmcc.org.au/",
+      "facebook_page": "prestonmcc",
       "notes": "No obvious standalone public calendar page found on-site; rely on MV/MA calendars + Broadford/Computime listings + club social posts."
+    },
+    {
+      "id": "club_sa_phoenixmcc_fb",
+      "name": "Phoenix Motorcycle Club (SA) - Facebook",
+      "type": "club_homepage",
+      "jurisdiction": "SA",
+      "url": "https://www.facebook.com/phoenixmccsa",
+      "facebook_page": "phoenixmccsa",
+      "notes": "Supplementary Facebook feed for Phoenix MCC track days and race meetings."
     },
     {
       "id": "club_vic_computime",

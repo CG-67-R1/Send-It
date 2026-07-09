@@ -19,9 +19,26 @@ import { AppLogo } from '../components/AppLogo';
 const SERIES_COLORS: Record<string, string> = {
   motogp: '#e11d48',
   worldsbk: '#0ea5e9',
+  asbk: '#f59e0b',
+  au_club: '#f59e0b',
+  au_national: '#f59e0b',
   australia: '#f59e0b',
   ASBK: '#f59e0b',
 };
+
+type CalendarFilter = 'all' | 'australia' | 'world';
+
+const AU_SERIES = new Set(['asbk', 'au_club', 'au_national', 'australia']);
+
+function isAustraliaEvent(item: CalendarEvent): boolean {
+  return AU_SERIES.has(item.series) || item.detailTier === 'full' || item.country === 'Australia';
+}
+
+function filterEvents(events: CalendarEvent[], filter: CalendarFilter): CalendarEvent[] {
+  if (filter === 'australia') return events.filter(isAustraliaEvent);
+  if (filter === 'world') return events.filter((e) => !isAustraliaEvent(e));
+  return events;
+}
 
 function formatDateRange(start: string, end: string): string {
   if (!start) return '';
@@ -52,6 +69,7 @@ function eventDates(startDate: string, endDate: string): { start: Date; end: Dat
 
 export function CalendarScreen() {
   const [events, setEvents] = useState<CalendarEvent[]>([]);
+  const [filter, setFilter] = useState<CalendarFilter>('all');
   const [loading, setLoading] = useState(true);
   const [refreshing, setRefreshing] = useState(false);
   const [error, setError] = useState<string | null>(null);
@@ -139,6 +157,14 @@ export function CalendarScreen() {
             {[item.venue, item.country].filter(Boolean).join(', ')}
           </Text>
         )}
+        {item.detailTier === 'full' && (item.state || item.organiser) && (
+          <Text style={styles.auDetail} numberOfLines={1}>
+            {[item.state, item.organiser].filter(Boolean).join(' • ')}
+          </Text>
+        )}
+        {item.notes ? (
+          <Text style={styles.notes} numberOfLines={2}>{item.notes}</Text>
+        ) : null}
         {item.url ? <Text style={styles.tapHint}>Tap to open link →</Text> : null}
       </TouchableOpacity>
       <TouchableOpacity
@@ -174,9 +200,11 @@ export function CalendarScreen() {
     );
   }
 
+  const filteredEvents = filterEvents(events, filter);
+
   return (
     <FlatList
-      data={events}
+      data={filteredEvents}
       renderItem={renderItem}
       keyExtractor={keyExtractor}
       contentContainerStyle={styles.list}
@@ -192,8 +220,22 @@ export function CalendarScreen() {
           <AppLogo size={80} />
           <Text style={styles.headerTitle}>Events</Text>
           <Text style={styles.headerSubtitle}>
-            MotoGP • WorldSBK • Australian road racing (ASBK). Tap to open links.
+            Australian club & state road racing • MotoGP • WorldSBK. Tap to open links.
           </Text>
+          <View style={styles.filterRow}>
+            {(['all', 'australia', 'world'] as CalendarFilter[]).map((key) => (
+              <TouchableOpacity
+                key={key}
+                style={[styles.filterChip, filter === key && styles.filterChipActive]}
+                onPress={() => setFilter(key)}
+                activeOpacity={0.7}
+              >
+                <Text style={[styles.filterChipText, filter === key && styles.filterChipTextActive]}>
+                  {key === 'all' ? 'All' : key === 'australia' ? 'Australia' : 'World'}
+                </Text>
+              </TouchableOpacity>
+            ))}
+          </View>
         </View>
       }
     />
@@ -258,6 +300,36 @@ const styles = StyleSheet.create({
     fontSize: 14,
     color: '#64748b',
     marginTop: 4,
+    textAlign: 'center',
+  },
+  filterRow: {
+    flexDirection: 'row',
+    gap: 8,
+    marginTop: 12,
+    flexWrap: 'wrap',
+    justifyContent: 'center',
+  },
+  filterChip: {
+    paddingHorizontal: 14,
+    paddingVertical: 8,
+    borderRadius: 20,
+    borderWidth: 1,
+    borderColor: '#334155',
+    backgroundColor: '#1e293b',
+    minHeight: 36,
+    justifyContent: 'center',
+  },
+  filterChipActive: {
+    backgroundColor: '#f59e0b',
+    borderColor: '#f59e0b',
+  },
+  filterChipText: {
+    fontSize: 13,
+    fontWeight: '600',
+    color: '#94a3b8',
+  },
+  filterChipTextActive: {
+    color: '#0f172a',
   },
   item: {
     marginHorizontal: 20,
@@ -321,5 +393,17 @@ const styles = StyleSheet.create({
     fontSize: 14,
     color: '#64748b',
     marginTop: 4,
+  },
+  auDetail: {
+    fontSize: 13,
+    color: '#f59e0b',
+    marginTop: 4,
+    fontWeight: '500',
+  },
+  notes: {
+    fontSize: 12,
+    color: '#94a3b8',
+    marginTop: 4,
+    fontStyle: 'italic',
   },
 });

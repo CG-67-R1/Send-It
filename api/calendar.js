@@ -51,6 +51,7 @@ function loadStatic() {
 }
 
 function normalizeStaticEvent(series, ev) {
+  const isAu = ['asbk', 'au_club', 'au_national', 'australia'].includes(series);
   return {
     series,
     title: ev.title,
@@ -59,8 +60,11 @@ function normalizeStaticEvent(series, ev) {
     startDate: ev.startDate,
     endDate: ev.endDate || ev.startDate,
     url: ev.url || null,
-    // Prefer explicit label, then series name, then series key.
     seriesLabel: ev.seriesLabel || ev.series || series,
+    state: ev.state || null,
+    organiser: ev.organiser || null,
+    notes: ev.notes || null,
+    detailTier: isAu ? 'full' : 'summary',
   };
 }
 
@@ -76,8 +80,9 @@ function loadAuEvents() {
   try {
     const raw = readFileSync(AU_EVENTS_PATH, 'utf8');
     const data = JSON.parse(raw);
-    if (!Array.isArray(data)) return [];
-    return data
+    const list = Array.isArray(data) ? data : (data.events || []);
+    if (!Array.isArray(list)) return [];
+    return list
       .filter((ev) => (ev.discipline || '').toLowerCase() === 'road_race')
       .map((ev) => {
         const name = ev.name || 'Road race event';
@@ -96,6 +101,11 @@ function loadAuEvents() {
           startDate: ev.start_date,
           endDate: ev.end_date || ev.start_date,
           url: ev.entry_url || ev.source_url || null,
+          state: ev.state || null,
+          organiser: organiser || null,
+          notes: ev.notes || null,
+          detailTier: 'full',
+          confidence: ev.confidence || 'high',
         };
       })
       .filter((ev) => ev.startDate);
@@ -107,8 +117,9 @@ function loadAuEvents() {
 /**
  * Fetch WorldSBK 2025 from TheSportsDB; group by round (one entry per weekend).
  */
-async function fetchWorldSBK(season = '2025') {
-  const url = `https://www.thesportsdb.com/api/v1/json/${SPORTS_DB_KEY}/eventsseason.php?id=${WSBK_LEAGUE_ID}&s=${season}`;
+async function fetchWorldSBK(season) {
+  const year = season || String(new Date().getFullYear());
+  const url = `https://www.thesportsdb.com/api/v1/json/${SPORTS_DB_KEY}/eventsseason.php?id=${WSBK_LEAGUE_ID}&s=${year}`;
   try {
     const res = await fetch(url, {
       headers: { 'User-Agent': 'RoadRaceCalendar/1.0' },
@@ -142,6 +153,7 @@ async function fetchWorldSBK(season = '2025') {
         startDate: dates.length ? dates.sort()[0] : null,
         endDate: dates.length ? dates.sort().pop() : null,
         url: 'https://www.worldsbk.com/en/calendar-e-circuits.html',
+        detailTier: 'summary',
       });
     }
     return rounds.sort((a, b) => (a.startDate || '').localeCompare(b.startDate || ''));
