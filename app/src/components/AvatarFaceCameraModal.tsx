@@ -1,6 +1,7 @@
 import React, { useCallback, useId, useRef, useState } from 'react';
 import {
   ActivityIndicator,
+  Alert,
   Modal,
   Platform,
   StyleSheet,
@@ -146,35 +147,45 @@ export function AvatarFaceCameraModal({ visible, onClose, onCapture }: Props) {
         quality: 0.92,
         skipProcessing: Platform.OS === 'android',
       });
-      if (!photo?.uri) return;
+      if (!photo?.uri) {
+        Alert.alert('Capture failed', 'No image was returned from the camera. Try again.');
+        return;
+      }
 
-      const iw = photo.width;
-      const ih = photo.height;
-      const minDim = Math.min(iw, ih);
-      const side = Math.min(
-        Math.max(1, Math.floor(minDim * CAPTURE_CENTER_CROP_FRAC)),
-        minDim
-      );
-      const originX = Math.max(0, Math.floor((iw - side) / 2));
-      const originY = Math.max(0, Math.floor((ih - side) / 2));
+      const iw = photo.width ?? 0;
+      const ih = photo.height ?? 0;
+      let outputUri = photo.uri;
 
-      const manipulated = await ImageManipulator.manipulateAsync(
-        photo.uri,
-        [{ crop: { originX, originY, width: side, height: side } }],
-        { compress: 0.88, format: ImageManipulator.SaveFormat.JPEG }
-      );
-      onCapture(manipulated.uri);
+      if (iw > 0 && ih > 0) {
+        const minDim = Math.min(iw, ih);
+        const side = Math.min(
+          Math.max(1, Math.floor(minDim * CAPTURE_CENTER_CROP_FRAC)),
+          minDim
+        );
+        const originX = Math.max(0, Math.floor((iw - side) / 2));
+        const originY = Math.max(0, Math.floor((ih - side) / 2));
+
+        try {
+          const manipulated = await ImageManipulator.manipulateAsync(
+            photo.uri,
+            [{ crop: { originX, originY, width: side, height: side } }],
+            { compress: 0.88, format: ImageManipulator.SaveFormat.JPEG }
+          );
+          outputUri = manipulated.uri;
+        } catch (manipErr) {
+          console.warn('[AvatarFaceCamera] crop fallback', manipErr);
+        }
+      }
+
+      onCapture(outputUri);
       onClose();
     } catch (e) {
       console.warn('[AvatarFaceCamera]', e);
+      Alert.alert('Capture failed', e instanceof Error ? e.message : 'Could not take photo. Try again.');
     } finally {
       setBusy(false);
     }
   }, [busy, onCapture, onClose, ready]);
-
-  if (Platform.OS === 'web') {
-    return null;
-  }
 
   return (
     <Modal visible={visible} animationType="slide" onRequestClose={onClose}>

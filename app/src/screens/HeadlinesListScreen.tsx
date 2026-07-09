@@ -22,7 +22,7 @@ import {
 import { notifyNewPriority1Headlines } from '../notifications/priority1Notifications';
 import type { Headline } from '../types';
 import { AppLogo } from '../components/AppLogo';
-import { interleaveAuQuota, LOCAL_SOURCE_IDS } from '../utils/headlinesFeed';
+import { buildAuFeed, buildWorldFeed } from '../utils/headlinesFeed';
 
 function HeadlineThumbnail({ uri }: { uri: string }) {
   const [failed, setFailed] = useState(false);
@@ -52,13 +52,16 @@ export function HeadlinesListScreen() {
   const [loading, setLoading] = useState(true);
   const [refreshing, setRefreshing] = useState(false);
   const [error, setError] = useState<string | null>(null);
+  const [customFeedWarning, setCustomFeedWarning] = useState<string | null>(null);
   const [viewMode, setViewMode] = useState<'world' | 'local' | 'custom'>('world');
   const [customSourceIds, setCustomSourceIds] = useState<string[]>([]);
+  const [priorityOrder, setPriorityOrder] = useState<string[]>([]);
 
   const fetchHeadlines = useCallback(async (isRefresh = false) => {
     if (isRefresh) setRefreshing(true);
     else setLoading(true);
     setError(null);
+    setCustomFeedWarning(null);
     try {
       const [priorityOrder, customSources] = await Promise.all([
         getPriorityOrder(),
@@ -66,6 +69,7 @@ export function HeadlinesListScreen() {
       ]);
 
       setCustomSourceIds(customSources.map((s) => s.id));
+      setPriorityOrder(priorityOrder);
 
       const url = isRefresh ? `${HEADLINES_URL}?refresh=1` : HEADLINES_URL;
       const timeoutMs = isRefresh ? 90000 : 45000;
@@ -90,9 +94,11 @@ export function HeadlinesListScreen() {
           if (customRes.ok) {
             const customData = await customRes.json();
             if (Array.isArray(customData.headlines)) list = [...list, ...customData.headlines];
+          } else {
+            setCustomFeedWarning('Some custom RSS sources could not be loaded.');
           }
         } catch {
-          // ignore custom fetch failure
+          setCustomFeedWarning('Some custom RSS sources could not be loaded.');
         }
       }
 
@@ -133,14 +139,14 @@ export function HeadlinesListScreen() {
     Linking.openURL(url).catch(() => {});
   };
 
-  const renderItem = ({ item }: { item: Headline }) => (
+  const renderItem = ({ item, index }: { item: Headline; index: number }) => (
     <TouchableOpacity
       style={styles.item}
       onPress={() => openLink(item.url)}
       activeOpacity={0.7}
     >
       <View style={styles.itemRow}>
-        {item.imageUrl ? (
+        {index < 15 && item.imageUrl ? (
           <HeadlineThumbnail uri={item.imageUrl} />
         ) : null}
         <View style={styles.itemBody}>
@@ -160,11 +166,11 @@ export function HeadlinesListScreen() {
       return headlines.filter((h) => customSourceIds.includes(h.sourceId));
     }
     if (viewMode === 'local') {
-      return headlines.filter((h) => LOCAL_SOURCE_IDS.includes(h.sourceId as (typeof LOCAL_SOURCE_IDS)[number]));
+      return buildAuFeed(headlines, priorityOrder);
     }
     const pool = headlines.filter((h) => !customSourceIds.includes(h.sourceId));
-    return interleaveAuQuota(pool);
-  }, [headlines, viewMode, customSourceIds]);
+    return buildWorldFeed(pool, priorityOrder);
+  }, [headlines, viewMode, customSourceIds, priorityOrder]);
 
   if (loading && headlines.length === 0) {
     return (
@@ -202,7 +208,7 @@ export function HeadlinesListScreen() {
       }
       ListHeaderComponent={
         <View style={styles.header}>
-          <AppLogo size={80} />
+          <AppLogo size={92} />
           <Text style={styles.headerTitle}>Bike News</Text>
           <Text style={styles.headerSubtitle}>
             Tap to open • Pull down to refresh • Order in News settings
@@ -260,9 +266,9 @@ export function HeadlinesListScreen() {
               </Text>
             </TouchableOpacity>
           </View>
-          <Text style={styles.modeHint}>
-            World: mixed feed (1 in 4 AU) • Aus: Australian only • Custom: your feeds
-          </Text>
+          {customFeedWarning ? (
+            <Text style={styles.warningText}>{customFeedWarning}</Text>
+          ) : null}
         </View>
       }
       ListEmptyComponent={
@@ -299,6 +305,12 @@ const styles = StyleSheet.create({
   errorText: {
     color: '#f87171',
     fontSize: 16,
+    textAlign: 'center',
+  },
+  warningText: {
+    color: '#fbbf24',
+    fontSize: 13,
+    marginTop: 10,
     textAlign: 'center',
   },
   hint: {
@@ -365,11 +377,6 @@ const styles = StyleSheet.create({
   },
   modeButtonTextActive: {
     color: '#0f172a',
-  },
-  modeHint: {
-    marginTop: 8,
-    fontSize: 12,
-    color: '#94a3b8',
   },
   item: {
     marginBottom: 12,

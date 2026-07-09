@@ -106,3 +106,33 @@ cd api && npm run health-check
 ```bash
 cd api && npm run refresh-au-headlines
 ```
+
+### Hermes mobile developer review (on-demand)
+
+Full Expo app audit — **report only**; fixes happen in **Cursor**.
+
+**When to run:** before a major release, after large app changes, or when you want a systematic screen-by-screen review.
+
+```powershell
+cd C:\Users\Administrator\.cursor\Send-It
+hermes
+# In Hermes: /skill send-it/mobile-review
+```
+
+Or paste:
+
+> Load skill `send-it/mobile-review`. Run preflight, audit every screen in `app/src/screens/`, write `docs/reviews/MOBILE_REVIEW_<date>.md`. Report only — do not commit or fix.
+
+**Preflight only (no full audit):**
+
+```powershell
+node scripts/mobile-review-preflight.mjs
+```
+
+**Output:** `docs/reviews/MOBILE_REVIEW_*.md` with P0/P1/P2 findings and suggested fix order.
+
+**Workflow:** Hermes writes report → Cursor implements fixes → re-run `npx tsc --noEmit` and `node scripts/health-check.mjs`.
+
+**Skill location:** `%LOCALAPPDATA%\hermes\skills\send-it\mobile-review\SKILL.md`
+
+**Limits:** Hermes reviews code and CLI gates; device/visual QA needs manual Expo Go steps listed in the report.

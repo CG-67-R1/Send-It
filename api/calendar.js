@@ -17,10 +17,11 @@ const CACHE_TTL_MS = 60 * 60 * 1000; // 1 hour
 
 // Lower number = higher prominence in the app.
 const SERIES_PRIORITY = {
-  // Australian national + club/state road racing
+  // Australian national + club/state road racing + track days
   asbk: 1,
   au_club: 1,
   au_national: 1,
+  au_track_day: 1,
 
   // World championships
   motogp: 2,
@@ -83,18 +84,21 @@ function loadAuEvents() {
     const list = Array.isArray(data) ? data : (data.events || []);
     if (!Array.isArray(list)) return [];
     return list
-      .filter((ev) => (ev.discipline || '').toLowerCase() === 'road_race')
+      .filter((ev) => ['road_race', 'track_day'].includes((ev.discipline || '').toLowerCase()))
       .map((ev) => {
         const name = ev.name || 'Road race event';
         const organiser = ev.organiser || '';
+        const discipline = (ev.discipline || '').toLowerCase();
+        const isTrackDay = discipline === 'track_day';
         const isASBK =
-          /asbk/i.test(name) ||
-          /asbk/i.test(organiser) ||
-          /australian superbike/i.test(name);
-        const series = isASBK ? 'asbk' : 'au_club';
+          !isTrackDay &&
+          (/asbk/i.test(name) ||
+            /asbk/i.test(organiser) ||
+            /australian superbike/i.test(name));
+        const series = isASBK ? 'asbk' : isTrackDay ? 'au_track_day' : 'au_club';
         return {
           series,
-          seriesLabel: isASBK ? 'ASBK' : organiser || 'AU Road Race',
+          seriesLabel: isASBK ? 'ASBK' : isTrackDay ? 'Track Day' : organiser || 'AU Road Race',
           title: name,
           venue: ev.venue || null,
           country: 'Australia',

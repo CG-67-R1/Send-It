@@ -4,6 +4,7 @@ import {
   Alert,
   Image,
   KeyboardAvoidingView,
+  Linking,
   Modal,
   Platform,
   ScrollView,
@@ -241,6 +242,14 @@ export function TrackWalkScreen() {
           setDraftPhotos((prev) => [...prev, result.assets[0].uri]);
         }
       } else {
+        const perm = await ImagePicker.requestMediaLibraryPermissionsAsync();
+        if (!perm.granted) {
+          Alert.alert('Photos', 'Allow photo access to attach track photos.', [
+            { text: 'OK' },
+            { text: 'Settings', onPress: () => Linking.openSettings() },
+          ]);
+          return;
+        }
         const result = await ImagePicker.launchImageLibraryAsync({
           mediaTypes: ImagePicker.MediaTypeOptions.Images,
           quality: 0.7,
@@ -328,6 +337,8 @@ export function TrackWalkScreen() {
       resetWalk();
       await loadSavedSessions();
       Alert.alert('Saved', 'Track walk saved on this device.');
+    } catch (e) {
+      Alert.alert('Save failed', e instanceof Error ? e.message : 'Could not save track walk.');
     } finally {
       setSaving(false);
     }
@@ -398,7 +409,7 @@ export function TrackWalkScreen() {
         showsVerticalScrollIndicator={false}
       >
         <View style={styles.logoRow}>
-          <AppLogo size={28} />
+          <AppLogo size={32} />
         </View>
         <Text style={styles.title}>Track Walk / Track Notes</Text>
         <Text style={styles.subtitle}>

@@ -53,7 +53,7 @@ function HeadlinesStack() {
       <Stack.Screen
         name="HeadlinesSettings"
         component={HeadlinesSettingsScreen}
-        options={{ title: 'Headlines settings' }}
+        options={{ title: 'Profile & settings' }}
       />
     </Stack.Navigator>
   );

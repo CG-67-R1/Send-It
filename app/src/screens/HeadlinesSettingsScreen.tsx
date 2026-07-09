@@ -4,7 +4,7 @@ import {
   Image,
   Linking,
   Modal,
-  Platform,
+  Pressable,
   ScrollView,
   StyleSheet,
   Switch,
@@ -18,6 +18,7 @@ import { useFocusEffect } from '@react-navigation/native';
 import {
   getCustomSources,
   getPriorityOrder,
+  mergePriorityOrder,
   setPriorityOrder,
   getNotifyPriority1,
   setNotifyPriority1,
@@ -29,14 +30,21 @@ import { SOURCES_URL } from '../../constants/api';
 import type { CustomSource, PriorityOrder, Source } from '../types';
 import { AppLogo } from '../components/AppLogo';
 import { AvatarFaceCameraModal } from '../components/AvatarFaceCameraModal';
-import { getAvatarPreset } from '../avatar/presets';
-import { getOnboardingAnswers } from '../storage/onboarding';
-import { getAvatarFacePhotoUri, setAvatarFacePhotoUri } from '../storage/avatarFacePhoto';
+import { AVATAR_PRESETS, getAvatarPreset, getAvatarSource } from '../avatar/presets';
+import { getOnboardingAnswers, updateOnboardingAnswers } from '../storage/onboarding';
+import {
+  clearAvatarFacePhoto,
+  getAvatarFacePhotoUri,
+  setAvatarFacePhotoUri,
+} from '../storage/avatarFacePhoto';
+import { photoDisplayUri } from '../storage/localPhotoStorage';
 import { useOnboardingReset } from '../context/OnboardingResetContext';
 
 export function HeadlinesSettingsScreen() {
   const onboardingReset = useOnboardingReset();
   const [avatarId, setAvatarId] = useState<string | null>(null);
+  const [riderNickname, setRiderNickname] = useState('');
+  const [profileBusy, setProfileBusy] = useState(false);
   const [facePreviewUri, setFacePreviewUri] = useState<string | null>(null);
   const [faceCameraOpen, setFaceCameraOpen] = useState(false);
   const [faceBusy, setFaceBusy] = useState(false);
@@ -60,15 +68,28 @@ export function HeadlinesSettingsScreen() {
       getCustomSources(),
       getNotifyPriority1(),
     ]);
-    setPriorityState(order);
     setCustomSourcesState(custom);
     setNotifyPriority1State(notify);
+
+    let builtin: Source[] = [];
     try {
       const res = await fetch(SOURCES_URL, { signal: AbortSignal.timeout(5000) });
       const data = await res.json();
-      if (data.sources) setBuiltinSources(data.sources);
+      if (Array.isArray(data.sources)) builtin = data.sources;
     } catch {
-      setBuiltinSources([]);
+      builtin = [];
+    }
+    setBuiltinSources(builtin);
+
+    const builtinIds = builtin.map((s) => s.id);
+    const customIds = custom.map((s) => s.id);
+    const merged =
+      builtinIds.length > 0
+        ? mergePriorityOrder(order, builtinIds, customIds)
+        : order;
+    setPriorityState(merged);
+    if (merged.length > 0 && merged.join(',') !== order.join(',')) {
+      await setPriorityOrder(merged);
     }
   }, []);
 
@@ -79,13 +100,78 @@ export function HeadlinesSettingsScreen() {
   const loadRiderFace = useCallback(async () => {
     const [answers, uri] = await Promise.all([getOnboardingAnswers(), getAvatarFacePhotoUri()]);
     setAvatarId(answers?.avatarId ?? null);
+    setRiderNickname(answers?.riderNickname?.trim() || answers?.favouriteRider?.trim() || 'Rider');
     setFacePreviewUri(uri);
+  }, []);
+
+  const handleSelectAvatar = useCallback(
+    async (nextId: string) => {
+      if (profileBusy || nextId === avatarId) return;
+      setProfileBusy(true);
+      try {
+        const preset = getAvatarPreset(nextId);
+        const updated = await updateOnboardingAnswers({
+          avatarId: nextId,
+          noFaceFrameId: preset?.hasFaceHole ? nextId : undefined,
+        });
+        if (!updated) {
+          Alert.alert('Profile', 'Complete onboarding first to save your avatar.');
+          return;
+        }
+        setAvatarId(nextId);
+        if (!preset?.hasFaceHole) {
+          await clearAvatarFacePhoto();
+          setFacePreviewUri(null);
+        }
+      } catch (e) {
+        Alert.alert('Error', e instanceof Error ? e.message : 'Could not update avatar');
+      } finally {
+        setProfileBusy(false);
+      }
+    },
+    [avatarId, profileBusy]
+  );
+
+  const handleSaveNickname = useCallback(async () => {
+    const trimmed = riderNickname.trim();
+    if (!trimmed) {
+      Alert.alert('Rider name', 'Enter a name or nickname to show on the home screen.');
+      return;
+    }
+    setProfileBusy(true);
+    try {
+      const updated = await updateOnboardingAnswers({ riderNickname: trimmed });
+      if (!updated) {
+        Alert.alert('Profile', 'Complete onboarding first to save your name.');
+        return;
+      }
+      setRiderNickname(trimmed);
+    } catch (e) {
+      Alert.alert('Error', e instanceof Error ? e.message : 'Could not save name');
+    } finally {
+      setProfileBusy(false);
+    }
+  }, [riderNickname]);
+
+  const handleRemoveRiderFace = useCallback(() => {
+    Alert.alert('Remove rider photo', 'Remove the photo from your leathers avatar?', [
+      { text: 'Cancel', style: 'cancel' },
+      {
+        text: 'Remove',
+        style: 'destructive',
+        onPress: async () => {
+          await clearAvatarFacePhoto();
+          setFacePreviewUri(null);
+        },
+      },
+    ]);
   }, []);
 
   useFocusEffect(
     useCallback(() => {
       void loadRiderFace();
-    }, [loadRiderFace])
+      void load();
+    }, [loadRiderFace, load])
   );
 
   const riderPreset = avatarId ? getAvatarPreset(avatarId) : undefined;
@@ -120,42 +206,9 @@ export function HeadlinesSettingsScreen() {
     }
   }, [faceBusy]);
 
-  const takeRiderFaceWithSystemCamera = useCallback(async () => {
-    if (faceBusy) return;
-    setFaceBusy(true);
-    try {
-      const { status } = await ImagePicker.requestCameraPermissionsAsync();
-      if (status !== 'granted') {
-        Alert.alert('Camera', 'Allow camera access to take your rider photo.', [
-          { text: 'OK' },
-          { text: 'Settings', onPress: () => Linking.openSettings() },
-        ]);
-        return;
-      }
-      const result = await ImagePicker.launchCameraAsync({
-        mediaTypes: ['images'],
-        allowsEditing: true,
-        aspect: [1, 1],
-        quality: 0.85,
-      });
-      if (!result.canceled && result.assets[0]) {
-        const saved = await setAvatarFacePhotoUri(result.assets[0].uri);
-        setFacePreviewUri(saved);
-      }
-    } catch (e) {
-      Alert.alert('Error', e instanceof Error ? e.message : 'Could not take photo');
-    } finally {
-      setFaceBusy(false);
-    }
-  }, [faceBusy]);
-
   const openRiderFaceCamera = useCallback(() => {
-    if (Platform.OS === 'web') {
-      void takeRiderFaceWithSystemCamera();
-    } else {
-      setFaceCameraOpen(true);
-    }
-  }, [takeRiderFaceWithSystemCamera]);
+    setFaceCameraOpen(true);
+  }, []);
 
   const onRiderFaceCaptured = useCallback(async (uri: string) => {
     try {
@@ -165,15 +218,6 @@ export function HeadlinesSettingsScreen() {
       Alert.alert('Error', e instanceof Error ? e.message : 'Could not save photo');
     }
   }, []);
-
-  // When built-in sources first load, if priority is empty init from built-in order
-  useEffect(() => {
-    if (builtinSources.length > 0 && priority.length === 0) {
-      const ids = builtinSources.map((s) => s.id);
-      setPriorityState(ids);
-      setPriorityOrder(ids);
-    }
-  }, [builtinSources.length]);
 
   const handleSelectSource = useCallback(
     async (slotIndex: number, sourceId: string) => {
@@ -227,13 +271,16 @@ export function HeadlinesSettingsScreen() {
           onPress: async () => {
             await removeCustomSource(id);
             setCustomSourcesState((prev) => prev.filter((s) => s.id !== id));
-            setPriorityState((prev) => prev.filter((sid) => sid !== id));
-            await setPriorityOrder(priority.filter((sid) => sid !== id));
+            setPriorityState((prev) => {
+              const next = prev.filter((sid) => sid !== id);
+              void setPriorityOrder(next);
+              return next;
+            });
           },
         },
       ]);
     },
-    [priority]
+    []
   );
 
   const handleResetOnboarding = useCallback(() => {
@@ -279,7 +326,83 @@ export function HeadlinesSettingsScreen() {
   return (
     <ScrollView style={styles.container} contentContainerStyle={styles.content}>
       <View style={styles.logoRow}>
-        <AppLogo size={80} />
+        <AppLogo size={92} />
+      </View>
+
+      <View style={styles.section}>
+        <Text style={styles.sectionTitle}>Your profile</Text>
+        <Text style={styles.sectionSubtitle}>
+          Name and avatar shown on the home screen. Changes apply immediately when you return home.
+        </Text>
+        <Text style={styles.fieldLabel}>Rider name</Text>
+        <TextInput
+          style={styles.input}
+          placeholder="e.g. Alex, #42, Speedy..."
+          placeholderTextColor="#64748b"
+          value={riderNickname}
+          onChangeText={setRiderNickname}
+          autoCapitalize="words"
+          autoCorrect={false}
+          editable={!profileBusy}
+          onSubmitEditing={handleSaveNickname}
+        />
+        <TouchableOpacity
+          style={[styles.saveProfileBtn, profileBusy && styles.riderFaceBtnDisabled]}
+          onPress={handleSaveNickname}
+          disabled={profileBusy}
+          activeOpacity={0.85}
+        >
+          <Text style={styles.saveProfileBtnText}>Save name</Text>
+        </TouchableOpacity>
+
+        <Text style={[styles.fieldLabel, { marginTop: 16 }]}>Avatar</Text>
+        <ScrollView
+          horizontal
+          showsHorizontalScrollIndicator={false}
+          style={styles.avatarScroll}
+          contentContainerStyle={styles.avatarScrollContent}
+        >
+          {AVATAR_PRESETS.map((preset) => (
+            <TouchableOpacity
+              key={preset.id}
+              style={[
+                styles.avatarChoice,
+                avatarId === preset.id && styles.avatarChoiceActive,
+                profileBusy && styles.riderFaceBtnDisabled,
+              ]}
+              onPress={() => handleSelectAvatar(preset.id)}
+              disabled={profileBusy}
+              activeOpacity={0.8}
+            >
+              <View style={styles.avatarImageWrap}>
+                <Image source={preset.source} style={styles.avatarImage} resizeMode="contain" />
+              </View>
+              <Text
+                style={[
+                  styles.avatarLabel,
+                  avatarId === preset.id && styles.avatarLabelActive,
+                ]}
+                numberOfLines={2}
+              >
+                {preset.label}
+              </Text>
+            </TouchableOpacity>
+          ))}
+        </ScrollView>
+        {avatarId && getAvatarSource(avatarId) ? (
+          <View style={styles.profilePreviewRow}>
+            <Image
+              source={getAvatarSource(avatarId)!}
+              style={styles.profilePreviewImage}
+              resizeMode="contain"
+            />
+            <Text style={styles.profilePreviewHint}>
+              {getAvatarPreset(avatarId)?.hasFaceHole
+                ? 'Add or update your face photo below.'
+                : 'This avatar does not use a face photo.'}
+            </Text>
+          </View>
+        ) : null}
       </View>
 
       {showRiderPhotoControls ? (
@@ -293,7 +416,7 @@ export function HeadlinesSettingsScreen() {
             {facePreviewUri ? (
               <Image
                 key={facePreviewUri}
-                source={{ uri: facePreviewUri.split('?')[0] }}
+                source={{ uri: photoDisplayUri(facePreviewUri) }}
                 style={styles.riderFacePreview}
                 resizeMode="cover"
               />
@@ -321,6 +444,16 @@ export function HeadlinesSettingsScreen() {
               >
                 <Text style={styles.riderFaceBtnSecondaryText}>From library</Text>
               </TouchableOpacity>
+              {facePreviewUri ? (
+                <TouchableOpacity
+                  style={styles.riderFaceRemoveBtn}
+                  onPress={handleRemoveRiderFace}
+                  disabled={faceBusy}
+                  activeOpacity={0.85}
+                >
+                  <Text style={styles.riderFaceRemoveBtnText}>Remove</Text>
+                </TouchableOpacity>
+              ) : null}
             </View>
           </View>
         </View>
@@ -436,29 +569,35 @@ export function HeadlinesSettingsScreen() {
         animationType="fade"
         onRequestClose={() => setPickerSlot(null)}
       >
-        <TouchableOpacity
-          style={styles.modalOverlay}
-          activeOpacity={1}
-          onPress={() => setPickerSlot(null)}
-        >
+        <View style={styles.modalOverlay}>
+          <Pressable style={styles.modalBackdrop} onPress={() => setPickerSlot(null)} />
           <View style={styles.modalContent}>
             <Text style={styles.modalTitle}>Select source for position {(pickerSlot ?? 0) + 1}</Text>
-            <ScrollView style={styles.modalList}>
-              {allSources.map((s) => (
-                <TouchableOpacity
-                  key={s.id}
-                  style={styles.modalOption}
-                  onPress={() => pickerSlot !== null && handleSelectSource(pickerSlot, s.id)}
-                >
-                  <Text style={styles.modalOptionText}>{s.name}</Text>
-                </TouchableOpacity>
-              ))}
+            <ScrollView style={styles.modalList} keyboardShouldPersistTaps="handled">
+              {allSources.length === 0 ? (
+                <Text style={styles.modalEmptyText}>
+                  Start the API server to load built-in sources, or add a custom RSS feed below.
+                </Text>
+              ) : (
+                allSources.map((s) => (
+                  <TouchableOpacity
+                    key={s.id}
+                    style={styles.modalOption}
+                    onPress={() => {
+                      if (pickerSlot === null) return;
+                      void handleSelectSource(pickerSlot, s.id);
+                    }}
+                  >
+                    <Text style={styles.modalOptionText}>{s.name}</Text>
+                  </TouchableOpacity>
+                ))
+              )}
             </ScrollView>
             <TouchableOpacity style={styles.modalClose} onPress={() => setPickerSlot(null)}>
               <Text style={styles.modalCloseText}>Cancel</Text>
             </TouchableOpacity>
           </View>
-        </TouchableOpacity>
+        </View>
       </Modal>
     </ScrollView>
   );
@@ -474,6 +613,60 @@ const styles = StyleSheet.create({
   section: { marginBottom: 28 },
   sectionTitle: { fontSize: 20, fontWeight: '700', color: '#f8fafc', marginBottom: 4 },
   sectionSubtitle: { fontSize: 13, color: '#64748b', marginBottom: 12 },
+  fieldLabel: { fontSize: 14, fontWeight: '600', color: '#94a3b8', marginBottom: 8 },
+  saveProfileBtn: {
+    alignSelf: 'flex-start',
+    backgroundColor: '#f59e0b',
+    paddingVertical: 10,
+    paddingHorizontal: 16,
+    borderRadius: 8,
+    marginTop: 4,
+  },
+  saveProfileBtnText: { color: '#0f172a', fontWeight: '700', fontSize: 14 },
+  avatarScroll: { marginBottom: 12, maxHeight: 180 },
+  avatarScrollContent: {
+    flexDirection: 'row',
+    alignItems: 'flex-start',
+    gap: 10,
+    paddingVertical: 4,
+    paddingRight: 8,
+  },
+  avatarChoice: {
+    width: 96,
+    alignItems: 'center',
+    paddingVertical: 8,
+    paddingHorizontal: 6,
+    borderRadius: 10,
+    backgroundColor: '#020617',
+    borderWidth: 1,
+    borderColor: '#1e293b',
+  },
+  avatarChoiceActive: {
+    borderColor: '#f59e0b',
+    backgroundColor: '#0f172a',
+  },
+  avatarImageWrap: {
+    width: 56,
+    height: 56,
+    borderRadius: 28,
+    overflow: 'hidden',
+    marginBottom: 6,
+    backgroundColor: '#020617',
+  },
+  avatarImage: { width: '100%', height: '100%' },
+  avatarLabel: { fontSize: 11, color: '#94a3b8', textAlign: 'center' },
+  avatarLabelActive: { color: '#facc15' },
+  profilePreviewRow: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: 12,
+    marginTop: 4,
+    padding: 10,
+    borderRadius: 10,
+    backgroundColor: '#1e293b',
+  },
+  profilePreviewImage: { width: 48, height: 48 },
+  profilePreviewHint: { flex: 1, fontSize: 13, color: '#94a3b8', lineHeight: 18 },
   riderFaceRow: {
     flexDirection: 'row',
     alignItems: 'center',
@@ -517,6 +710,11 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   riderFaceBtnSecondaryText: { color: '#94a3b8', fontWeight: '600', fontSize: 14 },
+  riderFaceRemoveBtn: {
+    paddingVertical: 10,
+    paddingHorizontal: 12,
+  },
+  riderFaceRemoveBtnText: { color: '#f87171', fontWeight: '600', fontSize: 14 },
   notifyRow: {
     flexDirection: 'row',
     alignItems: 'center',
@@ -584,14 +782,25 @@ const styles = StyleSheet.create({
   removeButtonText: { color: '#f87171', fontSize: 14 },
   modalOverlay: {
     flex: 1,
-    backgroundColor: 'rgba(0,0,0,0.6)',
     justifyContent: 'center',
     padding: 24,
+  },
+  modalBackdrop: {
+    ...StyleSheet.absoluteFillObject,
+    backgroundColor: 'rgba(0,0,0,0.6)',
   },
   modalContent: {
     backgroundColor: '#1e293b',
     borderRadius: 16,
     maxHeight: '70%',
+    zIndex: 1,
+    elevation: 4,
+  },
+  modalEmptyText: {
+    padding: 16,
+    fontSize: 14,
+    color: '#94a3b8',
+    lineHeight: 20,
   },
   modalTitle: { padding: 16, fontSize: 18, fontWeight: '600', color: '#f8fafc' },
   modalList: { maxHeight: 320 },

@@ -12,7 +12,8 @@ import {
 } from 'react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import * as Analytics from 'expo-firebase-analytics';
-import { QA_TRIVIA_URL, ROADRACE_CHAT_URL } from '../../constants/api';
+import { QA_TRIVIA_URL } from '../../constants/api';
+import { sendAskChat, type AskSource } from '../utils/askChat';
 import { AppLogo } from '../components/AppLogo';
 
 const TRIVIA_BEST_SCORE_KEY = 'ROADRACER_TRIVIA_BEST';
@@ -51,11 +52,9 @@ function getTriviaResult(correct: number, wrong: number): { title: string; messa
 export function QAScreen() {
   const [activeTab, setActiveTab] = useState<QATab>('ask');
   const [query, setQuery] = useState('');
-  const [searchResults, setSearchResults] = useState<{
-    title: string;
-    content: string;
-    contentBlocks?: { type: string; text: string }[];
-  }[]>([]);
+  const [askReply, setAskReply] = useState<string | null>(null);
+  const [askSources, setAskSources] = useState<AskSource[]>([]);
+  const [askFromKb, setAskFromKb] = useState(false);
   const [searchLoading, setSearchLoading] = useState(false);
   const [searchError, setSearchError] = useState<string | null>(null);
 
@@ -80,6 +79,13 @@ export function QAScreen() {
   const [goatExplosionVisible, setGoatExplosionVisible] = useState(false);
   const [goatExplosionShown, setGoatExplosionShown] = useState(false);
   const goatExplosionScale = React.useRef(new Animated.Value(0.1)).current;
+  const triviaFeedbackTimerRef = React.useRef<ReturnType<typeof setTimeout> | null>(null);
+
+  useEffect(() => {
+    return () => {
+      if (triviaFeedbackTimerRef.current) clearTimeout(triviaFeedbackTimerRef.current);
+    };
+  }, []);
 
   const triggerGoatExplosion = useCallback(() => {
     if (goatExplosionShown) return;
@@ -135,28 +141,20 @@ export function QAScreen() {
     if (!q) return;
     setSearchLoading(true);
     setSearchError(null);
-    setSearchResults([]);
+    setAskReply(null);
+    setAskSources([]);
+    setAskFromKb(false);
     try {
-      const res = await fetch(ROADRACE_CHAT_URL, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ message: q, mode: 'coach', history: [] }),
-        signal: AbortSignal.timeout(60000),
-      });
-      const data = await res.json();
-      if (!res.ok) {
-        setSearchError(data?.error || 'Request failed');
+      const result = await sendAskChat(q);
+      if (!result.ok) {
+        setSearchError(result.error);
         return;
       }
-      const reply = typeof data?.reply === 'string' ? data.reply.trim() : '';
-      if (reply) {
-        setSearchResults([{ title: 'Answer', content: reply }]);
-      } else {
-        setSearchError('No response from coach');
-      }
+      setAskReply(result.reply);
+      setAskSources(result.sources);
+      setAskFromKb(result.fromKb);
     } catch (e) {
       setSearchError(e instanceof Error ? e.message : 'Request failed');
-      setSearchResults([]);
     } finally {
       setSearchLoading(false);
     }
@@ -207,13 +205,9 @@ export function QAScreen() {
           triviaIndex: data.triviaIndex,
         });
       } catch (e) {
-        setTriviaState('idle');
         setTriviaQuestion(null);
-        setTriviaWrong(0);
-        setTriviaCorrect(0);
-        setTriviaUsedGlobal([]);
-        setTriviaUsedAus([]);
-        setTriviaDifficulty(2);
+        setTriviaFailMessage(e instanceof Error ? e.message : 'Could not load the next question. Tap Try again.');
+        setTriviaState('failed');
       } finally {
         setTriviaLoading(false);
       }
@@ -296,8 +290,9 @@ export function QAScreen() {
 
       const nextRegion = getRegionForOrder(newCorrect, newWrong);
       const usedNow = nextRegion === 'au' ? updatedAusUsed : updatedGlobalUsed;
-      // Show correct/incorrect feedback for 1 second before loading next question
-      setTimeout(() => {
+      if (triviaFeedbackTimerRef.current) clearTimeout(triviaFeedbackTimerRef.current);
+      triviaFeedbackTimerRef.current = setTimeout(() => {
+        triviaFeedbackTimerRef.current = null;
         fetchTriviaQuestion(usedNow, newCorrect, newWrong, nextDifficulty);
       }, 1000);
     },
@@ -312,10 +307,15 @@ export function QAScreen() {
       getRegionForOrder,
       fetchTriviaQuestion,
       saveTriviaBestIfBetter,
+      triggerGoatExplosion,
     ]
   );
 
   const resetTrivia = useCallback(() => {
+    if (triviaFeedbackTimerRef.current) {
+      clearTimeout(triviaFeedbackTimerRef.current);
+      triviaFeedbackTimerRef.current = null;
+    }
     setTriviaState('idle');
     setTriviaCorrect(0);
     setTriviaWrong(0);
@@ -338,7 +338,7 @@ export function QAScreen() {
       keyboardShouldPersistTaps="handled"
     >
       <View style={styles.logoRow}>
-        <AppLogo size={80} />
+        <AppLogo size={92} />
       </View>
       <View style={styles.tabBar}>
         <TouchableOpacity
@@ -358,7 +358,9 @@ export function QAScreen() {
       {activeTab === 'ask' && (
       <View style={styles.section}>
         <Text style={styles.sectionTitle}>Got a question?</Text>
-        <Text style={styles.sectionSubtitle}>Ask away - trivia, research, bike tech....its up to you!</Text>
+        <Text style={styles.sectionSubtitle}>
+          General motorsport Q&A — history, rules, terminology, and bike tech concepts. For personalized coaching or bike setup, use Coach & Bike Setup.
+        </Text>
         <View style={styles.searchRow}>
           <TextInput
             style={styles.input}
@@ -377,40 +379,35 @@ export function QAScreen() {
             {searchLoading ? (
               <ActivityIndicator size="small" color="#0f172a" />
             ) : (
-              <Text style={styles.searchBtnText}>Search</Text>
+              <Text style={styles.searchBtnText}>Ask</Text>
             )}
           </TouchableOpacity>
         </View>
         {searchError ? (
           <Text style={styles.errorText}>{searchError}</Text>
         ) : null}
-        {searchResults.length > 0 ? (
+        {askReply ? (
           <View style={styles.results}>
-            {searchResults.map((r, i) => (
-              <View key={i} style={styles.resultCard}>
-                <Text style={styles.resultTitle}>{r.title}</Text>
-                {Array.isArray(r.contentBlocks) && r.contentBlocks.length > 0 ? (
-                  r.contentBlocks.map((block, j) => (
-                    <Text
-                      key={j}
-                      style={[
-                        block.type === 'heading'
-                          ? styles.resultBlockHeading
-                          : styles.resultBlockParagraph,
-                        { marginTop: j === 0 ? 0 : block.type === 'heading' ? 10 : 6 },
-                      ]}
-                    >
-                      {block.text}
+            <View style={styles.resultCard}>
+              <Text style={styles.resultContent}>{askReply}</Text>
+              {askSources.length > 0 ? (
+                <View style={styles.sourcesBlock}>
+                  <Text style={styles.sourcesLabel}>
+                    {askFromKb ? 'Sources (knowledge base)' : 'Related sources'}
+                  </Text>
+                  {askSources.map((s, i) => (
+                    <Text key={i} style={styles.sourceItem}>
+                      • {s.title}
+                      {s.origin ? ` (${s.origin})` : ''}
                     </Text>
-                  ))
-                ) : (
-                  <Text style={styles.resultContent}>{r.content}</Text>
-                )}
-              </View>
-            ))}
+                  ))}
+                </View>
+              ) : null}
+            </View>
+            <Text style={styles.coachHint}>
+              For personalized coaching or bike setup, open Coach & Bike Setup.
+            </Text>
           </View>
-        ) : query.trim() && !searchLoading && !searchError ? (
-          <Text style={styles.hint}>Ask a question above to get an answer from the coach.</Text>
         ) : null}
       </View>
       )}
@@ -431,7 +428,7 @@ export function QAScreen() {
           </TouchableOpacity>
         )}
 
-        {triviaState === 'playing' && triviaLoading && !triviaQuestion && (
+        {triviaState === 'playing' && !triviaQuestion && (triviaLoading || lastAnswerCorrect !== null) && (
           <View style={styles.triviaLoading}>
             {lastAnswerCorrect !== null && (
               <View style={styles.triviaFeedbackImageWrap}>
@@ -625,6 +622,29 @@ const styles = StyleSheet.create({
     fontSize: 15,
     color: '#e2e8f0',
     lineHeight: 22,
+  },
+  sourcesBlock: {
+    marginTop: 12,
+    paddingTop: 10,
+    borderTopWidth: 1,
+    borderTopColor: '#334155',
+  },
+  sourcesLabel: {
+    fontSize: 12,
+    fontWeight: '600',
+    color: '#94a3b8',
+    marginBottom: 4,
+  },
+  sourceItem: {
+    fontSize: 12,
+    color: '#94a3b8',
+    lineHeight: 18,
+  },
+  coachHint: {
+    color: '#64748b',
+    fontSize: 13,
+    marginTop: 4,
+    fontStyle: 'italic',
   },
   resultBlockHeading: {
     fontSize: 14,

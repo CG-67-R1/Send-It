@@ -52,6 +52,17 @@ export async function setOnboardingAnswers(answers: OnboardingAnswers): Promise<
   await AsyncStorage.setItem(KEY_ONBOARDING_ANSWERS, JSON.stringify(answers));
 }
 
+/** Merge partial updates into saved onboarding answers (profile edits after setup). */
+export async function updateOnboardingAnswers(
+  partial: Partial<OnboardingAnswers>
+): Promise<OnboardingAnswers | null> {
+  const current = await getOnboardingAnswers();
+  if (!current) return null;
+  const next = { ...current, ...partial };
+  await setOnboardingAnswers(next);
+  return next;
+}
+
 /** Clears onboarding completion flag and saved answers (e.g. to re-run welcome flow). */
 export async function resetOnboardingStorage(): Promise<void> {
   await AsyncStorage.multiRemove([KEY_ONBOARDING_DONE, KEY_ONBOARDING_ANSWERS]);

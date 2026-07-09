@@ -9,6 +9,8 @@ The **What's On** calendar combines:
 
 **Governing-body calendars** (MA + most states) use the shared **Timely** ICS export (`calendar_id` 54704199) with per-state `filter_groups` and the Road Race tag (`677551074`). Tasmania uses Ridernet (HTML fallback only).
 
+**Champions Ride Days** track-day calendar is scraped from [championsridedays.com.au/event-calender/](https://championsridedays.com.au/event-calender/) (embedded FooEvents JSON). Refresh **bi-monthly**; scraper keeps the **next 2 months** only.
+
 ## Refresh AU calendar (scraped events)
 
 ```bash

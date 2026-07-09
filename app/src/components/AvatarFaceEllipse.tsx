@@ -2,6 +2,7 @@ import React, { useId } from 'react';
 import { Image, StyleSheet, View, type ImageSourcePropType } from 'react-native';
 import Svg, { ClipPath, Defs, Ellipse, G, Image as SvgImage } from 'react-native-svg';
 import { HERO_AVATAR_BADGE_BASE_SIZE } from '../avatar/heroBadgeSizing';
+import { photoDisplayUri } from '../storage/localPhotoStorage';
 import type { FaceHoleLayout } from '../avatar/presets';
 
 /**
@@ -68,8 +69,8 @@ export function AvatarFaceEllipse({
    */
   const faceScale = FACE_IN_HOLE_SCALE;
   const faceTransform = `translate(${cx}, ${top}) scale(${faceScale}) translate(${-cx}, ${-top})`;
-  /** Cache-bust query (?rev=) must not be passed to SvgImage; remount via key when rev changes. */
-  const faceFileUri = faceUri.split('?')[0];
+  /** Cache-bust query (?rev=) or fragment (#rev=) must not be passed to SvgImage; remount via key when rev changes. */
+  const faceFileUri = photoDisplayUri(faceUri);
 
   const faceSvg = (
     <Svg width={W} height={H} style={StyleSheet.absoluteFillObject} pointerEvents="none">

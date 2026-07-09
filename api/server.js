@@ -1,25 +1,30 @@
+import 'dotenv/config';
 import express from 'express';
 import cors from 'cors';
 import { getAllHeadlines, fetchCustomHeadlines, BUILTIN_SOURCES } from './scrapers.js';
 import { search, getTriviaQuestion } from './qa.js';
 import { getCalendarEvents } from './calendar.js';
-import { chat as roadraceAiChat } from './roadraceAi.js';
+import { chat as roadraceAiChat, askChat } from './roadraceAi.js';
+import { loadRiderAiFaqs } from './riderAiFaqs.js';
 
 const app = express();
 const PORT = process.env.PORT || 3001;
 
 app.use(cors());
-app.use(express.json());
+app.use(express.json({ limit: '8mb' }));
 
 app.get('/health', (_, res) => {
-  res.json({ ok: true });
+  res.json({
+    ok: true,
+    roadraceAi: Boolean(process.env.OPENAI_API_KEY),
+  });
 });
 
 app.get('/', (_, res) => {
   res.json({
     name: 'RoadRacer API',
     health: '/health',
-    endpoints: ['/headlines', '/sources', '/qa/search', '/qa/trivia', '/calendar', '/roadrace-ai/chat'],
+    endpoints: ['/headlines', '/sources', '/qa/search', '/qa/trivia', '/calendar', '/roadrace-ai/chat', '/roadrace-ai/ask', '/roadrace-ai/faqs'],
   });
 });
 
@@ -95,11 +100,49 @@ app.get('/calendar', async (req, res) => {
   }
 });
 
-app.post('/roadrace-ai/chat', async (req, res) => {
-  const { message, mode = 'coach', history = [] } = req.body || {};
+app.get('/roadrace-ai/faqs', async (_, res) => {
+  try {
+    const faqs = await loadRiderAiFaqs(true);
+    res.json(faqs);
+  } catch (e) {
+    console.error(e);
+    res.status(500).json({ error: 'Failed to load FAQs', coach: [], bikesetup: [] });
+  }
+});
+
+app.post('/roadrace-ai/ask', async (req, res) => {
+  const { message } = req.body || {};
   const text = typeof message === 'string' ? message.trim() : '';
   if (!text) {
     return res.status(400).json({ error: 'message is required' });
+  }
+  try {
+    const result = await askChat(text);
+    if (result.error) {
+      return res.status(500).json({
+        error: result.error,
+        reply: '',
+        sources: [],
+        fromKb: false,
+      });
+    }
+    res.json({
+      reply: result.content || '',
+      sources: result.sources || [],
+      fromKb: Boolean(result.fromKb),
+    });
+  } catch (e) {
+    console.error(e);
+    res.status(500).json({ error: 'AI request failed', reply: '', sources: [], fromKb: false });
+  }
+});
+
+app.post('/roadrace-ai/chat', async (req, res) => {
+  const { message, mode = 'coach', history = [], attachments = [] } = req.body || {};
+  const text = typeof message === 'string' ? message.trim() : '';
+  const hasAttachments = Array.isArray(attachments) && attachments.length > 0;
+  if (!text && !hasAttachments) {
+    return res.status(400).json({ error: 'message or attachments required' });
   }
   const validMode = mode === 'bikesetup' ? 'bikesetup' : 'coach';
   const messages = Array.isArray(history)
@@ -108,9 +151,9 @@ app.post('/roadrace-ai/chat', async (req, res) => {
         .slice(-20)
         .map((m) => ({ role: m.role, content: m.content.trim() }))
     : [];
-  messages.push({ role: 'user', content: text });
+  messages.push({ role: 'user', content: text || 'Please review the attached file(s).' });
   try {
-    const result = await roadraceAiChat(messages, validMode);
+    const result = await roadraceAiChat(messages, validMode, attachments);
     if (result.error) {
       return res.status(500).json({ error: result.error, reply: '' });
     }

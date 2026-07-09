@@ -1,4 +1,4 @@
-import React, { useCallback, useState } from 'react';
+import React, { useCallback, useMemo, useState } from 'react';
 import {
   ActivityIndicator,
   Alert,
@@ -21,6 +21,7 @@ const SERIES_COLORS: Record<string, string> = {
   worldsbk: '#0ea5e9',
   asbk: '#f59e0b',
   au_club: '#f59e0b',
+  au_track_day: '#f59e0b',
   au_national: '#f59e0b',
   australia: '#f59e0b',
   ASBK: '#f59e0b',
@@ -28,10 +29,14 @@ const SERIES_COLORS: Record<string, string> = {
 
 type CalendarFilter = 'all' | 'australia' | 'world';
 
-const AU_SERIES = new Set(['asbk', 'au_club', 'au_national', 'australia']);
+const AU_SERIES = new Set(['asbk', 'au_club', 'au_national', 'au_track_day', 'australia']);
 
 function isAustraliaEvent(item: CalendarEvent): boolean {
-  return AU_SERIES.has(item.series) || item.detailTier === 'full' || item.country === 'Australia';
+  return (
+    AU_SERIES.has(item.series) ||
+    item.detailTier === 'full' ||
+    item.country === 'Australia'
+  );
 }
 
 function filterEvents(events: CalendarEvent[], filter: CalendarFilter): CalendarEvent[] {
@@ -80,12 +85,21 @@ export function CalendarScreen() {
     setError(null);
     try {
       const url = isRefresh ? `${CALENDAR_URL}?refresh=1` : CALENDAR_URL;
-      const res = await fetch(url, { signal: AbortSignal.timeout(15000) });
+      const res = await fetch(url, {
+        signal: AbortSignal.timeout(15000),
+        cache: 'no-store',
+      });
       const data = await res.json();
+      if (!res.ok) {
+        throw new Error(typeof data?.error === 'string' ? data.error : `Calendar API returned ${res.status}`);
+      }
       const list = Array.isArray(data.events) ? data.events : [];
       setEvents(list);
     } catch (e) {
-      const message = e instanceof Error ? e.message : 'Failed to load calendar';
+      const raw = e instanceof Error ? e.message : 'Failed to load calendar';
+      const message = /network request failed|timed out|timeout/i.test(raw)
+        ? 'Could not reach the server. Check your connection and that the API is running.'
+        : raw;
       setError(message);
       setEvents([]);
     } finally {
@@ -200,11 +214,43 @@ export function CalendarScreen() {
     );
   }
 
-  const filteredEvents = filterEvents(events, filter);
+  const filteredEvents = useMemo(
+    () => filterEvents(events, filter),
+    [events, filter]
+  );
+
+  const listHeader = useMemo(
+    () => (
+      <View style={styles.header}>
+        <AppLogo size={92} />
+        <Text style={styles.headerTitle}>Events</Text>
+        <Text style={styles.headerSubtitle}>
+          Australian club & state road racing • MotoGP • WorldSBK. Tap to open links.
+        </Text>
+        <View style={styles.filterRow}>
+          {(['all', 'australia', 'world'] as CalendarFilter[]).map((key) => (
+            <TouchableOpacity
+              key={key}
+              style={[styles.filterChip, filter === key && styles.filterChipActive]}
+              onPress={() => setFilter(key)}
+              activeOpacity={0.7}
+            >
+              <Text style={[styles.filterChipText, filter === key && styles.filterChipTextActive]}>
+                {key === 'all' ? 'All' : key === 'australia' ? 'Australia' : 'World'}
+              </Text>
+            </TouchableOpacity>
+          ))}
+        </View>
+      </View>
+    ),
+    [filter]
+  );
 
   return (
     <FlatList
+      key={filter}
       data={filteredEvents}
+      extraData={`${filter}-${events.length}`}
       renderItem={renderItem}
       keyExtractor={keyExtractor}
       contentContainerStyle={styles.list}
@@ -215,29 +261,7 @@ export function CalendarScreen() {
           tintColor="#f59e0b"
         />
       }
-      ListHeaderComponent={
-        <View style={styles.header}>
-          <AppLogo size={80} />
-          <Text style={styles.headerTitle}>Events</Text>
-          <Text style={styles.headerSubtitle}>
-            Australian club & state road racing • MotoGP • WorldSBK. Tap to open links.
-          </Text>
-          <View style={styles.filterRow}>
-            {(['all', 'australia', 'world'] as CalendarFilter[]).map((key) => (
-              <TouchableOpacity
-                key={key}
-                style={[styles.filterChip, filter === key && styles.filterChipActive]}
-                onPress={() => setFilter(key)}
-                activeOpacity={0.7}
-              >
-                <Text style={[styles.filterChipText, filter === key && styles.filterChipTextActive]}>
-                  {key === 'all' ? 'All' : key === 'australia' ? 'Australia' : 'World'}
-                </Text>
-              </TouchableOpacity>
-            ))}
-          </View>
-        </View>
-      }
+      ListHeaderComponent={listHeader}
     />
   );
 }

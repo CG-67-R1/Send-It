@@ -4,6 +4,7 @@ import {
   Alert,
   Image,
   KeyboardAvoidingView,
+  Linking,
   Platform,
   ScrollView,
   StyleSheet,
@@ -76,6 +77,14 @@ export function ImportTrackNotesScreen() {
 
   const handleAddPhoto = useCallback(async () => {
     try {
+      const { status } = await ImagePicker.requestMediaLibraryPermissionsAsync();
+      if (status !== 'granted') {
+        Alert.alert('Photos', 'Allow photo access to attach reference images.', [
+          { text: 'OK' },
+          { text: 'Settings', onPress: () => Linking.openSettings() },
+        ]);
+        return;
+      }
       const result = await ImagePicker.launchImageLibraryAsync({
         mediaTypes: ImagePicker.MediaTypeOptions.Images,
         quality: 0.7,
@@ -145,18 +154,27 @@ export function ImportTrackNotesScreen() {
       setOtherContext(DEFAULT_OTHER);
       setPhotos([]);
 
-      const tabNav = navigation.getParent()?.getParent() as
-        | { navigate: (name: string, params?: object) => void }
-        | undefined;
-      tabNav?.navigate('RiderCoachTab', {
-        screen: 'RiderCoach',
-        params: {
-          seedMessages: [
-            { role: 'user', content: coachMessage },
-            { role: 'assistant', content: result.reply },
-          ],
-        },
-      });
+      const seedParams = {
+        seedMessages: [
+          { role: 'user' as const, content: coachMessage },
+          { role: 'assistant' as const, content: result.reply },
+        ],
+      };
+      const stackRoutes = navigation.getState()?.routeNames ?? [];
+      if (stackRoutes.includes('RiderCoach')) {
+        (navigation as { navigate: (name: string, params?: object) => void }).navigate(
+          'RiderCoach',
+          seedParams
+        );
+      } else {
+        const tabNav = navigation.getParent() as
+          | { navigate: (name: string, params?: object) => void }
+          | undefined;
+        tabNav?.navigate('RiderCoachTab', {
+          screen: 'RiderCoach',
+          params: seedParams,
+        });
+      }
     } finally {
       setSending(false);
     }
@@ -174,7 +192,7 @@ export function ImportTrackNotesScreen() {
         showsVerticalScrollIndicator={false}
       >
         <View style={styles.logoRow}>
-          <AppLogo size={28} />
+          <AppLogo size={32} />
         </View>
         <Text style={styles.heroTitle}>Import track notes</Text>
         <Text style={styles.heroSubtitle}>

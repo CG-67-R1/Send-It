@@ -2,9 +2,15 @@ import { ROADRACE_CHAT_URL } from '../../constants/api';
 import type { TrackWalkSession } from '../storage/trackWalk';
 import { formatSessionForExport } from '../storage/trackWalk';
 
+import type { CoachAttachmentPayload } from './coachAttachments';
+
 export type CoachMode = 'coach' | 'bikesetup';
 
 export type CoachChatMessage = { role: 'user' | 'assistant'; content: string };
+
+export type CoachChatDisplayMessage = CoachChatMessage & {
+  attachments?: Array<{ kind: 'image'; uri: string; name: string } | { kind: 'file'; name: string }>;
+};
 
 export type CoachChatResult =
   | { ok: true; reply: string }
@@ -13,7 +19,8 @@ export type CoachChatResult =
 export async function sendCoachChat(
   message: string,
   mode: CoachMode = 'coach',
-  history: CoachChatMessage[] = []
+  history: CoachChatMessage[] = [],
+  attachments: CoachAttachmentPayload[] = []
 ): Promise<CoachChatResult> {
   try {
     const res = await fetch(ROADRACE_CHAT_URL, {
@@ -23,8 +30,9 @@ export async function sendCoachChat(
         message,
         mode,
         history: history.map((m) => ({ role: m.role, content: m.content })),
+        attachments,
       }),
-      signal: AbortSignal.timeout(60000),
+      signal: AbortSignal.timeout(90000),
     });
     const data = await res.json();
 

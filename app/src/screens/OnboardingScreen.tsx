@@ -19,9 +19,10 @@ import {
   setOnboardingAnswers,
   type OnboardingAnswers,
 } from '../storage/onboarding';
-import { AVATAR_PRESETS, getAvatarPreset } from '../avatar/presets';
+import { AVATAR_PRESETS, getAvatarPreset, getAvatarSource, getFaceHoleLayout, pickRandomNoPhotoAvatar } from '../avatar/presets';
 import { setAvatarFacePhotoUri, clearAvatarFacePhoto } from '../storage/avatarFacePhoto';
 import { AvatarFaceCameraModal } from '../components/AvatarFaceCameraModal';
+import { AvatarFaceEllipse } from '../components/AvatarFaceEllipse';
 
 type Activity = 'race' | 'track_days' | 'just_love_bikes' | 'race_one_day';
 
@@ -51,10 +52,20 @@ export function OnboardingScreen({ onComplete }: OnboardingScreenProps) {
   const [riderNickname, setRiderNickname] = useState('');
   const [finishing, setFinishing] = useState(false);
   const [faceCameraOpen, setFaceCameraOpen] = useState(false);
+  /** Set when user skips avatar pick — stable random mascot for summary + finish. */
+  const [assignedRandomAvatarId, setAssignedRandomAvatarId] = useState<string | null>(null);
 
   const totalSteps = 7; // welcome, bike, rider, activity, future racer info, nickname+avatar, summary
 
   const selectedAvatarPreset = avatarId ? getAvatarPreset(avatarId) : undefined;
+  const effectiveAvatarId = avatarId ?? assignedRandomAvatarId;
+  const effectiveAvatarPreset = effectiveAvatarId ? getAvatarPreset(effectiveAvatarId) : undefined;
+
+  useEffect(() => {
+    if (step === 6 && !avatarId && !assignedRandomAvatarId) {
+      setAssignedRandomAvatarId(pickRandomNoPhotoAvatar());
+    }
+  }, [step, avatarId, assignedRandomAvatarId]);
 
   useEffect(() => {
     if (!selectedAvatarPreset?.hasFaceHole) {
@@ -86,41 +97,13 @@ export function OnboardingScreen({ onComplete }: OnboardingScreenProps) {
     }
   }, []);
 
-  /** Web / fallback: system camera with square crop. Native uses AvatarFaceCameraModal (oval guide). */
-  const takeAvatarFaceWithSystemCamera = useCallback(async () => {
-    try {
-      const { status } = await ImagePicker.requestCameraPermissionsAsync();
-      if (status !== 'granted') {
-        Alert.alert('Camera', 'Allow camera access to take your rider photo.', [
-          { text: 'OK' },
-          { text: 'Settings', onPress: () => Linking.openSettings() },
-        ]);
-        return;
-      }
-      const result = await ImagePicker.launchCameraAsync({
-        mediaTypes: ['images'],
-        allowsEditing: true,
-        aspect: [1, 1],
-        quality: 0.85,
-      });
-      if (!result.canceled && result.assets[0]) {
-        setAvatarFaceUri(result.assets[0].uri);
-      }
-    } catch (e) {
-      Alert.alert('Error', e instanceof Error ? e.message : 'Could not take photo');
-    }
+  const openAvatarFaceCamera = useCallback(() => {
+    setFaceCameraOpen(true);
   }, []);
 
-  const openAvatarFaceCamera = useCallback(() => {
-    if (Platform.OS === 'web') {
-      void takeAvatarFaceWithSystemCamera();
-    } else {
-      setFaceCameraOpen(true);
-    }
-  }, [takeAvatarFaceWithSystemCamera]);
-
   const handleFinish = async () => {
-    const preset = getAvatarPreset(avatarId);
+    const resolvedAvatarId = avatarId ?? assignedRandomAvatarId ?? pickRandomNoPhotoAvatar();
+    const preset = getAvatarPreset(resolvedAvatarId);
     const answers: OnboardingAnswers = {
       favouriteBike: favouriteBike.trim() || 'my bike',
       favouriteRider: favouriteRider.trim() || 'my hero',
@@ -130,8 +113,8 @@ export function OnboardingScreen({ onComplete }: OnboardingScreenProps) {
       futureRacer: activity === 'race_one_day' || undefined,
       racingStateCode: selectedStateCode ?? undefined,
       racingInfoEmail: racingEmail.trim() || undefined,
-      avatarId: avatarId ?? undefined,
-      noFaceFrameId: preset?.hasFaceHole && avatarId ? avatarId : undefined,
+      avatarId: resolvedAvatarId,
+      noFaceFrameId: preset?.hasFaceHole ? resolvedAvatarId : undefined,
     };
     if (preset?.hasFaceHole && avatarFaceUri) {
       await setAvatarFacePhotoUri(avatarFaceUri);
@@ -500,8 +483,14 @@ export function OnboardingScreen({ onComplete }: OnboardingScreenProps) {
             <Text style={styles.title}>What should we call you?</Text>
             <Text style={styles.subtitle}>
               Pick an avatar for your home screen (swipe sideways for more). For leathers with a
-              blank face, you can add your photo below.
+              blank face, you can add your photo below — totally optional.
             </Text>
+            {!avatarId ? (
+              <Text style={styles.avatarSkipHint}>
+                No avatar or photo? No worries — we'll pick a random rider mascot for you (no photo
+                needed).
+              </Text>
+            ) : null}
             <ScrollView
               horizontal
               showsHorizontalScrollIndicator={false}
@@ -594,6 +583,37 @@ export function OnboardingScreen({ onComplete }: OnboardingScreenProps) {
         {step === 6 && (
           <View style={styles.step}>
             <Text style={styles.title}>You’re in the right place</Text>
+            <View style={styles.summaryProfileRow}>
+              {effectiveAvatarId && getAvatarSource(effectiveAvatarId) ? (
+                <View style={styles.summaryAvatarBadge}>
+                  {effectiveAvatarPreset?.hasFaceHole && avatarFaceUri && getFaceHoleLayout(effectiveAvatarId) ? (
+                    <AvatarFaceEllipse
+                      badgeSize={72}
+                      avatarSource={getAvatarSource(effectiveAvatarId)!}
+                      faceUri={avatarFaceUri}
+                      layout={getFaceHoleLayout(effectiveAvatarId)!}
+                      faceBehindAvatar={effectiveAvatarPreset?.compositeFaceBehindAvatar !== false}
+                    />
+                  ) : (
+                    <Image
+                      source={getAvatarSource(effectiveAvatarId)!}
+                      style={styles.summaryAvatarImage}
+                      resizeMode="contain"
+                    />
+                  )}
+                </View>
+              ) : null}
+              <View style={styles.summaryNameCol}>
+                <Text style={styles.summaryNickname}>
+                  {(riderNickname.trim() || 'Rider').toUpperCase()}
+                </Text>
+                {!avatarId && effectiveAvatarPreset ? (
+                  <Text style={styles.summaryRandomAvatarNote}>
+                    Random avatar: {effectiveAvatarPreset.label}
+                  </Text>
+                ) : null}
+              </View>
+            </View>
             <Text style={styles.summaryText}>{getRiderFact(favouriteRider.trim())}</Text>
             <Text style={styles.summaryText}>{getBikeFact(favouriteBike.trim())}</Text>
             <Text style={styles.summaryClosing}>
@@ -758,6 +778,44 @@ const styles = StyleSheet.create({
     lineHeight: 24,
     marginBottom: 16,
   },
+  summaryProfileRow: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: 14,
+    marginBottom: 20,
+    padding: 14,
+    borderRadius: 12,
+    backgroundColor: '#1e293b',
+    borderWidth: 1,
+    borderColor: '#334155',
+  },
+  summaryAvatarBadge: {
+    width: 72,
+    height: 72,
+    borderRadius: 36,
+    overflow: 'hidden',
+    borderWidth: 1,
+    borderColor: 'rgba(245, 158, 11, 0.45)',
+  },
+  summaryAvatarImage: {
+    width: '100%',
+    height: '100%',
+  },
+  summaryNameCol: {
+    flex: 1,
+    gap: 4,
+  },
+  summaryNickname: {
+    fontSize: 20,
+    fontWeight: '700',
+    color: '#f59e0b',
+    letterSpacing: 1,
+  },
+  summaryRandomAvatarNote: {
+    fontSize: 13,
+    color: '#94a3b8',
+    lineHeight: 18,
+  },
   summaryClosing: {
     fontSize: 16,
     color: '#94a3b8',
@@ -845,6 +903,13 @@ const styles = StyleSheet.create({
     fontSize: 10,
     color: '#64748b',
     textAlign: 'center',
+  },
+  avatarSkipHint: {
+    fontSize: 14,
+    color: '#f59e0b',
+    lineHeight: 20,
+    marginBottom: 16,
+    paddingHorizontal: 4,
   },
   faceUploadSection: {
     marginBottom: 20,

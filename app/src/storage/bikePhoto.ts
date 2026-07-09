@@ -1,35 +1,34 @@
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import * as FileSystem from 'expo-file-system/legacy';
+import {
+  clearPersistedLocalPhoto,
+  getPersistedLocalPhoto,
+  persistLocalPhoto,
+} from './localPhotoStorage';
 
 const KEY_BIKE_PHOTO_URI = '@roadrace_bike_photo_uri';
+const KEY_BIKE_PHOTO_REV = '@roadrace_bike_photo_rev';
 const BIKE_PHOTO_FILENAME = 'bike_photo.jpg';
 
+const BIKE_WEB_MAX_DIMENSION = 1200;
+
 export async function getBikePhotoUri(): Promise<string | null> {
-  try {
-    const uri = await AsyncStorage.getItem(KEY_BIKE_PHOTO_URI);
-    if (!uri) return null;
-    const exists = await FileSystem.getInfoAsync(uri);
-    return exists.exists ? uri : null;
-  } catch {
-    return null;
-  }
+  return getPersistedLocalPhoto(KEY_BIKE_PHOTO_URI, KEY_BIKE_PHOTO_REV);
 }
 
 export async function setBikePhotoUri(sourceUri: string): Promise<string> {
-  const dir = FileSystem.documentDirectory;
-  if (!dir) throw new Error('No document directory');
-  const destUri = `${dir}${BIKE_PHOTO_FILENAME}`;
-  await FileSystem.copyAsync({ from: sourceUri, to: destUri });
-  await AsyncStorage.setItem(KEY_BIKE_PHOTO_URI, destUri);
-  return destUri;
+  const stored = await persistLocalPhoto(sourceUri, BIKE_PHOTO_FILENAME, KEY_BIKE_PHOTO_URI, {
+    maxDimension: BIKE_WEB_MAX_DIMENSION,
+    compress: 0.8,
+  });
+  const rev = Date.now().toString();
+  await AsyncStorage.setItem(KEY_BIKE_PHOTO_REV, rev);
+
+  if (stored.startsWith('data:')) {
+    return `${stored}#rev=${rev}`;
+  }
+  return `${stored}?rev=${rev}`;
 }
 
 export async function clearBikePhoto(): Promise<void> {
-  try {
-    const uri = await AsyncStorage.getItem(KEY_BIKE_PHOTO_URI);
-    if (uri) await FileSystem.deleteAsync(uri, { idempotent: true });
-  } catch {
-    // ignore
-  }
-  await AsyncStorage.removeItem(KEY_BIKE_PHOTO_URI);
+  await clearPersistedLocalPhoto(KEY_BIKE_PHOTO_URI, KEY_BIKE_PHOTO_REV);
 }

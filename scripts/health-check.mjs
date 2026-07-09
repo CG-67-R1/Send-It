@@ -39,7 +39,13 @@ function run(cmd, args, cwd, label) {
 }
 
 function checkInterleaveLogic() {
-  const LOCAL = ['mcnews', 'amcn', 'asbk'];
+  const LOCAL = [
+    'ma_roadrace',
+    'mcnews',
+    'asbk',
+    'amcn_club',
+    'amcn_asbk',
+  ];
   const interleave = (headlines, auIds, everyN = 4) => {
     const au = headlines.filter((h) => auIds.includes(h.sourceId));
     const rest = headlines.filter((h) => !auIds.includes(h.sourceId));
@@ -63,7 +69,7 @@ function checkInterleaveLogic() {
     { sourceId: 'motogp' },
     { sourceId: 'mcnews' },
     { sourceId: 'gpone' },
-    { sourceId: 'amcn' },
+    { sourceId: 'asbk' },
   ];
   const mixed = interleave(sample, LOCAL, 4);
   const auCount = mixed.filter((h) => LOCAL.includes(h.sourceId)).length;
@@ -78,7 +84,15 @@ function checkInterleaveLogic() {
 async function checkScrapers() {
   const scrapersPath = pathToFileURL(path.join(API_DIR, 'scrapers.js')).href;
   const { getAllHeadlines, BUILTIN_SOURCES, AU_SOURCE_IDS } = await import(scrapersPath);
-  const required = ['motogpnews', 'peterbom', 'gpone', 'motor_sport_motogp', 'mcnews', 'amcn', 'asbk'];
+  const required = [
+    'motogpnews',
+    'gpone',
+    'motor_sport_motogp',
+    'ma_roadrace',
+    'mcnews',
+    'amcn_club',
+    'asbk',
+  ];
   const ids = BUILTIN_SOURCES.map((s) => s.id);
   for (const id of required) {
     if (!ids.includes(id)) fail(`BUILTIN_SOURCES missing ${id}`);
@@ -87,8 +101,9 @@ async function checkScrapers() {
   for (const id of ['bikereview', 'transmoto']) {
     if (ids.includes(id)) fail(`removed source still present: ${id}`);
   }
-  if (!AU_SOURCE_IDS.every((id) => ['mcnews', 'amcn', 'asbk'].includes(id))) {
-    fail('AU_SOURCE_IDS should be mcnews, amcn, asbk only');
+  const auKeys = ['ma_roadrace', 'mcnews', 'asbk', 'amcn_club', 'amcn_asbk'];
+  if (!auKeys.every((id) => AU_SOURCE_IDS.includes(id))) {
+    fail(`AU_SOURCE_IDS missing expected keys (got ${AU_SOURCE_IDS.join(', ')})`);
   } else {
     pass('AU_SOURCE_IDS');
   }
@@ -99,7 +114,7 @@ async function checkScrapers() {
 
   const bySource = {};
   for (const h of headlines) bySource[h.sourceId] = (bySource[h.sourceId] || 0) + 1;
-  for (const id of ['peterbom', 'gpone', 'motor_sport_motogp']) {
+  for (const id of ['gpone', 'motor_sport_motogp']) {
     if (!bySource[id]) fail(`scraper ${id} returned 0 items`);
     else pass(`scraper ${id}: ${bySource[id]} items`);
   }
@@ -210,9 +225,26 @@ if (process.env.SKIP_TSC !== '1') {
 console.log('\nHeadlines logic');
 checkInterleaveLogic();
 
+async function checkAskRetrieval() {
+  const qaPath = pathToFileURL(path.join(API_DIR, 'qa.js')).href;
+  const { retrieveForAsk } = await import(qaPath);
+  const { chunks, fromKb } = await retrieveForAsk('motorcycle racing');
+  if (!Array.isArray(chunks)) {
+    fail('retrieveForAsk did not return chunks array');
+    return;
+  }
+  pass(`retrieveForAsk: ${chunks.length} chunk(s), fromKb=${fromKb}`);
+}
+
 console.log('\nAPI modules');
 run('node', ['--check', 'server.js'], API_DIR, 'server.js syntax');
 run('node', ['--check', 'qa.js'], API_DIR, 'qa.js syntax');
+run('node', ['--check', 'roadraceAi.js'], API_DIR, 'roadraceAi.js syntax');
+try {
+  await checkAskRetrieval();
+} catch (e) {
+  fail(`retrieveForAsk: ${e.message}`);
+}
 
 console.log('\nAPI scrapers');
 if (process.env.SKIP_SCRAPERS !== '1') {
