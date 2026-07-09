@@ -1,5 +1,5 @@
 {
-  "updatedAt": "2026-07-09T07:33:35.756Z",
+  "updatedAt": "2026-07-09T10:50:30.161Z",
   "sourceIds": [
     "mcnews",
     "amcn",
@@ -88,6 +88,22 @@
       "imageUrl": null
     },
     {
+      "title": "Ducati at 100: Domenicali on Bologna, VW and the rise of China",
+      "url": "https://www.mcnews.com.au/claudio-domenicali-ducati-interview-2026/",
+      "source": "MCNews (AU)",
+      "sourceId": "mcnews",
+      "date": null,
+      "imageUrl": null
+    },
+    {
+      "title": "Triumph Trident 800 Review | Gentleman’s hooligan",
+      "url": "https://www.mcnews.com.au/triumph-trident-800-review/",
+      "source": "MCNews (AU)",
+      "sourceId": "mcnews",
+      "date": null,
+      "imageUrl": null
+    },
+    {
       "title": "Suzuki SV-7GX and SV-7GXV keep the SV650 V-twin legend alive",
       "url": "https://www.mcnews.com.au/suzuki-sv-7gx-sv-7gxv-v-twin/",
       "source": "MCNews (AU)",
@@ -101,7 +117,7 @@
       "source": "MCNews (AU)",
       "sourceId": "mcnews",
       "date": null,
-      "imageUrl": null
+      "imageUrl": "https://www.mcnews.com.au/wp-content/uploads/2022/08/Honda-2023-CRF-kids-range-3-750x649.jpg"
     },
     {
       "title": "Kids bikes do the heavy lifting in first-half motorcycle sales surge",
@@ -109,7 +125,7 @@
       "source": "MCNews (AU)",
       "sourceId": "mcnews",
       "date": null,
-      "imageUrl": null
+      "imageUrl": "https://www.mcnews.com.au/wp-content/uploads/2022/08/Honda-2023-CRF-kids-range-3-750x649.jpg"
     },
     {
       "title": "KTM reveals 2027 EXC 6DAYS enduro line-up",
@@ -117,7 +133,7 @@
       "source": "MCNews (AU)",
       "sourceId": "mcnews",
       "date": null,
-      "imageUrl": null
+      "imageUrl": "https://www.mcnews.com.au/wp-content/uploads/2026/07/2027-KTM-450-EXC-F-6Days-7-750x422.jpg"
     },
     {
       "title": "Limited-run CFMOTO 675NK GP lands at $11,490 ride-away",
@@ -125,23 +141,7 @@
       "source": "MCNews (AU)",
       "sourceId": "mcnews",
       "date": null,
-      "imageUrl": "https://www.mcnews.com.au/wp-content/uploads/2026/07/2026-CFMOTO-675NK-Champion-Blue-7-750x422.jpg"
-    },
-    {
-      "title": "LAMS Learner Approved Motorcycles",
-      "url": "https://www.mcnews.com.au/motorcycle-news/latest-bikes/lams-latest-bikes/",
-      "source": "MCNews (AU)",
-      "sourceId": "mcnews",
-      "date": null,
-      "imageUrl": "https://www.mcnews.com.au/wp-content/uploads/2026/07/2026-Royal-Enfield-Guerrilla-450-Apex-Trev-2-750x461.jpg"
-    },
-    {
-      "title": "Moto News | Hattah | MX | SGP | Flat Track | WJMX",
-      "url": "https://www.mcnews.com.au/weekly-off-road-racing-moto-news-july7-2026/",
-      "source": "MCNews (AU)",
-      "sourceId": "mcnews",
-      "date": null,
-      "imageUrl": "https://www.mcnews.com.au/wp-content/uploads/2026/07/KOREY-MCMAHON-KTM-DM31-Racing-Team-Hattah-Desert-Race-2026-750x517.jpg"
+      "imageUrl": null
     },
     {
       "title": "Bike Reviews / Products",
@@ -152,20 +152,20 @@
       "imageUrl": null
     },
     {
+      "title": "Moto News | Hattah | MX | SGP | Flat Track | WJMX",
+      "url": "https://www.mcnews.com.au/weekly-off-road-racing-moto-news-july7-2026/",
+      "source": "MCNews (AU)",
+      "sourceId": "mcnews",
+      "date": null,
+      "imageUrl": "https://www.mcnews.com.au/wp-content/uploads/2026/07/KOREY-MCMAHON-KTM-DM31-Racing-Team-Hattah-Desert-Race-2026-120x86.jpg"
+    },
+    {
       "title": "CFMOTO teams with Brembo on future motorcycle braking systems",
       "url": "https://www.mcnews.com.au/cfmoto-brembo-motorcycle-braking-partnership/",
       "source": "MCNews (AU)",
       "sourceId": "mcnews",
       "date": null,
       "imageUrl": "https://www.mcnews.com.au/wp-content/uploads/2026/07/CFMOTO-Brembo-1-120x86.jpg"
-    },
-    {
-      "title": "TeamMoto Adds $500 Trade-Up Bonus For July Motorcycle Upgrades",
-      "url": "https://www.mcnews.com.au/teammoto-july-2026-trade-up-bonus/",
-      "source": "MCNews (AU)",
-      "sourceId": "mcnews",
-      "date": null,
-      "imageUrl": "https://www.mcnews.com.au/wp-content/uploads/2026/07/TM_Tradeup_7_MCNews_1920x1080px-120x86.jpg"
     },
     {
       "title": "GRID TALK | Gigi Dall’Igna His bikes changed MotoGP, but Ducati's Maestro says success starts with something far less complicated",
