@@ -1,4 +1,4 @@
-import React, { useCallback, useRef, useState } from 'react';
+import React, { useCallback, useEffect, useRef, useState } from 'react';
 import {
   ActivityIndicator,
   KeyboardAvoidingView,
@@ -10,16 +10,22 @@ import {
   TouchableOpacity,
   View,
 } from 'react-native';
-import { API_BASE_URL } from '../../constants/api';
+import { useRoute, type RouteProp } from '@react-navigation/native';
 import { AppLogo } from '../components/AppLogo';
+import { sendCoachChat, type CoachChatMessage } from '../utils/coachChat';
 
 type CoachTab = 'coach' | 'bikesetup';
 
 type ChatMessage = { role: 'user' | 'assistant'; content: string };
 
-const ROADRACE_CHAT_URL = `${API_BASE_URL}/roadrace-ai/chat`;
+type RiderCoachRouteParams = {
+  RiderCoach: {
+    seedMessages?: ChatMessage[];
+  };
+};
 
 export function RiderCoachScreen() {
+  const route = useRoute<RouteProp<RiderCoachRouteParams, 'RiderCoach'>>();
   const [activeTab, setActiveTab] = useState<CoachTab>('coach');
   const [coachMessages, setCoachMessages] = useState<ChatMessage[]>([]);
   const [bikeMessages, setBikeMessages] = useState<ChatMessage[]>([]);
@@ -27,6 +33,16 @@ export function RiderCoachScreen() {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const scrollRef = useRef<ScrollView>(null);
+  const seededRef = useRef(false);
+
+  useEffect(() => {
+    const seed = route.params?.seedMessages;
+    if (!seed?.length || seededRef.current) return;
+    seededRef.current = true;
+    setActiveTab('coach');
+    setCoachMessages(seed);
+    setTimeout(() => scrollRef.current?.scrollToEnd({ animated: true }), 150);
+  }, [route.params?.seedMessages]);
 
   const messages = activeTab === 'coach' ? coachMessages : bikeMessages;
   const setMessages = activeTab === 'coach' ? setCoachMessages : setBikeMessages;
@@ -42,31 +58,20 @@ export function RiderCoachScreen() {
     setLoading(true);
 
     const history = activeTab === 'coach' ? coachMessages : bikeMessages;
-    const historyForApi = history.map((m) => ({ role: m.role, content: m.content }));
+    const historyForApi: CoachChatMessage[] = history.map((m) => ({
+      role: m.role,
+      content: m.content,
+    }));
 
     try {
-      const res = await fetch(ROADRACE_CHAT_URL, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          message: text,
-          mode: activeTab,
-          history: historyForApi,
-        }),
-        signal: AbortSignal.timeout(60000),
-      });
-      const data = await res.json();
-
-      if (!res.ok) {
+      const result = await sendCoachChat(text, activeTab, historyForApi);
+      if (!result.ok) {
         setMessages((prev) => prev.slice(0, -1));
-        setError(data?.error || 'Request failed');
+        setError(result.error);
         return;
       }
 
-      const reply = typeof data?.reply === 'string' ? data.reply.trim() : '';
-      if (reply) {
-        setMessages((prev) => [...prev, { role: 'assistant', content: reply }]);
-      }
+      setMessages((prev) => [...prev, { role: 'assistant', content: result.reply }]);
       setTimeout(() => scrollRef.current?.scrollToEnd({ animated: true }), 100);
     } catch (e) {
       setMessages((prev) => prev.slice(0, -1));

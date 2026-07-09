@@ -1,7 +1,8 @@
-import React, { useCallback, useState } from 'react';
+import React, { useCallback, useMemo, useRef, useState } from 'react';
 import {
   ActivityIndicator,
   Alert,
+  Image,
   KeyboardAvoidingView,
   Modal,
   Platform,
@@ -12,32 +13,118 @@ import {
   TouchableOpacity,
   View,
 } from 'react-native';
-import * as Clipboard from 'expo-clipboard';
-import { useNavigation } from '@react-navigation/native';
+import * as ImagePicker from 'expo-image-picker';
+import { useFocusEffect, useNavigation } from '@react-navigation/native';
 import { AppLogo } from '../components/AppLogo';
+import { CornerPicker } from '../components/CornerPicker';
+import { OtherTrackContextForm } from '../components/OtherTrackContextForm';
+import { TrackPicker } from '../components/TrackPicker';
+import type { CornerDefinition, CornerDirection, OtherTrackContext, TrackDefinition } from '../data/tracks';
+import { formatCornerHeading, getTrackById, isOtherTrackComplete, OTHER_TRACK } from '../data/tracks';
+import { persistTrackWalkPhotos } from '../storage/trackWalkPhotos';
 import {
   saveTrackWalkSession,
-  formatSessionForExport,
+  getTrackWalkSessions,
+  deleteTrackWalkSession,
+  sessionReadyForCoach,
   type TrackWalkEntry,
-  type TrackWalkEntryType,
+  type TrackWalkSession,
 } from '../storage/trackWalk';
+import { exportTrackWalkSession } from '../utils/exportTrackWalk';
+import { formatTrackNotesForCoach, sendCoachChat } from '../utils/coachChat';
+
+type AddingMode = 'corner' | 'note' | null;
+
+const DEFAULT_OTHER_CONTEXT: OtherTrackContext = {
+  customName: '',
+  direction: 'unknown',
+};
+
+function entryHeading(entry: TrackWalkEntry, trackId: string): string {
+  if (entry.type === 'note') return 'General note';
+  if (entry.cornerNumber === null || entry.cornerId?.endsWith('_t_finish')) {
+    return formatCornerHeading({
+      number: null,
+      label: 'T-Finish',
+      direction: entry.direction ?? 'straight',
+      isFinish: true,
+    });
+  }
+  return formatCornerHeading(
+    {
+      number: entry.cornerNumber ?? 0,
+      label: entry.cornerLabel ?? `T${entry.cornerNumber}`,
+      direction: entry.direction ?? 'complex',
+    },
+    entry.cornerLabel && !entry.cornerLabel.startsWith('T') ? entry.cornerLabel : undefined
+  );
+}
 
 export function TrackWalkScreen() {
   const navigation = useNavigation();
-  const [trackName, setTrackName] = useState('');
+  const [trackId, setTrackId] = useState<string | null>(null);
+  const [otherContext, setOtherContext] = useState<OtherTrackContext>(DEFAULT_OTHER_CONTEXT);
   const [entries, setEntries] = useState<TrackWalkEntry[]>([]);
-  const [addingType, setAddingType] = useState<TrackWalkEntryType | null>(null);
+  const [addingMode, setAddingMode] = useState<AddingMode>(null);
   const [draftText, setDraftText] = useState('');
+  const [draftCornerId, setDraftCornerId] = useState<string | null>(null);
+  const [draftDirection, setDraftDirection] = useState<CornerDirection | null>(null);
+  const [draftNickname, setDraftNickname] = useState('');
+  const [draftPhotos, setDraftPhotos] = useState<string[]>([]);
   const [showFinishModal, setShowFinishModal] = useState(false);
-  const [finishTrackName, setFinishTrackName] = useState('');
+  const [savedSessions, setSavedSessions] = useState<TrackWalkSession[]>([]);
   const [saving, setSaving] = useState(false);
+  const [exporting, setExporting] = useState(false);
+  const [sendingCoach, setSendingCoach] = useState(false);
   const [voiceAvailable, setVoiceAvailable] = useState<boolean | null>(null);
   const [recording, setRecording] = useState(false);
   const [interimTranscript, setInterimTranscript] = useState('');
+  const interimRef = useRef('');
+
+  const selectedTrack = useMemo<TrackDefinition | null>(() => {
+    if (!trackId) return null;
+    if (trackId === 'other') {
+      return {
+        ...OTHER_TRACK,
+        name: otherContext.customName.trim() || 'Other track',
+        direction: otherContext.direction === 'unknown' ? 'unknown' : otherContext.direction,
+      };
+    }
+    return getTrackById(trackId) ?? null;
+  }, [trackId, otherContext.customName, otherContext.direction]);
+
+  const loadSavedSessions = useCallback(async () => {
+    setSavedSessions(await getTrackWalkSessions());
+  }, []);
+
+  useFocusEffect(
+    useCallback(() => {
+      void loadSavedSessions();
+    }, [loadSavedSessions])
+  );
+
+  const buildSession = useCallback((): Omit<TrackWalkSession, 'id' | 'createdAt'> => {
+    const dateIso = new Date().toISOString().slice(0, 10);
+    const isOther = trackId === 'other';
+    return {
+      dateIso,
+      trackId: trackId ?? 'other',
+      trackName: isOther
+        ? otherContext.customName.trim() || 'Other track'
+        : selectedTrack?.name ?? 'Track walk',
+      trackDirection: isOther
+        ? otherContext.direction
+        : selectedTrack?.direction !== 'unknown'
+          ? selectedTrack?.direction
+          : undefined,
+      otherTrackContext: isOther ? otherContext : undefined,
+      entries,
+    };
+  }, [trackId, otherContext, selectedTrack, entries]);
 
   const requestVoice = useCallback(async () => {
     try {
-      const { ExpoSpeechRecognitionModule, useSpeechRecognitionEvent } = require('expo-speech-recognition');
+      const { ExpoSpeechRecognitionModule } = require('expo-speech-recognition');
       const result = await ExpoSpeechRecognitionModule.requestPermissionsAsync();
       if (!result.granted) {
         Alert.alert('Microphone', 'Allow microphone access to use voice notes.');
@@ -60,9 +147,10 @@ export function TrackWalkScreen() {
     try {
       const { ExpoSpeechRecognitionModule } = require('expo-speech-recognition');
       setInterimTranscript('');
+      interimRef.current = '';
       ExpoSpeechRecognitionModule.start({ lang: 'en-AU', interimResults: true, continuous: true });
       setRecording(true);
-    } catch (e) {
+    } catch {
       setVoiceAvailable(false);
       Alert.alert('Voice', 'Voice input is not available on this device.');
     }
@@ -74,53 +162,143 @@ export function TrackWalkScreen() {
       ExpoSpeechRecognitionModule.stop();
     } catch {}
     setRecording(false);
-    if (interimTranscript.trim()) {
-      setDraftText((prev) => (prev ? `${prev} ${interimTranscript.trim()}` : interimTranscript.trim()));
+    const pending = interimRef.current.trim();
+    if (pending) {
+      setDraftText((prev) => (prev ? `${prev} ${pending}` : pending));
+      interimRef.current = '';
       setInterimTranscript('');
     }
-  }, [interimTranscript]);
+  }, []);
 
   React.useEffect(() => {
     let resultSub: { remove: () => void } | null = null;
     try {
       const { ExpoSpeechRecognitionModule } = require('expo-speech-recognition');
       if (ExpoSpeechRecognitionModule?.addListener) {
-        resultSub = ExpoSpeechRecognitionModule.addListener('result', (event: { results?: { transcript?: string }[]; isFinal?: boolean }) => {
-          const t = (event.results?.[0] as { transcript?: string } | undefined)?.transcript ?? '';
-          if (event.isFinal) {
-            setDraftText((prev) => (prev ? `${prev} ${t}` : t));
-            setInterimTranscript('');
-          } else {
-            setInterimTranscript(t);
+        resultSub = ExpoSpeechRecognitionModule.addListener(
+          'result',
+          (event: { results?: { transcript?: string }[]; isFinal?: boolean }) => {
+            const t = (event.results?.[0] as { transcript?: string } | undefined)?.transcript ?? '';
+            if (event.isFinal) {
+              setDraftText((prev) => (prev ? `${prev} ${t}` : t));
+              interimRef.current = '';
+              setInterimTranscript('');
+            } else {
+              interimRef.current = t;
+              setInterimTranscript(t);
+            }
           }
-        });
+        );
       }
-    } catch {
-      // Voice not available (e.g. web or unsupported)
-    }
-    return () => {
-      resultSub?.remove?.();
-    };
+    } catch {}
+    return () => resultSub?.remove?.();
   }, []);
 
-  const addEntry = useCallback(() => {
-    const text = (draftText || interimTranscript).trim();
-    if (!addingType) return;
-    if (text) {
-      setEntries((prev) => [...prev, { type: addingType, text }]);
-    }
-    setAddingType(null);
+  const resetDraft = useCallback(() => {
+    setAddingMode(null);
     setDraftText('');
-    setInterimTranscript('');
-    if (recording) stopRecording();
-  }, [addingType, draftText, interimTranscript, recording, stopRecording]);
-
-  const cancelAdding = useCallback(() => {
-    setAddingType(null);
-    setDraftText('');
+    setDraftCornerId(null);
+    setDraftDirection(null);
+    setDraftNickname('');
+    setDraftPhotos([]);
     setInterimTranscript('');
     if (recording) stopRecording();
   }, [recording, stopRecording]);
+
+  const resetWalk = useCallback(() => {
+    setEntries([]);
+    setTrackId(null);
+    setOtherContext(DEFAULT_OTHER_CONTEXT);
+    setShowFinishModal(false);
+    resetDraft();
+  }, [resetDraft]);
+
+  const handleSelectTrack = useCallback((track: TrackDefinition) => {
+    setTrackId(track.id);
+    if (track.id === 'other') {
+      setOtherContext(DEFAULT_OTHER_CONTEXT);
+    }
+  }, []);
+
+  const handleSelectCorner = useCallback(
+    (corner: CornerDefinition) => {
+      setDraftCornerId(corner.id);
+      setDraftDirection(corner.direction);
+    },
+    []
+  );
+
+  const addDraftPhoto = useCallback(async (source: 'gallery' | 'camera') => {
+    try {
+      if (source === 'camera') {
+        const perm = await ImagePicker.requestCameraPermissionsAsync();
+        if (!perm.granted) {
+          Alert.alert('Camera', 'Allow camera access to take track photos.');
+          return;
+        }
+        const result = await ImagePicker.launchCameraAsync({ quality: 0.7 });
+        if (!result.canceled && result.assets?.[0]?.uri) {
+          setDraftPhotos((prev) => [...prev, result.assets[0].uri]);
+        }
+      } else {
+        const result = await ImagePicker.launchImageLibraryAsync({
+          mediaTypes: ImagePicker.MediaTypeOptions.Images,
+          quality: 0.7,
+        });
+        if (!result.canceled && result.assets?.length) {
+          setDraftPhotos((prev) => [...prev, ...result.assets.map((a) => a.uri)]);
+        }
+      }
+    } catch {
+      Alert.alert('Photos', 'Could not add photo. Try again.');
+    }
+  }, []);
+
+  const addEntry = useCallback(async () => {
+    const text = (draftText || interimTranscript).trim();
+    if (!addingMode || !text) return;
+
+    if (addingMode === 'corner') {
+      if (!draftCornerId || !selectedTrack) {
+        Alert.alert('Corner', 'Select a corner first.');
+        return;
+      }
+      const corner = selectedTrack.corners.find((c) => c.id === draftCornerId);
+      if (!corner) return;
+      const direction = trackId === 'other' ? draftDirection : corner.direction;
+      if (!direction) {
+        Alert.alert('Direction', 'Select turn direction for this corner.');
+        return;
+      }
+      const photoUris = draftPhotos.length ? await persistTrackWalkPhotos(draftPhotos) : undefined;
+      setEntries((prev) => [
+        ...prev,
+        {
+          type: 'corner',
+          cornerId: corner.id,
+          cornerNumber: corner.number,
+          cornerLabel: draftNickname.trim() || corner.label,
+          direction,
+          text,
+          photoUris,
+        },
+      ]);
+    } else {
+      setEntries((prev) => [...prev, { type: 'note', text }]);
+    }
+    resetDraft();
+  }, [
+    addingMode,
+    draftText,
+    interimTranscript,
+    draftCornerId,
+    selectedTrack,
+    trackId,
+    draftDirection,
+    draftPhotos,
+    draftNickname,
+    resetDraft,
+  ]);
 
   const removeEntry = useCallback((index: number) => {
     Alert.alert('Remove', 'Remove this entry?', [
@@ -129,65 +307,84 @@ export function TrackWalkScreen() {
     ]);
   }, []);
 
+  const canAddEntries = trackId && (trackId !== 'other' || isOtherTrackComplete(otherContext));
+
   const handleFinish = useCallback(() => {
-    if (entries.length === 0) {
-      Alert.alert('No notes', 'Add at least one note or turn before finishing.');
+    if (!canAddEntries) {
+      Alert.alert('Track', 'Select a track and complete required details before finishing.');
       return;
     }
-    setFinishTrackName(trackName);
+    if (entries.length === 0) {
+      Alert.alert('No notes', 'Add at least one corner or general note before finishing.');
+      return;
+    }
     setShowFinishModal(true);
-  }, [entries.length, trackName]);
-
-  const finalTrackName = (finishTrackName || trackName).trim() || 'Track walk';
-  const dateIso = new Date().toISOString().slice(0, 10);
+  }, [canAddEntries, entries.length]);
 
   const handleSave = useCallback(async () => {
     setSaving(true);
     try {
-      await saveTrackWalkSession({
-        dateIso,
-        trackName: finalTrackName,
-        entries,
-      });
-      setShowFinishModal(false);
-      setEntries([]);
-      setTrackName('');
-      setFinishTrackName('');
-      Alert.alert('Saved', 'Track walk saved. You can start a new walk or go back.');
+      await saveTrackWalkSession(buildSession());
+      resetWalk();
+      await loadSavedSessions();
+      Alert.alert('Saved', 'Track walk saved on this device.');
     } finally {
       setSaving(false);
     }
-  }, [dateIso, finalTrackName, entries]);
+  }, [buildSession, resetWalk, loadSavedSessions]);
+
+  const handleExportFile = useCallback(async () => {
+    setExporting(true);
+    try {
+      await exportTrackWalkSession({ ...buildSession(), id: `export_${Date.now()}`, createdAt: Date.now() });
+      resetWalk();
+    } catch (e) {
+      Alert.alert('Export failed', e instanceof Error ? e.message : 'Could not export track walk file.');
+    } finally {
+      setExporting(false);
+    }
+  }, [buildSession, resetWalk]);
 
   const handleSendToCoach = useCallback(async () => {
-    const session = {
-      dateIso,
-      trackName: finalTrackName,
-      entries,
-    };
-    const text = formatSessionForExport({
-      ...session,
-      id: '',
-      createdAt: 0,
-    });
-    await Clipboard.setStringAsync(text);
-    setShowFinishModal(false);
-    setEntries([]);
-    setTrackName('');
-    setFinishTrackName('');
-    const tabNav = navigation.getParent() as { navigate: (name: string) => void } | undefined;
-    tabNav?.navigate('RiderCoachTab');
-    setTimeout(() => {
-      Alert.alert(
-        'Sent to coach',
-        'Your track walk notes have been copied. Open Rider Coach, tap Import notes, then paste and send to discuss with your coach.'
-      );
-    }, 300);
-  }, [dateIso, finalTrackName, entries, navigation]);
+    const session = buildSession();
+    if (!sessionReadyForCoach(session)) {
+      Alert.alert('Track', 'Complete track details before asking the coach.');
+      return;
+    }
+    setSendingCoach(true);
+    try {
+      const coachMessage = formatTrackNotesForCoach({ ...session, id: '', createdAt: 0 });
+      const result = await sendCoachChat(coachMessage, 'coach');
+      if (!result.ok) {
+        Alert.alert('Coach unavailable', result.error);
+        return;
+      }
+      resetWalk();
+      const tabNav = navigation.getParent() as
+        | { navigate: (name: string, params?: object) => void }
+        | undefined;
+      tabNav?.navigate('RiderCoachTab', {
+        screen: 'RiderCoach',
+        params: {
+          seedMessages: [
+            { role: 'user', content: coachMessage },
+            { role: 'assistant', content: result.reply },
+          ],
+        },
+      });
+    } finally {
+      setSendingCoach(false);
+    }
+  }, [buildSession, navigation, resetWalk]);
 
   const goToImport = useCallback(() => {
-    (navigation as { navigate: (name: string) => void }).navigate('ImportTrackNotes');
-  }, [navigation]);
+    (navigation as { navigate: (name: string, params?: object) => void }).navigate('ImportTrackNotes', {
+      initialTrackId: trackId ?? undefined,
+      initialTrackName: otherContext.customName.trim() || selectedTrack?.name,
+    });
+  }, [navigation, trackId, otherContext.customName, selectedTrack?.name]);
+
+  const draftCorner = selectedTrack?.corners.find((c) => c.id === draftCornerId);
 
   return (
     <KeyboardAvoidingView
@@ -205,53 +402,102 @@ export function TrackWalkScreen() {
         </View>
         <Text style={styles.title}>Track Walk / Track Notes</Text>
         <Text style={styles.subtitle}>
-          Add notes or turns as you walk. Tap Note or Turn, then speak or type. Finish when done to save or send to coach.
+          Select your track, pick a corner (T1, T2… or T-Finish), then speak or type notes. Finish to save, export, or ask your coach.
         </Text>
 
-        <Text style={styles.label}>Track name (optional now, can set when finishing)</Text>
-        <TextInput
-          style={styles.trackInput}
-          value={trackName}
-          onChangeText={setTrackName}
-          placeholder="e.g. Phillip Island"
-          placeholderTextColor="#64748b"
-          maxLength={80}
-        />
+        <TrackPicker selectedTrackId={trackId} onSelect={handleSelectTrack} />
+
+        {trackId === 'other' && (
+          <OtherTrackContextForm value={otherContext} onChange={setOtherContext} />
+        )}
 
         {entries.map((entry, index) => (
-          <View key={index} style={[styles.entryCard, entry.type === 'turn' && styles.entryCardTurn]}>
+          <View
+            key={index}
+            style={[styles.entryCard, entry.type === 'corner' && styles.entryCardCorner]}
+          >
             <View style={styles.entryHeader}>
-              <Text style={[styles.entryBadge, entry.type === 'turn' && styles.entryBadgeTurn]}>
-                {entry.type === 'turn' ? 'Turn' : 'Note'}
+              <Text style={[styles.entryBadge, entry.type === 'corner' && styles.entryBadgeCorner]}>
+                {entryHeading(entry, trackId ?? 'other')}
               </Text>
               <TouchableOpacity onPress={() => removeEntry(index)} hitSlop={8}>
                 <Text style={styles.removeEntry}>Remove</Text>
               </TouchableOpacity>
             </View>
             <Text style={styles.entryText}>{entry.text}</Text>
+            {entry.photoUris?.length ? (
+              <Text style={styles.entryPhotoMeta}>
+                {entry.photoUris.length} photo{entry.photoUris.length === 1 ? '' : 's'} attached
+              </Text>
+            ) : null}
           </View>
         ))}
 
-        {addingType === null ? (
+        {addingMode === null ? (
           <View style={styles.addRow}>
             <TouchableOpacity
-              style={[styles.addButton, styles.addNote]}
-              onPress={() => setAddingType('note')}
+              style={[styles.addButton, styles.addCorner, !canAddEntries && styles.addDisabled]}
+              onPress={() => canAddEntries && setAddingMode('corner')}
+              disabled={!canAddEntries}
               activeOpacity={0.8}
             >
-              <Text style={styles.addButtonText}>+ Note</Text>
+              <Text style={styles.addButtonText}>+ Corner</Text>
             </TouchableOpacity>
             <TouchableOpacity
-              style={[styles.addButton, styles.addTurn]}
-              onPress={() => setAddingType('turn')}
+              style={[styles.addButton, styles.addNote, !canAddEntries && styles.addDisabled]}
+              onPress={() => canAddEntries && setAddingMode('note')}
+              disabled={!canAddEntries}
               activeOpacity={0.8}
             >
-              <Text style={styles.addButtonText}>+ Turn</Text>
+              <Text style={styles.addButtonText}>+ General</Text>
             </TouchableOpacity>
           </View>
         ) : (
           <View style={styles.draftCard}>
-            <Text style={styles.draftLabel}>{addingType === 'turn' ? 'Turn' : 'Note'} — speak or type below</Text>
+            <Text style={styles.draftLabel}>
+              {addingMode === 'corner' ? 'Corner note' : 'General note'} — speak or type below
+            </Text>
+
+            {addingMode === 'corner' && selectedTrack && (
+              <>
+                <CornerPicker
+                  corners={selectedTrack.corners}
+                  selectedCornerId={draftCornerId}
+                  isOtherTrack={trackId === 'other'}
+                  direction={draftDirection}
+                  onSelectCorner={handleSelectCorner}
+                  onSelectDirection={setDraftDirection}
+                />
+                {trackId === 'other' && draftCorner && !draftCorner.isFinish && (
+                  <>
+                    <Text style={styles.label}>Corner nickname (optional)</Text>
+                    <TextInput
+                      style={styles.nicknameInput}
+                      value={draftNickname}
+                      onChangeText={setDraftNickname}
+                      placeholder="e.g. back hairpin"
+                      placeholderTextColor="#64748b"
+                      maxLength={60}
+                    />
+                  </>
+                )}
+                {draftCorner?.approachFrom && (
+                  <Text style={styles.approachHint}>Photo context: approach from {draftCorner.approachFrom}</Text>
+                )}
+                <View style={styles.photosRow}>
+                  {draftPhotos.map((uri) => (
+                    <Image key={uri} source={{ uri }} style={styles.photoThumb} />
+                  ))}
+                  <TouchableOpacity style={styles.addPhotoButton} onPress={() => addDraftPhoto('gallery')}>
+                    <Text style={styles.addPhotoText}>Gallery</Text>
+                  </TouchableOpacity>
+                  <TouchableOpacity style={styles.addPhotoButton} onPress={() => addDraftPhoto('camera')}>
+                    <Text style={styles.addPhotoText}>Camera</Text>
+                  </TouchableOpacity>
+                </View>
+              </>
+            )}
+
             <View style={styles.draftRow}>
               <TextInput
                 style={styles.draftInput}
@@ -265,72 +511,106 @@ export function TrackWalkScreen() {
               <TouchableOpacity
                 style={[styles.micButton, recording && styles.micButtonActive]}
                 onPress={recording ? stopRecording : startRecording}
-                activeOpacity={0.8}
               >
                 <Text style={styles.micButtonText}>{recording ? 'Stop' : '🎤'}</Text>
               </TouchableOpacity>
             </View>
             {interimTranscript ? <Text style={styles.interimText}>{interimTranscript}</Text> : null}
             <View style={styles.draftActions}>
-              <TouchableOpacity style={styles.cancelDraftButton} onPress={cancelAdding}>
+              <TouchableOpacity style={styles.cancelDraftButton} onPress={resetDraft}>
                 <Text style={styles.cancelDraftText}>Cancel</Text>
               </TouchableOpacity>
               <TouchableOpacity
-                style={[styles.saveDraftButton, !draftText.trim() && !interimTranscript && styles.saveDraftDisabled]}
-                onPress={addEntry}
+                style={[
+                  styles.saveDraftButton,
+                  (!draftText.trim() && !interimTranscript) && styles.saveDraftDisabled,
+                ]}
+                onPress={() => void addEntry()}
                 disabled={!draftText.trim() && !interimTranscript}
               >
-                <Text style={styles.saveDraftText}>Save {addingType}</Text>
+                <Text style={styles.saveDraftText}>Save</Text>
               </TouchableOpacity>
             </View>
           </View>
         )}
 
-        {entries.length > 0 && addingType === null && (
+        {entries.length > 0 && addingMode === null && (
           <TouchableOpacity style={styles.finishButton} onPress={handleFinish} activeOpacity={0.8}>
-            <Text style={styles.finishButtonText}>I'm done — save date & track name</Text>
+            <Text style={styles.finishButtonText}>I'm done — save or ask coach</Text>
           </TouchableOpacity>
         )}
 
         <TouchableOpacity style={styles.importButton} onPress={goToImport} activeOpacity={0.8}>
           <Text style={styles.importButtonText}>Import notes</Text>
         </TouchableOpacity>
+
+        {savedSessions.length > 0 && (
+          <View style={styles.savedSection}>
+            <Text style={styles.savedTitle}>Saved walks ({savedSessions.length})</Text>
+            {savedSessions.slice(0, 5).map((session) => (
+              <View key={session.id} style={styles.savedCard}>
+                <View style={styles.savedHeader}>
+                  <Text style={styles.savedTrack}>{session.trackName}</Text>
+                  <Text style={styles.savedDate}>{session.dateIso}</Text>
+                </View>
+                <Text style={styles.savedMeta}>{session.entries.length} entries</Text>
+                <View style={styles.savedActions}>
+                  <TouchableOpacity onPress={() => exportTrackWalkSession(session)}>
+                    <Text style={styles.savedActionText}>Export file</Text>
+                  </TouchableOpacity>
+                  <TouchableOpacity
+                    onPress={() =>
+                      Alert.alert('Delete walk', `Remove "${session.trackName}"?`, [
+                        { text: 'Cancel', style: 'cancel' },
+                        {
+                          text: 'Delete',
+                          style: 'destructive',
+                          onPress: async () => {
+                            await deleteTrackWalkSession(session.id);
+                            await loadSavedSessions();
+                          },
+                        },
+                      ])
+                    }
+                  >
+                    <Text style={styles.savedDeleteText}>Delete</Text>
+                  </TouchableOpacity>
+                </View>
+              </View>
+            ))}
+          </View>
+        )}
       </ScrollView>
 
       <Modal visible={showFinishModal} transparent animationType="fade">
         <View style={styles.modalOverlay}>
           <View style={styles.modalContent}>
             <Text style={styles.modalTitle}>Finish track walk</Text>
-            <Text style={styles.modalSubtitle}>Date: {new Date().toLocaleDateString('en-AU', { day: 'numeric', month: 'short', year: 'numeric' })}</Text>
-            <Text style={styles.label}>Track name</Text>
-            <TextInput
-              style={styles.trackInput}
-              value={finishTrackName}
-              onChangeText={setFinishTrackName}
-              placeholder="e.g. Phillip Island"
-              placeholderTextColor="#64748b"
-              maxLength={80}
-            />
-            <Text style={styles.modalPrompt}>Save locally or send to coach to discuss?</Text>
+            <Text style={styles.modalSubtitle}>
+              {selectedTrack?.name ?? 'Track'} ·{' '}
+              {new Date().toLocaleDateString('en-AU', { day: 'numeric', month: 'short', year: 'numeric' })}
+            </Text>
+            <Text style={styles.modalPrompt}>Save on device, export a file, or ask your coach?</Text>
             <TouchableOpacity
               style={[styles.modalButton, styles.modalSaveButton]}
               onPress={handleSave}
-              disabled={saving}
-              activeOpacity={0.8}
+              disabled={saving || exporting || sendingCoach}
             >
-              {saving ? (
-                <ActivityIndicator size="small" color="#0f172a" />
-              ) : (
-                <Text style={styles.modalButtonText}>Store / Save</Text>
-              )}
+              {saving ? <ActivityIndicator size="small" color="#0f172a" /> : <Text style={styles.modalButtonText}>Store / Save</Text>}
+            </TouchableOpacity>
+            <TouchableOpacity
+              style={[styles.modalButton, styles.modalExportButton]}
+              onPress={handleExportFile}
+              disabled={saving || exporting || sendingCoach}
+            >
+              {exporting ? <ActivityIndicator size="small" color="#f8fafc" /> : <Text style={styles.modalExportButtonText}>Export file</Text>}
             </TouchableOpacity>
             <TouchableOpacity
               style={[styles.modalButton, styles.modalCoachButton]}
               onPress={handleSendToCoach}
-              disabled={saving}
-              activeOpacity={0.8}
+              disabled={saving || exporting || sendingCoach}
             >
-              <Text style={styles.modalCoachButtonText}>Send to coach</Text>
+              {sendingCoach ? <ActivityIndicator size="small" color="#f8fafc" /> : <Text style={styles.modalCoachButtonText}>Ask coach</Text>}
             </TouchableOpacity>
             <TouchableOpacity style={styles.modalCancel} onPress={() => setShowFinishModal(false)}>
               <Text style={styles.modalCancelText}>Cancel</Text>
@@ -349,15 +629,6 @@ const styles = StyleSheet.create({
   title: { fontSize: 22, fontWeight: '700', color: '#f8fafc', marginBottom: 6 },
   subtitle: { fontSize: 14, color: '#94a3b8', lineHeight: 20, marginBottom: 16 },
   label: { fontSize: 14, fontWeight: '600', color: '#94a3b8', marginBottom: 8 },
-  trackInput: {
-    backgroundColor: '#1e293b',
-    borderRadius: 10,
-    paddingHorizontal: 16,
-    paddingVertical: 12,
-    fontSize: 16,
-    color: '#f8fafc',
-    marginBottom: 16,
-  },
   entryCard: {
     backgroundColor: '#1e293b',
     borderRadius: 12,
@@ -366,16 +637,18 @@ const styles = StyleSheet.create({
     borderLeftWidth: 4,
     borderLeftColor: '#f59e0b',
   },
-  entryCardTurn: { borderLeftColor: '#0ea5e9' },
-  entryHeader: { flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', marginBottom: 6 },
-  entryBadge: { fontSize: 12, fontWeight: '700', color: '#f59e0b', textTransform: 'uppercase' },
-  entryBadgeTurn: { color: '#0ea5e9' },
+  entryCardCorner: { borderLeftColor: '#0ea5e9' },
+  entryHeader: { flexDirection: 'row', justifyContent: 'space-between', alignItems: 'flex-start', marginBottom: 6, gap: 8 },
+  entryBadge: { fontSize: 12, fontWeight: '700', color: '#f59e0b', flex: 1 },
+  entryBadgeCorner: { color: '#0ea5e9' },
   entryText: { fontSize: 15, color: '#e2e8f0', lineHeight: 22 },
+  entryPhotoMeta: { fontSize: 12, color: '#94a3b8', marginTop: 6 },
   removeEntry: { fontSize: 13, color: '#94a3b8' },
   addRow: { flexDirection: 'row', gap: 12, marginBottom: 20 },
   addButton: { flex: 1, paddingVertical: 14, borderRadius: 10, alignItems: 'center', borderWidth: 2 },
   addNote: { borderColor: '#f59e0b', backgroundColor: 'rgba(245,158,11,0.15)' },
-  addTurn: { borderColor: '#0ea5e9', backgroundColor: 'rgba(14,165,233,0.15)' },
+  addCorner: { borderColor: '#0ea5e9', backgroundColor: 'rgba(14,165,233,0.15)' },
+  addDisabled: { opacity: 0.4 },
   addButtonText: { fontSize: 16, fontWeight: '700', color: '#f8fafc' },
   draftCard: {
     backgroundColor: '#1e293b',
@@ -386,6 +659,15 @@ const styles = StyleSheet.create({
     borderColor: '#334155',
   },
   draftLabel: { fontSize: 13, fontWeight: '600', color: '#94a3b8', marginBottom: 8 },
+  nicknameInput: {
+    backgroundColor: '#0f172a',
+    borderRadius: 8,
+    padding: 10,
+    fontSize: 15,
+    color: '#f8fafc',
+    marginBottom: 8,
+  },
+  approachHint: { fontSize: 12, color: '#64748b', fontStyle: 'italic', marginBottom: 8 },
   draftRow: { flexDirection: 'row', alignItems: 'flex-start', gap: 8 },
   draftInput: {
     flex: 1,
@@ -397,13 +679,7 @@ const styles = StyleSheet.create({
     minHeight: 80,
     textAlignVertical: 'top',
   },
-  micButton: {
-    padding: 14,
-    backgroundColor: '#334155',
-    borderRadius: 10,
-    minWidth: 52,
-    alignItems: 'center',
-  },
+  micButton: { padding: 14, backgroundColor: '#334155', borderRadius: 10, minWidth: 52, alignItems: 'center' },
   micButtonActive: { backgroundColor: '#dc2626' },
   micButtonText: { fontSize: 20 },
   interimText: { fontSize: 13, color: '#94a3b8', fontStyle: 'italic', marginTop: 6 },
@@ -413,6 +689,16 @@ const styles = StyleSheet.create({
   saveDraftButton: { paddingVertical: 10, paddingHorizontal: 20, backgroundColor: '#f59e0b', borderRadius: 10 },
   saveDraftDisabled: { opacity: 0.5 },
   saveDraftText: { fontSize: 15, fontWeight: '700', color: '#0f172a' },
+  photosRow: { flexDirection: 'row', alignItems: 'center', flexWrap: 'wrap', gap: 8, marginBottom: 10 },
+  photoThumb: { width: 56, height: 56, borderRadius: 8, backgroundColor: '#020617' },
+  addPhotoButton: {
+    paddingVertical: 8,
+    paddingHorizontal: 12,
+    borderRadius: 8,
+    borderWidth: 1,
+    borderColor: '#475569',
+  },
+  addPhotoText: { fontSize: 13, fontWeight: '600', color: '#f59e0b' },
   finishButton: {
     paddingVertical: 14,
     borderRadius: 10,
@@ -423,30 +709,28 @@ const styles = StyleSheet.create({
     marginBottom: 24,
   },
   finishButtonText: { fontSize: 16, fontWeight: '700', color: '#f59e0b' },
-  importButton: {
-    paddingVertical: 14,
-    borderRadius: 10,
-    alignItems: 'center',
-    backgroundColor: '#334155',
-  },
+  importButton: { paddingVertical: 14, borderRadius: 10, alignItems: 'center', backgroundColor: '#334155' },
   importButtonText: { fontSize: 16, fontWeight: '600', color: '#e2e8f0' },
-  modalOverlay: {
-    flex: 1,
-    backgroundColor: 'rgba(0,0,0,0.6)',
-    justifyContent: 'center',
-    padding: 24,
-  },
-  modalContent: {
-    backgroundColor: '#1e293b',
-    borderRadius: 16,
-    padding: 20,
-  },
+  savedSection: { marginTop: 28 },
+  savedTitle: { fontSize: 18, fontWeight: '700', color: '#f8fafc', marginBottom: 12 },
+  savedCard: { backgroundColor: '#1e293b', borderRadius: 12, padding: 14, marginBottom: 10 },
+  savedHeader: { flexDirection: 'row', justifyContent: 'space-between', marginBottom: 4 },
+  savedTrack: { fontSize: 16, fontWeight: '600', color: '#f8fafc', flex: 1 },
+  savedDate: { fontSize: 13, color: '#94a3b8' },
+  savedMeta: { fontSize: 13, color: '#94a3b8', marginBottom: 8 },
+  savedActions: { flexDirection: 'row', gap: 16 },
+  savedActionText: { fontSize: 14, fontWeight: '600', color: '#f59e0b' },
+  savedDeleteText: { fontSize: 14, fontWeight: '600', color: '#f87171' },
+  modalOverlay: { flex: 1, backgroundColor: 'rgba(0,0,0,0.6)', justifyContent: 'center', padding: 24 },
+  modalContent: { backgroundColor: '#1e293b', borderRadius: 16, padding: 20 },
   modalTitle: { fontSize: 20, fontWeight: '700', color: '#f8fafc', marginBottom: 4 },
   modalSubtitle: { fontSize: 14, color: '#94a3b8', marginBottom: 12 },
   modalPrompt: { fontSize: 15, color: '#e2e8f0', marginBottom: 16 },
   modalButton: { paddingVertical: 14, borderRadius: 10, alignItems: 'center', marginBottom: 10 },
   modalSaveButton: { backgroundColor: '#f59e0b' },
   modalButtonText: { fontSize: 16, fontWeight: '700', color: '#0f172a' },
+  modalExportButton: { backgroundColor: '#0ea5e9' },
+  modalExportButtonText: { fontSize: 16, fontWeight: '700', color: '#f8fafc' },
   modalCoachButton: { backgroundColor: '#334155' },
   modalCoachButtonText: { fontSize: 16, fontWeight: '700', color: '#f8fafc' },
   modalCancel: { paddingVertical: 12, alignItems: 'center' },

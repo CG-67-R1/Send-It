@@ -1,4 +1,4 @@
-import React, { useCallback, useState } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 import {
   ActivityIndicator,
   Alert,
@@ -14,30 +14,61 @@ import {
 } from 'react-native';
 import * as Clipboard from 'expo-clipboard';
 import * as ImagePicker from 'expo-image-picker';
+import { useNavigation, useRoute, type RouteProp } from '@react-navigation/native';
 import { AppLogo } from '../components/AppLogo';
+import { OtherTrackContextForm } from '../components/OtherTrackContextForm';
+import { TrackPicker } from '../components/TrackPicker';
+import type { OtherTrackContext, TrackDefinition } from '../data/tracks';
+import { getTrackById } from '../data/tracks';
+import { sessionReadyForCoach } from '../storage/trackWalk';
+import { formatTrackNotesForCoach, sendCoachChat } from '../utils/coachChat';
 
-type Props = {
-  onSendToCoach?: (payload: { trackName: string; notes: string; photoUris: string[] }) => Promise<void>;
+type ImportRouteParams = {
+  ImportTrackNotes: {
+    initialNotes?: string;
+    initialTrackId?: string;
+    initialTrackName?: string;
+  };
 };
 
-export function ImportTrackNotesScreen({ onSendToCoach }: Props) {
+const DEFAULT_OTHER: OtherTrackContext = { customName: '', direction: 'unknown' };
+
+export function ImportTrackNotesScreen() {
+  const navigation = useNavigation();
+  const route = useRoute<RouteProp<ImportRouteParams, 'ImportTrackNotes'>>();
   const [notes, setNotes] = useState('');
-  const [trackName, setTrackName] = useState('');
+  const [trackId, setTrackId] = useState<string | null>(null);
+  const [otherContext, setOtherContext] = useState<OtherTrackContext>(DEFAULT_OTHER);
   const [photos, setPhotos] = useState<string[]>([]);
   const [pasting, setPasting] = useState(false);
   const [sending, setSending] = useState(false);
+
+  useEffect(() => {
+    if (route.params?.initialNotes) setNotes(route.params.initialNotes);
+    if (route.params?.initialTrackId) setTrackId(route.params.initialTrackId);
+    if (route.params?.initialTrackName) {
+      setOtherContext((prev) => ({ ...prev, customName: route.params!.initialTrackName! }));
+    }
+  }, [route.params?.initialNotes, route.params?.initialTrackId, route.params?.initialTrackName]);
+
+  const handleSelectTrack = useCallback((track: TrackDefinition) => {
+    setTrackId(track.id);
+    if (track.id !== 'other') {
+      setOtherContext(DEFAULT_OTHER);
+    }
+  }, []);
 
   const handlePaste = useCallback(async () => {
     setPasting(true);
     try {
       const text = await Clipboard.getStringAsync();
       if (text?.trim()) {
-        setNotes((prev: string) => (prev ? `${prev}\n\n${text.trim()}` : text.trim()));
+        setNotes((prev) => (prev ? `${prev}\n\n${text.trim()}` : text.trim()));
       } else {
         Alert.alert('Clipboard empty', 'Copy track notes from a message first, then tap Paste.');
       }
     } catch {
-      Alert.alert('Couldn’t read clipboard', 'Paste the notes into the box below instead.');
+      Alert.alert('Clipboard', 'Could not read clipboard. Paste the notes into the box below instead.');
     } finally {
       setPasting(false);
     }
@@ -49,12 +80,16 @@ export function ImportTrackNotesScreen({ onSendToCoach }: Props) {
         mediaTypes: ImagePicker.MediaTypeOptions.Images,
         quality: 0.7,
       });
-      if (!result.canceled && result.assets && result.assets.length > 0) {
+      if (!result.canceled && result.assets?.length) {
         setPhotos((prev) => [...prev, ...result.assets.map((a) => a.uri)]);
       }
     } catch {
-      Alert.alert('Couldn’t open photos', 'Try again or attach photos later.');
+      Alert.alert('Photos', 'Could not open photos. Try again or attach photos later.');
     }
+  }, []);
+
+  const removePhoto = useCallback((uri: string) => {
+    setPhotos((prev) => prev.filter((p) => p !== uri));
   }, []);
 
   const handleSendToCoach = useCallback(async () => {
@@ -63,26 +98,69 @@ export function ImportTrackNotesScreen({ onSendToCoach }: Props) {
       Alert.alert('No notes', 'Paste or type track notes first.');
       return;
     }
-    if (onSendToCoach) {
-      setSending(true);
-      try {
-        await onSendToCoach({
-          trackName: trackName.trim() || 'Imported track',
-          notes: trimmed,
-          photoUris: photos,
-        });
-      } finally {
-        setSending(false);
-      }
+
+    if (!trackId) {
+      Alert.alert('Track', 'Select a track from the list before sending to coach.');
       return;
     }
-    // Placeholder when coach API not connected
-    Alert.alert(
-      'Send to coach',
-      'When the coach is connected, your notes (and any attached photos) will be sent for summarising and then you can add them to your track log.',
-      [{ text: 'OK' }]
-    );
-  }, [notes, trackName, onSendToCoach]);
+
+    const isOther = trackId === 'other';
+    const catalogTrack = !isOther ? getTrackById(trackId) : undefined;
+    const session = {
+      id: '',
+      createdAt: 0,
+      dateIso: new Date().toISOString().slice(0, 10),
+      trackId,
+      trackName: isOther
+        ? otherContext.customName.trim() || 'Imported track'
+        : catalogTrack?.name ?? 'Imported track',
+      trackDirection: isOther ? otherContext.direction : catalogTrack?.direction,
+      otherTrackContext: isOther ? otherContext : undefined,
+      entries: [{ type: 'note' as const, text: trimmed }],
+      photoUris: photos.length ? photos : undefined,
+    };
+
+    if (!sessionReadyForCoach(session)) {
+      Alert.alert(
+        'Track details',
+        isOther
+          ? 'Select Other track and enter track name plus direction before sending.'
+          : 'Select a track from the list before sending.'
+      );
+      return;
+    }
+
+    const coachMessage = formatTrackNotesForCoach(session);
+
+    setSending(true);
+    try {
+      const result = await sendCoachChat(coachMessage, 'coach');
+      if (!result.ok) {
+        Alert.alert('Coach unavailable', result.error);
+        return;
+      }
+
+      setNotes('');
+      setTrackId(null);
+      setOtherContext(DEFAULT_OTHER);
+      setPhotos([]);
+
+      const tabNav = navigation.getParent()?.getParent() as
+        | { navigate: (name: string, params?: object) => void }
+        | undefined;
+      tabNav?.navigate('RiderCoachTab', {
+        screen: 'RiderCoach',
+        params: {
+          seedMessages: [
+            { role: 'user', content: coachMessage },
+            { role: 'assistant', content: result.reply },
+          ],
+        },
+      });
+    } finally {
+      setSending(false);
+    }
+  }, [notes, trackId, otherContext, photos, navigation]);
 
   return (
     <KeyboardAvoidingView
@@ -100,15 +178,13 @@ export function ImportTrackNotesScreen({ onSendToCoach }: Props) {
         </View>
         <Text style={styles.heroTitle}>Import track notes</Text>
         <Text style={styles.heroSubtitle}>
-          Paste notes shared by another rider (e.g. from Messages or WhatsApp). The coach can then
-          summarise and add them to your log.
+          Paste notes from another rider. Select the track so your coach gets proper corner context.
         </Text>
 
         <TouchableOpacity
           style={[styles.pasteButton, pasting && styles.buttonDisabled]}
           onPress={handlePaste}
           disabled={pasting}
-          activeOpacity={0.7}
         >
           {pasting ? (
             <ActivityIndicator size="small" color="#0f172a" />
@@ -117,31 +193,24 @@ export function ImportTrackNotesScreen({ onSendToCoach }: Props) {
           )}
         </TouchableOpacity>
 
-        <Text style={styles.label}>Track name (optional)</Text>
-        <TextInput
-          style={styles.trackInput}
-          value={trackName}
-          onChangeText={setTrackName}
-          placeholder="e.g. Phillip Island"
-          placeholderTextColor="#64748b"
-          maxLength={80}
-        />
+        <TrackPicker selectedTrackId={trackId} onSelect={handleSelectTrack} />
+
+        {trackId === 'other' && (
+          <OtherTrackContextForm value={otherContext} onChange={setOtherContext} />
+        )}
 
         <View style={styles.photosSection}>
           <Text style={styles.label}>Photos (optional)</Text>
-          <ScrollView
-            horizontal
-            showsHorizontalScrollIndicator={false}
-            contentContainerStyle={styles.photosRow}
-          >
+          <ScrollView horizontal showsHorizontalScrollIndicator={false} contentContainerStyle={styles.photosRow}>
             {photos.map((uri) => (
-              <Image key={uri} source={{ uri }} style={styles.photoThumb} />
+              <View key={uri} style={styles.photoWrap}>
+                <Image source={{ uri }} style={styles.photoThumb} />
+                <TouchableOpacity style={styles.photoRemove} onPress={() => removePhoto(uri)}>
+                  <Text style={styles.photoRemoveText}>×</Text>
+                </TouchableOpacity>
+              </View>
             ))}
-            <TouchableOpacity
-              style={styles.addPhotoButton}
-              onPress={handleAddPhoto}
-              activeOpacity={0.7}
-            >
+            <TouchableOpacity style={styles.addPhotoButton} onPress={handleAddPhoto}>
               <Text style={styles.addPhotoText}>Add photo</Text>
             </TouchableOpacity>
           </ScrollView>
@@ -162,7 +231,6 @@ export function ImportTrackNotesScreen({ onSendToCoach }: Props) {
           style={[styles.sendButton, (!notes.trim() || sending) && styles.buttonDisabled]}
           onPress={handleSendToCoach}
           disabled={!notes.trim() || sending}
-          activeOpacity={0.7}
         >
           {sending ? (
             <ActivityIndicator size="small" color="#0f172a" />
@@ -176,31 +244,11 @@ export function ImportTrackNotesScreen({ onSendToCoach }: Props) {
 }
 
 const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#0f172a',
-  },
-  scrollContent: {
-    paddingHorizontal: 20,
-    paddingBottom: 40,
-  },
-  logoRow: {
-    marginTop: 8,
-    marginBottom: 4,
-  },
-  heroTitle: {
-    fontSize: 22,
-    fontWeight: '700',
-    color: '#f8fafc',
-    marginTop: 8,
-    marginBottom: 8,
-  },
-  heroSubtitle: {
-    fontSize: 14,
-    color: '#94a3b8',
-    lineHeight: 20,
-    marginBottom: 20,
-  },
+  container: { flex: 1, backgroundColor: '#0f172a' },
+  scrollContent: { paddingHorizontal: 20, paddingBottom: 40 },
+  logoRow: { marginTop: 8, marginBottom: 4 },
+  heroTitle: { fontSize: 22, fontWeight: '700', color: '#f8fafc', marginTop: 8, marginBottom: 8 },
+  heroSubtitle: { fontSize: 14, color: '#94a3b8', lineHeight: 20, marginBottom: 20 },
   pasteButton: {
     alignSelf: 'flex-start',
     paddingVertical: 12,
@@ -211,26 +259,8 @@ const styles = StyleSheet.create({
     borderColor: '#475569',
     marginBottom: 20,
   },
-  pasteButtonText: {
-    fontSize: 16,
-    fontWeight: '600',
-    color: '#f59e0b',
-  },
-  label: {
-    fontSize: 14,
-    fontWeight: '600',
-    color: '#94a3b8',
-    marginBottom: 8,
-  },
-  trackInput: {
-    backgroundColor: '#1e293b',
-    borderRadius: 10,
-    paddingHorizontal: 16,
-    paddingVertical: 12,
-    fontSize: 16,
-    color: '#f8fafc',
-    marginBottom: 16,
-  },
+  pasteButtonText: { fontSize: 16, fontWeight: '600', color: '#f59e0b' },
+  label: { fontSize: 14, fontWeight: '600', color: '#94a3b8', marginBottom: 8 },
   notesInput: {
     backgroundColor: '#1e293b',
     borderRadius: 10,
@@ -241,19 +271,22 @@ const styles = StyleSheet.create({
     minHeight: 160,
     marginBottom: 20,
   },
-  photosSection: {
-    marginBottom: 20,
-  },
-  photosRow: {
+  photosSection: { marginBottom: 20 },
+  photosRow: { alignItems: 'center' },
+  photoWrap: { position: 'relative', marginRight: 12 },
+  photoThumb: { width: 72, height: 72, borderRadius: 10, backgroundColor: '#020617' },
+  photoRemove: {
+    position: 'absolute',
+    top: -6,
+    right: -6,
+    width: 22,
+    height: 22,
+    borderRadius: 11,
+    backgroundColor: '#dc2626',
     alignItems: 'center',
+    justifyContent: 'center',
   },
-  photoThumb: {
-    width: 72,
-    height: 72,
-    borderRadius: 10,
-    marginRight: 12,
-    backgroundColor: '#020617',
-  },
+  photoRemoveText: { color: '#fff', fontSize: 16, fontWeight: '700', lineHeight: 18 },
   addPhotoButton: {
     paddingVertical: 10,
     paddingHorizontal: 16,
@@ -262,11 +295,7 @@ const styles = StyleSheet.create({
     borderColor: '#475569',
     backgroundColor: '#020617',
   },
-  addPhotoText: {
-    fontSize: 14,
-    fontWeight: '600',
-    color: '#f59e0b',
-  },
+  addPhotoText: { fontSize: 14, fontWeight: '600', color: '#f59e0b' },
   sendButton: {
     paddingVertical: 14,
     paddingHorizontal: 24,
@@ -274,12 +303,6 @@ const styles = StyleSheet.create({
     borderRadius: 10,
     alignItems: 'center',
   },
-  sendButtonText: {
-    fontSize: 16,
-    fontWeight: '600',
-    color: '#0f172a',
-  },
-  buttonDisabled: {
-    opacity: 0.6,
-  },
+  sendButtonText: { fontSize: 16, fontWeight: '600', color: '#0f172a' },
+  buttonDisabled: { opacity: 0.6 },
 });
