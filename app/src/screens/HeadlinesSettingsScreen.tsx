@@ -29,14 +29,20 @@ import { SOURCES_URL } from '../../constants/api';
 import type { CustomSource, PriorityOrder, Source } from '../types';
 import { AppLogo } from '../components/AppLogo';
 import { AvatarFaceCameraModal } from '../components/AvatarFaceCameraModal';
-import { getAvatarPreset } from '../avatar/presets';
-import { getOnboardingAnswers } from '../storage/onboarding';
-import { getAvatarFacePhotoUri, setAvatarFacePhotoUri } from '../storage/avatarFacePhoto';
+import { AVATAR_PRESETS, getAvatarPreset, getAvatarSource } from '../avatar/presets';
+import { getOnboardingAnswers, updateOnboardingAnswers } from '../storage/onboarding';
+import {
+  clearAvatarFacePhoto,
+  getAvatarFacePhotoUri,
+  setAvatarFacePhotoUri,
+} from '../storage/avatarFacePhoto';
 import { useOnboardingReset } from '../context/OnboardingResetContext';
 
 export function HeadlinesSettingsScreen() {
   const onboardingReset = useOnboardingReset();
   const [avatarId, setAvatarId] = useState<string | null>(null);
+  const [riderNickname, setRiderNickname] = useState('');
+  const [profileBusy, setProfileBusy] = useState(false);
   const [facePreviewUri, setFacePreviewUri] = useState<string | null>(null);
   const [faceCameraOpen, setFaceCameraOpen] = useState(false);
   const [faceBusy, setFaceBusy] = useState(false);
@@ -79,7 +85,71 @@ export function HeadlinesSettingsScreen() {
   const loadRiderFace = useCallback(async () => {
     const [answers, uri] = await Promise.all([getOnboardingAnswers(), getAvatarFacePhotoUri()]);
     setAvatarId(answers?.avatarId ?? null);
+    setRiderNickname(answers?.riderNickname?.trim() || answers?.favouriteRider?.trim() || 'Rider');
     setFacePreviewUri(uri);
+  }, []);
+
+  const handleSelectAvatar = useCallback(
+    async (nextId: string) => {
+      if (profileBusy || nextId === avatarId) return;
+      setProfileBusy(true);
+      try {
+        const preset = getAvatarPreset(nextId);
+        const updated = await updateOnboardingAnswers({
+          avatarId: nextId,
+          noFaceFrameId: preset?.hasFaceHole ? nextId : undefined,
+        });
+        if (!updated) {
+          Alert.alert('Profile', 'Complete onboarding first to save your avatar.');
+          return;
+        }
+        setAvatarId(nextId);
+        if (!preset?.hasFaceHole) {
+          await clearAvatarFacePhoto();
+          setFacePreviewUri(null);
+        }
+      } catch (e) {
+        Alert.alert('Error', e instanceof Error ? e.message : 'Could not update avatar');
+      } finally {
+        setProfileBusy(false);
+      }
+    },
+    [avatarId, profileBusy]
+  );
+
+  const handleSaveNickname = useCallback(async () => {
+    const trimmed = riderNickname.trim();
+    if (!trimmed) {
+      Alert.alert('Rider name', 'Enter a name or nickname to show on the home screen.');
+      return;
+    }
+    setProfileBusy(true);
+    try {
+      const updated = await updateOnboardingAnswers({ riderNickname: trimmed });
+      if (!updated) {
+        Alert.alert('Profile', 'Complete onboarding first to save your name.');
+        return;
+      }
+      setRiderNickname(trimmed);
+    } catch (e) {
+      Alert.alert('Error', e instanceof Error ? e.message : 'Could not save name');
+    } finally {
+      setProfileBusy(false);
+    }
+  }, [riderNickname]);
+
+  const handleRemoveRiderFace = useCallback(() => {
+    Alert.alert('Remove rider photo', 'Remove the photo from your leathers avatar?', [
+      { text: 'Cancel', style: 'cancel' },
+      {
+        text: 'Remove',
+        style: 'destructive',
+        onPress: async () => {
+          await clearAvatarFacePhoto();
+          setFacePreviewUri(null);
+        },
+      },
+    ]);
   }, []);
 
   useFocusEffect(
@@ -282,6 +352,82 @@ export function HeadlinesSettingsScreen() {
         <AppLogo size={80} />
       </View>
 
+      <View style={styles.section}>
+        <Text style={styles.sectionTitle}>Your profile</Text>
+        <Text style={styles.sectionSubtitle}>
+          Name and avatar shown on the home screen. Changes apply immediately when you return home.
+        </Text>
+        <Text style={styles.fieldLabel}>Rider name</Text>
+        <TextInput
+          style={styles.input}
+          placeholder="e.g. Alex, #42, Speedy..."
+          placeholderTextColor="#64748b"
+          value={riderNickname}
+          onChangeText={setRiderNickname}
+          autoCapitalize="words"
+          autoCorrect={false}
+          editable={!profileBusy}
+          onSubmitEditing={handleSaveNickname}
+        />
+        <TouchableOpacity
+          style={[styles.saveProfileBtn, profileBusy && styles.riderFaceBtnDisabled]}
+          onPress={handleSaveNickname}
+          disabled={profileBusy}
+          activeOpacity={0.85}
+        >
+          <Text style={styles.saveProfileBtnText}>Save name</Text>
+        </TouchableOpacity>
+
+        <Text style={[styles.fieldLabel, { marginTop: 16 }]}>Avatar</Text>
+        <ScrollView
+          horizontal
+          showsHorizontalScrollIndicator={false}
+          style={styles.avatarScroll}
+          contentContainerStyle={styles.avatarScrollContent}
+        >
+          {AVATAR_PRESETS.map((preset) => (
+            <TouchableOpacity
+              key={preset.id}
+              style={[
+                styles.avatarChoice,
+                avatarId === preset.id && styles.avatarChoiceActive,
+                profileBusy && styles.riderFaceBtnDisabled,
+              ]}
+              onPress={() => handleSelectAvatar(preset.id)}
+              disabled={profileBusy}
+              activeOpacity={0.8}
+            >
+              <View style={styles.avatarImageWrap}>
+                <Image source={preset.source} style={styles.avatarImage} resizeMode="contain" />
+              </View>
+              <Text
+                style={[
+                  styles.avatarLabel,
+                  avatarId === preset.id && styles.avatarLabelActive,
+                ]}
+                numberOfLines={2}
+              >
+                {preset.label}
+              </Text>
+            </TouchableOpacity>
+          ))}
+        </ScrollView>
+        {avatarId && getAvatarSource(avatarId) ? (
+          <View style={styles.profilePreviewRow}>
+            <Image
+              source={getAvatarSource(avatarId)!}
+              style={styles.profilePreviewImage}
+              resizeMode="contain"
+            />
+            <Text style={styles.profilePreviewHint}>
+              {getAvatarPreset(avatarId)?.hasFaceHole
+                ? 'Add or update your face photo below.'
+                : 'This avatar does not use a face photo.'}
+            </Text>
+          </View>
+        ) : null}
+      </View>
+
       {showRiderPhotoControls ? (
         <View style={styles.section}>
           <Text style={styles.sectionTitle}>Rider photo</Text>
@@ -321,6 +467,16 @@ export function HeadlinesSettingsScreen() {
               >
                 <Text style={styles.riderFaceBtnSecondaryText}>From library</Text>
               </TouchableOpacity>
+              {facePreviewUri ? (
+                <TouchableOpacity
+                  style={styles.riderFaceRemoveBtn}
+                  onPress={handleRemoveRiderFace}
+                  disabled={faceBusy}
+                  activeOpacity={0.85}
+                >
+                  <Text style={styles.riderFaceRemoveBtnText}>Remove</Text>
+                </TouchableOpacity>
+              ) : null}
             </View>
           </View>
         </View>
@@ -474,6 +630,60 @@ const styles = StyleSheet.create({
   section: { marginBottom: 28 },
   sectionTitle: { fontSize: 20, fontWeight: '700', color: '#f8fafc', marginBottom: 4 },
   sectionSubtitle: { fontSize: 13, color: '#64748b', marginBottom: 12 },
+  fieldLabel: { fontSize: 14, fontWeight: '600', color: '#94a3b8', marginBottom: 8 },
+  saveProfileBtn: {
+    alignSelf: 'flex-start',
+    backgroundColor: '#f59e0b',
+    paddingVertical: 10,
+    paddingHorizontal: 16,
+    borderRadius: 8,
+    marginTop: 4,
+  },
+  saveProfileBtnText: { color: '#0f172a', fontWeight: '700', fontSize: 14 },
+  avatarScroll: { marginBottom: 12, maxHeight: 180 },
+  avatarScrollContent: {
+    flexDirection: 'row',
+    alignItems: 'flex-start',
+    gap: 10,
+    paddingVertical: 4,
+    paddingRight: 8,
+  },
+  avatarChoice: {
+    width: 96,
+    alignItems: 'center',
+    paddingVertical: 8,
+    paddingHorizontal: 6,
+    borderRadius: 10,
+    backgroundColor: '#020617',
+    borderWidth: 1,
+    borderColor: '#1e293b',
+  },
+  avatarChoiceActive: {
+    borderColor: '#f59e0b',
+    backgroundColor: '#0f172a',
+  },
+  avatarImageWrap: {
+    width: 56,
+    height: 56,
+    borderRadius: 28,
+    overflow: 'hidden',
+    marginBottom: 6,
+    backgroundColor: '#020617',
+  },
+  avatarImage: { width: '100%', height: '100%' },
+  avatarLabel: { fontSize: 11, color: '#94a3b8', textAlign: 'center' },
+  avatarLabelActive: { color: '#facc15' },
+  profilePreviewRow: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: 12,
+    marginTop: 4,
+    padding: 10,
+    borderRadius: 10,
+    backgroundColor: '#1e293b',
+  },
+  profilePreviewImage: { width: 48, height: 48 },
+  profilePreviewHint: { flex: 1, fontSize: 13, color: '#94a3b8', lineHeight: 18 },
   riderFaceRow: {
     flexDirection: 'row',
     alignItems: 'center',
@@ -517,6 +727,11 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   riderFaceBtnSecondaryText: { color: '#94a3b8', fontWeight: '600', fontSize: 14 },
+  riderFaceRemoveBtn: {
+    paddingVertical: 10,
+    paddingHorizontal: 12,
+  },
+  riderFaceRemoveBtnText: { color: '#f87171', fontWeight: '600', fontSize: 14 },
   notifyRow: {
     flexDirection: 'row',
     alignItems: 'center',

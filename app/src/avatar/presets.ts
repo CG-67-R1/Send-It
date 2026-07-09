@@ -114,6 +114,18 @@ export function getAvatarPreset(id: string | null | undefined): AvatarPreset | u
   return AVATAR_PRESETS.find((p) => p.id === id);
 }
 
+/** Mascots / full characters that do not need a user face photo. */
+export function getNoPhotoAvatarPresets(): AvatarPreset[] {
+  return AVATAR_PRESETS.filter((p) => !p.hasFaceHole);
+}
+
+/** Assign a random mascot when the user skips avatar selection during onboarding. */
+export function pickRandomNoPhotoAvatar(): string {
+  const pool = getNoPhotoAvatarPresets();
+  if (pool.length === 0) return AVATAR_PRESETS[0]?.id ?? 'devil';
+  return pool[Math.floor(Math.random() * pool.length)].id;
+}
+
 /** Where to place the user’s face photo (percent of badge box). Tune per art if needed. */
 export type FaceHoleLayout = {
   widthPct: number;

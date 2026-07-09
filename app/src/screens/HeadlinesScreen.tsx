@@ -207,6 +207,11 @@ export function HeadlinesScreen() {
               end={{ x: 1, y: 1 }}
             />
           </View>
+          {!bikePhotoUri && !pickingPhoto ? (
+            <View style={styles.heroHintWrap} pointerEvents="none">
+              <Text style={styles.heroHintText}>Tap to add your bike photo</Text>
+            </View>
+          ) : null}
           {/* Avatar + rider name: bottom-right, over bike photo */}
           <View
             style={[
@@ -216,10 +221,14 @@ export function HeadlinesScreen() {
                 paddingRight: Math.max(insets.right, 12),
               },
             ]}
-            pointerEvents="none"
           >
             {avatarSource ? (
-              <View style={styles.avatarShadowWrap}>
+              <TouchableOpacity
+                style={styles.avatarShadowWrap}
+                onPress={goToSettings}
+                activeOpacity={0.85}
+                accessibilityLabel="Edit profile and avatar"
+              >
                 <View style={styles.avatarBadge}>
                   {showFaceComposite && faceHoleLayout ? (
                     <AvatarFaceEllipse
@@ -234,9 +243,15 @@ export function HeadlinesScreen() {
                     <Image source={avatarSource} style={styles.avatarBadgeImage} resizeMode="contain" />
                   )}
                 </View>
-              </View>
-            ) : null}
-            <Text style={styles.nicknameHero}>{displayName}</Text>
+              </TouchableOpacity>
+            ) : (
+              <TouchableOpacity style={styles.addAvatarBtn} onPress={goToSettings} activeOpacity={0.85}>
+                <Text style={styles.addAvatarBtnText}>Add avatar</Text>
+              </TouchableOpacity>
+            )}
+            <TouchableOpacity onPress={goToSettings} activeOpacity={0.85}>
+              <Text style={styles.nicknameHero}>{displayName}</Text>
+            </TouchableOpacity>
           </View>
         </View>
       </TouchableOpacity>
@@ -258,7 +273,7 @@ export function HeadlinesScreen() {
           <Text style={styles.navButtonText}>Coach & Bike Setup</Text>
         </TouchableOpacity>
         <TouchableOpacity style={styles.settingsButton} onPress={goToSettings} activeOpacity={0.8}>
-          <Text style={styles.settingsButtonText}>Headlines settings</Text>
+          <Text style={styles.settingsButtonText}>Profile & settings</Text>
         </TouchableOpacity>
       </View>
     </ScrollView>
@@ -336,6 +351,33 @@ const styles = StyleSheet.create({
     alignItems: 'flex-end',
     gap: 8,
     maxWidth: '92%',
+  },
+  heroHintWrap: {
+    position: 'absolute',
+    left: 20,
+    bottom: 20,
+    paddingHorizontal: 12,
+    paddingVertical: 8,
+    borderRadius: 8,
+    backgroundColor: 'rgba(15, 23, 42, 0.72)',
+  },
+  heroHintText: {
+    fontSize: 13,
+    color: '#e2e8f0',
+    fontWeight: '600',
+  },
+  addAvatarBtn: {
+    paddingVertical: 8,
+    paddingHorizontal: 12,
+    borderRadius: 8,
+    borderWidth: 1,
+    borderColor: 'rgba(245, 158, 11, 0.6)',
+    backgroundColor: 'rgba(15, 23, 42, 0.75)',
+  },
+  addAvatarBtnText: {
+    color: '#f59e0b',
+    fontSize: 13,
+    fontWeight: '700',
   },
   nicknameHero: {
     fontFamily: 'RaceSport',

@@ -1,6 +1,7 @@
 import React, { useCallback, useId, useRef, useState } from 'react';
 import {
   ActivityIndicator,
+  Alert,
   Modal,
   Platform,
   StyleSheet,
@@ -167,6 +168,7 @@ export function AvatarFaceCameraModal({ visible, onClose, onCapture }: Props) {
       onClose();
     } catch (e) {
       console.warn('[AvatarFaceCamera]', e);
+      Alert.alert('Capture failed', e instanceof Error ? e.message : 'Could not take photo. Try again.');
     } finally {
       setBusy(false);
     }
