@@ -207,13 +207,9 @@ export function QAScreen() {
           triviaIndex: data.triviaIndex,
         });
       } catch (e) {
-        setTriviaState('idle');
         setTriviaQuestion(null);
-        setTriviaWrong(0);
-        setTriviaCorrect(0);
-        setTriviaUsedGlobal([]);
-        setTriviaUsedAus([]);
-        setTriviaDifficulty(2);
+        setTriviaFailMessage(e instanceof Error ? e.message : 'Could not load the next question. Tap Try again.');
+        setTriviaState('failed');
       } finally {
         setTriviaLoading(false);
       }
@@ -312,6 +308,7 @@ export function QAScreen() {
       getRegionForOrder,
       fetchTriviaQuestion,
       saveTriviaBestIfBetter,
+      triggerGoatExplosion,
     ]
   );
 
@@ -431,7 +428,7 @@ export function QAScreen() {
           </TouchableOpacity>
         )}
 
-        {triviaState === 'playing' && triviaLoading && !triviaQuestion && (
+        {triviaState === 'playing' && !triviaQuestion && (triviaLoading || lastAnswerCorrect !== null) && (
           <View style={styles.triviaLoading}>
             {lastAnswerCorrect !== null && (
               <View style={styles.triviaFeedbackImageWrap}>

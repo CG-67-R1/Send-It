@@ -145,18 +145,27 @@ export function ImportTrackNotesScreen() {
       setOtherContext(DEFAULT_OTHER);
       setPhotos([]);
 
-      const tabNav = navigation.getParent()?.getParent() as
-        | { navigate: (name: string, params?: object) => void }
-        | undefined;
-      tabNav?.navigate('RiderCoachTab', {
-        screen: 'RiderCoach',
-        params: {
-          seedMessages: [
-            { role: 'user', content: coachMessage },
-            { role: 'assistant', content: result.reply },
-          ],
-        },
-      });
+      const seedParams = {
+        seedMessages: [
+          { role: 'user' as const, content: coachMessage },
+          { role: 'assistant' as const, content: result.reply },
+        ],
+      };
+      const stackRoutes = navigation.getState()?.routeNames ?? [];
+      if (stackRoutes.includes('RiderCoach')) {
+        (navigation as { navigate: (name: string, params?: object) => void }).navigate(
+          'RiderCoach',
+          seedParams
+        );
+      } else {
+        const tabNav = navigation.getParent() as
+          | { navigate: (name: string, params?: object) => void }
+          | undefined;
+        tabNav?.navigate('RiderCoachTab', {
+          screen: 'RiderCoach',
+          params: seedParams,
+        });
+      }
     } finally {
       setSending(false);
     }

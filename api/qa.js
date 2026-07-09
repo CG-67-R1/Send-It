@@ -87,6 +87,25 @@ function normalize(s) {
   return (s || '').toLowerCase().trim();
 }
 
+/** Exclude indices already used and variants that repeat the same question text (shuffled-option duplicates). */
+function filterAvailableIndices(bank, usedIndices, getQuestionText) {
+  const usedSet = new Set(usedIndices);
+  const usedQuestionTexts = new Set(
+    usedIndices
+      .filter((i) => i >= 0 && i < bank.length)
+      .map((i) => normalize(getQuestionText(bank[i])))
+      .filter(Boolean)
+  );
+
+  return bank
+    .map((_, i) => i)
+    .filter((i) => {
+      if (usedSet.has(i)) return false;
+      const qText = normalize(getQuestionText(bank[i]));
+      return !qText || !usedQuestionTexts.has(qText);
+    });
+}
+
 export async function search(query) {
   const { documents, qa } = await loadKnowledge();
   const q = normalize(query);
@@ -176,7 +195,7 @@ export async function getTriviaQuestion(usedIndices = [], options = {}) {
 
   const bank = region === 'au' ? await loadAusRatedTrivia() : await loadGlobalRatedTrivia();
   if (bank.length > 0) {
-    const available = bank.map((_, i) => i).filter((i) => !usedIndices.includes(i));
+    const available = filterAvailableIndices(bank, usedIndices, (item) => item.question || item.q || '');
     if (available.length === 0) return { error: 'No more questions.' };
 
     let triviaIndex;
@@ -229,7 +248,7 @@ export async function getTriviaQuestion(usedIndices = [], options = {}) {
     return { error: 'Not enough Q&A pairs for trivia (need at least 4). Run: node api/buildTriviaBank.js' };
   }
 
-  const available = qa.map((_, i) => i).filter((i) => !usedIndices.includes(i));
+  const available = filterAvailableIndices(qa, usedIndices, (item) => item.q || '');
   if (available.length === 0) return { error: 'No more questions.' };
 
   const correctIndex = available[Math.floor(Math.random() * available.length)];
