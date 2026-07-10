@@ -1,5 +1,5 @@
 {
-  "updatedAt": "2026-07-10T07:31:21.174Z",
+  "updatedAt": "2026-07-10T10:49:09.592Z",
   "sourceIds": [
     "ma_roadrace",
     "mcnews",
@@ -154,6 +154,30 @@
       "imageUrl": null
     },
     {
+      "title": "Marc Márquez on Ducati, aero and why the 850s might not be safer",
+      "url": "https://www.mcnews.com.au/marc-marquez-interview-ducati-aero-motogp-2027/",
+      "source": "MCNews (AU)",
+      "sourceId": "mcnews",
+      "date": null,
+      "imageUrl": null
+    },
+    {
+      "title": "Triumph Trident 800 Review | Gentleman’s hooligan",
+      "url": "https://www.mcnews.com.au/triumph-trident-800-review/",
+      "source": "MCNews (AU)",
+      "sourceId": "mcnews",
+      "date": null,
+      "imageUrl": null
+    },
+    {
+      "title": "Royal Enfield Guerrilla 450 Apex Review | Sportier style and sharper pricing",
+      "url": "https://www.mcnews.com.au/royal-enfield-guerrilla-450-apex-review/",
+      "source": "MCNews (AU)",
+      "sourceId": "mcnews",
+      "date": null,
+      "imageUrl": null
+    },
+    {
       "title": "Suzuka 8 Hours testing complete as Miller leads Aussie charge",
       "url": "https://www.mcnews.com.au/suzuka-8-hours-2026-testing-preview-aussies/",
       "source": "MCNews (AU)",
@@ -170,40 +194,8 @@
       "imageUrl": null
     },
     {
-      "title": "Marc Márquez on Ducati, aero and why the 850s might not be safer",
-      "url": "https://www.mcnews.com.au/marc-marquez-interview-ducati-aero-motogp-2027/",
-      "source": "MCNews (AU)",
-      "sourceId": "mcnews",
-      "date": null,
-      "imageUrl": null
-    },
-    {
-      "title": "Royal Enfield Guerrilla 450 Apex Review | Sportier style and sharper pricing",
-      "url": "https://www.mcnews.com.au/royal-enfield-guerrilla-450-apex-review/",
-      "source": "MCNews (AU)",
-      "sourceId": "mcnews",
-      "date": null,
-      "imageUrl": null
-    },
-    {
-      "title": "Gresini move gives Mir chance to turn commitment into results",
-      "url": "https://www.mcnews.com.au/joan-mir-dani-holgado-gresini-ducati-motogp-2027/",
-      "source": "MCNews (AU)",
-      "sourceId": "mcnews",
-      "date": null,
-      "imageUrl": null
-    },
-    {
-      "title": "Rea puts Honda HRC on top in Suzuka qualifying",
-      "url": "https://www.mcnews.com.au/suzuka-8-hours-2026-qualifying-results/",
-      "source": "MCNews (AU)",
-      "sourceId": "mcnews",
-      "date": null,
-      "imageUrl": null
-    },
-    {
-      "title": "Ducati’s Gigi Dall’Igna on AI, ABS and MotoGP’s 2027 reset",
-      "url": "https://www.mcnews.com.au/gigi-dalligna-interview-ducati-corse-motogp-2027/",
+      "title": "Suzuki SV-7GX and SV-7GXV keep the SV650 V-twin legend alive",
+      "url": "https://www.mcnews.com.au/suzuki-sv-7gx-sv-7gxv-v-twin/",
       "source": "MCNews (AU)",
       "sourceId": "mcnews",
       "date": null,
@@ -212,6 +204,14 @@
     {
       "title": "Limited-run CFMOTO 675NK GP lands at $11,490 ride-away",
       "url": "https://www.mcnews.com.au/cfmoto-675nk-gp-limited-release-australia/",
+      "source": "MCNews (AU)",
+      "sourceId": "mcnews",
+      "date": null,
+      "imageUrl": null
+    },
+    {
+      "title": "Ducati’s Gigi Dall’Igna on AI, ABS and MotoGP’s 2027 reset",
+      "url": "https://www.mcnews.com.au/gigi-dalligna-interview-ducati-corse-motogp-2027/",
       "source": "MCNews (AU)",
       "sourceId": "mcnews",
       "date": null,
