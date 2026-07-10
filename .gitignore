@@ -12,7 +12,8 @@ app/web-build/
 *.local
 
 # IDE / editor
-.cursor/
+.cursor/*
+!.cursor/mcp.json
 
 # OS
 .DS_Store
