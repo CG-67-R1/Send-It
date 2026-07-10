@@ -197,6 +197,33 @@ export function attachmentsToPayload(attachments: CoachAttachment[]): CoachAttac
   );
 }
 
+/** Best-effort: convert local image URIs (e.g. track-walk photos) for coach chat. */
+export async function photoUrisToCoachPayloads(
+  uris: string[],
+  max = MAX_ATTACHMENTS
+): Promise<CoachAttachmentPayload[]> {
+  const payloads: CoachAttachmentPayload[] = [];
+  for (const uri of uris.slice(0, max)) {
+    if (!uri?.trim()) continue;
+    try {
+      const base64 = await FileSystem.readAsStringAsync(uri, {
+        encoding: FileSystem.EncodingType.Base64,
+      });
+      if (estimateBase64Bytes(base64) > MAX_IMAGE_BYTES) continue;
+      const name = uri.split('/').pop() || `photo_${Date.now()}.jpg`;
+      payloads.push({
+        type: 'image',
+        name,
+        mimeType: 'image/jpeg',
+        data: base64,
+      });
+    } catch {
+      // skip unreadable URIs
+    }
+  }
+  return payloads;
+}
+
 export function attachmentSummary(attachments: CoachAttachment[]): string {
   if (!attachments.length) return '';
   const names = attachments.map((a) => a.name).join(', ');

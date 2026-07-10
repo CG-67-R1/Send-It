@@ -38,6 +38,30 @@ You don’t need to change these in the dashboard unless you want to override.
 
 The first successful build can take a couple of minutes. After that, your app will be at `https://your-project.vercel.app`.
 
+## 5. Public access (no login wall)
+
+For a public PoC, the app URL must serve the Expo web build — **not** a Vercel login page.
+
+1. In Vercel: **Project → Settings → Deployment Protection**.
+2. Set **Production** protection to **Off** (or “Standard Protection” disabled for production).
+3. Use the **Production** domain from **Settings → Domains** (e.g. `your-project.vercel.app`), not a team-only `*-projects.vercel.app` preview URL that may require authentication.
+4. After changing protection, **Redeploy** production and verify `GET /` returns HTML with Expo bundles (`_expo/`), not `<title>Login – Vercel</title>`.
+
+Quick check (PowerShell):
+
+```powershell
+Invoke-WebRequest -Uri "https://YOUR-PRODUCTION-URL.vercel.app/" -UseBasicParsing |
+  Select-Object StatusCode, @{n='Title';e={if($_.Content -match '<title>([^<]+)</title>'){$matches[1]}}}
+```
+
+Or from repo root:
+
+```powershell
+node scripts/vercel-deploy-check.mjs
+```
+
+Set `VERCEL_APP_URL` if your production URL differs from the default in that script.
+
 ## If the build still fails
 
 - Confirm **Root Directory** is exactly **`app`** (no slash, no path).

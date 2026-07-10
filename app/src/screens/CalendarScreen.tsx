@@ -193,27 +193,6 @@ export function CalendarScreen() {
 
   const keyExtractor = (item: CalendarEvent) => `${item.series}-${item.startDate}-${item.title}`;
 
-  if (loading && events.length === 0) {
-    return (
-      <View style={styles.centered}>
-        <ActivityIndicator size="large" color="#f59e0b" />
-        <Text style={styles.loadingText}>Loading calendar…</Text>
-      </View>
-    );
-  }
-
-  if (error && events.length === 0) {
-    return (
-      <View style={styles.centered}>
-        <Text style={styles.errorText}>{error}</Text>
-        <Text style={styles.hint}>Start the API server (in /api run: npm start)</Text>
-        <TouchableOpacity style={styles.retryButton} onPress={() => fetchCalendar(false)}>
-          <Text style={styles.retryText}>Retry</Text>
-        </TouchableOpacity>
-      </View>
-    );
-  }
-
   const filteredEvents = useMemo(
     () => filterEvents(events, filter),
     [events, filter]
@@ -246,6 +225,27 @@ export function CalendarScreen() {
     [filter]
   );
 
+  if (loading && events.length === 0) {
+    return (
+      <View style={styles.centered}>
+        <ActivityIndicator size="large" color="#f59e0b" />
+        <Text style={styles.loadingText}>Loading calendar…</Text>
+      </View>
+    );
+  }
+
+  if (error && events.length === 0) {
+    return (
+      <View style={styles.centered}>
+        <Text style={styles.errorText}>{error}</Text>
+        <Text style={styles.hint}>Start the API server (in /api run: npm start)</Text>
+        <TouchableOpacity style={styles.retryButton} onPress={() => fetchCalendar(false)}>
+          <Text style={styles.retryText}>Retry</Text>
+        </TouchableOpacity>
+      </View>
+    );
+  }
+
   return (
     <FlatList
       key={filter}
@@ -262,6 +262,9 @@ export function CalendarScreen() {
         />
       }
       ListHeaderComponent={listHeader}
+      ListEmptyComponent={
+        <Text style={styles.emptyFilterText}>No events match this filter.</Text>
+      }
     />
   );
 }
@@ -307,6 +310,13 @@ const styles = StyleSheet.create({
   list: {
     paddingBottom: 24,
     backgroundColor: '#0f172a',
+  },
+  emptyFilterText: {
+    color: '#64748b',
+    textAlign: 'center',
+    paddingHorizontal: 24,
+    paddingVertical: 24,
+    fontSize: 14,
   },
   header: {
     paddingHorizontal: 20,

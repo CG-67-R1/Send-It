@@ -60,7 +60,7 @@ const CACHE_TTL_MS = 15 * 60 * 1000;
 let cache = { data: null, ts: 0 };
 
 const rssParser = new Parser({
-  timeout: 10000,
+  timeout: 25000,
   customFields: {
     item: [
       ['media:content', 'mediaContent', { keepArray: true }],
@@ -338,7 +338,35 @@ export async function scrapeMCN() {
 }
 
 export async function scrapeGPone() {
-  return fetchRssHeadlines('https://www.gpone.com/en/article-feed.xml', 'GPone', 'gpone', DEFAULT_SOURCE_LIMIT);
+  const rssItems = await fetchRssHeadlines(
+    'https://www.gpone.com/en/article-feed.xml',
+    'GPone',
+    'gpone',
+    DEFAULT_SOURCE_LIMIT
+  );
+  if (rssItems.length > 0) return rssItems;
+
+  const html = await safeFetch('https://www.gpone.com/en/');
+  if (!html) return [];
+  const $ = cheerio.load(html);
+  const items = [];
+  const base = 'https://www.gpone.com';
+  $('a[href*="/en/"]').each((_, el) => {
+    const href = $(el).attr('href');
+    const text = cleanTitle($(el).text());
+    if (!href || text.length < 15 || text.length > 200) return;
+    const path = href.replace(/^https?:\/\/[^/]+/i, '');
+    if (!path.includes('/en/') || path === '/en/' || path === '/en') return;
+    pushUnique(items, {
+      title: text,
+      url: absoluteUrl(href, base),
+      source: 'GPone',
+      sourceId: 'gpone',
+      date: null,
+      imageUrl: imageNearElement($, el, base),
+    });
+  });
+  return items.slice(0, DEFAULT_SOURCE_LIMIT);
 }
 
 export async function scrapeMotoGPNews() {

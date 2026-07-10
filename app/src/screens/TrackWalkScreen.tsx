@@ -33,6 +33,7 @@ import {
 } from '../storage/trackWalk';
 import { exportTrackWalkSession } from '../utils/exportTrackWalk';
 import { formatTrackNotesForCoach, sendCoachChat } from '../utils/coachChat';
+import { photoUrisToCoachPayloads } from '../utils/coachAttachments';
 
 type AddingMode = 'corner' | 'note' | null;
 
@@ -365,7 +366,9 @@ export function TrackWalkScreen() {
     setSendingCoach(true);
     try {
       const coachMessage = formatTrackNotesForCoach({ ...session, id: '', createdAt: 0 });
-      const result = await sendCoachChat(coachMessage, 'coach');
+      const photoUris = session.entries.flatMap((e) => e.photoUris ?? []);
+      const attachments = photoUris.length ? await photoUrisToCoachPayloads(photoUris) : [];
+      const result = await sendCoachChat(coachMessage, 'coach', [], attachments);
       if (!result.ok) {
         Alert.alert('Coach unavailable', result.error);
         return;

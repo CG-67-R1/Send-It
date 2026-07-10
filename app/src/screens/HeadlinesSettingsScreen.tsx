@@ -75,8 +75,10 @@ export function HeadlinesSettingsScreen() {
     let builtin: Source[] = [];
     try {
       const res = await fetch(SOURCES_URL, { signal: AbortSignal.timeout(5000) });
-      const data = await res.json();
-      if (Array.isArray(data.sources)) builtin = data.sources;
+      if (res.ok) {
+        const data = await res.json();
+        if (Array.isArray(data.sources)) builtin = data.sources;
+      }
     } catch {
       builtin = [];
     }
@@ -253,8 +255,9 @@ export function HeadlinesSettingsScreen() {
     try {
       const newSource = await addCustomSource(url, name);
       setCustomSourcesState((prev) => [...prev, newSource]);
-      setPriorityState((prev) => [...prev, newSource.id]);
-      await setPriorityOrder([...priority, newSource.id]);
+      const nextPriority = [...priority, newSource.id];
+      setPriorityState(nextPriority);
+      await setPriorityOrder(nextPriority);
       setAddUrl('');
       setAddName('');
     } finally {
@@ -328,82 +331,6 @@ export function HeadlinesSettingsScreen() {
     <ScrollView style={styles.container} contentContainerStyle={styles.content}>
       <View style={styles.logoRow}>
         <AppLogo size={92} />
-      </View>
-
-      <View style={styles.section}>
-        <Text style={styles.sectionTitle}>Your profile</Text>
-        <Text style={styles.sectionSubtitle}>
-          Name and avatar shown on the home screen. Changes apply immediately when you return home.
-        </Text>
-        <Text style={styles.fieldLabel}>Rider name</Text>
-        <TextInput
-          style={styles.input}
-          placeholder="e.g. Alex, #42, Speedy..."
-          placeholderTextColor="#64748b"
-          value={riderNickname}
-          onChangeText={setRiderNickname}
-          autoCapitalize="words"
-          autoCorrect={false}
-          editable={!profileBusy}
-          onSubmitEditing={handleSaveNickname}
-        />
-        <TouchableOpacity
-          style={[styles.saveProfileBtn, profileBusy && styles.riderFaceBtnDisabled]}
-          onPress={handleSaveNickname}
-          disabled={profileBusy}
-          activeOpacity={0.85}
-        >
-          <Text style={styles.saveProfileBtnText}>Save name</Text>
-        </TouchableOpacity>
-
-        <Text style={[styles.fieldLabel, { marginTop: 16 }]}>Avatar</Text>
-        <ScrollView
-          horizontal
-          showsHorizontalScrollIndicator={false}
-          style={styles.avatarScroll}
-          contentContainerStyle={styles.avatarScrollContent}
-        >
-          {AVATAR_PRESETS.map((preset) => (
-            <TouchableOpacity
-              key={preset.id}
-              style={[
-                styles.avatarChoice,
-                avatarId === preset.id && styles.avatarChoiceActive,
-                profileBusy && styles.riderFaceBtnDisabled,
-              ]}
-              onPress={() => handleSelectAvatar(preset.id)}
-              disabled={profileBusy}
-              activeOpacity={0.8}
-            >
-              <View style={styles.avatarImageWrap}>
-                <Image source={preset.source} style={styles.avatarImage} resizeMode="contain" />
-              </View>
-              <Text
-                style={[
-                  styles.avatarLabel,
-                  avatarId === preset.id && styles.avatarLabelActive,
-                ]}
-                numberOfLines={2}
-              >
-                {preset.label}
-              </Text>
-            </TouchableOpacity>
-          ))}
-        </ScrollView>
-        {avatarId && getAvatarSource(avatarId) ? (
-          <View style={styles.profilePreviewRow}>
-            <Image
-              source={getAvatarSource(avatarId)!}
-              style={styles.profilePreviewImage}
-              resizeMode="contain"
-            />
-            <Text style={styles.profilePreviewHint}>
-              {getAvatarPreset(avatarId)?.hasFaceHole
-                ? 'Add or update your face photo below.'
-                : 'This avatar does not use a face photo.'}
-            </Text>
-          </View>
-        ) : null}
       </View>
 
       <View style={styles.section}>

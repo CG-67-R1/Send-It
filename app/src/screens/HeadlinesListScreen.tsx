@@ -1,6 +1,7 @@
 import React, { useCallback, useMemo, useState } from 'react';
 import {
   ActivityIndicator,
+  Alert,
   FlatList,
   Image,
   Linking,
@@ -136,7 +137,13 @@ export function HeadlinesListScreen() {
   );
 
   const openLink = (url: string) => {
-    Linking.openURL(url).catch(() => {});
+    if (!url?.trim()) {
+      Alert.alert('Link unavailable', 'This headline has no article URL.');
+      return;
+    }
+    Linking.openURL(url).catch(() => {
+      Alert.alert('Could not open link', 'Try again or open the article from your browser.');
+    });
   };
 
   const renderItem = ({ item, index }: { item: Headline; index: number }) => (
@@ -158,7 +165,7 @@ export function HeadlinesListScreen() {
     </TouchableOpacity>
   );
 
-  const keyExtractor = (item: Headline) => item.url;
+  const keyExtractor = (item: Headline, index: number) => `${item.url}-${index}`;
 
   const filteredHeadlines = useMemo(() => {
     if (viewMode === 'custom') {

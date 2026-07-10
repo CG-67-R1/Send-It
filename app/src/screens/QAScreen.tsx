@@ -179,6 +179,12 @@ export function QAScreen() {
         const url = `${QA_TRIVIA_URL}?${params.join('&')}`;
         const res = await fetch(url, { signal: AbortSignal.timeout(8000) });
         const data = await res.json();
+        if (!res.ok) {
+          throw new Error(typeof data?.error === 'string' ? data.error : 'Could not load trivia');
+        }
+        if (!data || typeof data.question !== 'string' || !Array.isArray(data.options)) {
+          throw new Error('Invalid trivia response from server');
+        }
         if (data.error) {
           Analytics.logEvent('trivia_end', {
             result: 'complete',

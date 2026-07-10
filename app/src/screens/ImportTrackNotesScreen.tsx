@@ -23,6 +23,7 @@ import type { OtherTrackContext, TrackDefinition } from '../data/tracks';
 import { getTrackById } from '../data/tracks';
 import { sessionReadyForCoach } from '../storage/trackWalk';
 import { formatTrackNotesForCoach, sendCoachChat } from '../utils/coachChat';
+import { photoUrisToCoachPayloads } from '../utils/coachAttachments';
 
 type ImportRouteParams = {
   ImportTrackNotes: {
@@ -143,7 +144,8 @@ export function ImportTrackNotesScreen() {
 
     setSending(true);
     try {
-      const result = await sendCoachChat(coachMessage, 'coach');
+      const attachments = photos.length ? await photoUrisToCoachPayloads(photos) : [];
+      const result = await sendCoachChat(coachMessage, 'coach', [], attachments);
       if (!result.ok) {
         Alert.alert('Coach unavailable', result.error);
         return;
@@ -161,19 +163,30 @@ export function ImportTrackNotesScreen() {
         ],
       };
       const stackRoutes = navigation.getState()?.routeNames ?? [];
+      let navigated = false;
       if (stackRoutes.includes('RiderCoach')) {
         (navigation as { navigate: (name: string, params?: object) => void }).navigate(
           'RiderCoach',
           seedParams
         );
+        navigated = true;
       } else {
         const tabNav = navigation.getParent() as
           | { navigate: (name: string, params?: object) => void }
           | undefined;
-        tabNav?.navigate('RiderCoachTab', {
-          screen: 'RiderCoach',
-          params: seedParams,
-        });
+        if (tabNav) {
+          tabNav.navigate('RiderCoachTab', {
+            screen: 'RiderCoach',
+            params: seedParams,
+          });
+          navigated = true;
+        }
+      }
+      if (!navigated) {
+        Alert.alert(
+          'Sent to coach',
+          'Your notes were sent. Open the Rider Coach tab to continue the conversation.'
+        );
       }
     } finally {
       setSending(false);
