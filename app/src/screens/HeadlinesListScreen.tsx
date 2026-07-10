@@ -22,7 +22,7 @@ import {
 import { notifyNewPriority1Headlines } from '../notifications/priority1Notifications';
 import type { Headline } from '../types';
 import { AppLogo } from '../components/AppLogo';
-import { interleaveAuQuota, LOCAL_SOURCE_IDS } from '../utils/headlinesFeed';
+import { buildAuFeed, buildWorldFeed } from '../utils/headlinesFeed';
 
 function HeadlineThumbnail({ uri }: { uri: string }) {
   const [failed, setFailed] = useState(false);
@@ -55,6 +55,7 @@ export function HeadlinesListScreen() {
   const [customFeedWarning, setCustomFeedWarning] = useState<string | null>(null);
   const [viewMode, setViewMode] = useState<'world' | 'local' | 'custom'>('world');
   const [customSourceIds, setCustomSourceIds] = useState<string[]>([]);
+  const [priorityOrder, setPriorityOrder] = useState<string[]>([]);
 
   const fetchHeadlines = useCallback(async (isRefresh = false) => {
     if (isRefresh) setRefreshing(true);
@@ -68,6 +69,7 @@ export function HeadlinesListScreen() {
       ]);
 
       setCustomSourceIds(customSources.map((s) => s.id));
+      setPriorityOrder(priorityOrder);
 
       const url = isRefresh ? `${HEADLINES_URL}?refresh=1` : HEADLINES_URL;
       const timeoutMs = isRefresh ? 90000 : 45000;
@@ -137,14 +139,14 @@ export function HeadlinesListScreen() {
     Linking.openURL(url).catch(() => {});
   };
 
-  const renderItem = ({ item }: { item: Headline }) => (
+  const renderItem = ({ item, index }: { item: Headline; index: number }) => (
     <TouchableOpacity
       style={styles.item}
       onPress={() => openLink(item.url)}
       activeOpacity={0.7}
     >
       <View style={styles.itemRow}>
-        {item.imageUrl ? (
+        {index < 15 && item.imageUrl ? (
           <HeadlineThumbnail uri={item.imageUrl} />
         ) : null}
         <View style={styles.itemBody}>
@@ -164,11 +166,11 @@ export function HeadlinesListScreen() {
       return headlines.filter((h) => customSourceIds.includes(h.sourceId));
     }
     if (viewMode === 'local') {
-      return headlines.filter((h) => LOCAL_SOURCE_IDS.includes(h.sourceId as (typeof LOCAL_SOURCE_IDS)[number]));
+      return buildAuFeed(headlines, priorityOrder);
     }
     const pool = headlines.filter((h) => !customSourceIds.includes(h.sourceId));
-    return interleaveAuQuota(pool);
-  }, [headlines, viewMode, customSourceIds]);
+    return buildWorldFeed(pool, priorityOrder);
+  }, [headlines, viewMode, customSourceIds, priorityOrder]);
 
   if (loading && headlines.length === 0) {
     return (
@@ -265,7 +267,7 @@ export function HeadlinesListScreen() {
             </TouchableOpacity>
           </View>
           <Text style={styles.modeHint}>
-            World: mixed feed (1 in 4 AU) • Aus: Australian only • Custom: your feeds
+            World: mixed feed (1 in 4 AU) • Aus: local sources (1 club in 6) • Custom: your feeds
           </Text>
           {customFeedWarning ? (
             <Text style={styles.warningText}>{customFeedWarning}</Text>

@@ -12,6 +12,8 @@ import {
 } from 'react-native';
 import { useRoute, type RouteProp } from '@react-navigation/native';
 import { AppLogo } from '../components/AppLogo';
+import { CoachFaqSection } from '../components/CoachFaqSection';
+import { faqsForMode } from '../data/riderAiFaqs';
 import { sendCoachChat, type CoachChatMessage } from '../utils/coachChat';
 
 type CoachTab = 'coach' | 'bikesetup';
@@ -48,6 +50,13 @@ export function RiderCoachScreen() {
 
   const messages = activeTab === 'coach' ? coachMessages : bikeMessages;
   const setMessages = activeTab === 'coach' ? setCoachMessages : setBikeMessages;
+  const coachFaqs = faqsForMode('coach');
+  const bikeFaqs = faqsForMode('bikesetup');
+
+  const prefillQuestion = useCallback((question: string) => {
+    setInput(question);
+    setError(null);
+  }, []);
 
   const sendMessage = useCallback(async () => {
     const text = input.trim();
@@ -128,6 +137,11 @@ export function RiderCoachScreen() {
                 </Text>
               </View>
             )}
+            <CoachFaqSection
+              title="Rider Coach FAQs"
+              items={coachFaqs}
+              onAskQuestion={activeTab === 'coach' ? prefillQuestion : undefined}
+            />
             {coachMessages.map((m, i) => (
               <View
                 key={i}
@@ -156,6 +170,11 @@ export function RiderCoachScreen() {
                 </Text>
               </View>
             )}
+            <CoachFaqSection
+              title="Bike Setup FAQs"
+              items={bikeFaqs}
+              onAskQuestion={activeTab === 'bikesetup' ? prefillQuestion : undefined}
+            />
             {bikeMessages.map((m, i) => (
               <View
                 key={i}

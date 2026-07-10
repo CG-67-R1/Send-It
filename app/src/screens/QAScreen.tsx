@@ -12,7 +12,8 @@ import {
 } from 'react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import * as Analytics from 'expo-firebase-analytics';
-import { QA_SEARCH_URL, QA_TRIVIA_URL } from '../../constants/api';
+import { QA_TRIVIA_URL } from '../../constants/api';
+import { sendAskChat, type AskSource } from '../utils/askChat';
 import { AppLogo } from '../components/AppLogo';
 
 const TRIVIA_BEST_SCORE_KEY = 'ROADRACER_TRIVIA_BEST';
@@ -51,11 +52,9 @@ function getTriviaResult(correct: number, wrong: number): { title: string; messa
 export function QAScreen() {
   const [activeTab, setActiveTab] = useState<QATab>('ask');
   const [query, setQuery] = useState('');
-  const [searchResults, setSearchResults] = useState<{
-    title: string;
-    content: string;
-    contentBlocks?: { type: string; text: string }[];
-  }[]>([]);
+  const [askReply, setAskReply] = useState<string | null>(null);
+  const [askSources, setAskSources] = useState<AskSource[]>([]);
+  const [askFromKb, setAskFromKb] = useState(false);
   const [searchLoading, setSearchLoading] = useState(false);
   const [searchError, setSearchError] = useState<string | null>(null);
 
@@ -142,21 +141,20 @@ export function QAScreen() {
     if (!q) return;
     setSearchLoading(true);
     setSearchError(null);
-    setSearchResults([]);
+    setAskReply(null);
+    setAskSources([]);
+    setAskFromKb(false);
     try {
-      const res = await fetch(`${QA_SEARCH_URL}?q=${encodeURIComponent(q)}`, {
-        signal: AbortSignal.timeout(30000),
-      });
-      const data = await res.json();
-      if (!res.ok) {
-        setSearchError(data?.error || 'Search failed');
+      const result = await sendAskChat(q);
+      if (!result.ok) {
+        setSearchError(result.error);
         return;
       }
-      const results = Array.isArray(data.results) ? data.results : [];
-      setSearchResults(results);
+      setAskReply(result.reply);
+      setAskSources(result.sources);
+      setAskFromKb(result.fromKb);
     } catch (e) {
       setSearchError(e instanceof Error ? e.message : 'Request failed');
-      setSearchResults([]);
     } finally {
       setSearchLoading(false);
     }
@@ -360,7 +358,9 @@ export function QAScreen() {
       {activeTab === 'ask' && (
       <View style={styles.section}>
         <Text style={styles.sectionTitle}>Got a question?</Text>
-        <Text style={styles.sectionSubtitle}>Ask away - trivia, research, bike tech....its up to you!</Text>
+        <Text style={styles.sectionSubtitle}>
+          General motorsport Q&A — history, rules, terminology, and bike tech concepts. For personalized coaching or bike setup, use Coach & Bike Setup.
+        </Text>
         <View style={styles.searchRow}>
           <TextInput
             style={styles.input}
@@ -379,40 +379,35 @@ export function QAScreen() {
             {searchLoading ? (
               <ActivityIndicator size="small" color="#0f172a" />
             ) : (
-              <Text style={styles.searchBtnText}>Search</Text>
+              <Text style={styles.searchBtnText}>Ask</Text>
             )}
           </TouchableOpacity>
         </View>
         {searchError ? (
           <Text style={styles.errorText}>{searchError}</Text>
         ) : null}
-        {searchResults.length > 0 ? (
+        {askReply ? (
           <View style={styles.results}>
-            {searchResults.map((r, i) => (
-              <View key={i} style={styles.resultCard}>
-                <Text style={styles.resultTitle}>{r.title}</Text>
-                {Array.isArray(r.contentBlocks) && r.contentBlocks.length > 0 ? (
-                  r.contentBlocks.map((block, j) => (
-                    <Text
-                      key={j}
-                      style={[
-                        block.type === 'heading'
-                          ? styles.resultBlockHeading
-                          : styles.resultBlockParagraph,
-                        { marginTop: j === 0 ? 0 : block.type === 'heading' ? 10 : 6 },
-                      ]}
-                    >
-                      {block.text}
+            <View style={styles.resultCard}>
+              <Text style={styles.resultContent}>{askReply}</Text>
+              {askSources.length > 0 ? (
+                <View style={styles.sourcesBlock}>
+                  <Text style={styles.sourcesLabel}>
+                    {askFromKb ? 'Sources (knowledge base)' : 'Related sources'}
+                  </Text>
+                  {askSources.map((s, i) => (
+                    <Text key={i} style={styles.sourceItem}>
+                      • {s.title}
+                      {s.origin ? ` (${s.origin})` : ''}
                     </Text>
-                  ))
-                ) : (
-                  <Text style={styles.resultContent}>{r.content}</Text>
-                )}
-              </View>
-            ))}
+                  ))}
+                </View>
+              ) : null}
+            </View>
+            <Text style={styles.coachHint}>
+              For personalized coaching or bike setup, open Coach & Bike Setup.
+            </Text>
           </View>
-        ) : query.trim() && !searchLoading && !searchError ? (
-          <Text style={styles.hint}>No matches in the knowledge base. Try different keywords.</Text>
         ) : null}
       </View>
       )}
@@ -627,6 +622,29 @@ const styles = StyleSheet.create({
     fontSize: 15,
     color: '#e2e8f0',
     lineHeight: 22,
+  },
+  sourcesBlock: {
+    marginTop: 12,
+    paddingTop: 10,
+    borderTopWidth: 1,
+    borderTopColor: '#334155',
+  },
+  sourcesLabel: {
+    fontSize: 12,
+    fontWeight: '600',
+    color: '#94a3b8',
+    marginBottom: 4,
+  },
+  sourceItem: {
+    fontSize: 12,
+    color: '#94a3b8',
+    lineHeight: 18,
+  },
+  coachHint: {
+    color: '#64748b',
+    fontSize: 13,
+    marginTop: 4,
+    fontStyle: 'italic',
   },
   resultBlockHeading: {
     fontSize: 14,

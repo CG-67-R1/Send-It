@@ -1,9 +1,11 @@
+import 'dotenv/config';
 import express from 'express';
 import cors from 'cors';
 import { getAllHeadlines, fetchCustomHeadlines, BUILTIN_SOURCES } from './scrapers.js';
 import { search, getTriviaQuestion } from './qa.js';
 import { getCalendarEvents } from './calendar.js';
-import { chat as roadraceAiChat } from './roadraceAi.js';
+import { chat as roadraceAiChat, askChat } from './roadraceAi.js';
+import { loadRiderAiFaqs } from './riderAiFaqs.js';
 
 const app = express();
 const PORT = process.env.PORT || 3001;
@@ -12,14 +14,17 @@ app.use(cors());
 app.use(express.json());
 
 app.get('/health', (_, res) => {
-  res.json({ ok: true });
+  res.json({
+    ok: true,
+    roadraceAi: Boolean(process.env.OPENAI_API_KEY),
+  });
 });
 
 app.get('/', (_, res) => {
   res.json({
     name: 'RoadRacer API',
     health: '/health',
-    endpoints: ['/headlines', '/sources', '/qa/search', '/qa/trivia', '/calendar', '/roadrace-ai/chat'],
+    endpoints: ['/headlines', '/sources', '/qa/search', '/qa/trivia', '/calendar', '/roadrace-ai/chat', '/roadrace-ai/ask', '/roadrace-ai/faqs'],
   });
 });
 
@@ -92,6 +97,43 @@ app.get('/calendar', async (req, res) => {
   } catch (e) {
     console.error(e);
     res.status(500).json({ error: 'Failed to load calendar', events: [] });
+  }
+});
+
+app.get('/roadrace-ai/faqs', async (_, res) => {
+  try {
+    const faqs = await loadRiderAiFaqs(true);
+    res.json(faqs);
+  } catch (e) {
+    console.error(e);
+    res.status(500).json({ error: 'Failed to load FAQs', coach: [], bikesetup: [] });
+  }
+});
+
+app.post('/roadrace-ai/ask', async (req, res) => {
+  const { message } = req.body || {};
+  const text = typeof message === 'string' ? message.trim() : '';
+  if (!text) {
+    return res.status(400).json({ error: 'message is required' });
+  }
+  try {
+    const result = await askChat(text);
+    if (result.error) {
+      return res.status(500).json({
+        error: result.error,
+        reply: '',
+        sources: [],
+        fromKb: false,
+      });
+    }
+    res.json({
+      reply: result.content || '',
+      sources: result.sources || [],
+      fromKb: Boolean(result.fromKb),
+    });
+  } catch (e) {
+    console.error(e);
+    res.status(500).json({ error: 'AI request failed', reply: '', sources: [], fromKb: false });
   }
 });
 

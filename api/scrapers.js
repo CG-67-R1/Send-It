@@ -20,9 +20,24 @@ const PETERBOM_INSTAGRAM_FEED =
   process.env.PETERBOM_INSTAGRAM_FEED_URL ||
   'https://rss-bridge.org/bridge01/?action=display&bridge=Instagram&u=peterbom4racing&format=Atom';
 
+/** AMCN racing categories used for AU feed (off-road excluded). */
+export const AMCN_RACING_CATEGORIES = [
+  { slug: 'club', id: 'amcn_club', name: 'AMCN Club', limit: 12 },
+  { slug: 'asbk', id: 'amcn_asbk', name: 'AMCN ASBK', limit: 10 },
+  { slug: 'motogp', id: 'amcn_motogp', name: 'AMCN MotoGP', limit: 8 },
+  { slug: 'worldsbk', id: 'amcn_worldsbk', name: 'AMCN WorldSBK', limit: 8 },
+  { slug: 'king-of-the-baggers', id: 'amcn_kotb', name: 'AMCN King of the Baggers', limit: 6 },
+  { slug: 'bsb', id: 'amcn_bsb', name: 'AMCN BSB', limit: 6 },
+  { slug: 'road-racing', id: 'amcn_road_racing', name: 'AMCN Road Racing', limit: 8 },
+  { slug: 'esbk', id: 'amcn_esbk', name: 'AMCN ESBK', limit: 6 },
+  { slug: 'worldwcr', id: 'amcn_worldwcr', name: 'AMCN WorldWCR', limit: 6 },
+  { slug: 'endurance', id: 'amcn_endurance', name: 'AMCN Endurance', limit: 6 },
+];
+
 export const BUILTIN_SOURCES = [
+  { id: 'ma_roadrace', name: 'Motorcycling Australia (Road Race)' },
   { id: 'mcnews', name: 'MCNews (AU)' },
-  { id: 'amcn', name: 'AMCN' },
+  ...AMCN_RACING_CATEGORIES.map((c) => ({ id: c.id, name: c.name })),
   { id: 'asbk', name: 'ASBK' },
   { id: 'mcn', name: 'MCN' },
   { id: 'motogp', name: 'MotoGP' },
@@ -34,7 +49,21 @@ export const BUILTIN_SOURCES = [
   { id: 'bennetts', name: 'Bennetts BikeSocial' },
 ];
 
-export const AU_SOURCE_IDS = ['mcnews', 'amcn', 'asbk'];
+export const AU_SOURCE_IDS = [
+  'ma_roadrace',
+  'mcnews',
+  'asbk',
+  ...AMCN_RACING_CATEGORIES.map((c) => c.id),
+];
+
+/** Club headlines for 1-in-6 quota on the Aus feed. */
+export const CLUB_SOURCE_IDS = ['amcn_club'];
+
+/** Cap MotoGP-family sources so the world feed stays varied. */
+const MOTOGP_FAMILY_IDS = new Set(['motogp', 'motogpnews', 'motor_sport_motogp']);
+const MOTOGP_FAMILY_LIMIT = 8;
+const DEFAULT_SOURCE_LIMIT = 12;
+const MCNEWS_LIMIT = 10;
 
 const CACHE_TTL_MS = 15 * 60 * 1000;
 let cache = { data: null, ts: 0 };
@@ -205,30 +234,92 @@ export async function scrapeMCNews() {
       imageUrl: imageNearElement($, el, base),
     });
   });
-  return items.slice(0, 20);
+  return items.slice(0, MCNEWS_LIMIT);
 }
 
-export async function scrapeAMCN() {
-  const html = await safeFetch('https://amcn.com.au/');
+function parseMaDate(text) {
+  const m = cleanTitle(text).match(
+    /(January|February|March|April|May|June|July|August|September|October|November|December)\s+(\d{1,2}),\s+(\d{4})/i
+  );
+  if (!m) return null;
+  const d = new Date(`${m[1]} ${m[2]}, ${m[3]}`);
+  return isNaN(d.getTime()) ? null : d.toISOString().slice(0, 10);
+}
+
+export async function scrapeMARoadRace() {
+  const html = await safeFetch('https://www.ma.org.au/category/news/road-race/');
+  if (!html) return [];
+  const $ = cheerio.load(html);
+  const items = [];
+  const base = 'https://www.ma.org.au';
+  $('article, .post, .type-post').each((_, article) => {
+    const link = $(article).find('h2 a, h3 a, .entry-title a').first();
+    const href = link.attr('href');
+    const title = cleanTitle(link.text());
+    if (!href || title.length < 15 || title.length > 200) return;
+    const dateText = $(article).find('time, .entry-date, .posted-on').first().text();
+    pushUnique(items, {
+      title,
+      url: absoluteUrl(href, base),
+      source: 'Motorcycling Australia (Road Race)',
+      sourceId: 'ma_roadrace',
+      date: parseMaDate(dateText),
+      imageUrl:
+        $(article).find('img').first().attr('src') &&
+        absoluteUrl($(article).find('img').first().attr('src'), base),
+    });
+  });
+  if (items.length === 0) {
+    $('h2 a[href*="ma.org.au"]').each((_, el) => {
+      const href = $(el).attr('href');
+      const title = cleanTitle($(el).text());
+      if (!href || title.length < 15 || title.length > 200) return;
+      pushUnique(items, {
+        title,
+        url: absoluteUrl(href, base),
+        source: 'Motorcycling Australia (Road Race)',
+        sourceId: 'ma_roadrace',
+        date: null,
+        imageUrl: imageNearElement($, el, base),
+      });
+    });
+  }
+  return items.slice(0, 15);
+}
+
+export async function scrapeAMCNCategory({ slug, id, name, limit = 10 }) {
+  const pageUrl = `https://amcn.com.au/categories/racing/${slug}/`;
+  const html = await safeFetch(pageUrl);
   if (!html) return [];
   const $ = cheerio.load(html);
   const items = [];
   const base = 'https://amcn.com.au';
   $('a[href*="/editorial/"]').each((_, el) => {
     const href = $(el).attr('href');
-    const title = cleanTitle($(el).text()).replace(/^(Features?|News|Racing|MotoGP|WorldSBK|ASBK)\s+/i, '').trim();
-    if (href && title.length >= 15 && title.length <= 200) {
-      pushUnique(items, {
-        title,
-        url: absoluteUrl(href, base),
-        source: 'AMCN',
-        sourceId: 'amcn',
-        date: null,
-        imageUrl: imageNearElement($, el, base),
-      });
-    }
+    let title = cleanTitle($(el).text());
+    title = title
+      .replace(/^(Features?|News|Racing|Analysis)\s+/i, '')
+      .replace(/^(Club|ASBK|MotoGP|WorldSBK|Off-road|BSB|Endurance|Road Racing)(?=[A-Z0-9])/i, '')
+      .replace(/^(Club|ASBK|MotoGP|WorldSBK|Off-road|BSB|Endurance|Road Racing)\s+/i, '')
+      .trim();
+    if (!href || title.length < 15 || title.length > 200) return;
+    pushUnique(items, {
+      title,
+      url: absoluteUrl(href, base),
+      source: name,
+      sourceId: id,
+      date: null,
+      imageUrl: imageNearElement($, el, base),
+    });
   });
-  return items.slice(0, 20);
+  return items.slice(0, limit);
+}
+
+export async function scrapeAMCNRacingCategories() {
+  const batches = await Promise.all(
+    AMCN_RACING_CATEGORIES.map((cat) => scrapeAMCNCategory(cat))
+  );
+  return batches.flat();
 }
 
 export async function scrapeMCN() {
@@ -252,15 +343,20 @@ export async function scrapeMCN() {
       imageUrl: imageNearElement($, el, base),
     });
   });
-  return items.slice(0, 20);
+  return items.slice(0, DEFAULT_SOURCE_LIMIT);
 }
 
 export async function scrapeGPone() {
-  return fetchRssHeadlines('https://www.gpone.com/en/article-feed.xml', 'GPone', 'gpone', 20);
+  return fetchRssHeadlines('https://www.gpone.com/en/article-feed.xml', 'GPone', 'gpone', DEFAULT_SOURCE_LIMIT);
 }
 
 export async function scrapeMotoGPNews() {
-  const items = await fetchRssHeadlines('https://www.motogpnews.com/feed/', 'MotoGP News', 'motogpnews', 20);
+  const items = await fetchRssHeadlines(
+    'https://www.motogpnews.com/feed/',
+    'MotoGP News',
+    'motogpnews',
+    MOTOGP_FAMILY_LIMIT
+  );
   return items.map((item) => ({
     ...item,
     date: item.date || dateFromMotogpnewsUrl(item.url),
@@ -322,7 +418,7 @@ export async function scrapeMotorSportMotoGP() {
       imageUrl: imageNearElement($, el, base),
     });
   });
-  return items.slice(0, 20);
+  return items.slice(0, MOTOGP_FAMILY_LIMIT);
 }
 
 export async function scrapeBennetts() {
@@ -346,7 +442,7 @@ export async function scrapeBennetts() {
       imageUrl: imageNearElement($, el, base),
     });
   });
-  return items.slice(0, 15);
+  return items.slice(0, DEFAULT_SOURCE_LIMIT);
 }
 
 export async function scrapeASBK() {
@@ -394,7 +490,7 @@ export async function scrapeWorldSBK() {
       imageUrl: imageNearElement($, el, base),
     });
   });
-  return items.slice(0, 20);
+  return items.slice(0, DEFAULT_SOURCE_LIMIT);
 }
 
 export async function scrapeMotoGP() {
@@ -418,12 +514,37 @@ export async function scrapeMotoGP() {
       imageUrl: imageNearElement($, el, base),
     });
   });
-  return items.slice(0, 20);
+  return items.slice(0, MOTOGP_FAMILY_LIMIT);
+}
+
+async function fetchOgImage(url) {
+  const html = await safeFetch(url);
+  if (!html) return null;
+  const $ = cheerio.load(html);
+  const og =
+    $('meta[property="og:image"]').attr('content') ||
+    $('meta[name="twitter:image"]').attr('content') ||
+    $('meta[property="twitter:image"]').attr('content');
+  return og ? absoluteUrl(og, url) : null;
+}
+
+/** Fill missing thumbnails for the first N headlines (best-effort, capped fetches). */
+export async function enrichHeadlineImages(headlines, limit = 15) {
+  const enriched = headlines.map((h) => ({ ...h }));
+  const targets = enriched.filter((h) => !h.imageUrl).slice(0, limit);
+  await Promise.all(
+    targets.map(async (item) => {
+      const imageUrl = await fetchOgImage(item.url);
+      if (imageUrl) item.imageUrl = imageUrl;
+    })
+  );
+  return enriched;
 }
 
 const SCRAPER_REGISTRY = [
+  { id: 'ma_roadrace', fn: scrapeMARoadRace },
   { id: 'mcnews', fn: scrapeMCNews },
-  { id: 'amcn', fn: scrapeAMCN },
+  { id: 'amcn_racing', fn: scrapeAMCNRacingCategories },
   { id: 'asbk', fn: scrapeASBK },
   { id: 'mcn', fn: scrapeMCN },
   { id: 'motogp', fn: scrapeMotoGP },
@@ -435,7 +556,9 @@ const SCRAPER_REGISTRY = [
   { id: 'bennetts', fn: scrapeBennetts },
 ];
 
-export const AU_SCRAPERS = SCRAPER_REGISTRY.filter((s) => AU_SOURCE_IDS.includes(s.id));
+export const AU_SCRAPERS = SCRAPER_REGISTRY.filter(
+  (s) => AU_SOURCE_IDS.includes(s.id) || s.id === 'amcn_racing'
+);
 
 async function loadAuHeadlinesFile() {
   try {
@@ -501,8 +624,9 @@ export async function getAllHeadlines(bypassCache = false) {
     if (!i.sourceId) i.sourceId = i.source?.toLowerCase().replace(/\s+/g, '_') || 'unknown';
   });
   deduped.sort((a, b) => (a.source + a.title).localeCompare(b.source + b.title));
-  setCache(deduped);
-  return deduped;
+  const withImages = await enrichHeadlineImages(deduped, 15);
+  setCache(withImages);
+  return withImages;
 }
 
 export async function fetchCustomHeadlines(customSources) {

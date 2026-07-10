@@ -45,6 +45,13 @@
       "calendar_id": "54704199",
       "road_race_tag": "677551074",
       "base_url": "https://timelyapp.time.ly/api/calendars/54704199/export?format=ics&target=copy"
+    },
+    "champions_ride_days": {
+      "check_schedule": {
+        "frequency": "bi_monthly",
+        "rrule": "FREQ=MONTHLY;INTERVAL=2;BYMONTHDAY=1;BYHOUR=6;BYMINUTE=0"
+      },
+      "lookahead_months": 2
     }
   },
   "sources": [
@@ -117,6 +124,15 @@
       "url": "https://www.motorcyclingwa.org.au/calendar/",
       "timely_filter_groups": "677439663",
       "notes": "Timely ICS export; WA filter_groups + Road Race tag."
+    },
+    {
+      "id": "club_au_champions_ride_days",
+      "name": "Champions Ride Days - Event Calendar",
+      "type": "track_day_calendar",
+      "jurisdiction": "AU",
+      "url": "https://championsridedays.com.au/event-calender/",
+      "lookahead_months": 2,
+      "notes": "National track-day calendar (FooEvents). Refresh bi-monthly; keep next 2 months."
     },
     {
       "id": "club_sa_phoenixmcc",

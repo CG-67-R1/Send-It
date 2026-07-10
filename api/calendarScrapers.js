@@ -190,10 +190,111 @@ function makeEvent(source, fields) {
     source_id: source.id,
     source_url: source.url,
     entry_url: fields.entry_url || null,
-    discipline: 'road_race',
+    discipline: fields.discipline || 'road_race',
     notes: fields.notes || null,
     confidence: fields.confidence || 'high',
   };
+}
+
+function makeTrackDayEvent(source, fields) {
+  const name = cleanText(fields.name);
+  if (!name || name.length < 4 || !fields.start_date) return null;
+  return {
+    name,
+    start_date: fields.start_date,
+    end_date: fields.end_date || fields.start_date,
+    state: fields.state ?? jurisdictionToState(source.jurisdiction),
+    venue: fields.venue ? cleanText(fields.venue) : null,
+    organiser: fields.organiser ? cleanText(fields.organiser) : 'Champions Ride Days',
+    source_id: source.id,
+    source_url: source.url,
+    entry_url: fields.entry_url || null,
+    discipline: 'track_day',
+    notes: fields.notes || 'Track day — book via Champions Ride Days',
+    confidence: fields.confidence || 'high',
+  };
+}
+
+function filterByLookaheadMonths(events, months = 2) {
+  const start = new Date();
+  start.setHours(0, 0, 0, 0);
+  const end = new Date(start);
+  end.setMonth(end.getMonth() + months);
+  const startStr = start.toISOString().slice(0, 10);
+  const endStr = end.toISOString().slice(0, 10);
+  return events.filter((ev) => ev.start_date >= startStr && ev.start_date <= endStr);
+}
+
+const CHAMPIONS_VENUES = [
+  { match: /broadford/i, venue: 'Broadford Raceway', state: 'VIC' },
+  { match: /the bend/i, venue: 'The Bend Motorsport Park', state: 'SA' },
+  { match: /morgan park/i, venue: 'Morgan Park Raceway', state: 'QLD' },
+  { match: /mallala/i, venue: 'Mallala Motorsport Park', state: 'SA' },
+  { match: /one raceway/i, venue: 'One Raceway', state: 'SA' },
+  { match: /collie/i, venue: 'Collie Motorplex', state: 'WA' },
+  { match: /wanneroo/i, venue: 'Wanneroo Raceway', state: 'WA' },
+  { match: /luddenham/i, venue: 'Luddenham Raceway', state: 'NSW' },
+];
+
+function venueFromChampionsTitle(title) {
+  for (const { match, venue, state } of CHAMPIONS_VENUES) {
+    if (match.test(title)) return { venue, state };
+  }
+  return { venue: null, state: null };
+}
+
+function parseChampionsRideDaysHtml(html) {
+  const m = html.match(/var\s+localObj\s*=\s*'(\{.*?\})';/s);
+  if (!m) return [];
+  try {
+    const settings = JSON.parse(m[1]);
+    return Array.isArray(settings.events) ? settings.events : [];
+  } catch {
+    return [];
+  }
+}
+
+function parseChampionsStart(isoStart) {
+  if (!isoStart) return null;
+  const d = isoStart.slice(0, 10);
+  return /^\d{4}-\d{2}-\d{2}$/.test(d) ? d : null;
+}
+
+function parseChampionsEndDate(title, startDate) {
+  const range = title.match(/(\d{1,2})\s*(?:Aug|Sep|Oct|Nov|Dec|Jan|Feb|Mar|Apr|May|Jun|Jul)[a-z]*-(\d{1,2})\s/i);
+  if (!range || !startDate) return startDate;
+  const start = new Date(`${startDate}T12:00:00`);
+  const end = new Date(start);
+  if (parseInt(range[2], 10) > parseInt(range[1], 10)) {
+    end.setDate(end.getDate() + 1);
+  }
+  return end.toISOString().slice(0, 10);
+}
+
+async function scrapeTrackDayCalendar(source) {
+  const html = await safeFetch(source.url);
+  if (!html || typeof html !== 'string') return [];
+  const raw = parseChampionsRideDaysHtml(html);
+  const events = [];
+  for (const item of raw) {
+    const title = cleanText((item.title || '').replace(/\*\*/g, ' '));
+    const start_date = parseChampionsStart(item.start);
+    if (!title || !start_date) continue;
+    const { venue, state } = venueFromChampionsTitle(title);
+    const end_date = parseChampionsEndDate(title, start_date);
+    pushUnique(events, makeTrackDayEvent(source, {
+      name: title,
+      start_date,
+      end_date,
+      venue,
+      state,
+      entry_url: item.url || source.url,
+    }));
+  }
+  const months = source.lookahead_months
+    ?? loadSourcesConfig().meta?.champions_ride_days?.lookahead_months
+    ?? 2;
+  return filterByLookaheadMonths(events, months);
 }
 
 function pushUnique(events, event) {
@@ -602,6 +703,7 @@ const SCRAPER_BY_TYPE = {
   club_updates_page: scrapeUpdatesPage,
   series_calendar: scrapeSeriesCalendar,
   club_homepage: scrapeClubCalendar,
+  track_day_calendar: scrapeTrackDayCalendar,
 };
 
 export async function scrapeSource(source) {

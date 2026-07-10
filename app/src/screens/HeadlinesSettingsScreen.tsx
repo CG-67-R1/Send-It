@@ -5,6 +5,7 @@ import {
   Linking,
   Modal,
   Platform,
+  Pressable,
   ScrollView,
   StyleSheet,
   Switch,
@@ -18,6 +19,7 @@ import { useFocusEffect } from '@react-navigation/native';
 import {
   getCustomSources,
   getPriorityOrder,
+  mergePriorityOrder,
   setPriorityOrder,
   getNotifyPriority1,
   setNotifyPriority1,
@@ -66,15 +68,28 @@ export function HeadlinesSettingsScreen() {
       getCustomSources(),
       getNotifyPriority1(),
     ]);
-    setPriorityState(order);
     setCustomSourcesState(custom);
     setNotifyPriority1State(notify);
+
+    let builtin: Source[] = [];
     try {
       const res = await fetch(SOURCES_URL, { signal: AbortSignal.timeout(5000) });
       const data = await res.json();
-      if (data.sources) setBuiltinSources(data.sources);
+      if (Array.isArray(data.sources)) builtin = data.sources;
     } catch {
-      setBuiltinSources([]);
+      builtin = [];
+    }
+    setBuiltinSources(builtin);
+
+    const builtinIds = builtin.map((s) => s.id);
+    const customIds = custom.map((s) => s.id);
+    const merged =
+      builtinIds.length > 0
+        ? mergePriorityOrder(order, builtinIds, customIds)
+        : order;
+    setPriorityState(merged);
+    if (merged.length > 0 && merged.join(',') !== order.join(',')) {
+      await setPriorityOrder(merged);
     }
   }, []);
 
@@ -155,7 +170,8 @@ export function HeadlinesSettingsScreen() {
   useFocusEffect(
     useCallback(() => {
       void loadRiderFace();
-    }, [loadRiderFace])
+      void load();
+    }, [loadRiderFace, load])
   );
 
   const riderPreset = avatarId ? getAvatarPreset(avatarId) : undefined;
@@ -235,15 +251,6 @@ export function HeadlinesSettingsScreen() {
       Alert.alert('Error', e instanceof Error ? e.message : 'Could not save photo');
     }
   }, []);
-
-  // When built-in sources first load, if priority is empty init from built-in order
-  useEffect(() => {
-    if (builtinSources.length > 0 && priority.length === 0) {
-      const ids = builtinSources.map((s) => s.id);
-      setPriorityState(ids);
-      setPriorityOrder(ids);
-    }
-  }, [builtinSources.length]);
 
   const handleSelectSource = useCallback(
     async (slotIndex: number, sourceId: string) => {
@@ -595,29 +602,35 @@ export function HeadlinesSettingsScreen() {
         animationType="fade"
         onRequestClose={() => setPickerSlot(null)}
       >
-        <TouchableOpacity
-          style={styles.modalOverlay}
-          activeOpacity={1}
-          onPress={() => setPickerSlot(null)}
-        >
+        <View style={styles.modalOverlay}>
+          <Pressable style={styles.modalBackdrop} onPress={() => setPickerSlot(null)} />
           <View style={styles.modalContent}>
             <Text style={styles.modalTitle}>Select source for position {(pickerSlot ?? 0) + 1}</Text>
-            <ScrollView style={styles.modalList}>
-              {allSources.map((s) => (
-                <TouchableOpacity
-                  key={s.id}
-                  style={styles.modalOption}
-                  onPress={() => pickerSlot !== null && handleSelectSource(pickerSlot, s.id)}
-                >
-                  <Text style={styles.modalOptionText}>{s.name}</Text>
-                </TouchableOpacity>
-              ))}
+            <ScrollView style={styles.modalList} keyboardShouldPersistTaps="handled">
+              {allSources.length === 0 ? (
+                <Text style={styles.modalEmptyText}>
+                  Start the API server to load built-in sources, or add a custom RSS feed below.
+                </Text>
+              ) : (
+                allSources.map((s) => (
+                  <TouchableOpacity
+                    key={s.id}
+                    style={styles.modalOption}
+                    onPress={() => {
+                      if (pickerSlot === null) return;
+                      void handleSelectSource(pickerSlot, s.id);
+                    }}
+                  >
+                    <Text style={styles.modalOptionText}>{s.name}</Text>
+                  </TouchableOpacity>
+                ))
+              )}
             </ScrollView>
             <TouchableOpacity style={styles.modalClose} onPress={() => setPickerSlot(null)}>
               <Text style={styles.modalCloseText}>Cancel</Text>
             </TouchableOpacity>
           </View>
-        </TouchableOpacity>
+        </View>
       </Modal>
     </ScrollView>
   );
@@ -802,14 +815,25 @@ const styles = StyleSheet.create({
   removeButtonText: { color: '#f87171', fontSize: 14 },
   modalOverlay: {
     flex: 1,
-    backgroundColor: 'rgba(0,0,0,0.6)',
     justifyContent: 'center',
     padding: 24,
+  },
+  modalBackdrop: {
+    ...StyleSheet.absoluteFillObject,
+    backgroundColor: 'rgba(0,0,0,0.6)',
   },
   modalContent: {
     backgroundColor: '#1e293b',
     borderRadius: 16,
     maxHeight: '70%',
+    zIndex: 1,
+    elevation: 4,
+  },
+  modalEmptyText: {
+    padding: 16,
+    fontSize: 14,
+    color: '#94a3b8',
+    lineHeight: 20,
   },
   modalTitle: { padding: 16, fontSize: 18, fontWeight: '600', color: '#f8fafc' },
   modalList: { maxHeight: 320 },

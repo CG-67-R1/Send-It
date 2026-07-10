@@ -7,18 +7,51 @@ const KEY_NOTIFY_PRIORITY_1 = '@roadrace_headlines_notify_priority_1';
 const KEY_LAST_SEEN_P1_URLS = '@roadrace_headlines_last_seen_p1_urls';
 
 const DEFAULT_PRIORITY: PriorityOrder = [
-  'motogp',
-  'motogpnews',
-  'peterbom',
   'gpone',
   'worldsbk',
-  'motor_sport_motogp',
-  'mcnews',
-  'amcn',
-  'asbk',
+  'peterbom',
   'mcn',
   'bennetts',
+  'motogp',
+  'motogpnews',
+  'motor_sport_motogp',
+  'ma_roadrace',
+  'asbk',
+  'amcn_asbk',
+  'amcn_club',
+  'amcn_motogp',
+  'amcn_worldsbk',
+  'amcn_road_racing',
+  'mcnews',
+  'amcn_bsb',
+  'amcn_endurance',
+  'amcn_worldwcr',
+  'amcn_kotb',
+  'amcn_esbk',
 ];
+
+/** Keep saved order, drop removed sources, append any new built-in/custom ids. */
+export function mergePriorityOrder(
+  saved: PriorityOrder,
+  builtinIds: string[],
+  customIds: string[] = []
+): PriorityOrder {
+  const valid = new Set([...builtinIds, ...customIds]);
+  const seen = new Set<string>();
+  const merged: string[] = [];
+
+  for (const id of saved) {
+    if (!valid.has(id) || seen.has(id)) continue;
+    seen.add(id);
+    merged.push(id);
+  }
+  for (const id of [...builtinIds, ...customIds]) {
+    if (seen.has(id)) continue;
+    seen.add(id);
+    merged.push(id);
+  }
+  return merged;
+}
 
 export async function getPriorityOrder(): Promise<PriorityOrder> {
   try {
@@ -28,7 +61,7 @@ export async function getPriorityOrder(): Promise<PriorityOrder> {
       if (Array.isArray(parsed)) return parsed;
     }
   } catch {}
-  return DEFAULT_PRIORITY;
+  return [...DEFAULT_PRIORITY];
 }
 
 export async function setPriorityOrder(order: PriorityOrder): Promise<void> {

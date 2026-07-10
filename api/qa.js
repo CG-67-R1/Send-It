@@ -87,6 +87,102 @@ function normalize(s) {
   return (s || '').toLowerCase().trim();
 }
 
+const STOP_WORDS = new Set([
+  'a', 'an', 'the', 'is', 'are', 'was', 'were', 'be', 'been', 'being',
+  'have', 'has', 'had', 'do', 'does', 'did', 'will', 'would', 'could',
+  'should', 'may', 'might', 'must', 'shall', 'can', 'need', 'dare',
+  'ought', 'used', 'to', 'of', 'in', 'for', 'on', 'with', 'at', 'by',
+  'from', 'as', 'into', 'through', 'during', 'before', 'after', 'above',
+  'below', 'between', 'out', 'off', 'over', 'under', 'again', 'further',
+  'then', 'once', 'here', 'there', 'when', 'where', 'why', 'how', 'all',
+  'each', 'few', 'more', 'most', 'other', 'some', 'such', 'no', 'nor',
+  'not', 'only', 'own', 'same', 'so', 'than', 'too', 'very', 'just',
+  'and', 'but', 'if', 'or', 'because', 'until', 'while', 'what', 'which',
+  'who', 'whom', 'this', 'that', 'these', 'those', 'am', 'i', 'me', 'my',
+  'myself', 'we', 'our', 'ours', 'you', 'your', 'yours', 'he', 'him', 'his',
+  'she', 'her', 'hers', 'it', 'its', 'they', 'them', 'their', 'theirs',
+  'about', 'tell', 'explain', 'know',
+]);
+
+function tokenize(text) {
+  return normalize(text)
+    .replace(/[^a-z0-9\s]/g, ' ')
+    .split(/\s+/)
+    .filter((w) => w.length > 1 && !STOP_WORDS.has(w));
+}
+
+function excerpt(text, maxLen = 500) {
+  const trimmed = (text || '').trim();
+  if (trimmed.length <= maxLen) return trimmed;
+  return trimmed.slice(0, maxLen).trimEnd() + '…';
+}
+
+function scoreText(tokens, ...fields) {
+  if (tokens.length === 0) return 0;
+  let score = 0;
+  for (const field of fields) {
+    const fieldTokens = tokenize(field);
+    if (fieldTokens.length === 0) continue;
+    const fieldSet = new Set(fieldTokens);
+    for (const t of tokens) {
+      if (fieldSet.has(t)) score += 1;
+    }
+  }
+  return score;
+}
+
+/**
+ * Retrieve top KB chunks for Ask-mode RAG (token overlap scoring).
+ * @param {string} query
+ * @param {number} [limit=5]
+ * @returns {Promise<{ chunks: Array<{ title: string, content: string, origin?: string, score: number }>, fromKb: boolean }>}
+ */
+export async function retrieveForAsk(query, limit = 5) {
+  const { documents, qa } = await loadKnowledge();
+  const tokens = tokenize(query);
+  if (tokens.length === 0) return { chunks: [], fromKb: false };
+
+  const scored = [];
+
+  for (const doc of documents) {
+    const title = doc.title || 'Document';
+    const content = doc.content || '';
+    const titleScore = scoreText(tokens, title) * 3;
+    const contentScore = scoreText(tokens, content);
+    const total = titleScore + contentScore;
+    if (total > 0) {
+      scored.push({
+        title,
+        content: excerpt(content),
+        origin: doc.origin,
+        score: total,
+      });
+    }
+  }
+
+  for (const pair of qa) {
+    const title = pair.q || 'Q';
+    const content = pair.a || '';
+    const qScore = scoreText(tokens, pair.q || '') * 4;
+    const aScore = scoreText(tokens, content);
+    const total = qScore + aScore;
+    if (total > 0) {
+      scored.push({
+        title,
+        content: excerpt(content),
+        origin: pair.origin,
+        score: total,
+      });
+    }
+  }
+
+  scored.sort((a, b) => b.score - a.score);
+  const chunks = scored.slice(0, limit);
+  const minScore = 2;
+  const fromKb = chunks.length > 0 && chunks[0].score >= minScore;
+  return { chunks: fromKb ? chunks : [], fromKb };
+}
+
 /** Exclude indices already used and variants that repeat the same question text (shuffled-option duplicates). */
 function filterAvailableIndices(bank, usedIndices, getQuestionText) {
   const usedSet = new Set(usedIndices);

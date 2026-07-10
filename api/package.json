@@ -12,11 +12,13 @@
     "build-trivia": "node buildTriviaBank.js",
     "refresh-au-headlines": "node scripts/refreshAuHeadlines.js",
     "refresh-au-calendar": "node scripts/refreshAuCalendar.js",
-    "health-check": "node ../scripts/health-check.mjs"
+    "health-check": "node ../scripts/health-check.mjs",
+    "build-rider-ai-knowledge": "node ../scripts/build-rider-ai-knowledge.mjs"
   },
   "dependencies": {
     "cheerio": "^1.0.0",
     "cors": "^2.8.5",
+    "dotenv": "^17.4.2",
     "express": "^4.21.0",
     "node-fetch": "^3.3.2",
     "openai": "^6.24.0",
