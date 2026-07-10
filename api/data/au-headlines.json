@@ -1,5 +1,5 @@
 {
-  "updatedAt": "2026-07-09T21:19:14.156Z",
+  "updatedAt": "2026-07-10T02:32:25.927Z",
   "sourceIds": [
     "mcnews",
     "amcn",
@@ -24,24 +24,8 @@
       "imageUrl": null
     },
     {
-      "title": "Marc Márquez on Ducati, aero and why the 850s might not be safer",
-      "url": "https://www.mcnews.com.au/marc-marquez-interview-ducati-aero-motogp-2027/",
-      "source": "MCNews (AU)",
-      "sourceId": "mcnews",
-      "date": null,
-      "imageUrl": null
-    },
-    {
       "title": "Suzuka 8 Hours testing complete as Miller leads Aussie charge",
       "url": "https://www.mcnews.com.au/suzuka-8-hours-2026-testing-preview-aussies/",
-      "source": "MCNews (AU)",
-      "sourceId": "mcnews",
-      "date": null,
-      "imageUrl": null
-    },
-    {
-      "title": "Royal Enfield Guerrilla 450 Apex Review | Sportier style and sharper pricing",
-      "url": "https://www.mcnews.com.au/royal-enfield-guerrilla-450-apex-review/",
       "source": "MCNews (AU)",
       "sourceId": "mcnews",
       "date": null,
@@ -56,8 +40,16 @@
       "imageUrl": null
     },
     {
-      "title": "Ducati’s Gigi Dall’Igna on AI, ABS and MotoGP’s 2027 reset",
-      "url": "https://www.mcnews.com.au/gigi-dalligna-interview-ducati-corse-motogp-2027/",
+      "title": "Marc Márquez on Ducati, aero and why the 850s might not be safer",
+      "url": "https://www.mcnews.com.au/marc-marquez-interview-ducati-aero-motogp-2027/",
+      "source": "MCNews (AU)",
+      "sourceId": "mcnews",
+      "date": null,
+      "imageUrl": null
+    },
+    {
+      "title": "Royal Enfield Guerrilla 450 Apex Review | Sportier style and sharper pricing",
+      "url": "https://www.mcnews.com.au/royal-enfield-guerrilla-450-apex-review/",
       "source": "MCNews (AU)",
       "sourceId": "mcnews",
       "date": null,
@@ -74,6 +66,14 @@
     {
       "title": "Rea puts Honda HRC on top in Suzuka qualifying",
       "url": "https://www.mcnews.com.au/suzuka-8-hours-2026-qualifying-results/",
+      "source": "MCNews (AU)",
+      "sourceId": "mcnews",
+      "date": null,
+      "imageUrl": null
+    },
+    {
+      "title": "Ducati’s Gigi Dall’Igna on AI, ABS and MotoGP’s 2027 reset",
+      "url": "https://www.mcnews.com.au/gigi-dalligna-interview-ducati-corse-motogp-2027/",
       "source": "MCNews (AU)",
       "sourceId": "mcnews",
       "date": null,
