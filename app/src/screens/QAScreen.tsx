@@ -12,7 +12,7 @@ import {
 } from 'react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import * as Analytics from 'expo-firebase-analytics';
-import { QA_TRIVIA_URL, ROADRACE_CHAT_URL } from '../../constants/api';
+import { QA_SEARCH_URL, QA_TRIVIA_URL } from '../../constants/api';
 import { AppLogo } from '../components/AppLogo';
 
 const TRIVIA_BEST_SCORE_KEY = 'ROADRACER_TRIVIA_BEST';
@@ -80,6 +80,13 @@ export function QAScreen() {
   const [goatExplosionVisible, setGoatExplosionVisible] = useState(false);
   const [goatExplosionShown, setGoatExplosionShown] = useState(false);
   const goatExplosionScale = React.useRef(new Animated.Value(0.1)).current;
+  const triviaFeedbackTimerRef = React.useRef<ReturnType<typeof setTimeout> | null>(null);
+
+  useEffect(() => {
+    return () => {
+      if (triviaFeedbackTimerRef.current) clearTimeout(triviaFeedbackTimerRef.current);
+    };
+  }, []);
 
   const triggerGoatExplosion = useCallback(() => {
     if (goatExplosionShown) return;
@@ -137,23 +144,16 @@ export function QAScreen() {
     setSearchError(null);
     setSearchResults([]);
     try {
-      const res = await fetch(ROADRACE_CHAT_URL, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ message: q, mode: 'coach', history: [] }),
-        signal: AbortSignal.timeout(60000),
+      const res = await fetch(`${QA_SEARCH_URL}?q=${encodeURIComponent(q)}`, {
+        signal: AbortSignal.timeout(30000),
       });
       const data = await res.json();
       if (!res.ok) {
-        setSearchError(data?.error || 'Request failed');
+        setSearchError(data?.error || 'Search failed');
         return;
       }
-      const reply = typeof data?.reply === 'string' ? data.reply.trim() : '';
-      if (reply) {
-        setSearchResults([{ title: 'Answer', content: reply }]);
-      } else {
-        setSearchError('No response from coach');
-      }
+      const results = Array.isArray(data.results) ? data.results : [];
+      setSearchResults(results);
     } catch (e) {
       setSearchError(e instanceof Error ? e.message : 'Request failed');
       setSearchResults([]);
@@ -292,8 +292,9 @@ export function QAScreen() {
 
       const nextRegion = getRegionForOrder(newCorrect, newWrong);
       const usedNow = nextRegion === 'au' ? updatedAusUsed : updatedGlobalUsed;
-      // Show correct/incorrect feedback for 1 second before loading next question
-      setTimeout(() => {
+      if (triviaFeedbackTimerRef.current) clearTimeout(triviaFeedbackTimerRef.current);
+      triviaFeedbackTimerRef.current = setTimeout(() => {
+        triviaFeedbackTimerRef.current = null;
         fetchTriviaQuestion(usedNow, newCorrect, newWrong, nextDifficulty);
       }, 1000);
     },
@@ -313,6 +314,10 @@ export function QAScreen() {
   );
 
   const resetTrivia = useCallback(() => {
+    if (triviaFeedbackTimerRef.current) {
+      clearTimeout(triviaFeedbackTimerRef.current);
+      triviaFeedbackTimerRef.current = null;
+    }
     setTriviaState('idle');
     setTriviaCorrect(0);
     setTriviaWrong(0);
@@ -407,7 +412,7 @@ export function QAScreen() {
             ))}
           </View>
         ) : query.trim() && !searchLoading && !searchError ? (
-          <Text style={styles.hint}>Ask a question above to get an answer from the coach.</Text>
+          <Text style={styles.hint}>No matches in the knowledge base. Try different keywords.</Text>
         ) : null}
       </View>
       )}

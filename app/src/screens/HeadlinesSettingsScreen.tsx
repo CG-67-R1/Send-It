@@ -297,13 +297,16 @@ export function HeadlinesSettingsScreen() {
           onPress: async () => {
             await removeCustomSource(id);
             setCustomSourcesState((prev) => prev.filter((s) => s.id !== id));
-            setPriorityState((prev) => prev.filter((sid) => sid !== id));
-            await setPriorityOrder(priority.filter((sid) => sid !== id));
+            setPriorityState((prev) => {
+              const next = prev.filter((sid) => sid !== id);
+              void setPriorityOrder(next);
+              return next;
+            });
           },
         },
       ]);
     },
-    [priority]
+    []
   );
 
   const handleResetOnboarding = useCallback(() => {

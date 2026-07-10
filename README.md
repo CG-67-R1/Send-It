@@ -122,7 +122,10 @@ Before merging into `main`, run:
 ```bash
 cd api && npm test || npm start   # basic health / manual check
 cd ../app && npx tsc --noEmit     # TypeScript check
+node scripts/health-check.mjs     # full repo health gate
 ```
+
+**Mobile app review (Hermes):** on-demand deep audit via Hermes Agent — `hermes` then `/skill send-it/mobile-review`. Writes `docs/reviews/MOBILE_REVIEW_*.md` (report only; fix in Cursor). See `AGENTS.md` → Hermes mobile developer review.
 
 ## Deploying the API
 

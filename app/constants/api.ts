@@ -2,7 +2,7 @@
 // Android emulator: 'http://10.0.2.2:3001' (do not use expo-constants isDevice — removed in SDK 50+)
 import { Platform } from 'react-native';
 
-const DEV_MACHINE_IP = '192.168.1.13';
+const DEV_MACHINE_IP = process.env.EXPO_PUBLIC_DEV_MACHINE_IP ?? '192.168.1.13';
 const API_PORT = 3001;
 
 /** Best-effort: AVD / emulator images usually expose model/fingerprint hints. */
@@ -19,14 +19,17 @@ function isLikelyAndroidEmulator(): boolean {
 }
 
 const getApiBaseUrl = () => {
+  const fromEnv = process.env.EXPO_PUBLIC_API_URL?.trim();
+  if (fromEnv) {
+    return fromEnv.replace(/\/$/, '');
+  }
   if (__DEV__) {
     if (Platform.OS === 'android' && isLikelyAndroidEmulator()) {
       return `http://10.0.2.2:${API_PORT}`;
     }
     return `http://${DEV_MACHINE_IP}:${API_PORT}`;
   }
-  // Production / PoC: use env var so you can set it per deployment
-  return process.env.EXPO_PUBLIC_API_URL ?? 'https://send-it-ke7r.onrender.com';
+  return 'https://send-it-ke7r.onrender.com';
 };
 
 export const API_BASE_URL = getApiBaseUrl();

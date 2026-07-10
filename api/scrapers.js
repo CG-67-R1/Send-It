@@ -12,6 +12,10 @@ import { fileURLToPath } from 'url';
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const AU_HEADLINES_FILE = path.join(__dirname, 'data', 'au-headlines.json');
 
+const PETERBOM_PODCAST_FEED =
+  process.env.PETERBOM_PODCAST_FEED_URL || 'https://feeds.buzzsprout.com/2181509.rss';
+
+/** Public RSS-Bridge Instagram feeds are often empty (login/rate limits). Override only if you run a private bridge with session cookies. */
 const PETERBOM_INSTAGRAM_FEED =
   process.env.PETERBOM_INSTAGRAM_FEED_URL ||
   'https://rss-bridge.org/bridge01/?action=display&bridge=Instagram&u=peterbom4racing&format=Atom';
@@ -23,7 +27,7 @@ export const BUILTIN_SOURCES = [
   { id: 'mcn', name: 'MCN' },
   { id: 'motogp', name: 'MotoGP' },
   { id: 'motogpnews', name: 'MotoGP News' },
-  { id: 'peterbom', name: 'Peterbom (Instagram)' },
+  { id: 'peterbom', name: 'Peter Bom (Podcast)' },
   { id: 'gpone', name: 'GPone' },
   { id: 'motor_sport_motogp', name: 'Motor Sport MotoGP' },
   { id: 'worldsbk', name: 'WorldSBK' },
@@ -145,16 +149,34 @@ function dateFromMotogpnewsUrl(url) {
   return m ? `${m[1]}-${m[2]}-${m[3]}` : null;
 }
 
-async function fetchRssHeadlines(feedUrl, source, sourceId, limit = 20) {
+/** Buzzsprout and some podcast feeds omit item.link; derive a page URL when possible. */
+function urlFromRssItem(item) {
+  if (item.link) return item.link;
+  const guid = typeof item.guid === 'string' ? item.guid : '';
+  if (guid.startsWith('http')) return guid;
+  const enc = item.enclosure?.url || '';
+  if (enc.includes('buzzsprout.com/episodes/')) {
+    return enc.replace(/\.mp3(\?.*)?$/i, '');
+  }
+  const buzzId = guid.match(/^Buzzsprout-(\d+)$/);
+  const showId = enc.match(/buzzsprout\.com\/(\d+)\/episodes\//);
+  if (buzzId && showId) {
+    return `https://www.buzzsprout.com/${showId[1]}/episodes/${buzzId[1]}`;
+  }
+  return guid || '';
+}
+
+async function fetchRssHeadlines(feedUrl, source, sourceId, limit = 20, options = {}) {
   try {
     const feed = await rssParser.parseURL(feedUrl);
+    const feedImage = options.feedImageUrl || feed.itunes?.image || feed.image?.url || null;
     return (feed.items || []).slice(0, limit).map((item) => ({
       title: cleanTitle(item.title) || 'Untitled',
-      url: item.link || item.guid || '',
+      url: urlFromRssItem(item),
       source,
       sourceId,
       date: item.pubDate ? parseDate(item.pubDate) : null,
-      imageUrl: imageFromRssItem(item),
+      imageUrl: imageFromRssItem(item) || feedImage,
     })).filter((i) => i.url);
   } catch (e) {
     console.warn(`[headlines] RSS failed for ${sourceId}:`, e.message || e);
@@ -246,7 +268,22 @@ export async function scrapeMotoGPNews() {
 }
 
 export async function scrapePeterBom() {
-  return fetchRssHeadlines(PETERBOM_INSTAGRAM_FEED, 'Peterbom (Instagram)', 'peterbom', 15);
+  if (process.env.PETERBOM_INSTAGRAM_FEED_URL) {
+    const instagram = await fetchRssHeadlines(
+      PETERBOM_INSTAGRAM_FEED,
+      'Peter Bom (Instagram)',
+      'peterbom',
+      15
+    );
+    if (instagram.length > 0) return instagram;
+    console.warn('[headlines] peterbom Instagram feed returned 0 items; using podcast feed');
+  }
+  return fetchRssHeadlines(
+    PETERBOM_PODCAST_FEED,
+    'Peter Bom (Podcast)',
+    'peterbom',
+    15
+  );
 }
 
 function titleFromArticleLink($, el) {

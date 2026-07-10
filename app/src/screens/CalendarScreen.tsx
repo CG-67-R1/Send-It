@@ -31,7 +31,7 @@ type CalendarFilter = 'all' | 'australia' | 'world';
 const AU_SERIES = new Set(['asbk', 'au_club', 'au_national', 'australia']);
 
 function isAustraliaEvent(item: CalendarEvent): boolean {
-  return AU_SERIES.has(item.series) || item.detailTier === 'full' || item.country === 'Australia';
+  return AU_SERIES.has(item.series) || item.country === 'Australia';
 }
 
 function filterEvents(events: CalendarEvent[], filter: CalendarFilter): CalendarEvent[] {
@@ -82,10 +82,16 @@ export function CalendarScreen() {
       const url = isRefresh ? `${CALENDAR_URL}?refresh=1` : CALENDAR_URL;
       const res = await fetch(url, { signal: AbortSignal.timeout(15000) });
       const data = await res.json();
+      if (!res.ok) {
+        throw new Error(typeof data?.error === 'string' ? data.error : `Calendar API returned ${res.status}`);
+      }
       const list = Array.isArray(data.events) ? data.events : [];
       setEvents(list);
     } catch (e) {
-      const message = e instanceof Error ? e.message : 'Failed to load calendar';
+      const raw = e instanceof Error ? e.message : 'Failed to load calendar';
+      const message = /network request failed|timed out|timeout/i.test(raw)
+        ? 'Could not reach the server. Check your connection and that the API is running.'
+        : raw;
       setError(message);
       setEvents([]);
     } finally {

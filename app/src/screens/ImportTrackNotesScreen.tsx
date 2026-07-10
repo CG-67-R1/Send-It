@@ -4,6 +4,7 @@ import {
   Alert,
   Image,
   KeyboardAvoidingView,
+  Linking,
   Platform,
   ScrollView,
   StyleSheet,
@@ -76,6 +77,14 @@ export function ImportTrackNotesScreen() {
 
   const handleAddPhoto = useCallback(async () => {
     try {
+      const { status } = await ImagePicker.requestMediaLibraryPermissionsAsync();
+      if (status !== 'granted') {
+        Alert.alert('Photos', 'Allow photo access to attach reference images.', [
+          { text: 'OK' },
+          { text: 'Settings', onPress: () => Linking.openSettings() },
+        ]);
+        return;
+      }
       const result = await ImagePicker.launchImageLibraryAsync({
         mediaTypes: ImagePicker.MediaTypeOptions.Images,
         quality: 0.7,

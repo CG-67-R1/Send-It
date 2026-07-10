@@ -33,12 +33,14 @@ export function RiderCoachScreen() {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const scrollRef = useRef<ScrollView>(null);
-  const seededRef = useRef(false);
+  const lastSeedKeyRef = useRef<string | null>(null);
 
   useEffect(() => {
     const seed = route.params?.seedMessages;
-    if (!seed?.length || seededRef.current) return;
-    seededRef.current = true;
+    if (!seed?.length) return;
+    const seedKey = JSON.stringify(seed);
+    if (lastSeedKeyRef.current === seedKey) return;
+    lastSeedKeyRef.current = seedKey;
     setActiveTab('coach');
     setCoachMessages(seed);
     setTimeout(() => scrollRef.current?.scrollToEnd({ animated: true }), 150);

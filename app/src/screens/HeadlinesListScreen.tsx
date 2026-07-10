@@ -52,6 +52,7 @@ export function HeadlinesListScreen() {
   const [loading, setLoading] = useState(true);
   const [refreshing, setRefreshing] = useState(false);
   const [error, setError] = useState<string | null>(null);
+  const [customFeedWarning, setCustomFeedWarning] = useState<string | null>(null);
   const [viewMode, setViewMode] = useState<'world' | 'local' | 'custom'>('world');
   const [customSourceIds, setCustomSourceIds] = useState<string[]>([]);
 
@@ -59,6 +60,7 @@ export function HeadlinesListScreen() {
     if (isRefresh) setRefreshing(true);
     else setLoading(true);
     setError(null);
+    setCustomFeedWarning(null);
     try {
       const [priorityOrder, customSources] = await Promise.all([
         getPriorityOrder(),
@@ -90,9 +92,11 @@ export function HeadlinesListScreen() {
           if (customRes.ok) {
             const customData = await customRes.json();
             if (Array.isArray(customData.headlines)) list = [...list, ...customData.headlines];
+          } else {
+            setCustomFeedWarning('Some custom RSS sources could not be loaded.');
           }
         } catch {
-          // ignore custom fetch failure
+          setCustomFeedWarning('Some custom RSS sources could not be loaded.');
         }
       }
 
@@ -263,6 +267,9 @@ export function HeadlinesListScreen() {
           <Text style={styles.modeHint}>
             World: mixed feed (1 in 4 AU) • Aus: Australian only • Custom: your feeds
           </Text>
+          {customFeedWarning ? (
+            <Text style={styles.warningText}>{customFeedWarning}</Text>
+          ) : null}
         </View>
       }
       ListEmptyComponent={
@@ -299,6 +306,12 @@ const styles = StyleSheet.create({
   errorText: {
     color: '#f87171',
     fontSize: 16,
+    textAlign: 'center',
+  },
+  warningText: {
+    color: '#fbbf24',
+    fontSize: 13,
+    marginTop: 10,
     textAlign: 'center',
   },
   hint: {
