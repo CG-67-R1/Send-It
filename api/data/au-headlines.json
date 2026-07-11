@@ -1,5 +1,5 @@
 {
-  "updatedAt": "2026-07-11T13:07:36.949Z",
+  "updatedAt": "2026-07-11T16:51:46.459Z",
   "sourceIds": [
     "ma_roadrace",
     "mcnews",
@@ -15,88 +15,8 @@
     "amcn_worldwcr",
     "amcn_endurance"
   ],
-  "count": 82,
+  "count": 72,
   "headlines": [
-    {
-      "title": "Triumph rolls out 2027 colour updates across six models",
-      "url": "https://www.mcnews.com.au/triumph-2027-colours-australia-pricing/",
-      "source": "MCNews (AU)",
-      "sourceId": "mcnews",
-      "date": null,
-      "imageUrl": null
-    },
-    {
-      "title": "Takahashi makes history as Honda wins rain-hit Suzuka 8 Hours",
-      "url": "https://www.mcnews.com.au/suzuka-8-hours-2026-results-honda-yamaha-bmw/",
-      "source": "MCNews (AU)",
-      "sourceId": "mcnews",
-      "date": null,
-      "imageUrl": null
-    },
-    {
-      "title": "Triumph Trident 800 Review | Gentleman’s hooligan",
-      "url": "https://www.mcnews.com.au/triumph-trident-800-review/",
-      "source": "MCNews (AU)",
-      "sourceId": "mcnews",
-      "date": null,
-      "imageUrl": null
-    },
-    {
-      "title": "Marc Márquez on Ducati, aero and why the 850s might not be safer",
-      "url": "https://www.mcnews.com.au/marc-marquez-interview-ducati-aero-motogp-2027/",
-      "source": "MCNews (AU)",
-      "sourceId": "mcnews",
-      "date": null,
-      "imageUrl": null
-    },
-    {
-      "title": "Suzuki SV-7GX and SV-7GXV keep the SV650 V-twin legend alive",
-      "url": "https://www.mcnews.com.au/suzuki-sv-7gx-sv-7gxv-v-twin/",
-      "source": "MCNews (AU)",
-      "sourceId": "mcnews",
-      "date": null,
-      "imageUrl": null
-    },
-    {
-      "title": "Royal Enfield Guerrilla 450 Apex Review | Sportier style and sharper pricing",
-      "url": "https://www.mcnews.com.au/royal-enfield-guerrilla-450-apex-review/",
-      "source": "MCNews (AU)",
-      "sourceId": "mcnews",
-      "date": null,
-      "imageUrl": null
-    },
-    {
-      "title": "Ducati at 100: Domenicali on Bologna, VW and the rise of China",
-      "url": "https://www.mcnews.com.au/claudio-domenicali-ducati-interview-2026/",
-      "source": "MCNews (AU)",
-      "sourceId": "mcnews",
-      "date": null,
-      "imageUrl": null
-    },
-    {
-      "title": "Limited-run CFMOTO 675NK GP lands at $11,490 ride-away",
-      "url": "https://www.mcnews.com.au/cfmoto-675nk-gp-limited-release-australia/",
-      "source": "MCNews (AU)",
-      "sourceId": "mcnews",
-      "date": null,
-      "imageUrl": null
-    },
-    {
-      "title": "Ducati’s Gigi Dall’Igna on AI, ABS and MotoGP’s 2027 reset",
-      "url": "https://www.mcnews.com.au/gigi-dalligna-interview-ducati-corse-motogp-2027/",
-      "source": "MCNews (AU)",
-      "sourceId": "mcnews",
-      "date": null,
-      "imageUrl": null
-    },
-    {
-      "title": "BMW sharpens M 1000 RR as 2027 model updates roll out",
-      "url": "https://www.mcnews.com.au/bmw-motorrad-2027-model-updates-m-1000-rr-frame/",
-      "source": "MCNews (AU)",
-      "sourceId": "mcnews",
-      "date": null,
-      "imageUrl": null
-    },
     {
       "title": "2026 Cancer Council Cup The Mac Park Cancer Council Cup is back, where the local community wins with each and every lap",
       "url": "https://amcn.com.au/editorial/2026-cancer-council-cup/",
