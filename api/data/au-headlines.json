@@ -1,5 +1,5 @@
 {
-  "updatedAt": "2026-07-10T14:11:19.084Z",
+  "updatedAt": "2026-07-12T20:39:21.371Z",
   "sourceIds": [
     "ma_roadrace",
     "mcnews",
@@ -26,22 +26,6 @@
       "imageUrl": null
     },
     {
-      "title": "Takahashi makes history as Honda wins rain-hit Suzuka 8 Hours",
-      "url": "https://www.mcnews.com.au/suzuka-8-hours-2026-results-honda-yamaha-bmw/",
-      "source": "MCNews (AU)",
-      "sourceId": "mcnews",
-      "date": null,
-      "imageUrl": null
-    },
-    {
-      "title": "Marc Márquez on Ducati, aero and why the 850s might not be safer",
-      "url": "https://www.mcnews.com.au/marc-marquez-interview-ducati-aero-motogp-2027/",
-      "source": "MCNews (AU)",
-      "sourceId": "mcnews",
-      "date": null,
-      "imageUrl": null
-    },
-    {
       "title": "Triumph Trident 800 Review | Gentleman’s hooligan",
       "url": "https://www.mcnews.com.au/triumph-trident-800-review/",
       "source": "MCNews (AU)",
@@ -50,16 +34,8 @@
       "imageUrl": null
     },
     {
-      "title": "Royal Enfield Guerrilla 450 Apex Review | Sportier style and sharper pricing",
-      "url": "https://www.mcnews.com.au/royal-enfield-guerrilla-450-apex-review/",
-      "source": "MCNews (AU)",
-      "sourceId": "mcnews",
-      "date": null,
-      "imageUrl": null
-    },
-    {
-      "title": "Suzuka 8 Hours testing complete as Miller leads Aussie charge",
-      "url": "https://www.mcnews.com.au/suzuka-8-hours-2026-testing-preview-aussies/",
+      "title": "Takahashi makes history as Honda wins rain-hit Suzuka 8 Hours",
+      "url": "https://www.mcnews.com.au/suzuka-8-hours-2026-results-honda-yamaha-bmw/",
       "source": "MCNews (AU)",
       "sourceId": "mcnews",
       "date": null,
@@ -74,8 +50,24 @@
       "imageUrl": null
     },
     {
-      "title": "BMW sharpens M 1000 RR as 2027 model updates roll out",
-      "url": "https://www.mcnews.com.au/bmw-motorrad-2027-model-updates-m-1000-rr-frame/",
+      "title": "Marc Márquez on Ducati, aero and why the 850s might not be safer",
+      "url": "https://www.mcnews.com.au/marc-marquez-interview-ducati-aero-motogp-2027/",
+      "source": "MCNews (AU)",
+      "sourceId": "mcnews",
+      "date": null,
+      "imageUrl": null
+    },
+    {
+      "title": "Royal Enfield Guerrilla 450 Apex Review | Sportier style and sharper pricing",
+      "url": "https://www.mcnews.com.au/royal-enfield-guerrilla-450-apex-review/",
+      "source": "MCNews (AU)",
+      "sourceId": "mcnews",
+      "date": null,
+      "imageUrl": null
+    },
+    {
+      "title": "Ducati at 100: Domenicali on Bologna, VW and the rise of China",
+      "url": "https://www.mcnews.com.au/claudio-domenicali-ducati-interview-2026/",
       "source": "MCNews (AU)",
       "sourceId": "mcnews",
       "date": null,
@@ -90,8 +82,16 @@
       "imageUrl": null
     },
     {
-      "title": "Ducati at 100: Domenicali on Bologna, VW and the rise of China",
-      "url": "https://www.mcnews.com.au/claudio-domenicali-ducati-interview-2026/",
+      "title": "Ducati’s Gigi Dall’Igna on AI, ABS and MotoGP’s 2027 reset",
+      "url": "https://www.mcnews.com.au/gigi-dalligna-interview-ducati-corse-motogp-2027/",
+      "source": "MCNews (AU)",
+      "sourceId": "mcnews",
+      "date": null,
+      "imageUrl": null
+    },
+    {
+      "title": "Marc Marquez tops Sachsenring Friday as Jack Miller charges into Q2",
+      "url": "https://www.mcnews.com.au/2026-german-motogp-friday-marquez-miller/",
       "source": "MCNews (AU)",
       "sourceId": "mcnews",
       "date": null,
