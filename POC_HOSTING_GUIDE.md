@@ -156,7 +156,7 @@ If you **Import** the repo (e.g. `CG-67-R1/Send-It`) in Vercel instead of deploy
 2. Set **Root Directory** to **`app`** and save.  
    **Important:** If you leave the root as the repo root, Vercel will treat the repo’s `api/` folder as serverless functions. Those files (e.g. `buildTriviaBank.js`) pull in large dependencies and can exceed Vercel’s 300 MB function size limit. Using Root Directory `app` limits the build to the Expo app only; your real API stays on Render.
 3. **Environment Variables:** Add `EXPO_PUBLIC_API_URL` = your Render API URL (e.g. `https://send-it-ke7r.onrender.com`).
-4. **Build & Output:** The `app/vercel.json` in the repo sets build to `npx expo export --platform web` and output to `dist`. No need to change these if the file is present.
+4. **Build & Output:** Root Directory **`app`**. Build command `npm run build` (runs `expo export --platform web`); output `dist`. See [`app/vercel.json`](app/vercel.json) and [`ENVIRONMENT.md`](ENVIRONMENT.md).
 5. Redeploy (e.g. **Deployments → … → Redeploy**).
 
 ### 3.4 (Optional) Set env var in Vercel for future builds

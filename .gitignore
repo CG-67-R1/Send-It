@@ -11,6 +11,9 @@ app/web-build/
 .env.local
 *.local
 
+# Vercel local link (project id is in ENVIRONMENT.md)
+app/.vercel/
+
 # IDE / editor
 .cursor/*
 !.cursor/mcp.json

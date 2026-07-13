@@ -1,4 +1,4 @@
-import geofenceCatalog from '../data/catalog_track_geofences.geojson';
+import geofenceCatalog from '../data/catalog_track_geofences.json';
 import { getTrackById } from '../data/tracks';
 
 export interface TrackGeofenceMatch {

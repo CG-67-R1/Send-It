@@ -53,6 +53,7 @@ cd ../app && npx tsc --noEmit
 ## Key docs
 
 - `README.md` — quick start and features
+- `ENVIRONMENT.md` — GitHub, Render, and Vercel URLs, branch policy, health checks
 - `PROJECT_STATUS_AND_PRE_PRODUCTION.md` — health checks and pre-prod work
 - `POC_HOSTING_GUIDE.md` — Render / Vercel hosting notes
 - `SCREEN_BRIEF_FOR_VISUALS.md` — screen UX intent
