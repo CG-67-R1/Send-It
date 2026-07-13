@@ -12,6 +12,20 @@ From repo root (PowerShell):
 .\scripts\install-hermes-skills.ps1
 ```
 
+Or use the all-in-one helper (installs skills, creates cron jobs, starts gateway):
+
+```powershell
+.\scripts\setup-hermes-cron.ps1
+```
+
+Optional delivery override: `.\scripts\setup-hermes-cron.ps1 -Deliver local`
+
+This creates:
+- **Send-It daily gate** — weekdays 8:00, script-only (no Nous tokens on pass), delivers to Telegram
+- **Send-It weekly review** — Mondays 9:00, uses `rr-app-expert` + `mobile-review` skills
+
+Manual CLI alternative (if you prefer chat-based setup):
+
 This copies `docs/hermes/skills/send-it/*` → `%LOCALAPPDATA%\hermes\skills\send-it\`.
 
 ### 2. Create cron jobs in Hermes
@@ -57,6 +71,9 @@ Then open the report in Cursor and implement P0/P1 items.
 |------|---------|
 | Preflight only | `node scripts/mobile-review-preflight.mjs` |
 | Daily gate script | `node scripts/hermes-daily-gate.mjs` |
+| Hermes cron setup | `.\scripts\setup-hermes-cron.ps1` |
+| Production verify | `node scripts/verify-production.mjs` |
+| iOS smoke test | `node scripts/ios-smoke-test.mjs` |
 | Full health (prod) | `$env:API_URL='https://send-it-ke7r.onrender.com'; node scripts/health-check.mjs` |
 | On-demand expert | In Hermes: `/skill send-it/rr-app-expert` then ask for weekly-review |
 

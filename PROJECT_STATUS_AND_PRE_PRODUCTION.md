@@ -45,7 +45,7 @@ No other unused or discarded files were found that are referenced by the app or 
   - **Headlines Settings** — Notify for Priority 1; source priority grid; custom RSS sources.
   - **Change Avatar** — Predefined avatars or “Upload my photo” (frame + camera/library); persisted via onboarding + avatar photo storage.
   - **Calendar** — Events from API + optional static fallback.
-  - **Q&A** — “Ask” tab: `POST /roadrace-ai/chat` (OpenAI coach); “Trivia” tab: `GET /qa/trivia` (quiz from API).
+  - **Q&A** — “Ask” tab: `POST /roadrace-ai/ask` (OpenAI + PDF knowledge base); “Trivia” tab: `GET /qa/trivia` (quiz from API).
   - **Rider Coach** — Coach & Bike Setup tabs; in-app chat via `/roadrace-ai/chat`.
   - **Track Walk** — Track notes (local storage); optional speech; share.
   - **Import Track Notes** — Shared/import flow for track notes.
@@ -55,7 +55,7 @@ No other unused or discarded files were found that are referenced by the app or 
 ### 3.2 API (Node / Express)
 
 - **Location:** `api/` (ESM).
-- **Endpoints:** `/health`, `/`, `/sources`, `/headlines`, `/headlines/custom`, `/qa/search`, `/qa/trivia`, `/calendar`, `POST /roadrace-ai/chat`.
+- **Endpoints:** `/health`, `/`, `/sources`, `/headlines`, `/headlines/custom`, `/qa/search`, `/qa/trivia`, `/calendar`, `POST /roadrace-ai/chat`, `POST /roadrace-ai/ask`.
 - **Data:** Scrapers for headlines; `api/data/` for calendar/sources; `api/Q&A/` for knowledge/trivia (e.g. `trivia-bank.json`, `Q&A_with_ratings.json`, `AUS_Q&A.json`); RoadRace AI via `OPENAI_API_KEY` and `api/roadraceAi.js`.
 - **Scripts:** `ingest-qa`, `scrape-pdfs`, `build-trivia` (see `api/package.json`).
 
@@ -79,7 +79,7 @@ No other unused or discarded files were found that are referenced by the app or 
 ### 4.2 Should-have
 
 - [ ] **Error handling** — Confirm user-facing messages for API down / timeouts (e.g. Q&A and Headlines) are clear and consistent.
-- [ ] **Rate limits / cost** — If using OpenAI on a free/low tier, consider rate limiting or caps for `/roadrace-ai/chat`.
+- [x] **Rate limits / cost** — `express-rate-limit` on `/roadrace-ai/*` (30 req / 15 min per IP).
 - [ ] **Secrets** — No API keys or secrets in repo or client bundle; all secrets in server env only.
 
 ### 4.3 Nice-to-have (post–proof of concept)

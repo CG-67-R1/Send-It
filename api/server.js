@@ -1,6 +1,7 @@
 import 'dotenv/config';
 import express from 'express';
 import cors from 'cors';
+import rateLimit from 'express-rate-limit';
 import { getAllHeadlines, fetchCustomHeadlines, BUILTIN_SOURCES } from './scrapers.js';
 import { search, getTriviaQuestion } from './qa.js';
 import { getCalendarEvents } from './calendar.js';
@@ -12,6 +13,16 @@ const PORT = process.env.PORT || 3001;
 
 app.use(cors());
 app.use(express.json({ limit: '8mb' }));
+
+const roadraceAiLimiter = rateLimit({
+  windowMs: 15 * 60 * 1000,
+  max: 30,
+  standardHeaders: true,
+  legacyHeaders: false,
+  message: { error: 'Too many AI requests — try again in a few minutes.' },
+});
+
+app.use('/roadrace-ai', roadraceAiLimiter);
 
 app.get('/health', (_, res) => {
   res.json({

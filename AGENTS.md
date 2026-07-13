@@ -135,3 +135,16 @@ cd api && npm run health-check
 ```bash
 cd api && npm run refresh-au-headlines
 ```
+
+**Autonomous monitoring (GitHub + Hermes)**
+
+```powershell
+# Hermes skills + cron blocks
+.\scripts\setup-hermes-cron.ps1
+
+# Production probe / iOS API smoke test
+node scripts/verify-production.mjs
+node scripts/ios-smoke-test.mjs
+```
+
+GitHub Actions (on push to `main`): health-check every 10 min + weekly AU cache refresh — see `.github/workflows/`.

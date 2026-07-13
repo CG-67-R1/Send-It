@@ -18,6 +18,7 @@ import { OnboardingScreen } from './src/screens/OnboardingScreen';
 import { getOnboardingDone, resetOnboardingForRetest } from './src/storage/onboarding';
 import { OnboardingResetContext } from './src/context/OnboardingResetContext';
 import { TrackArrivalProvider } from './src/context/TrackArrivalContext';
+import { navigationRef } from './src/navigation/rootNavigation';
 
 const Stack = createNativeStackNavigator();
 const Tab = createBottomTabNavigator();
@@ -195,7 +196,7 @@ export default function App() {
       ) : (
         <OnboardingResetContext.Provider value={{ resetOnboarding }}>
           <View style={{ flex: 1 }}>
-            <NavigationContainer>
+            <NavigationContainer ref={navigationRef}>
               <TrackArrivalProvider>
                 <StatusBar style="light" />
                 <MainTabs />

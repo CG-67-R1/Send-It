@@ -11,8 +11,8 @@ import {
   ImageSourcePropType,
 } from 'react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import * as Analytics from 'expo-firebase-analytics';
 import { QA_TRIVIA_URL } from '../../constants/api';
+import { logAnalyticsEvent } from '../utils/analytics';
 import { sendAskChat, type AskSource } from '../utils/askChat';
 import { AppLogo } from '../components/AppLogo';
 import { SCREEN_LOGO_SIZE } from '../constants/logoSizing';
@@ -187,12 +187,12 @@ export function QAScreen() {
           throw new Error('Invalid trivia response from server');
         }
         if (data.error) {
-          Analytics.logEvent('trivia_end', {
+          void logAnalyticsEvent('trivia_end', {
             result: 'complete',
             correct,
             wrong,
             difficulty,
-          }).catch(() => {});
+          });
           saveTriviaBestIfBetter(correct);
           setTriviaState('result');
           setTriviaResult(
@@ -223,7 +223,7 @@ export function QAScreen() {
   );
 
   const startTrivia = useCallback(() => {
-    Analytics.logEvent('trivia_start').catch(() => {});
+    void logAnalyticsEvent('trivia_start');
     setTriviaNewBest(false);
     setTriviaState('playing');
     setTriviaCorrect(0);
@@ -245,11 +245,11 @@ export function QAScreen() {
       const currentWrong = triviaWrong;
       const currentRegion = getRegionForOrder(currentCorrect, currentWrong);
 
-      Analytics.logEvent('trivia_answer', {
+      void logAnalyticsEvent('trivia_answer', {
         correct,
         difficulty: triviaDifficulty,
         region: currentRegion,
-      }).catch(() => {});
+      });
 
       setLastAnswerCorrect(correct);
       const newCorrect = currentCorrect + (correct ? 1 : 0);
@@ -283,12 +283,12 @@ export function QAScreen() {
       setTriviaDifficulty(nextDifficulty);
 
       if (newWrong >= 3) {
-        Analytics.logEvent('trivia_end', {
+        void logAnalyticsEvent('trivia_end', {
           result: 'failed',
           correct: newCorrect,
           wrong: newWrong,
           difficulty: nextDifficulty,
-        }).catch(() => {});
+        });
         saveTriviaBestIfBetter(newCorrect);
         setTriviaState('failed');
         setTriviaFailMessage("Three strikes—time to hit the manual and try again.");

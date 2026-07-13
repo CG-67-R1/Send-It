@@ -1,0 +1,45 @@
+name: Health check
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+  schedule:
+  # Keep Render warm + catch regressions (every 10 minutes)
+    - cron: '*/10 * * * *'
+  workflow_dispatch:
+
+env:
+  API_URL: https://send-it-ke7r.onrender.com
+
+jobs:
+  health-check:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: npm
+          cache-dependency-path: |
+            app/package-lock.json
+            api/package-lock.json
+
+      - name: Install app dependencies
+        working-directory: app
+        run: npm ci --legacy-peer-deps
+
+      - name: Install API dependencies
+        working-directory: api
+        run: npm ci
+
+      - name: Run health check (skip live scrapers)
+        run: node scripts/health-check.mjs
+        env:
+          SKIP_SCRAPERS: '1'
+
+      - name: Ping production health (cold-start tolerant)
+        run: node scripts/verify-production.mjs

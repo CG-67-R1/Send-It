@@ -11,7 +11,8 @@ import {
   TouchableOpacity,
   View,
 } from 'react-native';
-import { useRoute, type RouteProp } from '@react-navigation/native';
+import { useNavigation, useRoute, type RouteProp } from '@react-navigation/native';
+import type { NativeStackNavigationProp } from '@react-navigation/native-stack';
 import { AppLogo } from '../components/AppLogo';
 import { COMPACT_LOGO_SIZE } from '../constants/logoSizing';
 import { CoachFaqSection } from '../components/CoachFaqSection';
@@ -43,8 +44,11 @@ type RiderCoachRouteParams = {
   };
 };
 
+type RiderCoachNav = NativeStackNavigationProp<RiderCoachRouteParams, 'RiderCoach'>;
+
 export function RiderCoachScreen() {
   const route = useRoute<RouteProp<RiderCoachRouteParams, 'RiderCoach'>>();
+  const navigation = useNavigation<RiderCoachNav>();
   const [activeTab, setActiveTab] = useState<CoachTab>('coach');
   const [coachMessages, setCoachMessages] = useState<ChatMessage[]>([]);
   const [bikeMessages, setBikeMessages] = useState<ChatMessage[]>([]);
@@ -75,7 +79,8 @@ export function RiderCoachScreen() {
     setActiveTab('coach');
     setInput(draft);
     setError(null);
-  }, [route.params?.seedDraftMessage]);
+    navigation.setParams({ seedDraftMessage: undefined });
+  }, [route.params?.seedDraftMessage, navigation]);
 
   const messages = activeTab === 'coach' ? coachMessages : bikeMessages;
   const setMessages = activeTab === 'coach' ? setCoachMessages : setBikeMessages;

@@ -8,7 +8,6 @@ import {
   View,
 } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
-import { useNavigation } from '@react-navigation/native';
 import {
   checkTrackArrival,
   markRemindedForTrack,
@@ -17,10 +16,10 @@ import {
 } from '../location/trackGeofence';
 import { fetchTrackWeather, type TrackWeatherSummary } from '../location/trackWeather';
 import { buildArrivalCoachDraft } from '../utils/arrivalCoachDraft';
+import { navigateToCoachWithDraft } from '../navigation/rootNavigation';
 
 export function TrackArrivalOverlay() {
   const insets = useSafeAreaInsets();
-  const navigation = useNavigation();
   const [arrival, setArrival] = useState<TrackArrivalDetection | null>(null);
   const [weather, setWeather] = useState<TrackWeatherSummary | null>(null);
   const [weatherLoading, setWeatherLoading] = useState(false);
@@ -83,17 +82,11 @@ export function TrackArrivalOverlay() {
       dismissedSessionRef.current = arrival.match.trackId;
       setArrival(null);
 
-      const tabNav = navigation.getParent() as
-        | { navigate: (name: string, params?: object) => void }
-        | undefined;
-      tabNav?.navigate('RiderCoachTab', {
-        screen: 'RiderCoach',
-        params: { seedDraftMessage: draft },
-      });
+      navigateToCoachWithDraft(draft);
     } finally {
       setOpeningCoach(false);
     }
-  }, [arrival, navigation, openingCoach, weather, weatherLoading]);
+  }, [arrival, openingCoach, weather, weatherLoading]);
 
   if (!arrival) return null;
 

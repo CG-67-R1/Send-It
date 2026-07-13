@@ -69,9 +69,14 @@ export async function detectTrackAtCurrentLocation(): Promise<{
   const granted = await hasForegroundLocationPermission();
   if (!granted) return null;
 
-  const position = await Location.getCurrentPositionAsync({
-    accuracy: Location.Accuracy.Balanced,
-  });
+  const position = await Promise.race([
+    Location.getCurrentPositionAsync({
+      accuracy: Location.Accuracy.Balanced,
+    }),
+    new Promise<never>((_, reject) =>
+      setTimeout(() => reject(new Error('GPS timeout')), 10000)
+    ),
+  ]);
 
   const userLat = position.coords.latitude;
   const userLng = position.coords.longitude;

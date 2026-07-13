@@ -7,7 +7,7 @@ Single reference for GitHub, Render (API), and Vercel (web). Update this file wh
 | Service | URL | Health |
 |---------|-----|--------|
 | **GitHub** | [CG-67-R1/Send-It](https://github.com/CG-67-R1/Send-It) | Default branch: `main` |
-| **API (Render)** | https://send-it-ke7r.onrender.com | `GET /health` → `{"ok":true}` |
+| **API (Render)** | https://send-it-ke7r.onrender.com | `GET /health` → `{"ok":true,"roadraceAi":true}` when OpenAI configured |
 | **Web (Vercel)** | https://send-it-cg-67-r1s-projects.vercel.app | Production deploys from `main` |
 
 **Note:** GitHub repo homepage may still list an older Vercel alias (`send-it-rosy.vercel.app`). The active project is **send-it** under team **cg-67-r1s-projects**.
@@ -33,6 +33,34 @@ Defined in [`app/constants/api.ts`](app/constants/api.ts):
 - **Production / default dev:** `https://send-it-ke7r.onrender.com`
 - **Override:** copy [`app/.env.example`](app/.env.example) → `app/.env` and set `EXPO_PUBLIC_API_URL`
 - **Android emulator (local API):** `http://10.0.2.2:3001` when no env override
+
+## OpenAI (Coach / Ask — required for AI tabs)
+
+Set on **Render** → service `send-it-ke7r` → **Environment**:
+
+| Variable | Required | Notes |
+|----------|----------|--------|
+| `OPENAI_API_KEY` | Yes | From [platform.openai.com/api-keys](https://platform.openai.com/api-keys) |
+| `OPENAI_MODEL` | No | Default `gpt-4o-mini` |
+
+Verify after save (Render redeploys automatically):
+
+```bash
+curl https://send-it-ke7r.onrender.com/health
+# Expect: {"ok":true,"roadraceAi":true}
+```
+
+Without the key, Headlines/Calendar/Trivia work; **Coach, Bike Setup, and Ask fail**.
+
+## Autonomous monitoring
+
+| Layer | What | How |
+|-------|------|-----|
+| **GitHub Actions** | Health check + Render warm ping | `.github/workflows/health-check.yml` (every 10 min + on push) |
+| **GitHub Actions** | Weekly AU cache refresh | `.github/workflows/refresh-au-caches.yml` (Mondays 06:00 UTC) |
+| **Hermes (Nous)** | Daily gate + weekly review | `.\scripts\setup-hermes-cron.ps1` then paste cron blocks in Hermes |
+| **Scripts** | Production probe | `node scripts/verify-production.mjs` |
+| **Scripts** | iOS tab smoke test | `node scripts/ios-smoke-test.mjs` |
 
 ## Git branches
 

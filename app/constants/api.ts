@@ -46,8 +46,3 @@ export const ROADRACE_AI_BASE_URL = `${API_BASE_URL}/roadrace-ai`;
 export const ROADRACE_CHAT_URL = `${API_BASE_URL}/roadrace-ai/chat`;
 export const ROADRACE_ASK_URL = `${API_BASE_URL}/roadrace-ai/ask`;
 export const ROADRACE_FAQS_URL = `${API_BASE_URL}/roadrace-ai/faqs`;
-
-// Trackday Rider AI – custom ChatGPT GPT (opens in browser)
-export const TRACKDAY_RIDER_AI_URL =
-  process.env.EXPO_PUBLIC_TRACKDAY_RIDER_AI_URL ??
-  'https://chatgpt.com/g/g-67d6286ffa8c819197902afc89091eeb-trackday-rider-ai';

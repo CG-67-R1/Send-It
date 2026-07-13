@@ -184,6 +184,16 @@ async function checkLiveApi() {
       return;
     }
     pass(`API /health at ${API_URL}`);
+    try {
+      const healthData = await health.json();
+      if (healthData.roadraceAi === true) {
+        pass('API roadraceAi enabled (OPENAI_API_KEY set)');
+      } else {
+        fail('API roadraceAi disabled — set OPENAI_API_KEY on Render (Coach/Ask will fail)');
+      }
+    } catch {
+      fail('API /health response not valid JSON');
+    }
 
     const headlinesRes = await fetch(`${API_URL}/headlines`, { signal: AbortSignal.timeout(90000) });
     if (!headlinesRes.ok) {
