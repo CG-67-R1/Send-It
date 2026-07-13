@@ -71,3 +71,7 @@ cd app && npx tsc --noEmit
 4. Confirm: Vercel deployment **READY**, `GET /health` on Render OK, web app loads headlines.
 
 PoC details and troubleshooting: [`POC_HOSTING_GUIDE.md`](POC_HOSTING_GUIDE.md).
+
+## Hermes (RR app expert)
+
+Hermes runs scheduled app reviews and coding-improvement audits. Setup: [`docs/hermes/CRON_SETUP.md`](docs/hermes/CRON_SETUP.md). Reports: `docs/reviews/`.

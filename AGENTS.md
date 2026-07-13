@@ -54,15 +54,43 @@ cd ../app && npx tsc --noEmit
 
 - `README.md` — quick start and features
 - `ENVIRONMENT.md` — GitHub, Render, and Vercel URLs, branch policy, health checks
+- `docs/hermes/CRON_SETUP.md` — Hermes RR app expert cron setup
 - `PROJECT_STATUS_AND_PRE_PRODUCTION.md` — health checks and pre-prod work
 - `POC_HOSTING_GUIDE.md` — Render / Vercel hosting notes
 - `SCREEN_BRIEF_FOR_VISUALS.md` — screen UX intent
 
 ## Hermes + Cursor split
 
-- **Hermes:** terminal automation, long sessions, cron, multi-step repo work from CLI
+- **Hermes (RR app expert):** scheduled gates, full reviews, coding-improvement reports — see below
 - **Cursor:** in-editor edits, review, and fast targeted changes in this workspace
 - Both read this file; keep project rules here, not duplicated in chat
+
+### Hermes — RoadRace app expert (standing role)
+
+Hermes is the **Send-It / RoadRace app expert**. It runs regular health gates and writes review reports; **Cursor implements fixes**.
+
+| Cadence | Skill | Output |
+|---------|-------|--------|
+| **Daily** (weekdays) | `send-it/rr-app-expert` (daily-gate) | Short OK / FAIL summary |
+| **Weekly** (Monday) | `send-it/rr-app-expert` + `send-it/mobile-review` | `docs/reviews/RR_REVIEW_YYYY-MM-DD.md` |
+| **On-demand** | `/skill send-it/rr-app-expert` | Full report + top 3 Cursor fixes |
+
+**Setup (one-time):** `.\scripts\install-hermes-skills.ps1` then follow [`docs/hermes/CRON_SETUP.md`](docs/hermes/CRON_SETUP.md) to create Hermes cron jobs.
+
+**On-demand in Hermes:**
+
+```powershell
+cd C:\Users\Administrator\.cursor\Send-It
+hermes
+# /skill send-it/rr-app-expert
+# Ask: "Run weekly-review. Write docs/reviews/RR_REVIEW_<date>.md. Report only."
+```
+
+**Skill sources (in repo):** `docs/hermes/skills/send-it/` — installed to `%LOCALAPPDATA%\hermes\skills\send-it\` by the install script.
+
+**Reports:** `docs/reviews/` — Hermes writes; Cursor reads P0/P1 and fixes.
+
+**Workflow:** Hermes report → Cursor fixes → `node scripts/mobile-review-preflight.mjs` → merge to `main`.
 
 ### Hermes health check (review / repair gate)
 
@@ -107,33 +135,3 @@ cd api && npm run health-check
 ```bash
 cd api && npm run refresh-au-headlines
 ```
-
-### Hermes mobile developer review (on-demand)
-
-Full Expo app audit — **report only**; fixes happen in **Cursor**.
-
-**When to run:** before a major release, after large app changes, or when you want a systematic screen-by-screen review.
-
-```powershell
-cd C:\Users\Administrator\.cursor\Send-It
-hermes
-# In Hermes: /skill send-it/mobile-review
-```
-
-Or paste:
-
-> Load skill `send-it/mobile-review`. Run preflight, audit every screen in `app/src/screens/`, write `docs/reviews/MOBILE_REVIEW_<date>.md`. Report only — do not commit or fix.
-
-**Preflight only (no full audit):**
-
-```powershell
-node scripts/mobile-review-preflight.mjs
-```
-
-**Output:** `docs/reviews/MOBILE_REVIEW_*.md` with P0/P1/P2 findings and suggested fix order.
-
-**Workflow:** Hermes writes report → Cursor implements fixes → re-run `npx tsc --noEmit` and `node scripts/health-check.mjs`.
-
-**Skill location:** `%LOCALAPPDATA%\hermes\skills\send-it\mobile-review\SKILL.md`
-
-**Limits:** Hermes reviews code and CLI gates; device/visual QA needs manual Expo Go steps listed in the report.
