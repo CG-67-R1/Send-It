@@ -23,6 +23,7 @@ import {
 import { notifyNewPriority1Headlines } from '../notifications/priority1Notifications';
 import type { Headline } from '../types';
 import { AppLogo } from '../components/AppLogo';
+import { SCREEN_LOGO_SIZE } from '../constants/logoSizing';
 import { buildAuFeed, buildWorldFeed } from '../utils/headlinesFeed';
 
 function HeadlineThumbnail({ uri }: { uri: string }) {
@@ -215,7 +216,7 @@ export function HeadlinesListScreen() {
       }
       ListHeaderComponent={
         <View style={styles.header}>
-          <AppLogo size={92} />
+          <AppLogo size={SCREEN_LOGO_SIZE} />
           <Text style={styles.headerTitle}>Bike News</Text>
           <Text style={styles.headerSubtitle}>
             Tap to open • Pull down to refresh • Order in News settings

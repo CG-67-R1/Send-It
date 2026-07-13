@@ -15,6 +15,7 @@ import * as Analytics from 'expo-firebase-analytics';
 import { QA_TRIVIA_URL } from '../../constants/api';
 import { sendAskChat, type AskSource } from '../utils/askChat';
 import { AppLogo } from '../components/AppLogo';
+import { SCREEN_LOGO_SIZE } from '../constants/logoSizing';
 
 const TRIVIA_BEST_SCORE_KEY = 'ROADRACER_TRIVIA_BEST';
 /** Gamification overlay only — not a user profile / onboarding avatar. */
@@ -344,7 +345,7 @@ export function QAScreen() {
       keyboardShouldPersistTaps="handled"
     >
       <View style={styles.logoRow}>
-        <AppLogo size={92} />
+        <AppLogo size={SCREEN_LOGO_SIZE} />
       </View>
       <View style={styles.tabBar}>
         <TouchableOpacity

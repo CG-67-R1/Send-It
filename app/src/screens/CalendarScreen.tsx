@@ -15,6 +15,7 @@ import * as Calendar from 'expo-calendar';
 import { CALENDAR_URL } from '../../constants/api';
 import type { CalendarEvent } from '../types';
 import { AppLogo } from '../components/AppLogo';
+import { SCREEN_LOGO_SIZE } from '../constants/logoSizing';
 
 const SERIES_COLORS: Record<string, string> = {
   motogp: '#e11d48',
@@ -201,7 +202,7 @@ export function CalendarScreen() {
   const listHeader = useMemo(
     () => (
       <View style={styles.header}>
-        <AppLogo size={92} />
+        <AppLogo size={SCREEN_LOGO_SIZE} />
         <Text style={styles.headerTitle}>Events</Text>
         <Text style={styles.headerSubtitle}>
           Australian club & state road racing • MotoGP • WorldSBK. Tap to open links.

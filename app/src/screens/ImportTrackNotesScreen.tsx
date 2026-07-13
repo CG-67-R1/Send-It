@@ -17,6 +17,7 @@ import * as Clipboard from 'expo-clipboard';
 import * as ImagePicker from 'expo-image-picker';
 import { useNavigation, useRoute, type RouteProp } from '@react-navigation/native';
 import { AppLogo } from '../components/AppLogo';
+import { COMPACT_LOGO_SIZE } from '../constants/logoSizing';
 import { OtherTrackContextForm } from '../components/OtherTrackContextForm';
 import { TrackPicker } from '../components/TrackPicker';
 import type { OtherTrackContext, TrackDefinition } from '../data/tracks';
@@ -205,7 +206,7 @@ export function ImportTrackNotesScreen() {
         showsVerticalScrollIndicator={false}
       >
         <View style={styles.logoRow}>
-          <AppLogo size={32} />
+          <AppLogo size={COMPACT_LOGO_SIZE} />
         </View>
         <Text style={styles.heroTitle}>Import track notes</Text>
         <Text style={styles.heroSubtitle}>

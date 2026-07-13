@@ -30,6 +30,7 @@ import { requestNotificationPermissions } from '../notifications/priority1Notifi
 import { SOURCES_URL } from '../../constants/api';
 import type { CustomSource, PriorityOrder, Source } from '../types';
 import { AppLogo } from '../components/AppLogo';
+import { SCREEN_LOGO_SIZE } from '../constants/logoSizing';
 import { AvatarFaceCameraModal } from '../components/AvatarFaceCameraModal';
 import { AVATAR_PRESETS, getAvatarPreset, getAvatarSource } from '../avatar/presets';
 import { getOnboardingAnswers, updateOnboardingAnswers } from '../storage/onboarding';
@@ -330,7 +331,7 @@ export function HeadlinesSettingsScreen() {
   return (
     <ScrollView style={styles.container} contentContainerStyle={styles.content}>
       <View style={styles.logoRow}>
-        <AppLogo size={92} />
+        <AppLogo size={SCREEN_LOGO_SIZE} />
       </View>
 
       <View style={styles.section}>

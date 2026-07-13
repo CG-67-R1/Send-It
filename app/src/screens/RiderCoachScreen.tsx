@@ -13,6 +13,7 @@ import {
 } from 'react-native';
 import { useRoute, type RouteProp } from '@react-navigation/native';
 import { AppLogo } from '../components/AppLogo';
+import { COMPACT_LOGO_SIZE } from '../constants/logoSizing';
 import { CoachFaqSection } from '../components/CoachFaqSection';
 import { faqsForMode } from '../data/riderAiFaqs';
 import {
@@ -193,7 +194,7 @@ export function RiderCoachScreen() {
   return (
     <View style={styles.container}>
       <View style={styles.logoRow}>
-        <AppLogo size={32} />
+        <AppLogo size={COMPACT_LOGO_SIZE} />
       </View>
       <View style={styles.tabBar}>
         <TouchableOpacity

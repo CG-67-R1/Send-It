@@ -17,6 +17,7 @@ import {
 import * as ImagePicker from 'expo-image-picker';
 import { useFocusEffect, useNavigation } from '@react-navigation/native';
 import { AppLogo } from '../components/AppLogo';
+import { COMPACT_LOGO_SIZE } from '../constants/logoSizing';
 import { CornerPicker } from '../components/CornerPicker';
 import { OtherTrackContextForm } from '../components/OtherTrackContextForm';
 import { TrackPicker } from '../components/TrackPicker';
@@ -412,7 +413,7 @@ export function TrackWalkScreen() {
         showsVerticalScrollIndicator={false}
       >
         <View style={styles.logoRow}>
-          <AppLogo size={32} />
+          <AppLogo size={COMPACT_LOGO_SIZE} />
         </View>
         <Text style={styles.title}>Track Walk / Track Notes</Text>
         <Text style={styles.subtitle}>

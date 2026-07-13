@@ -23,6 +23,7 @@ import { getAvatarFacePhotoUri } from '../storage/avatarFacePhoto';
 import { HEADLINES_URL } from '../../constants/api';
 import { getOnboardingAnswers } from '../storage/onboarding';
 import { HERO_AVATAR_BADGE_SIZE } from '../avatar/heroBadgeSizing';
+import { HERO_LOGO_SIZE } from '../constants/logoSizing';
 import { getAvatarPreset, getAvatarSource, getFaceHoleLayout } from '../avatar/presets';
 import { AppLogo } from '../components/AppLogo';
 import { AvatarFaceEllipse } from '../components/AvatarFaceEllipse';
@@ -161,7 +162,7 @@ export function HeadlinesScreen() {
       >
         <View style={[styles.heroImageContainer, { height: heroHeight }]}>
           <View style={styles.heroLogoWrap} pointerEvents="none">
-            <AppLogo size={74} />
+            <AppLogo size={HERO_LOGO_SIZE} />
           </View>
           {bikePhotoUri ? (
             <Image
