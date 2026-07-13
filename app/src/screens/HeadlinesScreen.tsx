@@ -4,6 +4,7 @@ import {
   Alert,
   Dimensions,
   Image,
+  type ImageSourcePropType,
   Linking,
   Platform,
   ScrollView,
@@ -41,7 +42,7 @@ export function HeadlinesScreen() {
   const [nickname, setNickname] = useState<string>('');
   const [pickingPhoto, setPickingPhoto] = useState(false);
   const [hasPrefetchedHeadlines, setHasPrefetchedHeadlines] = useState(false);
-  const [avatarSource, setAvatarSource] = useState<any | null>(null);
+  const [avatarSource, setAvatarSource] = useState<ImageSourcePropType | null>(null);
   const [avatarId, setAvatarId] = useState<string | null>(null);
   const [avatarFaceUri, setAvatarFaceUri] = useState<string | null>(null);
 

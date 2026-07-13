@@ -17,6 +17,7 @@ import {
 import * as ImagePicker from 'expo-image-picker';
 import { useFocusEffect, useNavigation } from '@react-navigation/native';
 import { useTrackArrivalRecheck } from '../context/TrackArrivalContext';
+import { isTrackArrivalEnabled } from '../location/trackGeofence';
 import { AppLogo } from '../components/AppLogo';
 import { COMPACT_LOGO_SIZE } from '../constants/logoSizing';
 import { CornerPicker } from '../components/CornerPicker';
@@ -105,7 +106,9 @@ export function TrackWalkScreen() {
   useFocusEffect(
     useCallback(() => {
       void loadSavedSessions();
-      recheckArrival();
+      void isTrackArrivalEnabled().then((enabled) => {
+        if (enabled) recheckArrival();
+      });
     }, [loadSavedSessions, recheckArrival])
   );
 

@@ -16,7 +16,7 @@ app.use(express.json({ limit: '8mb' }));
 
 const roadraceAiLimiter = rateLimit({
   windowMs: 15 * 60 * 1000,
-  max: 30,
+  max: 10,
   standardHeaders: true,
   legacyHeaders: false,
   message: { error: 'Too many AI requests — try again in a few minutes.' },

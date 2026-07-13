@@ -6,7 +6,7 @@ export async function logAnalyticsEvent(
   try {
     const Analytics = await import('expo-firebase-analytics');
     await Analytics.logEvent(name, params);
-  } catch {
-    // Firebase not configured — skip silently
+  } catch (e) {
+    if (__DEV__) console.warn('[analytics]', e);
   }
 }

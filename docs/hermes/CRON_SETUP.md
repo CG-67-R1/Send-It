@@ -59,7 +59,7 @@ Create a cron job:
 In Hermes:
 
 ```
-/skill send-it/rr-app-expert
+/rr-app-expert
 Run on-demand weekly-review now. Write the report to docs/reviews/.
 ```
 
@@ -75,7 +75,7 @@ Then open the report in Cursor and implement P0/P1 items.
 | Production verify | `node scripts/verify-production.mjs` |
 | iOS smoke test | `node scripts/ios-smoke-test.mjs` |
 | Full health (prod) | `$env:API_URL='https://send-it-ke7r.onrender.com'; node scripts/health-check.mjs` |
-| On-demand expert | In Hermes: `/skill send-it/rr-app-expert` then ask for weekly-review |
+| On-demand expert | In Hermes: `/rr-app-expert` then ask for weekly-review |
 
 ## Reports
 

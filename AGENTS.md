@@ -73,7 +73,7 @@ Hermes is the **Send-It / RoadRace app expert**. It runs regular health gates an
 |---------|-------|--------|
 | **Daily** (weekdays) | `send-it/rr-app-expert` (daily-gate) | Short OK / FAIL summary |
 | **Weekly** (Monday) | `send-it/rr-app-expert` + `send-it/mobile-review` | `docs/reviews/RR_REVIEW_YYYY-MM-DD.md` |
-| **On-demand** | `/skill send-it/rr-app-expert` | Full report + top 3 Cursor fixes |
+| **On-demand** | `/rr-app-expert` | Full report + top 3 Cursor fixes |
 
 **Setup (one-time):** `.\scripts\install-hermes-skills.ps1` then follow [`docs/hermes/CRON_SETUP.md`](docs/hermes/CRON_SETUP.md) to create Hermes cron jobs.
 
@@ -82,7 +82,7 @@ Hermes is the **Send-It / RoadRace app expert**. It runs regular health gates an
 ```powershell
 cd C:\Users\Administrator\.cursor\Send-It
 hermes
-# /skill send-it/rr-app-expert
+# /rr-app-expert
 # Ask: "Run weekly-review. Write docs/reviews/RR_REVIEW_<date>.md. Report only."
 ```
 

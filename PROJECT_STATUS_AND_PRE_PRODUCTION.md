@@ -79,7 +79,7 @@ No other unused or discarded files were found that are referenced by the app or 
 ### 4.2 Should-have
 
 - [ ] **Error handling** — Confirm user-facing messages for API down / timeouts (e.g. Q&A and Headlines) are clear and consistent.
-- [x] **Rate limits / cost** — `express-rate-limit` on `/roadrace-ai/*` (30 req / 15 min per IP).
+- [x] **Rate limits / cost** — `express-rate-limit` on `/roadrace-ai/*` (10 req / 15 min per IP).
 - [ ] **Secrets** — No API keys or secrets in repo or client bundle; all secrets in server env only.
 
 ### 4.3 Nice-to-have (post–proof of concept)

@@ -505,11 +505,15 @@ export function HeadlinesSettingsScreen() {
             thumbColor="#f8fafc"
           />
         </View>
-        <Text style={[styles.sectionSubtitle, { marginTop: 16 }]}>
+      </View>
+
+      <View style={styles.section}>
+        <Text style={styles.sectionTitle}>Reminders</Text>
+        <Text style={styles.sectionSubtitle}>
           When the app is open at a known circuit, greet you once per day and suggest chatting with your
           coach. You can snooze for 48 hours.
         </Text>
-        <View style={[styles.notifyRow, { marginTop: 8 }]}>
+        <View style={styles.notifyRow}>
           <Text style={styles.notifyLabel}>Track arrival reminders</Text>
           <Switch
             value={trackArrivalReminders}
