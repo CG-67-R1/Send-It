@@ -2,7 +2,7 @@
 // Android emulator: 'http://10.0.2.2:3001' (do not use expo-constants isDevice — removed in SDK 50+)
 import { Platform } from 'react-native';
 
-const DEV_MACHINE_IP = process.env.EXPO_PUBLIC_DEV_MACHINE_IP ?? '192.168.1.13';
+const PRODUCTION_API_URL = 'https://send-it-ke7r.onrender.com';
 const API_PORT = 3001;
 
 /** Best-effort: AVD / emulator images usually expose model/fingerprint hints. */
@@ -27,9 +27,10 @@ const getApiBaseUrl = () => {
     if (Platform.OS === 'android' && isLikelyAndroidEmulator()) {
       return `http://10.0.2.2:${API_PORT}`;
     }
-    return `http://${DEV_MACHINE_IP}:${API_PORT}`;
+    // Default dev (Expo Go, iOS testers): hosted API — no local `npm start` required.
+    return PRODUCTION_API_URL;
   }
-  return 'https://send-it-ke7r.onrender.com';
+  return PRODUCTION_API_URL;
 };
 
 export const API_BASE_URL = getApiBaseUrl();

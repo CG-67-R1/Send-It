@@ -66,11 +66,10 @@ npx expo start
 ## Configuration
 
 - **API URL (app)**  
-  Edit `app/constants/api.ts`:
-  - **Android emulator**: `http://10.0.2.2:3001` (default in dev).
-  - **iOS simulator**: `http://localhost:3001` (default in dev).
-  - **Physical device**: use your computer’s LAN IP, e.g. `http://192.168.1.100:3001`.
-  - **Production**: set the `getApiBaseUrl()` return value to your deployed API URL.
+  Default is the hosted API (`https://send-it-ke7r.onrender.com`) for Expo Go, physical devices, and production — **no local `npm start` required** for testers.
+  - **Android emulator** (no override): `http://10.0.2.2:3001` when running the API locally.
+  - **Local API override:** copy `app/.env.example` to `app/.env` and set `EXPO_PUBLIC_API_URL` (e.g. `http://localhost:3001` or your LAN IP).
+  - See [`app/constants/api.ts`](app/constants/api.ts).
 
 - **API port**  
   Default is `3001`. Override with `PORT=3002 npm start` in `api/`.
