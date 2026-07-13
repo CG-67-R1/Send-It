@@ -17,6 +17,7 @@ import { TrackWalkScreen } from './src/screens/TrackWalkScreen';
 import { OnboardingScreen } from './src/screens/OnboardingScreen';
 import { getOnboardingDone, resetOnboardingForRetest } from './src/storage/onboarding';
 import { OnboardingResetContext } from './src/context/OnboardingResetContext';
+import { TrackArrivalProvider } from './src/context/TrackArrivalContext';
 
 const Stack = createNativeStackNavigator();
 const Tab = createBottomTabNavigator();
@@ -195,8 +196,10 @@ export default function App() {
         <OnboardingResetContext.Provider value={{ resetOnboarding }}>
           <View style={{ flex: 1 }}>
             <NavigationContainer>
-              <StatusBar style="light" />
-              <MainTabs />
+              <TrackArrivalProvider>
+                <StatusBar style="light" />
+                <MainTabs />
+              </TrackArrivalProvider>
             </NavigationContainer>
             {__DEV__ && isHermes ? (
               <View

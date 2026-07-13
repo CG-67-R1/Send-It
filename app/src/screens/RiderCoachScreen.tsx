@@ -39,6 +39,7 @@ type ChatMessage = CoachChatDisplayMessage;
 type RiderCoachRouteParams = {
   RiderCoach: {
     seedMessages?: ChatMessage[];
+    seedDraftMessage?: string;
   };
 };
 
@@ -53,6 +54,7 @@ export function RiderCoachScreen() {
   const [error, setError] = useState<string | null>(null);
   const scrollRef = useRef<ScrollView>(null);
   const lastSeedKeyRef = useRef<string | null>(null);
+  const lastDraftKeyRef = useRef<string | null>(null);
 
   useEffect(() => {
     const seed = route.params?.seedMessages;
@@ -64,6 +66,16 @@ export function RiderCoachScreen() {
     setCoachMessages(seed);
     setTimeout(() => scrollRef.current?.scrollToEnd({ animated: true }), 150);
   }, [route.params?.seedMessages]);
+
+  useEffect(() => {
+    const draft = route.params?.seedDraftMessage?.trim();
+    if (!draft) return;
+    if (lastDraftKeyRef.current === draft) return;
+    lastDraftKeyRef.current = draft;
+    setActiveTab('coach');
+    setInput(draft);
+    setError(null);
+  }, [route.params?.seedDraftMessage]);
 
   const messages = activeTab === 'coach' ? coachMessages : bikeMessages;
   const setMessages = activeTab === 'coach' ? setCoachMessages : setBikeMessages;

@@ -48,6 +48,12 @@
         }
       ],
       "expo-speech-recognition",
+      [
+        "expo-location",
+        {
+          "locationWhenInUsePermission": "RoadRacer uses your location at the circuit to greet you when you arrive and suggest chatting with your coach."
+        }
+      ],
       "sentry-expo"
     ],
     "extra": {

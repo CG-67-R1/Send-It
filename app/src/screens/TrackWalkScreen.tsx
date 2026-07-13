@@ -16,6 +16,7 @@ import {
 } from 'react-native';
 import * as ImagePicker from 'expo-image-picker';
 import { useFocusEffect, useNavigation } from '@react-navigation/native';
+import { useTrackArrivalRecheck } from '../context/TrackArrivalContext';
 import { AppLogo } from '../components/AppLogo';
 import { COMPACT_LOGO_SIZE } from '../constants/logoSizing';
 import { CornerPicker } from '../components/CornerPicker';
@@ -65,6 +66,7 @@ function entryHeading(entry: TrackWalkEntry, trackId: string): string {
 
 export function TrackWalkScreen() {
   const navigation = useNavigation();
+  const recheckArrival = useTrackArrivalRecheck();
   const [trackId, setTrackId] = useState<string | null>(null);
   const [otherContext, setOtherContext] = useState<OtherTrackContext>(DEFAULT_OTHER_CONTEXT);
   const [entries, setEntries] = useState<TrackWalkEntry[]>([]);
@@ -103,7 +105,8 @@ export function TrackWalkScreen() {
   useFocusEffect(
     useCallback(() => {
       void loadSavedSessions();
-    }, [loadSavedSessions])
+      recheckArrival();
+    }, [loadSavedSessions, recheckArrival])
   );
 
   const buildSession = useCallback((): Omit<TrackWalkSession, 'id' | 'createdAt'> => {

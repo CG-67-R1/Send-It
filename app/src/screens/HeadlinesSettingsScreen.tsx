@@ -27,6 +27,11 @@ import {
   removeCustomSource,
 } from '../storage/headlinesSettings';
 import { requestNotificationPermissions } from '../notifications/priority1Notifications';
+import {
+  isTrackArrivalEnabled,
+  requestForegroundLocationPermission,
+  setTrackArrivalEnabled,
+} from '../location/trackGeofence';
 import { SOURCES_URL } from '../../constants/api';
 import type { CustomSource, PriorityOrder, Source } from '../types';
 import { AppLogo } from '../components/AppLogo';
@@ -58,6 +63,7 @@ export function HeadlinesSettingsScreen() {
   const [addName, setAddName] = useState('');
   const [adding, setAdding] = useState(false);
   const [notifyPriority1, setNotifyPriority1State] = useState(false);
+  const [trackArrivalReminders, setTrackArrivalRemindersState] = useState(false);
 
   const allSources: Source[] = [
     ...builtinSources,
@@ -65,13 +71,15 @@ export function HeadlinesSettingsScreen() {
   ];
 
   const load = useCallback(async () => {
-    const [order, custom, notify] = await Promise.all([
+    const [order, custom, notify, trackArrival] = await Promise.all([
       getPriorityOrder(),
       getCustomSources(),
       getNotifyPriority1(),
+      isTrackArrivalEnabled(),
     ]);
     setCustomSourcesState(custom);
     setNotifyPriority1State(notify);
+    setTrackArrivalRemindersState(trackArrival);
 
     let builtin: Source[] = [];
     try {
@@ -328,6 +336,25 @@ export function HeadlinesSettingsScreen() {
     await setNotifyPriority1(value);
   }, []);
 
+  const handleTrackArrivalToggle = useCallback(async (value: boolean) => {
+    if (value) {
+      const granted = await requestForegroundLocationPermission();
+      if (!granted) {
+        Alert.alert(
+          'Location',
+          'Permission was denied. Enable location while using the app in your device settings to get track arrival reminders.',
+          [
+            { text: 'Cancel', style: 'cancel' },
+            { text: 'Settings', onPress: () => Linking.openSettings() },
+          ]
+        );
+        return;
+      }
+    }
+    setTrackArrivalRemindersState(value);
+    await setTrackArrivalEnabled(value);
+  }, []);
+
   return (
     <ScrollView style={styles.container} contentContainerStyle={styles.content}>
       <View style={styles.logoRow}>
@@ -474,6 +501,19 @@ export function HeadlinesSettingsScreen() {
           <Switch
             value={notifyPriority1}
             onValueChange={handleNotifyPriority1Toggle}
+            trackColor={{ false: '#334155', true: '#f59e0b' }}
+            thumbColor="#f8fafc"
+          />
+        </View>
+        <Text style={[styles.sectionSubtitle, { marginTop: 16 }]}>
+          When the app is open at a known circuit, greet you once per day and suggest chatting with your
+          coach. You can snooze for 48 hours.
+        </Text>
+        <View style={[styles.notifyRow, { marginTop: 8 }]}>
+          <Text style={styles.notifyLabel}>Track arrival reminders</Text>
+          <Switch
+            value={trackArrivalReminders}
+            onValueChange={handleTrackArrivalToggle}
             trackColor={{ false: '#334155', true: '#f59e0b' }}
             thumbColor="#f8fafc"
           />
