@@ -278,7 +278,7 @@ export function ImportTrackNotesScreen() {
 const styles = StyleSheet.create({
   container: { flex: 1, backgroundColor: '#0f172a' },
   scrollContent: { paddingHorizontal: 20, paddingBottom: 40 },
-  logoRow: { marginTop: 8, marginBottom: 4 },
+  logoRow: { alignItems: 'center', marginTop: 8, marginBottom: 4 },
   heroTitle: { fontSize: 22, fontWeight: '700', color: '#f8fafc', marginTop: 8, marginBottom: 8 },
   heroSubtitle: { fontSize: 14, color: '#94a3b8', lineHeight: 20, marginBottom: 20 },
   pasteButton: {

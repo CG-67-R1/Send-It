@@ -1,10 +1,10 @@
-/** Home hero RR logo — second +15% bump from the prior 74px size (64 × 1.15). */
-export const HERO_LOGO_BASE_SIZE = 74;
+/** Shared RR logo size across home + all feature screens (~98px). */
+export const HERO_LOGO_BASE_SIZE = 85;
 export const HERO_LOGO_SCALE = 1.15;
 export const HERO_LOGO_SIZE = Math.round(HERO_LOGO_BASE_SIZE * HERO_LOGO_SCALE);
 
-/** Standard header logo on main feature screens (Calendar, Q&A, Bike News list, Settings). */
-export const SCREEN_LOGO_SIZE = 92;
+/** Same as home — Calendar, Q&A, Bike News, Settings. */
+export const SCREEN_LOGO_SIZE = HERO_LOGO_SIZE;
 
-/** Compact logo on tool / sub-screens (Track Walk, Rider Coach, Import). */
-export const COMPACT_LOGO_SIZE = 32;
+/** Same as home — Track Walk, Rider Coach, Import. */
+export const COMPACT_LOGO_SIZE = HERO_LOGO_SIZE;

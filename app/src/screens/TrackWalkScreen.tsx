@@ -646,7 +646,7 @@ export function TrackWalkScreen() {
 const styles = StyleSheet.create({
   container: { flex: 1, backgroundColor: '#0f172a' },
   scrollContent: { paddingHorizontal: 20, paddingBottom: 40 },
-  logoRow: { marginTop: 8, marginBottom: 4 },
+  logoRow: { alignItems: 'center', marginTop: 8, marginBottom: 4 },
   title: { fontSize: 22, fontWeight: '700', color: '#f8fafc', marginBottom: 6 },
   subtitle: { fontSize: 14, color: '#94a3b8', lineHeight: 20, marginBottom: 16 },
   label: { fontSize: 14, fontWeight: '600', color: '#94a3b8', marginBottom: 8 },

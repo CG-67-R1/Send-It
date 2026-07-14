@@ -376,6 +376,7 @@ const styles = StyleSheet.create({
     backgroundColor: '#0f172a',
   },
   logoRow: {
+    alignItems: 'center',
     marginHorizontal: 20,
     marginTop: 12,
     marginBottom: 4,

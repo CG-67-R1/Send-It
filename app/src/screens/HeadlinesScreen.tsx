@@ -162,9 +162,6 @@ export function HeadlinesScreen() {
         disabled={pickingPhoto}
       >
         <View style={[styles.heroImageContainer, { height: heroHeight }]}>
-          <View style={styles.heroLogoWrap} pointerEvents="none">
-            <AppLogo size={HERO_LOGO_SIZE} />
-          </View>
           {bikePhotoUri ? (
             <Image
               key={bikePhotoUri}
@@ -265,6 +262,9 @@ export function HeadlinesScreen() {
       </TouchableOpacity>
 
       <View style={[styles.buttons, { minHeight: buttonsHeight }]}>
+        <View style={styles.homeLogoWrap} pointerEvents="none">
+          <AppLogo size={HERO_LOGO_SIZE} />
+        </View>
         <TouchableOpacity style={styles.navButton} onPress={goToHeadlines} activeOpacity={0.8}>
           <Text style={styles.navButtonText}>Bike News</Text>
         </TouchableOpacity>
@@ -305,11 +305,10 @@ const styles = StyleSheet.create({
     backgroundColor: '#1e293b',
     overflow: 'hidden',
   },
-  heroLogoWrap: {
-    position: 'absolute',
-    top: 16,
-    left: 20,
-    zIndex: 2,
+  homeLogoWrap: {
+    alignItems: 'center',
+    justifyContent: 'center',
+    marginBottom: 16,
   },
   heroImage: {
     ...StyleSheet.absoluteFillObject,
