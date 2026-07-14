@@ -74,6 +74,21 @@ section('API syntax');
 run('node', ['--check', 'server.js'], API_DIR, 'server.js syntax');
 run('node', ['--check', 'qa.js'], API_DIR, 'qa.js syntax');
 
+section('Track data');
+const trackScript = path.join(ROOT, 'scripts', 'validate-track-data.mjs');
+const trackVal = spawnSync('node', [trackScript], {
+  cwd: ROOT,
+  encoding: 'utf8',
+  shell: process.platform === 'win32',
+});
+if (trackVal.stdout) process.stdout.write(trackVal.stdout);
+if (trackVal.stderr) process.stderr.write(trackVal.stderr);
+if (trackVal.status === 0) {
+  pass('validate-track-data.mjs');
+} else {
+  fail('validate-track-data.mjs (see FAIL lines above)');
+}
+
 section('Repo health check');
 const healthScript = path.join(ROOT, 'scripts', 'health-check.mjs');
 const health = spawnSync('node', [healthScript], {

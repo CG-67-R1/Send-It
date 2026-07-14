@@ -72,8 +72,8 @@ Hermes is the **Send-It / RoadRace app expert**. It runs regular health gates an
 | Cadence | Skill | Output |
 |---------|-------|--------|
 | **Daily** (weekdays) | `send-it/rr-app-expert` (daily-gate) | Short OK / FAIL summary |
-| **Weekly** (Monday) | `send-it/rr-app-expert` + `send-it/mobile-review` | `docs/reviews/RR_REVIEW_YYYY-MM-DD.md` |
-| **On-demand** | `/rr-app-expert` | Full report + top 3 Cursor fixes |
+| **Weekly** (Monday) | `send-it/rr-app-expert` + `send-it/mobile-review` + `send-it/track-data-analyst` | `docs/reviews/RR_REVIEW_YYYY-MM-DD.md` (includes Track data) |
+| **On-demand** | `/rr-app-expert` or `/track-data-analyst` | Full report + top 3 Cursor fixes |
 
 **Setup (one-time):** `.\scripts\install-hermes-skills.ps1` then follow [`docs/hermes/CRON_SETUP.md`](docs/hermes/CRON_SETUP.md) to create Hermes cron jobs.
 
@@ -84,6 +84,14 @@ cd C:\Users\Administrator\.cursor\Send-It
 hermes
 # /rr-app-expert
 # Ask: "Run weekly-review. Write docs/reviews/RR_REVIEW_<date>.md. Report only."
+# /track-data-analyst
+# Ask: "Run track data review. Include Bend GT/International/West/East lengths. Report only."
+```
+
+Track structural gate (also part of mobile-review preflight):
+
+```powershell
+node scripts/validate-track-data.mjs
 ```
 
 **Skill sources (in repo):** `docs/hermes/skills/send-it/` — installed to `%LOCALAPPDATA%\hermes\skills\send-it\` by the install script.

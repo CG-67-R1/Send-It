@@ -7,7 +7,7 @@ platforms: [windows, linux, macos]
 metadata:
   hermes:
     tags: [mobile, expo, react-native, review, qa, send-it, roadrace]
-    related_skills: [send-it/rr-app-expert, requesting-code-review]
+    related_skills: [send-it/rr-app-expert, send-it/track-data-analyst, requesting-code-review]
 ---
 
 # Send-It Mobile Developer Review

@@ -22,7 +22,7 @@ Optional delivery override: `.\scripts\setup-hermes-cron.ps1 -Deliver local`
 
 This creates:
 - **Send-It daily gate** — weekdays 8:00, script-only (no Nous tokens on pass), delivers to Telegram
-- **Send-It weekly review** — Mondays 9:00, uses `rr-app-expert` + `mobile-review` skills
+- **Send-It weekly review** — Mondays 9:00, uses `rr-app-expert` + `mobile-review` + `track-data-analyst` skills
 
 Manual CLI alternative (if you prefer chat-based setup):
 
@@ -49,8 +49,8 @@ Create a cron job:
 Create a cron job:
 - schedule: 0 9 * * 1
 - workdir: C:\Users\Administrator\.cursor\Send-It
-- skills: ["send-it/rr-app-expert", "send-it/mobile-review"]
-- prompt: Run weekly-review mode. Full preflight, production health-check (API_URL=https://send-it-ke7r.onrender.com), screen audit, coding improvements scan. Write docs/reviews/RR_REVIEW_<today>.md. Compare to prior RR_REVIEW_*.md. Report only — no commits. End with P0/P1/P2 counts and top 3 Cursor fixes.
+- skills: ["send-it/rr-app-expert", "send-it/mobile-review", "send-it/track-data-analyst"]
+- prompt: Run weekly-review mode. Full preflight (includes validate-track-data.mjs), production health-check (API_URL=https://send-it-ke7r.onrender.com), screen audit, track-data-analyst pass (catalog/geofences/corners/Bend+SMP layouts), coding improvements scan. Write docs/reviews/RR_REVIEW_<today>.md with a Track data section. Compare to prior RR_REVIEW_*.md and TRACK_GPX_ALIGN_*.md. Report only — no commits. End with P0/P1/P2 counts and top 3 Cursor fixes.
 - continuable: true
 ```
 
@@ -70,6 +70,7 @@ Then open the report in Cursor and implement P0/P1 items.
 | Task | Command |
 |------|---------|
 | Preflight only | `node scripts/mobile-review-preflight.mjs` |
+| Track data validator | `node scripts/validate-track-data.mjs` |
 | Daily gate script | `node scripts/hermes-daily-gate.mjs` |
 | Hermes cron setup | `.\scripts\setup-hermes-cron.ps1` |
 | Production verify | `node scripts/verify-production.mjs` |
@@ -81,8 +82,9 @@ Then open the report in Cursor and implement P0/P1 items.
 
 Written to `docs/reviews/`:
 
-- `RR_REVIEW_YYYY-MM-DD.md` — full expert review (Hermes)
+- `RR_REVIEW_YYYY-MM-DD.md` — full expert review (Hermes; includes Track data section)
 - `MOBILE_REVIEW_YYYY-MM-DD.md` — legacy name if mobile-review skill runs alone
+- `TRACK_DATA_REVIEW_YYYY-MM-DD.md` / `TRACK_GPX_ALIGN_*.md` — deep track/GPX audits when track-data-analyst runs standalone
 
 ## Cursor ↔ Hermes split
 

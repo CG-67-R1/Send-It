@@ -7,7 +7,7 @@ platforms: [windows, linux, macos]
 metadata:
   hermes:
     tags: [mobile, expo, react-native, review, qa, send-it, roadrace, expert]
-    related_skills: [send-it/mobile-review]
+    related_skills: [send-it/mobile-review, send-it/track-data-analyst]
 ---
 
 # Send-It RoadRace App Expert
@@ -31,6 +31,8 @@ You are the **standing expert** for the Send-It (RoadRace) Expo mobile app and i
 | **on-demand** | User asks for expert review | Full report + top 3 Cursor fixes |
 
 For screen-by-screen audit steps, also follow `send-it/mobile-review` (load that skill for full inventory).
+
+For track catalog / GPX / corner QA on weekly and on-demand reviews, also follow `send-it/track-data-analyst` (load that skill).
 
 ## Policy
 
@@ -78,7 +80,17 @@ Audit every file in `app/src/screens/` (listed by preflight). Also review shared
 
 Compare behavior to `SCREEN_BRIEF_FOR_VISUALS.md`. Flag stale brief vs code.
 
-## Step 4 — Coding improvements (every full review)
+## Step 4 — Track data (weekly / on-demand)
+
+Load and follow `send-it/track-data-analyst`:
+
+```powershell
+node scripts/validate-track-data.mjs
+```
+
+Add a **Track data** section to the weekly report (validator result, catalog vs geofence coverage, corner/layout P0–P2 findings, Bend/SMP multi-layout backlog). Do not edit `tracks.json` unless the user explicitly asks.
+
+## Step 5 — Coding improvements (every full review)
 
 Look beyond bugs — suggest **maintainability** wins:
 
@@ -97,7 +109,7 @@ Look beyond bugs — suggest **maintainability** wins:
 
 Label each improvement **P0** (breaks users), **P1** (should fix soon), **P2** (polish/refactor).
 
-## Step 5 — Write report (full reviews)
+## Step 6 — Write report (full reviews)
 
 Path: `docs/reviews/RR_REVIEW_YYYY-MM-DD.md`
 
@@ -109,10 +121,13 @@ Path: `docs/reviews/RR_REVIEW_YYYY-MM-DD.md`
 - One paragraph: overall health + delta from last review
 
 ## Automated gates
-(paste preflight + health-check)
+(paste preflight + health-check + validate-track-data)
 
 ## Recent changes reviewed
 (commits / files touched)
+
+## Track data
+(validator + catalog/geofence/corner findings from track-data-analyst)
 
 ## Per-screen findings
 ### ScreenName
@@ -137,7 +152,7 @@ Path: `docs/reviews/RR_REVIEW_YYYY-MM-DD.md`
 - Pixel/visual QA, Maestro/E2E
 ```
 
-## Step 6 — Daily gate output (cron)
+## Step 7 — Daily gate output (cron)
 
 When running **daily-gate** only:
 

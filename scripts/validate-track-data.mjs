@@ -1,0 +1,245 @@
+#!/usr/bin/env node
+/**
+ * Structural validation for Track Walk catalog + geofences.
+ * Usage (from repo root): node scripts/validate-track-data.mjs
+ * Exit 0 = pass, 1 = fail.
+ */
+import fs from 'node:fs';
+import path from 'node:path';
+import { fileURLToPath } from 'node:url';
+
+const __dirname = path.dirname(fileURLToPath(import.meta.url));
+const ROOT = path.resolve(__dirname, '..');
+const TRACKS_PATH = path.join(ROOT, 'app/src/data/tracks.json');
+const GEOFENCE_PATH = path.join(ROOT, 'app/src/data/catalog_track_geofences.json');
+
+const VALID_CORNER_DIRS = new Set(['left', 'right', 'straight', 'complex']);
+const VALID_TRACK_DIRS = new Set(['clockwise', 'anticlockwise', 'unknown']);
+const TURNING_SHAPES = /hairpin|sweeper|double-?apex/i;
+
+/** Official Bend lengths (km) — flag catalog mismatches */
+const BEND_LENGTH_KM = {
+  the_bend_international: 4.95,
+  the_bend_gt: 7.77,
+  the_bend_west: 3.41,
+  the_bend_east: 3.93,
+};
+
+const MULTI_LAYOUT_GROUPS = [
+  ['the_bend_international', 'the_bend_gt', 'the_bend_west', 'the_bend_east'],
+  ['smp_gardner', 'smp_brabham', 'smp_druitt', 'smp_amaroo'],
+];
+
+const failures = [];
+const warnings = [];
+
+function pass(msg) {
+  console.log(`  OK  ${msg}`);
+}
+
+function fail(msg) {
+  console.error(` FAIL ${msg}`);
+  failures.push(msg);
+}
+
+function warn(msg) {
+  console.warn(` WARN ${msg}`);
+  warnings.push(msg);
+}
+
+function parseLengthKm(raw) {
+  if (!raw || typeof raw !== 'string') return null;
+  const m = raw.replace(',', '.').match(/(\d+(?:\.\d+)?)/);
+  return m ? Number(m[1]) : null;
+}
+
+function coordsKey(feature) {
+  const c = feature?.geometry?.coordinates;
+  if (!Array.isArray(c) || c.length < 2) return null;
+  return `${Number(c[0]).toFixed(4)},${Number(c[1]).toFixed(4)}`;
+}
+
+function balancedParens(s) {
+  let n = 0;
+  for (const ch of s) {
+    if (ch === '(') n += 1;
+    if (ch === ')') n -= 1;
+    if (n < 0) return false;
+  }
+  return n === 0;
+}
+
+console.log('Send-It track data validation');
+console.log(`Repo: ${ROOT}`);
+console.log(`Date: ${new Date().toISOString().slice(0, 10)}`);
+
+let catalog;
+let geofences;
+try {
+  catalog = JSON.parse(fs.readFileSync(TRACKS_PATH, 'utf8'));
+  pass('tracks.json parses');
+} catch (e) {
+  fail(`tracks.json: ${e.message}`);
+  process.exit(1);
+}
+
+try {
+  geofences = JSON.parse(fs.readFileSync(GEOFENCE_PATH, 'utf8'));
+  pass('catalog_track_geofences.json parses');
+} catch (e) {
+  fail(`catalog_track_geofences.json: ${e.message}`);
+  process.exit(1);
+}
+
+const tracks = Array.isArray(catalog.tracks) ? catalog.tracks : [];
+if (tracks.length === 0) {
+  fail('tracks.json has no tracks[]');
+} else {
+  pass(`${tracks.length} catalog tracks`);
+}
+
+const features = Array.isArray(geofences.features) ? geofences.features : [];
+if (features.length === 0) {
+  fail('geofences has no features[]');
+} else {
+  pass(`${features.length} geofence features`);
+}
+
+const trackIds = new Set();
+const geoById = new Map();
+
+for (const f of features) {
+  const id = f?.properties?.trackId;
+  if (!id) {
+    fail('geofence feature missing properties.trackId');
+    continue;
+  }
+  if (geoById.has(id)) fail(`duplicate geofence trackId: ${id}`);
+  geoById.set(id, f);
+}
+
+for (const t of tracks) {
+  if (!t?.id) {
+    fail('track missing id');
+    continue;
+  }
+  if (trackIds.has(t.id)) fail(`duplicate catalog trackId: ${t.id}`);
+  trackIds.add(t.id);
+
+  if (!VALID_TRACK_DIRS.has(t.direction)) {
+    fail(`${t.id}: invalid track direction "${t.direction}"`);
+  }
+
+  const corners = Array.isArray(t.corners) ? t.corners : [];
+  if (corners.length < 2) {
+    fail(`${t.id}: fewer than 2 corners (${corners.length})`);
+  }
+
+  const finishCount = corners.filter((c) => c?.isFinish || c?.label === 'T-Finish').length;
+  if (finishCount !== 1) {
+    fail(`${t.id}: expected exactly 1 T-Finish, found ${finishCount}`);
+  }
+
+  const cornerIds = new Set();
+  for (const c of corners) {
+    if (!c?.id) {
+      fail(`${t.id}: corner missing id`);
+      continue;
+    }
+    if (cornerIds.has(c.id)) fail(`${t.id}: duplicate corner id ${c.id}`);
+    cornerIds.add(c.id);
+
+    if (!VALID_CORNER_DIRS.has(c.direction)) {
+      fail(`${t.id}/${c.id}: invalid corner direction "${c.direction}"`);
+    }
+
+    const label = c.label || '';
+    if (/\s{2,}/.test(label)) {
+      fail(`${t.id}/${c.id}: double spaces in label "${label}"`);
+    }
+    if (!balancedParens(label)) {
+      fail(`${t.id}/${c.id}: unbalanced parentheses in label "${label}"`);
+    }
+    if (c.shape && TURNING_SHAPES.test(c.shape) && c.direction === 'straight') {
+      fail(`${t.id}/${c.id}: shape "${c.shape}" cannot be direction "straight"`);
+    }
+  }
+
+  if (!geoById.has(t.id)) {
+    fail(`${t.id}: in catalog but missing from geofences`);
+  }
+
+  const expectedBend = BEND_LENGTH_KM[t.id];
+  if (expectedBend != null) {
+    const actual = parseLengthKm(t.lengthKm);
+    if (actual == null) {
+      fail(`${t.id}: missing lengthKm (expected ~${expectedBend} km)`);
+    } else if (Math.abs(actual - expectedBend) > 0.15) {
+      fail(`${t.id}: lengthKm "${t.lengthKm}" != official ${expectedBend} km`);
+    } else {
+      pass(`${t.id} length ~${expectedBend} km`);
+    }
+  }
+}
+
+for (const id of geoById.keys()) {
+  if (!trackIds.has(id)) {
+    fail(`${id}: in geofences but missing from catalog`);
+  }
+}
+
+for (const group of MULTI_LAYOUT_GROUPS) {
+  const present = group.filter((id) => geoById.has(id));
+  if (present.length < 2) continue;
+  const keys = present.map((id) => coordsKey(geoById.get(id)));
+  const unique = new Set(keys.filter(Boolean));
+  if (unique.size > 1) {
+    fail(`multi-layout group centres differ: ${present.join(', ')} → ${[...unique].join(' | ')}`);
+  } else {
+    pass(`shared geofence centre: ${present.join(', ')}`);
+  }
+}
+
+// Soft expectations for planned layouts (warn only)
+for (const id of ['the_bend_east', 'the_bend_west', 'smp_amaroo', 'collingrove_hillclimb']) {
+  if (!trackIds.has(id)) {
+    warn(`planned layout not in catalog yet: ${id}`);
+  }
+}
+
+// High-signal map conventions (warn if present and wrong)
+const pi = tracks.find((t) => t.id === 'phillip_island');
+if (pi) {
+  if (pi.direction !== 'anticlockwise') {
+    fail(`phillip_island: track direction should be anticlockwise (got "${pi.direction}")`);
+  }
+  const t1 = pi.corners?.find((c) => c.number === 1);
+  const t2 = pi.corners?.find((c) => c.number === 2);
+  const mg = pi.corners?.find((c) => /mg\s*hairpin/i.test(c.label || ''));
+  if (t1 && t1.direction === 'right') {
+    warn('phillip_island T1 Doohan marked right — official maps usually left (verify)');
+  }
+  if (t2 && t2.direction !== 'left' && /southern/i.test(t2.label || '')) {
+    warn(`phillip_island T2 Southern Loop direction "${t2.direction}" — usually left`);
+  }
+  if (mg && mg.direction === 'left') {
+    warn('phillip_island MG Hairpin marked left — official maps usually right (verify)');
+  }
+}
+
+const smp = tracks.find((t) => t.id === 'smp_gardner');
+if (smp && smp.direction === 'clockwise') {
+  warn('smp_gardner marked clockwise — SMP layouts are usually anticlockwise (verify)');
+}
+
+console.log('\nSummary');
+if (failures.length === 0) {
+  console.log(`All track data checks passed (${warnings.length} warning(s)).`);
+  for (const w of warnings) console.log(`  - ${w}`);
+  process.exit(0);
+}
+
+console.error(`\nTrack data validation finished with ${failures.length} failure(s), ${warnings.length} warning(s).`);
+for (const f of failures) console.error(`  - ${f}`);
+for (const w of warnings) console.warn(`  - ${w}`);
+process.exit(1);

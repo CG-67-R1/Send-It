@@ -1,0 +1,57 @@
+You are the Send-It track-data analyst expert for this session. The user EXPLICITLY asked you to fix errors — edit app data files. Do not commit or push.
+
+## Goal
+1. Import and align Desktop GPX circuit centreline layouts to our app track list.
+2. Check each GPX layout against corner lists in tracks.json (and ST KB where helpful).
+3. Fix incorrect corner data in tracks.json (direction, labels, numbering, missing corners)
+4. Build a more detailed kb of each track with turn by turn data relevant for human coaching.
+5. Write a findings report to docs/reviews/TRACK_GPX_ALIGN_2026-07-14.md.
+
+## Paths
+- Repo: C:\Users\Administrator\.cursor\Send-It
+- GPX package: C:\Users\Administrator\Desktop\Australian_Track_GPX\
+  - gpx\*.gpx (14 layouts from Emtron)
+  - source_geojson\
+  - manifest.json
+- App catalog: app\src\data\tracks.json
+- Types/API: app\src\data\tracks.ts
+- Geofences: app\src\data\catalog_track_geofences.json
+- Source geofences: C:\australian_motorsport_tracks_1km_geofences.geojson
+- KB: ST\motorcycle-track-gpt\knowledge-base\track-analysis\
+
+## GPX to catalog mapping
+- Phillip Island -> phillip_island
+- Mallala Raceway -> mallala
+- Morgan Raceway -> morgan_park
+- Wakefield Park Raceway -> wakefield_park
+- Queensland Raceway -> queensland_raceway
+- Mount Panorama -> mount_panorama (add if missing)
+- Sandown Raceway -> sandown (add if missing)
+- Winton Motor Raceway -> winton (add if missing)
+- Calder Park Raceway -> calder_park (add if missing)
+- Sydney Motorsport Park - GP -> smp_gardner (migrate from sydney_motorsport_park if still single)
+- Sydney Motorsport Park - Brabham -> smp_brabham
+- Sydney Motorsport Park - Druitt -> smp_druitt
+- Tallem Bend International -> the_bend_international (migrate from the_bend stub)
+- Tallem Bend GT -> the_bend_gt
+
+Also planned but may lack GPX: smp_amaroo, the_bend_east, collingrove_hillclimb — stub or leave and note in report.
+
+## Method
+1. Read tracks.json and list current track ids / corner counts.
+2. Parse each GPX (trkpt lat/lon sequence). Infer turn hand by looking at path bearing changes along the centreline (left/right of travel). Compare to each corner's direction and shape in tracks.json.
+3. Cross-check names/order with official knowledge in ST KB_*.md for tracks that have KB.
+4. Fix clear errors in tracks.json:
+   - hairpin/kink with direction "straight" when geometry shows left/right
+   - wrong labels / double spaces / broken parentheses
+   - The Bend: expand full International (+ GT if geometry supports) corners
+   - SMP: split Gardner vs Brabham vs Druitt if still one entry
+5. Do NOT invent coaching text. Prefer correct left/right/shape/number/label.
+6. Keep geofence JSON in sync only if you add/rename trackIds (shared centre for Bend layouts and SMP layouts).
+7. Run: cd app; npx tsc --noEmit
+8. Write the report with: mapping table, fixes applied, remaining unknowns, GPX tracks with no catalog match.
+
+## Constraints
+- Stay in the Send-It repo for edits (plus reading Desktop GPX).
+- No git commit or push.
+- If a conflict cannot be resolved confidently, leave data and document in the report.
