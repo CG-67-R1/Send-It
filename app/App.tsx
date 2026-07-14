@@ -1,11 +1,12 @@
 import React, { useCallback, useEffect, useState } from 'react';
-import { ActivityIndicator, Text, TouchableOpacity, View } from 'react-native';
+import { ActivityIndicator, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 import { StatusBar } from 'expo-status-bar';
 import { useFonts } from 'expo-font';
 import { NavigationContainer } from '@react-navigation/native';
-import { SafeAreaProvider } from 'react-native-safe-area-context';
+import { SafeAreaProvider, useSafeAreaInsets } from 'react-native-safe-area-context';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
+import type { NativeStackHeaderProps } from '@react-navigation/native-stack';
 import { HeadlinesScreen } from './src/screens/HeadlinesScreen';
 import { HeadlinesListScreen } from './src/screens/HeadlinesListScreen';
 import { HeadlinesSettingsScreen } from './src/screens/HeadlinesSettingsScreen';
@@ -31,17 +32,68 @@ const headerOptions = {
   headerTitleStyle: { fontWeight: '700' as const, fontSize: 18 },
 };
 
-/** Home header: RoadRacer + RR logo, centered as one unit. Logo scaled to fit the bar. */
-const HOME_HEADER_LOGO_SIZE = Math.min(40, HERO_LOGO_SIZE);
+/** Vertical padding around the centered RR logo in the home header. */
+const HOME_HEADER_LOGO_PAD = 8;
+const HOME_HEADER_BAR_HEIGHT = HERO_LOGO_SIZE + HOME_HEADER_LOGO_PAD * 2;
 
-function RoadRacerHeaderTitle() {
+/**
+ * Home headline: "RoadRacer" left-aligned, RR logo centered at the same size
+ * as other screens, Settings on the right. Bar grows to fit the logo.
+ */
+function HomeHeader({ navigation }: NativeStackHeaderProps) {
+  const insets = useSafeAreaInsets();
   return (
-    <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'center', gap: 10 }}>
-      <Text style={{ color: '#f8fafc', fontWeight: '700', fontSize: 18 }}>RoadRacer</Text>
-      <AppLogo size={HOME_HEADER_LOGO_SIZE} />
+    <View style={[homeHeaderStyles.wrap, { paddingTop: insets.top }]}>
+      <View style={[homeHeaderStyles.bar, { height: HOME_HEADER_BAR_HEIGHT }]}>
+        <View style={homeHeaderStyles.logoCenter} pointerEvents="none">
+          <AppLogo size={HERO_LOGO_SIZE} />
+        </View>
+        <Text style={homeHeaderStyles.title}>RoadRacer</Text>
+        <TouchableOpacity
+          onPress={() => navigation.navigate('HeadlinesSettings')}
+          style={homeHeaderStyles.settingsBtn}
+          hitSlop={8}
+        >
+          <Text style={homeHeaderStyles.settingsText}>Settings</Text>
+        </TouchableOpacity>
+      </View>
     </View>
   );
 }
+
+const homeHeaderStyles = StyleSheet.create({
+  wrap: {
+    backgroundColor: '#0f172a',
+    borderBottomWidth: StyleSheet.hairlineWidth,
+    borderBottomColor: '#1e293b',
+  },
+  bar: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'space-between',
+    paddingHorizontal: 16,
+  },
+  logoCenter: {
+    ...StyleSheet.absoluteFillObject,
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  title: {
+    color: '#f8fafc',
+    fontWeight: '700',
+    fontSize: 18,
+    zIndex: 1,
+  },
+  settingsBtn: {
+    zIndex: 1,
+    paddingVertical: 8,
+  },
+  settingsText: {
+    color: '#f59e0b',
+    fontSize: 16,
+    fontWeight: '600',
+  },
+});
 
 function HeadlinesStack() {
   return (
@@ -49,18 +101,9 @@ function HeadlinesStack() {
         <Stack.Screen
           name="Headlines"
           component={HeadlinesScreen}
-          options={({ navigation }) => ({
-            headerTitle: () => <RoadRacerHeaderTitle />,
-            headerTitleAlign: 'center',
-          headerRight: () => (
-            <TouchableOpacity
-              onPress={() => navigation.navigate('HeadlinesSettings')}
-              style={{ marginRight: 16 }}
-            >
-              <Text style={{ color: '#f59e0b', fontSize: 16, fontWeight: '600' }}>Settings</Text>
-            </TouchableOpacity>
-          ),
-        })}
+          options={{
+            header: (props) => <HomeHeader {...props} />,
+          }}
       />
       <Stack.Screen
         name="HeadlinesList"
