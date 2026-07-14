@@ -1,5 +1,5 @@
 {
-  "updatedAt": "2026-07-14T17:09:38.186Z",
+  "updatedAt": "2026-07-14T20:55:33.677Z",
   "sourceIds": [
     "ma_roadrace",
     "mcnews",
@@ -15,7 +15,7 @@
     "amcn_worldwcr",
     "amcn_endurance"
   ],
-  "count": 87,
+  "count": 97,
   "headlines": [
     {
       "title": "Vale Tom Williams",
@@ -136,6 +136,86 @@
       "sourceId": "ma_roadrace",
       "date": "2026-03-30",
       "imageUrl": "https://www.ma.org.au/wp-content/uploads/2026/03/2026-ASBK-Rnd2-SMP-RbMotoLens-RML_3718-R5-Race-Podium-SBK-Harry-Voight-Josh-Waters-Cru-Halliday-300x200.jpg"
+    },
+    {
+      "title": "Triumph rolls out 2027 colour updates across six models",
+      "url": "https://www.mcnews.com.au/triumph-2027-colours-australia-pricing/",
+      "source": "MCNews (AU)",
+      "sourceId": "mcnews",
+      "date": null,
+      "imageUrl": null
+    },
+    {
+      "title": "Valentino Rossi reunites with Yamaha M1 at Goodwood",
+      "url": "https://www.mcnews.com.au/valentino-rossi-yamaha-m1-goodwood-2026/",
+      "source": "MCNews (AU)",
+      "sourceId": "mcnews",
+      "date": null,
+      "imageUrl": null
+    },
+    {
+      "title": "Triumph Trident 800 Review | Gentleman’s hooligan",
+      "url": "https://www.mcnews.com.au/triumph-trident-800-review/",
+      "source": "MCNews (AU)",
+      "sourceId": "mcnews",
+      "date": null,
+      "imageUrl": null
+    },
+    {
+      "title": "Suzuki SV-7GX and SV-7GXV keep the SV650 V-twin legend alive",
+      "url": "https://www.mcnews.com.au/suzuki-sv-7gx-sv-7gxv-v-twin/",
+      "source": "MCNews (AU)",
+      "sourceId": "mcnews",
+      "date": null,
+      "imageUrl": null
+    },
+    {
+      "title": "Ducati at 100: Domenicali on Bologna, VW and the rise of China",
+      "url": "https://www.mcnews.com.au/claudio-domenicali-ducati-interview-2026/",
+      "source": "MCNews (AU)",
+      "sourceId": "mcnews",
+      "date": null,
+      "imageUrl": null
+    },
+    {
+      "title": "Öhlins, Akrapovič and carbon for Speed Twin 1200 TFC",
+      "url": "https://www.mcnews.com.au/2027-triumph-speed-twin-1200-tfc/",
+      "source": "MCNews (AU)",
+      "sourceId": "mcnews",
+      "date": null,
+      "imageUrl": null
+    },
+    {
+      "title": "Royal Enfield Guerrilla 450 Apex Review | Sportier style and sharper pricing",
+      "url": "https://www.mcnews.com.au/royal-enfield-guerrilla-450-apex-review/",
+      "source": "MCNews (AU)",
+      "sourceId": "mcnews",
+      "date": null,
+      "imageUrl": null
+    },
+    {
+      "title": "Limited-run CFMOTO 675NK GP lands at $11,490 ride-away",
+      "url": "https://www.mcnews.com.au/cfmoto-675nk-gp-limited-release-australia/",
+      "source": "MCNews (AU)",
+      "sourceId": "mcnews",
+      "date": null,
+      "imageUrl": null
+    },
+    {
+      "title": "Speedway legend Tai Woffinden calls time on career",
+      "url": "https://www.mcnews.com.au/speedway-legend-tai-woffinden-calls-time-on-career/",
+      "source": "MCNews (AU)",
+      "sourceId": "mcnews",
+      "date": null,
+      "imageUrl": null
+    },
+    {
+      "title": "Marc Márquez on Ducati, aero and why the 850s might not be safer",
+      "url": "https://www.mcnews.com.au/marc-marquez-interview-ducati-aero-motogp-2027/",
+      "source": "MCNews (AU)",
+      "sourceId": "mcnews",
+      "date": null,
+      "imageUrl": null
     },
     {
       "title": "2026 Cancer Council Cup The Mac Park Cancer Council Cup is back, where the local community wins with each and every lap",
