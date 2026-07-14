@@ -19,6 +19,8 @@ import { getOnboardingDone, resetOnboardingForRetest } from './src/storage/onboa
 import { OnboardingResetContext } from './src/context/OnboardingResetContext';
 import { TrackArrivalProvider } from './src/context/TrackArrivalContext';
 import { navigationRef } from './src/navigation/rootNavigation';
+import { AppLogo } from './src/components/AppLogo';
+import { HERO_LOGO_SIZE } from './src/constants/logoSizing';
 
 const Stack = createNativeStackNavigator();
 const Tab = createBottomTabNavigator();
@@ -29,6 +31,18 @@ const headerOptions = {
   headerTitleStyle: { fontWeight: '700' as const, fontSize: 18 },
 };
 
+/** Home header: RoadRacer + RR logo, centered as one unit. Logo scaled to fit the bar. */
+const HOME_HEADER_LOGO_SIZE = Math.min(40, HERO_LOGO_SIZE);
+
+function RoadRacerHeaderTitle() {
+  return (
+    <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'center', gap: 10 }}>
+      <Text style={{ color: '#f8fafc', fontWeight: '700', fontSize: 18 }}>RoadRacer</Text>
+      <AppLogo size={HOME_HEADER_LOGO_SIZE} />
+    </View>
+  );
+}
+
 function HeadlinesStack() {
   return (
     <Stack.Navigator screenOptions={headerOptions}>
@@ -36,7 +50,8 @@ function HeadlinesStack() {
           name="Headlines"
           component={HeadlinesScreen}
           options={({ navigation }) => ({
-            title: 'RoadRacer',
+            headerTitle: () => <RoadRacerHeaderTitle />,
+            headerTitleAlign: 'center',
           headerRight: () => (
             <TouchableOpacity
               onPress={() => navigation.navigate('HeadlinesSettings')}

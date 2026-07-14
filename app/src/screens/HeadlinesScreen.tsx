@@ -24,9 +24,7 @@ import { getAvatarFacePhotoUri } from '../storage/avatarFacePhoto';
 import { HEADLINES_URL } from '../../constants/api';
 import { getOnboardingAnswers } from '../storage/onboarding';
 import { HERO_AVATAR_BADGE_SIZE } from '../avatar/heroBadgeSizing';
-import { HERO_LOGO_SIZE } from '../constants/logoSizing';
 import { getAvatarPreset, getAvatarSource, getFaceHoleLayout } from '../avatar/presets';
-import { AppLogo } from '../components/AppLogo';
 import { AvatarFaceEllipse } from '../components/AvatarFaceEllipse';
 
 type HeadlinesStackParamList = {
@@ -262,9 +260,6 @@ export function HeadlinesScreen() {
       </TouchableOpacity>
 
       <View style={[styles.buttons, { minHeight: buttonsHeight }]}>
-        <View style={styles.homeLogoWrap} pointerEvents="none">
-          <AppLogo size={HERO_LOGO_SIZE} />
-        </View>
         <TouchableOpacity style={styles.navButton} onPress={goToHeadlines} activeOpacity={0.8}>
           <Text style={styles.navButtonText}>Bike News</Text>
         </TouchableOpacity>
@@ -304,11 +299,6 @@ const styles = StyleSheet.create({
     width: '100%',
     backgroundColor: '#1e293b',
     overflow: 'hidden',
-  },
-  homeLogoWrap: {
-    alignItems: 'center',
-    justifyContent: 'center',
-    marginBottom: 16,
   },
   heroImage: {
     ...StyleSheet.absoluteFillObject,
