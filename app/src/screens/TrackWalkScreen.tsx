@@ -421,10 +421,6 @@ export function TrackWalkScreen() {
         <View style={styles.logoRow}>
           <AppLogo size={COMPACT_LOGO_SIZE} />
         </View>
-        <Text style={styles.title}>Track Walk / Track Notes</Text>
-        <Text style={styles.subtitle}>
-          Select your track, pick a corner (T1, T2… or T-Finish), then speak or type notes. Finish to save, export, or ask your coach.
-        </Text>
 
         <TrackPicker selectedTrackId={trackId} onSelect={handleSelectTrack} />
 
@@ -646,9 +642,7 @@ export function TrackWalkScreen() {
 const styles = StyleSheet.create({
   container: { flex: 1, backgroundColor: '#0f172a' },
   scrollContent: { paddingHorizontal: 20, paddingBottom: 40 },
-  logoRow: { alignItems: 'center', marginTop: 8, marginBottom: 4 },
-  title: { fontSize: 22, fontWeight: '700', color: '#f8fafc', marginBottom: 6 },
-  subtitle: { fontSize: 14, color: '#94a3b8', lineHeight: 20, marginBottom: 16 },
+  logoRow: { alignItems: 'center', marginTop: 8, marginBottom: 16 },
   label: { fontSize: 14, fontWeight: '600', color: '#94a3b8', marginBottom: 8 },
   entryCard: {
     backgroundColor: '#1e293b',

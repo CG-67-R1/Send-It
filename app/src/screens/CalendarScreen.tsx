@@ -40,10 +40,22 @@ function isAustraliaEvent(item: CalendarEvent): boolean {
   );
 }
 
+/** Keep events that have not finished yet (end date is today or later). */
+function isUpcomingOrOngoing(item: CalendarEvent): boolean {
+  const endDate = item.endDate || item.startDate;
+  if (!endDate) return true;
+  const today = new Date();
+  today.setHours(0, 0, 0, 0);
+  const end = new Date(endDate);
+  end.setHours(0, 0, 0, 0);
+  return end >= today;
+}
+
 function filterEvents(events: CalendarEvent[], filter: CalendarFilter): CalendarEvent[] {
-  if (filter === 'australia') return events.filter(isAustraliaEvent);
-  if (filter === 'world') return events.filter((e) => !isAustraliaEvent(e));
-  return events;
+  const upcoming = events.filter(isUpcomingOrOngoing);
+  if (filter === 'australia') return upcoming.filter(isAustraliaEvent);
+  if (filter === 'world') return upcoming.filter((e) => !isAustraliaEvent(e));
+  return upcoming;
 }
 
 function formatDateRange(start: string, end: string): string {
