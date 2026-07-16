@@ -6,9 +6,9 @@ import { CoachFaqSection } from '../components/CoachFaqSection';
 import { faqsForMode } from '../data/riderAiFaqs';
 
 type RiderCoachStackParams = {
-  RiderCoach: {
+  CoachChat: {
+    mode: 'coach' | 'bikesetup';
     seedDraftMessage?: string;
-    seedTab?: 'coach' | 'bikesetup';
   };
   RoadRacerAiFaqs: undefined;
 };
@@ -22,8 +22,8 @@ export function RoadRacerAiFaqsScreen() {
 
   const askCoach = useCallback(
     (question: string) => {
-      navigation.navigate('RiderCoach', {
-        seedTab: 'coach',
+      navigation.navigate('CoachChat', {
+        mode: 'coach',
         seedDraftMessage: question,
       });
     },
@@ -32,8 +32,8 @@ export function RoadRacerAiFaqsScreen() {
 
   const askBikeSetup = useCallback(
     (question: string) => {
-      navigation.navigate('RiderCoach', {
-        seedTab: 'bikesetup',
+      navigation.navigate('CoachChat', {
+        mode: 'bikesetup',
         seedDraftMessage: question,
       });
     },

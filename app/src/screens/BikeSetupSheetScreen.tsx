@@ -119,8 +119,8 @@ export function BikeSetupSheetScreen() {
 
   const onImport = useCallback(() => {
     const draft = formatBikeSetupSheetForAi(sheet);
-    navigation.navigate('RiderCoach', {
-      seedTab: 'bikesetup',
+    navigation.navigate('CoachChat', {
+      mode: 'bikesetup',
       seedDraftMessage: draft,
     });
   }, [navigation, sheet]);

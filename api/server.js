@@ -168,7 +168,11 @@ app.post('/roadrace-ai/chat', async (req, res) => {
     if (result.error) {
       return res.status(500).json({ error: result.error, reply: '' });
     }
-    res.json({ reply: result.content || '' });
+    const payload = { reply: result.content || '' };
+    if (result.suggestMode === 'coach' || result.suggestMode === 'bikesetup') {
+      payload.suggestMode = result.suggestMode;
+    }
+    res.json(payload);
   } catch (e) {
     console.error(e);
     res.status(500).json({ error: 'AI request failed', reply: '' });

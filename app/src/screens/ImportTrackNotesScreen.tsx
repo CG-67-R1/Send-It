@@ -158,6 +158,7 @@ export function ImportTrackNotesScreen() {
       setPhotos([]);
 
       const seedParams = {
+        mode: 'coach' as const,
         seedMessages: [
           { role: 'user' as const, content: coachMessage },
           { role: 'assistant' as const, content: result.reply },
@@ -165,9 +166,9 @@ export function ImportTrackNotesScreen() {
       };
       const stackRoutes = navigation.getState()?.routeNames ?? [];
       let navigated = false;
-      if (stackRoutes.includes('RiderCoach')) {
+      if (stackRoutes.includes('CoachChat')) {
         (navigation as { navigate: (name: string, params?: object) => void }).navigate(
-          'RiderCoach',
+          'CoachChat',
           seedParams
         );
         navigated = true;
@@ -177,7 +178,7 @@ export function ImportTrackNotesScreen() {
           | undefined;
         if (tabNav) {
           tabNav.navigate('RiderCoachTab', {
-            screen: 'RiderCoach',
+            screen: 'CoachChat',
             params: seedParams,
           });
           navigated = true;

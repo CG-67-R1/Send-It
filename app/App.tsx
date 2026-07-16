@@ -13,6 +13,7 @@ import { HeadlinesSettingsScreen } from './src/screens/HeadlinesSettingsScreen';
 import { QAScreen } from './src/screens/QAScreen';
 import { CalendarScreen } from './src/screens/CalendarScreen';
 import { RiderCoachScreen } from './src/screens/RiderCoachScreen';
+import { CoachChatScreen } from './src/screens/CoachChatScreen';
 import { ImportTrackNotesScreen } from './src/screens/ImportTrackNotesScreen';
 import { BikeSetupBasicsScreen } from './src/screens/BikeSetupBasicsScreen';
 import { BikeSetupSheetScreen } from './src/screens/BikeSetupSheetScreen';
@@ -138,6 +139,16 @@ function RiderCoachStack() {
               <Text style={{ color: '#f59e0b', fontSize: 16, fontWeight: '600' }}>Import notes</Text>
             </TouchableOpacity>
           ),
+        })}
+      />
+      <Stack.Screen
+        name="CoachChat"
+        component={CoachChatScreen}
+        options={({ route }) => ({
+          title:
+            (route.params as { mode?: string } | undefined)?.mode === 'bikesetup'
+              ? 'RR Bike Setup'
+              : 'RR AI Coach',
         })}
       />
       <Stack.Screen

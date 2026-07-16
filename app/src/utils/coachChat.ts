@@ -13,7 +13,7 @@ export type CoachChatDisplayMessage = CoachChatMessage & {
 };
 
 export type CoachChatResult =
-  | { ok: true; reply: string }
+  | { ok: true; reply: string; suggestMode?: CoachMode }
   | { ok: false; error: string };
 
 export async function sendCoachChat(
@@ -45,7 +45,11 @@ export async function sendCoachChat(
       return { ok: false, error: 'Coach returned an empty response.' };
     }
 
-    return { ok: true, reply };
+    const suggestRaw = data?.suggestMode;
+    const suggestMode: CoachMode | undefined =
+      suggestRaw === 'coach' || suggestRaw === 'bikesetup' ? suggestRaw : undefined;
+
+    return suggestMode ? { ok: true, reply, suggestMode } : { ok: true, reply };
   } catch (e) {
     return { ok: false, error: e instanceof Error ? e.message : 'Network error' };
   }

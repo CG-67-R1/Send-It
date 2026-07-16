@@ -34,7 +34,30 @@ const SHARED_RULES = `
 
 **Style:** Friendly, practical, safety first. Never make users feel bad about not knowing. Australian context.
 
-**Limitations:** You cannot physically inspect bikes or guarantee lap times. Recommend professional help for safety-critical or complex changes.`;
+**Limitations:** You cannot physically inspect bikes or guarantee lap times. Recommend professional help for safety-critical or complex changes.
+
+**Rider vs bike ambiguity:** Riders often do not know if a problem is riding technique or bike setup. If the user's issue is clearly better handled by the other mode, give a short useful answer in your current mode, then say which tab to try next and why (e.g. body position / lines → Coach; sag / damping / tyre pressure / gearing → Bike Setup). End your reply with exactly one of these markers on its own last line (omit the marker if staying in the current mode):
+[[SUGGEST_MODE:coach]]
+[[SUGGEST_MODE:bikesetup]]`;
+
+const SUGGEST_MODE_RE = /\[\[SUGGEST_MODE:(coach|bikesetup)\]\]\s*$/i;
+
+/**
+ * Strip optional [[SUGGEST_MODE:...]] trailer from model output.
+ * @param {string} content
+ * @param {'coach' | 'bikesetup'} currentMode
+ * @returns {{ content: string, suggestMode?: 'coach' | 'bikesetup' }}
+ */
+function parseSuggestMode(content, currentMode) {
+  const text = (content || '').trim();
+  if (!text) return { content: '' };
+  const match = text.match(SUGGEST_MODE_RE);
+  if (!match) return { content: text };
+  const suggested = match[1].toLowerCase() === 'bikesetup' ? 'bikesetup' : 'coach';
+  const cleaned = text.replace(SUGGEST_MODE_RE, '').trim();
+  if (suggested === currentMode) return { content: cleaned };
+  return { content: cleaned, suggestMode: suggested };
+}
 
 function formatKbContext(chunks) {
   if (!chunks.length) {
@@ -195,7 +218,7 @@ export async function chat(messages, mode = 'coach', attachments = []) {
     });
 
     const content = completion.choices?.[0]?.message?.content?.trim() || '';
-    return { content };
+    return parseSuggestMode(content, mode === 'bikesetup' ? 'bikesetup' : 'coach');
   } catch (err) {
     const message = err?.message || String(err);
     console.error('RoadRace AI error:', message);

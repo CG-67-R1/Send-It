@@ -9,8 +9,9 @@ export type RootTabParamList = {
   TrackWalkTab: undefined;
   RiderCoachTab:
     | {
-        screen: 'RiderCoach';
+        screen: 'CoachChat' | 'RiderCoach';
         params?: {
+          mode?: CoachSeedTab;
           seedDraftMessage?: string;
           seedMessages?: unknown[];
           seedTab?: CoachSeedTab;
@@ -24,8 +25,8 @@ export const navigationRef = createNavigationContainerRef<RootTabParamList>();
 export function navigateToCoachWithDraft(draft: string, seedTab: CoachSeedTab = 'coach'): void {
   if (!navigationRef.isReady()) return;
   navigationRef.navigate('RiderCoachTab', {
-    screen: 'RiderCoach',
-    params: { seedDraftMessage: draft, seedTab },
+    screen: 'CoachChat',
+    params: { mode: seedTab, seedDraftMessage: draft },
   });
 }
 

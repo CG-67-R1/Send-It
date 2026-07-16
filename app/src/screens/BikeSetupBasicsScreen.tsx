@@ -24,9 +24,9 @@ const HOTSPOT_HIT = 44;
 const HOTSPOT_DOT = 14;
 
 type RiderCoachStackParams = {
-  RiderCoach: {
+  CoachChat: {
+    mode: 'coach' | 'bikesetup';
     seedDraftMessage?: string;
-    seedTab?: 'coach' | 'bikesetup';
   };
   BikeSetupBasics: undefined;
 };
@@ -46,8 +46,8 @@ export function BikeSetupBasicsScreen() {
   const openAi = useCallback(
     (hotspot: BikeSetupHotspot) => {
       setSelected(null);
-      navigation.navigate('RiderCoach', {
-        seedTab: 'bikesetup',
+      navigation.navigate('CoachChat', {
+        mode: 'bikesetup',
         seedDraftMessage: hotspot.aiPrompt,
       });
     },
