@@ -14,6 +14,8 @@ import { QAScreen } from './src/screens/QAScreen';
 import { CalendarScreen } from './src/screens/CalendarScreen';
 import { RiderCoachScreen } from './src/screens/RiderCoachScreen';
 import { ImportTrackNotesScreen } from './src/screens/ImportTrackNotesScreen';
+import { BikeSetupBasicsScreen } from './src/screens/BikeSetupBasicsScreen';
+import { RoadRacerAiFaqsScreen } from './src/screens/RoadRacerAiFaqsScreen';
 import { TrackWalkScreen } from './src/screens/TrackWalkScreen';
 import { OnboardingScreen } from './src/screens/OnboardingScreen';
 import { getOnboardingDone, resetOnboardingForRetest } from './src/storage/onboarding';
@@ -136,6 +138,16 @@ function RiderCoachStack() {
             </TouchableOpacity>
           ),
         })}
+      />
+      <Stack.Screen
+        name="BikeSetupBasics"
+        component={BikeSetupBasicsScreen}
+        options={{ title: 'Bike Setup Basics' }}
+      />
+      <Stack.Screen
+        name="RoadRacerAiFaqs"
+        component={RoadRacerAiFaqsScreen}
+        options={{ title: 'RoadRacer AI FAQs' }}
       />
       <Stack.Screen
         name="ImportTrackNotes"

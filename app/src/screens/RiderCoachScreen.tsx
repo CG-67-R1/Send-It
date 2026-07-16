@@ -15,8 +15,6 @@ import { useNavigation, useRoute, type RouteProp } from '@react-navigation/nativ
 import type { NativeStackNavigationProp } from '@react-navigation/native-stack';
 import { AppLogo } from '../components/AppLogo';
 import { COMPACT_LOGO_SIZE } from '../constants/logoSizing';
-import { CoachFaqSection } from '../components/CoachFaqSection';
-import { faqsForMode } from '../data/riderAiFaqs';
 import {
   attachmentSummary,
   attachmentsToPayload,
@@ -37,17 +35,21 @@ type CoachTab = 'coach' | 'bikesetup';
 
 type ChatMessage = CoachChatDisplayMessage;
 
-type RiderCoachRouteParams = {
+export type RiderCoachStackParamList = {
   RiderCoach: {
     seedMessages?: ChatMessage[];
     seedDraftMessage?: string;
+    seedTab?: CoachTab;
   };
+  ImportTrackNotes: undefined;
+  BikeSetupBasics: undefined;
+  RoadRacerAiFaqs: undefined;
 };
 
-type RiderCoachNav = NativeStackNavigationProp<RiderCoachRouteParams, 'RiderCoach'>;
+type RiderCoachNav = NativeStackNavigationProp<RiderCoachStackParamList, 'RiderCoach'>;
 
 export function RiderCoachScreen() {
-  const route = useRoute<RouteProp<RiderCoachRouteParams, 'RiderCoach'>>();
+  const route = useRoute<RouteProp<RiderCoachStackParamList, 'RiderCoach'>>();
   const navigation = useNavigation<RiderCoachNav>();
   const [activeTab, setActiveTab] = useState<CoachTab>('coach');
   const [coachMessages, setCoachMessages] = useState<ChatMessage[]>([]);
@@ -66,31 +68,29 @@ export function RiderCoachScreen() {
     const seedKey = JSON.stringify(seed);
     if (lastSeedKeyRef.current === seedKey) return;
     lastSeedKeyRef.current = seedKey;
-    setActiveTab('coach');
-    setCoachMessages(seed);
+    const tab = route.params?.seedTab ?? 'coach';
+    setActiveTab(tab);
+    if (tab === 'bikesetup') {
+      setBikeMessages(seed);
+    } else {
+      setCoachMessages(seed);
+    }
     setTimeout(() => scrollRef.current?.scrollToEnd({ animated: true }), 150);
-  }, [route.params?.seedMessages]);
+  }, [route.params?.seedMessages, route.params?.seedTab]);
 
   useEffect(() => {
     const draft = route.params?.seedDraftMessage?.trim();
     if (!draft) return;
     if (lastDraftKeyRef.current === draft) return;
     lastDraftKeyRef.current = draft;
-    setActiveTab('coach');
+    const tab = route.params?.seedTab ?? 'coach';
+    setActiveTab(tab);
     setInput(draft);
     setError(null);
-    navigation.setParams({ seedDraftMessage: undefined });
-  }, [route.params?.seedDraftMessage, navigation]);
+    navigation.setParams({ seedDraftMessage: undefined, seedTab: undefined });
+  }, [route.params?.seedDraftMessage, route.params?.seedTab, navigation]);
 
-  const messages = activeTab === 'coach' ? coachMessages : bikeMessages;
   const setMessages = activeTab === 'coach' ? setCoachMessages : setBikeMessages;
-  const coachFaqs = faqsForMode('coach');
-  const bikeFaqs = faqsForMode('bikesetup');
-
-  const prefillQuestion = useCallback((question: string) => {
-    setInput(question);
-    setError(null);
-  }, []);
 
   const addAttachment = useCallback(async (picker: () => Promise<CoachAttachment | null>) => {
     if (!canAddAttachment(pendingAttachments.length)) return;
@@ -213,6 +213,26 @@ export function RiderCoachScreen() {
       <View style={styles.logoRow}>
         <AppLogo size={COMPACT_LOGO_SIZE} />
       </View>
+
+      <View style={styles.linksSection}>
+        <TouchableOpacity
+          style={styles.navButton}
+          onPress={() => navigation.navigate('BikeSetupBasics')}
+          activeOpacity={0.8}
+        >
+          <Text style={styles.navButtonText}>Bike Setup Basics</Text>
+        </TouchableOpacity>
+        <TouchableOpacity
+          style={styles.navButton}
+          onPress={() => navigation.navigate('RoadRacerAiFaqs')}
+          activeOpacity={0.8}
+        >
+          <Text style={styles.navButtonText}>RoadRacer AI FAQs</Text>
+        </TouchableOpacity>
+      </View>
+
+      <View style={styles.sectionDivider} />
+
       <View style={styles.tabBar}>
         <TouchableOpacity
           style={[styles.tab, activeTab === 'coach' && styles.tabActive]}
@@ -242,7 +262,6 @@ export function RiderCoachScreen() {
           keyboardShouldPersistTaps="handled"
           showsVerticalScrollIndicator={false}
         >
-          {/* Coach panel – mounted so state stays live */}
           <View style={[styles.panel, activeTab !== 'coach' && styles.panelHidden]}>
             {coachMessages.length === 0 && (
               <View style={styles.welcome}>
@@ -253,11 +272,6 @@ export function RiderCoachScreen() {
                 </Text>
               </View>
             )}
-            <CoachFaqSection
-              title="Rider Coach FAQs"
-              items={coachFaqs}
-              onAskQuestion={activeTab === 'coach' ? prefillQuestion : undefined}
-            />
             {coachMessages.map((m, i) => renderMessageBubble(m, i))}
             {activeTab === 'coach' && loading && (
               <View style={[styles.bubble, styles.bubbleAssistant]}>
@@ -266,7 +280,6 @@ export function RiderCoachScreen() {
             )}
           </View>
 
-          {/* Bike Setup panel – mounted so state stays live */}
           <View style={[styles.panel, activeTab !== 'bikesetup' && styles.panelHidden]}>
             {bikeMessages.length === 0 && (
               <View style={styles.welcome}>
@@ -277,11 +290,6 @@ export function RiderCoachScreen() {
                 </Text>
               </View>
             )}
-            <CoachFaqSection
-              title="Bike Setup FAQs"
-              items={bikeFaqs}
-              onAskQuestion={activeTab === 'bikesetup' ? prefillQuestion : undefined}
-            />
             {bikeMessages.map((m, i) => renderMessageBubble(m, i))}
             {activeTab === 'bikesetup' && loading && (
               <View style={[styles.bubble, styles.bubbleAssistant]}>
@@ -380,6 +388,35 @@ const styles = StyleSheet.create({
     marginHorizontal: 20,
     marginTop: 12,
     marginBottom: 4,
+  },
+  linksSection: {
+    paddingHorizontal: 20,
+    paddingTop: 12,
+  },
+  navButton: {
+    width: '100%',
+    marginBottom: 12,
+    paddingVertical: 18,
+    paddingHorizontal: 20,
+    minHeight: 56,
+    backgroundColor: '#1e293b',
+    borderRadius: 12,
+    borderWidth: 2,
+    borderColor: '#f59e0b',
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  navButtonText: {
+    fontFamily: 'RaceSport',
+    fontSize: 17,
+    color: '#f8fafc',
+  },
+  sectionDivider: {
+    marginHorizontal: 20,
+    marginTop: 4,
+    marginBottom: 4,
+    height: 1,
+    backgroundColor: '#334155',
   },
   tabBar: {
     flexDirection: 'row',

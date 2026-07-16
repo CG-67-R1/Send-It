@@ -6,9 +6,15 @@ type Props = {
   title?: string;
   items: RiderAiFaqItem[];
   onAskQuestion?: (question: string) => void;
+  askLabel?: string;
 };
 
-export function CoachFaqSection({ title = 'FAQs', items, onAskQuestion }: Props) {
+export function CoachFaqSection({
+  title = 'FAQs',
+  items,
+  onAskQuestion,
+  askLabel = 'Ask coach about this',
+}: Props) {
   const [expandedId, setExpandedId] = useState<string | null>(null);
   const [sectionOpen, setSectionOpen] = useState(true);
 
@@ -52,7 +58,7 @@ export function CoachFaqSection({ title = 'FAQs', items, onAskQuestion }: Props)
                         onPress={() => onAskQuestion(item.question)}
                         activeOpacity={0.85}
                       >
-                        <Text style={styles.askBtnText}>Ask coach about this</Text>
+                        <Text style={styles.askBtnText}>{askLabel}</Text>
                       </TouchableOpacity>
                     ) : null}
                   </View>
