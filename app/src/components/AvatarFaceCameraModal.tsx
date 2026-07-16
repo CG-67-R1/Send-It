@@ -15,57 +15,15 @@ import * as ImageManipulator from 'expo-image-manipulator';
 import { StatusBar } from 'expo-status-bar';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import Svg, { Circle, Defs, Ellipse, G, Mask, Rect, ClipPath } from 'react-native-svg';
+import { computeCaptureGuide } from '../avatar/faceHoleGeometry';
 import { DEFAULT_FACE_HOLE_LAYOUT } from '../avatar/presets';
-
-/**
- * Capture UI only (does not move the hero badge hole). Tunables:
- *
- * - CAPTURE_CENTER_CROP_FRAC — Center square side = min(w,h) × this (capped at min(w,h)). **Below 1**
- *   = tighter crop / slightly zoomed in on the middle — helps keep **ears out** of the saved file when
- *   the face is centered. **Above 1** still caps at full min side (no extra zoom-out). Try **0.02**
- *   steps; typical band **0.92–0.98** for face-only vs **1.0** for maximum field of view.
- *
- * - FALLBACK_GUIDE_RX_FRAC — Horizontal “radius” of the amber capture guide vs min(screen w,h), before
- *   HOLE_SIZE_MULTIPLIER. **Lower = smaller guide oval.** Try steps of **0.02**.
- *
- * - CAPTURE_GUIDE_RX_NARROW_FRAC — Scales the guide after the base rx/ry math. **Higher = bigger cutout.**
- *   Try steps of **0.05** if you change it. Smaller oval → users frame **full face inside** with **ears
- *   outside** the guide; pair with hint copy if needed.
- *
- * - maxRy / maxRx clamps (in component) — Cap guide size before multiplier. Adjust by **~0.02** on the
- *   height/width fractions (e.g. height * 0.42) if the guide hits the edge of the screen.
- *
- * - CAPTURE_GUIDE_RX_NARROW_FRAC — After layout, horizontal semi-axis only: **1 − 2×(inset per side)**.
- *   e.g. 0.96 = 2% narrower on the left and 2% on the right from center. Does not change ry.
- *
- * - FACE_GUIDE_VERTICAL_OFFSET_FRAC — Shifts the face-guide band **up** from ellipse center **cy**
- *   by this × **window height** (typ. 0.05). Affects eye dots.
- *
- * **Eye placement (vs `guideCy`, in units of oval `ry` / `rx`):**
- * - EYE_GUIDE_Y_FRAC — Eyes sit at `guideCy − EYE_GUIDE_Y_FRAC × ry`. **↑ value = eyes higher** in the oval.
- * - EYE_GUIDE_DX_FRAC — Half-distance between dot centers × **rx**; **↑ = wider** apart.
- * - EYE_GUIDE_OFFSET_X_FRAC — Nudge **both** dots left/right × **rx** (0 = centered on oval).
- */
-const FALLBACK_GUIDE_RX_FRAC = 0.3;
 
 /** Solid around the oval cutout (matches app chrome). */
 const MODAL_SCREEN_BG = '#0f172a';
 
-/** Tighter than full frame: slight zoom to crop side hair/ears; try 0.02 steps (↓ = more zoom). */
-const CAPTURE_CENTER_CROP_FRAC = 0.84;
-
-/** Horizontal only: 2% inset on each side from center → rx × 0.96. See block comment above. */
-const CAPTURE_GUIDE_RX_NARROW_FRAC = 0.89;
-
-/** Scales the capture guide ellipse after base rx/ry; see block comment above. */
-const HOLE_SIZE_MULTIPLIER = 1.43;
-
-/** Vertical shift for face placement guides (eye dots) vs screen/oval center. */
-const FACE_GUIDE_VERTICAL_OFFSET_FRAC = 0.05;
-
 const FACE_GUIDE_DOT_R = 4;
 
-/** Eyes at guideCy − EYE_GUIDE_Y_FRAC × ry (↑ = higher in oval). See tunable block above. */
+/** Eyes at guideCy − EYE_GUIDE_Y_FRAC × ry (↑ = higher in oval). */
 const EYE_GUIDE_Y_FRAC = 0.14;
 /** Half-spacing between eye dot centers × rx (↑ = wider). */
 const EYE_GUIDE_DX_FRAC = 0.47;
@@ -75,13 +33,13 @@ const EYE_GUIDE_OFFSET_X_FRAC = -0.02;
 type Props = {
   visible: boolean;
   onClose: () => void;
-  /** Called with a JPEG file URI (square crop, ready for elliptical clip on the hero). */
+  /** Called with a JPEG URI (guide-region crop) — callers should open the align modal next. */
   onCapture: (uri: string) => void;
 };
 
 /**
- * Full-screen front camera with an oval guide: solid app-colored overlay with a transparent hole
- * showing the live feed, plus an amber stroke. Capture: center square crop for hero compositing.
+ * Full-screen front camera with an oval guide matching the hero face-hole geometry.
+ * Capture crops to the guide’s bounding square; fine alignment happens in AvatarFaceAlignModal.
  */
 export function AvatarFaceCameraModal({ visible, onClose, onCapture }: Props) {
   const { width, height } = useWindowDimensions();
@@ -92,41 +50,10 @@ export function AvatarFaceCameraModal({ visible, onClose, onCapture }: Props) {
   const [busy, setBusy] = useState(false);
   const maskDomId = useId().replace(/:/g, '');
 
-  const cx = width / 2;
-  const cy = height / 2;
-  const base = Math.min(width, height);
-  /** Same oval *proportions* as the hero hole, scaled for full-screen framing. */
-  const holeAspect = DEFAULT_FACE_HOLE_LAYOUT.heightPct / DEFAULT_FACE_HOLE_LAYOUT.widthPct;
-  let rx = base * FALLBACK_GUIDE_RX_FRAC;
-  let ry = rx * holeAspect;
-  const maxRy = height * 0.42;
-  if (ry > maxRy) {
-    const s = maxRy / ry;
-    ry *= s;
-    rx *= s;
-  }
-  const maxRx = width * 0.44;
-  if (rx > maxRx) {
-    const s = maxRx / rx;
-    rx *= s;
-    ry *= s;
-  }
+  const guide = computeCaptureGuide(width, height, DEFAULT_FACE_HOLE_LAYOUT);
+  const { cx, cy, rx, ry } = guide;
 
-  rx *= HOLE_SIZE_MULTIPLIER;
-  ry *= HOLE_SIZE_MULTIPLIER;
-
-  const padX = 12;
-  const padY = 12;
-  const maxRxFit = width / 2 - padX;
-  const maxRyFit = height / 2 - padY;
-  const fitS = Math.min(1, maxRxFit / Math.max(rx, 1), maxRyFit / Math.max(ry, 1));
-  rx *= fitS;
-  ry *= fitS;
-  rx *= CAPTURE_GUIDE_RX_NARROW_FRAC;
-
-  /** Face-guide anchor: above ellipse center — see FACE_GUIDE_VERTICAL_OFFSET_FRAC. */
-  const guideCy = cy - height * FACE_GUIDE_VERTICAL_OFFSET_FRAC;
-  const eyeY = guideCy - EYE_GUIDE_Y_FRAC * ry;
+  const eyeY = cy - EYE_GUIDE_Y_FRAC * ry;
   const eyeDx = EYE_GUIDE_DX_FRAC * rx;
   const eyeCenterX = cx + EYE_GUIDE_OFFSET_X_FRAC * rx;
   const guideClipId = `${maskDomId}-guideclip`;
@@ -157,18 +84,47 @@ export function AvatarFaceCameraModal({ visible, onClose, onCapture }: Props) {
       let outputUri = photo.uri;
 
       if (iw > 0 && ih > 0) {
-        const minDim = Math.min(iw, ih);
-        const side = Math.min(
-          Math.max(1, Math.floor(minDim * CAPTURE_CENTER_CROP_FRAC)),
-          minDim
-        );
-        const originX = Math.max(0, Math.floor((iw - side) / 2));
-        const originY = Math.max(0, Math.floor((ih - side) / 2));
+        // Map on-screen guide ellipse bbox → photo pixels (cover-fit camera preview).
+        const scale = Math.max(width / iw, height / ih);
+        const dispW = iw * scale;
+        const dispH = ih * scale;
+        const offsetX = (width - dispW) / 2;
+        const offsetY = (height - dispH) / 2;
+
+        const holeLeft = cx - rx;
+        const holeTop = cy - ry;
+        const holeRight = cx + rx;
+        const holeBottom = cy + ry;
+
+        let sx0 = (holeLeft - offsetX) / scale;
+        let sy0 = (holeTop - offsetY) / scale;
+        let sx1 = (holeRight - offsetX) / scale;
+        let sy1 = (holeBottom - offsetY) / scale;
+
+        let cropW = Math.abs(sx1 - sx0);
+        let cropH = Math.abs(sy1 - sy0);
+        const side = Math.max(cropW, cropH);
+        let originX = Math.min(sx0, sx1) - (side - cropW) / 2;
+        let originY = Math.min(sy0, sy1) - (side - cropH) / 2;
+
+        originX = Math.max(0, Math.min(iw - 1, originX));
+        originY = Math.max(0, Math.min(ih - 1, originY));
+        const maxSide = Math.min(iw - originX, ih - originY);
+        const finalSide = Math.max(1, Math.floor(Math.min(side, maxSide)));
 
         try {
           const manipulated = await ImageManipulator.manipulateAsync(
             photo.uri,
-            [{ crop: { originX, originY, width: side, height: side } }],
+            [
+              {
+                crop: {
+                  originX: Math.floor(originX),
+                  originY: Math.floor(originY),
+                  width: finalSide,
+                  height: finalSide,
+                },
+              },
+            ],
             { compress: 0.88, format: ImageManipulator.SaveFormat.JPEG }
           );
           outputUri = manipulated.uri;
@@ -185,7 +141,7 @@ export function AvatarFaceCameraModal({ visible, onClose, onCapture }: Props) {
     } finally {
       setBusy(false);
     }
-  }, [busy, onCapture, onClose, ready]);
+  }, [busy, onCapture, onClose, ready, width, height, cx, cy, rx, ry]);
 
   return (
     <Modal visible={visible} animationType="slide" onRequestClose={onClose}>
@@ -248,7 +204,7 @@ export function AvatarFaceCameraModal({ visible, onClose, onCapture }: Props) {
 
             <View style={styles.hintWrap} pointerEvents="none">
               <Text style={styles.hint}>
-                Center your full face in the oval with your ears outside the guide — same shape as on your rider badge.
+                Center your face in the oval (same shape as on your rider). You can fine-tune alignment next.
               </Text>
             </View>
 

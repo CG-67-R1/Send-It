@@ -42,8 +42,8 @@
 **Confidence:** Medium
 **Source notes:** Champions map geometry; class guidance is principle-based.
 
-## MALLALA_S03 — Turn 3 (far-left end of top loop)
-**Shape:** Hairpin / 180-ish (map suggests tight end)
+## MALLALA_S03 — Turn 3 (top-left hairpin — geographically far-left end of circuit)
+**Shape:** Hairpin / 180° right
 **Priority / what matters:** Get the bike turned efficiently and prioritize a strong, straight drive onto the long top section.
 **Stable reference points:** End of kerb/paint; outside barrier alignment (add); marshal post (add).
 **Hazards / surface:** If surface is narrow/bumpy, keep inputs smooth (validate).
@@ -53,8 +53,8 @@
 - **300/small:** Maximize corner speed and exit—this feeds a long run where bigger bikes stretch legs.
 **Common mistakes:** Over-slowing (300s); over-squaring and losing flow (600s); spinning/standing up too early (SBK).
 **Overtake / passing:** Classic brake-and-turn passing zone if run-off and sightlines are good.
-**Confidence:** Low–Medium (needs rider validation of corner severity).
-**Source notes:** Champions map indicates a tight end-of-loop corner.
+**Confidence:** Medium — direction confirmed RIGHT by GPX bearing analysis (2026-07-14). The label "far-left" refers to geographic position only, not turn direction. On a CW circuit the U-turn here reverses bearing from ~160° SW back to ~30° NE = right hairpin.
+**Source notes:** Champions map indicates a tight end-of-loop corner. Direction corrected from "left" to "right" after GPX trace analysis.
 
 ## MALLALA_S04 — Turn 4 (long top section / sweeper)
 **Shape:** Fast sweeper / long radius

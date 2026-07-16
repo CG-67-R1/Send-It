@@ -8,7 +8,9 @@ Single reference for GitHub, Render (API), and Vercel (web). Update this file wh
 |---------|-----|--------|
 | **GitHub** | [CG-67-R1/Send-It](https://github.com/CG-67-R1/Send-It) | Default branch: `main` |
 | **API (Render)** | https://send-it-ke7r.onrender.com | `GET /health` → `{"ok":true,"roadraceAi":true}` when OpenAI configured |
-| **Web (Vercel)** | https://send-it-cg-67-r1s-projects.vercel.app | Production deploys from `main` |
+| **Web (Vercel)** | https://send-it-cg-67-r1s-projects.vercel.app | Public production URL for testers (no Vercel login) |
+
+**Tester share link:** https://send-it-cg-67-r1s-projects.vercel.app — no install, no Vercel account, no app login. First API call after idle may take ~30s (Render free-tier cold start).
 
 **Note:** GitHub repo homepage may still list an older Vercel alias (`send-it-rosy.vercel.app`). The active project is **send-it** under team **cg-67-r1s-projects**.
 
@@ -23,6 +25,7 @@ Single reference for GitHub, Render (API), and Vercel (web). Update this file wh
 | Output directory | `dist` |
 | Install command | `npm install --legacy-peer-deps` |
 | Env var | `EXPO_PUBLIC_API_URL` = `https://send-it-ke7r.onrender.com` |
+| Deployment Protection | Vercel Authentication = **Only Preview Deployments** (`ssoProtection.deploymentType: preview`) so production stays public |
 
 Config in repo: [`app/vercel.json`](app/vercel.json). Local Vercel link: [`app/.vercel/project.json`](app/.vercel/project.json).
 

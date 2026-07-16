@@ -1,6 +1,6 @@
 import * as Notifications from 'expo-notifications';
 
-// Show notification when app is in foreground too (optional)
+// Show notification when app is in foreground too (optional).
 Notifications.setNotificationHandler({
   handleNotification: async () => ({
     shouldShowAlert: true,

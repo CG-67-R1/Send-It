@@ -19,8 +19,9 @@ import {
   setOnboardingAnswers,
   type OnboardingAnswers,
 } from '../storage/onboarding';
-import { AVATAR_PRESETS, getAvatarPreset, getAvatarSource, getFaceHoleLayout, pickRandomNoPhotoAvatar } from '../avatar/presets';
+import { AVATAR_PRESETS, DEFAULT_FACE_HOLE_LAYOUT, getAvatarPreset, getAvatarSource, getFaceHoleLayout, pickRandomNoPhotoAvatar } from '../avatar/presets';
 import { setAvatarFacePhotoUri, clearAvatarFacePhoto } from '../storage/avatarFacePhoto';
+import { AvatarFaceAlignModal } from '../components/AvatarFaceAlignModal';
 import { AvatarFaceCameraModal } from '../components/AvatarFaceCameraModal';
 import { AvatarFaceEllipse } from '../components/AvatarFaceEllipse';
 
@@ -52,6 +53,8 @@ export function OnboardingScreen({ onComplete }: OnboardingScreenProps) {
   const [riderNickname, setRiderNickname] = useState('');
   const [finishing, setFinishing] = useState(false);
   const [faceCameraOpen, setFaceCameraOpen] = useState(false);
+  /** Pending photo URI waiting for align modal (library or camera). */
+  const [alignImageUri, setAlignImageUri] = useState<string | null>(null);
   /** Set when user skips avatar pick — stable random mascot for summary + finish. */
   const [assignedRandomAvatarId, setAssignedRandomAvatarId] = useState<string | null>(null);
 
@@ -85,12 +88,11 @@ export function OnboardingScreen({ onComplete }: OnboardingScreenProps) {
       }
       const result = await ImagePicker.launchImageLibraryAsync({
         mediaTypes: ['images'],
-        allowsEditing: true,
-        aspect: [1, 1],
-        quality: 0.85,
+        allowsEditing: false,
+        quality: 0.9,
       });
       if (!result.canceled && result.assets[0]) {
-        setAvatarFaceUri(result.assets[0].uri);
+        setAlignImageUri(result.assets[0].uri);
       }
     } catch (e) {
       Alert.alert('Error', e instanceof Error ? e.message : 'Could not pick image');
@@ -99,6 +101,15 @@ export function OnboardingScreen({ onComplete }: OnboardingScreenProps) {
 
   const openAvatarFaceCamera = useCallback(() => {
     setFaceCameraOpen(true);
+  }, []);
+
+  const onAvatarFaceCaptured = useCallback((uri: string) => {
+    setAlignImageUri(uri);
+  }, []);
+
+  const onAvatarFaceAligned = useCallback((uri: string) => {
+    setAvatarFaceUri(uri);
+    setAlignImageUri(null);
   }, []);
 
   const handleFinish = async () => {
@@ -532,8 +543,8 @@ export function OnboardingScreen({ onComplete }: OnboardingScreenProps) {
               <View style={styles.faceUploadSection}>
                 <Text style={styles.faceUploadTitle}>Your face (optional)</Text>
                 <Text style={styles.faceUploadHint}>
-                  Take a selfie with an oval guide (matches the hole on your rider), or pick a square-cropped
-                  photo from your library.
+                  Take a selfie or pick from your library, then align your face on the rider so it sits in the
+                  hole.
                 </Text>
                 <View style={styles.faceUploadRow}>
                   <TouchableOpacity style={styles.faceUploadButton} onPress={openAvatarFaceCamera} activeOpacity={0.85}>
@@ -647,8 +658,19 @@ export function OnboardingScreen({ onComplete }: OnboardingScreenProps) {
     <AvatarFaceCameraModal
       visible={faceCameraOpen}
       onClose={() => setFaceCameraOpen(false)}
-      onCapture={(uri) => setAvatarFaceUri(uri)}
+      onCapture={onAvatarFaceCaptured}
     />
+    {alignImageUri && selectedAvatarPreset?.hasFaceHole && getAvatarSource(avatarId) ? (
+      <AvatarFaceAlignModal
+        visible={Boolean(alignImageUri)}
+        imageUri={alignImageUri}
+        avatarSource={getAvatarSource(avatarId)!}
+        layout={getFaceHoleLayout(avatarId) ?? DEFAULT_FACE_HOLE_LAYOUT}
+        faceBehindAvatar={Boolean(selectedAvatarPreset.compositeFaceBehindAvatar)}
+        onConfirm={onAvatarFaceAligned}
+        onClose={() => setAlignImageUri(null)}
+      />
+    ) : null}
     </>
   );
 }

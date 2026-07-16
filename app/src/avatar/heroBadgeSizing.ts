@@ -9,7 +9,7 @@
  * **`DEFAULT_FACE_HOLE_LAYOUT`** (presets) is expressed as fractions of the badge box; it does not
  * need to change when scale changes.
  *
- * **`FACE_IN_HOLE_SCALE`** / **`FACE_HOLE_OFFSET_*`** (AvatarFaceEllipse) are tuning relative to the
+ * **`FACE_IN_HOLE_SCALE`** / **`FACE_HOLE_OFFSET_*`** (`faceHoleGeometry.ts`) are tuning relative to the
  * hole; they stay the same when only the badge scale changes.
  */
 export const HERO_AVATAR_BADGE_BASE_SIZE = 160;

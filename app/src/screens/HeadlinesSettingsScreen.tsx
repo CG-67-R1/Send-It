@@ -36,8 +36,9 @@ import { SOURCES_URL } from '../../constants/api';
 import type { CustomSource, PriorityOrder, Source } from '../types';
 import { AppLogo } from '../components/AppLogo';
 import { SCREEN_LOGO_SIZE } from '../constants/logoSizing';
+import { AvatarFaceAlignModal } from '../components/AvatarFaceAlignModal';
 import { AvatarFaceCameraModal } from '../components/AvatarFaceCameraModal';
-import { AVATAR_PRESETS, getAvatarPreset, getAvatarSource } from '../avatar/presets';
+import { AVATAR_PRESETS, DEFAULT_FACE_HOLE_LAYOUT, getAvatarPreset, getAvatarSource, getFaceHoleLayout } from '../avatar/presets';
 import { getOnboardingAnswers, updateOnboardingAnswers } from '../storage/onboarding';
 import {
   clearAvatarFacePhoto,
@@ -55,6 +56,7 @@ export function HeadlinesSettingsScreen() {
   const [facePreviewUri, setFacePreviewUri] = useState<string | null>(null);
   const [faceCameraOpen, setFaceCameraOpen] = useState(false);
   const [faceBusy, setFaceBusy] = useState(false);
+  const [alignImageUri, setAlignImageUri] = useState<string | null>(null);
   const [builtinSources, setBuiltinSources] = useState<Source[]>([]);
   const [customSources, setCustomSourcesState] = useState<CustomSource[]>([]);
   const [priority, setPriorityState] = useState<PriorityOrder>([]);
@@ -203,13 +205,11 @@ export function HeadlinesSettingsScreen() {
       }
       const result = await ImagePicker.launchImageLibraryAsync({
         mediaTypes: ['images'],
-        allowsEditing: true,
-        aspect: [1, 1],
-        quality: 0.85,
+        allowsEditing: false,
+        quality: 0.9,
       });
       if (!result.canceled && result.assets[0]) {
-        const saved = await setAvatarFacePhotoUri(result.assets[0].uri);
-        setFacePreviewUri(saved);
+        setAlignImageUri(result.assets[0].uri);
       }
     } catch (e) {
       Alert.alert('Error', e instanceof Error ? e.message : 'Could not pick image');
@@ -222,10 +222,15 @@ export function HeadlinesSettingsScreen() {
     setFaceCameraOpen(true);
   }, []);
 
-  const onRiderFaceCaptured = useCallback(async (uri: string) => {
+  const onRiderFaceCaptured = useCallback((uri: string) => {
+    setAlignImageUri(uri);
+  }, []);
+
+  const onRiderFaceAligned = useCallback(async (uri: string) => {
     try {
       const saved = await setAvatarFacePhotoUri(uri);
       setFacePreviewUri(saved);
+      setAlignImageUri(null);
     } catch (e) {
       Alert.alert('Error', e instanceof Error ? e.message : 'Could not save photo');
     }
@@ -323,6 +328,13 @@ export function HeadlinesSettingsScreen() {
 
   const handleNotifyPriority1Toggle = useCallback(async (value: boolean) => {
     if (value) {
+      if (Platform.OS === 'web') {
+        Alert.alert(
+          'Notifications',
+          'Priority 1 alerts are available in the iOS and Android apps, not in the browser.'
+        );
+        return;
+      }
       const granted = await requestNotificationPermissions();
       if (!granted) {
         Alert.alert(
@@ -441,8 +453,7 @@ export function HeadlinesSettingsScreen() {
         <View style={styles.section}>
           <Text style={styles.sectionTitle}>Rider photo</Text>
           <Text style={styles.sectionSubtitle}>
-            Update the photo that appears in your leathers on the home screen. Same crop guide as during
-            onboarding on this device.
+            Take a photo or pick from your library, then align your face on the rider so it sits in the hole.
           </Text>
           <View style={styles.riderFaceRow}>
             {facePreviewUri ? (
@@ -491,21 +502,23 @@ export function HeadlinesSettingsScreen() {
         </View>
       ) : null}
 
-      <View style={styles.section}>
-        <Text style={styles.sectionTitle}>Notifications</Text>
-        <Text style={styles.sectionSubtitle}>
-          When new headlines appear from your Priority 1 source (e.g. when you open the app or refresh), show a notification.
-        </Text>
-        <View style={styles.notifyRow}>
-          <Text style={styles.notifyLabel}>Notify for Priority 1 news</Text>
-          <Switch
-            value={notifyPriority1}
-            onValueChange={handleNotifyPriority1Toggle}
-            trackColor={{ false: '#334155', true: '#f59e0b' }}
-            thumbColor="#f8fafc"
-          />
+      {Platform.OS !== 'web' ? (
+        <View style={styles.section}>
+          <Text style={styles.sectionTitle}>Notifications</Text>
+          <Text style={styles.sectionSubtitle}>
+            When new headlines appear from your Priority 1 source (e.g. when you open the app or refresh), show a notification.
+          </Text>
+          <View style={styles.notifyRow}>
+            <Text style={styles.notifyLabel}>Notify for Priority 1 news</Text>
+            <Switch
+              value={notifyPriority1}
+              onValueChange={handleNotifyPriority1Toggle}
+              trackColor={{ false: '#334155', true: '#f59e0b' }}
+              thumbColor="#f8fafc"
+            />
+          </View>
         </View>
-      </View>
+      ) : null}
 
       <View style={styles.section}>
         <Text style={styles.sectionTitle}>Reminders</Text>
@@ -611,6 +624,17 @@ export function HeadlinesSettingsScreen() {
         onClose={() => setFaceCameraOpen(false)}
         onCapture={onRiderFaceCaptured}
       />
+      {alignImageUri && riderPreset?.hasFaceHole && getAvatarSource(avatarId) ? (
+        <AvatarFaceAlignModal
+          visible={Boolean(alignImageUri)}
+          imageUri={alignImageUri}
+          avatarSource={getAvatarSource(avatarId)!}
+          layout={getFaceHoleLayout(avatarId) ?? DEFAULT_FACE_HOLE_LAYOUT}
+          faceBehindAvatar={Boolean(riderPreset.compositeFaceBehindAvatar)}
+          onConfirm={onRiderFaceAligned}
+          onClose={() => setAlignImageUri(null)}
+        />
+      ) : null}
 
       <Modal
         visible={pickerSlot !== null}

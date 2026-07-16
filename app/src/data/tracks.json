@@ -135,9 +135,9 @@
         {
           "id": "mallala_t3",
           "number": 3,
-          "label": "Turn 3 (far-left end of top loop)",
+          "label": "Turn 3 (top-left hairpin, geographically far-left end of circuit)",
           "shape": "Hairpin",
-          "direction": "left",
+          "direction": "right",
           "approachFrom": "T2 (Turn 2) exit"
         },
         {
