@@ -659,6 +659,8 @@ export function OnboardingScreen({ onComplete }: OnboardingScreenProps) {
       visible={faceCameraOpen}
       onClose={() => setFaceCameraOpen(false)}
       onCapture={onAvatarFaceCaptured}
+      avatarSource={getAvatarSource(avatarId) ?? selectedAvatarPreset!.source}
+      layout={getFaceHoleLayout(avatarId) ?? DEFAULT_FACE_HOLE_LAYOUT}
     />
     {alignImageUri && selectedAvatarPreset?.hasFaceHole && getAvatarSource(avatarId) ? (
       <AvatarFaceAlignModal

@@ -2,6 +2,7 @@ import React, { useCallback, useId, useRef, useState } from 'react';
 import {
   ActivityIndicator,
   Alert,
+  Image,
   Modal,
   Platform,
   StyleSheet,
@@ -9,6 +10,7 @@ import {
   TouchableOpacity,
   useWindowDimensions,
   View,
+  type ImageSourcePropType,
 } from 'react-native';
 import { CameraView, useCameraPermissions } from 'expo-camera';
 import * as ImageManipulator from 'expo-image-manipulator';
@@ -16,32 +18,40 @@ import { StatusBar } from 'expo-status-bar';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import Svg, { Circle, Defs, Ellipse, G, Mask, Rect, ClipPath } from 'react-native-svg';
 import { computeCaptureGuide } from '../avatar/faceHoleGeometry';
-import { DEFAULT_FACE_HOLE_LAYOUT } from '../avatar/presets';
+import { DEFAULT_FACE_HOLE_LAYOUT, type FaceHoleLayout } from '../avatar/presets';
 
-/** Solid around the oval cutout (matches app chrome). */
+/** Solid around the rider badge (matches app chrome). */
 const MODAL_SCREEN_BG = '#0f172a';
 
-const FACE_GUIDE_DOT_R = 4;
+/** Mild center square crop so Align modal gets a face-forward starting point (not guide-mapped). */
+const CAPTURE_CENTER_CROP_FRAC = 0.92;
 
-/** Eyes at guideCy − EYE_GUIDE_Y_FRAC × ry (↑ = higher in oval). */
+const FACE_GUIDE_DOT_R = 4;
 const EYE_GUIDE_Y_FRAC = 0.14;
-/** Half-spacing between eye dot centers × rx (↑ = wider). */
 const EYE_GUIDE_DX_FRAC = 0.47;
-/** Nudge both eye dots horizontally × rx (+ = right). */
 const EYE_GUIDE_OFFSET_X_FRAC = -0.02;
 
 type Props = {
   visible: boolean;
   onClose: () => void;
-  /** Called with a JPEG URI (guide-region crop) — callers should open the align modal next. */
+  /** Called with a JPEG URI — callers open AvatarFaceAlignModal next (same as library). */
   onCapture: (uri: string) => void;
+  /** Leathers PNG shown over the camera; face shows through the transparent hole. */
+  avatarSource: ImageSourcePropType;
+  layout?: FaceHoleLayout;
 };
 
 /**
- * Full-screen front camera with an oval guide matching the hero face-hole geometry.
- * Capture crops to the guide’s bounding square; fine alignment happens in AvatarFaceAlignModal.
+ * Front camera with the rider avatar overlaid so the user puts their face in the real hole.
+ * Capture does a mild center square crop only; fine alignment uses AvatarFaceAlignModal.
  */
-export function AvatarFaceCameraModal({ visible, onClose, onCapture }: Props) {
+export function AvatarFaceCameraModal({
+  visible,
+  onClose,
+  onCapture,
+  avatarSource,
+  layout = DEFAULT_FACE_HOLE_LAYOUT,
+}: Props) {
   const { width, height } = useWindowDimensions();
   const insets = useSafeAreaInsets();
   const cameraRef = useRef<CameraView>(null);
@@ -50,8 +60,8 @@ export function AvatarFaceCameraModal({ visible, onClose, onCapture }: Props) {
   const [busy, setBusy] = useState(false);
   const maskDomId = useId().replace(/:/g, '');
 
-  const guide = computeCaptureGuide(width, height, DEFAULT_FACE_HOLE_LAYOUT);
-  const { cx, cy, rx, ry } = guide;
+  const guide = computeCaptureGuide(width, height, layout);
+  const { cx, cy, rx, ry, badgeSize, badgeLeft, badgeTop } = guide;
 
   const eyeY = cy - EYE_GUIDE_Y_FRAC * ry;
   const eyeDx = EYE_GUIDE_DX_FRAC * rx;
@@ -83,48 +93,20 @@ export function AvatarFaceCameraModal({ visible, onClose, onCapture }: Props) {
       const ih = photo.height ?? 0;
       let outputUri = photo.uri;
 
+      // Mild center square only — do NOT map the on-screen hole to photo pixels
+      // (CameraView cover/mirror makes that mapping unreliable). Align modal does the rest.
       if (iw > 0 && ih > 0) {
-        // Map on-screen guide ellipse bbox → photo pixels (cover-fit camera preview).
-        const scale = Math.max(width / iw, height / ih);
-        const dispW = iw * scale;
-        const dispH = ih * scale;
-        const offsetX = (width - dispW) / 2;
-        const offsetY = (height - dispH) / 2;
-
-        const holeLeft = cx - rx;
-        const holeTop = cy - ry;
-        const holeRight = cx + rx;
-        const holeBottom = cy + ry;
-
-        let sx0 = (holeLeft - offsetX) / scale;
-        let sy0 = (holeTop - offsetY) / scale;
-        let sx1 = (holeRight - offsetX) / scale;
-        let sy1 = (holeBottom - offsetY) / scale;
-
-        let cropW = Math.abs(sx1 - sx0);
-        let cropH = Math.abs(sy1 - sy0);
-        const side = Math.max(cropW, cropH);
-        let originX = Math.min(sx0, sx1) - (side - cropW) / 2;
-        let originY = Math.min(sy0, sy1) - (side - cropH) / 2;
-
-        originX = Math.max(0, Math.min(iw - 1, originX));
-        originY = Math.max(0, Math.min(ih - 1, originY));
-        const maxSide = Math.min(iw - originX, ih - originY);
-        const finalSide = Math.max(1, Math.floor(Math.min(side, maxSide)));
-
+        const minDim = Math.min(iw, ih);
+        const side = Math.min(
+          Math.max(1, Math.floor(minDim * CAPTURE_CENTER_CROP_FRAC)),
+          minDim
+        );
+        const originX = Math.max(0, Math.floor((iw - side) / 2));
+        const originY = Math.max(0, Math.floor((ih - side) / 2));
         try {
           const manipulated = await ImageManipulator.manipulateAsync(
             photo.uri,
-            [
-              {
-                crop: {
-                  originX: Math.floor(originX),
-                  originY: Math.floor(originY),
-                  width: finalSide,
-                  height: finalSide,
-                },
-              },
-            ],
+            [{ crop: { originX, originY, width: side, height: side } }],
             { compress: 0.88, format: ImageManipulator.SaveFormat.JPEG }
           );
           outputUri = manipulated.uri;
@@ -141,7 +123,7 @@ export function AvatarFaceCameraModal({ visible, onClose, onCapture }: Props) {
     } finally {
       setBusy(false);
     }
-  }, [busy, onCapture, onClose, ready, width, height, cx, cy, rx, ry]);
+  }, [busy, onCapture, onClose, ready]);
 
   return (
     <Modal visible={visible} animationType="slide" onRequestClose={onClose}>
@@ -157,6 +139,8 @@ export function AvatarFaceCameraModal({ visible, onClose, onCapture }: Props) {
               mode="picture"
               onCameraReady={() => setReady(true)}
             />
+
+            {/* Dim outside the rider badge */}
             <Svg
               width={width}
               height={height}
@@ -166,7 +150,13 @@ export function AvatarFaceCameraModal({ visible, onClose, onCapture }: Props) {
               <Defs>
                 <Mask id={maskDomId}>
                   <Rect width={width} height={height} fill="#ffffff" />
-                  <Ellipse cx={cx} cy={cy} rx={rx} ry={ry} fill="#000000" />
+                  <Rect
+                    x={badgeLeft}
+                    y={badgeTop}
+                    width={badgeSize}
+                    height={badgeSize}
+                    fill="#000000"
+                  />
                 </Mask>
                 <ClipPath id={guideClipId}>
                   <Ellipse cx={cx} cy={cy} rx={rx} ry={ry} />
@@ -180,7 +170,7 @@ export function AvatarFaceCameraModal({ visible, onClose, onCapture }: Props) {
                 ry={ry}
                 fill="none"
                 stroke="#f59e0b"
-                strokeWidth={3}
+                strokeWidth={2.5}
               />
               <G clipPath={`url(#${guideClipId})`}>
                 <Circle
@@ -202,9 +192,28 @@ export function AvatarFaceCameraModal({ visible, onClose, onCapture }: Props) {
               </G>
             </Svg>
 
+            {/* Real leathers — camera shows through the transparent face hole */}
+            <View
+              pointerEvents="none"
+              style={{
+                position: 'absolute',
+                left: badgeLeft,
+                top: badgeTop,
+                width: badgeSize,
+                height: badgeSize,
+                zIndex: 2,
+              }}
+            >
+              <Image
+                source={avatarSource}
+                style={{ width: badgeSize, height: badgeSize }}
+                resizeMode="contain"
+              />
+            </View>
+
             <View style={styles.hintWrap} pointerEvents="none">
               <Text style={styles.hint}>
-                Center your face in the oval (same shape as on your rider). You can fine-tune alignment next.
+                Put your face in the hole on your rider. You can fine-tune alignment on the next screen.
               </Text>
             </View>
 
@@ -254,7 +263,7 @@ const styles = StyleSheet.create({
     top: 56,
     left: 24,
     right: 24,
-    zIndex: 2,
+    zIndex: 3,
   },
   hint: {
     color: '#e2e8f0',

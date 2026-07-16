@@ -623,6 +623,8 @@ export function HeadlinesSettingsScreen() {
         visible={faceCameraOpen}
         onClose={() => setFaceCameraOpen(false)}
         onCapture={onRiderFaceCaptured}
+        avatarSource={getAvatarSource(avatarId)!}
+        layout={getFaceHoleLayout(avatarId) ?? DEFAULT_FACE_HOLE_LAYOUT}
       />
       {alignImageUri && riderPreset?.hasFaceHole && getAvatarSource(avatarId) ? (
         <AvatarFaceAlignModal
