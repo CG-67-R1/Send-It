@@ -26,8 +26,8 @@ export const BIKE_SETUP_HOTSPOTS: BikeSetupHotspot[] = [
   {
     id: 'front-compression',
     kind: 'adjust',
-    xPct: 20,
-    yPct: 22,
+    xPct: 17,
+    yPct: 17,
     title: 'Fork compression',
     summary:
       'Controls how quickly the fork compresses over bumps and under braking. Too soft feels divey; too firm feels harsh and can push the front.',
@@ -42,8 +42,8 @@ export const BIKE_SETUP_HOTSPOTS: BikeSetupHotspot[] = [
   {
     id: 'front-rebound',
     kind: 'adjust',
-    xPct: 23,
-    yPct: 18,
+    xPct: 19,
+    yPct: 11,
     title: 'Fork rebound',
     summary:
       'Controls how quickly the fork extends after compression. Too fast feels springy and unsettled; too slow packs down over successive bumps.',
@@ -58,8 +58,8 @@ export const BIKE_SETUP_HOTSPOTS: BikeSetupHotspot[] = [
   {
     id: 'front-preload',
     kind: 'adjust',
-    xPct: 17,
-    yPct: 18,
+    xPct: 15,
+    yPct: 13,
     title: 'Fork preload',
     summary:
       'Sets initial spring tension. It mainly changes how much sag you get — it does not replace the correct spring rate for your weight.',
@@ -74,8 +74,8 @@ export const BIKE_SETUP_HOTSPOTS: BikeSetupHotspot[] = [
   {
     id: 'front-oil-height',
     kind: 'adjust',
-    xPct: 26,
-    yPct: 24,
+    xPct: 22,
+    yPct: 15,
     title: 'Fork oil height / air gap',
     summary:
       'Internal oil volume changes end-of-stroke progression. More oil (less air gap) ramps up harder near full compression.',
@@ -90,8 +90,8 @@ export const BIKE_SETUP_HOTSPOTS: BikeSetupHotspot[] = [
   {
     id: 'front-sag',
     kind: 'measure',
-    xPct: 20,
-    yPct: 34,
+    xPct: 18,
+    yPct: 32,
     title: 'Front static / race sag',
     summary:
       'Sag is how much the suspension settles under the bike alone (static) and with you in full gear (rider / race sag). It is the foundation of setup.',
@@ -106,8 +106,8 @@ export const BIKE_SETUP_HOTSPOTS: BikeSetupHotspot[] = [
   {
     id: 'front-travel',
     kind: 'measure',
-    xPct: 21,
-    yPct: 42,
+    xPct: 19,
+    yPct: 48,
     title: 'Fork travel',
     summary:
       'Total available stroke versus how much you actually use. A zip tie on the stanchion shows used travel after a session.',
@@ -122,8 +122,8 @@ export const BIKE_SETUP_HOTSPOTS: BikeSetupHotspot[] = [
   {
     id: 'front-ride-height',
     kind: 'measure',
-    xPct: 18,
-    yPct: 54,
+    xPct: 16,
+    yPct: 72,
     title: 'Front ride height',
     summary:
       'Axle-to-reference measurement that describes front attitude. Changing it (where possible) alters steering trail and weight bias.',
@@ -138,8 +138,8 @@ export const BIKE_SETUP_HOTSPOTS: BikeSetupHotspot[] = [
   {
     id: 'rear-compression',
     kind: 'adjust',
-    xPct: 50,
-    yPct: 32,
+    xPct: 48,
+    yPct: 30,
     title: 'Shock compression',
     summary:
       'Controls how the rear compresses under acceleration, bumps, and weight transfer. Too soft squats and walls; too firm skips and loses drive.',
@@ -154,8 +154,8 @@ export const BIKE_SETUP_HOTSPOTS: BikeSetupHotspot[] = [
   {
     id: 'rear-rebound',
     kind: 'adjust',
-    xPct: 52,
-    yPct: 44,
+    xPct: 50,
+    yPct: 48,
     title: 'Shock rebound',
     summary:
       'Controls how fast the rear extends. Too fast kicks and unloads the tyre; too slow packs and loses contact over ripples.',
@@ -170,8 +170,8 @@ export const BIKE_SETUP_HOTSPOTS: BikeSetupHotspot[] = [
   {
     id: 'rear-preload',
     kind: 'adjust',
-    xPct: 48,
-    yPct: 38,
+    xPct: 46,
+    yPct: 40,
     title: 'Shock preload',
     summary:
       'Spring preload sets rear sag. Correct sag matters more than “stiffer feel.” Wrong spring rate cannot be fixed with preload alone.',
@@ -186,7 +186,7 @@ export const BIKE_SETUP_HOTSPOTS: BikeSetupHotspot[] = [
   {
     id: 'rear-sag',
     kind: 'measure',
-    xPct: 51,
+    xPct: 49,
     yPct: 36,
     title: 'Shock travel / sag',
     summary:
@@ -202,8 +202,8 @@ export const BIKE_SETUP_HOTSPOTS: BikeSetupHotspot[] = [
   {
     id: 'rear-ride-height',
     kind: 'measure',
-    xPct: 75,
-    yPct: 52,
+    xPct: 82,
+    yPct: 70,
     title: 'Rear ride height',
     summary:
       'Axle-to-reference (often swingarm or a fixed body point) describes rear attitude and wheelbase/geometry feel.',
@@ -218,8 +218,8 @@ export const BIKE_SETUP_HOTSPOTS: BikeSetupHotspot[] = [
   {
     id: 'linkage',
     kind: 'adjust',
-    xPct: 54,
-    yPct: 50,
+    xPct: 52,
+    yPct: 56,
     title: 'Linkage (if adjustable)',
     summary:
       'Progressive linkage changes leverage and effective rate through the stroke. Some kits also alter ride height.',
