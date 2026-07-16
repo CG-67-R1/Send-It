@@ -15,6 +15,7 @@ import { CalendarScreen } from './src/screens/CalendarScreen';
 import { RiderCoachScreen } from './src/screens/RiderCoachScreen';
 import { ImportTrackNotesScreen } from './src/screens/ImportTrackNotesScreen';
 import { BikeSetupBasicsScreen } from './src/screens/BikeSetupBasicsScreen';
+import { BikeSetupSheetScreen } from './src/screens/BikeSetupSheetScreen';
 import { RoadRacerAiFaqsScreen } from './src/screens/RoadRacerAiFaqsScreen';
 import { TrackWalkScreen } from './src/screens/TrackWalkScreen';
 import { OnboardingScreen } from './src/screens/OnboardingScreen';
@@ -143,6 +144,11 @@ function RiderCoachStack() {
         name="BikeSetupBasics"
         component={BikeSetupBasicsScreen}
         options={{ title: 'Bike Setup Basics' }}
+      />
+      <Stack.Screen
+        name="BikeSetupSheet"
+        component={BikeSetupSheetScreen}
+        options={{ title: 'Day Setup Sheet' }}
       />
       <Stack.Screen
         name="RoadRacerAiFaqs"

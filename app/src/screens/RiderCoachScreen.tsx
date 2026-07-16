@@ -30,6 +30,7 @@ import {
   type CoachChatDisplayMessage,
   type CoachChatMessage,
 } from '../utils/coachChat';
+import { buildCoachGoalsPrompt, getBikeSetupDaySheet } from '../storage/bikeSetupSheet';
 
 type CoachTab = 'coach' | 'bikesetup';
 
@@ -43,6 +44,7 @@ export type RiderCoachStackParamList = {
   };
   ImportTrackNotes: undefined;
   BikeSetupBasics: undefined;
+  BikeSetupSheet: undefined;
   RoadRacerAiFaqs: undefined;
 };
 
@@ -89,6 +91,22 @@ export function RiderCoachScreen() {
     setError(null);
     navigation.setParams({ seedDraftMessage: undefined, seedTab: undefined });
   }, [route.params?.seedDraftMessage, route.params?.seedTab, navigation]);
+
+  useEffect(() => {
+    let cancelled = false;
+    (async () => {
+      if (route.params?.seedMessages?.length) return;
+      const sheet = await getBikeSetupDaySheet();
+      if (cancelled) return;
+      setCoachMessages((prev) => {
+        if (prev.length > 0) return prev;
+        return [{ role: 'assistant', content: buildCoachGoalsPrompt(sheet.goalsForToday) }];
+      });
+    })();
+    return () => {
+      cancelled = true;
+    };
+  }, [route.params?.seedMessages]);
 
   const setMessages = activeTab === 'coach' ? setCoachMessages : setBikeMessages;
 
@@ -217,6 +235,13 @@ export function RiderCoachScreen() {
       <View style={styles.linksSection}>
         <TouchableOpacity
           style={styles.navButton}
+          onPress={() => navigation.navigate('BikeSetupSheet')}
+          activeOpacity={0.8}
+        >
+          <Text style={styles.navButtonText}>Day Setup Sheet</Text>
+        </TouchableOpacity>
+        <TouchableOpacity
+          style={styles.navButton}
           onPress={() => navigation.navigate('BikeSetupBasics')}
           activeOpacity={0.8}
         >
@@ -263,15 +288,6 @@ export function RiderCoachScreen() {
           showsVerticalScrollIndicator={false}
         >
           <View style={[styles.panel, activeTab !== 'coach' && styles.panelHidden]}>
-            {coachMessages.length === 0 && (
-              <View style={styles.welcome}>
-                <Text style={styles.welcomeTitle}>Rider Coach</Text>
-                <Text style={styles.welcomeSubtitle}>
-                  Ask about technique, lines, braking, and race craft. Attach tyre photos or lap-timer
-                  exports for feedback.
-                </Text>
-              </View>
-            )}
             {coachMessages.map((m, i) => renderMessageBubble(m, i))}
             {activeTab === 'coach' && loading && (
               <View style={[styles.bubble, styles.bubbleAssistant]}>

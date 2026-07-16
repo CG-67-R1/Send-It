@@ -260,6 +260,9 @@ export function HeadlinesScreen() {
       </TouchableOpacity>
 
       <View style={[styles.buttons, { minHeight: buttonsHeight }]}>
+        <TouchableOpacity style={styles.navButton} onPress={goToRiderCoach} activeOpacity={0.8}>
+          <Text style={styles.navButtonText}>Coach & Bike Setup</Text>
+        </TouchableOpacity>
         <TouchableOpacity style={styles.navButton} onPress={goToHeadlines} activeOpacity={0.8}>
           <Text style={styles.navButtonText}>Bike News</Text>
         </TouchableOpacity>
@@ -271,9 +274,6 @@ export function HeadlinesScreen() {
         </TouchableOpacity>
         <TouchableOpacity style={styles.navButton} onPress={goToTrackWalk} activeOpacity={0.8}>
           <Text style={styles.navButtonText}>Track Walk / Track Notes</Text>
-        </TouchableOpacity>
-        <TouchableOpacity style={styles.navButton} onPress={goToRiderCoach} activeOpacity={0.8}>
-          <Text style={styles.navButtonText}>Coach & Bike Setup</Text>
         </TouchableOpacity>
         <TouchableOpacity style={styles.settingsButton} onPress={goToSettings} activeOpacity={0.8}>
           <Text style={styles.settingsButtonText}>Profile & settings</Text>

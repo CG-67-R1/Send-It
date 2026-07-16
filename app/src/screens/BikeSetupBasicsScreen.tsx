@@ -2,20 +2,26 @@ import React, { useCallback, useState } from 'react';
 import {
   Image,
   LayoutChangeEvent,
+  ScrollView,
   StyleSheet,
+  Text,
   TouchableOpacity,
   View,
 } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import type { NativeStackNavigationProp } from '@react-navigation/native-stack';
 import { BikeSetupHotspotSheet } from '../components/BikeSetupHotspotSheet';
-import { BIKE_SETUP_HOTSPOTS, type BikeSetupHotspot } from '../data/bikeSetupBasics';
+import {
+  BIKE_SETUP_HOTSPOTS,
+  BIKE_SETUP_INTRO,
+  type BikeSetupHotspot,
+} from '../data/bikeSetupBasics';
 
 const DIAGRAM = require('../assets/bike-setup/suspension-bike.png');
 
-/** Outer tap target — keep larger than the visible dot for usability. */
-const HOTSPOT_HIT = 28;
-const HOTSPOT_DOT = 12;
+/** Larger hit targets so spaced callouts are easy to tap. */
+const HOTSPOT_HIT = 44;
+const HOTSPOT_DOT = 14;
 
 type RiderCoachStackParams = {
   RiderCoach: {
@@ -50,7 +56,15 @@ export function BikeSetupBasicsScreen() {
 
   return (
     <View style={styles.container}>
-      <View style={styles.diagramStage}>
+      <ScrollView
+        contentContainerStyle={styles.scrollContent}
+        showsVerticalScrollIndicator={false}
+        keyboardShouldPersistTaps="handled"
+      >
+        <Text style={styles.intro}>{BIKE_SETUP_INTRO.whyBase}</Text>
+        <Text style={styles.caveat}>{BIKE_SETUP_INTRO.capabilityCaveat}</Text>
+        <Text style={styles.hint}>Tap a red point for road and track base settings.</Text>
+
         <View style={styles.diagramWrap} onLayout={onDiagramLayout}>
           <Image source={DIAGRAM} style={styles.diagram} resizeMode="contain" />
           {diagramSize.width > 0
@@ -66,6 +80,7 @@ export function BikeSetupBasicsScreen() {
                     activeOpacity={0.7}
                     accessibilityLabel={h.title}
                     accessibilityRole="button"
+                    hitSlop={{ top: 6, bottom: 6, left: 6, right: 6 }}
                   >
                     <View
                       style={[
@@ -78,7 +93,7 @@ export function BikeSetupBasicsScreen() {
               })
             : null}
         </View>
-      </View>
+      </ScrollView>
 
       <BikeSetupHotspotSheet
         hotspot={selected}
@@ -94,15 +109,31 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: '#0f172a',
   },
-  diagramStage: {
-    flex: 1,
-    justifyContent: 'center',
-    paddingHorizontal: 4,
-    paddingVertical: 8,
+  scrollContent: {
+    paddingHorizontal: 12,
+    paddingTop: 14,
+    paddingBottom: 28,
+  },
+  intro: {
+    fontSize: 15,
+    color: '#e2e8f0',
+    lineHeight: 22,
+    marginBottom: 8,
+  },
+  caveat: {
+    fontSize: 14,
+    color: '#94a3b8',
+    lineHeight: 20,
+    marginBottom: 10,
+  },
+  hint: {
+    fontSize: 13,
+    color: '#64748b',
+    marginBottom: 12,
   },
   diagramWrap: {
     width: '100%',
-    aspectRatio: 1534 / 794,
+    aspectRatio: 1788 / 858,
     backgroundColor: 'transparent',
   },
   diagram: {
@@ -128,7 +159,7 @@ const styles = StyleSheet.create({
   },
   hotspotAdjust: {
     backgroundColor: 'transparent',
-    borderWidth: 2,
+    borderWidth: 2.5,
     borderColor: '#ef4444',
   },
 });

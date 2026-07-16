@@ -19,15 +19,19 @@ export const BIKE_SETUP_INTRO = {
   whyBase:
     'A base setting gives you a known, repeatable starting point for performance riding. Dial sag and damping to a sensible baseline first, then change one thing at a time so you can feel what actually helps.',
   capabilityCaveat:
-    'Not every bike has every adjuster shown here. Many road bikes lack high/low-speed compression, oil-height access, linkage changes, or ride-height hardware. Use only the controls your bike provides — and ask Bike Setup AI with your make and model if you are unsure.',
+    'Not every bike has every adjuster shown here. Many road bikes lack high/low-speed compression, oil-height access, or ride-height hardware. Use only the controls your bike provides — and ask Bike Setup AI with your make and model if you are unsure.',
 };
 
+/**
+ * Positions are spaced as callouts (left of forks / around the rear shock)
+ * so tap targets do not overlap. Image includes left padding for front callouts.
+ */
 export const BIKE_SETUP_HOTSPOTS: BikeSetupHotspot[] = [
   {
     id: 'front-compression',
     kind: 'adjust',
-    xPct: 17,
-    yPct: 17,
+    xPct: 5,
+    yPct: 16,
     title: 'Fork compression',
     summary:
       'Controls how quickly the fork compresses over bumps and under braking. Too soft feels divey; too firm feels harsh and can push the front.',
@@ -42,8 +46,8 @@ export const BIKE_SETUP_HOTSPOTS: BikeSetupHotspot[] = [
   {
     id: 'front-rebound',
     kind: 'adjust',
-    xPct: 19,
-    yPct: 11,
+    xPct: 5,
+    yPct: 32,
     title: 'Fork rebound',
     summary:
       'Controls how quickly the fork extends after compression. Too fast feels springy and unsettled; too slow packs down over successive bumps.',
@@ -58,8 +62,8 @@ export const BIKE_SETUP_HOTSPOTS: BikeSetupHotspot[] = [
   {
     id: 'front-preload',
     kind: 'adjust',
-    xPct: 15,
-    yPct: 13,
+    xPct: 5,
+    yPct: 48,
     title: 'Fork preload',
     summary:
       'Sets initial spring tension. It mainly changes how much sag you get — it does not replace the correct spring rate for your weight.',
@@ -74,8 +78,8 @@ export const BIKE_SETUP_HOTSPOTS: BikeSetupHotspot[] = [
   {
     id: 'front-oil-height',
     kind: 'adjust',
-    xPct: 22,
-    yPct: 15,
+    xPct: 5,
+    yPct: 64,
     title: 'Fork oil height / air gap',
     summary:
       'Internal oil volume changes end-of-stroke progression. More oil (less air gap) ramps up harder near full compression.',
@@ -90,8 +94,8 @@ export const BIKE_SETUP_HOTSPOTS: BikeSetupHotspot[] = [
   {
     id: 'front-sag',
     kind: 'measure',
-    xPct: 18,
-    yPct: 32,
+    xPct: 26,
+    yPct: 28,
     title: 'Front static / race sag',
     summary:
       'Sag is how much the suspension settles under the bike alone (static) and with you in full gear (rider / race sag). It is the foundation of setup.',
@@ -106,8 +110,8 @@ export const BIKE_SETUP_HOTSPOTS: BikeSetupHotspot[] = [
   {
     id: 'front-travel',
     kind: 'measure',
-    xPct: 19,
-    yPct: 48,
+    xPct: 26,
+    yPct: 50,
     title: 'Fork travel',
     summary:
       'Total available stroke versus how much you actually use. A zip tie on the stanchion shows used travel after a session.',
@@ -122,8 +126,8 @@ export const BIKE_SETUP_HOTSPOTS: BikeSetupHotspot[] = [
   {
     id: 'front-ride-height',
     kind: 'measure',
-    xPct: 16,
-    yPct: 72,
+    xPct: 24,
+    yPct: 80,
     title: 'Front ride height',
     summary:
       'Axle-to-reference measurement that describes front attitude. Changing it (where possible) alters steering trail and weight bias.',
@@ -135,11 +139,12 @@ export const BIKE_SETUP_HOTSPOTS: BikeSetupHotspot[] = [
     aiPrompt:
       'Explain how to measure front ride height (axle to a fixed reference) on my bike, what OEM vs race adjustments look like, and safe road versus track starting approach.',
   },
+  // Rear shock callouts — orbit around the shock so taps do not overlap
   {
     id: 'rear-compression',
     kind: 'adjust',
-    xPct: 48,
-    yPct: 30,
+    xPct: 46,
+    yPct: 20,
     title: 'Shock compression',
     summary:
       'Controls how the rear compresses under acceleration, bumps, and weight transfer. Too soft squats and walls; too firm skips and loses drive.',
@@ -152,26 +157,10 @@ export const BIKE_SETUP_HOTSPOTS: BikeSetupHotspot[] = [
       'Explain rear shock compression damping for my bike, including high/low speed if applicable, symptoms, and base starting points for road and track.',
   },
   {
-    id: 'rear-rebound',
-    kind: 'adjust',
-    xPct: 50,
-    yPct: 48,
-    title: 'Shock rebound',
-    summary:
-      'Controls how fast the rear extends. Too fast kicks and unloads the tyre; too slow packs and loses contact over ripples.',
-    roadBase:
-      'Start near mid. Soften if the rear feels harsh after bumps; firm if it feels bouncy or pumps on rolling pavement.',
-    trackBase:
-      'Fine-tune after sag. Watch exit grip and linked kerbs — packing or kicking usually points at rebound first.',
-    capabilityNote: 'Usually a clicker at the bottom of the shock; not present on all stock shocks.',
-    aiPrompt:
-      'Explain how to set rear shock rebound on my bike: how to count clicks, packing vs kicking symptoms, and road versus track base recommendations.',
-  },
-  {
     id: 'rear-preload',
     kind: 'adjust',
-    xPct: 46,
-    yPct: 40,
+    xPct: 64,
+    yPct: 28,
     title: 'Shock preload',
     summary:
       'Spring preload sets rear sag. Correct sag matters more than “stiffer feel.” Wrong spring rate cannot be fixed with preload alone.',
@@ -186,8 +175,8 @@ export const BIKE_SETUP_HOTSPOTS: BikeSetupHotspot[] = [
   {
     id: 'rear-sag',
     kind: 'measure',
-    xPct: 49,
-    yPct: 36,
+    xPct: 64,
+    yPct: 50,
     title: 'Shock travel / sag',
     summary:
       'Measure between shock mounts (or use a sag tool) for static and rider sag, and use a zip tie on the shaft for used travel.',
@@ -200,10 +189,26 @@ export const BIKE_SETUP_HOTSPOTS: BikeSetupHotspot[] = [
       'Walk me through measuring rear shock sag and used travel on my bike, with road and track target guidance and how to interpret the results.',
   },
   {
+    id: 'rear-rebound',
+    kind: 'adjust',
+    xPct: 46,
+    yPct: 56,
+    title: 'Shock rebound',
+    summary:
+      'Controls how fast the rear extends. Too fast kicks and unloads the tyre; too slow packs and loses contact over ripples.',
+    roadBase:
+      'Start near mid. Soften if the rear feels harsh after bumps; firm if it feels bouncy or pumps on rolling pavement.',
+    trackBase:
+      'Fine-tune after sag. Watch exit grip and linked kerbs — packing or kicking usually points at rebound first.',
+    capabilityNote: 'Usually a clicker at the bottom of the shock; not present on all stock shocks.',
+    aiPrompt:
+      'Explain how to set rear shock rebound on my bike: how to count clicks, packing vs kicking symptoms, and road versus track base recommendations.',
+  },
+  {
     id: 'rear-ride-height',
     kind: 'measure',
-    xPct: 82,
-    yPct: 70,
+    xPct: 84,
+    yPct: 74,
     title: 'Rear ride height',
     summary:
       'Axle-to-reference (often swingarm or a fixed body point) describes rear attitude and wheelbase/geometry feel.',
@@ -211,25 +216,9 @@ export const BIKE_SETUP_HOTSPOTS: BikeSetupHotspot[] = [
       'Record stock height. Raising/lowering the rear (if possible) changes steering and squat — leave OEM for street unless you have a clear goal.',
     trackBase:
       'Small rear-height changes are common race tools for turn-in and drive. Adjust only with proper hardware; change a little, then re-check sag and chain alignment.',
-    capabilityNote: 'Requires ride-height adjusters, dog-bones, or linkage changes — absent on many street bikes.',
+    capabilityNote: 'Requires ride-height adjusters or related hardware — absent on many street bikes.',
     aiPrompt:
       'Explain how to measure rear ride height on my bike, what adjusters might exist, and cautious road versus track base approach.',
-  },
-  {
-    id: 'linkage',
-    kind: 'adjust',
-    xPct: 52,
-    yPct: 56,
-    title: 'Linkage (if adjustable)',
-    summary:
-      'Progressive linkage changes leverage and effective rate through the stroke. Some kits also alter ride height.',
-    roadBase:
-      'Leave stock linkage for street unless a reputable kit is fitted for a specific purpose. Do not experiment without instructions.',
-    trackBase:
-      'Race linkage/dog-bones can tune progression and height. Treat as an advanced change after spring and damping basics are solid.',
-    capabilityNote: 'Most road bikes are not meant for casual linkage swaps. Only adjust if your chassis has documented options.',
-    aiPrompt:
-      'Explain motorcycle rear linkage and ride-height/leverage changes for my bike: what is adjustable, risks, and when track riders change linkage versus leaving OEM.',
   },
 ];
 
