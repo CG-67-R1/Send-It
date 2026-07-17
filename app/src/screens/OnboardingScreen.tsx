@@ -655,13 +655,20 @@ export function OnboardingScreen({ onComplete }: OnboardingScreenProps) {
         </View>
       </ScrollView>
     </KeyboardAvoidingView>
-    <AvatarFaceCameraModal
-      visible={faceCameraOpen}
-      onClose={() => setFaceCameraOpen(false)}
-      onCapture={onAvatarFaceCaptured}
-      avatarSource={getAvatarSource(avatarId) ?? selectedAvatarPreset!.source}
-      layout={getFaceHoleLayout(avatarId) ?? DEFAULT_FACE_HOLE_LAYOUT}
-    />
+    {(() => {
+      const cameraAvatarSource =
+        getAvatarSource(avatarId) ?? selectedAvatarPreset?.source ?? null;
+      if (!cameraAvatarSource) return null;
+      return (
+        <AvatarFaceCameraModal
+          visible={faceCameraOpen}
+          onClose={() => setFaceCameraOpen(false)}
+          onCapture={onAvatarFaceCaptured}
+          avatarSource={cameraAvatarSource}
+          layout={getFaceHoleLayout(avatarId) ?? DEFAULT_FACE_HOLE_LAYOUT}
+        />
+      );
+    })()}
     {alignImageUri && selectedAvatarPreset?.hasFaceHole && getAvatarSource(avatarId) ? (
       <AvatarFaceAlignModal
         visible={Boolean(alignImageUri)}
