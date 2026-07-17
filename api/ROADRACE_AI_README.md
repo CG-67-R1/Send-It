@@ -8,10 +8,10 @@ The **Q&A → Ask** tab uses the same OpenAI backend in **Ask mode**: it retriev
 
 1. **Backend** (`api/`):
    - `POST /roadrace-ai/chat` — Coach and Bike Setup multi-turn chat (`mode: 'coach' | 'bikesetup'`).
-   - `POST /roadrace-ai/ask` — single-shot general Q&A (`message`); KB retrieval from `Q&A/` then OpenAI synthesis. Returns `{ reply, sources, fromKb }`.
+   - `POST /roadrace-ai/ask` — single-shot Q&A (`message`, optional `mode: 'ask' | 'rules'`). Default Ask uses general KB; `mode: 'rules'` scopes retrieval to MoMS JSON in `Q&A/` and returns rule locations. Returns `{ reply, sources, fromKb }`.
 2. **App**:
    - Rider Coach screen: Coach | Bike Setup tabs with in-app chat.
-   - Q&A screen → Ask tab: one question → one AI answer with optional KB sources.
+   - Q&A screen → Ask tab: general Ask plus **Official rule check?** (MoMS) below it.
 3. **Hosting**: Your existing API (e.g. Render, Vercel, or any Node host) serves both the rest of the API and RoadRace AI routes. Set `OPENAI_API_KEY` in the server environment so the AI works.
 
 ## Setup
@@ -34,6 +34,7 @@ The **Q&A → Ask** tab uses the same OpenAI backend in **Ask mode**: it retriev
   ```
   `GET /roadrace-ai/faqs` returns the same data from the API.
 - **Full KB**: Coach/Bike Setup use `rider_ai_faqs.json` in the system prompt. **Ask mode** uses `retrieveForAsk()` in `api/qa.js` to pull excerpts from `Q&A/knowledge.json` and PDF-derived JSON before calling OpenAI. Web search fallback is planned for a later phase.
+- **MoMS Official rule check**: `npm run scrape-moms` → `Q&A/MoMS-<year>-road-historic.json`. Rules mode (`mode: 'rules'`) retrieves **only** that local JSON (no internet). Full: chs 1–5, 6 Road Race, 7 Historic, 17 Appendices; other disciplines are reference pointers. Hermes health-check warns when `nextReviewDue` passes.
 
 ## Files
 

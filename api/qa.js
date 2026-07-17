@@ -18,6 +18,10 @@ const CORE_JSON_FILES = new Set([
   'AUS_Q&A.json',
 ]);
 
+/** Filename / title / corpus markers for Manual of Motorcycle Sport (MoMS) rule books. */
+const MOMS_NAME_RE =
+  /moms|mo[\s_-]?ms|manual[\s_-]?of[\s_-]?motorcycle[\s_-]?sport|motorcycle[\s_-]?sport[\s_-]?manual|gc[\s_-]?rs|rule[\s_-]?book|rulebook/i;
+
 let cachedDocs = [];
 let cachedQa = [];
 let lastLoad = 0;
@@ -39,16 +43,49 @@ async function loadPdfJsonFiles() {
       if (!data.origin || (!data.content && !(Array.isArray(data.contentBlocks) && data.contentBlocks.length))) continue;
       const content = data.content || (Array.isArray(data.contentBlocks) ? data.contentBlocks.map((b) => b.text).join('\n\n') : '');
       const id = `doc:${path.basename(file, '.json')}`;
+      const title = data.title || path.basename(file, '.json').replace(/[-_]/g, ' ');
+      const corpus =
+        typeof data.corpus === 'string'
+          ? data.corpus
+          : MOMS_NAME_RE.test(`${file} ${data.origin || ''} ${title}`)
+            ? 'moms'
+            : undefined;
       docs.push({
         id,
         origin: data.origin,
-        title: data.title || path.basename(file, '.json').replace(/[-_]/g, ' '),
+        title,
         content,
         contentBlocks: Array.isArray(data.contentBlocks) ? data.contentBlocks : undefined,
+        corpus,
+        edition: data.edition,
+        effectiveDate: data.effectiveDate,
+        referenceList: Array.isArray(data.referenceList) ? data.referenceList : undefined,
+        updatePolicy: data.updatePolicy,
       });
       if (Array.isArray(data.qa)) {
         for (const p of data.qa) {
-          if (p.q && p.a) qa.push({ id: p.id || undefined, origin: data.origin, q: p.q, a: p.a });
+          if (p.q && p.a) {
+            qa.push({
+              id: p.id || undefined,
+              origin: data.origin,
+              q: p.q,
+              a: p.a,
+              corpus,
+            });
+          }
+        }
+      }
+      // MoMS reference-only chapters → searchable pointers
+      if (corpus === 'moms' && Array.isArray(data.referenceList)) {
+        for (const ref of data.referenceList) {
+          if (!ref || !ref.title) continue;
+          qa.push({
+            id: ref.chapter != null ? `moms-ref-ch${ref.chapter}` : undefined,
+            origin: data.origin,
+            corpus: 'moms',
+            q: `Where are the ${ref.title} rules?`,
+            a: `${ref.summary || ''} ${ref.where || ''}`.trim(),
+          });
         }
       }
     } catch (e) {
@@ -181,6 +218,153 @@ export async function retrieveForAsk(query, limit = 5) {
   const minScore = 2;
   const fromKb = chunks.length > 0 && chunks[0].score >= minScore;
   return { chunks: fromKb ? chunks : [], fromKb };
+}
+
+/**
+ * @param {{ origin?: string, title?: string, corpus?: string, id?: string }} doc
+ */
+export function isMomsDocument(doc) {
+  if (!doc) return false;
+  if (String(doc.corpus || '').toLowerCase() === 'moms') return true;
+  const hay = [doc.origin, doc.title, doc.id].filter(Boolean).join(' ');
+  return MOMS_NAME_RE.test(hay);
+}
+
+/**
+ * Load MoMS / official rules corpus only (PDF-derived JSON or knowledge docs tagged moms).
+ * @returns {Promise<{ documents: Array, qa: Array, available: boolean }>}
+ */
+export async function loadMomsCorpus() {
+  const { documents, qa } = await loadKnowledge();
+  const momsDocs = documents.filter(isMomsDocument);
+  const momsOrigins = new Set(momsDocs.map((d) => d.origin).filter(Boolean));
+  const momsQa = qa.filter(
+    (p) => isMomsDocument(p) || (p.origin && momsOrigins.has(p.origin))
+  );
+  return {
+    documents: momsDocs,
+    qa: momsQa,
+    available: momsDocs.length > 0 || momsQa.length > 0,
+  };
+}
+
+/**
+ * Guess a rule-book location label from a heading / first line (e.g. "4.2.1 Licences").
+ * @param {string} text
+ */
+function locationFromText(text) {
+  const first = String(text || '')
+    .split(/\n/)
+    .map((l) => l.trim())
+    .find(Boolean);
+  if (!first) return 'MoMS';
+  const clause = first.match(/^(\d+(?:\.\d+){0,4})\b/);
+  if (clause) {
+    const rest = first.slice(clause[0].length).replace(/^[\s.\-:–—]+/, '').trim();
+    return rest ? `${clause[1]} ${rest}`.slice(0, 120) : clause[1];
+  }
+  return first.length > 100 ? `${first.slice(0, 97)}…` : first;
+}
+
+/**
+ * Retrieve MoMS rule excerpts with section locations for Official rule check.
+ * Scores contentBlocks (preferring section-sized chunks) so answers can cite where in the rules.
+ * @param {string} query
+ * @param {number} [limit=6]
+ * @returns {Promise<{ chunks: Array<{ title: string, content: string, origin?: string, location?: string, score: number }>, fromKb: boolean, available: boolean }>}
+ */
+export async function retrieveForRules(query, limit = 6) {
+  const { documents, qa, available } = await loadMomsCorpus();
+  const tokens = tokenize(query);
+  if (!available || tokens.length === 0) {
+    return { chunks: [], fromKb: false, available };
+  }
+
+  const scored = [];
+
+  for (const doc of documents) {
+    const origin = doc.origin;
+    const blocks = Array.isArray(doc.contentBlocks) && doc.contentBlocks.length
+      ? doc.contentBlocks
+      : null;
+
+    if (blocks) {
+      let currentHeading = doc.title || 'MoMS';
+      for (const block of blocks) {
+        const text = (block && block.text) || '';
+        if (!text.trim()) continue;
+        if (block.location) currentHeading = String(block.location);
+        if (block.type === 'heading') {
+          currentHeading = block.location || locationFromText(text);
+          const hScore = scoreText(tokens, text) * 3 + scoreText(tokens, currentHeading);
+          if (hScore > 0) {
+            scored.push({
+              title: currentHeading,
+              location: currentHeading,
+              content: excerpt(text, 700),
+              origin,
+              score: hScore,
+            });
+          }
+          continue;
+        }
+        const loc = currentHeading;
+        const total = scoreText(tokens, text) + scoreText(tokens, loc);
+        if (total > 0) {
+          scored.push({
+            title: loc,
+            location: loc,
+            content: excerpt(text, 700),
+            origin,
+            score: total,
+          });
+        }
+      }
+    } else {
+      const title = doc.title || 'MoMS';
+      const content = doc.content || '';
+      const total = scoreText(tokens, title) * 3 + scoreText(tokens, content);
+      if (total > 0) {
+        scored.push({
+          title,
+          location: title,
+          content: excerpt(content, 700),
+          origin,
+          score: total,
+        });
+      }
+    }
+  }
+
+  for (const pair of qa) {
+    const location = locationFromText(pair.q || '') || 'MoMS Q&A';
+    const total = scoreText(tokens, pair.q || '') * 4 + scoreText(tokens, pair.a || '');
+    if (total > 0) {
+      scored.push({
+        title: pair.q || location,
+        location,
+        content: excerpt(pair.a || '', 700),
+        origin: pair.origin,
+        score: total,
+      });
+    }
+  }
+
+  scored.sort((a, b) => b.score - a.score);
+  // Dedupe near-identical locations keeping the best score
+  const seen = new Set();
+  const unique = [];
+  for (const c of scored) {
+    const key = `${c.location || c.title}|${(c.content || '').slice(0, 80)}`;
+    if (seen.has(key)) continue;
+    seen.add(key);
+    unique.push(c);
+    if (unique.length >= limit) break;
+  }
+
+  const minScore = 2;
+  const fromKb = unique.length > 0 && unique[0].score >= minScore;
+  return { chunks: fromKb ? unique : [], fromKb, available: true };
 }
 
 /** Exclude indices already used and variants that repeat the same question text (shuffled-option duplicates). */

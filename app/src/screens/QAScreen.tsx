@@ -59,6 +59,13 @@ export function QAScreen() {
   const [searchLoading, setSearchLoading] = useState(false);
   const [searchError, setSearchError] = useState<string | null>(null);
 
+  const [rulesQuery, setRulesQuery] = useState('');
+  const [rulesReply, setRulesReply] = useState<string | null>(null);
+  const [rulesSources, setRulesSources] = useState<AskSource[]>([]);
+  const [rulesFromKb, setRulesFromKb] = useState(false);
+  const [rulesLoading, setRulesLoading] = useState(false);
+  const [rulesError, setRulesError] = useState<string | null>(null);
+
   const [triviaState, setTriviaState] = useState<TriviaState>('idle');
   const [triviaCorrect, setTriviaCorrect] = useState(0);
   const [triviaWrong, setTriviaWrong] = useState(0);
@@ -160,6 +167,30 @@ export function QAScreen() {
       setSearchLoading(false);
     }
   }, [query]);
+
+  const onRulesCheck = useCallback(async () => {
+    const q = rulesQuery.trim();
+    if (!q) return;
+    setRulesLoading(true);
+    setRulesError(null);
+    setRulesReply(null);
+    setRulesSources([]);
+    setRulesFromKb(false);
+    try {
+      const result = await sendAskChat(q, { mode: 'rules' });
+      if (!result.ok) {
+        setRulesError(result.error);
+        return;
+      }
+      setRulesReply(result.reply);
+      setRulesSources(result.sources);
+      setRulesFromKb(result.fromKb);
+    } catch (e) {
+      setRulesError(e instanceof Error ? e.message : 'Request failed');
+    } finally {
+      setRulesLoading(false);
+    }
+  }, [rulesQuery]);
 
   const fetchTriviaQuestion = useCallback(
     async (usedOverride?: number[], correctCount?: number, wrongCount?: number, difficultyOverride?: number) => {
@@ -416,6 +447,58 @@ export function QAScreen() {
             </Text>
           </View>
         ) : null}
+
+        <View style={styles.rulesSection}>
+          <Text style={styles.sectionTitle}>Official rule check?</Text>
+          <Text style={styles.sectionSubtitle}>
+            We have the latest rule book uploaded. Ask your question and get a quick answer with the linked location in the rules — interrogate the latest MoMS.
+          </Text>
+          <View style={styles.searchRow}>
+            <TextInput
+              style={styles.input}
+              placeholder="e.g. What licence do I need for club road race?"
+              placeholderTextColor="#64748b"
+              value={rulesQuery}
+              onChangeText={setRulesQuery}
+              onSubmitEditing={onRulesCheck}
+              editable={!rulesLoading}
+            />
+            <TouchableOpacity
+              style={[styles.searchBtn, rulesLoading && styles.searchBtnDisabled]}
+              onPress={onRulesCheck}
+              disabled={rulesLoading}
+            >
+              {rulesLoading ? (
+                <ActivityIndicator size="small" color="#0f172a" />
+              ) : (
+                <Text style={styles.searchBtnText}>Check</Text>
+              )}
+            </TouchableOpacity>
+          </View>
+          {rulesError ? (
+            <Text style={styles.errorText}>{rulesError}</Text>
+          ) : null}
+          {rulesReply ? (
+            <View style={styles.results}>
+              <View style={[styles.resultCard, styles.rulesResultCard]}>
+                <Text style={styles.resultContent}>{rulesReply}</Text>
+                {rulesSources.length > 0 ? (
+                  <View style={styles.sourcesBlock}>
+                    <Text style={styles.sourcesLabel}>
+                      {rulesFromKb ? 'Location in the rules' : 'Related rule locations'}
+                    </Text>
+                    {rulesSources.map((s, i) => (
+                      <Text key={i} style={styles.sourceItem}>
+                        • {s.location || s.title}
+                        {s.origin ? ` (${s.origin})` : ''}
+                      </Text>
+                    ))}
+                  </View>
+                ) : null}
+              </View>
+            </View>
+          ) : null}
+        </View>
       </View>
       )}
 
@@ -652,6 +735,15 @@ const styles = StyleSheet.create({
     fontSize: 13,
     marginTop: 4,
     fontStyle: 'italic',
+  },
+  rulesSection: {
+    marginTop: 28,
+    paddingTop: 20,
+    borderTopWidth: 1,
+    borderTopColor: '#334155',
+  },
+  rulesResultCard: {
+    borderLeftColor: '#38bdf8',
   },
   resultBlockHeading: {
     fontSize: 14,

@@ -5,7 +5,7 @@
  */
 
 import OpenAI from 'openai';
-import { retrieveForAsk } from './qa.js';
+import { retrieveForAsk, retrieveForRules } from './qa.js';
 import { formatFaqsForPrompt, loadRiderAiFaqs } from './riderAiFaqs.js';
 
 const COACH_SYSTEM = `You are an expert motorcycle road racing and track day coach specializing in Australian track day riding. You give direct, practical motorsport advice.
@@ -29,6 +29,18 @@ const ASK_SYSTEM = `You are a knowledgeable motorcycle road racing and motorspor
 - Give one clear, concise answer (a few short paragraphs at most). No sign-off joke.
 - If the user asks for personalized coaching, session feedback, corner-by-corner advice, or detailed bike setup tuning for their specific bike/session, give a brief general pointer only and tell them to use the **Coach & Bike Setup** tab in the app for tailored help.
 - Safety first. Do not encourage reckless riding.`;
+
+const RULES_SYSTEM = `You are an official Manual of Motorcycle Sport (MoMS) rule-check assistant for Australian motorcycle sport.
+
+**Current mode: OFFICIAL RULE CHECK.** Answer ONLY from the MoMS excerpts provided in this prompt. Do not use the internet, browsing, or general training knowledge for rule substance. Do not invent clause numbers or requirements.
+
+**Rules:**
+- Quote or paraphrase accurately from the excerpts only.
+- Always cite the location (chapter / clause / section from the excerpt Location field), e.g. "See 6.12.4.1 …".
+- This index fully covers GCRs (chs 1–5), Road Race (6), Historic Road Race (7), and Appendices (17). Other disciplines may appear only as a reference pointer — if so, say the chapter number/page and that full text is not in this index.
+- If excerpts do not cover the question, say you could not find it in the uploaded MoMS index and do not guess.
+- Keep answers concise. No coaching advice, no sign-off joke.
+- Guidance only, not legal advice; club/series Supplementary Regulations may also apply.`;
 
 const SHARED_RULES = `
 
@@ -70,6 +82,18 @@ function formatKbContext(chunks) {
   return `\n\n**Knowledge base excerpts (prefer these when relevant):**\n\n${blocks.join('\n\n')}`;
 }
 
+function formatRulesContext(chunks) {
+  if (!chunks.length) {
+    return '\n\n**MoMS excerpts:** None matched this question. Tell the user you could not find a matching rule in the uploaded rule book.';
+  }
+  const blocks = chunks.map((c, i) => {
+    const loc = c.location || c.title || 'MoMS';
+    const origin = c.origin ? ` | file: ${c.origin}` : '';
+    return `[${i + 1}] Location: ${loc}${origin}\n${c.content}`;
+  });
+  return `\n\n**MoMS rule-book excerpts (cite Location when answering):**\n\n${blocks.join('\n\n')}`;
+}
+
 function getSystemPrompt(mode, faqs) {
   const base = mode === 'bikesetup' ? BIKESETUP_SYSTEM : COACH_SYSTEM;
   return base + SHARED_RULES + formatFaqsForPrompt(faqs, mode);
@@ -78,9 +102,10 @@ function getSystemPrompt(mode, faqs) {
 /**
  * Single-shot Ask mode: KB retrieval then LLM synthesis.
  * @param {string} message
- * @returns {Promise<{ content: string, sources: Array<{ title: string, origin?: string }>, fromKb: boolean, error?: string }>}
+ * @param {{ mode?: 'ask' | 'rules' }} [options]
+ * @returns {Promise<{ content: string, sources: Array<{ title: string, origin?: string, location?: string }>, fromKb: boolean, error?: string }>}
  */
-export async function askChat(message) {
+export async function askChat(message, options = {}) {
   const apiKey = process.env.OPENAI_API_KEY;
   if (!apiKey) {
     return {
@@ -96,9 +121,38 @@ export async function askChat(message) {
     return { content: '', sources: [], fromKb: false, error: 'message is required' };
   }
 
-  const { chunks, fromKb } = await retrieveForAsk(text);
-  const sources = chunks.map((c) => ({ title: c.title, origin: c.origin }));
-  const systemPrompt = ASK_SYSTEM + formatKbContext(chunks);
+  const mode = options.mode === 'rules' ? 'rules' : 'ask';
+
+  let chunks;
+  let fromKb;
+  let systemPrompt;
+
+  if (mode === 'rules') {
+    const retrieved = await retrieveForRules(text);
+    if (!retrieved.available) {
+      return {
+        content: '',
+        sources: [],
+        fromKb: false,
+        error:
+          'MoMS rule book is not uploaded yet. Add the latest MoMS PDF to the Q&A folder (name it with MoMS or Manual of Motorcycle Sport), run npm run scrape-pdfs, and redeploy the API.',
+      };
+    }
+    chunks = retrieved.chunks;
+    fromKb = retrieved.fromKb;
+    systemPrompt = RULES_SYSTEM + formatRulesContext(chunks);
+  } else {
+    const retrieved = await retrieveForAsk(text);
+    chunks = retrieved.chunks;
+    fromKb = retrieved.fromKb;
+    systemPrompt = ASK_SYSTEM + formatKbContext(chunks);
+  }
+
+  const sources = chunks.map((c) => ({
+    title: c.title,
+    origin: c.origin,
+    ...(c.location ? { location: c.location } : {}),
+  }));
 
   try {
     const client = new OpenAI({ apiKey });

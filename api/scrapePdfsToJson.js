@@ -18,6 +18,9 @@ const pdfParse = require('pdf-parse');
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const QA_DIR = path.resolve(__dirname, '..', 'Q&A');
 
+const MOMS_NAME_RE =
+  /moms|mo[\s_-]?ms|manual[\s_-]?of[\s_-]?motorcycle[\s_-]?sport|motorcycle[\s_-]?sport[\s_-]?manual|gc[\s_-]?rs|rule[\s_-]?book|rulebook/i;
+
 /** Preserve original written format: split into blocks (paragraphs, headings). */
 function toContentBlocks(text) {
   if (!text || !String(text).trim()) return [];
@@ -106,6 +109,7 @@ async function run() {
       const payload = {
         origin: file,
         title,
+        ...(MOMS_NAME_RE.test(`${file} ${title}`) ? { corpus: 'moms' } : {}),
         content,
         contentBlocks,
         qa,

@@ -246,6 +246,64 @@ async function checkAskRetrieval() {
   pass(`retrieveForAsk: ${chunks.length} chunk(s), fromKb=${fromKb}`);
 }
 
+/** MoMS road/historic JSON present + edition not overdue (Hermes / annual update reminder). */
+function checkMomsCorpus() {
+  const qaDir = path.join(ROOT, 'Q&A');
+  let files = [];
+  try {
+    files = fs.readdirSync(qaDir).filter((f) => /^MoMS-.*\.json$/i.test(f) || /moms/i.test(f) && f.endsWith('.json'));
+  } catch (e) {
+    fail(`MoMS: cannot read Q&A/ (${e.message})`);
+    return;
+  }
+  const momsFiles = files.filter((f) => {
+    try {
+      const data = JSON.parse(fs.readFileSync(path.join(qaDir, f), 'utf8'));
+      return data.corpus === 'moms' || /moms/i.test(f);
+    } catch {
+      return false;
+    }
+  });
+  if (momsFiles.length === 0) {
+    fail('MoMS: no MoMS-*-road-historic.json — add PDF to Q&A/ and run: cd api && npm run scrape-moms');
+    return;
+  }
+  let best = null;
+  for (const f of momsFiles) {
+    try {
+      const data = JSON.parse(fs.readFileSync(path.join(qaDir, f), 'utf8'));
+      if (data.corpus !== 'moms' && !/moms/i.test(f)) continue;
+      const contentLen = (data.content || '').length;
+      if (!best || contentLen > best.contentLen) {
+        best = { file: f, data, contentLen };
+      }
+    } catch (_) {}
+  }
+  if (!best || best.contentLen < 5000) {
+    fail('MoMS: scraped JSON missing or too small — re-run npm run scrape-moms');
+    return;
+  }
+  const edition = String(best.data.edition || '');
+  const due = best.data.updatePolicy?.nextReviewDue || (edition ? `${Number(edition) + 1}-01-15` : null);
+  pass(`MoMS corpus: ${best.file} (edition ${edition || '?'}, ${best.contentLen} chars)`);
+  if (due) {
+    const today = new Date().toISOString().slice(0, 10);
+    if (today >= due) {
+      fail(
+        `MoMS update due (nextReviewDue ${due}): replace PDF in Q&A/ with the new MA edition and run cd api && npm run scrape-moms`
+      );
+    } else {
+      pass(`MoMS nextReviewDue ${due} (not overdue)`);
+    }
+  }
+  const full = best.data.scope?.fullChapters || [];
+  if (!full.includes(6) || !full.includes(7)) {
+    fail('MoMS scope should include full chapters 6 (Road Race) and 7 (Historic)');
+  } else {
+    pass('MoMS scope includes Road Race + Historic (full)');
+  }
+}
+
 console.log('\nAPI modules');
 run('node', ['--check', 'server.js'], API_DIR, 'server.js syntax');
 run('node', ['--check', 'qa.js'], API_DIR, 'qa.js syntax');
@@ -266,6 +324,9 @@ if (process.env.SKIP_SCRAPERS !== '1') {
 } else {
   console.log('  skip scrapers (SKIP_SCRAPERS=1)');
 }
+
+console.log('\nMoMS rule book');
+checkMomsCorpus();
 
 console.log('\nAU cache');
 checkAuCacheFile();

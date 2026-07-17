@@ -9,6 +9,7 @@
     "dev": "node --watch server.js",
     "ingest-qa": "node ingestQA.js",
     "scrape-pdfs": "node scrapePdfsToJson.js",
+    "scrape-moms": "node scrapeMomsToJson.js",
     "build-trivia": "node buildTriviaBank.js",
     "refresh-au-headlines": "node scripts/refreshAuHeadlines.js",
     "refresh-au-calendar": "node scripts/refreshAuCalendar.js",

@@ -122,13 +122,14 @@ app.get('/roadrace-ai/faqs', async (_, res) => {
 });
 
 app.post('/roadrace-ai/ask', async (req, res) => {
-  const { message } = req.body || {};
+  const { message, mode } = req.body || {};
   const text = typeof message === 'string' ? message.trim() : '';
   if (!text) {
     return res.status(400).json({ error: 'message is required' });
   }
+  const askMode = mode === 'rules' ? 'rules' : 'ask';
   try {
-    const result = await askChat(text);
+    const result = await askChat(text, { mode: askMode });
     if (result.error) {
       return res.status(500).json({
         error: result.error,
