@@ -24,6 +24,8 @@ import {
   type CoachAttachment,
 } from '../utils/coachAttachments';
 import {
+  createChatMessage,
+  ensureMessageIds,
   sendCoachChat,
   type CoachChatDisplayMessage,
   type CoachChatMessage,
@@ -74,7 +76,7 @@ export function CoachChatScreen() {
     const seedKey = JSON.stringify(seed);
     if (lastSeedKeyRef.current === seedKey) return;
     lastSeedKeyRef.current = seedKey;
-    setMessages(seed);
+    setMessages(ensureMessageIds(seed));
     setTimeout(() => scrollRef.current?.scrollToEnd({ animated: true }), 150);
   }, [route.params?.seedMessages]);
 
@@ -99,7 +101,12 @@ export function CoachChatScreen() {
       goalsSeededRef.current = true;
       setMessages((prev) => {
         if (prev.length > 0) return prev;
-        return [{ role: 'assistant', content: buildCoachGoalsPrompt(sheet.goalsForToday) }];
+        return [
+          createChatMessage({
+            role: 'assistant',
+            content: buildCoachGoalsPrompt(sheet.goalsForToday),
+          }),
+        ];
       });
     })();
     return () => {
@@ -117,7 +124,7 @@ export function CoachChatScreen() {
         : 'Switched to Coach. Tell me what you are working on — lines, braking, body position, or a specific corner — and we will dig in.';
     navigation.navigate('CoachChat', {
       mode: target,
-      seedMessages: [{ role: 'assistant', content: handoff }],
+      seedMessages: [createChatMessage({ role: 'assistant', content: handoff })],
     });
   }, [suggestMode, mode, navigation]);
 
@@ -159,7 +166,7 @@ export function CoachChatScreen() {
     setSuggestMode(null);
 
     const displayContent = text || attachmentSummary(attachments);
-    const userMsg: ChatMessage = {
+    const userMsg = createChatMessage({
       role: 'user',
       content: displayContent,
       attachments: attachments.map((att) =>
@@ -167,7 +174,7 @@ export function CoachChatScreen() {
           ? { kind: 'image', uri: att.uri, name: att.name }
           : { kind: 'file', name: att.name }
       ),
-    };
+    });
     setMessages((prev) => [...prev, userMsg]);
     setLoading(true);
 
@@ -191,7 +198,10 @@ export function CoachChatScreen() {
         return;
       }
 
-      setMessages((prev) => [...prev, { role: 'assistant', content: result.reply }]);
+      setMessages((prev) => [
+        ...prev,
+        createChatMessage({ role: 'assistant', content: result.reply }),
+      ]);
       if (result.suggestMode && result.suggestMode !== mode) {
         setSuggestMode(result.suggestMode);
       }
@@ -231,21 +241,21 @@ export function CoachChatScreen() {
               </Text>
             </View>
           ) : null}
-          {messages.map((m, i) => (
+          {messages.map((m) => (
             <View
-              key={i}
+              key={m.id}
               style={[styles.bubble, m.role === 'user' ? styles.bubbleUser : styles.bubbleAssistant]}
             >
               {m.attachments?.map((att, j) =>
                 att.kind === 'image' ? (
                   <Image
-                    key={j}
+                    key={`${m.id}-img-${att.uri}-${j}`}
                     source={{ uri: att.uri }}
                     style={styles.bubbleImage}
                     resizeMode="cover"
                   />
                 ) : (
-                  <View key={j} style={styles.fileChip}>
+                  <View key={`${m.id}-file-${att.name}-${j}`} style={styles.fileChip}>
                     <Text
                       style={
                         m.role === 'user' ? styles.fileChipTextUser : styles.fileChipTextAssistant

@@ -135,14 +135,18 @@ export type FaceHoleLayout = {
 };
 
 /**
- * Oval hole (ellipse) — closer to the white oval in the leathers art than a circle.
- * Expressed as fractions of the badge box; scales with `HERO_AVATAR_BADGE_SIZE` / `heroBadgeSizing.ts`.
+ * Oval hole (ellipse) — pixel-accurate to the transparent face hole in the leathers art.
+ * Measured via per-pixel alpha scan across all six avatar PNGs (1024×1536, contain in badge).
+ * Expressed as fractions of the badge box; scales with `HERO_AVATAR_BADGE_SIZE`.
+ *
+ * Previous values (0.34/0.42/0.33/0.15) had the ellipse ~2× too tall and 8% too low —
+ * corrected to match the actual cut-out in the artwork.
  */
 export const DEFAULT_FACE_HOLE_LAYOUT: FaceHoleLayout = {
-  widthPct: 0.34,
-  heightPct: 0.42,
-  leftPct: 0.33,
-  topPct: 0.15,
+  widthPct: 0.25,
+  heightPct: 0.23,
+  leftPct: 0.37,
+  topPct: 0.17,
 };
 
 /** Per-frame overrides (optional). Keys match `AvatarPreset.id`. */

@@ -1,12 +1,9 @@
-/** Safe analytics — no-op when Firebase is not configured (Expo Go / no google-services). */
+/** Lightweight analytics stub — no third-party SDK until a provider is chosen. */
 export async function logAnalyticsEvent(
   name: string,
   params?: Record<string, string | number | boolean>
 ): Promise<void> {
-  try {
-    const Analytics = await import('expo-firebase-analytics');
-    await Analytics.logEvent(name, params);
-  } catch (e) {
-    if (__DEV__) console.warn('[analytics]', e);
+  if (__DEV__) {
+    console.log('[analytics]', name, params ?? {});
   }
 }

@@ -50,7 +50,7 @@ No other unused or discarded files were found that are referenced by the app or 
   - **Track Walk** — Track notes (local storage); optional speech; share.
   - **Import Track Notes** — Shared/import flow for track notes.
 - **Config:** `app/constants/api.ts` — If `EXPO_PUBLIC_API_URL` is set, it is used (dev and prod); else dev uses LAN IP or Android emulator URL.
-- **Other:** Sentry (non-dev), Expo Fonts (Race Sport), Firebase Analytics (optional), notifications via `expo-notifications`.
+- **Other:** Sentry (non-dev), Expo Fonts (Race Sport), lightweight analytics stub (`src/utils/analytics.ts` — no Firebase SDK), notifications via `expo-notifications`.
 
 ### 3.2 API (Node / Express)
 
@@ -88,6 +88,7 @@ No other unused or discarded files were found that are referenced by the app or 
 - [ ] **Monitoring** — Sentry is wired; ensure project/DSN and env are correct for production.
 - [ ] **Accessibility** — Quick pass on headings, labels, and contrast (e.g. WCAG 2.1 AA) for main screens.
 - [ ] **Docs** — Update root `README.md` with current layout (e.g. `app/avatar/`, `api/roadraceAi.js`, `EXPO_PUBLIC_API_URL`) and link to `POC_HOSTING_GUIDE.md` and this brief.
+- [ ] **New Architecture (before Expo SDK 55)** — SDK 54 defaults to old arch. Audit `sentry-expo` → prefer `@sentry/react-native` for full New Arch support before enabling `newArchEnabled` / upgrading SDK.
 
 ---
 

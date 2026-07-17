@@ -2,20 +2,25 @@ import { HERO_AVATAR_BADGE_BASE_SIZE } from './heroBadgeSizing';
 import type { FaceHoleLayout } from './presets';
 
 /**
- * Locked hero hole placement: `DEFAULT_FACE_HOLE_LAYOUT` plus these offsets (tuned on device
- * at `HERO_AVATAR_BADGE_BASE_SIZE`). Offsets scale with `badgeSize / HERO_AVATAR_BADGE_BASE_SIZE`.
+ * Sub-pixel offsets (in px at HERO_AVATAR_BADGE_BASE_SIZE) applied on top of the layout
+ * percentages. These are intentionally near-zero after the layout was corrected to the
+ * actual artwork pixel measurements. Kept for fine-tuning per-device if needed.
  */
-export const FACE_HOLE_OFFSET_X_PX = -2.9;
-export const FACE_HOLE_OFFSET_Y_PX = -3;
+export const FACE_HOLE_OFFSET_X_PX = 0;
+export const FACE_HOLE_OFFSET_Y_PX = 0;
 
 /** Extra hole width (scaled); left edge fixed, extends to the right. */
-export const FACE_HOLE_EXTRA_WIDTH_RIGHT_PX = 2;
+export const FACE_HOLE_EXTRA_WIDTH_RIGHT_PX = 0;
 
 /** Extra hole height (scaled); bottom edge fixed, extends upward. */
-export const FACE_HOLE_EXTRA_HEIGHT_TOP_PX = 1;
+export const FACE_HOLE_EXTRA_HEIGHT_TOP_PX = 0;
 
-/** Zoom of face photo inside the hole (pivot: top-center). */
-export const FACE_IN_HOLE_SCALE = 0.66;
+/**
+ * Zoom of face photo inside the hole (pivot: top-center).
+ * 1.0 = fill the entire ellipse bounding box; < 1 shrinks the photo inside the hole.
+ * Was 0.66 which made faces appear very small — corrected to 1.0.
+ */
+export const FACE_IN_HOLE_SCALE = 1.0;
 
 export type FaceHoleGeometry = {
   left: number;
@@ -76,8 +81,8 @@ export function computeCaptureGuide(
   };
 }
 
-/** SVG transform string matching AvatarFaceEllipse face photo scale (pivot top-center). */
+/** SVG transform string scaling the face photo around the hole center. */
 export function faceHoleSvgTransform(hole: FaceHoleGeometry): string {
-  const { cx, top, faceScale } = hole;
-  return `translate(${cx}, ${top}) scale(${faceScale}) translate(${-cx}, ${-top})`;
+  const { cx, cy, faceScale } = hole;
+  return `translate(${cx}, ${cy}) scale(${faceScale}) translate(${-cx}, ${-cy})`;
 }

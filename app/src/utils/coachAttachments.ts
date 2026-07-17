@@ -93,7 +93,7 @@ export async function pickCoachPhotoFromLibrary(): Promise<CoachAttachment | nul
   }
 
   const result = await ImagePicker.launchImageLibraryAsync({
-    mediaTypes: ImagePicker.MediaTypeOptions.Images,
+    mediaTypes: ['images'],
     quality: 0.65,
     base64: true,
   });

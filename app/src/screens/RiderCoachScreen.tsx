@@ -4,19 +4,23 @@ import { useNavigation, useRoute, type RouteProp } from '@react-navigation/nativ
 import type { NativeStackNavigationProp } from '@react-navigation/native-stack';
 import { AppLogo } from '../components/AppLogo';
 import { COMPACT_LOGO_SIZE } from '../constants/logoSizing';
-import type { CoachChatDisplayMessage, CoachMode } from '../utils/coachChat';
+import type { CoachChatDisplayMessage, CoachChatMessage, CoachMode } from '../utils/coachChat';
 
-type ChatMessage = CoachChatDisplayMessage;
+/** Seed payloads may omit `id`; CoachChatScreen assigns stable ids on ingest. */
+type SeedMessage = CoachChatMessage & {
+  id?: string;
+  attachments?: CoachChatDisplayMessage['attachments'];
+};
 
 export type RiderCoachStackParamList = {
   RiderCoach: {
-    seedMessages?: ChatMessage[];
+    seedMessages?: SeedMessage[];
     seedDraftMessage?: string;
     seedTab?: CoachMode;
   };
   CoachChat: {
     mode: CoachMode;
-    seedMessages?: ChatMessage[];
+    seedMessages?: SeedMessage[];
     seedDraftMessage?: string;
   };
   ImportTrackNotes: undefined;

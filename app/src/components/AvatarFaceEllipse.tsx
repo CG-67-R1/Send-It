@@ -52,7 +52,7 @@ export function AvatarFaceEllipse({
           y={top}
           width={ew}
           height={eh}
-          preserveAspectRatio="xMidYMin slice"
+          preserveAspectRatio="xMidYMid slice"
         />
       </G>
     </Svg>

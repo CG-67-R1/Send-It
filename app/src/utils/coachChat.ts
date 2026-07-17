@@ -9,8 +9,40 @@ export type CoachMode = 'coach' | 'bikesetup';
 export type CoachChatMessage = { role: 'user' | 'assistant'; content: string };
 
 export type CoachChatDisplayMessage = CoachChatMessage & {
+  id: string;
   attachments?: Array<{ kind: 'image'; uri: string; name: string } | { kind: 'file'; name: string }>;
 };
+
+let chatMessageSeq = 0;
+
+/** Stable id for chat list keys (append/remove safe). */
+export function createChatMessage(
+  partial: CoachChatMessage & {
+    attachments?: CoachChatDisplayMessage['attachments'];
+  }
+): CoachChatDisplayMessage {
+  chatMessageSeq += 1;
+  return {
+    id: `msg-${Date.now()}-${chatMessageSeq}`,
+    ...partial,
+  };
+}
+
+/** Ensure seed/handoff messages have stable ids for React keys. */
+export function ensureMessageIds(
+  messages: Array<
+    CoachChatMessage & {
+      id?: string;
+      attachments?: CoachChatDisplayMessage['attachments'];
+    }
+  >
+): CoachChatDisplayMessage[] {
+  return messages.map((m, i) =>
+    m.id
+      ? (m as CoachChatDisplayMessage)
+      : { ...m, id: `seed-${Date.now()}-${i}-${++chatMessageSeq}` }
+  );
+}
 
 export type CoachChatResult =
   | { ok: true; reply: string; suggestMode?: CoachMode }

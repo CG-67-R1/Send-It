@@ -73,7 +73,8 @@ Hermes is the **Send-It / RoadRace app expert**. It runs regular health gates an
 |---------|-------|--------|
 | **Daily** (weekdays) | `send-it/rr-app-expert` (daily-gate) | Short OK / FAIL summary |
 | **Weekly** (Monday) | `send-it/rr-app-expert` + `send-it/mobile-review` + `send-it/track-data-analyst` | `docs/reviews/RR_REVIEW_YYYY-MM-DD.md` (includes Track data) |
-| **On-demand** | `/rr-app-expert` or `/track-data-analyst` | Full report + top 3 Cursor fixes |
+| **Weekly** (Wednesday) | `send-it/mobile-app-expert` + `send-it/mobile-review` | `docs/reviews/MOBILE_OPS_YYYY-MM-DD.md` — HEALTHY or CURSOR ALERT (perf/security/iOS+Android) |
+| **On-demand** | `/rr-app-expert`, `/mobile-app-expert`, or `/track-data-analyst` | Full report + top Cursor fixes |
 
 **Setup (one-time):** `.\scripts\install-hermes-skills.ps1` then follow [`docs/hermes/CRON_SETUP.md`](docs/hermes/CRON_SETUP.md) to create Hermes cron jobs.
 
@@ -84,6 +85,8 @@ cd C:\Users\Administrator\.cursor\Send-It
 hermes
 # /rr-app-expert
 # Ask: "Run weekly-review. Write docs/reviews/RR_REVIEW_<date>.md. Report only."
+# /mobile-app-expert
+# Ask: "Run full-review. Write docs/reviews/MOBILE_OPS_<date>.md. HEALTHY or CURSOR ALERT. Report only."
 # /track-data-analyst
 # Ask: "Run track data review. Include Bend GT/International/West/East lengths. Report only."
 ```

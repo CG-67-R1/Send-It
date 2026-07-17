@@ -40,6 +40,32 @@ import { photoUrisToCoachPayloads } from '../utils/coachAttachments';
 
 type AddingMode = 'corner' | 'note' | null;
 
+/** Module-scope speech recognition (optional native module). */
+type SpeechRecognitionModule = {
+  requestPermissionsAsync: () => Promise<{ granted: boolean }>;
+  start: (opts: { lang: string; interimResults: boolean; continuous: boolean }) => void;
+  stop: () => void;
+  addListener?: (
+    event: string,
+    cb: (event: { results?: { transcript?: string }[]; isFinal?: boolean }) => void
+  ) => { remove: () => void };
+};
+
+let speechRecognition: SpeechRecognitionModule | null | undefined;
+
+function getSpeechRecognition(): SpeechRecognitionModule | null {
+  if (speechRecognition !== undefined) return speechRecognition;
+  try {
+    const mod = require('expo-speech-recognition') as {
+      ExpoSpeechRecognitionModule?: SpeechRecognitionModule;
+    };
+    speechRecognition = mod.ExpoSpeechRecognitionModule ?? null;
+  } catch {
+    speechRecognition = null;
+  }
+  return speechRecognition;
+}
+
 const DEFAULT_OTHER_CONTEXT: OtherTrackContext = {
   customName: '',
   direction: 'unknown',
@@ -133,7 +159,11 @@ export function TrackWalkScreen() {
 
   const requestVoice = useCallback(async () => {
     try {
-      const { ExpoSpeechRecognitionModule } = require('expo-speech-recognition');
+      const ExpoSpeechRecognitionModule = getSpeechRecognition();
+      if (!ExpoSpeechRecognitionModule) {
+        setVoiceAvailable(false);
+        return false;
+      }
       const result = await ExpoSpeechRecognitionModule.requestPermissionsAsync();
       if (!result.granted) {
         Alert.alert('Microphone', 'Allow microphone access to use voice notes.');
@@ -154,7 +184,12 @@ export function TrackWalkScreen() {
       if (!ok) return;
     }
     try {
-      const { ExpoSpeechRecognitionModule } = require('expo-speech-recognition');
+      const ExpoSpeechRecognitionModule = getSpeechRecognition();
+      if (!ExpoSpeechRecognitionModule) {
+        setVoiceAvailable(false);
+        Alert.alert('Voice', 'Voice input is not available on this device.');
+        return;
+      }
       setInterimTranscript('');
       interimRef.current = '';
       ExpoSpeechRecognitionModule.start({ lang: 'en-AU', interimResults: true, continuous: true });
@@ -167,8 +202,7 @@ export function TrackWalkScreen() {
 
   const stopRecording = useCallback(() => {
     try {
-      const { ExpoSpeechRecognitionModule } = require('expo-speech-recognition');
-      ExpoSpeechRecognitionModule.stop();
+      getSpeechRecognition()?.stop();
     } catch {}
     setRecording(false);
     const pending = interimRef.current.trim();
@@ -182,7 +216,7 @@ export function TrackWalkScreen() {
   React.useEffect(() => {
     let resultSub: { remove: () => void } | null = null;
     try {
-      const { ExpoSpeechRecognitionModule } = require('expo-speech-recognition');
+      const ExpoSpeechRecognitionModule = getSpeechRecognition();
       if (ExpoSpeechRecognitionModule?.addListener) {
         resultSub = ExpoSpeechRecognitionModule.addListener(
           'result',
@@ -259,7 +293,7 @@ export function TrackWalkScreen() {
           return;
         }
         const result = await ImagePicker.launchImageLibraryAsync({
-          mediaTypes: ImagePicker.MediaTypeOptions.Images,
+          mediaTypes: ['images'],
           quality: 0.7,
         });
         if (!result.canceled && result.assets?.length) {

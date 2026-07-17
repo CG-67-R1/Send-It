@@ -23,6 +23,7 @@ Optional delivery override: `.\scripts\setup-hermes-cron.ps1 -Deliver local`
 This creates:
 - **Send-It daily gate** — weekdays 8:00, script-only (no Nous tokens on pass), delivers to Telegram
 - **Send-It weekly review** — Mondays 9:00, uses `rr-app-expert` + `mobile-review` + `track-data-analyst` skills
+- **Mobile app expert cron** — paste the Wednesday block below after install (not auto-created by this script yet)
 
 Manual CLI alternative (if you prefer chat-based setup):
 
@@ -54,6 +55,19 @@ Create a cron job:
 - continuable: true
 ```
 
+**Mobile app expert — iOS/Android ops** (Wednesdays 10:00 AM):
+
+Paste this block into Hermes to create the standing mobile developer role (health, performance, design quality, security). Install skills first (`.\scripts\install-hermes-skills.ps1`) so `send-it/mobile-app-expert` is available.
+
+```
+Create a cron job:
+- schedule: 0 10 * * 3
+- workdir: C:\Users\Administrator\.cursor\Send-It
+- skills: ["send-it/mobile-app-expert", "send-it/mobile-review"]
+- prompt: You are the Send-It expert mobile app developer for iOS and Android. Maintain a high skill level and stay current with Expo, React Native, iOS, and Android practices. Run health-ops (full-review depth). Execute mobile-review-preflight.mjs; production checks with API_URL=https://send-it-ke7r.onrender.com (health-check.mjs, verify-production.mjs, ios-smoke-test.mjs when available). Review the RR app for iOS and Android build fitness, performance (slow/hang), reliability, design quality, and security (secrets, unexpected/malicious connections, TLS, permissions, untrusted input). Write docs/reviews/MOBILE_OPS_<today>.md. If healthy with no material bugs: open with "MOBILE OPS: HEALTHY — no bugs requiring Cursor action." If poor design, unhealthy, slow, hanging, crash-prone, or insecure: open with "MOBILE OPS: CURSOR ALERT — action required." Recommend concrete Cursor fixes for every P0/P1. Compare to prior MOBILE_OPS_*.md. Report only — no commits. End with HEALTHY or CURSOR ALERT, P0/P1/P2 counts, and top Cursor fixes (or none).
+- continuable: true
+```
+
 ### 3. Verify
 
 In Hermes:
@@ -61,6 +75,13 @@ In Hermes:
 ```
 /rr-app-expert
 Run on-demand weekly-review now. Write the report to docs/reviews/.
+```
+
+Or for the mobile expert role:
+
+```
+/mobile-app-expert
+Run on-demand full-review now. Write docs/reviews/MOBILE_OPS_<today>.md. Notify Cursor if unhealthy; otherwise report HEALTHY.
 ```
 
 Then open the report in Cursor and implement P0/P1 items.
@@ -77,12 +98,14 @@ Then open the report in Cursor and implement P0/P1 items.
 | iOS smoke test | `node scripts/ios-smoke-test.mjs` |
 | Full health (prod) | `$env:API_URL='https://send-it-ke7r.onrender.com'; node scripts/health-check.mjs` |
 | On-demand expert | In Hermes: `/rr-app-expert` then ask for weekly-review |
+| On-demand mobile expert | In Hermes: `/mobile-app-expert` then ask for full-review |
 
 ## Reports
 
 Written to `docs/reviews/`:
 
 - `RR_REVIEW_YYYY-MM-DD.md` — full expert review (Hermes; includes Track data section)
+- `MOBILE_OPS_YYYY-MM-DD.md` — iOS/Android ops, perf, security (mobile-app-expert); HEALTHY or CURSOR ALERT
 - `MOBILE_REVIEW_YYYY-MM-DD.md` — legacy name if mobile-review skill runs alone
 - `TRACK_DATA_REVIEW_YYYY-MM-DD.md` / `TRACK_GPX_ALIGN_*.md` — deep track/GPX audits when track-data-analyst runs standalone
 
