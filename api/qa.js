@@ -141,11 +141,103 @@ const STOP_WORDS = new Set([
   'about', 'tell', 'explain', 'know',
 ]);
 
+/**
+ * MoMS-oriented spelling / synonym expansions for natural-language rule questions.
+ * Keys and values are lowercased tokens (or multi-word phrases that tokenize further).
+ */
+const RULES_SYNONYMS = {
+  license: ['licence', 'licences'],
+  licenses: ['licence', 'licences'],
+  licence: ['license', 'licences'],
+  licences: ['licence', 'license'],
+  helmet: ['helmets', 'protective'],
+  helmets: ['helmet', 'protective'],
+  gear: ['apparel', 'protective', 'clothing'],
+  clothing: ['apparel', 'protective'],
+  apparel: ['protective', 'clothing'],
+  suit: ['leathers', 'protective'],
+  leathers: ['suit', 'protective'],
+  boots: ['footwear', 'protective'],
+  gloves: ['protective'],
+  plate: ['number', 'numberplate', 'identification'],
+  plates: ['number', 'numberplate', 'identification'],
+  numberplate: ['number', 'plate', 'identification'],
+  inspection: ['examination', 'scrutineering'],
+  scrutineering: ['examination', 'inspection'],
+  exam: ['examination'],
+  eligibility: ['eligible', 'entry'],
+  eligible: ['eligibility'],
+  historic: ['period', 'classic'],
+  period: ['historic'],
+  trackday: ['practice', 'road'],
+  practice: ['track', 'session'],
+  junior: ['minors', 'age'],
+  age: ['junior', 'minors'],
+  medical: ['fitness', 'certificate'],
+  fitness: ['medical'],
+};
+
 function tokenize(text) {
   return normalize(text)
     .replace(/[^a-z0-9\s]/g, ' ')
     .split(/\s+/)
     .filter((w) => w.length > 1 && !STOP_WORDS.has(w));
+}
+
+/**
+ * Expand query tokens with MoMS synonyms / alternate spellings (deduped, order preserved).
+ * @param {string[]} tokens
+ * @returns {string[]}
+ */
+export function expandQueryTokens(tokens) {
+  const out = [];
+  const seen = new Set();
+  for (const t of tokens) {
+    if (!t || seen.has(t)) continue;
+    seen.add(t);
+    out.push(t);
+    const extras = RULES_SYNONYMS[t];
+    if (!extras) continue;
+    for (const phrase of extras) {
+      for (const et of tokenize(phrase)) {
+        if (!seen.has(et)) {
+          seen.add(et);
+          out.push(et);
+        }
+      }
+    }
+  }
+  return out;
+}
+
+/**
+ * Exact match = 1; prefix / shared-stem soft match (len ≥ 4) = 0.5; else 0.
+ * @param {string} a
+ * @param {string} b
+ */
+function tokenMatchWeight(a, b) {
+  if (a === b) return 1;
+  if (a.length < 4 || b.length < 4) return 0;
+  if (a.startsWith(b) || b.startsWith(a)) return 0.5;
+  let i = 0;
+  const n = Math.min(a.length, b.length);
+  while (i < n && a[i] === b[i]) i += 1;
+  return i >= 4 ? 0.5 : 0;
+}
+
+/**
+ * Best soft/exact weight of query token against any field token.
+ * @param {string} queryToken
+ * @param {string[]} fieldTokens
+ */
+function bestTokenWeight(queryToken, fieldTokens) {
+  let best = 0;
+  for (const ft of fieldTokens) {
+    const w = tokenMatchWeight(queryToken, ft);
+    if (w > best) best = w;
+    if (best >= 1) break;
+  }
+  return best;
 }
 
 function excerpt(text, maxLen = 500) {
@@ -154,18 +246,48 @@ function excerpt(text, maxLen = 500) {
   return trimmed.slice(0, maxLen).trimEnd() + '…';
 }
 
+/**
+ * Token-overlap score with exact (1) and soft stem/prefix (0.5) hits.
+ * @param {string[]} tokens
+ * @param {...string} fields
+ */
 function scoreText(tokens, ...fields) {
   if (tokens.length === 0) return 0;
   let score = 0;
   for (const field of fields) {
     const fieldTokens = tokenize(field);
     if (fieldTokens.length === 0) continue;
-    const fieldSet = new Set(fieldTokens);
     for (const t of tokens) {
-      if (fieldSet.has(t)) score += 1;
+      score += bestTokenWeight(t, fieldTokens);
     }
   }
   return score;
+}
+
+/**
+ * Content tokens after stop-word strip + synonym expand (for thin-query detection).
+ * @param {string} query
+ * @returns {string[]}
+ */
+export function prepareRulesQueryTokens(query) {
+  return expandQueryTokens(tokenize(query));
+}
+
+/**
+ * True when the question has at most one content token before synonym expand.
+ * @param {string} query
+ */
+export function isThinRulesQuery(query) {
+  return tokenize(query).length <= 1;
+}
+
+/**
+ * Adaptive minimum score for rules retrieval: short queries need only one solid hit.
+ * Uses pre-expansion token count so synonyms do not raise the bar.
+ * @param {string[]} rawTokens
+ */
+function rulesMinScore(rawTokens) {
+  return rawTokens.length <= 2 ? 1 : 2;
 }
 
 /**
@@ -176,7 +298,7 @@ function scoreText(tokens, ...fields) {
  */
 export async function retrieveForAsk(query, limit = 5) {
   const { documents, qa } = await loadKnowledge();
-  const tokens = tokenize(query);
+  const tokens = expandQueryTokens(tokenize(query));
   if (tokens.length === 0) return { chunks: [], fromKb: false };
 
   const scored = [];
@@ -275,7 +397,8 @@ function locationFromText(text) {
  */
 export async function retrieveForRules(query, limit = 6) {
   const { documents, qa, available } = await loadMomsCorpus();
-  const tokens = tokenize(query);
+  const rawTokens = tokenize(query);
+  const tokens = expandQueryTokens(rawTokens);
   if (!available || tokens.length === 0) {
     return { chunks: [], fromKb: false, available };
   }
@@ -362,7 +485,7 @@ export async function retrieveForRules(query, limit = 6) {
     if (unique.length >= limit) break;
   }
 
-  const minScore = 2;
+  const minScore = rulesMinScore(rawTokens);
   const fromKb = unique.length > 0 && unique[0].score >= minScore;
   return { chunks: fromKb ? unique : [], fromKb, available: true };
 }

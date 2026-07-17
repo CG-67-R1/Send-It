@@ -5,7 +5,7 @@
  */
 
 import OpenAI from 'openai';
-import { retrieveForAsk, retrieveForRules } from './qa.js';
+import { isThinRulesQuery, prepareRulesQueryTokens, retrieveForAsk, retrieveForRules } from './qa.js';
 import { formatFaqsForPrompt, loadRiderAiFaqs } from './riderAiFaqs.js';
 
 const COACH_SYSTEM = `You are an expert motorcycle road racing and track day coach specializing in Australian track day riding. You give direct, practical motorsport advice.
@@ -94,6 +94,61 @@ function formatRulesContext(chunks) {
   return `\n\n**MoMS rule-book excerpts (cite Location when answering):**\n\n${blocks.join('\n\n')}`;
 }
 
+const RULES_KEYWORD_REWRITE_SYSTEM = `You extract search keywords for the Australian Manual of Motorcycle Sport (MoMS).
+Reply with 3 to 8 space-separated keywords only (no sentences, no punctuation, no numbering).
+Prefer MoMS vocabulary: licence, protective, helmet, examination, eligibility, historic, road race, chapter/clause terms.
+Do not answer the user's question.`;
+
+/**
+ * Cheap OpenAI rewrite: natural question → MoMS search keywords.
+ * Used only when deterministic tokenization leaves a thin query (0–1 content tokens).
+ * @param {OpenAI} client
+ * @param {string} question
+ * @returns {Promise<string|null>}
+ */
+async function rewriteRulesKeywords(client, question) {
+  try {
+    const completion = await client.chat.completions.create({
+      model: process.env.OPENAI_MODEL || 'gpt-4o-mini',
+      messages: [
+        { role: 'system', content: RULES_KEYWORD_REWRITE_SYSTEM },
+        { role: 'user', content: question },
+      ],
+      max_tokens: 48,
+      temperature: 0,
+    });
+    const raw = completion.choices?.[0]?.message?.content?.trim() || '';
+    if (!raw) return null;
+    // Keep alphanumeric tokens only; drop fluff if the model returns a sentence
+    const keywords = raw
+      .replace(/[^a-zA-Z0-9\s]/g, ' ')
+      .split(/\s+/)
+      .filter((w) => w.length > 1)
+      .slice(0, 8)
+      .join(' ');
+    return keywords || null;
+  } catch (err) {
+    console.warn('Rules keyword rewrite failed:', err?.message || err);
+    return null;
+  }
+}
+
+/**
+ * Build the search string for MoMS retrieval: synonym expand first; if thin, LLM keywords.
+ * @param {OpenAI} client
+ * @param {string} question
+ * @returns {Promise<string>}
+ */
+async function prepareRulesSearchQuery(client, question) {
+  if (!isThinRulesQuery(question)) return question;
+  const rewritten = await rewriteRulesKeywords(client, question);
+  if (rewritten && prepareRulesQueryTokens(rewritten).length > 0) {
+    // Merge original + rewrite so a lone strong term (e.g. helmet) is kept
+    return `${question} ${rewritten}`.trim();
+  }
+  return question;
+}
+
 function getSystemPrompt(mode, faqs) {
   const base = mode === 'bikesetup' ? BIKESETUP_SYSTEM : COACH_SYSTEM;
   return base + SHARED_RULES + formatFaqsForPrompt(faqs, mode);
@@ -128,7 +183,9 @@ export async function askChat(message, options = {}) {
   let systemPrompt;
 
   if (mode === 'rules') {
-    const retrieved = await retrieveForRules(text);
+    const client = new OpenAI({ apiKey });
+    const searchQuery = await prepareRulesSearchQuery(client, text);
+    const retrieved = await retrieveForRules(searchQuery);
     if (!retrieved.available) {
       return {
         content: '',
@@ -141,7 +198,40 @@ export async function askChat(message, options = {}) {
     chunks = retrieved.chunks;
     fromKb = retrieved.fromKb;
     systemPrompt = RULES_SYSTEM + formatRulesContext(chunks);
-  } else {
+
+    const sources = chunks.map((c) => ({
+      title: c.title,
+      origin: c.origin,
+      ...(c.location ? { location: c.location } : {}),
+    }));
+
+    try {
+      const completion = await client.chat.completions.create({
+        model: process.env.OPENAI_MODEL || 'gpt-4o-mini',
+        messages: [
+          { role: 'system', content: systemPrompt },
+          { role: 'user', content: text },
+        ],
+        max_tokens: 1024,
+      });
+
+      const content = completion.choices?.[0]?.message?.content?.trim() || '';
+      return { content, sources, fromKb };
+    } catch (err) {
+      const msg = err?.message || String(err);
+      console.error('RoadRace AI ask error:', msg);
+      return {
+        content: '',
+        sources: [],
+        fromKb: false,
+        error: msg.includes('rate limit')
+          ? 'Too many requests. Please wait a moment and try again.'
+          : 'Something went wrong. Please try again.',
+      };
+    }
+  }
+
+  {
     const retrieved = await retrieveForAsk(text);
     chunks = retrieved.chunks;
     fromKb = retrieved.fromKb;
