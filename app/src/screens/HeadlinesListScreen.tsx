@@ -55,7 +55,7 @@ export function HeadlinesListScreen() {
   const [refreshing, setRefreshing] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [customFeedWarning, setCustomFeedWarning] = useState<string | null>(null);
-  const [viewMode, setViewMode] = useState<'world' | 'local' | 'custom'>('world');
+  const [viewMode, setViewMode] = useState<'world' | 'local' | 'custom'>('local');
   const [customSourceIds, setCustomSourceIds] = useState<string[]>([]);
   const [priorityOrder, setPriorityOrder] = useState<string[]>([]);
 
@@ -225,23 +225,6 @@ export function HeadlinesListScreen() {
             <TouchableOpacity
               style={[
                 styles.modeButton,
-                viewMode === 'world' && styles.modeButtonActive,
-              ]}
-              onPress={() => setViewMode('world')}
-              activeOpacity={0.8}
-            >
-              <Text
-                style={[
-                  styles.modeButtonText,
-                  viewMode === 'world' && styles.modeButtonTextActive,
-                ]}
-              >
-                World
-              </Text>
-            </TouchableOpacity>
-            <TouchableOpacity
-              style={[
-                styles.modeButton,
                 viewMode === 'local' && styles.modeButtonActive,
               ]}
               onPress={() => setViewMode('local')}
@@ -254,6 +237,23 @@ export function HeadlinesListScreen() {
                 ]}
               >
                 Aus
+              </Text>
+            </TouchableOpacity>
+            <TouchableOpacity
+              style={[
+                styles.modeButton,
+                viewMode === 'world' && styles.modeButtonActive,
+              ]}
+              onPress={() => setViewMode('world')}
+              activeOpacity={0.8}
+            >
+              <Text
+                style={[
+                  styles.modeButtonText,
+                  viewMode === 'world' && styles.modeButtonTextActive,
+                ]}
+              >
+                World
               </Text>
             </TouchableOpacity>
             <TouchableOpacity
@@ -365,23 +365,30 @@ const styles = StyleSheet.create({
   modeSwitcher: {
     flexDirection: 'row',
     marginTop: 12,
-    backgroundColor: '#020617',
-    borderRadius: 999,
-    padding: 3,
+    width: '100%',
+    gap: 12,
+    justifyContent: 'center',
   },
   modeButton: {
     flex: 1,
-    paddingVertical: 6,
-    borderRadius: 999,
+    paddingVertical: 10,
+    paddingHorizontal: 8,
+    minHeight: 42,
+    borderRadius: 12,
     alignItems: 'center',
+    justifyContent: 'center',
+    backgroundColor: '#1e293b',
+    borderWidth: 1,
+    borderColor: '#334155',
   },
   modeButtonActive: {
     backgroundColor: '#f59e0b',
+    borderColor: '#f59e0b',
   },
   modeButtonText: {
-    fontSize: 13,
+    fontSize: 14,
     fontWeight: '600',
-    color: '#e2e8f0',
+    color: '#94a3b8',
   },
   modeButtonTextActive: {
     color: '#0f172a',

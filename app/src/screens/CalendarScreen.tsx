@@ -87,7 +87,7 @@ function eventDates(startDate: string, endDate: string): { start: Date; end: Dat
 
 export function CalendarScreen() {
   const [events, setEvents] = useState<CalendarEvent[]>([]);
-  const [filter, setFilter] = useState<CalendarFilter>('all');
+  const [filter, setFilter] = useState<CalendarFilter>('australia');
   const [loading, setLoading] = useState(true);
   const [refreshing, setRefreshing] = useState(false);
   const [error, setError] = useState<string | null>(null);
@@ -220,7 +220,7 @@ export function CalendarScreen() {
           Australian club & state road racing • MotoGP • WorldSBK. Tap to open links.
         </Text>
         <View style={styles.filterRow}>
-          {(['all', 'australia', 'world'] as CalendarFilter[]).map((key) => (
+          {(['australia', 'world', 'all'] as CalendarFilter[]).map((key) => (
             <TouchableOpacity
               key={key}
               style={[styles.filterChip, filter === key && styles.filterChipActive]}
@@ -228,7 +228,7 @@ export function CalendarScreen() {
               activeOpacity={0.7}
             >
               <Text style={[styles.filterChipText, filter === key && styles.filterChipTextActive]}>
-                {key === 'all' ? 'All' : key === 'australia' ? 'Australia' : 'World'}
+                {key === 'all' ? 'All' : key === 'australia' ? 'Aus' : 'World'}
               </Text>
             </TouchableOpacity>
           ))}
@@ -351,29 +351,34 @@ const styles = StyleSheet.create({
   },
   filterRow: {
     flexDirection: 'row',
-    gap: 8,
+    gap: 12,
     marginTop: 12,
+    width: '100%',
     flexWrap: 'wrap',
     justifyContent: 'center',
   },
   filterChip: {
-    paddingHorizontal: 14,
-    paddingVertical: 8,
-    borderRadius: 20,
+    flex: 1,
+    minWidth: 88,
+    paddingHorizontal: 12,
+    paddingVertical: 10,
+    borderRadius: 12,
     borderWidth: 1,
     borderColor: '#334155',
     backgroundColor: '#1e293b',
-    minHeight: 36,
+    minHeight: 42,
     justifyContent: 'center',
+    alignItems: 'center',
   },
   filterChipActive: {
     backgroundColor: '#f59e0b',
     borderColor: '#f59e0b',
   },
   filterChipText: {
-    fontSize: 13,
+    fontSize: 14,
     fontWeight: '600',
     color: '#94a3b8',
+    textAlign: 'center',
   },
   filterChipTextActive: {
     color: '#0f172a',

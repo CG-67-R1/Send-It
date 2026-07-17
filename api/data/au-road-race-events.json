@@ -1,7 +1,7 @@
 {
-  "updatedAt": "2026-07-13T05:25:04.277Z",
+  "updatedAt": "2026-07-17T01:56:24.830Z",
   "sourceCount": 26,
-  "eventCount": 72,
+  "eventCount": 59,
   "errors": [],
   "events": [
     {
@@ -187,20 +187,6 @@
       "confidence": "high"
     },
     {
-      "name": "Mac Park Ride Day",
-      "start_date": "2026-07-18",
-      "end_date": "2026-07-18",
-      "state": "SA",
-      "venue": "Mac Park Road Race Circuit",
-      "organiser": "Motorcycling South Australia - Calendar",
-      "source_id": "gov_sa_calendar",
-      "source_url": "https://www.motorcyclingsa.org.au/riders/calendar/",
-      "entry_url": "https://calendar.time.ly/lom2ukea/event/78313776/20260718000000",
-      "discipline": "road_race",
-      "notes": "Timely: Road Race,Classic",
-      "confidence": "high"
-    },
-    {
       "name": "Broadford Raceway",
       "start_date": "2026-07-26",
       "end_date": "2026-07-26",
@@ -265,20 +251,6 @@
       "organiser": "Motorcycling Australia (MA) - National Calendar",
       "source_id": "gov_ma_national_calendar",
       "source_url": "https://www.ma.org.au/ma-calendar/",
-      "entry_url": "https://calendar.time.ly/lom2ukea/event/78263654/20260807000000",
-      "discipline": "road_race",
-      "notes": "Timely: Road Race",
-      "confidence": "high"
-    },
-    {
-      "name": "MotoMini Australia: Round 3",
-      "start_date": "2026-08-07",
-      "end_date": "2026-08-09",
-      "state": "SA",
-      "venue": "Monarto Go-Kart Circuit",
-      "organiser": "Motorcycling South Australia - Calendar",
-      "source_id": "gov_sa_calendar",
-      "source_url": "https://www.motorcyclingsa.org.au/riders/calendar/",
       "entry_url": "https://calendar.time.ly/lom2ukea/event/78263654/20260807000000",
       "discipline": "road_race",
       "notes": "Timely: Road Race",
@@ -677,34 +649,6 @@
       "confidence": "high"
     },
     {
-      "name": "Mac Park Ride Day",
-      "start_date": "2026-09-19",
-      "end_date": "2026-09-20",
-      "state": "SA",
-      "venue": "Mac Park Road Race Circuit",
-      "organiser": "Motorcycling South Australia - Calendar",
-      "source_id": "gov_sa_calendar",
-      "source_url": "https://www.motorcyclingsa.org.au/riders/calendar/",
-      "entry_url": "https://calendar.time.ly/lom2ukea/event/78313777/20260919000000",
-      "discipline": "road_race",
-      "notes": "Timely: Road Race,Classic",
-      "confidence": "high"
-    },
-    {
-      "name": "MotoMini Australia: Round 4",
-      "start_date": "2026-09-19",
-      "end_date": "2026-09-20",
-      "state": "VIC",
-      "venue": "Albury Wodonga Kart Club",
-      "organiser": "Motorcycling Victoria - Calendar",
-      "source_id": "gov_vic_calendar",
-      "source_url": "https://www.motorcyclingvic.com.au/calendar/",
-      "entry_url": "https://calendar.time.ly/lom2ukea/event/78304964/20260919000000",
-      "discipline": "road_race",
-      "notes": "Timely: Road Race",
-      "confidence": "high"
-    },
-    {
       "name": "MotoMini Australia: Round 5",
       "start_date": "2026-10-17",
       "end_date": "2026-10-18",
@@ -719,20 +663,6 @@
       "confidence": "high"
     },
     {
-      "name": "MotoMini Australia: Round 5",
-      "start_date": "2026-10-17",
-      "end_date": "2026-10-18",
-      "state": "VIC",
-      "venue": "Go Kart Club of Victoria",
-      "organiser": "Motorcycling Victoria - Calendar",
-      "source_id": "gov_vic_calendar",
-      "source_url": "https://www.motorcyclingvic.com.au/calendar/",
-      "entry_url": "https://calendar.time.ly/lom2ukea/event/78304967/20261017000000",
-      "discipline": "road_race",
-      "notes": "Timely: Road Race",
-      "confidence": "high"
-    },
-    {
       "name": "2026-27 Australian Superbike Championship - Round 1",
       "start_date": "2026-10-23",
       "end_date": "2026-10-25",
@@ -741,20 +671,6 @@
       "organiser": "Motorcycling Australia (MA) - National Calendar",
       "source_id": "gov_ma_national_calendar",
       "source_url": "https://www.ma.org.au/ma-calendar/",
-      "entry_url": "https://calendar.time.ly/lom2ukea/event/78311595/20261023000000",
-      "discipline": "road_race",
-      "notes": "Timely: Road Race",
-      "confidence": "high"
-    },
-    {
-      "name": "2026-27 Australian Superbike Championship - Round 1",
-      "start_date": "2026-10-23",
-      "end_date": "2026-10-25",
-      "state": "VIC",
-      "venue": "Phillip Island Grand Prix Circuit",
-      "organiser": "Motorcycling Victoria - Calendar",
-      "source_id": "gov_vic_calendar",
-      "source_url": "https://www.motorcyclingvic.com.au/calendar/",
       "entry_url": "https://calendar.time.ly/lom2ukea/event/78311595/20261023000000",
       "discipline": "road_race",
       "notes": "Timely: Road Race",
@@ -783,20 +699,6 @@
       "organiser": "Motorcycling Australia (MA) - National Calendar",
       "source_id": "gov_ma_national_calendar",
       "source_url": "https://www.ma.org.au/ma-calendar/",
-      "entry_url": "https://calendar.time.ly/lom2ukea/event/78313778/20261031000000",
-      "discipline": "road_race",
-      "notes": "Timely: Road Race,Classic",
-      "confidence": "high"
-    },
-    {
-      "name": "Mac Park Ride Day",
-      "start_date": "2026-10-31",
-      "end_date": "2026-10-31",
-      "state": "SA",
-      "venue": "Mac Park Road Race Circuit",
-      "organiser": "Motorcycling South Australia - Calendar",
-      "source_id": "gov_sa_calendar",
-      "source_url": "https://www.motorcyclingsa.org.au/riders/calendar/",
       "entry_url": "https://calendar.time.ly/lom2ukea/event/78313778/20261031000000",
       "discipline": "road_race",
       "notes": "Timely: Road Race,Classic",
@@ -845,20 +747,6 @@
       "confidence": "high"
     },
     {
-      "name": "2026-27 Australian Superbike Championship - Round 2",
-      "start_date": "2026-11-13",
-      "end_date": "2026-11-15",
-      "state": "SA",
-      "venue": "The Bend",
-      "organiser": "Motorcycling South Australia - Calendar",
-      "source_id": "gov_sa_calendar",
-      "source_url": "https://www.motorcyclingsa.org.au/riders/calendar/",
-      "entry_url": "https://calendar.time.ly/lom2ukea/event/78314649/20261113000000",
-      "discipline": "road_race",
-      "notes": "Timely: Road Race",
-      "confidence": "high"
-    },
-    {
       "name": "Mac Park Ride Day",
       "start_date": "2026-11-21",
       "end_date": "2026-11-21",
@@ -867,20 +755,6 @@
       "organiser": "Motorcycling Australia (MA) - National Calendar",
       "source_id": "gov_ma_national_calendar",
       "source_url": "https://www.ma.org.au/ma-calendar/",
-      "entry_url": "https://calendar.time.ly/lom2ukea/event/78313781/20261121000000",
-      "discipline": "road_race",
-      "notes": "Timely: Road Race,Classic",
-      "confidence": "high"
-    },
-    {
-      "name": "Mac Park Ride Day",
-      "start_date": "2026-11-21",
-      "end_date": "2026-11-21",
-      "state": "SA",
-      "venue": "Mac Park Road Race Circuit",
-      "organiser": "Motorcycling South Australia - Calendar",
-      "source_id": "gov_sa_calendar",
-      "source_url": "https://www.motorcyclingsa.org.au/riders/calendar/",
       "entry_url": "https://calendar.time.ly/lom2ukea/event/78313781/20261121000000",
       "discipline": "road_race",
       "notes": "Timely: Road Race,Classic",
@@ -901,20 +775,6 @@
       "confidence": "high"
     },
     {
-      "name": "2026-27 Australian Superbike Championship - Round 3",
-      "start_date": "2026-12-04",
-      "end_date": "2026-12-06",
-      "state": "NSW",
-      "venue": "One Raceway",
-      "organiser": "Motorcycling NSW - Riders Calendar",
-      "source_id": "gov_nsw_calendar",
-      "source_url": "https://motorcycling.com.au/riders/calendar/",
-      "entry_url": "https://calendar.time.ly/lom2ukea/event/78314650/20261204000000",
-      "discipline": "road_race",
-      "notes": "Timely: Road Race",
-      "confidence": "high"
-    },
-    {
       "name": "Mac Park Ride Day",
       "start_date": "2026-12-12",
       "end_date": "2026-12-13",
@@ -923,20 +783,6 @@
       "organiser": "Motorcycling Australia (MA) - National Calendar",
       "source_id": "gov_ma_national_calendar",
       "source_url": "https://www.ma.org.au/ma-calendar/",
-      "entry_url": "https://calendar.time.ly/lom2ukea/event/78313782/20261212000000",
-      "discipline": "road_race",
-      "notes": "Timely: Road Race,Classic",
-      "confidence": "high"
-    },
-    {
-      "name": "Mac Park Ride Day",
-      "start_date": "2026-12-12",
-      "end_date": "2026-12-13",
-      "state": "SA",
-      "venue": "Mac Park Road Race Circuit",
-      "organiser": "Motorcycling South Australia - Calendar",
-      "source_id": "gov_sa_calendar",
-      "source_url": "https://www.motorcyclingsa.org.au/riders/calendar/",
       "entry_url": "https://calendar.time.ly/lom2ukea/event/78313782/20261212000000",
       "discipline": "road_race",
       "notes": "Timely: Road Race,Classic",
@@ -971,20 +817,6 @@
       "confidence": "high"
     },
     {
-      "name": "2027 Australian Superbike Championship - Round 4",
-      "start_date": "2027-01-15",
-      "end_date": "2027-01-17",
-      "state": "QLD",
-      "venue": "Queensland Raceway",
-      "organiser": "Motorcycling Queensland - Riders Calendar",
-      "source_id": "gov_qld_calendar",
-      "source_url": "https://www.mqld.org.au/riders/calendar/",
-      "entry_url": "https://calendar.time.ly/lom2ukea/event/78314652/20270115000000",
-      "discipline": "road_race",
-      "notes": "Timely: Road Race",
-      "confidence": "high"
-    },
-    {
       "name": "2027 Australian Superbike Championship - Round 5",
       "start_date": "2027-02-01",
       "end_date": "2027-02-28",
@@ -997,20 +829,8 @@
       "discipline": "road_race",
       "notes": "Timely: Road Race",
       "confidence": "high"
-    },
-    {
-      "name": "2027 Australian Superbike Championship - Round 5",
-      "start_date": "2027-02-01",
-      "end_date": "2027-02-28",
-      "state": "VIC",
-      "venue": "Phillip Island Grand Prix Circuit",
-      "organiser": "Motorcycling Victoria - Calendar",
-      "source_id": "gov_vic_calendar",
-      "source_url": "https://www.motorcyclingvic.com.au/calendar/",
-      "entry_url": "https://calendar.time.ly/lom2ukea/event/78314654/20270201000000",
-      "discipline": "road_race",
-      "notes": "Timely: Road Race",
-      "confidence": "high"
     }
-  ]
+  ],
+  "dedupedAt": "2026-07-17T01:56:24.831Z",
+  "dedupeNote": "Removed MA/SCB Timely duplicates (prefer gov_ma_national_calendar)"
 }

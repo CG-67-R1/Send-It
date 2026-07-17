@@ -7,6 +7,7 @@ import fetch from 'node-fetch';
 import { readFileSync } from 'fs';
 import { fileURLToPath } from 'url';
 import { dirname, join } from 'path';
+import { dedupeEvents } from './calendarScrapers.js';
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
 const STATIC_PATH = join(__dirname, 'data', 'calendar-static.json');
@@ -83,7 +84,9 @@ function loadAuEvents() {
     const data = JSON.parse(raw);
     const list = Array.isArray(data) ? data : (data.events || []);
     if (!Array.isArray(list)) return [];
-    return list
+    // Drop MA/SCB duplicates even if the cache was written before gov-aware dedupe.
+    const deduped = dedupeEvents(list);
+    return deduped
       .filter((ev) => ['road_race', 'track_day'].includes((ev.discipline || '').toLowerCase()))
       .map((ev) => {
         const name = ev.name || 'Road race event';

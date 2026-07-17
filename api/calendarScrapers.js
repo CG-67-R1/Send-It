@@ -743,14 +743,52 @@ export async function scrapeAllSources() {
   return { events: allEvents, errors };
 }
 
+function normalizeDedupeText(value) {
+  return String(value || '')
+    .toLowerCase()
+    .replace(/\s+/g, ' ')
+    .trim();
+}
+
+function isGoverningBodySource(ev) {
+  return /^gov_/i.test(ev?.source_id || '');
+}
+
+/** Prefer MA national calendar over SCB copies of the same meeting. */
+function governingBodyPreference(ev) {
+  let score = 0;
+  const id = ev?.source_id || '';
+  if (id === 'gov_ma_national_calendar') score += 100;
+  else if (isGoverningBodySource(ev)) score += 40;
+  if (ev?.confidence === 'high') score += 10;
+  else if (ev?.confidence === 'medium') score += 5;
+  if (ev?.entry_url) score += 2;
+  if (ev?.state) score += 1;
+  if (ev?.venue) score += 1;
+  if (ev?.notes) score += 1;
+  return score;
+}
+
+/**
+ * Cross-source dedupe. MA + SCB Timely calendars often list the same meeting with
+ * different organisers — merge those on name|date|venue and keep MA when present.
+ * Club / track-day sources still keep organiser in the key so distinct promoters
+ * on the same day/venue are not collapsed.
+ */
 export function dedupeEvents(events) {
-  const seen = new Set();
-  return events.filter((ev) => {
-    const key = `${(ev.name || '').toLowerCase()}|${ev.start_date}|${(ev.venue || ev.state || '').toLowerCase()}|${(ev.organiser || '').toLowerCase()}`;
-    if (seen.has(key)) return false;
-    seen.add(key);
-    return true;
-  });
+  const bestByKey = new Map();
+  for (const ev of events || []) {
+    if (!ev?.start_date) continue;
+    const base = `${normalizeDedupeText(ev.name)}|${ev.start_date}|${normalizeDedupeText(ev.venue || ev.state || '')}`;
+    const key = isGoverningBodySource(ev)
+      ? `gov|${base}`
+      : `other|${base}|${normalizeDedupeText(ev.organiser)}`;
+    const existing = bestByKey.get(key);
+    if (!existing || governingBodyPreference(ev) > governingBodyPreference(existing)) {
+      bestByKey.set(key, ev);
+    }
+  }
+  return [...bestByKey.values()];
 }
 
 export function filterByCatalogPeriod(events, config) {
