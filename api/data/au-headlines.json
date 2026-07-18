@@ -1,5 +1,5 @@
 {
-  "updatedAt": "2026-07-18T09:19:12.061Z",
+  "updatedAt": "2026-07-18T13:03:38.480Z",
   "sourceIds": [
     "ma_roadrace",
     "mcnews",
@@ -170,6 +170,14 @@
       "imageUrl": null
     },
     {
+      "title": "Royal Enfield Bullet 650 Review | Sixties style, modern manners",
+      "url": "https://www.mcnews.com.au/royal-enfield-650-bullet-review/",
+      "source": "MCNews (AU)",
+      "sourceId": "mcnews",
+      "date": null,
+      "imageUrl": null
+    },
+    {
       "title": "Triumph Trident 800 Review | Gentleman’s hooligan",
       "url": "https://www.mcnews.com.au/triumph-trident-800-review/",
       "source": "MCNews (AU)",
@@ -186,8 +194,8 @@
       "imageUrl": null
     },
     {
-      "title": "Royal Enfield Bullet 650 Review | Sixties style, modern manners",
-      "url": "https://www.mcnews.com.au/royal-enfield-650-bullet-review/",
+      "title": "2026 Triumph Street Triple 765 RX Review | Barber Track Test",
+      "url": "https://www.mcnews.com.au/2026-triumph-street-triple-765-rx-review/",
       "source": "MCNews (AU)",
       "sourceId": "mcnews",
       "date": null,
@@ -196,14 +204,6 @@
     {
       "title": "MotoGP riders reflect on the German GP at Sachsenring",
       "url": "https://www.mcnews.com.au/motogp-riders-reflect-on-the-german-gp-at-sachsenring/",
-      "source": "MCNews (AU)",
-      "sourceId": "mcnews",
-      "date": null,
-      "imageUrl": null
-    },
-    {
-      "title": "2026 Triumph Street Triple 765 RX Review | Barber Track Test",
-      "url": "https://www.mcnews.com.au/2026-triumph-street-triple-765-rx-review/",
       "source": "MCNews (AU)",
       "sourceId": "mcnews",
       "date": null,
