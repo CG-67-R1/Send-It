@@ -1,5 +1,5 @@
 {
-  "updatedAt": "2026-07-18T13:03:38.480Z",
+  "updatedAt": "2026-07-18T16:52:13.195Z",
   "sourceIds": [
     "ma_roadrace",
     "mcnews",
@@ -162,24 +162,8 @@
       "imageUrl": null
     },
     {
-      "title": "Triumph rolls out 2027 colour updates across six models",
-      "url": "https://www.mcnews.com.au/triumph-2027-colours-australia-pricing/",
-      "source": "MCNews (AU)",
-      "sourceId": "mcnews",
-      "date": null,
-      "imageUrl": null
-    },
-    {
       "title": "Royal Enfield Bullet 650 Review | Sixties style, modern manners",
       "url": "https://www.mcnews.com.au/royal-enfield-650-bullet-review/",
-      "source": "MCNews (AU)",
-      "sourceId": "mcnews",
-      "date": null,
-      "imageUrl": null
-    },
-    {
-      "title": "Triumph Trident 800 Review | Gentleman’s hooligan",
-      "url": "https://www.mcnews.com.au/triumph-trident-800-review/",
       "source": "MCNews (AU)",
       "sourceId": "mcnews",
       "date": null,
@@ -202,6 +186,22 @@
       "imageUrl": null
     },
     {
+      "title": "Triumph rolls out 2027 colour updates across six models",
+      "url": "https://www.mcnews.com.au/triumph-2027-colours-australia-pricing/",
+      "source": "MCNews (AU)",
+      "sourceId": "mcnews",
+      "date": null,
+      "imageUrl": null
+    },
+    {
+      "title": "Triumph Trident 800 Review | Gentleman’s hooligan",
+      "url": "https://www.mcnews.com.au/triumph-trident-800-review/",
+      "source": "MCNews (AU)",
+      "sourceId": "mcnews",
+      "date": null,
+      "imageUrl": null
+    },
+    {
       "title": "MotoGP riders reflect on the German GP at Sachsenring",
       "url": "https://www.mcnews.com.au/motogp-riders-reflect-on-the-german-gp-at-sachsenring/",
       "source": "MCNews (AU)",
@@ -210,8 +210,8 @@
       "imageUrl": null
     },
     {
-      "title": "Suzuki SV-7GX and SV-7GXV keep the SV650 V-twin legend alive",
-      "url": "https://www.mcnews.com.au/suzuki-sv-7gx-sv-7gxv-v-twin/",
+      "title": "Beach doubles in SBK, Herrin rebounds and DiBrino takes Hooligan lead",
+      "url": "https://www.mcnews.com.au/motoamerica-laguna-seca-2026-results/",
       "source": "MCNews (AU)",
       "sourceId": "mcnews",
       "date": null,
