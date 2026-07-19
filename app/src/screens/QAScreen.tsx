@@ -517,12 +517,33 @@ export function QAScreen() {
                     <Text style={styles.sourcesLabel}>
                       {rulesFromKb ? 'Location in the rules' : 'Related rule locations'}
                     </Text>
+                    {rulesSources[0]?.edition || rulesSources[0]?.effectiveDate ? (
+                      <Text style={styles.sourceEdition}>
+                        {[
+                          rulesSources[0].edition ? `MoMS ${rulesSources[0].edition}` : null,
+                          rulesSources[0].effectiveDate
+                            ? `effective ${rulesSources[0].effectiveDate}`
+                            : null,
+                        ]
+                          .filter(Boolean)
+                          .join(' — ')}
+                      </Text>
+                    ) : null}
                     {rulesSources.map((s, i) => (
                       <View key={`${s.title}-${i}`} style={styles.sourceRow}>
-                        <Text style={styles.sourceTitle}>{`${i + 1}. ${s.title}`}</Text>
-                        {s.origin ? <Text style={styles.sourceMeta}>{s.origin}</Text> : null}
-                        {s.location ? (
+                        <Text style={styles.sourceTitle}>
+                          {`${i + 1}. ${s.clauseId ? `Clause ${s.clauseId}` : s.title}`}
+                        </Text>
+                        {s.location && s.location !== s.title && s.location !== s.clauseId ? (
                           <Text style={styles.sourceLocation}>{s.location}</Text>
+                        ) : null}
+                        {s.summary ? <Text style={styles.sourceMeta}>{s.summary}</Text> : null}
+                        {s.origin || typeof s.page === 'number' ? (
+                          <Text style={styles.sourceMeta}>
+                            {[s.origin, typeof s.page === 'number' ? `p.${s.page}` : null]
+                              .filter(Boolean)
+                              .join(' · ')}
+                          </Text>
                         ) : null}
                       </View>
                     ))}
@@ -757,6 +778,14 @@ const styles = StyleSheet.create({
     fontWeight: '600',
     color: '#94a3b8',
     marginBottom: 4,
+  },
+  sourceEdition: {
+    width: '100%',
+    fontSize: 13,
+    fontWeight: '700',
+    color: '#fbbf24',
+    marginBottom: 6,
+    lineHeight: 18,
   },
   sourceRow: {
     width: '100%',

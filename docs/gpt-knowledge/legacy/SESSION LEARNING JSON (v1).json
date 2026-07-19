@@ -1,0 +1,103 @@
+{
+"version": "1.0",
+"purpose": "session_learning_layer",
+
+"session_memory": {
+"store": [
+"changes_made",
+"hot_pressures",
+"rider_feedback",
+"lap_times",
+"identified_issues"
+]
+},
+
+"comparison_rules": {
+
+```
+"improved": {
+  "detect_if": [
+    "lap_time_improved",
+    "rider_feedback_positive"
+  ],
+  "action": [
+    "hold_setup",
+    "do_not_change_major_variables"
+  ]
+},
+
+"no_change": {
+  "detect_if": [
+    "lap_time_same",
+    "issue_persists"
+  ],
+  "action": [
+    "escalate_one_level"
+  ]
+},
+
+"worse": {
+  "detect_if": [
+    "lap_time_slower",
+    "feedback_negative"
+  ],
+  "action": [
+    "revert_last_change"
+  ]
+}
+```
+
+},
+
+"escalation_logic": [
+"pressure",
+"temperature",
+"suspension",
+"technique",
+"compound"
+],
+
+"consistency_rules": [
+"never_apply_multiple_major_changes",
+"track_one_variable_at_a_time"
+],
+
+"pattern_learning": {
+
+```
+"repeat_issue": {
+  "detect_if": [
+    "same_problem_multiple_sessions"
+  ],
+  "action": [
+    "escalate_diagnostic_depth",
+    "consider_secondary_causes"
+  ]
+},
+
+"successful_change": {
+  "detect_if": [
+    "problem_resolved_after_change"
+  ],
+  "action": [
+    "reinforce_current_setup",
+    "avoid_reverting_without_reason"
+  ]
+}
+```
+
+},
+
+"integration_rules": {
+"apply_after": [
+"current_session_diagnosis"
+],
+"modify": [
+"next_recommendation",
+"change_strategy"
+],
+"do_not_override": [
+"core_diagnostic_engine"
+]
+}
+}

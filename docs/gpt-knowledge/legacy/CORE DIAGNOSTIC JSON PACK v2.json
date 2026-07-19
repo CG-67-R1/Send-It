@@ -1,0 +1,211 @@
+{
+"version": "2.0",
+"purpose": "motorcycle_trackday_diagnostic_engine",
+"last_updated": "2026-04-05",
+
+"fix_priority": [
+"tyre_pressure",
+"tyre_temperature",
+"tyre_compound",
+"rider_input",
+"suspension",
+"geometry"
+],
+
+"bike_classes": {
+"1000": {
+"characteristics": ["high_power", "traction_limited"],
+"bias": {
+"traction_issues": "more_sensitive",
+"geometry_effect": "less_sensitive_than_input"
+}
+},
+"600": {
+"characteristics": ["balanced", "corner_speed_dependent"],
+"bias": {
+"traction_issues": "moderate",
+"geometry_effect": "moderate"
+}
+},
+"300": {
+"characteristics": ["low_power", "momentum_based"],
+"bias": {
+"traction_issues": "less_common",
+"corner_speed": "critical"
+}
+}
+},
+
+"problems": {
+
+```
+"rear_slide_exit": {
+  "category": "traction",
+  "subtype": "exit_drive",
+
+  "detect_if": [
+    "rear sliding on exit",
+    "rear spinning",
+    "loss of drive grip"
+  ],
+
+  "modifiers": {
+    "1000": "likely_throttle_or_overheat",
+    "600": "balanced_check",
+    "300": "rare_check_line_and_speed"
+  },
+
+  "diagnostic": [
+    {
+      "step": 1,
+      "check": "hot_pressure",
+      "rule": "within_target_range",
+      "action": "adjust_pressure_small_step"
+    },
+    {
+      "step": 2,
+      "check": "symptom_timing",
+      "rule": "worse_after_laps",
+      "action": "heat_related_issue"
+    },
+    {
+      "step": 3,
+      "check": "throttle_application",
+      "rule": "abrupt_or_early",
+      "action": "rider_input_fix"
+    },
+    {
+      "step": 4,
+      "check": "suspension_behavior",
+      "rule": "excess_squat",
+      "action": "adjust_rear_compression_small"
+    }
+  ]
+},
+
+"wont_turn": {
+  "category": "turning",
+  "subtype": "slow_steering",
+
+  "detect_if": [
+    "won't turn",
+    "runs wide",
+    "heavy steering"
+  ],
+
+  "modifiers": {
+    "1000": "often_entry_speed_or_body",
+    "600": "geometry_and_entry_balance",
+    "300": "corner_speed_loss"
+  },
+
+  "diagnostic": [
+    {
+      "step": 1,
+      "check": "entry_speed",
+      "rule": "too_fast",
+      "action": "adjust_braking_marker"
+    },
+    {
+      "step": 2,
+      "check": "body_position",
+      "rule": "insufficient",
+      "action": "improve_body_position"
+    },
+    {
+      "step": 3,
+      "check": "line_choice",
+      "rule": "early_apex",
+      "action": "adjust_line"
+    },
+    {
+      "step": 4,
+      "check": "geometry",
+      "rule": "stable_but_slow",
+      "action": "adjust_geometry_small"
+    }
+  ]
+},
+
+"rear_chatter": {
+  "category": "stability",
+  "subtype": "rear_instability",
+
+  "detect_if": [
+    "rear chatter",
+    "vibration on exit",
+    "unstable drive"
+  ],
+
+  "diagnostic": [
+    {
+      "step": 1,
+      "check": "tyre_condition",
+      "rule": "overheated_or_worn",
+      "action": "check_pressure_and_temp"
+    },
+    {
+      "step": 2,
+      "check": "rebound",
+      "rule": "too_fast",
+      "action": "increase_rebound_small"
+    },
+    {
+      "step": 3,
+      "check": "compression",
+      "rule": "too_soft",
+      "action": "increase_compression_small"
+    }
+  ]
+}
+```
+
+},
+
+"conditions": {
+
+```
+"hot_track": {
+  "detect_if": {
+    "ambient_temp_c": ">=28"
+  },
+  "effects": [
+    "overheating",
+    "pressure_rise",
+    "reduced_grip"
+  ],
+  "rules": [
+    "do_not_exceed_hot_pressure_range",
+    "consider_harder_compound"
+  ]
+},
+
+"cold_track": {
+  "detect_if": {
+    "ambient_temp_c": "<=15"
+  },
+  "effects": [
+    "low_grip",
+    "cold_tear_risk"
+  ],
+  "rules": [
+    "do_not_reduce_pressure",
+    "focus_on_warmers"
+  ]
+}
+```
+
+},
+
+"session_logic": {
+"improvement": "hold_setup",
+"no_change": "escalate_one_step",
+"worse": "revert_last_change"
+},
+
+"confidence_rules": {
+"high": "pattern_match_and_full_data",
+"medium": "pattern_match_partial_data",
+"low": "assumption_based"
+}
+}

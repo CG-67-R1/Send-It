@@ -150,8 +150,18 @@ const RULES_SYNONYMS = {
   licenses: ['licence', 'licences'],
   licence: ['license', 'licences'],
   licences: ['licence', 'license'],
-  helmet: ['helmets', 'protective'],
-  helmets: ['helmet', 'protective'],
+  helmet: ['helmets', 'protective', 'lid'],
+  helmets: ['helmet', 'protective', 'lid'],
+  lid: ['helmet', 'helmets'],
+  gopro: ['camera', 'cameras', 'onboard'],
+  camera: ['cameras', 'gopro', 'onboard', 'helmet'],
+  cameras: ['camera', 'gopro', 'onboard'],
+  onboard: ['camera', 'cameras', 'gopro'],
+  warmer: ['warmers', 'tyre', 'heating'],
+  warmers: ['warmer', 'tyre', 'heating'],
+  warming: ['warmer', 'warmers', 'tyre'],
+  blanket: ['warmers', 'warmer', 'tyre'],
+  blankets: ['warmers', 'warmer', 'tyre'],
   gear: ['apparel', 'protective', 'clothing'],
   clothing: ['apparel', 'protective'],
   apparel: ['protective', 'clothing'],
@@ -175,7 +185,45 @@ const RULES_SYNONYMS = {
   age: ['junior', 'minors'],
   medical: ['fitness', 'certificate'],
   fitness: ['medical'],
+  club: ['club', 'licence', 'road'],
 };
+
+/** Low-signal words that inflate scores on boilerplate MoMS wording ("permitted", etc.). */
+const RULES_SCORE_DOWNWEIGHT = new Set([
+  'permitted',
+  'allowed',
+  'unless',
+  'writing',
+  'competition',
+  'competitions',
+  'must',
+  'may',
+  'used',
+  'any',
+  'greater',
+  'australian',
+  'championships',
+  'officials',
+  'events',
+  'event',
+  'machine',
+  'machines',
+  'rider',
+  'riders',
+  'including',
+  'refer',
+]);
+
+/** Multi-word phrases → boost when present in block text (natural paraphrase support). */
+const RULES_PHRASE_BOOSTS = [
+  { re: /\b(go\s*pro|gopro|on[-\s]?board\s+camera|helmet\s+camera|camera\s+on\s+(?:the\s+)?(?:helmet|lid))\b/i, tokens: ['camera', 'helmet'], boost: 8 },
+  { re: /\b(tyre|tire)\s+warmers?\b/i, tokens: ['warmer', 'tyre'], boost: 8 },
+  { re: /\bwarming\s+blankets?\b/i, tokens: ['warmer', 'blanket'], boost: 8 },
+  { re: /\bcameras?\b/i, tokens: ['camera'], boost: 5 },
+  { re: /\btyre\s+treatment\b/i, tokens: ['tyre', 'treatment'], boost: 4 },
+  { re: /\bprotective\s+clothing\b/i, tokens: ['protective', 'clothing'], boost: 3 },
+  { re: /\blicence\s+conditions?\b/i, tokens: ['licence'], boost: 3 },
+];
 
 function tokenize(text) {
   return normalize(text)
@@ -243,25 +291,116 @@ function bestTokenWeight(queryToken, fieldTokens) {
 function excerpt(text, maxLen = 500) {
   const trimmed = (text || '').trim();
   if (trimmed.length <= maxLen) return trimmed;
-  return trimmed.slice(0, maxLen).trimEnd() + '…';
+  // Prefer cutting on a clause or sentence boundary so quotes stay usable
+  const slice = trimmed.slice(0, maxLen);
+  const clauseBreak = Math.max(slice.lastIndexOf('\n'), slice.lastIndexOf('. '));
+  if (clauseBreak > maxLen * 0.55) {
+    return slice.slice(0, clauseBreak + 1).trimEnd() + '…';
+  }
+  return slice.trimEnd() + '…';
 }
 
 /**
  * Token-overlap score with exact (1) and soft stem/prefix (0.5) hits.
+ * Boilerplate MoMS tokens are down-weighted for rules scoring when `options.rules` is set.
  * @param {string[]} tokens
  * @param {...string} fields
  */
 function scoreText(tokens, ...fields) {
+  const options =
+    fields.length && typeof fields[fields.length - 1] === 'object' && fields[fields.length - 1]?.rules
+      ? fields.pop()
+      : null;
   if (tokens.length === 0) return 0;
   let score = 0;
   for (const field of fields) {
+    if (typeof field !== 'string') continue;
     const fieldTokens = tokenize(field);
     if (fieldTokens.length === 0) continue;
     for (const t of tokens) {
-      score += bestTokenWeight(t, fieldTokens);
+      let w = bestTokenWeight(t, fieldTokens);
+      if (options?.rules && RULES_SCORE_DOWNWEIGHT.has(t)) w *= 0.25;
+      score += w;
     }
   }
   return score;
+}
+
+/**
+ * Extract a stable clause id like 6.9.2.1 from location or text.
+ * @param {string} location
+ * @param {string} [text]
+ */
+export function extractClauseId(location, text = '') {
+  const fromLoc = String(location || '').match(/\b(\d+\.\d+(?:\.\d+){0,3})\b/);
+  if (fromLoc) return fromLoc[1];
+  const fromText = String(text || '').match(/(?:^|\n)\s*(\d+\.\d+(?:\.\d+){0,3})\b/);
+  return fromText ? fromText[1] : undefined;
+}
+
+/**
+ * Split a MoMS block that may contain several clauses into scoreable segments.
+ * @param {string} text
+ * @param {string} fallbackLocation
+ * @returns {Array<{ location: string, clauseId?: string, text: string }>}
+ */
+export function splitMomsClauseSegments(text, fallbackLocation) {
+  const raw = String(text || '');
+  if (!raw.trim()) return [];
+  const re = /(?:^|\n)\s*(\d+\.\d+(?:\.\d+){0,3})\b([^\n]*)/g;
+  const hits = [];
+  let m;
+  while ((m = re.exec(raw)) !== null) {
+    hits.push({ index: m.index + (m[0].startsWith('\n') ? 1 : 0), clauseId: m[1], titleRest: (m[2] || '').trim() });
+  }
+  if (hits.length === 0) {
+    return [
+      {
+        location: fallbackLocation || locationFromText(raw),
+        clauseId: extractClauseId(fallbackLocation, raw),
+        text: raw.trim(),
+      },
+    ];
+  }
+  const segments = [];
+  for (let i = 0; i < hits.length; i++) {
+    const start = hits[i].index;
+    const end = i + 1 < hits.length ? hits[i + 1].index : raw.length;
+    const segText = raw.slice(start, end).trim();
+    if (segText.length < 12) continue;
+    const loc = hits[i].titleRest
+      ? `${hits[i].clauseId} ${hits[i].titleRest}`.slice(0, 140)
+      : hits[i].clauseId;
+    segments.push({ location: loc, clauseId: hits[i].clauseId, text: segText });
+  }
+  return segments.length ? segments : [{ location: fallbackLocation, clauseId: extractClauseId(fallbackLocation, raw), text: raw.trim() }];
+}
+
+/**
+ * Extra score when the query (or its tokens) matches known MoMS phrase patterns in the text.
+ * @param {string} query
+ * @param {string[]} tokens
+ * @param {string} text
+ */
+function phraseBoostScore(query, tokens, text) {
+  const hay = String(text || '');
+  const q = String(query || '').toLowerCase();
+  let boost = 0;
+  for (const phrase of RULES_PHRASE_BOOSTS) {
+    const queryWants =
+      phrase.re.test(q) || phrase.tokens.some((t) => tokens.includes(t) || q.includes(t));
+    if (!queryWants) continue;
+    if (phrase.re.test(hay) || phrase.tokens.every((t) => new RegExp(`\\b${t}`, 'i').test(hay))) {
+      boost += phrase.boost;
+    }
+  }
+  // Substring co-occurrence: query content words appearing densely in a short segment
+  const contentTokens = tokens.filter((t) => !RULES_SCORE_DOWNWEIGHT.has(t) && t.length > 3);
+  if (contentTokens.length >= 2) {
+    const hits = contentTokens.filter((t) => hay.toLowerCase().includes(t)).length;
+    if (hits >= 2) boost += hits;
+  }
+  return boost;
 }
 
 /**
@@ -388,12 +527,29 @@ function locationFromText(text) {
   return first.length > 100 ? `${first.slice(0, 97)}…` : first;
 }
 
+const RULES_EXCERPT_MAX = 1400;
+
+/**
+ * @param {object} doc
+ * @param {object} partial
+ */
+function withMomsMeta(doc, partial) {
+  return {
+    ...partial,
+    origin: partial.origin ?? doc.origin,
+    edition: doc.edition || partial.edition,
+    effectiveDate: doc.effectiveDate || partial.effectiveDate,
+    page: partial.page ?? undefined,
+  };
+}
+
 /**
  * Retrieve MoMS rule excerpts with section locations for Official rule check.
- * Scores contentBlocks (preferring section-sized chunks) so answers can cite where in the rules.
+ * Scores clause-sized segments (splitting merged OCR blocks), phrase-boosts paraphrases,
+ * and attaches edition / effectiveDate for citations.
  * @param {string} query
  * @param {number} [limit=6]
- * @returns {Promise<{ chunks: Array<{ title: string, content: string, origin?: string, location?: string, score: number }>, fromKb: boolean, available: boolean }>}
+ * @returns {Promise<{ chunks: Array<{ title: string, content: string, origin?: string, location?: string, clauseId?: string, edition?: string, effectiveDate?: string, page?: number, score: number }>, fromKb: boolean, available: boolean }>}
  */
 export async function retrieveForRules(query, limit = 6) {
   const { documents, qa, available } = await loadMomsCorpus();
@@ -404,6 +560,7 @@ export async function retrieveForRules(query, limit = 6) {
   }
 
   const scored = [];
+  const rulesOpt = { rules: true };
 
   for (const doc of documents) {
     const origin = doc.origin;
@@ -417,77 +574,110 @@ export async function retrieveForRules(query, limit = 6) {
         const text = (block && block.text) || '';
         if (!text.trim()) continue;
         if (block.location) currentHeading = String(block.location);
+        const page = typeof block.page === 'number' ? block.page : undefined;
+
         if (block.type === 'heading') {
           currentHeading = block.location || locationFromText(text);
-          const hScore = scoreText(tokens, text) * 3 + scoreText(tokens, currentHeading);
+          const hScore =
+            scoreText(tokens, text, rulesOpt) * 2 +
+            scoreText(tokens, currentHeading, rulesOpt) +
+            phraseBoostScore(query, tokens, text);
           if (hScore > 0) {
-            scored.push({
-              title: currentHeading,
-              location: currentHeading,
-              content: excerpt(text, 700),
-              origin,
-              score: hScore,
-            });
+            scored.push(
+              withMomsMeta(doc, {
+                title: currentHeading,
+                location: currentHeading,
+                clauseId: extractClauseId(currentHeading, text) || block.clauseId,
+                content: excerpt(text, RULES_EXCERPT_MAX),
+                origin,
+                page: page ?? block.pageStart,
+                score: hScore,
+              })
+            );
           }
           continue;
         }
-        const loc = currentHeading;
-        const total = scoreText(tokens, text) + scoreText(tokens, loc);
-        if (total > 0) {
-          scored.push({
-            title: loc,
-            location: loc,
-            content: excerpt(text, 700),
-            origin,
-            score: total,
-          });
+
+        const segments = splitMomsClauseSegments(text, currentHeading || block.location);
+        for (const seg of segments) {
+          const total =
+            scoreText(tokens, seg.text, seg.location, rulesOpt) +
+            phraseBoostScore(query, tokens, seg.text);
+          if (total <= 0) continue;
+          scored.push(
+            withMomsMeta(doc, {
+              title: seg.location,
+              location: seg.location,
+              clauseId: seg.clauseId || extractClauseId(seg.location, seg.text) || block.clauseId,
+              content: excerpt(seg.text, RULES_EXCERPT_MAX),
+              origin,
+              page,
+              score: total,
+            })
+          );
         }
       }
     } else {
       const title = doc.title || 'MoMS';
       const content = doc.content || '';
-      const total = scoreText(tokens, title) * 3 + scoreText(tokens, content);
-      if (total > 0) {
-        scored.push({
-          title,
-          location: title,
-          content: excerpt(content, 700),
-          origin,
-          score: total,
-        });
+      for (const seg of splitMomsClauseSegments(content, title).slice(0, 80)) {
+        const total =
+          scoreText(tokens, seg.text, seg.location, rulesOpt) +
+          phraseBoostScore(query, tokens, seg.text);
+        if (total > 0) {
+          scored.push(
+            withMomsMeta(doc, {
+              title: seg.location,
+              location: seg.location,
+              clauseId: seg.clauseId,
+              content: excerpt(seg.text, RULES_EXCERPT_MAX),
+              origin,
+              score: total,
+            })
+          );
+        }
       }
     }
   }
 
   for (const pair of qa) {
     const location = locationFromText(pair.q || '') || 'MoMS Q&A';
-    const total = scoreText(tokens, pair.q || '') * 4 + scoreText(tokens, pair.a || '');
+    const total =
+      scoreText(tokens, pair.q || '', rulesOpt) * 3 +
+      scoreText(tokens, pair.a || '', rulesOpt) +
+      phraseBoostScore(query, tokens, `${pair.q || ''} ${pair.a || ''}`);
     if (total > 0) {
-      scored.push({
-        title: pair.q || location,
-        location,
-        content: excerpt(pair.a || '', 700),
-        origin: pair.origin,
-        score: total,
-      });
+      const momsDoc = documents.find((d) => d.origin && d.origin === pair.origin);
+      scored.push(
+        withMomsMeta(momsDoc || {}, {
+          title: pair.q || location,
+          location,
+          clauseId: extractClauseId(location, pair.a || ''),
+          content: excerpt(pair.a || '', RULES_EXCERPT_MAX),
+          origin: pair.origin,
+          edition: momsDoc?.edition,
+          effectiveDate: momsDoc?.effectiveDate,
+          score: total,
+        })
+      );
     }
   }
 
   scored.sort((a, b) => b.score - a.score);
-  // Dedupe near-identical locations keeping the best score
   const seen = new Set();
   const unique = [];
   for (const c of scored) {
-    const key = `${c.location || c.title}|${(c.content || '').slice(0, 80)}`;
+    const key = `${c.clauseId || c.location || c.title}|${(c.content || '').slice(0, 100)}`;
     if (seen.has(key)) continue;
     seen.add(key);
     unique.push(c);
-    if (unique.length >= limit) break;
+    if (unique.length >= Math.max(limit, 12)) break;
   }
 
   const minScore = rulesMinScore(rawTokens);
   const fromKb = unique.length > 0 && unique[0].score >= minScore;
-  return { chunks: fromKb ? unique : [], fromKb, available: true };
+  const chunks = fromKb ? unique.slice(0, limit) : [];
+  return { chunks, fromKb, available: true, candidates: fromKb ? unique : [] };
 }
 
 /** Exclude indices already used and variants that repeat the same question text (shuffled-option duplicates). */

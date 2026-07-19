@@ -5,7 +5,7 @@
  */
 
 import OpenAI from 'openai';
-import { isThinRulesQuery, prepareRulesQueryTokens, retrieveForAsk, retrieveForRules } from './qa.js';
+import { prepareRulesQueryTokens, retrieveForAsk, retrieveForRules } from './qa.js';
 import { formatFaqsForPrompt, loadRiderAiFaqs } from './riderAiFaqs.js';
 
 const COACH_SYSTEM = `You are an expert motorcycle road racing and track day coach specializing in Australian track day riding. You give direct, practical motorsport advice.
@@ -55,14 +55,17 @@ const RULES_SYSTEM = `You are an official Manual of Motorcycle Sport (MoMS) rule
 
 **Current mode: OFFICIAL RULE CHECK.** Answer ONLY from the MoMS excerpts provided in this prompt. Do not use the internet, browsing, or general training knowledge for rule substance. Do not invent clause numbers or requirements.
 
+**Required answer format (use these headings):**
+1) **Answer** — Plain-language yes/no or short explanation in everyday words (not a raw dump of the clause). Base it only on the excerpts.
+2) **Quote** — Verbatim quotation from the most relevant excerpt (use the excerpt text; do not invent wording).
+3) **Citation** — Exactly: MoMS {edition}, clause {clauseId or Location}, effective {effectiveDate}. If edition/date are in the excerpt headers, use them. Never say only "the latest rule book uploaded".
+4) **Note** — One line: club/series Supplementary Regulations may also apply; guidance only, not legal advice.
+
 **Rules:**
-- Quote or paraphrase accurately from the excerpts only.
-- Always cite the location (chapter / clause / section from the excerpt Location field), e.g. "See 6.12.4.1 …".
-- Identify the rulebook edition and effective date when present in the excerpts. If the excerpts establish only that this is the uploaded MoMS, say "the uploaded MoMS" and cite the specific chapter, clause, or section from the Location field. Never rely on "the latest rule book uploaded" without a specific location citation.
+- Prefer the excerpt whose Location/clauseId best matches the question.
 - This index fully covers GCRs (chs 1–5), Road Race (6), Historic Road Race (7), and Appendices (17). Other disciplines may appear only as a reference pointer — if so, say the chapter number/page and that full text is not in this index.
-- If excerpts do not cover the question, say you could not find it in the uploaded MoMS index and do not guess.
-- Keep answers concise. No coaching advice, no sign-off joke.
-- Guidance only, not legal advice; club/series Supplementary Regulations may also apply.`;
+- If excerpts do not cover the question, say you could not find a matching rule in the uploaded MoMS index and do not guess. Still use the heading structure briefly.
+- Keep answers concise. No coaching advice, no sign-off joke.`;
 
 const SHARED_RULES = `
 
@@ -113,19 +116,24 @@ function summarizeSource(content) {
 
 function formatRulesContext(chunks) {
   if (!chunks.length) {
-    return '\n\n**MoMS excerpts:** None matched this question. Tell the user you could not find a matching rule in the uploaded rule book.';
+    return '\n\n**MoMS excerpts:** None matched this question. Tell the user you could not find a matching rule in the uploaded MoMS index.';
   }
   const blocks = chunks.map((c, i) => {
     const loc = c.location || c.title || 'MoMS';
+    const clause = c.clauseId ? ` | clauseId: ${c.clauseId}` : '';
+    const edition = c.edition ? ` | edition: ${c.edition}` : '';
+    const effective = c.effectiveDate ? ` | effectiveDate: ${c.effectiveDate}` : '';
+    const page = typeof c.page === 'number' ? ` | page: ${c.page}` : '';
     const origin = c.origin ? ` | file: ${c.origin}` : '';
-    return `[${i + 1}] Location: ${loc}${origin}\n${c.content}`;
+    return `[${i + 1}] Location: ${loc}${clause}${edition}${effective}${page}${origin}\n${c.content}`;
   });
-  return `\n\n**MoMS rule-book excerpts (cite Location when answering):**\n\n${blocks.join('\n\n')}`;
+  return `\n\n**MoMS rule-book excerpts (use Answer / Quote / Citation / Note format; cite Location + edition + effectiveDate):**\n\n${blocks.join('\n\n')}`;
 }
 
 const RULES_KEYWORD_REWRITE_SYSTEM = `You extract search keywords for the Australian Manual of Motorcycle Sport (MoMS).
 Reply with 3 to 8 space-separated keywords only (no sentences, no punctuation, no numbering).
-Prefer MoMS vocabulary: licence, protective, helmet, examination, eligibility, historic, road race, chapter/clause terms.
+Prefer MoMS vocabulary: licence, protective, helmet, camera, tyre warmers, examination, eligibility, historic, road race, chapter/clause terms.
+Map slang to MoMS terms (e.g. GoPro/lid camera → helmet camera; warming blankets → tyre warmers).
 Do not answer the user's question.`;
 
 /**
@@ -163,19 +171,85 @@ async function rewriteRulesKeywords(client, question) {
 }
 
 /**
- * Build the search string for MoMS retrieval: synonym expand first; if thin, LLM keywords.
+ * Build MoMS search strings: always try LLM keywords for natural paraphrases.
  * @param {OpenAI} client
  * @param {string} question
- * @returns {Promise<string>}
+ * @returns {Promise<{ merged: string, keywords: string|null }>}
  */
 async function prepareRulesSearchQuery(client, question) {
-  if (!isThinRulesQuery(question)) return question;
   const rewritten = await rewriteRulesKeywords(client, question);
   if (rewritten && prepareRulesQueryTokens(rewritten).length > 0) {
-    // Merge original + rewrite so a lone strong term (e.g. helmet) is kept
-    return `${question} ${rewritten}`.trim();
+    return { merged: `${question} ${rewritten}`.trim(), keywords: rewritten };
   }
-  return question;
+  return { merged: question, keywords: null };
+}
+
+/**
+ * Rerank lexical MoMS candidates with a cheap LLM pick (falls back to input order).
+ * @param {OpenAI} client
+ * @param {string} question
+ * @param {Array<object>} candidates
+ * @param {number} [limit=6]
+ */
+async function rerankRulesChunks(client, question, candidates, limit = 6) {
+  if (!Array.isArray(candidates) || candidates.length <= limit) {
+    return (candidates || []).slice(0, limit);
+  }
+  const catalog = candidates.slice(0, 14).map((c, i) => {
+    const loc = c.location || c.title || 'MoMS';
+    const snippet = String(c.content || '')
+      .replace(/\s+/g, ' ')
+      .trim()
+      .slice(0, 220);
+    return `${i + 1}. ${loc} — ${snippet}`;
+  });
+  try {
+    const completion = await client.chat.completions.create({
+      model: process.env.OPENAI_MODEL || 'gpt-4o-mini',
+      messages: [
+        {
+          role: 'system',
+          content:
+            'You rank Manual of Motorcycle Sport (MoMS) excerpts for relevance to the user question. Reply with up to 6 comma-separated excerpt numbers only (e.g. 3,1,7). Prefer excerpts that answer the question; skip boilerplate that only shares common words like "permitted".',
+        },
+        {
+          role: 'user',
+          content: `Question: ${question}\n\nExcerpts:\n${catalog.join('\n')}`,
+        },
+      ],
+      max_tokens: 32,
+      temperature: 0,
+    });
+    const raw = completion.choices?.[0]?.message?.content?.trim() || '';
+    const nums = [...raw.matchAll(/\d+/g)]
+      .map((m) => Number(m[0]))
+      .filter((n) => n >= 1 && n <= catalog.length);
+    const seen = new Set();
+    const picked = [];
+    for (const n of nums) {
+      if (seen.has(n)) continue;
+      seen.add(n);
+      picked.push(candidates[n - 1]);
+      if (picked.length >= limit) break;
+    }
+    if (picked.length > 0) return picked;
+  } catch (err) {
+    console.warn('Rules rerank failed:', err?.message || err);
+  }
+  return candidates.slice(0, limit);
+}
+
+function mapRulesSources(chunks) {
+  return chunks.map((c) => ({
+    title: c.title,
+    origin: c.origin,
+    ...(c.location ? { location: c.location } : {}),
+    ...(c.clauseId ? { clauseId: c.clauseId } : {}),
+    ...(c.edition ? { edition: c.edition } : {}),
+    ...(c.effectiveDate ? { effectiveDate: c.effectiveDate } : {}),
+    ...(typeof c.page === 'number' ? { page: c.page } : {}),
+    ...(summarizeSource(c.content) ? { summary: summarizeSource(c.content) } : {}),
+  }));
 }
 
 function getSystemPrompt(mode, faqs) {
@@ -213,27 +287,36 @@ export async function askChat(message, options = {}) {
 
   if (mode === 'rules') {
     const client = new OpenAI({ apiKey });
-    const searchQuery = await prepareRulesSearchQuery(client, text);
-    const retrieved = await retrieveForRules(searchQuery);
-    if (!retrieved.available) {
+    const { merged: searchQuery, keywords } = await prepareRulesSearchQuery(client, text);
+    const primary = await retrieveForRules(searchQuery, 12);
+    if (!primary.available) {
       return {
         content: '',
         sources: [],
         fromKb: false,
         error:
-          'MoMS rule book is not uploaded yet. Add the latest MoMS PDF to the Q&A folder (name it with MoMS or Manual of Motorcycle Sport), run npm run scrape-pdfs, and redeploy the API.',
+          'MoMS rule book is not uploaded yet. Add the latest MoMS PDF to the Q&A folder (name it with MoMS or Manual of Motorcycle Sport), run npm run scrape-moms, and redeploy the API.',
       };
     }
-    chunks = retrieved.chunks;
-    fromKb = retrieved.fromKb;
+    const passes = [primary];
+    if (keywords) passes.push(await retrieveForRules(keywords, 12));
+    if (searchQuery !== text) passes.push(await retrieveForRules(text, 12));
+    const seen = new Set();
+    let candidates = [];
+    for (const pass of passes) {
+      for (const c of pass.candidates?.length ? pass.candidates : pass.chunks) {
+        const key = `${c.clauseId || c.location}|${(c.content || '').slice(0, 80)}`;
+        if (seen.has(key)) continue;
+        seen.add(key);
+        candidates.push(c);
+      }
+    }
+    candidates.sort((a, b) => (b.score || 0) - (a.score || 0));
+    candidates = candidates.slice(0, 14);
+    chunks = await rerankRulesChunks(client, text, candidates, 6);
+    fromKb = chunks.length > 0;
     systemPrompt = RULES_SYSTEM + formatRulesContext(chunks);
-
-    const sources = chunks.map((c) => ({
-      title: c.title,
-      origin: c.origin,
-      ...(c.location ? { location: c.location } : {}),
-      ...(summarizeSource(c.content) ? { summary: summarizeSource(c.content) } : {}),
-    }));
+    const sources = mapRulesSources(chunks);
 
     try {
       const completion = await client.chat.completions.create({

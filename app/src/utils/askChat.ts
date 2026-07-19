@@ -1,12 +1,36 @@
 import { ROADRACE_ASK_URL } from '../../constants/api';
 
-export type AskSource = { title: string; origin?: string; location?: string };
+export type AskSource = {
+  title: string;
+  origin?: string;
+  location?: string;
+  clauseId?: string;
+  edition?: string;
+  effectiveDate?: string;
+  page?: number;
+  summary?: string;
+};
 
 export type AskMode = 'ask' | 'rules';
 
 export type AskChatResult =
   | { ok: true; reply: string; sources: AskSource[]; fromKb: boolean }
   | { ok: false; error: string };
+
+function asAskSource(s: unknown): AskSource | null {
+  if (typeof s !== 'object' || s === null) return null;
+  const o = s as Record<string, unknown>;
+  if (typeof o.title !== 'string') return null;
+  const source: AskSource = { title: o.title };
+  if (typeof o.origin === 'string') source.origin = o.origin;
+  if (typeof o.location === 'string') source.location = o.location;
+  if (typeof o.clauseId === 'string') source.clauseId = o.clauseId;
+  if (typeof o.edition === 'string') source.edition = o.edition;
+  if (typeof o.effectiveDate === 'string') source.effectiveDate = o.effectiveDate;
+  if (typeof o.page === 'number') source.page = o.page;
+  if (typeof o.summary === 'string') source.summary = o.summary;
+  return source;
+}
 
 export async function sendAskChat(
   message: string,
@@ -34,12 +58,7 @@ export async function sendAskChat(
     }
 
     const sources = Array.isArray(data.sources)
-      ? data.sources.filter(
-          (s: unknown): s is AskSource =>
-            typeof s === 'object' &&
-            s !== null &&
-            typeof (s as AskSource).title === 'string'
-        )
+      ? data.sources.map(asAskSource).filter((s: AskSource | null): s is AskSource => Boolean(s))
       : [];
 
     return {

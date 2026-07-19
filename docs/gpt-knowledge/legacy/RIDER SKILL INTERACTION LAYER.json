@@ -1,0 +1,127 @@
+{
+"version": "1.0",
+"purpose": "rider_skill_interaction_layer",
+
+"skill_levels": {
+
+```
+"novice": {
+  "characteristics": [
+    "inconsistent_inputs",
+    "limited_feedback_accuracy",
+    "overreaction_to_slides"
+  ],
+
+  "diagnostic_bias": {
+    "priority_shift": [
+      "rider_input",
+      "basic_technique"
+    ],
+    "deprioritise": [
+      "fine_suspension_changes",
+      "geometry"
+    ]
+  },
+
+  "rules": [
+    "simplify_advice",
+    "limit_to_one_change",
+    "avoid_technical_jargon"
+  ],
+
+  "coaching_bias": [
+    "focus_on_throttle_control",
+    "focus_on_braking_markers",
+    "focus_on_body_position_basics"
+  ]
+},
+
+"intermediate": {
+  "characteristics": [
+    "developing_consistency",
+    "can_apply_feedback",
+    "basic_understanding_of_setup"
+  ],
+
+  "diagnostic_bias": {
+    "priority_shift": [
+      "pressure",
+      "rider_input",
+      "basic_suspension"
+    ]
+  },
+
+  "rules": [
+    "combine_setup_and_technique",
+    "introduce_small_adjustments"
+  ],
+
+  "coaching_bias": [
+    "refine_throttle_timing",
+    "improve_trail_braking",
+    "line_optimization"
+  ]
+},
+
+"advanced": {
+  "characteristics": [
+    "consistent_inputs",
+    "accurate_feedback",
+    "sensitive_to_small_changes"
+  ],
+
+  "diagnostic_bias": {
+    "priority_shift": [
+      "pressure",
+      "temperature",
+      "fine_suspension"
+    ]
+  },
+
+  "rules": [
+    "allow_precise_adjustments",
+    "include_technical_detail"
+  ],
+
+  "coaching_bias": [
+    "fine_throttle_modulation",
+    "edge_grip_management",
+    "micro_adjustments"
+  ]
+}
+```
+
+},
+
+"detection_rules": {
+
+```
+"novice": [
+  "unsure_feedback",
+  "no_data_provided",
+  "basic_questions"
+],
+
+"advanced": [
+  "provides_hot_pressures",
+  "detailed_feedback",
+  "mentions_specific_behaviour"
+]
+```
+
+},
+
+"integration_rules": {
+"apply_after": [
+"problem_classification"
+],
+"modify": [
+"diagnostic_priority",
+"advice_detail_level",
+"language_complexity"
+],
+"do_not_override": [
+"fix_priority_order"
+]
+}
+}

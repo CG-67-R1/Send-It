@@ -190,9 +190,12 @@ function toMomsBlocks(chapterNumber, shortTitle, content) {
   const flush = () => {
     const text = buf.join('\n').trim();
     if (!text) return;
+    const clauseMatch = String(currentLoc).match(/\b(\d+\.\d+(?:\.\d+){0,3})\b/);
     blocks.push({
       type: /^Chapter\s+\d+/i.test(currentLoc) && text.length < 120 ? 'heading' : 'paragraph',
       location: currentLoc,
+      clauseId: clauseMatch ? clauseMatch[1] : undefined,
+      chapter: chapterNumber,
       text,
     });
     buf = [];

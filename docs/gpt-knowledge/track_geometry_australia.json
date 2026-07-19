@@ -1,0 +1,1170 @@
+{
+  "version": "1.0",
+  "last_updated": "2026-04-13",
+  "purpose": "authoritative_track_geometry_australia",
+  "instruction": "For turn count, lap direction, length_km, and approx_direction, prefer this file over Track_Riding_KB_AllTracks_v1.md or legacy JSON packs. Coaching bias lives in TRACK_SPECIFIC_DIAGNOSTIC_AU_v1.json.",
+  "source_folder": "trackmaps/",
+  "tracks": {
+    "one_raceway": {
+      "venue": "One Raceway",
+      "former_names": [
+        "Wakefield Park Raceway"
+      ],
+      "location": "4770 Braidwood Road, Tirrannaville NSW 2580, Australia (near Goulburn)",
+      "layout_id": "one_raceway_full_2024_dual_direction",
+      "length_km": 2.35,
+      "turn_count": 13,
+      "meta": {
+        "map_file": "One_Raceway_13turn_dual_direction_map.png",
+        "directions": [
+          {
+            "id": "wakefield_loop",
+            "label_on_map": "Wakefield Loop",
+            "direction": "clockwise",
+            "travel_on_main_straight_note": "Map arrow: riders cross start/finish generally right-to-left along the main straight (verify on diagram)."
+          },
+          {
+            "id": "shelley_loop",
+            "label_on_map": "Shelley Loop",
+            "direction": "anticlockwise",
+            "aliases": [
+              "reverse direction",
+              "anti-clockwise"
+            ],
+            "travel_on_main_straight_note": "Map arrow: riders cross start/finish generally left-to-right along the main straight (verify on diagram)."
+          }
+        ],
+        "start_finish_note": "On the official schematic, start/finish lies on the main straight between the corner numbered TURN 13 (Wakefield) / [01] (Shelley) and TURN 01 (Wakefield) / [13] (Shelley).",
+        "upgrade_context": "Venue reopened May 2024 after major works (resurface, revised geometry, safety). Press/venue material also cites ~10 m noise walls at north and south ends doubling as spectator viewing — verify on oneraceway.com.au for current facilities.",
+        "legacy_layout": "Pre-2024 original circuit was ~2.2 km / 10 turns clockwise (closed 2022). No repo corner pack for that layout — see https://en.wikipedia.org/wiki/One_Raceway (Original Circuit 1994–2022).",
+        "sources": [
+          "https://en.wikipedia.org/wiki/One_Raceway",
+          "https://www.oneraceway.com.au/track-map"
+        ],
+        "l_r_note": "Left/right below follow the uploaded dual-number map narrative: only Turn 02 explicitly states CW=L / CCW=R. Other approx_direction fields are null — add from an official PDF or sighting laps rather than guessing."
+      },
+      "turns_wakefield_cw": [
+        {
+          "turn": 1,
+          "shelley_equivalent_turn": 13,
+          "approx_direction": null,
+          "map_zone": "Bottom left — sharp ~90° onto western leg"
+        },
+        {
+          "turn": 2,
+          "shelley_equivalent_turn": 12,
+          "approx_direction": "L",
+          "map_zone": "Far left — long ~180° sweeper (described as LH in CW, RH in CCW)"
+        },
+        {
+          "turn": 3,
+          "shelley_equivalent_turn": 11,
+          "approx_direction": null,
+          "map_zone": "Top left — exit of large sweeper"
+        },
+        {
+          "turn": 4,
+          "shelley_equivalent_turn": 10,
+          "approx_direction": null,
+          "map_zone": "Mid-top — kink into northern loop"
+        },
+        {
+          "turn": 5,
+          "shelley_equivalent_turn": 9,
+          "approx_direction": null,
+          "map_zone": "Top centre — northern hairpin / loop entry"
+        },
+        {
+          "turn": 6,
+          "shelley_equivalent_turn": 8,
+          "approx_direction": null,
+          "map_zone": "Top right — northern hairpin / loop exit"
+        },
+        {
+          "turn": 7,
+          "shelley_equivalent_turn": 7,
+          "approx_direction": null,
+          "map_zone": "Centre — link from northern loop toward infield"
+        },
+        {
+          "turn": 8,
+          "shelley_equivalent_turn": 6,
+          "approx_direction": null,
+          "map_zone": "Centre-left — first element of central S-bend / chicane"
+        },
+        {
+          "turn": 9,
+          "shelley_equivalent_turn": 5,
+          "approx_direction": null,
+          "map_zone": "Centre-left — second element of central S-bend / chicane"
+        },
+        {
+          "turn": 10,
+          "shelley_equivalent_turn": 4,
+          "approx_direction": null,
+          "map_zone": "Centre-right — sweeper toward eastern end"
+        },
+        {
+          "turn": 11,
+          "shelley_equivalent_turn": 3,
+          "approx_direction": null,
+          "map_zone": "Bottom right outer — entry to final tight complex"
+        },
+        {
+          "turn": 12,
+          "shelley_equivalent_turn": 2,
+          "approx_direction": null,
+          "map_zone": "Bottom right — middle apex of final complex"
+        },
+        {
+          "turn": 13,
+          "shelley_equivalent_turn": 1,
+          "approx_direction": null,
+          "map_zone": "Bottom right — exit onto main straight"
+        }
+      ]
+    },
+    "winton_motor_raceway": {
+      "venue": "Winton Motor Raceway",
+      "location": "Winton, Victoria, Australia",
+      "layout_id": "winton_national_3km_cw",
+      "length_km": 3.0,
+      "width_m_min": 9.0,
+      "turn_count": 12,
+      "direction": "clockwise",
+      "meta": {
+        "map_file": "Winton_Motor_Raceway_map.png",
+        "map_provenance": "MCNews.com.au style circuit graphic (uploaded PNG in this folder); sponsor corner names on map — verify against wintonraceway.com.au if layout is updated.",
+        "lap_order_note": "Assume start/finish on BP Ultimate Straight (per map). PitBoard guide counts the Motorsport News Esses as the opening chicane of the lap (historically the last corners before the straight; configuration changed). PitBoard labels Honda as 'Turn three' (old Turn 1).",
+        "t8_t12_uncertainty": "Turns 8–12 are aligned to map geography (Northern BM, Advanced Petroleum complex, return to Esses) and PitBoard section order; exact FIA/Supercars apex numbering for the eastern extension may differ — confirm on an official Winton National diagram if required.",
+        "sources": [
+          "https://en.wikipedia.org/wiki/Winton_Motor_Raceway",
+          "http://www.racingcircuits.info/australasia/australia/winton.html",
+          "https://www.wintonraceway.com.au/"
+        ]
+      },
+      "turns": [
+        {
+          "turn": 1,
+          "name": "Motorsport News Esses (entry)",
+          "approx_direction": null,
+          "note": "Fast chicane; first element direction not verified from map text — treat as chicane pair with T2."
+        },
+        {
+          "turn": 2,
+          "name": "Motorsport News Esses (exit)",
+          "approx_direction": null,
+          "note": "Chicane exit onto climb toward Honda; paired with T1."
+        },
+        {
+          "turn": 3,
+          "name": "Honda Corner",
+          "approx_direction": "L",
+          "note": "PitBoard 'Turn three' / old grid / old Turn 1; left at end of main straight sector per map."
+        },
+        {
+          "turn": 4,
+          "name": "Nissan Corner",
+          "approx_direction": "R",
+          "note": "Immediate right after Honda."
+        },
+        {
+          "turn": 5,
+          "name": "Roll Over Corner",
+          "approx_direction": "L",
+          "note": "Long left after Foott Waste Straight; PitBoard 'Turn five' time-gain zone."
+        },
+        {
+          "turn": 6,
+          "name": "Penrite Corner",
+          "approx_direction": "R",
+          "note": "Sharp right after Roll Over; PitBoard flows L→R with T5 before Kitome hairpin."
+        },
+        {
+          "turn": 7,
+          "name": "Kitome Corner",
+          "approx_direction": "L",
+          "note": "Northern hairpin; key passing spot in PitBoard guide."
+        },
+        {
+          "turn": 8,
+          "name": "Northern BM Corner",
+          "approx_direction": "R",
+          "note": "End of Shannons Straight per map; PitBoard 'Turn eight' describes smooth linked riding — may include approach geometry not shown as separate turns."
+        },
+        {
+          "turn": 9,
+          "name": "Advanced Petroleum Corner (infield — entry)",
+          "approx_direction": "R",
+          "note": "Eastern complex; Wikipedia describes added RH sequence — direction approximate."
+        },
+        {
+          "turn": 10,
+          "name": "Advanced Petroleum Corner (infield — mid)",
+          "approx_direction": "R",
+          "note": "Sub-division for JSON only; confirm on official map."
+        },
+        {
+          "turn": 11,
+          "name": "Return / link before BP straight",
+          "approx_direction": null,
+          "note": "PitBoard 'Turn 11' white-line discipline onto S/F straight; map may not show a distinct sponsor label here."
+        },
+        {
+          "turn": 12,
+          "name": "Return / link before BP straight",
+          "approx_direction": null,
+          "note": "PitBoard 'Turn 12' paired with T11; trail-brake to open throttle onto BP Ultimate Straight."
+        }
+      ]
+    },
+    "broadford": {
+      "venue": "Broadford State Motorcycle Sports Complex",
+      "common_name": "Broadford Track",
+      "location": "Broadford, Victoria, Australia",
+      "layout_id": "broadford_road_full",
+      "length_km": 2.16,
+      "width_m": 10,
+      "turn_count": 12,
+      "direction": "clockwise",
+      "meta": {
+        "map_file": null,
+        "corner_balance_note": "PitBoard cites nine right-handers and three lefts — use as checksum when map is added.",
+        "sources": [
+          "https://en.wikipedia.org/wiki/Broadford_Track",
+          "https://pitboard.com.au/track-tips-how-to-get-the-most-out-of-broadford/",
+          "https://autoaction.com.au/2020/07/26/short-circuit-broadford-state-motorcycle-sports-complex"
+        ],
+        "t6_conflict": "Coaching notes describe T6 as a fast RIGHT kink; Auto Action (car tester) once described T6 as a fast LEFT kink — verify on official circuit diagram."
+      },
+      "turns": [
+        {
+          "turn": 1,
+          "approx_direction": "R",
+          "note": "uphill from chute; Auto Action RH pair with T2 — verify",
+          "names": []
+        },
+        {
+          "turn": 2,
+          "approx_direction": "R",
+          "note": "linked with T1; off-camber / highsides in coaching notes",
+          "names": []
+        },
+        {
+          "turn": 3,
+          "approx_direction": null,
+          "note": "kink; straightlined to T5 in guides"
+        },
+        {
+          "turn": 4,
+          "approx_direction": null,
+          "note": "kink; straightlined to T5 in guides"
+        },
+        {
+          "turn": 5,
+          "approx_direction": null,
+          "note": "uphill heavy braking; direction not stated in supplied notes — add from map"
+        },
+        {
+          "turn": 6,
+          "approx_direction": "R",
+          "note": "fast kink; edge drop hazard per coaching notes"
+        },
+        {
+          "turn": 7,
+          "approx_direction": "R",
+          "note": "flip-flop segment; lean R-L-R across T7-9 per coaching notes"
+        },
+        {
+          "turn": 8,
+          "approx_direction": "L",
+          "note": "flip-flop mid"
+        },
+        {
+          "turn": 9,
+          "approx_direction": "R",
+          "note": "flip-flop exit; drive to T10"
+        },
+        {
+          "turn": 10,
+          "approx_direction": null,
+          "note": "positive camber favourite section; add L/R from map"
+        },
+        {
+          "turn": 11,
+          "approx_direction": null,
+          "note": "linked with T10; add L/R from map"
+        },
+        {
+          "turn": 12,
+          "approx_direction": null,
+          "note": "sweeper onto chute; add L/R from map"
+        }
+      ]
+    },
+    "phillip_island": {
+      "venue": "Phillip Island Grand Prix Circuit",
+      "location": "Ventnor, Phillip Island, Victoria, Australia",
+      "layout_id": "pi_gp_full",
+      "length_km": 4.448,
+      "turn_count": 12,
+      "direction": "anticlockwise",
+      "straights_note": "Gardner Straight ~900m class; pit lane inside parallel to main straight on venue maps",
+      "meta": {
+        "map_file": "Phillip_Island_Grand_Prix_Circuit_map.png",
+        "turn4_names": [
+          "Honda Corner",
+          "Miller Corner"
+        ],
+        "direction_sources": [
+          "https://en.wikipedia.org/wiki/Phillip_Island_Grand_Prix_Circuit",
+          "https://www.phillipislandcircuit.com.au/"
+        ]
+      },
+      "turns": [
+        {
+          "turn": 1,
+          "name": "Doohan",
+          "approx_direction": "R"
+        },
+        {
+          "turn": 2,
+          "name": "Southern Loop",
+          "approx_direction": "L"
+        },
+        {
+          "turn": 3,
+          "name": "Stoner",
+          "approx_direction": "L"
+        },
+        {
+          "turn": 4,
+          "name": "Honda / Miller",
+          "approx_direction": "R"
+        },
+        {
+          "turn": 5,
+          "name": null,
+          "approx_direction": "R",
+          "note": "mild kink / link"
+        },
+        {
+          "turn": 6,
+          "name": "Siberia",
+          "approx_direction": "L"
+        },
+        {
+          "turn": 7,
+          "name": "Hayshed",
+          "approx_direction": "R"
+        },
+        {
+          "turn": 8,
+          "name": null,
+          "approx_direction": "L",
+          "note": "approach to Lukey"
+        },
+        {
+          "turn": 9,
+          "name": "Lukey Heights",
+          "approx_direction": "L"
+        },
+        {
+          "turn": 10,
+          "name": "MG",
+          "approx_direction": "R"
+        },
+        {
+          "turn": 11,
+          "name": null,
+          "approx_direction": "L",
+          "note": "sweeping left after MG"
+        },
+        {
+          "turn": 12,
+          "name": null,
+          "approx_direction": "L",
+          "note": "final sweeper onto Gardner Straight"
+        }
+      ]
+    },
+    "hidden_valley": {
+      "venue": "Hidden Valley Raceway",
+      "region": "Northern Territory, Australia",
+      "complex": "Hidden Valley Motorsports Complex",
+      "layout_id": "hidden_valley_full",
+      "length_km": 2.87,
+      "length_km_map_label": 2.86,
+      "main_straight_m": 1100,
+      "turn_count": 14,
+      "direction": "anticlockwise",
+      "meta": {
+        "map_file": "Hidden_Valley_Raceway_map.png",
+        "direction_sources": [
+          "https://en.wikipedia.org/wiki/Hidden_Valley_Raceway",
+          "https://www.asbk.com.au/news/asbk-hidden-valley-steve-martin-track-guide/"
+        ],
+        "note": "Automated image-only map reads may misstate direction; anticlockwise per Wikipedia/ASBK."
+      },
+      "turns": [
+        {
+          "turn": 1,
+          "approx_direction": "L",
+          "note": "tight hairpin off long straight; multiple lines"
+        },
+        {
+          "turn": 2,
+          "approx_direction": "L",
+          "note": "esses / uphill sector"
+        },
+        {
+          "turn": 3,
+          "approx_direction": "R",
+          "note": "esses"
+        },
+        {
+          "turn": 4,
+          "approx_direction": "L",
+          "note": "esses exit"
+        },
+        {
+          "turn": 5,
+          "approx_direction": "R",
+          "note": "~90°; passing zone"
+        },
+        {
+          "turn": 6,
+          "approx_direction": "L",
+          "note": "very slow hairpin"
+        },
+        {
+          "turn": 7,
+          "approx_direction": "R",
+          "note": "local name Ducati; blind/late-apex stories"
+        },
+        {
+          "turn": 8,
+          "approx_direction": "R",
+          "note": "linked with T9"
+        },
+        {
+          "turn": 9,
+          "approx_direction": "L",
+          "note": "flip-flop with T8"
+        },
+        {
+          "turn": 10,
+          "approx_direction": "L",
+          "note": "commitment; off-camber noted in media"
+        },
+        {
+          "turn": 11,
+          "approx_direction": "L",
+          "note": "linked final sector"
+        },
+        {
+          "turn": 12,
+          "approx_direction": "R",
+          "note": "flick sequence"
+        },
+        {
+          "turn": 13,
+          "approx_direction": "R",
+          "note": "flick sequence"
+        },
+        {
+          "turn": 14,
+          "approx_direction": "L",
+          "note": "onto main straight"
+        }
+      ]
+    },
+    "queensland_raceway_national": {
+      "venue": "Queensland Raceway",
+      "nickname": "The Paperclip",
+      "location": "Willowbank, Ipswich, Queensland, Australia",
+      "layout_id": "qr_national",
+      "layout_name": "National Circuit",
+      "length_km": 3.126,
+      "length_mi": 1.942,
+      "width_m": 12,
+      "direction": "clockwise",
+      "turn_count": 6,
+      "meta": {
+        "map_source_note": "PNG export in trackmaps/Queensland_Raceway_National_Circuit_map.png; embedded map date August 11 2009 — track resurfaced late 2011; verify current surface with venue.",
+        "straight_names": [
+          "Dick Johnson Straight commonly names the main straight into Turn 1"
+        ]
+      },
+      "turns": [
+        {
+          "turn": 1,
+          "approx_direction": "R",
+          "note": "sharp right off main straight"
+        },
+        {
+          "turn": 2,
+          "approx_direction": "R",
+          "note": "long right sweeper"
+        },
+        {
+          "turn": 3,
+          "approx_direction": "R",
+          "note": "tight right hairpin; end of long straight"
+        },
+        {
+          "turn": 4,
+          "approx_direction": "R",
+          "note": "right into infield"
+        },
+        {
+          "turn": 5,
+          "approx_direction": "R",
+          "note": "right toward final corner"
+        },
+        {
+          "turn": 6,
+          "approx_direction": "R",
+          "note": "tight right hairpin to start-finish straight"
+        }
+      ],
+      "alternate_configurations_km_only": [
+        {
+          "name": "Sportsman",
+          "length_km": 2.15
+        },
+        {
+          "name": "Clubman",
+          "length_km": 2.11
+        },
+        {
+          "name": "Sprint",
+          "length_km": 1.89
+        },
+        {
+          "name": "Switchback",
+          "length_km": 2.5
+        }
+      ],
+      "map_named_features": [
+        {
+          "name": "The Dipper",
+          "note": "shortcut link on some layouts; grey on National map"
+        },
+        {
+          "name": "The Crossover",
+          "note": "shortcut link on some layouts; grey on National map"
+        }
+      ]
+    },
+    "the_bend_motorsport_park": {
+      "venue": "The Bend Motorsport Park",
+      "country": "Australia",
+      "meta": {
+        "generated_note": "Corner numbers and sectors from 2021.1 Ver1 participant PDFs in trackmaps/. Left/right is visual interpretation from map graphics — verify before high-stakes use.",
+        "map_document_version": "2021.1 Ver1 Issued 010121",
+        "rotation_convention": "clockwise per participant map orientation"
+      },
+      "layouts": [
+        {
+          "id": "bend_international_4950m",
+          "name": "International Circuit",
+          "length_km": 4.95,
+          "turn_count": 18,
+          "pdf": "THE_BEND_INTERNATIONALT_CIRCUIT 4.95KM.pdf",
+          "sectors": [
+            {
+              "sector": 1,
+              "turn_range": [
+                1,
+                5
+              ]
+            },
+            {
+              "sector": 2,
+              "turn_range": [
+                6,
+                12
+              ]
+            },
+            {
+              "sector": 3,
+              "turn_range": [
+                13,
+                18
+              ]
+            }
+          ],
+          "turns": [
+            {
+              "turn": 1,
+              "approx_direction": "R",
+              "sector": 1
+            },
+            {
+              "turn": 2,
+              "approx_direction": "R",
+              "sector": 1
+            },
+            {
+              "turn": 3,
+              "approx_direction": "R",
+              "sector": 1,
+              "note": "tight / hairpin-style"
+            },
+            {
+              "turn": 4,
+              "approx_direction": "L",
+              "sector": 1,
+              "note": "kink"
+            },
+            {
+              "turn": 5,
+              "approx_direction": "R",
+              "sector": 1,
+              "note": "kink"
+            },
+            {
+              "turn": 6,
+              "approx_direction": "L",
+              "sector": 2,
+              "note": "sharp"
+            },
+            {
+              "turn": 7,
+              "approx_direction": "R",
+              "sector": 2
+            },
+            {
+              "turn": 8,
+              "approx_direction": "R",
+              "sector": 2
+            },
+            {
+              "turn": 9,
+              "approx_direction": "L",
+              "sector": 2
+            },
+            {
+              "turn": 10,
+              "approx_direction": "L",
+              "sector": 2
+            },
+            {
+              "turn": 11,
+              "approx_direction": "R",
+              "sector": 2
+            },
+            {
+              "turn": 12,
+              "approx_direction": "L",
+              "sector": 2,
+              "note": "tight / hairpin-style"
+            },
+            {
+              "turn": 13,
+              "approx_direction": "R",
+              "sector": 3
+            },
+            {
+              "turn": 14,
+              "approx_direction": "L",
+              "sector": 3,
+              "note": "sharp"
+            },
+            {
+              "turn": 15,
+              "approx_direction": "R",
+              "sector": 3
+            },
+            {
+              "turn": 16,
+              "approx_direction": "L",
+              "sector": 3
+            },
+            {
+              "turn": 17,
+              "approx_direction": "L",
+              "sector": 3,
+              "note": "sharp"
+            },
+            {
+              "turn": 18,
+              "approx_direction": "R",
+              "sector": 3,
+              "note": "onto main straight"
+            }
+          ]
+        },
+        {
+          "id": "bend_gt_7770m",
+          "name": "GT Circuit",
+          "length_km": 7.77,
+          "turn_count": 35,
+          "pdf": "THE_BEND_GT_CIRCUIT 7.77KM.pdf",
+          "sectors": [
+            {
+              "sector": 1,
+              "turn_range": [
+                1,
+                6
+              ]
+            },
+            {
+              "sector": 2,
+              "turn_range": [
+                7,
+                21
+              ]
+            },
+            {
+              "sector": 3,
+              "turn_range": [
+                22,
+                35
+              ]
+            }
+          ],
+          "turns": [
+            {
+              "turn": 1,
+              "approx_direction": "R",
+              "sector": 1,
+              "note": "sharp"
+            },
+            {
+              "turn": 2,
+              "approx_direction": "R",
+              "sector": 1,
+              "note": "sweeping"
+            },
+            {
+              "turn": 3,
+              "approx_direction": "R",
+              "sector": 1,
+              "note": "tight"
+            },
+            {
+              "turn": 4,
+              "approx_direction": "L",
+              "sector": 1,
+              "note": "kink"
+            },
+            {
+              "turn": 5,
+              "approx_direction": "L",
+              "sector": 1,
+              "note": "long sweeper"
+            },
+            {
+              "turn": 6,
+              "approx_direction": "R",
+              "sector": 1
+            },
+            {
+              "turn": 7,
+              "approx_direction": "L",
+              "sector": 2
+            },
+            {
+              "turn": 8,
+              "approx_direction": "R",
+              "sector": 2
+            },
+            {
+              "turn": 9,
+              "approx_direction": "R",
+              "sector": 2,
+              "note": "sharp"
+            },
+            {
+              "turn": 10,
+              "approx_direction": "L",
+              "sector": 2
+            },
+            {
+              "turn": 11,
+              "approx_direction": "L",
+              "sector": 2
+            },
+            {
+              "turn": 12,
+              "approx_direction": "R",
+              "sector": 2
+            },
+            {
+              "turn": 13,
+              "approx_direction": "R",
+              "sector": 2,
+              "note": "sharp"
+            },
+            {
+              "turn": 14,
+              "approx_direction": "R",
+              "sector": 2
+            },
+            {
+              "turn": 15,
+              "approx_direction": "R",
+              "sector": 2
+            },
+            {
+              "turn": 16,
+              "approx_direction": "R",
+              "sector": 2
+            },
+            {
+              "turn": 17,
+              "approx_direction": "R",
+              "sector": 2,
+              "note": "sharp"
+            },
+            {
+              "turn": 18,
+              "approx_direction": "L",
+              "sector": 2
+            },
+            {
+              "turn": 19,
+              "approx_direction": "R",
+              "sector": 2
+            },
+            {
+              "turn": 20,
+              "approx_direction": "L",
+              "sector": 2
+            },
+            {
+              "turn": 21,
+              "approx_direction": "R",
+              "sector": 2
+            },
+            {
+              "turn": 22,
+              "approx_direction": "L",
+              "sector": 3
+            },
+            {
+              "turn": 23,
+              "approx_direction": "R",
+              "sector": 3,
+              "note": "sharp"
+            },
+            {
+              "turn": 24,
+              "approx_direction": "R",
+              "sector": 3
+            },
+            {
+              "turn": 25,
+              "approx_direction": "R",
+              "sector": 3,
+              "note": "sharp"
+            },
+            {
+              "turn": 26,
+              "approx_direction": "L",
+              "sector": 3
+            },
+            {
+              "turn": 27,
+              "approx_direction": "R",
+              "sector": 3
+            },
+            {
+              "turn": 28,
+              "approx_direction": "L",
+              "sector": 3
+            },
+            {
+              "turn": 29,
+              "approx_direction": "R",
+              "sector": 3
+            },
+            {
+              "turn": 30,
+              "approx_direction": "L",
+              "sector": 3
+            },
+            {
+              "turn": 31,
+              "approx_direction": "R",
+              "sector": 3
+            },
+            {
+              "turn": 32,
+              "approx_direction": "R",
+              "sector": 3,
+              "note": "tight"
+            },
+            {
+              "turn": 33,
+              "approx_direction": "L",
+              "sector": 3
+            },
+            {
+              "turn": 34,
+              "approx_direction": "R",
+              "sector": 3
+            },
+            {
+              "turn": 35,
+              "approx_direction": "R",
+              "sector": 3,
+              "note": "onto main straight"
+            }
+          ]
+        },
+        {
+          "id": "bend_west_3410m",
+          "name": "West Circuit",
+          "length_km": 3.41,
+          "turn_count": 12,
+          "numbering_note": "Official participant map labels T9 then T11 (no Turn 10).",
+          "pdf": "THE_BEND_WEST circuit 3.41KM.pdf",
+          "sectors": [
+            {
+              "sector": 1,
+              "turn_range": [
+                1,
+                2
+              ]
+            },
+            {
+              "sector": 2,
+              "turn_range": [
+                3,
+                7
+              ]
+            },
+            {
+              "sector": 3,
+              "turn_range": [
+                8,
+                12
+              ],
+              "note": "includes T9 T11 T12; no T10 on map"
+            }
+          ],
+          "turns": [
+            {
+              "turn": 1,
+              "approx_direction": "R",
+              "sector": 1
+            },
+            {
+              "turn": 2,
+              "approx_direction": "R",
+              "sector": 1,
+              "note": "kink"
+            },
+            {
+              "turn": 3,
+              "approx_direction": "R",
+              "sector": 2,
+              "note": "sharp"
+            },
+            {
+              "turn": 4,
+              "approx_direction": "R",
+              "sector": 2
+            },
+            {
+              "turn": 5,
+              "approx_direction": "L",
+              "sector": 2
+            },
+            {
+              "turn": 6,
+              "approx_direction": "L",
+              "sector": 2,
+              "note": "tight / hairpin-like"
+            },
+            {
+              "turn": 7,
+              "approx_direction": "R",
+              "sector": 2
+            },
+            {
+              "turn": 8,
+              "approx_direction": "R",
+              "sector": 3
+            },
+            {
+              "turn": 9,
+              "approx_direction": "L",
+              "sector": 3
+            },
+            {
+              "turn": 11,
+              "approx_direction": "L",
+              "sector": 3,
+              "note": "sharp; map skips 10"
+            },
+            {
+              "turn": 12,
+              "approx_direction": "L",
+              "sector": 3,
+              "note": "onto main straight"
+            }
+          ]
+        },
+        {
+          "id": "bend_east_3930m",
+          "name": "East Circuit",
+          "length_km": 3.93,
+          "turn_count": 22,
+          "pdf": "THE_BEND_EAST circuit 3.93KM.pdf",
+          "sectors": [
+            {
+              "sector": 1,
+              "turn_range": [
+                1,
+                7
+              ]
+            },
+            {
+              "sector": 2,
+              "turn_range": [
+                8,
+                14
+              ]
+            },
+            {
+              "sector": 3,
+              "turn_range": [
+                15,
+                22
+              ]
+            }
+          ],
+          "turns": [
+            {
+              "turn": 1,
+              "approx_direction": "R",
+              "sector": 1,
+              "note": "sharp"
+            },
+            {
+              "turn": 2,
+              "approx_direction": "R",
+              "sector": 1
+            },
+            {
+              "turn": 3,
+              "approx_direction": "L",
+              "sector": 1,
+              "note": "hairpin"
+            },
+            {
+              "turn": 4,
+              "approx_direction": "R",
+              "sector": 1
+            },
+            {
+              "turn": 5,
+              "approx_direction": "R",
+              "sector": 1,
+              "note": "kink"
+            },
+            {
+              "turn": 6,
+              "approx_direction": "L",
+              "sector": 1,
+              "note": "sharp"
+            },
+            {
+              "turn": 7,
+              "approx_direction": "R",
+              "sector": 1
+            },
+            {
+              "turn": 8,
+              "approx_direction": "R",
+              "sector": 2
+            },
+            {
+              "turn": 9,
+              "approx_direction": "L",
+              "sector": 2
+            },
+            {
+              "turn": 10,
+              "approx_direction": "R",
+              "sector": 2,
+              "note": "sharp"
+            },
+            {
+              "turn": 11,
+              "approx_direction": "R",
+              "sector": 2,
+              "note": "long sweeper"
+            },
+            {
+              "turn": 12,
+              "approx_direction": "R",
+              "sector": 2
+            },
+            {
+              "turn": 13,
+              "approx_direction": "L",
+              "sector": 2
+            },
+            {
+              "turn": 14,
+              "approx_direction": "R",
+              "sector": 2
+            },
+            {
+              "turn": 15,
+              "approx_direction": "L",
+              "sector": 3,
+              "note": "sharp"
+            },
+            {
+              "turn": 16,
+              "approx_direction": "R",
+              "sector": 3,
+              "note": "kink"
+            },
+            {
+              "turn": 17,
+              "approx_direction": "L",
+              "sector": 3,
+              "note": "kink"
+            },
+            {
+              "turn": 18,
+              "approx_direction": "R",
+              "sector": 3,
+              "note": "kink"
+            },
+            {
+              "turn": 19,
+              "approx_direction": "L",
+              "sector": 3,
+              "note": "sharp"
+            },
+            {
+              "turn": 20,
+              "approx_direction": "R",
+              "sector": 3
+            },
+            {
+              "turn": 21,
+              "approx_direction": "L",
+              "sector": 3,
+              "note": "sharp"
+            },
+            {
+              "turn": 22,
+              "approx_direction": "R",
+              "sector": 3,
+              "note": "finish straight"
+            }
+          ]
+        }
+      ]
+    }
+  }
+}

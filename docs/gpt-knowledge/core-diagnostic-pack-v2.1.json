@@ -1,0 +1,310 @@
+{
+  "version": "2.1",
+  "purpose": "motorcycle_trackday_diagnostic_engine",
+  "last_updated": "2026-07-19",
+  "notes": "Merged CoreDiagnosticPack_V1 + CORE DIAGNOSTIC JSON PACK v2. Prefer this file. Legacy V1/V2 retained for reference only.",
+  "fix_priority": [
+    "tyre_pressure",
+    "tyre_temperature",
+    "tyre_compound",
+    "rider_input",
+    "suspension",
+    "geometry"
+  ],
+  "bike_classes": {
+    "1000": {
+      "characteristics": [
+        "high_power",
+        "traction_limited"
+      ],
+      "bias": {
+        "traction_issues": "more_sensitive",
+        "geometry_effect": "less_sensitive_than_input"
+      }
+    },
+    "600": {
+      "characteristics": [
+        "balanced",
+        "corner_speed_dependent"
+      ],
+      "bias": {
+        "traction_issues": "moderate",
+        "geometry_effect": "moderate"
+      }
+    },
+    "300": {
+      "characteristics": [
+        "low_power",
+        "momentum_based"
+      ],
+      "bias": {
+        "traction_issues": "less_common",
+        "corner_speed": "critical"
+      }
+    }
+  },
+  "problems": {
+    "rear_slide_exit": {
+      "category": "traction",
+      "subtype": "exit_drive",
+      "detect_if": [
+        "rear sliding on exit",
+        "rear spinning",
+        "loss of drive grip"
+      ],
+      "pattern_links": [
+        "heat_related",
+        "overpressure",
+        "throttle_input"
+      ],
+      "diagnostic": [
+        {
+          "step": 1,
+          "check": "hot_pressure",
+          "rule": "within_target_range",
+          "action": "adjust_pressure_small_step"
+        },
+        {
+          "step": 2,
+          "check": "symptom_timing",
+          "rule": "worse_after_laps",
+          "action": "heat_related_issue"
+        },
+        {
+          "step": 3,
+          "check": "throttle_application",
+          "rule": "abrupt_or_early",
+          "action": "rider_input_fix"
+        },
+        {
+          "step": 4,
+          "check": "suspension_behavior",
+          "rule": "excess_squat",
+          "action": "adjust_rear_compression_small"
+        }
+      ],
+      "modifiers": {
+        "1000": "likely_throttle_or_overheat",
+        "600": "balanced_check",
+        "300": "rare_check_line_and_speed"
+      }
+    },
+    "rear_greasy_feel": {
+      "category": "traction",
+      "subtype": "overheating",
+      "detect_if": [
+        "greasy feeling",
+        "loses grip after few laps",
+        "rear feels vague"
+      ],
+      "pattern_links": [
+        "hot_track",
+        "overheating"
+      ],
+      "diagnostic": [
+        {
+          "check": "track_temp",
+          "rule": "high_temp_conditions",
+          "action_if_true": "consider_overheating"
+        },
+        {
+          "check": "hot_pressure",
+          "rule": "above_target_range",
+          "action_if_true": "reduce_pressure_small_step"
+        },
+        {
+          "check": "compound",
+          "rule": "too_soft_for_conditions",
+          "action_if_true": "consider_harder_compound"
+        }
+      ]
+    },
+    "cold_tear": {
+      "category": "tyre_wear",
+      "subtype": "cold_tear",
+      "detect_if": [
+        "fingernail tears",
+        "rough shredded surface",
+        "tearing on drive edge"
+      ],
+      "primary_causes_ranked": [
+        "pressure_too_high",
+        "insufficient_carcass_temp",
+        "compound_mismatch"
+      ],
+      "fix_order": [
+        "adjust_pressure_to_target",
+        "fix_warmers_strategy",
+        "review_compound",
+        "adjust_suspension_if_needed"
+      ]
+    },
+    "wont_turn": {
+      "category": "turning",
+      "subtype": "slow_steering",
+      "detect_if": [
+        "won't turn",
+        "runs wide",
+        "heavy steering"
+      ],
+      "pattern_links": [
+        "geometry",
+        "body_position",
+        "entry_speed"
+      ],
+      "diagnostic": [
+        {
+          "step": 1,
+          "check": "entry_speed",
+          "rule": "too_fast",
+          "action": "adjust_braking_marker"
+        },
+        {
+          "step": 2,
+          "check": "body_position",
+          "rule": "insufficient",
+          "action": "improve_body_position"
+        },
+        {
+          "step": 3,
+          "check": "line_choice",
+          "rule": "early_apex",
+          "action": "adjust_line"
+        },
+        {
+          "step": 4,
+          "check": "geometry",
+          "rule": "stable_but_slow",
+          "action": "adjust_geometry_small"
+        }
+      ],
+      "modifiers": {
+        "1000": "often_entry_speed_or_body",
+        "600": "geometry_and_entry_balance",
+        "300": "corner_speed_loss"
+      }
+    },
+    "front_push": {
+      "category": "traction",
+      "subtype": "front_grip_loss",
+      "detect_if": [
+        "front pushing",
+        "front sliding mid corner",
+        "lack of front grip"
+      ],
+      "pattern_links": [
+        "cold_conditions",
+        "pressure",
+        "trail_braking"
+      ],
+      "diagnostic": [
+        {
+          "check": "track_temp",
+          "rule": "cold_conditions",
+          "action_if_true": "cold_grip_issue"
+        },
+        {
+          "check": "hot_pressure",
+          "rule": "above_target",
+          "action_if_true": "adjust_pressure"
+        },
+        {
+          "check": "brake_release",
+          "rule": "too_early",
+          "action_if_true": "improve_trail_braking"
+        }
+      ]
+    },
+    "rear_chatter": {
+      "category": "stability",
+      "subtype": "rear_instability",
+      "detect_if": [
+        "rear chatter",
+        "vibration on exit",
+        "unstable drive"
+      ],
+      "diagnostic": [
+        {
+          "step": 1,
+          "check": "tyre_condition",
+          "rule": "overheated_or_worn",
+          "action": "check_pressure_and_temp"
+        },
+        {
+          "step": 2,
+          "check": "rebound",
+          "rule": "too_fast",
+          "action": "increase_rebound_small"
+        },
+        {
+          "step": 3,
+          "check": "compression",
+          "rule": "too_soft",
+          "action": "increase_compression_small"
+        }
+      ]
+    }
+  },
+  "conditions": {
+    "hot_track": {
+      "detect_if": {
+        "ambient_temp_c": ">=28"
+      },
+      "risks": [
+        "overheating",
+        "greasy_feel"
+      ],
+      "pressure_strategy": {
+        "adjustment_range": "+/-0.5 psi",
+        "rule": "stay_within_target_window"
+      },
+      "suspension_bias": [
+        "increase_compression",
+        "reduce_rebound_if_packing"
+      ],
+      "effects": [
+        "overheating",
+        "pressure_rise",
+        "reduced_grip"
+      ],
+      "rules": [
+        "do_not_exceed_hot_pressure_range",
+        "consider_harder_compound"
+      ]
+    },
+    "cold_track": {
+      "detect_if": {
+        "ambient_temp_c": "<=15"
+      },
+      "risks": [
+        "cold_tear",
+        "low_grip"
+      ],
+      "pressure_strategy": {
+        "rule": "do_not_reduce_pressure"
+      },
+      "suspension_bias": [
+        "reduce_compression",
+        "increase_rebound_slightly"
+      ],
+      "effects": [
+        "low_grip",
+        "cold_tear_risk"
+      ],
+      "rules": [
+        "do_not_reduce_pressure",
+        "focus_on_warmers"
+      ]
+    }
+  },
+  "session_logic": {
+    "improvement": "hold_setup",
+    "no_change": "escalate_one_step",
+    "worse": "revert_last_change"
+  },
+  "confidence_rules": {
+    "high": "pattern_match_and_full_data",
+    "medium": "pattern_match_partial_data",
+    "low": "assumption_based"
+  }
+}
