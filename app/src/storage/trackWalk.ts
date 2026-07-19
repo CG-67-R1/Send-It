@@ -22,6 +22,11 @@ export interface TrackWalkSession {
   dateIso: string;
   trackId: string;
   trackName: string;
+  visibility: 'private' | 'team' | 'community';
+  /** Optional metadata for shared notes. */
+  bikeClass?: string;
+  conditions?: string;
+  authorExperience?: string;
   trackDirection?: string;
   otherTrackContext?: OtherTrackContext;
   entries: TrackWalkEntry[];
@@ -60,6 +65,12 @@ function normalizeSession(raw: Record<string, unknown>): TrackWalkSession {
     dateIso: typeof raw.dateIso === 'string' ? raw.dateIso : new Date().toISOString().slice(0, 10),
     trackId,
     trackName,
+    visibility:
+      raw.visibility === 'team' || raw.visibility === 'community' ? raw.visibility : 'private',
+    bikeClass: typeof raw.bikeClass === 'string' ? raw.bikeClass : undefined,
+    conditions: typeof raw.conditions === 'string' ? raw.conditions : undefined,
+    authorExperience:
+      typeof raw.authorExperience === 'string' ? raw.authorExperience : undefined,
     trackDirection: typeof raw.trackDirection === 'string' ? raw.trackDirection : undefined,
     otherTrackContext: raw.otherTrackContext as OtherTrackContext | undefined,
     entries,
@@ -148,7 +159,12 @@ export function formatSessionForExport(session: TrackWalkSession): string {
     lines.push(`Track ID: ${session.trackId}`);
   }
 
-  lines.push(`Date: ${date}`, '');
+  lines.push(`Date: ${date}`);
+  lines.push(`Visibility: ${session.visibility}`);
+  if (session.bikeClass) lines.push(`Bike class: ${session.bikeClass}`);
+  if (session.conditions) lines.push(`Conditions: ${session.conditions}`);
+  if (session.authorExperience) lines.push(`Rider experience: ${session.authorExperience}`);
+  lines.push('');
 
   for (const e of session.entries) {
     lines.push(formatEntryLine(e, session.trackId));
@@ -174,4 +190,9 @@ export async function deleteTrackWalkSession(id: string): Promise<void> {
   const list = await getTrackWalkSessions();
   const next = list.filter((s) => s.id !== id);
   await AsyncStorage.setItem(KEY_SESSIONS, JSON.stringify(next));
+}
+
+/** Clears all Track Walk sessions and notes stored on this device. */
+export async function clearTrackWalkSessions(): Promise<void> {
+  await AsyncStorage.removeItem(KEY_SESSIONS);
 }

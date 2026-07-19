@@ -112,7 +112,7 @@ function HeadlinesStack() {
       <Stack.Screen
         name="HeadlinesList"
         component={HeadlinesListScreen}
-        options={{ title: 'Bike News' }}
+        options={{ title: 'News' }}
       />
       <Stack.Screen
         name="HeadlinesSettings"
@@ -130,7 +130,7 @@ function RiderCoachStack() {
         name="RiderCoach"
         component={RiderCoachScreen}
         options={({ navigation }) => ({
-          title: 'Coach & Bike Setup',
+          title: 'Coach',
           headerRight: () => (
             <TouchableOpacity
               onPress={() => navigation.navigate('ImportTrackNotes')}
@@ -147,8 +147,8 @@ function RiderCoachStack() {
         options={({ route }) => ({
           title:
             (route.params as { mode?: string } | undefined)?.mode === 'bikesetup'
-              ? 'RR Bike Setup'
-              : 'RR AI Coach',
+              ? 'Bike Setup'
+              : 'AI Coach',
         })}
       />
       <Stack.Screen
@@ -203,18 +203,18 @@ function MainTabs() {
         tabBarLabelStyle: { fontWeight: '600' },
       }}
     >
-      <Tab.Screen name="HeadlinesTab" component={HeadlinesStack} options={{ title: 'Headlines' }} />
+      <Tab.Screen name="HeadlinesTab" component={HeadlinesStack} options={{ title: 'Home' }} />
       <Tab.Screen name="CalendarTab" component={CalendarScreen} options={{ title: 'Events' }} />
       <Tab.Screen name="Q&A" component={QAScreen} options={{ title: 'Q & A' }} />
       <Tab.Screen
         name="TrackWalkTab"
         component={TrackWalkStack}
-        options={{ title: 'Track Walk' }}
+        options={{ title: 'Track' }}
       />
       <Tab.Screen
         name="RiderCoachTab"
         component={RiderCoachStack}
-        options={{ title: 'Coach & Bike Setup' }}
+        options={{ title: 'Coach' }}
       />
     </Tab.Navigator>
   );

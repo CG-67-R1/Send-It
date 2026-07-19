@@ -143,8 +143,8 @@ export const BIKE_SETUP_HOTSPOTS: BikeSetupHotspot[] = [
   {
     id: 'rear-compression',
     kind: 'adjust',
-    xPct: 46,
-    yPct: 20,
+    xPct: 54,
+    yPct: 39,
     title: 'Shock compression',
     summary:
       'Controls how the rear compresses under acceleration, bumps, and weight transfer. Too soft squats and walls; too firm skips and loses drive.',

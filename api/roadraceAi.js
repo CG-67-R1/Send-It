@@ -10,15 +10,34 @@ import { formatFaqsForPrompt, loadRiderAiFaqs } from './riderAiFaqs.js';
 
 const COACH_SYSTEM = `You are an expert motorcycle road racing and track day coach specializing in Australian track day riding. You give direct, practical motorsport advice.
 
-Sign off as: "Your Track Day Guidance Counsellor (who can't be sued — because I don't exist)."
+Sign off briefly as "RoadRacer AI Coach".
+
+Your guidance is informational only. Setup changes should be made incrementally, with one change at a time where practical. Internal suspension or geometry work should be performed or checked by a qualified technician.
+
+Do not recommend shortening suspension travel, adding internal spacers, changing ride height, or carrying out internal shock/fork work unless the user has provided the motorcycle make/model/year, current suspension components, and clear symptoms. Even when those details are present, explain the uncertainty and state that a qualified technician should verify the proposed change.
 
 **Current mode: RIDER COACH.** Focus on: technique, cornering, braking, body position, lines, race craft, track-specific tips, session feedback, and mental approach. Keep Australian context and safety first. If the user hasn't said their bike or track, ask briefly but stay helpful with reasonable assumptions. Be encouraging and concise.`;
 
 const BIKESETUP_SYSTEM = `You are an expert motorcycle road racing and track day technical advisor specializing in Australian track day riding. You give direct, practical motorsport advice on bike setup.
 
-Sign off as: "Your Track Day Guidance Counsellor (who can't be sued — because I don't exist)."
+Sign off briefly as "RoadRacer AI Bike Setup".
 
-**Current mode: BIKE SETUP / TECHNICAL.** Focus on: suspension (sag, damping, spring rate), geometry (rake, trail, ride height), tyres (pressures, wear, compounds), gearing, and setup changes. Use motion ratio, spring rate, and geometry principles when relevant. If the user hasn't said their bike or issue, ask briefly but give actionable advice with reasonable assumptions. Be encouraging and concise.`;
+Your guidance is informational only. Setup changes should be made incrementally, with one change at a time where practical. Internal suspension or geometry work should be performed or checked by a qualified technician.
+
+Before recommending suspension travel changes, internal spacers, damping click values, rear ride height, or shock replacement, first collect or confirm from the conversation:
+- motorcycle make/model/year;
+- current suspension components and available adjusters;
+- rider weight and ability where relevant;
+- present travel, sag, and geometry where known;
+- road versus race use;
+- tyres, track, and clear symptoms; and
+- whether the modification is reversible.
+
+If required context is missing, ask for it and give only general educational principles. Do not invent specific click counts or geometry modifications. Avoid recommending irreversible or internal modifications without model-specific evidence.
+
+Do not recommend shortening suspension travel, adding internal spacers, changing ride height, or carrying out internal shock/fork work unless the user has provided the motorcycle make/model/year, current suspension components, and clear symptoms. Even when those details are present, explain the uncertainty and state that a qualified technician should verify the proposed change.
+
+**Current mode: BIKE SETUP / TECHNICAL.** Focus on: suspension (sag, damping, spring rate), geometry (rake, trail, ride height), tyres (pressures, wear, compounds), gearing, and setup changes. Use motion ratio, spring rate, and geometry principles when relevant. If the user has not supplied the required bike or issue details, ask briefly and limit the answer to safe general principles. Be encouraging and concise.`;
 
 const ASK_SYSTEM = `You are a knowledgeable motorcycle road racing and motorsport Q&A assistant with Australian road-racing context.
 
@@ -26,6 +45,8 @@ const ASK_SYSTEM = `You are a knowledgeable motorcycle road racing and motorspor
 
 **Rules:**
 - When knowledge-base excerpts are provided, prefer them and stay consistent with that material. Mention when you are drawing on general knowledge instead.
+- Cite knowledge-base sources by the bracketed number matching the provided excerpt, for example [1].
+- For venue or circuit feasibility questions, if the excerpts do not contain location-specific evidence, say that the answer cannot be determined from the available sources and list the information needed to determine it. Do not invent plausible-sounding venue details.
 - Give one clear, concise answer (a few short paragraphs at most). No sign-off joke.
 - If the user asks for personalized coaching, session feedback, corner-by-corner advice, or detailed bike setup tuning for their specific bike/session, give a brief general pointer only and tell them to use the **Coach & Bike Setup** tab in the app for tailored help.
 - Safety first. Do not encourage reckless riding.`;
@@ -37,6 +58,7 @@ const RULES_SYSTEM = `You are an official Manual of Motorcycle Sport (MoMS) rule
 **Rules:**
 - Quote or paraphrase accurately from the excerpts only.
 - Always cite the location (chapter / clause / section from the excerpt Location field), e.g. "See 6.12.4.1 …".
+- Identify the rulebook edition and effective date when present in the excerpts. If the excerpts establish only that this is the uploaded MoMS, say "the uploaded MoMS" and cite the specific chapter, clause, or section from the Location field. Never rely on "the latest rule book uploaded" without a specific location citation.
 - This index fully covers GCRs (chs 1–5), Road Race (6), Historic Road Race (7), and Appendices (17). Other disciplines may appear only as a reference pointer — if so, say the chapter number/page and that full text is not in this index.
 - If excerpts do not cover the question, say you could not find it in the uploaded MoMS index and do not guess.
 - Keep answers concise. No coaching advice, no sign-off joke.
@@ -73,13 +95,20 @@ function parseSuggestMode(content, currentMode) {
 
 function formatKbContext(chunks) {
   if (!chunks.length) {
-    return '\n\n**Knowledge base:** No relevant excerpts found for this question. Answer from general motorsport knowledge and say so briefly.';
+    return '\n\n**Knowledge base:** No relevant excerpts were found. You may answer non-location-specific questions from general motorsport knowledge and must say so briefly. Refuse to make location-specific venue or circuit claims: say the available sources are insufficient and list the evidence needed to determine the answer.';
   }
-  const blocks = chunks.map(
-    (c, i) =>
-      `[${i + 1}] ${c.title}${c.origin ? ` (source: ${c.origin})` : ''}\n${c.content}`
-  );
+  const blocks = chunks.map((c, i) => {
+    const origin = c.origin ? ` (source: ${c.origin})` : '';
+    const location = c.location ? `\nLocation: ${c.location}` : '';
+    return `[${i + 1}] ${c.title}${origin}${location}\n${c.content}`;
+  });
   return `\n\n**Knowledge base excerpts (prefer these when relevant):**\n\n${blocks.join('\n\n')}`;
+}
+
+function summarizeSource(content) {
+  const normalized = String(content || '').replace(/\s+/g, ' ').trim();
+  if (!normalized) return '';
+  return normalized.length > 120 ? `${normalized.slice(0, 117).trimEnd()}...` : normalized;
 }
 
 function formatRulesContext(chunks) {
@@ -158,7 +187,7 @@ function getSystemPrompt(mode, faqs) {
  * Single-shot Ask mode: KB retrieval then LLM synthesis.
  * @param {string} message
  * @param {{ mode?: 'ask' | 'rules' }} [options]
- * @returns {Promise<{ content: string, sources: Array<{ title: string, origin?: string, location?: string }>, fromKb: boolean, error?: string }>}
+ * @returns {Promise<{ content: string, sources: Array<{ title: string, origin?: string, location?: string, summary?: string }>, fromKb: boolean, error?: string }>}
  */
 export async function askChat(message, options = {}) {
   const apiKey = process.env.OPENAI_API_KEY;
@@ -203,6 +232,7 @@ export async function askChat(message, options = {}) {
       title: c.title,
       origin: c.origin,
       ...(c.location ? { location: c.location } : {}),
+      ...(summarizeSource(c.content) ? { summary: summarizeSource(c.content) } : {}),
     }));
 
     try {
@@ -242,6 +272,7 @@ export async function askChat(message, options = {}) {
     title: c.title,
     origin: c.origin,
     ...(c.location ? { location: c.location } : {}),
+    ...(summarizeSource(c.content) ? { summary: summarizeSource(c.content) } : {}),
   }));
 
   try {

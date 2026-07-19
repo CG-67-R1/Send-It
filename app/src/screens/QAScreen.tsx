@@ -192,6 +192,22 @@ export function QAScreen() {
     }
   }, [rulesQuery]);
 
+  const clearAskAnswer = useCallback(() => {
+    setQuery('');
+    setAskReply(null);
+    setAskSources([]);
+    setAskFromKb(false);
+    setSearchError(null);
+  }, []);
+
+  const clearRulesAnswer = useCallback(() => {
+    setRulesQuery('');
+    setRulesReply(null);
+    setRulesSources([]);
+    setRulesFromKb(false);
+    setRulesError(null);
+  }, []);
+
   const fetchTriviaQuestion = useCallback(
     async (usedOverride?: number[], correctCount?: number, wrongCount?: number, difficultyOverride?: number) => {
       setTriviaLoading(true);
@@ -424,6 +440,11 @@ export function QAScreen() {
         {searchError ? (
           <Text style={styles.errorText}>{searchError}</Text>
         ) : null}
+        {askReply || searchError ? (
+          <TouchableOpacity style={styles.clearAnswerButton} onPress={clearAskAnswer}>
+            <Text style={styles.clearAnswerText}>New question</Text>
+          </TouchableOpacity>
+        ) : null}
         {askReply ? (
           <View style={styles.results}>
             <View style={styles.resultCard}>
@@ -434,10 +455,13 @@ export function QAScreen() {
                     {askFromKb ? 'Sources (knowledge base)' : 'Related sources'}
                   </Text>
                   {askSources.map((s, i) => (
-                    <Text key={i} style={styles.sourceItem}>
-                      • {s.title}
-                      {s.origin ? ` (${s.origin})` : ''}
-                    </Text>
+                    <View key={`${s.title}-${i}`} style={styles.sourceRow}>
+                      <Text style={styles.sourceTitle}>{`${i + 1}. ${s.title}`}</Text>
+                      {s.origin ? <Text style={styles.sourceMeta}>{s.origin}</Text> : null}
+                      {s.location ? (
+                        <Text style={styles.sourceLocation}>{s.location}</Text>
+                      ) : null}
+                    </View>
                   ))}
                 </View>
               ) : null}
@@ -451,7 +475,8 @@ export function QAScreen() {
         <View style={styles.rulesSection}>
           <Text style={styles.sectionTitle}>Official rule check?</Text>
           <Text style={styles.sectionSubtitle}>
-            We have the latest rule book uploaded. Ask your question and get a quick answer with the linked location in the rules — interrogate the latest MoMS.
+            Ask against the uploaded MoMS and get a quick answer with edition and clause/location
+            citations so you can verify it in the rule book.
           </Text>
           <View style={styles.searchRow}>
             <TextInput
@@ -478,6 +503,11 @@ export function QAScreen() {
           {rulesError ? (
             <Text style={styles.errorText}>{rulesError}</Text>
           ) : null}
+          {rulesReply || rulesError ? (
+            <TouchableOpacity style={styles.clearAnswerButton} onPress={clearRulesAnswer}>
+              <Text style={styles.clearAnswerText}>New question</Text>
+            </TouchableOpacity>
+          ) : null}
           {rulesReply ? (
             <View style={styles.results}>
               <View style={[styles.resultCard, styles.rulesResultCard]}>
@@ -488,10 +518,13 @@ export function QAScreen() {
                       {rulesFromKb ? 'Location in the rules' : 'Related rule locations'}
                     </Text>
                     {rulesSources.map((s, i) => (
-                      <Text key={i} style={styles.sourceItem}>
-                        • {s.location || s.title}
-                        {s.origin ? ` (${s.origin})` : ''}
-                      </Text>
+                      <View key={`${s.title}-${i}`} style={styles.sourceRow}>
+                        <Text style={styles.sourceTitle}>{`${i + 1}. ${s.title}`}</Text>
+                        {s.origin ? <Text style={styles.sourceMeta}>{s.origin}</Text> : null}
+                        {s.location ? (
+                          <Text style={styles.sourceLocation}>{s.location}</Text>
+                        ) : null}
+                      </View>
                     ))}
                   </View>
                 ) : null}
@@ -646,7 +679,7 @@ const styles = StyleSheet.create({
   },
   sectionSubtitle: {
     fontSize: 14,
-    color: '#94a3b8',
+    color: '#cbd5e1',
     marginTop: 4,
     marginBottom: 12,
   },
@@ -687,7 +720,7 @@ const styles = StyleSheet.create({
     marginTop: 8,
   },
   hint: {
-    color: '#64748b',
+    color: '#cbd5e1',
     fontSize: 14,
     marginTop: 8,
   },
@@ -725,13 +758,53 @@ const styles = StyleSheet.create({
     color: '#94a3b8',
     marginBottom: 4,
   },
-  sourceItem: {
+  sourceRow: {
+    width: '100%',
+    flexShrink: 1,
+    marginTop: 6,
+  },
+  sourceTitle: {
+    width: '100%',
+    flexShrink: 1,
+    flexWrap: 'wrap',
     fontSize: 12,
-    color: '#94a3b8',
+    color: '#cbd5e1',
+    lineHeight: 18,
+    fontWeight: '600',
+  },
+  sourceMeta: {
+    width: '100%',
+    flexShrink: 1,
+    flexWrap: 'wrap',
+    fontSize: 12,
+    color: '#cbd5e1',
     lineHeight: 18,
   },
+  sourceLocation: {
+    width: '100%',
+    flexShrink: 1,
+    flexWrap: 'wrap',
+    fontSize: 12,
+    color: '#cbd5e1',
+    lineHeight: 18,
+    fontStyle: 'italic',
+  },
+  clearAnswerButton: {
+    alignSelf: 'flex-start',
+    marginTop: 10,
+    paddingHorizontal: 12,
+    paddingVertical: 8,
+    borderRadius: 8,
+    borderWidth: 1,
+    borderColor: '#f59e0b',
+  },
+  clearAnswerText: {
+    color: '#f59e0b',
+    fontSize: 13,
+    fontWeight: '700',
+  },
   coachHint: {
-    color: '#64748b',
+    color: '#cbd5e1',
     fontSize: 13,
     marginTop: 4,
     fontStyle: 'italic',

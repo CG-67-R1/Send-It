@@ -59,6 +59,16 @@ app.post('/headlines/custom', async (req, res) => {
   if (!Array.isArray(customSources) || customSources.length === 0) {
     return res.json({ headlines: [], count: 0 });
   }
+  if (customSources.length > 4) {
+    return res.status(400).json({ error: 'A maximum of 4 custom sources is allowed' });
+  }
+  if (
+    customSources.some(
+      (source) => !source || typeof source.url !== 'string' || source.url.trim().length === 0
+    )
+  ) {
+    return res.status(400).json({ error: 'Each custom source must include a URL string' });
+  }
   try {
     const headlines = await fetchCustomHeadlines(customSources);
     res.json({ headlines, count: headlines.length });

@@ -1,5 +1,5 @@
-import React, { useCallback } from 'react';
-import { ScrollView, StyleSheet, Text, View } from 'react-native';
+import React, { useCallback, useMemo, useState } from 'react';
+import { ScrollView, StyleSheet, Text, TextInput, View } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import type { NativeStackNavigationProp } from '@react-navigation/native-stack';
 import { CoachFaqSection } from '../components/CoachFaqSection';
@@ -19,6 +19,19 @@ export function RoadRacerAiFaqsScreen() {
   const navigation = useNavigation<Nav>();
   const coachFaqs = faqsForMode('coach');
   const bikeFaqs = faqsForMode('bikesetup');
+  const [search, setSearch] = useState('');
+  const normalizedSearch = search.trim().toLocaleLowerCase();
+  const filterFaqs = useCallback(
+    (items: typeof coachFaqs) =>
+      normalizedSearch
+        ? items.filter((item) =>
+            `${item.question} ${item.answer}`.toLocaleLowerCase().includes(normalizedSearch)
+          )
+        : items,
+    [normalizedSearch]
+  );
+  const filteredCoachFaqs = useMemo(() => filterFaqs(coachFaqs), [coachFaqs, filterFaqs]);
+  const filteredBikeFaqs = useMemo(() => filterFaqs(bikeFaqs), [bikeFaqs, filterFaqs]);
 
   const askCoach = useCallback(
     (question: string) => {
@@ -51,22 +64,43 @@ export function RoadRacerAiFaqsScreen() {
           Common questions for Rider Coach and Bike Setup. Expand an answer, or send it straight into
           the matching AI chat.
         </Text>
-
-        <Text style={styles.subhead}>Coach</Text>
-        <CoachFaqSection
-          title="Rider Coach FAQs"
-          items={coachFaqs}
-          askLabel="Ask coach about this"
-          onAskQuestion={askCoach}
+        <TextInput
+          style={styles.searchInput}
+          value={search}
+          onChangeText={setSearch}
+          placeholder="Search questions and answers"
+          placeholderTextColor="#94a3b8"
+          autoCapitalize="none"
+          autoCorrect={false}
+          returnKeyType="search"
         />
 
-        <Text style={styles.subhead}>Bike Setup</Text>
-        <CoachFaqSection
-          title="Bike Setup FAQs"
-          items={bikeFaqs}
-          askLabel="Ask Bike Setup AI about this"
-          onAskQuestion={askBikeSetup}
-        />
+        {filteredCoachFaqs.length ? (
+          <>
+            <Text style={styles.subhead}>Coach</Text>
+            <CoachFaqSection
+              title="Rider Coach FAQs"
+              items={filteredCoachFaqs}
+              askLabel="Ask coach about this"
+              onAskQuestion={askCoach}
+            />
+          </>
+        ) : null}
+
+        {filteredBikeFaqs.length ? (
+          <>
+            <Text style={styles.subhead}>Bike Setup</Text>
+            <CoachFaqSection
+              title="Bike Setup FAQs"
+              items={filteredBikeFaqs}
+              askLabel="Ask Bike Setup AI about this"
+              onAskQuestion={askBikeSetup}
+            />
+          </>
+        ) : null}
+        {normalizedSearch && !filteredCoachFaqs.length && !filteredBikeFaqs.length ? (
+          <Text style={styles.emptyText}>No FAQs match “{search.trim()}”.</Text>
+        ) : null}
       </ScrollView>
     </View>
   );
@@ -84,9 +118,20 @@ const styles = StyleSheet.create({
   },
   lead: {
     fontSize: 15,
-    color: '#94a3b8',
+    color: '#cbd5e1',
     lineHeight: 22,
-    marginBottom: 20,
+    marginBottom: 12,
+  },
+  searchInput: {
+    backgroundColor: '#1e293b',
+    borderRadius: 10,
+    borderWidth: 1,
+    borderColor: '#475569',
+    color: '#f8fafc',
+    fontSize: 15,
+    paddingHorizontal: 14,
+    paddingVertical: 12,
+    marginBottom: 12,
   },
   subhead: {
     fontFamily: 'RaceSport',
@@ -94,5 +139,11 @@ const styles = StyleSheet.create({
     color: '#f8fafc',
     marginBottom: 10,
     marginTop: 8,
+  },
+  emptyText: {
+    color: '#cbd5e1',
+    fontSize: 14,
+    lineHeight: 20,
+    marginTop: 12,
   },
 });

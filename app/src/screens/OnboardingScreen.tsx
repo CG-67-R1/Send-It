@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useState } from 'react';
+import React, { useCallback, useEffect, useRef, useState } from 'react';
 import {
   StyleSheet,
   Text,
@@ -57,6 +57,8 @@ export function OnboardingScreen({ onComplete }: OnboardingScreenProps) {
   const [alignImageUri, setAlignImageUri] = useState<string | null>(null);
   /** Set when user skips avatar pick — stable random mascot for summary + finish. */
   const [assignedRandomAvatarId, setAssignedRandomAvatarId] = useState<string | null>(null);
+  const avatarScrollRef = useRef<ScrollView>(null);
+  const avatarScrollX = useRef(0);
 
   const totalSteps = 7; // welcome, bike, rider, activity, future racer info, nickname+avatar, summary
 
@@ -138,8 +140,7 @@ export function OnboardingScreen({ onComplete }: OnboardingScreenProps) {
   };
 
   const canNext = () => {
-    if (step === 1) return favouriteBike.trim().length > 0;
-    if (step === 2) return favouriteRider.trim().length > 0;
+    if (step === 1 || step === 2) return true;
     if (step === 3) return activity !== null;
     if (step === 4) {
       // Future racer info step
@@ -185,7 +186,7 @@ export function OnboardingScreen({ onComplete }: OnboardingScreenProps) {
     }
 
     if (step < totalSteps - 1) {
-      setStep((s) => s + 1);
+      setStep((s) => (s === 3 && activity !== 'race_one_day' ? 5 : s + 1));
       return;
     }
     setFinishing(true);
@@ -202,8 +203,13 @@ export function OnboardingScreen({ onComplete }: OnboardingScreenProps) {
   };
 
   const handleBack = () => {
-    if (step > 0) setStep((s) => s - 1);
+    if (step > 0) setStep((s) => (s === 5 && activity !== 'race_one_day' ? 3 : s - 1));
   };
+
+  const scrollAvatars = useCallback((direction: -1 | 1) => {
+    avatarScrollX.current = Math.max(0, avatarScrollX.current + direction * 348);
+    avatarScrollRef.current?.scrollTo({ x: avatarScrollX.current, animated: true });
+  }, []);
 
   return (
     <>
@@ -252,6 +258,7 @@ export function OnboardingScreen({ onComplete }: OnboardingScreenProps) {
               autoCapitalize="words"
               autoCorrect={false}
             />
+            <Text style={styles.optionalHint}>Optional — skip if you’re not sure.</Text>
           </View>
         )}
 
@@ -269,6 +276,7 @@ export function OnboardingScreen({ onComplete }: OnboardingScreenProps) {
               autoCapitalize="words"
               autoCorrect={false}
             />
+            <Text style={styles.optionalHint}>Optional — skip if you’re not sure.</Text>
           </View>
         )}
 
@@ -503,11 +511,16 @@ export function OnboardingScreen({ onComplete }: OnboardingScreenProps) {
               </Text>
             ) : null}
             <ScrollView
+              ref={avatarScrollRef}
               horizontal
               showsHorizontalScrollIndicator={false}
               style={styles.avatarScroll}
               contentContainerStyle={styles.avatarScrollContent}
               nestedScrollEnabled
+              onScroll={(event) => {
+                avatarScrollX.current = event.nativeEvent.contentOffset.x;
+              }}
+              scrollEventThrottle={16}
             >
               {AVATAR_PRESETS.map((preset) => (
                 <TouchableOpacity
@@ -539,6 +552,24 @@ export function OnboardingScreen({ onComplete }: OnboardingScreenProps) {
                 </TouchableOpacity>
               ))}
             </ScrollView>
+            {Platform.OS === 'web' ? (
+              <View style={styles.avatarScrollControls}>
+                <TouchableOpacity
+                  style={styles.avatarScrollButton}
+                  onPress={() => scrollAvatars(-1)}
+                  activeOpacity={0.8}
+                >
+                  <Text style={styles.avatarScrollButtonText}>Previous</Text>
+                </TouchableOpacity>
+                <TouchableOpacity
+                  style={styles.avatarScrollButton}
+                  onPress={() => scrollAvatars(1)}
+                  activeOpacity={0.8}
+                >
+                  <Text style={styles.avatarScrollButtonText}>Next</Text>
+                </TouchableOpacity>
+              </View>
+            ) : null}
             {selectedAvatarPreset?.hasFaceHole ? (
               <View style={styles.faceUploadSection}>
                 <Text style={styles.faceUploadTitle}>Your face (optional)</Text>
@@ -743,6 +774,11 @@ const styles = StyleSheet.create({
     borderWidth: 1,
     borderColor: '#334155',
   },
+  optionalHint: {
+    marginTop: 8,
+    fontSize: 13,
+    color: '#cbd5e1',
+  },
   optionButton: {
     backgroundColor: '#1e293b',
     borderRadius: 12,
@@ -894,6 +930,27 @@ const styles = StyleSheet.create({
     gap: 12,
     paddingVertical: 4,
     paddingRight: 8,
+  },
+  avatarScrollControls: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    gap: 12,
+    marginTop: -8,
+    marginBottom: 20,
+  },
+  avatarScrollButton: {
+    flex: 1,
+    alignItems: 'center',
+    paddingVertical: 10,
+    borderRadius: 10,
+    borderWidth: 1,
+    borderColor: '#475569',
+    backgroundColor: '#1e293b',
+  },
+  avatarScrollButtonText: {
+    color: '#e2e8f0',
+    fontSize: 14,
+    fontWeight: '600',
   },
   avatarChoice: {
     width: 104,

@@ -39,6 +39,13 @@ import { formatTrackNotesForCoach, sendCoachChat } from '../utils/coachChat';
 import { photoUrisToCoachPayloads } from '../utils/coachAttachments';
 
 type AddingMode = 'corner' | 'note' | null;
+type SessionVisibility = TrackWalkSession['visibility'];
+
+const VISIBILITY_OPTIONS: { value: SessionVisibility; label: string }[] = [
+  { value: 'private', label: 'Private' },
+  { value: 'team', label: 'Team' },
+  { value: 'community', label: 'Community' },
+];
 
 /** Module-scope speech recognition (optional native module). */
 type SpeechRecognitionModule = {
@@ -104,6 +111,10 @@ export function TrackWalkScreen() {
   const [draftNickname, setDraftNickname] = useState('');
   const [draftPhotos, setDraftPhotos] = useState<string[]>([]);
   const [showFinishModal, setShowFinishModal] = useState(false);
+  const [visibility, setVisibility] = useState<SessionVisibility>('private');
+  const [bikeClass, setBikeClass] = useState('');
+  const [conditions, setConditions] = useState('');
+  const [authorExperience, setAuthorExperience] = useState('');
   const [savedSessions, setSavedSessions] = useState<TrackWalkSession[]>([]);
   const [saving, setSaving] = useState(false);
   const [exporting, setExporting] = useState(false);
@@ -154,8 +165,22 @@ export function TrackWalkScreen() {
           : undefined,
       otherTrackContext: isOther ? otherContext : undefined,
       entries,
+      visibility,
+      bikeClass: visibility !== 'private' ? bikeClass.trim() || undefined : undefined,
+      conditions: visibility !== 'private' ? conditions.trim() || undefined : undefined,
+      authorExperience:
+        visibility !== 'private' ? authorExperience.trim() || undefined : undefined,
     };
-  }, [trackId, otherContext, selectedTrack, entries]);
+  }, [
+    trackId,
+    otherContext,
+    selectedTrack,
+    entries,
+    visibility,
+    bikeClass,
+    conditions,
+    authorExperience,
+  ]);
 
   const requestVoice = useCallback(async () => {
     try {
@@ -253,6 +278,10 @@ export function TrackWalkScreen() {
     setTrackId(null);
     setOtherContext(DEFAULT_OTHER_CONTEXT);
     setShowFinishModal(false);
+    setVisibility('private');
+    setBikeClass('');
+    setConditions('');
+    setAuthorExperience('');
     resetDraft();
   }, [resetDraft]);
 
@@ -604,7 +633,23 @@ export function TrackWalkScreen() {
                   <Text style={styles.savedTrack}>{session.trackName}</Text>
                   <Text style={styles.savedDate}>{session.dateIso}</Text>
                 </View>
-                <Text style={styles.savedMeta}>{session.entries.length} entries</Text>
+                <View style={styles.savedMetaRow}>
+                  <Text style={styles.savedMeta}>{session.entries.length} entries</Text>
+                  <Text
+                    style={[
+                      styles.visibilityBadge,
+                      session.visibility === 'team' && styles.visibilityBadgeTeam,
+                      session.visibility === 'community' && styles.visibilityBadgeCommunity,
+                    ]}
+                  >
+                    {session.visibility.charAt(0).toUpperCase() + session.visibility.slice(1)}
+                  </Text>
+                </View>
+                {session.visibility === 'community' && (session.bikeClass || session.conditions) ? (
+                  <Text style={styles.sharedMeta}>
+                    {[session.bikeClass, session.conditions].filter(Boolean).join(' · ')}
+                  </Text>
+                ) : null}
                 <View style={styles.savedActions}>
                   <TouchableOpacity onPress={() => exportTrackWalkSession(session)}>
                     <Text style={styles.savedActionText}>Export file</Text>
@@ -635,13 +680,75 @@ export function TrackWalkScreen() {
 
       <Modal visible={showFinishModal} transparent animationType="fade">
         <View style={styles.modalOverlay}>
-          <View style={styles.modalContent}>
+          <ScrollView
+            style={styles.modalContent}
+            contentContainerStyle={styles.modalContentInner}
+            keyboardShouldPersistTaps="handled"
+            showsVerticalScrollIndicator={false}
+          >
             <Text style={styles.modalTitle}>Finish track walk</Text>
             <Text style={styles.modalSubtitle}>
               {selectedTrack?.name ?? 'Track'} ·{' '}
               {new Date().toLocaleDateString('en-AU', { day: 'numeric', month: 'short', year: 'numeric' })}
             </Text>
             <Text style={styles.modalPrompt}>Save on device, export a file, or ask your coach?</Text>
+            <Text style={styles.visibilityLabel}>Note visibility</Text>
+            <View style={styles.visibilityRow}>
+              {VISIBILITY_OPTIONS.map((option) => (
+                <TouchableOpacity
+                  key={option.value}
+                  style={[
+                    styles.visibilityOption,
+                    visibility === option.value && styles.visibilityOptionActive,
+                  ]}
+                  onPress={() => setVisibility(option.value)}
+                  activeOpacity={0.8}
+                >
+                  <Text
+                    style={[
+                      styles.visibilityOptionText,
+                      visibility === option.value && styles.visibilityOptionTextActive,
+                    ]}
+                  >
+                    {option.label}
+                  </Text>
+                </TouchableOpacity>
+              ))}
+            </View>
+            <Text style={styles.visibilityHelp}>
+              Private = only on this device. Team = tagged for future sharing with selected people
+              (stored locally for now). Community = tagged for moderated publish (stored locally
+              until a server exists).
+            </Text>
+            {visibility !== 'private' ? (
+              <View style={styles.sharedFields}>
+                <TextInput
+                  style={styles.sharedInput}
+                  value={bikeClass}
+                  onChangeText={setBikeClass}
+                  placeholder="Bike class (optional)"
+                  placeholderTextColor="#94a3b8"
+                />
+                <TextInput
+                  style={styles.sharedInput}
+                  value={conditions}
+                  onChangeText={setConditions}
+                  placeholder="Conditions (optional)"
+                  placeholderTextColor="#94a3b8"
+                />
+                <TextInput
+                  style={styles.sharedInput}
+                  value={authorExperience}
+                  onChangeText={setAuthorExperience}
+                  placeholder="Rider experience (optional)"
+                  placeholderTextColor="#94a3b8"
+                />
+              </View>
+            ) : null}
+            <Text style={styles.riderNoteHelp}>
+              All user notes are rider notes. Official and coach notes will be distinguished in a
+              future update.
+            </Text>
             <TouchableOpacity
               style={[styles.modalButton, styles.modalSaveButton]}
               onPress={handleSave}
@@ -666,7 +773,7 @@ export function TrackWalkScreen() {
             <TouchableOpacity style={styles.modalCancel} onPress={() => setShowFinishModal(false)}>
               <Text style={styles.modalCancelText}>Cancel</Text>
             </TouchableOpacity>
-          </View>
+          </ScrollView>
         </View>
       </Modal>
     </KeyboardAvoidingView>
@@ -766,15 +873,55 @@ const styles = StyleSheet.create({
   savedHeader: { flexDirection: 'row', justifyContent: 'space-between', marginBottom: 4 },
   savedTrack: { fontSize: 16, fontWeight: '600', color: '#f8fafc', flex: 1 },
   savedDate: { fontSize: 13, color: '#94a3b8' },
-  savedMeta: { fontSize: 13, color: '#94a3b8', marginBottom: 8 },
+  savedMetaRow: { flexDirection: 'row', alignItems: 'center', gap: 8, marginBottom: 8 },
+  savedMeta: { fontSize: 13, color: '#94a3b8' },
+  visibilityBadge: {
+    fontSize: 11,
+    fontWeight: '700',
+    color: '#cbd5e1',
+    backgroundColor: '#334155',
+    borderRadius: 999,
+    paddingHorizontal: 8,
+    paddingVertical: 3,
+    overflow: 'hidden',
+  },
+  visibilityBadgeTeam: { color: '#bae6fd', backgroundColor: '#075985' },
+  visibilityBadgeCommunity: { color: '#bbf7d0', backgroundColor: '#166534' },
+  sharedMeta: { fontSize: 12, color: '#cbd5e1', marginBottom: 8 },
   savedActions: { flexDirection: 'row', gap: 16 },
   savedActionText: { fontSize: 14, fontWeight: '600', color: '#f59e0b' },
   savedDeleteText: { fontSize: 14, fontWeight: '600', color: '#f87171' },
   modalOverlay: { flex: 1, backgroundColor: 'rgba(0,0,0,0.6)', justifyContent: 'center', padding: 24 },
-  modalContent: { backgroundColor: '#1e293b', borderRadius: 16, padding: 20 },
+  modalContent: { backgroundColor: '#1e293b', borderRadius: 16, maxHeight: '90%' },
+  modalContentInner: { padding: 20 },
   modalTitle: { fontSize: 20, fontWeight: '700', color: '#f8fafc', marginBottom: 4 },
   modalSubtitle: { fontSize: 14, color: '#94a3b8', marginBottom: 12 },
   modalPrompt: { fontSize: 15, color: '#e2e8f0', marginBottom: 16 },
+  visibilityLabel: { fontSize: 14, fontWeight: '700', color: '#f8fafc', marginBottom: 8 },
+  visibilityRow: { flexDirection: 'row', gap: 6, marginBottom: 10 },
+  visibilityOption: {
+    flex: 1,
+    paddingVertical: 9,
+    alignItems: 'center',
+    borderRadius: 8,
+    backgroundColor: '#0f172a',
+    borderWidth: 1,
+    borderColor: '#475569',
+  },
+  visibilityOptionActive: { backgroundColor: '#f59e0b', borderColor: '#f59e0b' },
+  visibilityOptionText: { fontSize: 12, fontWeight: '700', color: '#cbd5e1' },
+  visibilityOptionTextActive: { color: '#0f172a' },
+  visibilityHelp: { fontSize: 12, color: '#cbd5e1', lineHeight: 17, marginBottom: 10 },
+  sharedFields: { gap: 8, marginBottom: 10 },
+  sharedInput: {
+    backgroundColor: '#0f172a',
+    borderRadius: 8,
+    paddingHorizontal: 12,
+    paddingVertical: 10,
+    fontSize: 14,
+    color: '#f8fafc',
+  },
+  riderNoteHelp: { fontSize: 12, color: '#cbd5e1', lineHeight: 17, marginBottom: 14 },
   modalButton: { paddingVertical: 14, borderRadius: 10, alignItems: 'center', marginBottom: 10 },
   modalSaveButton: { backgroundColor: '#f59e0b' },
   modalButtonText: { fontSize: 16, fontWeight: '700', color: '#0f172a' },

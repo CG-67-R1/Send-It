@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useState } from 'react';
+import React, { useCallback, useEffect, useMemo, useState } from 'react';
 import {
   Alert,
   Image,
@@ -7,6 +7,7 @@ import {
   Platform,
   Pressable,
   ScrollView,
+  Share,
   StyleSheet,
   Switch,
   Text,
@@ -25,6 +26,7 @@ import {
   setNotifyPriority1,
   addCustomSource,
   removeCustomSource,
+  resetHeadlinesSettings,
 } from '../storage/headlinesSettings';
 import { requestNotificationPermissions } from '../notifications/priority1Notifications';
 import {
@@ -47,11 +49,15 @@ import {
 } from '../storage/avatarFacePhoto';
 import { photoDisplayUri } from '../storage/localPhotoStorage';
 import { useOnboardingReset } from '../context/OnboardingResetContext';
+import { getBikeSetupDaySheet, clearAllBikeSetupData } from '../storage/bikeSetupSheet';
+import { clearTrackWalkSessions } from '../storage/trackWalk';
+import { clearBikePhoto } from '../storage/bikePhoto';
 
 export function HeadlinesSettingsScreen() {
   const onboardingReset = useOnboardingReset();
   const [avatarId, setAvatarId] = useState<string | null>(null);
   const [riderNickname, setRiderNickname] = useState('');
+  const [favouriteBike, setFavouriteBike] = useState('');
   const [profileBusy, setProfileBusy] = useState(false);
   const [facePreviewUri, setFacePreviewUri] = useState<string | null>(null);
   const [faceCameraOpen, setFaceCameraOpen] = useState(false);
@@ -60,6 +66,7 @@ export function HeadlinesSettingsScreen() {
   const [builtinSources, setBuiltinSources] = useState<Source[]>([]);
   const [customSources, setCustomSourcesState] = useState<CustomSource[]>([]);
   const [priority, setPriorityState] = useState<PriorityOrder>([]);
+  const [sourceSearch, setSourceSearch] = useState('');
   const [pickerSlot, setPickerSlot] = useState<number | null>(null);
   const [addUrl, setAddUrl] = useState('');
   const [addName, setAddName] = useState('');
@@ -71,6 +78,18 @@ export function HeadlinesSettingsScreen() {
     ...builtinSources,
     ...customSources.map((s) => ({ id: s.id, name: s.name })),
   ];
+  const visiblePriority = useMemo(() => {
+    const query = sourceSearch.trim().toLocaleLowerCase();
+    return priority
+      .map((sourceId, index) => ({
+        sourceId,
+        index,
+        source: allSources.find((source) => source.id === sourceId),
+      }))
+      .filter(({ sourceId, source }) =>
+        query ? (source?.name ?? sourceId).toLocaleLowerCase().includes(query) : true
+      );
+  }, [priority, allSources, sourceSearch]);
 
   const load = useCallback(async () => {
     const [order, custom, notify, trackArrival] = await Promise.all([
@@ -115,6 +134,7 @@ export function HeadlinesSettingsScreen() {
     const [answers, uri] = await Promise.all([getOnboardingAnswers(), getAvatarFacePhotoUri()]);
     setAvatarId(answers?.avatarId ?? null);
     setRiderNickname(answers?.riderNickname?.trim() || answers?.favouriteRider?.trim() || 'Rider');
+    setFavouriteBike(answers?.favouriteBike?.trim() || '');
     setFacePreviewUri(uri);
   }, []);
 
@@ -166,6 +186,23 @@ export function HeadlinesSettingsScreen() {
       setProfileBusy(false);
     }
   }, [riderNickname]);
+
+  const handleSaveFavouriteBike = useCallback(async () => {
+    const trimmed = favouriteBike.trim() || 'my bike';
+    setProfileBusy(true);
+    try {
+      const updated = await updateOnboardingAnswers({ favouriteBike: trimmed });
+      if (!updated) {
+        Alert.alert('Profile', 'Complete onboarding first to save your favourite bike.');
+        return;
+      }
+      setFavouriteBike(trimmed);
+    } catch (e) {
+      Alert.alert('Error', e instanceof Error ? e.message : 'Could not save favourite bike');
+    } finally {
+      setProfileBusy(false);
+    }
+  }, [favouriteBike]);
 
   const handleRemoveRiderFace = useCallback(() => {
     Alert.alert('Remove rider photo', 'Remove the photo from your leathers avatar?', [
@@ -256,8 +293,15 @@ export function HeadlinesSettingsScreen() {
 
   const handleAddCustom = useCallback(async () => {
     const url = addUrl.trim();
-    const name = addName.trim();
-    if (!url || !name) return;
+    if (!url) return;
+    let name = addName.trim();
+    if (!name) {
+      try {
+        name = new URL(url).hostname.replace(/^www\./, '');
+      } catch {
+        name = url;
+      }
+    }
     if (customSources.length >= 4) {
       Alert.alert(
         'Custom feed limit',
@@ -302,7 +346,7 @@ export function HeadlinesSettingsScreen() {
   );
 
   const handleResetOnboarding = useCallback(() => {
-    if (!onboardingReset || !__DEV__) return;
+    if (!onboardingReset) return;
     Alert.alert(
       'Reset onboarding',
       'This clears your profile answers and the avatar face photo, then runs the welcome flow again. Headlines settings are kept.',
@@ -317,6 +361,63 @@ export function HeadlinesSettingsScreen() {
             } catch (e) {
               Alert.alert(
                 'Could not reset',
+                e instanceof Error ? e.message : 'Something went wrong. Try again.'
+              );
+            }
+          },
+        },
+      ]
+    );
+  }, [onboardingReset]);
+
+  const handleExportData = useCallback(async () => {
+    try {
+      const [onboarding, setupSheet, sources, sourcePriority] = await Promise.all([
+        getOnboardingAnswers(),
+        getBikeSetupDaySheet(),
+        getCustomSources(),
+        getPriorityOrder(),
+      ]);
+      const json = JSON.stringify(
+        {
+          exportedAt: new Date().toISOString(),
+          onboarding,
+          setupSheet,
+          customSources: sources,
+          newsPriority: sourcePriority,
+        },
+        null,
+        2
+      );
+      await Share.share({ title: 'RoadRacer data export', message: json });
+    } catch (e) {
+      Alert.alert('Export failed', e instanceof Error ? e.message : 'Could not export your data.');
+    }
+  }, []);
+
+  const handleDeleteAllData = useCallback(() => {
+    if (!onboardingReset) return;
+    Alert.alert(
+      'Delete all local data?',
+      'This permanently removes your profile, photos, setup sheet, Track Walk notes, and news preferences from this device, then restarts onboarding.',
+      [
+        { text: 'Cancel', style: 'cancel' },
+        {
+          text: 'Delete all',
+          style: 'destructive',
+          onPress: async () => {
+            try {
+              await Promise.all([
+                clearAllBikeSetupData(),
+                clearTrackWalkSessions(),
+                resetHeadlinesSettings(),
+                clearAvatarFacePhoto(),
+                clearBikePhoto(),
+              ]);
+              await onboardingReset.resetOnboarding();
+            } catch (e) {
+              Alert.alert(
+                'Could not delete data',
                 e instanceof Error ? e.message : 'Something went wrong. Try again.'
               );
             }
@@ -397,6 +498,27 @@ export function HeadlinesSettingsScreen() {
           activeOpacity={0.85}
         >
           <Text style={styles.saveProfileBtnText}>Save name</Text>
+        </TouchableOpacity>
+
+        <Text style={[styles.fieldLabel, { marginTop: 16 }]}>Favourite bike</Text>
+        <TextInput
+          style={styles.input}
+          placeholder="e.g. Britten V1000"
+          placeholderTextColor="#64748b"
+          value={favouriteBike}
+          onChangeText={setFavouriteBike}
+          autoCapitalize="words"
+          autoCorrect={false}
+          editable={!profileBusy}
+          onSubmitEditing={handleSaveFavouriteBike}
+        />
+        <TouchableOpacity
+          style={[styles.saveProfileBtn, profileBusy && styles.riderFaceBtnDisabled]}
+          onPress={handleSaveFavouriteBike}
+          disabled={profileBusy}
+          activeOpacity={0.85}
+        >
+          <Text style={styles.saveProfileBtnText}>Save favourite bike</Text>
         </TouchableOpacity>
 
         <Text style={[styles.fieldLabel, { marginTop: 16 }]}>Avatar</Text>
@@ -539,9 +661,18 @@ export function HeadlinesSettingsScreen() {
 
       <View style={styles.section}>
         <Text style={styles.sectionTitle}>Source priority</Text>
-        <Text style={styles.sectionSubtitle}>1 = first on the Headlines page. Tap to change.</Text>
-        {priority.map((sourceId, index) => {
-          const source = allSources.find((s) => s.id === sourceId);
+        <Text style={styles.sectionSubtitle}>1 = first on Home / News. Tap to change.</Text>
+        <TextInput
+          style={styles.prioritySearchInput}
+          placeholder="Filter sources"
+          placeholderTextColor="#94a3b8"
+          value={sourceSearch}
+          onChangeText={setSourceSearch}
+          autoCapitalize="none"
+          autoCorrect={false}
+          returnKeyType="search"
+        />
+        {visiblePriority.map(({ sourceId, index, source }) => {
           return (
             <View key={`${sourceId}-${index}`} style={styles.priorityRow}>
               <Text style={styles.priorityNum}>{index + 1}</Text>
@@ -557,6 +688,9 @@ export function HeadlinesSettingsScreen() {
             </View>
           );
         })}
+        {sourceSearch.trim() && visiblePriority.length === 0 ? (
+          <Text style={styles.priorityEmpty}>No priority sources match your search.</Text>
+        ) : null}
       </View>
 
       <View style={styles.section}>
@@ -573,7 +707,7 @@ export function HeadlinesSettingsScreen() {
         />
         <TextInput
           style={styles.input}
-          placeholder="Display name"
+          placeholder="Display name (optional)"
           placeholderTextColor="#64748b"
           value={addName}
           onChangeText={setAddName}
@@ -581,7 +715,7 @@ export function HeadlinesSettingsScreen() {
         <TouchableOpacity
           style={[styles.addButton, adding && styles.addButtonDisabled]}
           onPress={handleAddCustom}
-          disabled={adding || !addUrl.trim() || !addName.trim()}
+          disabled={adding || !addUrl.trim()}
         >
           <Text style={styles.addButtonText}>Add source</Text>
         </TouchableOpacity>
@@ -607,11 +741,48 @@ export function HeadlinesSettingsScreen() {
         )}
       </View>
 
+      <View style={styles.section}>
+        <Text style={styles.sectionTitle}>Your data & privacy</Text>
+        <Text style={styles.sectionSubtitle}>
+          Your profile, avatar, setup sheet, Track Walk notes, and news preferences are stored
+          locally on this device or browser using AsyncStorage. They are not stored in an online
+          account.
+        </Text>
+        <Text style={styles.sectionSubtitle}>
+          AI Coach, Bike Setup, and Q&amp;A messages you send, including attachments, are transmitted
+          to the RoadRacer API and may be processed by OpenAI. Chat history is not stored on the
+          server after the response.
+        </Text>
+        <View style={styles.dataActions}>
+          <TouchableOpacity style={styles.dataButton} onPress={handleExportData} activeOpacity={0.85}>
+            <Text style={styles.dataButtonText}>Export my data</Text>
+          </TouchableOpacity>
+          {onboardingReset ? (
+            <>
+              <TouchableOpacity
+                style={styles.dataButton}
+                onPress={handleResetOnboarding}
+                activeOpacity={0.85}
+              >
+                <Text style={styles.dataButtonText}>Repeat onboarding</Text>
+              </TouchableOpacity>
+              <TouchableOpacity
+                style={[styles.dataButton, styles.deleteDataButton]}
+                onPress={handleDeleteAllData}
+                activeOpacity={0.85}
+              >
+                <Text style={styles.deleteDataButtonText}>Delete all local data</Text>
+              </TouchableOpacity>
+            </>
+          ) : null}
+        </View>
+      </View>
+
       {__DEV__ && onboardingReset ? (
         <View style={styles.section}>
           <Text style={styles.sectionTitle}>Developer</Text>
           <Text style={styles.sectionSubtitle}>
-            Re-run onboarding without reinstalling the app (Expo Go / dev builds).
+            Development tools for testing the welcome flow.
           </Text>
           <TouchableOpacity style={styles.devResetButton} onPress={handleResetOnboarding} activeOpacity={0.85}>
             <Text style={styles.devResetButtonText}>Reset onboarding</Text>
@@ -687,8 +858,8 @@ const styles = StyleSheet.create({
   },
   section: { marginBottom: 28 },
   sectionTitle: { fontSize: 20, fontWeight: '700', color: '#f8fafc', marginBottom: 4 },
-  sectionSubtitle: { fontSize: 13, color: '#64748b', marginBottom: 12 },
-  fieldLabel: { fontSize: 14, fontWeight: '600', color: '#94a3b8', marginBottom: 8 },
+  sectionSubtitle: { fontSize: 13, color: '#cbd5e1', lineHeight: 19, marginBottom: 12 },
+  fieldLabel: { fontSize: 14, fontWeight: '600', color: '#cbd5e1', marginBottom: 8 },
   saveProfileBtn: {
     alignSelf: 'flex-start',
     backgroundColor: '#f59e0b',
@@ -799,6 +970,18 @@ const styles = StyleSheet.create({
   },
   notifyLabel: { fontSize: 16, color: '#e2e8f0', flex: 1 },
   priorityRow: { flexDirection: 'row', alignItems: 'center', marginBottom: 8 },
+  prioritySearchInput: {
+    backgroundColor: '#1e293b',
+    borderRadius: 8,
+    borderWidth: 1,
+    borderColor: '#475569',
+    paddingHorizontal: 14,
+    paddingVertical: 12,
+    fontSize: 15,
+    color: '#e2e8f0',
+    marginBottom: 12,
+  },
+  priorityEmpty: { color: '#cbd5e1', fontSize: 13, lineHeight: 19 },
   priorityNum: { width: 28, fontSize: 16, fontWeight: '600', color: '#f59e0b' },
   pickerButton: {
     flex: 1,
@@ -828,6 +1011,19 @@ const styles = StyleSheet.create({
   },
   addButtonDisabled: { opacity: 0.6 },
   addButtonText: { color: '#0f172a', fontWeight: '600', fontSize: 16 },
+  dataActions: { gap: 10 },
+  dataButton: {
+    alignItems: 'center',
+    paddingVertical: 12,
+    paddingHorizontal: 16,
+    borderRadius: 8,
+    borderWidth: 1,
+    borderColor: '#64748b',
+    backgroundColor: '#1e293b',
+  },
+  dataButtonText: { color: '#f8fafc', fontWeight: '600', fontSize: 15 },
+  deleteDataButton: { borderColor: '#ef4444', backgroundColor: 'rgba(127, 29, 29, 0.25)' },
+  deleteDataButtonText: { color: '#fca5a5', fontWeight: '700', fontSize: 15 },
   devResetButton: {
     alignSelf: 'flex-start',
     paddingVertical: 12,

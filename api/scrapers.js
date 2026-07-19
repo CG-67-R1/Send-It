@@ -7,6 +7,7 @@ import * as cheerio from 'cheerio';
 import Parser from 'rss-parser';
 import fs from 'fs/promises';
 import path from 'path';
+import dns from 'dns/promises';
 import { fileURLToPath } from 'url';
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
@@ -55,6 +56,9 @@ const MOTOGP_FAMILY_IDS = new Set(['motogp', 'motogpnews', 'motor_sport_motogp']
 const MOTOGP_FAMILY_LIMIT = 8;
 const DEFAULT_SOURCE_LIMIT = 12;
 const MCNEWS_LIMIT = 10;
+const MAX_CUSTOM_SOURCES = 4;
+const MAX_CUSTOM_RSS_BYTES = 2 * 1024 * 1024;
+const MAX_CUSTOM_RSS_REDIRECTS = 3;
 
 const CACHE_TTL_MS = 15 * 60 * 1000;
 let cache = { data: null, ts: 0 };
@@ -103,6 +107,105 @@ function parseDate(str) {
 
 function cleanTitle(text) {
   return (text || '').replace(/\s+/g, ' ').trim();
+}
+
+export function normalizeHeadlineTitle(title) {
+  return cleanTitle(title)
+    .toLowerCase()
+    .normalize('NFKD')
+    .replace(/[^\p{L}\p{N}\s]/gu, '')
+    .replace(/\s+/g, ' ')
+    .trim();
+}
+
+function isPrivateIpAddress(address) {
+  const value = address.toLowerCase().replace(/^\[|\]$/g, '');
+  const mappedIpv4 = value.match(/^::ffff:(\d+\.\d+\.\d+\.\d+)$/)?.[1];
+  if (mappedIpv4) return isPrivateIpAddress(mappedIpv4);
+  if (value.includes(':')) {
+    return (
+      value === '::1' ||
+      value === '::' ||
+      value.startsWith('fc') ||
+      value.startsWith('fd') ||
+      /^fe[89ab]/.test(value)
+    );
+  }
+  const octets = value.split('.').map(Number);
+  if (octets.length !== 4 || octets.some((part) => !Number.isInteger(part) || part < 0 || part > 255)) {
+    return false;
+  }
+  return (
+    octets[0] === 10 ||
+    octets[0] === 127 ||
+    (octets[0] === 172 && octets[1] >= 16 && octets[1] <= 31) ||
+    (octets[0] === 192 && octets[1] === 168) ||
+    (octets[0] === 169 && octets[1] === 254) ||
+    octets.every((part) => part === 0)
+  );
+}
+
+async function validateCustomSourceUrl(value) {
+  let parsed;
+  try {
+    parsed = new URL(value);
+  } catch {
+    throw new Error('Custom RSS URL is invalid');
+  }
+  if (parsed.protocol !== 'http:' && parsed.protocol !== 'https:') {
+    throw new Error('Custom RSS URL must use http or https');
+  }
+  const hostname = parsed.hostname.toLowerCase().replace(/^\[|\]$/g, '');
+  if (
+    hostname === 'localhost' ||
+    hostname.endsWith('.localhost') ||
+    hostname.endsWith('.local') ||
+    isPrivateIpAddress(hostname)
+  ) {
+    throw new Error('Custom RSS URL points to a private or internal host');
+  }
+  const addresses = await dns.lookup(hostname, { all: true });
+  if (addresses.length === 0 || addresses.some(({ address }) => isPrivateIpAddress(address))) {
+    throw new Error('Custom RSS URL resolves to a private or internal host');
+  }
+  return parsed;
+}
+
+async function fetchCustomRssXml(initialUrl) {
+  let currentUrl = initialUrl;
+  for (let redirects = 0; redirects <= MAX_CUSTOM_RSS_REDIRECTS; redirects++) {
+    const validated = await validateCustomSourceUrl(currentUrl);
+    const res = await fetch(validated, {
+      redirect: 'manual',
+      headers: { 'User-Agent': 'RoadRaceHeadlines/1.0 (News aggregator)' },
+      signal: AbortSignal.timeout(12000),
+    });
+    if (res.status >= 300 && res.status < 400) {
+      const location = res.headers.get('location');
+      if (!location || redirects === MAX_CUSTOM_RSS_REDIRECTS) {
+        throw new Error('Custom RSS redirect limit exceeded');
+      }
+      currentUrl = new URL(location, validated).toString();
+      continue;
+    }
+    if (!res.ok) throw new Error(`Custom RSS returned HTTP ${res.status}`);
+    const contentLength = Number(res.headers.get('content-length'));
+    if (Number.isFinite(contentLength) && contentLength > MAX_CUSTOM_RSS_BYTES) {
+      throw new Error('Custom RSS response is too large');
+    }
+    const chunks = [];
+    let bytes = 0;
+    for await (const chunk of res.body) {
+      bytes += chunk.length;
+      if (bytes > MAX_CUSTOM_RSS_BYTES) {
+        res.body.destroy();
+        throw new Error('Custom RSS response is too large');
+      }
+      chunks.push(chunk);
+    }
+    return Buffer.concat(chunks).toString('utf8');
+  }
+  throw new Error('Custom RSS redirect limit exceeded');
 }
 
 function absoluteUrl(href, base) {
@@ -188,7 +291,9 @@ function urlFromRssItem(item) {
 
 async function fetchRssHeadlines(feedUrl, source, sourceId, limit = 20, options = {}) {
   try {
-    const feed = await rssParser.parseURL(feedUrl);
+    const feed = options.customSource
+      ? await rssParser.parseString(await fetchCustomRssXml(feedUrl))
+      : await rssParser.parseURL(feedUrl);
     const feedImage = options.feedImageUrl || feed.itunes?.image || feed.image?.url || null;
     return (feed.items || []).slice(0, limit).map((item) => ({
       title: cleanTitle(item.title) || 'Untitled',
@@ -614,9 +719,13 @@ export async function getAllHeadlines(bypassCache = false) {
   const merged = mergeHeadlines(live, fileAu);
 
   const seen = new Set();
+  const seenTitles = new Set();
   const deduped = merged.filter((i) => {
     if (seen.has(i.url)) return false;
     seen.add(i.url);
+    const normalizedTitle = normalizeHeadlineTitle(i.title);
+    if (normalizedTitle && seenTitles.has(normalizedTitle)) return false;
+    if (normalizedTitle) seenTitles.add(normalizedTitle);
     return true;
   });
   deduped.forEach((i) => {
@@ -631,10 +740,18 @@ export async function getAllHeadlines(bypassCache = false) {
 export async function fetchCustomHeadlines(customSources) {
   if (!Array.isArray(customSources) || customSources.length === 0) return [];
   const all = [];
-  for (let idx = 0; idx < customSources.length; idx++) {
-    const { url, name, id } = customSources[idx];
+  for (let idx = 0; idx < Math.min(customSources.length, MAX_CUSTOM_SOURCES); idx++) {
+    const source = customSources[idx];
+    if (!source || typeof source.url !== 'string') continue;
+    const { url, name, id } = source;
     const sourceId = id || `custom_${idx + 1}`;
-    const items = await fetchRssHeadlines(url, name, sourceId, 15);
+    const items = await fetchRssHeadlines(
+      url,
+      typeof name === 'string' && name.trim() ? name.trim() : `Custom source ${idx + 1}`,
+      sourceId,
+      15,
+      { customSource: true }
+    );
     all.push(...items);
   }
   return all;

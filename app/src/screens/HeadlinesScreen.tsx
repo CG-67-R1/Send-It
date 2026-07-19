@@ -38,6 +38,7 @@ export function HeadlinesScreen() {
   const navigation = useNavigation<NativeStackNavigationProp<HeadlinesStackParamList, 'Headlines'>>();
   const [bikePhotoUri, setBikePhotoUriState] = useState<string | null>(null);
   const [nickname, setNickname] = useState<string>('');
+  const [favouriteBike, setFavouriteBike] = useState('');
   const [pickingPhoto, setPickingPhoto] = useState(false);
   const [hasPrefetchedHeadlines, setHasPrefetchedHeadlines] = useState(false);
   const [avatarSource, setAvatarSource] = useState<ImageSourcePropType | null>(null);
@@ -64,6 +65,7 @@ export function HeadlinesScreen() {
     ]);
     setBikePhotoUriState(uri);
     setNickname(answers?.riderNickname?.trim() || answers?.favouriteRider?.trim() || 'Rider');
+    setFavouriteBike(answers?.favouriteBike?.trim() || '');
     const aid = answers?.avatarId ?? null;
     setAvatarId(aid);
     setAvatarSource(getAvatarSource(aid));
@@ -213,6 +215,11 @@ export function HeadlinesScreen() {
           {!bikePhotoUri && !pickingPhoto ? (
             <View style={styles.heroHintWrap} pointerEvents="none">
               <Text style={styles.heroHintText}>Tap to add your bike photo</Text>
+              <Text style={styles.heroPlaceholderCaption}>
+                {favouriteBike
+                  ? `Favourite: ${favouriteBike} · photo is a placeholder until you upload yours.`
+                  : 'Placeholder photo — upload your bike below. Your favourite bike from onboarding is saved in Profile.'}
+              </Text>
             </View>
           ) : null}
           {/* Avatar + rider name: bottom-right, over bike photo */}
@@ -264,7 +271,7 @@ export function HeadlinesScreen() {
           <Text style={styles.navButtonText}>Coach & Bike Setup</Text>
         </TouchableOpacity>
         <TouchableOpacity style={styles.navButton} onPress={goToHeadlines} activeOpacity={0.8}>
-          <Text style={styles.navButtonText}>Bike News</Text>
+          <Text style={styles.navButtonText}>News</Text>
         </TouchableOpacity>
         <TouchableOpacity style={styles.navButton} onPress={goToCalendar} activeOpacity={0.8}>
           <Text style={styles.navButtonText}>Events</Text>
@@ -362,6 +369,13 @@ const styles = StyleSheet.create({
     fontSize: 13,
     color: '#e2e8f0',
     fontWeight: '600',
+  },
+  heroPlaceholderCaption: {
+    maxWidth: 280,
+    marginTop: 4,
+    fontSize: 12,
+    lineHeight: 17,
+    color: '#cbd5e1',
   },
   addAvatarBtn: {
     paddingVertical: 8,

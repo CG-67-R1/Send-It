@@ -217,7 +217,7 @@ export function HeadlinesListScreen() {
       ListHeaderComponent={
         <View style={styles.header}>
           <AppLogo size={SCREEN_LOGO_SIZE} />
-          <Text style={styles.headerTitle}>Bike News</Text>
+          <Text style={styles.headerTitle}>News</Text>
           <Text style={styles.headerSubtitle}>
             Tap to open • Pull down to refresh • Order in News settings
           </Text>

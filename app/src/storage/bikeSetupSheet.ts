@@ -1,14 +1,29 @@
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
 const KEY_DAY_SHEET = '@roadrace_bike_setup_day_sheet';
+export const KEY_SESSION_HISTORY = '@roadrace_bike_setup_session_history';
 
 export type BikeSetupDaySheet = {
   dateIso: string;
   trackName: string;
+  sessionNumber?: string;
   sessionNotes: string;
   goalsForToday: string;
+  pressureUnit: 'psi' | 'kPa';
   tyreFrontPressure: string;
   tyreRearPressure: string;
+  tyreFrontPressureCold: string;
+  tyreFrontPressureHot: string;
+  tyreRearPressureCold: string;
+  tyreRearPressureHot: string;
+  tyreBrandCompound: string;
+  ambientTemp: string;
+  trackTemp: string;
+  fuelLevel: string;
+  gearing: string;
+  lapTimes: string;
+  changesMade: string;
+  changeResult: string;
   frontSag: string;
   frontPreload: string;
   frontCompression: string;
@@ -26,10 +41,24 @@ export function emptyBikeSetupDaySheet(dateIso?: string): BikeSetupDaySheet {
   return {
     dateIso: dateIso ?? new Date().toISOString().slice(0, 10),
     trackName: '',
+    sessionNumber: '',
     sessionNotes: '',
     goalsForToday: '',
+    pressureUnit: 'psi',
     tyreFrontPressure: '',
     tyreRearPressure: '',
+    tyreFrontPressureCold: '',
+    tyreFrontPressureHot: '',
+    tyreRearPressureCold: '',
+    tyreRearPressureHot: '',
+    tyreBrandCompound: '',
+    ambientTemp: '',
+    trackTemp: '',
+    fuelLevel: '',
+    gearing: '',
+    lapTimes: '',
+    changesMade: '',
+    changeResult: '',
     frontSag: '',
     frontPreload: '',
     frontCompression: '',
@@ -50,13 +79,29 @@ function asString(value: unknown): string {
 
 function normalizeSheet(raw: Record<string, unknown>): BikeSetupDaySheet {
   const empty = emptyBikeSetupDaySheet();
+  const tyreFrontPressure = asString(raw.tyreFrontPressure);
+  const tyreRearPressure = asString(raw.tyreRearPressure);
   return {
     dateIso: asString(raw.dateIso) || empty.dateIso,
     trackName: asString(raw.trackName),
+    sessionNumber: asString(raw.sessionNumber),
     sessionNotes: asString(raw.sessionNotes),
     goalsForToday: asString(raw.goalsForToday),
-    tyreFrontPressure: asString(raw.tyreFrontPressure),
-    tyreRearPressure: asString(raw.tyreRearPressure),
+    pressureUnit: raw.pressureUnit === 'kPa' ? 'kPa' : 'psi',
+    tyreFrontPressure,
+    tyreRearPressure,
+    tyreFrontPressureCold: asString(raw.tyreFrontPressureCold) || tyreFrontPressure,
+    tyreFrontPressureHot: asString(raw.tyreFrontPressureHot),
+    tyreRearPressureCold: asString(raw.tyreRearPressureCold) || tyreRearPressure,
+    tyreRearPressureHot: asString(raw.tyreRearPressureHot),
+    tyreBrandCompound: asString(raw.tyreBrandCompound),
+    ambientTemp: asString(raw.ambientTemp),
+    trackTemp: asString(raw.trackTemp),
+    fuelLevel: asString(raw.fuelLevel),
+    gearing: asString(raw.gearing),
+    lapTimes: asString(raw.lapTimes),
+    changesMade: asString(raw.changesMade),
+    changeResult: asString(raw.changeResult),
     frontSag: asString(raw.frontSag),
     frontPreload: asString(raw.frontPreload),
     frontCompression: asString(raw.frontCompression),
@@ -93,6 +138,64 @@ export async function clearBikeSetupDaySheet(): Promise<BikeSetupDaySheet> {
   return empty;
 }
 
+/** Clears the current setup sheet and all locally saved session snapshots. */
+export async function clearAllBikeSetupData(): Promise<void> {
+  await AsyncStorage.multiRemove([KEY_DAY_SHEET, KEY_SESSION_HISTORY]);
+}
+
+export async function getSessionHistory(): Promise<BikeSetupDaySheet[]> {
+  try {
+    const raw = await AsyncStorage.getItem(KEY_SESSION_HISTORY);
+    if (!raw) return [];
+    const parsed = JSON.parse(raw) as unknown;
+    if (!Array.isArray(parsed)) return [];
+    return parsed
+      .filter((item): item is Record<string, unknown> => Boolean(item) && typeof item === 'object')
+      .map(normalizeSheet);
+  } catch {
+    return [];
+  }
+}
+
+export async function saveSessionToHistory(
+  sheet: BikeSetupDaySheet
+): Promise<BikeSetupDaySheet[]> {
+  const history = await getSessionHistory();
+  const snapshot = normalizeSheet({ ...sheet, updatedAt: Date.now() });
+  const next = [...history, snapshot].slice(-30);
+  await AsyncStorage.setItem(KEY_SESSION_HISTORY, JSON.stringify(next));
+  return next;
+}
+
+function historyIndex(history: BikeSetupDaySheet[], updatedAtOrIndex: number): number {
+  const updatedAtIndex = history.findIndex((item) => item.updatedAt === updatedAtOrIndex);
+  if (updatedAtIndex >= 0) return updatedAtIndex;
+  return Number.isInteger(updatedAtOrIndex) &&
+    updatedAtOrIndex >= 0 &&
+    updatedAtOrIndex < history.length
+    ? updatedAtOrIndex
+    : -1;
+}
+
+export async function loadSessionFromHistory(
+  updatedAtOrIndex: number
+): Promise<BikeSetupDaySheet | null> {
+  const history = await getSessionHistory();
+  const index = historyIndex(history, updatedAtOrIndex);
+  return index >= 0 ? normalizeSheet(history[index] as unknown as Record<string, unknown>) : null;
+}
+
+export async function deleteSessionFromHistory(
+  updatedAtOrIndex: number
+): Promise<BikeSetupDaySheet[]> {
+  const history = await getSessionHistory();
+  const index = historyIndex(history, updatedAtOrIndex);
+  if (index < 0) return history;
+  const next = history.filter((_, itemIndex) => itemIndex !== index);
+  await AsyncStorage.setItem(KEY_SESSION_HISTORY, JSON.stringify(next));
+  return next;
+}
+
 function line(label: string, value: string): string | null {
   const trimmed = value.trim();
   if (!trimmed) return null;
@@ -109,6 +212,7 @@ export function formatBikeSetupSheetForAi(sheet: BikeSetupDaySheet): string {
   const session = [
     line('Date', sheet.dateIso),
     line('Track', sheet.trackName),
+    line('Session number', sheet.sessionNumber ?? ''),
     line('Session notes', sheet.sessionNotes),
     line('Goals for today', sheet.goalsForToday),
   ].filter(Boolean) as string[];
@@ -118,8 +222,11 @@ export function formatBikeSetupSheetForAi(sheet: BikeSetupDaySheet): string {
   }
 
   const tyres = [
-    line('Front tyre pressure', sheet.tyreFrontPressure),
-    line('Rear tyre pressure', sheet.tyreRearPressure),
+    line('Tyre brand / compound', sheet.tyreBrandCompound),
+    line(`Front cold pressure (${sheet.pressureUnit})`, sheet.tyreFrontPressureCold),
+    line(`Front hot pressure (${sheet.pressureUnit})`, sheet.tyreFrontPressureHot),
+    line(`Rear cold pressure (${sheet.pressureUnit})`, sheet.tyreRearPressureCold),
+    line(`Rear hot pressure (${sheet.pressureUnit})`, sheet.tyreRearPressureHot),
   ].filter(Boolean) as string[];
 
   if (tyres.length) {
@@ -148,6 +255,20 @@ export function formatBikeSetupSheetForAi(sheet: BikeSetupDaySheet): string {
 
   if (rear.length) {
     sections.push('Rear suspension', ...rear, '');
+  }
+
+  const extended = [
+    line('Ambient temperature', sheet.ambientTemp),
+    line('Track temperature', sheet.trackTemp),
+    line('Fuel level', sheet.fuelLevel),
+    line('Gearing', sheet.gearing),
+    line('Lap times', sheet.lapTimes),
+    line('Changes made', sheet.changesMade),
+    line('Result of changes', sheet.changeResult),
+  ].filter(Boolean) as string[];
+
+  if (extended.length) {
+    sections.push('Extended session', ...extended, '');
   }
 
   const body = sections.join('\n').trim();

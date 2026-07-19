@@ -1,6 +1,7 @@
 import React, { useCallback, useEffect, useRef, useState } from 'react';
 import {
   ActivityIndicator,
+  Alert,
   Image,
   KeyboardAvoidingView,
   Platform,
@@ -55,6 +56,7 @@ export function CoachChatScreen() {
   const lastDraftKeyRef = useRef<string | null>(null);
   const goalsSeededRef = useRef(false);
   const modeRef = useRef(mode);
+  const conversationGenerationRef = useRef(0);
 
   // Reset chat when switching between Coach and Bike Setup screens
   useEffect(() => {
@@ -113,6 +115,72 @@ export function CoachChatScreen() {
       cancelled = true;
     };
   }, [mode, route.params?.seedMessages]);
+
+  const clearConversation = useCallback(() => {
+    Alert.alert(
+      'Start a new chat?',
+      'This clears the current conversation, draft, and attachments.',
+      [
+        { text: 'Cancel', style: 'cancel' },
+        {
+          text: 'Clear',
+          style: 'destructive',
+          onPress: () => {
+            conversationGenerationRef.current += 1;
+            const clearedGeneration = conversationGenerationRef.current;
+            setMessages([]);
+            setInput('');
+            setPendingAttachments([]);
+            setLoading(false);
+            setError(null);
+            setSuggestMode(null);
+            lastSeedKeyRef.current = null;
+            lastDraftKeyRef.current = null;
+            navigation.setParams({
+              seedMessages: undefined,
+              seedDraftMessage: undefined,
+            });
+
+            if (mode === 'coach') {
+              goalsSeededRef.current = true;
+              void getBikeSetupDaySheet().then((sheet) => {
+                if (
+                  clearedGeneration !== conversationGenerationRef.current ||
+                  modeRef.current !== 'coach'
+                ) {
+                  return;
+                }
+                setMessages([
+                  createChatMessage({
+                    role: 'assistant',
+                    content: buildCoachGoalsPrompt(sheet.goalsForToday),
+                  }),
+                ]);
+              });
+            } else {
+              goalsSeededRef.current = false;
+            }
+          },
+        },
+      ]
+    );
+  }, [mode, navigation]);
+
+  useEffect(() => {
+    navigation.setOptions({
+      headerRight: () => (
+        <TouchableOpacity
+          onPress={clearConversation}
+          style={styles.headerClearButton}
+          accessibilityRole="button"
+          accessibilityLabel="Clear conversation"
+          accessibilityHint="Start a new chat after confirmation"
+        >
+          <Text style={styles.headerClearText}>Clear</Text>
+        </TouchableOpacity>
+      ),
+    });
+  }, [clearConversation, navigation]);
 
   const switchToSuggestedMode = useCallback(() => {
     if (!suggestMode || suggestMode === mode) return;
@@ -177,6 +245,7 @@ export function CoachChatScreen() {
     });
     setMessages((prev) => [...prev, userMsg]);
     setLoading(true);
+    const requestGeneration = conversationGenerationRef.current;
 
     const historyForApi: CoachChatMessage[] = messages.map((m) => ({
       role: m.role,
@@ -190,6 +259,7 @@ export function CoachChatScreen() {
         historyForApi,
         attachmentsToPayload(attachments)
       );
+      if (requestGeneration !== conversationGenerationRef.current) return;
       if (!result.ok) {
         setMessages((prev) => prev.slice(0, -1));
         setPendingAttachments(attachments);
@@ -207,12 +277,15 @@ export function CoachChatScreen() {
       }
       setTimeout(() => scrollRef.current?.scrollToEnd({ animated: true }), 100);
     } catch (e) {
+      if (requestGeneration !== conversationGenerationRef.current) return;
       setMessages((prev) => prev.slice(0, -1));
       setPendingAttachments(attachments);
       setInput(text);
       setError(e instanceof Error ? e.message : 'Network error');
     } finally {
-      setLoading(false);
+      if (requestGeneration === conversationGenerationRef.current) {
+        setLoading(false);
+      }
     }
   }, [input, pendingAttachments, loading, mode, messages]);
 
@@ -592,5 +665,18 @@ const styles = StyleSheet.create({
     fontSize: 16,
     fontWeight: '600',
     color: '#0f172a',
+  },
+  headerClearButton: {
+    minHeight: 36,
+    justifyContent: 'center',
+    paddingHorizontal: 12,
+    borderRadius: 8,
+    borderWidth: 1,
+    borderColor: '#f59e0b',
+  },
+  headerClearText: {
+    color: '#f59e0b',
+    fontSize: 14,
+    fontWeight: '700',
   },
 });

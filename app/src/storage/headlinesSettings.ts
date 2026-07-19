@@ -121,3 +121,13 @@ export async function getLastSeenPriority1Urls(): Promise<string[]> {
 export async function setLastSeenPriority1Urls(urls: string[]): Promise<void> {
   await AsyncStorage.setItem(KEY_LAST_SEEN_P1_URLS, JSON.stringify(urls));
 }
+
+/** Restores all locally stored news preferences to their defaults. */
+export async function resetHeadlinesSettings(): Promise<void> {
+  await AsyncStorage.multiRemove([
+    KEY_PRIORITY,
+    KEY_CUSTOM_SOURCES,
+    KEY_NOTIFY_PRIORITY_1,
+    KEY_LAST_SEEN_P1_URLS,
+  ]);
+}

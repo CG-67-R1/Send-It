@@ -129,6 +129,7 @@ export function ImportTrackNotesScreen() {
       otherTrackContext: isOther ? otherContext : undefined,
       entries: [{ type: 'note' as const, text: trimmed }],
       photoUris: photos.length ? photos : undefined,
+      visibility: 'private' as const,
     };
 
     if (!sessionReadyForCoach(session)) {
@@ -211,7 +212,8 @@ export function ImportTrackNotesScreen() {
         </View>
         <Text style={styles.heroTitle}>Import track notes</Text>
         <Text style={styles.heroSubtitle}>
-          Paste notes from another rider. Select the track so your coach gets proper corner context.
+          Import notes from your clipboard, a file paste, or another session export — then send them
+          to Coach. This does not pull other riders&apos; private notes.
         </Text>
 
         <TouchableOpacity
