@@ -152,6 +152,7 @@ app.post('/roadrace-ai/ask', async (req, res) => {
       reply: result.content || '',
       sources: result.sources || [],
       fromKb: Boolean(result.fromKb),
+      ...(result.momsOnline ? { momsOnline: result.momsOnline } : {}),
     });
   } catch (e) {
     console.error(e);

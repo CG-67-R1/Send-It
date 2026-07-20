@@ -5,7 +5,8 @@
  */
 
 import OpenAI from 'openai';
-import { prepareRulesQueryTokens, retrieveForAsk, retrieveForRules } from './qa.js';
+import { enrichRulesSources } from './momsOnlineUrls.js';
+import { prepareRulesQueryTokens, retrieveForRules } from './qa.js';
 import { formatFaqsForPrompt, loadRiderAiFaqs } from './riderAiFaqs.js';
 
 const COACH_SYSTEM = `You are an expert motorcycle road racing and track day coach specializing in Australian track day riding. You give direct, practical motorsport advice.
@@ -39,16 +40,26 @@ Do not recommend shortening suspension travel, adding internal spacers, changing
 
 **Current mode: BIKE SETUP / TECHNICAL.** Focus on: suspension (sag, damping, spring rate), geometry (rake, trail, ride height), tyres (pressures, wear, compounds), gearing, and setup changes. Use motion ratio, spring rate, and geometry principles when relevant. If the user has not supplied the required bike or issue details, ask briefly and limit the answer to safe general principles. Be encouraging and concise.`;
 
-const ASK_SYSTEM = `You are a knowledgeable motorcycle road racing and motorsport Q&A assistant with Australian road-racing context.
+const ASK_SYSTEM = `You are a knowledgeable motorcycle road racing Q&A assistant for the Send-It / RoadRace app.
 
-**Current mode: GENERAL Q&A.** Answer factual questions about: racing history, rules, terminology, bike technology concepts, series and events, and general motorsport research.
+**Current mode: GENERAL Q&A WITH WEB SEARCH.** Answer factual questions about **motorcycle** road racing and motorcycle track motorsport only: history, series and events, terminology, bike technology concepts, riders, and circuits.
 
-**Rules:**
-- When knowledge-base excerpts are provided, prefer them and stay consistent with that material. Mention when you are drawing on general knowledge instead.
-- Cite knowledge-base sources by the bracketed number matching the provided excerpt, for example [1].
-- For venue or circuit feasibility questions, if the excerpts do not contain location-specific evidence, say that the answer cannot be determined from the available sources and list the information needed to determine it. Do not invent plausible-sounding venue details.
-- Give one clear, concise answer (a few short paragraphs at most). No sign-off joke.
-- If the user asks for personalized coaching, session feedback, corner-by-corner advice, or detailed bike setup tuning for their specific bike/session, give a brief general pointer only and tell them to use the **Coach & Bike Setup** tab in the app for tailored help.
+**Scope (critical):**
+- "Road racing" always means **motorcycles on asphalt circuits / closed roads** (two wheels), never cars.
+- Do **not** answer about car racing (F1, Formula, IndyCar, NASCAR, V8 Supercars, GT, touring cars, rally cars, etc.) unless the user clearly asks about cars — then say this app covers motorcycle road racing and offer a motorcycle angle if relevant.
+- When searching the web, prefer motorcycle terms (motorcycle, bike, MotoGP, WorldSBK, ASBK, superbike) so results are not car series.
+
+**Search and priority:**
+- Use web search for factual claims. Prefer authoritative motorcycle motorsport sources.
+- Priority order: **Australia first** (ASBK, Motorcycling Australia, state/club motorcycle road racing, Australian circuits and riders), then **world level** (MotoGP, WorldSBK, international motorcycle road racing).
+- Stay on motorcycle road racing / motorcycle track motorsport. If the question is off-topic, say briefly and redirect.
+- If search finds nothing reliable, say so clearly. Do not invent dates, results, venues, or rules.
+
+**Style:**
+- One clear, concise answer (a few short paragraphs at most). No sign-off joke.
+- Mention key sources briefly when useful.
+- If the user asks for personalized coaching, session feedback, corner-by-corner advice, or detailed bike setup for their bike/session, give a brief general pointer only and tell them to use the **Coach & Bike Setup** tab.
+- Official MoMS rule lookups belong in **Official rule check?** — do not invent clause numbers.
 - Safety first. Do not encourage reckless riding.`;
 
 const RULES_SYSTEM = `You are an official Manual of Motorcycle Sport (MoMS) rule-check assistant for Australian motorcycle sport.
@@ -94,18 +105,6 @@ function parseSuggestMode(content, currentMode) {
   const cleaned = text.replace(SUGGEST_MODE_RE, '').trim();
   if (suggested === currentMode) return { content: cleaned };
   return { content: cleaned, suggestMode: suggested };
-}
-
-function formatKbContext(chunks) {
-  if (!chunks.length) {
-    return '\n\n**Knowledge base:** No relevant excerpts were found. You may answer non-location-specific questions from general motorsport knowledge and must say so briefly. Refuse to make location-specific venue or circuit claims: say the available sources are insufficient and list the evidence needed to determine the answer.';
-  }
-  const blocks = chunks.map((c, i) => {
-    const origin = c.origin ? ` (source: ${c.origin})` : '';
-    const location = c.location ? `\nLocation: ${c.location}` : '';
-    return `[${i + 1}] ${c.title}${origin}${location}\n${c.content}`;
-  });
-  return `\n\n**Knowledge base excerpts (prefer these when relevant):**\n\n${blocks.join('\n\n')}`;
 }
 
 function summarizeSource(content) {
@@ -258,10 +257,60 @@ function getSystemPrompt(mode, faqs) {
 }
 
 /**
- * Single-shot Ask mode: KB retrieval then LLM synthesis.
+ * Collect URL citations / web_search sources from a Responses API payload.
+ * @param {object} response
+ * @returns {Array<{ title: string, origin?: string, onlineUrl?: string }>}
+ */
+function extractWebSources(response) {
+  const sources = [];
+  const seen = new Set();
+
+  const push = (url, title) => {
+    const href = typeof url === 'string' ? url.trim() : '';
+    if (!href || seen.has(href)) return;
+    seen.add(href);
+    let host = href;
+    try {
+      host = new URL(href).hostname.replace(/^www\./, '');
+    } catch {
+      /* keep href */
+    }
+    sources.push({
+      title: (typeof title === 'string' && title.trim()) || host || href,
+      origin: href,
+      onlineUrl: href,
+    });
+  };
+
+  for (const item of response?.output || []) {
+    if (item?.type === 'message') {
+      for (const part of item.content || []) {
+        for (const ann of part.annotations || []) {
+          if (ann?.type === 'url_citation' && ann.url) {
+            push(ann.url, ann.title);
+          }
+        }
+      }
+    }
+    if (item?.type === 'web_search_call') {
+      const actionSources = item.action?.sources;
+      if (Array.isArray(actionSources)) {
+        for (const s of actionSources) {
+          if (typeof s === 'string') push(s);
+          else if (s && typeof s === 'object') push(s.url || s.href, s.title);
+        }
+      }
+    }
+  }
+
+  return sources.slice(0, 8);
+}
+
+/**
+ * Single-shot Ask: web search (Responses API). Rules mode: MoMS local JSON only.
  * @param {string} message
  * @param {{ mode?: 'ask' | 'rules' }} [options]
- * @returns {Promise<{ content: string, sources: Array<{ title: string, origin?: string, location?: string, summary?: string }>, fromKb: boolean, error?: string }>}
+ * @returns {Promise<{ content: string, sources: Array<object>, fromKb: boolean, momsOnline?: object, error?: string }>}
  */
 export async function askChat(message, options = {}) {
   const apiKey = process.env.OPENAI_API_KEY;
@@ -280,13 +329,10 @@ export async function askChat(message, options = {}) {
   }
 
   const mode = options.mode === 'rules' ? 'rules' : 'ask';
-
-  let chunks;
-  let fromKb;
-  let systemPrompt;
+  const client = new OpenAI({ apiKey });
+  const model = process.env.OPENAI_MODEL || 'gpt-4o-mini';
 
   if (mode === 'rules') {
-    const client = new OpenAI({ apiKey });
     const { merged: searchQuery, keywords } = await prepareRulesSearchQuery(client, text);
     const primary = await retrieveForRules(searchQuery, 12);
     if (!primary.available) {
@@ -313,14 +359,14 @@ export async function askChat(message, options = {}) {
     }
     candidates.sort((a, b) => (b.score || 0) - (a.score || 0));
     candidates = candidates.slice(0, 14);
-    chunks = await rerankRulesChunks(client, text, candidates, 6);
-    fromKb = chunks.length > 0;
-    systemPrompt = RULES_SYSTEM + formatRulesContext(chunks);
-    const sources = mapRulesSources(chunks);
+    const chunks = await rerankRulesChunks(client, text, candidates, 6);
+    const fromKb = chunks.length > 0;
+    const systemPrompt = RULES_SYSTEM + formatRulesContext(chunks);
+    const { sources, momsOnline } = await enrichRulesSources(mapRulesSources(chunks));
 
     try {
       const completion = await client.chat.completions.create({
-        model: process.env.OPENAI_MODEL || 'gpt-4o-mini',
+        model,
         messages: [
           { role: 'system', content: systemPrompt },
           { role: 'user', content: text },
@@ -329,7 +375,7 @@ export async function askChat(message, options = {}) {
       });
 
       const content = completion.choices?.[0]?.message?.content?.trim() || '';
-      return { content, sources, fromKb };
+      return { content, sources, fromKb, momsOnline };
     } catch (err) {
       const msg = err?.message || String(err);
       console.error('RoadRace AI ask error:', msg);
@@ -344,36 +390,77 @@ export async function askChat(message, options = {}) {
     }
   }
 
-  {
-    const retrieved = await retrieveForAsk(text);
-    chunks = retrieved.chunks;
-    fromKb = retrieved.fromKb;
-    systemPrompt = ASK_SYSTEM + formatKbContext(chunks);
-  }
-
-  const sources = chunks.map((c) => ({
-    title: c.title,
-    origin: c.origin,
-    ...(c.location ? { location: c.location } : {}),
-    ...(summarizeSource(c.content) ? { summary: summarizeSource(c.content) } : {}),
-  }));
-
+  // General Ask: Responses API + hosted web search (Australia-first, then world).
   try {
-    const client = new OpenAI({ apiKey });
-    const completion = await client.chat.completions.create({
-      model: process.env.OPENAI_MODEL || 'gpt-4o-mini',
-      messages: [
-        { role: 'system', content: systemPrompt },
-        { role: 'user', content: text },
+    const response = await client.responses.create({
+      model,
+      instructions: ASK_SYSTEM,
+      input: text,
+      tools: [
+        {
+          type: 'web_search',
+          user_location: {
+            type: 'approximate',
+            country: 'AU',
+          },
+          search_context_size: 'medium',
+          filters: {
+            blocked_domains: ['reddit.com', 'quora.com'],
+          },
+        },
       ],
-      max_tokens: 1024,
+      tool_choice: 'auto',
+      include: ['web_search_call.action.sources'],
+      max_output_tokens: 1024,
     });
 
-    const content = completion.choices?.[0]?.message?.content?.trim() || '';
-    return { content, sources, fromKb };
+    const content = (response.output_text || '').trim();
+    if (!content) {
+      return {
+        content: '',
+        sources: [],
+        fromKb: false,
+        error: 'Ask returned an empty response.',
+      };
+    }
+    const sources = extractWebSources(response);
+    return { content, sources, fromKb: false };
   } catch (err) {
     const msg = err?.message || String(err);
-    console.error('RoadRace AI ask error:', msg);
+    console.error('RoadRace AI ask web-search error:', msg);
+    // Retry once without include/filters if the model rejects newer web_search options
+    if (/unknown|unsupported|invalid|include|filters|search_context/i.test(msg)) {
+      try {
+        const fallback = await client.responses.create({
+          model,
+          instructions: ASK_SYSTEM,
+          input: text,
+          tools: [
+            {
+              type: 'web_search',
+              user_location: {
+                type: 'approximate',
+                country: 'AU',
+              },
+            },
+          ],
+          tool_choice: 'auto',
+          max_output_tokens: 1024,
+        });
+        const content = (fallback.output_text || '').trim();
+        if (!content) {
+          return {
+            content: '',
+            sources: [],
+            fromKb: false,
+            error: 'Ask returned an empty response.',
+          };
+        }
+        return { content, sources: extractWebSources(fallback), fromKb: false };
+      } catch (err2) {
+        console.error('RoadRace AI ask web-search fallback error:', err2?.message || err2);
+      }
+    }
     return {
       content: '',
       sources: [],

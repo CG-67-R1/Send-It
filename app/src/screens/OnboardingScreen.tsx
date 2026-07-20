@@ -60,14 +60,15 @@ export function OnboardingScreen({ onComplete }: OnboardingScreenProps) {
   const avatarScrollRef = useRef<ScrollView>(null);
   const avatarScrollX = useRef(0);
 
-  const totalSteps = 7; // welcome, bike, rider, activity, future racer info, nickname+avatar, summary
+  // welcome, bike, rider, taste bridge, activity, future racer, nickname+avatar, summary
+  const totalSteps = 8;
 
   const selectedAvatarPreset = avatarId ? getAvatarPreset(avatarId) : undefined;
   const effectiveAvatarId = avatarId ?? assignedRandomAvatarId;
   const effectiveAvatarPreset = effectiveAvatarId ? getAvatarPreset(effectiveAvatarId) : undefined;
 
   useEffect(() => {
-    if (step === 6 && !avatarId && !assignedRandomAvatarId) {
+    if (step === 7 && !avatarId && !assignedRandomAvatarId) {
       setAssignedRandomAvatarId(pickRandomNoPhotoAvatar());
     }
   }, [step, avatarId, assignedRandomAvatarId]);
@@ -140,9 +141,9 @@ export function OnboardingScreen({ onComplete }: OnboardingScreenProps) {
   };
 
   const canNext = () => {
-    if (step === 1 || step === 2) return true;
-    if (step === 3) return activity !== null;
-    if (step === 4) {
+    if (step === 1 || step === 2 || step === 3) return true;
+    if (step === 4) return activity !== null;
+    if (step === 5) {
       // Future racer info step
       if (activity !== 'race_one_day') return true;
       if (wantsRacingInfo === null) return false;
@@ -161,7 +162,7 @@ export function OnboardingScreen({ onComplete }: OnboardingScreenProps) {
 
   const handleNext = async () => {
     if (finishing) return;
-    if (step === 4 && activity === 'race_one_day' && wantsRacingInfo && wantsRacingEmailInfo) {
+    if (step === 5 && activity === 'race_one_day' && wantsRacingInfo && wantsRacingEmailInfo) {
       const stateInfo = selectedStateCode ? getRacingStateInfo(selectedStateCode) : undefined;
       const subject = encodeURIComponent('RoadRace – Future racer enquiry');
       const bodyLines = [
@@ -186,7 +187,8 @@ export function OnboardingScreen({ onComplete }: OnboardingScreenProps) {
     }
 
     if (step < totalSteps - 1) {
-      setStep((s) => (s === 3 && activity !== 'race_one_day' ? 5 : s + 1));
+      // Skip future-racer step when not relevant: activity (4) → avatar (6)
+      setStep((s) => (s === 4 && activity !== 'race_one_day' ? 6 : s + 1));
       return;
     }
     setFinishing(true);
@@ -203,7 +205,10 @@ export function OnboardingScreen({ onComplete }: OnboardingScreenProps) {
   };
 
   const handleBack = () => {
-    if (step > 0) setStep((s) => (s === 5 && activity !== 'race_one_day' ? 3 : s - 1));
+    if (step > 0) {
+      // Skip future-racer when backing from avatar
+      setStep((s) => (s === 6 && activity !== 'race_one_day' ? 4 : s - 1));
+    }
   };
 
   const scrollAvatars = useCallback((direction: -1 | 1) => {
@@ -280,8 +285,27 @@ export function OnboardingScreen({ onComplete }: OnboardingScreenProps) {
           </View>
         )}
 
-        {/* Step 3: Race / track days / just love bikes */}
+        {/* Step 3: Taste bridge — cool facts then personalise */}
         {step === 3 && (
+          <View style={styles.step}>
+            <Text style={styles.title}>Nice taste</Text>
+            <Text style={styles.subtitle}>A little something about your picks.</Text>
+            <View style={styles.justSendItBox}>
+              <Text style={styles.justSendItTitle}>Your rider</Text>
+              <Text style={styles.justSendItText}>{getRiderFact(favouriteRider.trim())}</Text>
+            </View>
+            <View style={[styles.justSendItBox, { marginTop: 12 }]}>
+              <Text style={styles.justSendItTitle}>Your bike</Text>
+              <Text style={styles.justSendItText}>{getBikeFact(favouriteBike.trim())}</Text>
+            </View>
+            <Text style={[styles.prompt, { marginTop: 24 }]}>
+              Let’s personalise RoadRacer for you.
+            </Text>
+          </View>
+        )}
+
+        {/* Step 4: Race / track days / just love bikes */}
+        {step === 4 && (
           <View style={styles.step}>
             <Text style={styles.title}>How do you ride?</Text>
             <Text style={styles.subtitle}>We’re here for all of it.</Text>
@@ -300,8 +324,8 @@ export function OnboardingScreen({ onComplete }: OnboardingScreenProps) {
           </View>
         )}
 
-        {/* Step 4: Future racer flow (optional) */}
-        {step === 4 && (
+        {/* Step 5: Future racer flow (optional) */}
+        {step === 5 && (
           <View style={styles.step}>
             {activity === 'race_one_day' && (
               <>
@@ -496,8 +520,8 @@ export function OnboardingScreen({ onComplete }: OnboardingScreenProps) {
           </View>
         )}
 
-        {/* Step 5: Pick avatar + nickname */}
-        {step === 5 && (
+        {/* Step 6: Pick avatar + nickname */}
+        {step === 6 && (
           <View style={styles.step}>
             <Text style={styles.title}>What should we call you?</Text>
             <Text style={styles.subtitle}>
@@ -621,8 +645,8 @@ export function OnboardingScreen({ onComplete }: OnboardingScreenProps) {
           </View>
         )}
 
-        {/* Step 6: Summary */}
-        {step === 6 && (
+        {/* Step 7: Summary */}
+        {step === 7 && (
           <View style={styles.step}>
             <Text style={styles.title}>You’re in the right place</Text>
             <View style={styles.summaryProfileRow}>
@@ -656,8 +680,6 @@ export function OnboardingScreen({ onComplete }: OnboardingScreenProps) {
                 ) : null}
               </View>
             </View>
-            <Text style={styles.summaryText}>{getRiderFact(favouriteRider.trim())}</Text>
-            <Text style={styles.summaryText}>{getBikeFact(favouriteBike.trim())}</Text>
             <Text style={styles.summaryClosing}>
               Whether you race, do track days, or just love bikes — RoadRacer is here for headlines, what’s on, Q&A, and rider coach. Time to send it. 🏁
             </Text>

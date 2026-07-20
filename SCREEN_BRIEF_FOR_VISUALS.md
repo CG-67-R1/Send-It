@@ -15,19 +15,23 @@ Use this brief to generate mockups, illustrations, or theme variations in GPT (o
 
 ## 1. Onboarding (First-time flow)
 
-**Purpose:** Quick personalisation—favourite bike, favourite rider, how they ride, and a fun “Just Send it!” moment.
+**Purpose:** Quick personalisation—favourite bike, favourite rider, a cool reaction to those picks, how they ride, then avatar/name.
 
-**Flow (6 steps):**
-- **Step 0:** Welcome. “Welcome to RoadRace” + short intro. Single CTA: “Let’s go 👇”.
+**Flow (8 steps):**
+- **Step 0:** Welcome. “Welcome to RoadRacer” + short intro. Single CTA: “Let’s go 👇”.
 - **Step 1:** Favourite bike. One text field, placeholder e.g. “Ducati Panigale V4, Yamaha R1…”.
 - **Step 2:** Favourite rider. One text field, placeholder e.g. “Valentino Rossi, Marc Márquez…”.
-- **Step 3:** How do you ride? Three big tap options: “I race 🏁”, “Track days only 🛞”, “Just love bikes 🏍️”.
-- **Step 4:** “Do you know what ‘Just Send it!’ means?” Yes/No. If no, a small info box explains the phrase (commit, go for it, leave doubt in the pits).
-- **Step 5:** Summary. Short personalised lines (rider fact, bike fact) + “You’re in the right place” and “Time to send it. 🏁”.
+- **Step 3:** Taste bridge. Rider + bike blurbs from curated catalogs (`app/src/data/onboardingRiders.json`, `onboardingBikes.json`) + “Let’s personalise RoadRacer for you.”
+- **Step 4:** How do you ride? Tap options including race / track days / just love bikes / race one day.
+- **Step 5:** Future-racer info (only if “race one day”); otherwise skipped.
+- **Step 6:** Nickname + avatar (+ optional face photo).
+- **Step 7:** Summary. Avatar + nickname + closing “Time to send it.”
+
+**Facts:** Curated offline JSON (aliases + characteristics + blurb). Unknown picks get a friendly fallback. Hermes may flag gaps; does not auto-edit catalogs.
 
 **UI:** Progress dots at top (inactive gray, active elongated amber). Per step: big title, subtitle, then inputs or options. Bottom row: Back (muted) + Next / “Let’s go” (amber, full emphasis). Dark background, cards for inputs and option buttons; selected state = amber border.
 
-**Visual/theming ideas:** Hero illustration for “Welcome” or “Just Send it!”; subtle bike/silhouette motifs; progress could be a speedometer or track segment.
+**Visual/theming ideas:** Hero illustration for “Welcome” or taste bridge; subtle bike/silhouette motifs; progress could be a speedometer or track segment.
 
 ---
 

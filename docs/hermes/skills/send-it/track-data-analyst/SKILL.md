@@ -28,9 +28,11 @@ Standing **track catalog analyst** for RoadRace Track Walk data. You validate `t
 ## Policy
 
 1. **Report only** by default — no commits, pushes, or edits unless the user explicitly asks to fix.
-2. Prefer **official layout lengths / turn hands** over automated bearing guesses when they conflict.
-3. Hand P0/P1 catalog fixes to **Cursor**.
-4. Compare to prior `docs/reviews/TRACK_GPX_ALIGN_*.md` and the Track data section of the latest `RR_REVIEW_*.md`.
+2. **Turn hands are P0.** A wrong left/right is worse than `complex`. Never set `left`/`right` from GPX bearing clustering alone.
+3. Source of truth for allowed hands: [`app/src/data/track_turn_verification.json`](app/src/data/track_turn_verification.json). Run `node scripts/enforce-turn-verification.mjs --write` then `node scripts/validate-track-data.mjs`.
+4. Prefer **official maps / rider confirmation** over KB auto-extract and over GPX.
+5. Hand P0/P1 catalog fixes to **Cursor**.
+6. Compare to prior `docs/reviews/TRACK_GPX_ALIGN_*.md` and the Track data section of the latest `RR_REVIEW_*.md`.
 
 ## Canonical paths
 
@@ -43,6 +45,8 @@ Standing **track catalog analyst** for RoadRace Track Walk data. You validate `t
 | GPX package (optional) | `C:\Users\Administrator\Desktop\Australian_Track_GPX\` |
 | KB | `ST/motorcycle-track-gpt/knowledge-base/track-analysis/` |
 | Validator | `scripts/validate-track-data.mjs` |
+| Turn-hand allowlist | `app/src/data/track_turn_verification.json` |
+| Enforce allowlist | `scripts/enforce-turn-verification.mjs` |
 
 ## Venue list rules
 

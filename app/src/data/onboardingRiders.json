@@ -1,0 +1,674 @@
+[
+  {
+    "id": "rossi",
+    "displayName": "Valentino Rossi",
+    "aliases": ["valentino rossi", "rossi", "the doctor", "46"],
+    "series": ["motogp"],
+    "era": "legend",
+    "characteristics": {
+      "style": ["showman", "racer_iq"],
+      "vibe": ["charismatic", "crowd_favourite"],
+      "signature": "made millions want to ride"
+    },
+    "blurb": "Valentino Rossi didn't just win — he made millions want to ride. Also, he once dressed as a chicken to celebrate a bet. You're in good company.",
+    "active": true
+  },
+  {
+    "id": "marquez",
+    "displayName": "Marc Márquez",
+    "aliases": ["marc marquez", "márquez", "marquez", "marc márquez", "93"],
+    "series": ["motogp"],
+    "era": "current",
+    "characteristics": {
+      "style": ["aggressive", "salvage_king"],
+      "vibe": ["impossible_saves"],
+      "signature": "makes the impossible look easy"
+    },
+    "blurb": "Marc Márquez has a habit of winning titles and making impossible saves look easy. If you ever thought 'how did he do that?' — you're not alone.",
+    "active": true
+  },
+  {
+    "id": "stoner",
+    "displayName": "Casey Stoner",
+    "aliases": ["casey stoner", "stoner"],
+    "series": ["motogp"],
+    "era": "legend",
+    "characteristics": {
+      "style": ["natural", "smooth"],
+      "vibe": ["australian_legend"],
+      "signature": "did it his way"
+    },
+    "blurb": "Casey Stoner left the sport on his own terms and still makes pundits say 'what if.' Respect. You picked a rider who did it his way.",
+    "active": true
+  },
+  {
+    "id": "lorenzo",
+    "displayName": "Jorge Lorenzo",
+    "aliases": ["jorge lorenzo", "lorenzo", "por fuera"],
+    "series": ["motogp"],
+    "era": "legend",
+    "characteristics": {
+      "style": ["smooth", "outside_line"],
+      "vibe": ["stylish"],
+      "signature": "Por Fuera smoothness"
+    },
+    "blurb": "Jorge Lorenzo was so smooth they called him 'Por Fuera' — and his helmet designs were art. Style and speed: you've got taste.",
+    "active": true
+  },
+  {
+    "id": "biaggi",
+    "displayName": "Max Biaggi",
+    "aliases": ["max biaggi", "biaggi", "roman emperor"],
+    "series": ["motogp", "wsbk"],
+    "era": "legend",
+    "characteristics": {
+      "style": ["aggressive"],
+      "vibe": ["entertainer"],
+      "signature": "the Roman Emperor"
+    },
+    "blurb": "Max Biaggi had more personality per square inch than most grids. The Roman Emperor didn't just race — he entertained. Legend.",
+    "active": true
+  },
+  {
+    "id": "bayliss",
+    "displayName": "Troy Bayliss",
+    "aliases": ["troy bayliss", "bayliss"],
+    "series": ["wsbk"],
+    "era": "legend",
+    "characteristics": {
+      "style": ["send_it"],
+      "vibe": ["aussie_legend"],
+      "signature": "shed in Taree to WSBK champion"
+    },
+    "blurb": "Troy Bayliss came from a shed in Taree and won WSBK. If that doesn't say 'just send it,' nothing does. Aussie legend.",
+    "active": true
+  },
+  {
+    "id": "rea",
+    "displayName": "Jonathan Rea",
+    "aliases": ["jonathan rea", "johnny rea", "j rea"],
+    "series": ["wsbk"],
+    "era": "legend",
+    "characteristics": {
+      "style": ["consistency", "record_breaker"],
+      "vibe": ["relentless"],
+      "signature": "six titles in a row"
+    },
+    "blurb": "Jonathan Rea rewrote the WSBK record books. Six titles in a row. He's the kind of rider who makes 'impossible' look like Tuesday.",
+    "active": true
+  },
+  {
+    "id": "toprak",
+    "displayName": "Toprak Razgatlıoğlu",
+    "aliases": ["toprak", "razgatlioglu", "razgatlıoğlu", "toprak razgatlioglu"],
+    "series": ["wsbk", "motogp"],
+    "era": "current",
+    "characteristics": {
+      "style": ["wild", "rear_wheel"],
+      "vibe": ["send_it"],
+      "signature": "makes physicists nervous"
+    },
+    "blurb": "Toprak Razgatlıoğlu does things on a bike that make physicists nervous. If he's your favourite, you clearly like sending it.",
+    "active": true
+  },
+  {
+    "id": "bautista",
+    "displayName": "Álvaro Bautista",
+    "aliases": ["alvaro bautista", "álvaro bautista", "bautista"],
+    "series": ["wsbk", "motogp"],
+    "era": "current",
+    "characteristics": {
+      "style": ["smooth", "late_bloomer"],
+      "vibe": ["dominant"],
+      "signature": "when it's your time, send it"
+    },
+    "blurb": "Álvaro Bautista came back to WSBK and decided to win everything. Late bloomer? More like 'when it's your time, send it.'",
+    "active": true
+  },
+  {
+    "id": "miller",
+    "displayName": "Jack Miller",
+    "aliases": ["jack miller", "miller", "jackass"],
+    "series": ["motogp", "wsbk"],
+    "era": "current",
+    "characteristics": {
+      "style": ["aggressive", "send_it"],
+      "vibe": ["aussie_larrikin"],
+      "signature": "says send it then does it"
+    },
+    "blurb": "Jack Miller is the kind of guy who'd say 'just send it' in an interview and then actually do it. You've got a good one.",
+    "active": true
+  },
+  {
+    "id": "bagnaia",
+    "displayName": "Francesco Bagnaia",
+    "aliases": ["pecco", "bagnaia", "francesco bagnaia", "pecco bagnaia"],
+    "series": ["motogp"],
+    "era": "current",
+    "characteristics": {
+      "style": ["smooth", "smart"],
+      "vibe": ["champion"],
+      "signature": "turned Ducati into a title machine"
+    },
+    "blurb": "Pecco Bagnaia turned Ducati into a title machine. Smooth, smart, and when it's time — he sends it. MotoGP royalty.",
+    "active": true
+  },
+  {
+    "id": "quartararo",
+    "displayName": "Fabio Quartararo",
+    "aliases": ["fabio quartararo", "quartararo", "el diablo", "diablo"],
+    "series": ["motogp"],
+    "era": "current",
+    "characteristics": {
+      "style": ["smooth", "stylish"],
+      "vibe": ["el_diablo"],
+      "signature": "made Yamaha cool again"
+    },
+    "blurb": "Fabio Quartararo made Yamaha cool again and did it with style. El Diablo doesn't overthink — he just goes. Your kind of rider.",
+    "active": true
+  },
+  {
+    "id": "doohan",
+    "displayName": "Mick Doohan",
+    "aliases": ["mick doohan", "doohan"],
+    "series": ["motogp"],
+    "era": "legend",
+    "characteristics": {
+      "style": ["tough", "throttle_warrior"],
+      "vibe": ["aussie_legend"],
+      "signature": "five consecutive 500cc titles"
+    },
+    "blurb": "Mick Doohan won five 500cc titles in a row and did it with a left hand that wrote the rulebook for toughness. Aussie royalty.",
+    "active": true
+  },
+  {
+    "id": "gardner",
+    "displayName": "Wayne Gardner",
+    "aliases": ["wayne gardner", "gardner"],
+    "series": ["motogp"],
+    "era": "legend",
+    "characteristics": {
+      "style": ["brave", "send_it"],
+      "vibe": ["aussie_legend"],
+      "signature": "Australia's first 500cc world champion"
+    },
+    "blurb": "Wayne Gardner was Australia's first 500cc world champion — Wollongong grit on a Grand Prix stage. You picked a pioneer.",
+    "active": true
+  },
+  {
+    "id": "fogarty",
+    "displayName": "Carl Fogarty",
+    "aliases": ["carl fogarty", "fogarty", "foggy"],
+    "series": ["wsbk"],
+    "era": "legend",
+    "characteristics": {
+      "style": ["aggressive", "late_braker"],
+      "vibe": ["british_legend"],
+      "signature": "Foggy on a 916"
+    },
+    "blurb": "Carl Fogarty and a Ducati 916 — WSBK's defining image. Foggy didn't ease into corners; he arrived. Proper legend.",
+    "active": true
+  },
+  {
+    "id": "hailwood",
+    "displayName": "Mike Hailwood",
+    "aliases": ["mike hailwood", "hailwood", "mike the bike"],
+    "series": ["motogp", "tt"],
+    "era": "legend",
+    "characteristics": {
+      "style": ["versatile", "natural"],
+      "vibe": ["mike_the_bike"],
+      "signature": "Mike the Bike"
+    },
+    "blurb": "Mike Hailwood — Mike the Bike. TT hero, GP legend, and still the answer when someone asks who could ride anything.",
+    "active": true
+  },
+  {
+    "id": "agostini",
+    "displayName": "Giacomo Agostini",
+    "aliases": ["giacomo agostini", "agostini", "ago"],
+    "series": ["motogp"],
+    "era": "legend",
+    "characteristics": {
+      "style": ["smooth", "dominant"],
+      "vibe": ["mv_legend"],
+      "signature": "more world titles than almost anyone"
+    },
+    "blurb": "Giacomo Agostini stacked world titles like firewood. Ago on an MV — that's the poster on the wall of racing history.",
+    "active": true
+  },
+  {
+    "id": "pedrosa",
+    "displayName": "Dani Pedrosa",
+    "aliases": ["dani pedrosa", "pedrosa"],
+    "series": ["motogp"],
+    "era": "legend",
+    "characteristics": {
+      "style": ["smooth", "precision"],
+      "vibe": ["pocket_rocket"],
+      "signature": "precision over drama"
+    },
+    "blurb": "Dani Pedrosa rode with surgical precision — small package, massive talent. If you like craft over chaos, he's your guy.",
+    "active": true
+  },
+  {
+    "id": "martin",
+    "displayName": "Jorge Martín",
+    "aliases": ["jorge martin", "jorge martín", "martin", "martín"],
+    "series": ["motogp"],
+    "era": "current",
+    "characteristics": {
+      "style": ["aggressive", "qualifier"],
+      "vibe": ["champion"],
+      "signature": "pole machine turned champion"
+    },
+    "blurb": "Jorge Martín turned Saturday poles into a Sunday title. If your favourite is Martín, you like riders who go for it.",
+    "active": true
+  },
+  {
+    "id": "acosta",
+    "displayName": "Pedro Acosta",
+    "aliases": ["pedro acosta", "acosta", "shark"],
+    "series": ["motogp"],
+    "era": "current",
+    "characteristics": {
+      "style": ["aggressive", "prodigy"],
+      "vibe": ["next_gen"],
+      "signature": "the Shark doesn't wait"
+    },
+    "blurb": "Pedro Acosta arrived like he already knew the script. The Shark doesn't wait for permission — and neither do you, apparently.",
+    "active": true
+  },
+  {
+    "id": "vinales",
+    "displayName": "Maverick Viñales",
+    "aliases": ["maverick vinales", "maverick viñales", "vinales", "viñales"],
+    "series": ["motogp"],
+    "era": "current",
+    "characteristics": {
+      "style": ["smooth", "natural"],
+      "vibe": ["enigma"],
+      "signature": "natural talent on tap"
+    },
+    "blurb": "Maverick Viñales has that rare natural feel — when it's on, it's poetry. You picked a rider with serious hands.",
+    "active": true
+  },
+  {
+    "id": "mir",
+    "displayName": "Joan Mir",
+    "aliases": ["joan mir", "mir"],
+    "series": ["motogp"],
+    "era": "current",
+    "characteristics": {
+      "style": ["consistent", "smart"],
+      "vibe": ["champion"],
+      "signature": "title by consistency"
+    },
+    "blurb": "Joan Mir won a MotoGP title the hard way — brains, consistency, and timing. Quiet class. Strong pick.",
+    "active": true
+  },
+  {
+    "id": "zarco",
+    "displayName": "Johann Zarco",
+    "aliases": ["johann zarco", "zarco"],
+    "series": ["motogp"],
+    "era": "current",
+    "characteristics": {
+      "style": ["aggressive", "qualifier"],
+      "vibe": ["wildcard_energy"],
+      "signature": "qualifying assassin"
+    },
+    "blurb": "Johann Zarco can put a bike on pole when it looks impossible. If he's your favourite, you respect pure pace.",
+    "active": true
+  },
+  {
+    "id": "crutchlow",
+    "displayName": "Cal Crutchlow",
+    "aliases": ["cal crutchlow", "crutchlow"],
+    "series": ["motogp"],
+    "era": "legend",
+    "characteristics": {
+      "style": ["aggressive", "send_it"],
+      "vibe": ["british_fighter"],
+      "signature": "privateer heart, factory pace"
+    },
+    "blurb": "Cal Crutchlow raced like the bike owed him money. British grit on a Grand Prix grid — proper send-it energy.",
+    "active": true
+  },
+  {
+    "id": "edwards",
+    "displayName": "Colin Edwards",
+    "aliases": ["colin edwards", "texas tornado"],
+    "series": ["wsbk", "motogp"],
+    "era": "legend",
+    "characteristics": {
+      "style": ["smooth", "versatile"],
+      "vibe": ["texas_tornado"],
+      "signature": "Texas Tornado"
+    },
+    "blurb": "Colin Edwards — the Texas Tornado. WSBK champion who brought American swagger to the GP paddock. Cool choice.",
+    "active": true
+  },
+  {
+    "id": "haga",
+    "displayName": "Noriyuki Haga",
+    "aliases": ["noriyuki haga", "haga", "nitro nori"],
+    "series": ["wsbk"],
+    "era": "legend",
+    "characteristics": {
+      "style": ["aggressive", "spectacular"],
+      "vibe": ["nitro_nori"],
+      "signature": "Nitro Nori fireworks"
+    },
+    "blurb": "Noriyuki Haga — Nitro Nori — was pure WSBK theatre. If he's your favourite, you like riders who put on a show.",
+    "active": true
+  },
+  {
+    "id": "corser",
+    "displayName": "Troy Corser",
+    "aliases": ["troy corser", "corser"],
+    "series": ["wsbk"],
+    "era": "legend",
+    "characteristics": {
+      "style": ["smooth", "versatile"],
+      "vibe": ["aussie_legend"],
+      "signature": "WSBK champ who could ride anything"
+    },
+    "blurb": "Troy Corser won WSBK and made it look composed. Another Aussie who proved the shed-to-world-stage path is real.",
+    "active": true
+  },
+  {
+    "id": "waters",
+    "displayName": "Josh Waters",
+    "aliases": ["josh waters", "waters"],
+    "series": ["asbk"],
+    "era": "current",
+    "characteristics": {
+      "style": ["smooth", "race_craft"],
+      "vibe": ["asbk_legend"],
+      "signature": "ASBK benchmark"
+    },
+    "blurb": "Josh Waters has been the ASBK benchmark for years. Local hero energy with championship pedigree. Strong Aussie pick.",
+    "active": true
+  },
+  {
+    "id": "herfoss",
+    "displayName": "Troy Herfoss",
+    "aliases": ["troy herfoss", "herfoss", "the rocket"],
+    "series": ["asbk"],
+    "era": "current",
+    "characteristics": {
+      "style": ["aggressive", "send_it"],
+      "vibe": ["the_rocket"],
+      "signature": "The Rocket"
+    },
+    "blurb": "Troy Herfoss — The Rocket — races like the last lap is every lap. ASBK fire. You clearly like drama done right.",
+    "active": true
+  },
+  {
+    "id": "maxwell",
+    "displayName": "Wayne Maxwell",
+    "aliases": ["wayne maxwell", "maxwell"],
+    "series": ["asbk"],
+    "era": "legend",
+    "characteristics": {
+      "style": ["aggressive", "race_craft"],
+      "vibe": ["asbk_legend"],
+      "signature": "ASBK hard man"
+    },
+    "blurb": "Wayne Maxwell brought proper race-craft and fight to ASBK. If he's your favourite, you like riders who scrap for it.",
+    "active": true
+  },
+  {
+    "id": "allerton",
+    "displayName": "Glenn Allerton",
+    "aliases": ["glenn allerton", "allerton"],
+    "series": ["asbk"],
+    "era": "current",
+    "characteristics": {
+      "style": ["smooth", "consistent"],
+      "vibe": ["asbk_stalwart"],
+      "signature": "ASBK consistency"
+    },
+    "blurb": "Glenn Allerton has been an ASBK fixture with pace and polish. Local knowledge, championship hunger — solid taste.",
+    "active": true
+  },
+  {
+    "id": "jones",
+    "displayName": "Mike Jones",
+    "aliases": ["mike jones"],
+    "series": ["asbk"],
+    "era": "current",
+    "characteristics": {
+      "style": ["smooth", "racer_iq"],
+      "vibe": ["asbk_champ"],
+      "signature": "ASBK title winner"
+    },
+    "blurb": "Mike Jones has the ASBK titles to prove the pace is real. Quiet speed. You picked a proper Australian road racer.",
+    "active": true
+  },
+  {
+    "id": "phillip_island_king_hodgson",
+    "displayName": "Daniel Falzon",
+    "aliases": ["daniel falzon", "falzon"],
+    "series": ["asbk"],
+    "era": "legend",
+    "characteristics": {
+      "style": ["smooth"],
+      "vibe": ["asbk"],
+      "signature": "ASBK talent"
+    },
+    "blurb": "Daniel Falzon brought serious ASBK credentials and South Aussie grit. Local hero material — nice pick.",
+    "active": true
+  },
+  {
+    "id": "schwantz",
+    "displayName": "Kevin Schwantz",
+    "aliases": ["kevin schwantz", "schwantz"],
+    "series": ["motogp"],
+    "era": "legend",
+    "characteristics": {
+      "style": ["wild", "send_it"],
+      "vibe": ["suzuki_legend"],
+      "signature": "wild and wonderful on a Suzuki"
+    },
+    "blurb": "Kevin Schwantz rode like the brakes were optional and still won a 500cc title. Pure send-it energy. Respect.",
+    "active": true
+  },
+  {
+    "id": "rainey",
+    "displayName": "Wayne Rainey",
+    "aliases": ["wayne rainey", "rainey"],
+    "series": ["motogp"],
+    "era": "legend",
+    "characteristics": {
+      "style": ["smooth", "racer_iq"],
+      "vibe": ["champion"],
+      "signature": "three titles of composure"
+    },
+    "blurb": "Wayne Rainey stacked 500cc titles with ice-cold race craft. If you picked Rainey, you respect the thinking racer.",
+    "active": true
+  },
+  {
+    "id": "lawson",
+    "displayName": "Eddie Lawson",
+    "aliases": ["eddie lawson", "lawson", "steady eddie"],
+    "series": ["motogp"],
+    "era": "legend",
+    "characteristics": {
+      "style": ["smooth", "consistent"],
+      "vibe": ["steady_eddie"],
+      "signature": "Steady Eddie"
+    },
+    "blurb": "Eddie Lawson — Steady Eddie — won titles by being relentlessly excellent. Quiet greatness. Strong choice.",
+    "active": true
+  },
+  {
+    "id": "mamola",
+    "displayName": "Randy Mamola",
+    "aliases": ["randy mamola", "mamola"],
+    "series": ["motogp"],
+    "era": "legend",
+    "characteristics": {
+      "style": ["showman", "spectacular"],
+      "vibe": ["entertainer"],
+      "signature": "showman of the 500s"
+    },
+    "blurb": "Randy Mamola was the showman of the 500cc era — speed with a wink. If he's your favourite, you like racing with personality.",
+    "active": true
+  },
+  {
+    "id": "spencer",
+    "displayName": "Freddie Spencer",
+    "aliases": ["freddie spencer", "spencer", "fast freddie"],
+    "series": ["motogp"],
+    "era": "legend",
+    "characteristics": {
+      "style": ["smooth", "prodigy"],
+      "vibe": ["fast_freddie"],
+      "signature": "Fast Freddie"
+    },
+    "blurb": "Freddie Spencer — Fast Freddie — made 500s look effortless and won titles young. Pure talent. Excellent taste.",
+    "active": true
+  },
+  {
+    "id": "roberts",
+    "displayName": "Kenny Roberts",
+    "aliases": ["kenny roberts", "king kenny"],
+    "series": ["motogp"],
+    "era": "legend",
+    "characteristics": {
+      "style": ["pioneer", "dirt_track_roots"],
+      "vibe": ["king_kenny"],
+      "signature": "King Kenny"
+    },
+    "blurb": "Kenny Roberts — King Kenny — brought American dirt-track swagger to GPs and changed everything. Royalty.",
+    "active": true
+  },
+  {
+    "id": "beattie",
+    "displayName": "Daryl Beattie",
+    "aliases": ["daryl beattie", "beattie"],
+    "series": ["motogp"],
+    "era": "legend",
+    "characteristics": {
+      "style": ["smooth", "fast"],
+      "vibe": ["aussie_legend"],
+      "signature": "what-if Aussie GP star"
+    },
+    "blurb": "Daryl Beattie had the pace to trouble the best of the 500cc era. Another Aussie 'what if' with serious credentials.",
+    "active": true
+  },
+  {
+    "id": "mclaren_mclaren",
+    "displayName": "Chris Vermeulen",
+    "aliases": ["chris vermeulen", "vermeulen"],
+    "series": ["motogp", "wsbk"],
+    "era": "legend",
+    "characteristics": {
+      "style": ["wet_weather", "send_it"],
+      "vibe": ["aussie_legend"],
+      "signature": "wet-weather magician"
+    },
+    "blurb": "Chris Vermeulen could make a wet track look dry. Aussie GP winner energy — you picked a proper rain dancer.",
+    "active": true
+  },
+  {
+    "id": "stoner_protege_hayden",
+    "displayName": "Nicky Hayden",
+    "aliases": ["nicky hayden", "hayden", "kentucky kid"],
+    "series": ["motogp"],
+    "era": "legend",
+    "characteristics": {
+      "style": ["hard_worker", "racer_iq"],
+      "vibe": ["kentucky_kid"],
+      "signature": "Kentucky Kid champion"
+    },
+    "blurb": "Nicky Hayden — the Kentucky Kid — grinded his way to a MotoGP title. Heart, craft, and class. Lovely pick.",
+    "active": true
+  },
+  {
+    "id": "lorenzo_era_pedrosa_steyn",
+    "displayName": "Andrea Dovizioso",
+    "aliases": ["andrea dovizioso", "dovizioso", "dovi"],
+    "series": ["motogp"],
+    "era": "legend",
+    "characteristics": {
+      "style": ["smooth", "racer_iq"],
+      "vibe": ["last_lap_artist"],
+      "signature": "last-lap chess master"
+    },
+    "blurb": "Andrea Dovizioso turned last laps into chess matches. If Dovi's your favourite, you like brains with the brakes.",
+    "active": true
+  },
+  {
+    "id": "moto2_star_binder",
+    "displayName": "Brad Binder",
+    "aliases": ["brad binder", "binder"],
+    "series": ["motogp"],
+    "era": "current",
+    "characteristics": {
+      "style": ["aggressive", "overtaker"],
+      "vibe": ["south_african_fighter"],
+      "signature": "passes from nowhere"
+    },
+    "blurb": "Brad Binder invents passes from thin air. South African fight on a MotoGP grid — you like riders who never give up.",
+    "active": true
+  },
+  {
+    "id": "alex_marquez",
+    "displayName": "Álex Márquez",
+    "aliases": ["alex marquez", "álex márquez", "alex márquez"],
+    "series": ["motogp"],
+    "era": "current",
+    "characteristics": {
+      "style": ["smooth", "race_craft"],
+      "vibe": ["champion_bloodline"],
+      "signature": "craft over chaos"
+    },
+    "blurb": "Álex Márquez brings championship bloodline with his own cool race craft. Smart pick — not just the famous surname.",
+    "active": true
+  },
+  {
+    "id": "rins",
+    "displayName": "Alex Rins",
+    "aliases": ["alex rins", "rins"],
+    "series": ["motogp"],
+    "era": "current",
+    "characteristics": {
+      "style": ["smooth", "wet_weather"],
+      "vibe": ["giant_killer"],
+      "signature": "giant-killer Sundays"
+    },
+    "blurb": "Alex Rins has a habit of giant-killing when it matters. If he's your favourite, you like surprise podiums and pure talent.",
+    "active": true
+  },
+  {
+    "id": "bautista_era_davies",
+    "displayName": "Chaz Davies",
+    "aliases": ["chaz davies", "davies"],
+    "series": ["wsbk"],
+    "era": "legend",
+    "characteristics": {
+      "style": ["smooth", "race_craft"],
+      "vibe": ["ducati_wsbk"],
+      "signature": "Ducati WSBK stylist"
+    },
+    "blurb": "Chaz Davies made Ducati WSBK bikes look elegant at race pace. Style and substance — excellent taste.",
+    "active": true
+  },
+  {
+    "id": "sykes",
+    "displayName": "Tom Sykes",
+    "aliases": ["tom sykes", "sykes"],
+    "series": ["wsbk"],
+    "era": "legend",
+    "characteristics": {
+      "style": ["qualifier", "aggressive"],
+      "vibe": ["kawasaki_legend"],
+      "signature": "qualifying destroyer"
+    },
+    "blurb": "Tom Sykes could destroy a qualifying session on a green Kawasaki. Pole specialist energy. Sharp choice.",
+    "active": true
+  }
+]

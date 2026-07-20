@@ -3,9 +3,10 @@
   "compilerOptions": {
     "jsx": "react",
     "strict": true,
+    "resolveJsonModule": true,
     "paths": {
       "@/*": ["./*"]
     }
   },
-  "include": ["**/*.ts", "**/*.tsx"]
+  "include": ["**/*.ts", "**/*.tsx", "src/data/**/*.json"]
 }

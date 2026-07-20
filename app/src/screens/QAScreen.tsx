@@ -1,6 +1,8 @@
 import React, { useCallback, useEffect, useState } from 'react';
 import {
   ActivityIndicator,
+  Alert,
+  Linking,
   ScrollView,
   StyleSheet,
   Text,
@@ -13,7 +15,7 @@ import {
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { QA_TRIVIA_URL } from '../../constants/api';
 import { logAnalyticsEvent } from '../utils/analytics';
-import { sendAskChat, type AskSource } from '../utils/askChat';
+import { sendAskChat, type AskSource, type MomsOnlineMeta } from '../utils/askChat';
 import { AppLogo } from '../components/AppLogo';
 import { SCREEN_LOGO_SIZE } from '../constants/logoSizing';
 
@@ -34,6 +36,16 @@ const SCOOTER_COMMENTS = [
 
 const TRACK_RIDER_COMMENT = "You know your apex from your elbow—respect.";
 const TRACK_GURU_COMMENT = "You know how to send it. Seriously.";
+
+function openExternalLink(url: string, label = 'link') {
+  if (!url?.trim()) {
+    Alert.alert('Link unavailable', `This ${label} is not available right now.`);
+    return;
+  }
+  Linking.openURL(url).catch(() => {
+    Alert.alert('Could not open link', 'Try again or open it from your browser.');
+  });
+}
 
 function getTriviaResult(correct: number, wrong: number): { title: string; message: string } | null {
   if (wrong >= 3) return null; // handled as fail
@@ -62,6 +74,7 @@ export function QAScreen() {
   const [rulesQuery, setRulesQuery] = useState('');
   const [rulesReply, setRulesReply] = useState<string | null>(null);
   const [rulesSources, setRulesSources] = useState<AskSource[]>([]);
+  const [rulesMomsOnline, setRulesMomsOnline] = useState<MomsOnlineMeta | undefined>();
   const [rulesFromKb, setRulesFromKb] = useState(false);
   const [rulesLoading, setRulesLoading] = useState(false);
   const [rulesError, setRulesError] = useState<string | null>(null);
@@ -175,6 +188,7 @@ export function QAScreen() {
     setRulesError(null);
     setRulesReply(null);
     setRulesSources([]);
+    setRulesMomsOnline(undefined);
     setRulesFromKb(false);
     try {
       const result = await sendAskChat(q, { mode: 'rules' });
@@ -184,6 +198,7 @@ export function QAScreen() {
       }
       setRulesReply(result.reply);
       setRulesSources(result.sources);
+      setRulesMomsOnline(result.momsOnline);
       setRulesFromKb(result.fromKb);
     } catch (e) {
       setRulesError(e instanceof Error ? e.message : 'Request failed');
@@ -204,6 +219,7 @@ export function QAScreen() {
     setRulesQuery('');
     setRulesReply(null);
     setRulesSources([]);
+    setRulesMomsOnline(undefined);
     setRulesFromKb(false);
     setRulesError(null);
   }, []);
@@ -413,7 +429,7 @@ export function QAScreen() {
       <View style={styles.section}>
         <Text style={styles.sectionTitle}>Got a question?</Text>
         <Text style={styles.sectionSubtitle}>
-          General motorsport Q&A — history, rules, terminology, and bike tech concepts. For personalized coaching or bike setup, use Coach & Bike Setup.
+          Motorcycle road racing Q&A with live web search — Australia first, then world. History, series, terminology, and bike tech (not car racing). For coaching or bike setup, use Coach & Bike Setup. For MoMS clauses, use Official rule check below.
         </Text>
         <View style={styles.searchRow}>
           <TextInput
@@ -451,13 +467,22 @@ export function QAScreen() {
               <Text style={styles.resultContent}>{askReply}</Text>
               {askSources.length > 0 ? (
                 <View style={styles.sourcesBlock}>
-                  <Text style={styles.sourcesLabel}>
-                    {askFromKb ? 'Sources (knowledge base)' : 'Related sources'}
-                  </Text>
+                  <Text style={styles.sourcesLabel}>Sources</Text>
                   {askSources.map((s, i) => (
                     <View key={`${s.title}-${i}`} style={styles.sourceRow}>
                       <Text style={styles.sourceTitle}>{`${i + 1}. ${s.title}`}</Text>
-                      {s.origin ? <Text style={styles.sourceMeta}>{s.origin}</Text> : null}
+                      {s.onlineUrl || s.origin ? (
+                        <TouchableOpacity
+                          onPress={() =>
+                            openExternalLink(s.onlineUrl || s.origin!, s.title || 'source')
+                          }
+                          activeOpacity={0.7}
+                        >
+                          <Text style={styles.sourceLink}>
+                            {(s.onlineUrl || s.origin || '').replace(/^https?:\/\//, '')} →
+                          </Text>
+                        </TouchableOpacity>
+                      ) : null}
                       {s.location ? (
                         <Text style={styles.sourceLocation}>{s.location}</Text>
                       ) : null}
@@ -529,6 +554,26 @@ export function QAScreen() {
                           .join(' — ')}
                       </Text>
                     ) : null}
+                    {rulesMomsOnline ? (
+                      <View style={styles.momsOnlineRow}>
+                        <TouchableOpacity
+                          onPress={() => openExternalLink(rulesMomsOnline.sourcePage, 'MoMS page')}
+                          activeOpacity={0.7}
+                        >
+                          <Text style={styles.sourceLink}>MoMS on MA website →</Text>
+                        </TouchableOpacity>
+                        {rulesMomsOnline.fullPdfUrl ? (
+                          <TouchableOpacity
+                            onPress={() => openExternalLink(rulesMomsOnline.fullPdfUrl!, 'MoMS PDF')}
+                            activeOpacity={0.7}
+                          >
+                            <Text style={styles.sourceLink}>
+                              Full {rulesMomsOnline.edition ? `MoMS ${rulesMomsOnline.edition}` : 'MoMS'} PDF →
+                            </Text>
+                          </TouchableOpacity>
+                        ) : null}
+                      </View>
+                    ) : null}
                     {rulesSources.map((s, i) => (
                       <View key={`${s.title}-${i}`} style={styles.sourceRow}>
                         <Text style={styles.sourceTitle}>
@@ -544,6 +589,16 @@ export function QAScreen() {
                               .filter(Boolean)
                               .join(' · ')}
                           </Text>
+                        ) : null}
+                        {s.onlineUrl ? (
+                          <TouchableOpacity
+                            onPress={() => openExternalLink(s.onlineUrl!, s.chapterTitle || 'chapter')}
+                            activeOpacity={0.7}
+                          >
+                            <Text style={styles.sourceLink}>
+                              {s.chapterTitle ? `Open ${s.chapterTitle} online →` : 'Open chapter online →'}
+                            </Text>
+                          </TouchableOpacity>
                         ) : null}
                       </View>
                     ))}
@@ -817,6 +872,19 @@ const styles = StyleSheet.create({
     color: '#cbd5e1',
     lineHeight: 18,
     fontStyle: 'italic',
+  },
+  momsOnlineRow: {
+    width: '100%',
+    marginTop: 4,
+    marginBottom: 4,
+    gap: 4,
+  },
+  sourceLink: {
+    fontSize: 12,
+    color: '#38bdf8',
+    fontWeight: '600',
+    lineHeight: 18,
+    marginTop: 4,
   },
   clearAnswerButton: {
     alignSelf: 'flex-start',

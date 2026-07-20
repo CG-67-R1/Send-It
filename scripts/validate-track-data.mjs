@@ -12,6 +12,7 @@ const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const ROOT = path.resolve(__dirname, '..');
 const TRACKS_PATH = path.join(ROOT, 'app/src/data/tracks.json');
 const GEOFENCE_PATH = path.join(ROOT, 'app/src/data/catalog_track_geofences.json');
+const VERIFY_PATH = path.join(ROOT, 'app/src/data/track_turn_verification.json');
 
 const VALID_CORNER_DIRS = new Set(['left', 'right', 'straight', 'complex']);
 const VALID_TRACK_DIRS = new Set(['clockwise', 'anticlockwise', 'unknown']);
@@ -72,6 +73,14 @@ function balancedParens(s) {
 console.log('Send-It track data validation');
 console.log(`Repo: ${ROOT}`);
 console.log(`Date: ${new Date().toISOString().slice(0, 10)}`);
+
+let turnPolicy = null;
+try {
+  turnPolicy = JSON.parse(fs.readFileSync(VERIFY_PATH, 'utf8'));
+  pass('track_turn_verification.json loads');
+} catch (e) {
+  fail(`track_turn_verification.json: ${e.message}`);
+}
 
 let catalog;
 let geofences;
@@ -207,29 +216,49 @@ for (const id of ['the_bend_east', 'the_bend_west', 'smp_amaroo', 'collingrove_h
   }
 }
 
-// High-signal map conventions (warn if present and wrong)
-const pi = tracks.find((t) => t.id === 'phillip_island');
-if (pi) {
-  if (pi.direction !== 'anticlockwise') {
-    fail(`phillip_island: track direction should be anticlockwise (got "${pi.direction}")`);
-  }
-  const t1 = pi.corners?.find((c) => c.number === 1);
-  const t2 = pi.corners?.find((c) => c.number === 2);
-  const mg = pi.corners?.find((c) => /mg\s*hairpin/i.test(c.label || ''));
-  if (t1 && t1.direction === 'right') {
-    warn('phillip_island T1 Doohan marked right — official maps usually left (verify)');
-  }
-  if (t2 && t2.direction !== 'left' && /southern/i.test(t2.label || '')) {
-    warn(`phillip_island T2 Southern Loop direction "${t2.direction}" — usually left`);
-  }
-  if (mg && mg.direction === 'left') {
-    warn('phillip_island MG Hairpin marked left — official maps usually right (verify)');
-  }
-}
+// Turn-hand integrity: left|right only if listed in track_turn_verification.json
+if (turnPolicy) {
+  const forceAll = new Set(turnPolicy.forceAllComplex || []);
+  const verifiedHands = turnPolicy.verifiedHands || {};
+  const trackDir = turnPolicy.trackDirection || {};
+  let unverifiedLR = 0;
+  let verifiedOk = 0;
 
-const smp = tracks.find((t) => t.id === 'smp_gardner');
-if (smp && smp.direction === 'clockwise') {
-  warn('smp_gardner marked clockwise — SMP layouts are usually anticlockwise (verify)');
+  for (const [id, dir] of Object.entries(trackDir)) {
+    const t = tracks.find((x) => x.id === id);
+    if (t && t.direction !== dir) {
+      fail(`${id}: track direction "${t.direction}" must be "${dir}" per verification policy`);
+    }
+  }
+
+  for (const t of tracks) {
+    const verified = verifiedHands[t.id] || {};
+    const wipe = forceAll.has(t.id);
+    for (const c of t.corners || []) {
+      if (c.isFinish || c.number == null) continue;
+      const key = String(c.number);
+      const hand = c.direction;
+      if (hand !== 'left' && hand !== 'right') continue;
+      if (wipe) {
+        fail(`${t.id} T${c.number}: left|right not allowed on forceAllComplex track (got "${hand}")`);
+        unverifiedLR += 1;
+        continue;
+      }
+      const want = verified[key];
+      if (!want) {
+        fail(`${t.id} T${c.number}: "${hand}" is not in verifiedHands — use complex until rider/map lock`);
+        unverifiedLR += 1;
+      } else if (want !== hand) {
+        fail(`${t.id} T${c.number}: direction "${hand}" != verified "${want}"`);
+        unverifiedLR += 1;
+      } else {
+        verifiedOk += 1;
+      }
+    }
+  }
+  if (unverifiedLR === 0) {
+    pass(`turn-hand policy: ${verifiedOk} verified left|right, 0 unverified`);
+  }
 }
 
 console.log('\nSummary');

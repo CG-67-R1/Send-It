@@ -106,6 +106,7 @@ Look beyond bugs — suggest **maintainability** wins:
 | **Dead code** | Unused imports, commented blocks, orphaned assets |
 | **Docs** | Stale README/AGENTS vs actual behavior |
 | **Security** | Secrets, `.env` committed, overly broad permissions |
+| **Onboarding facts** | Flag gaps in `app/src/data/onboardingRiders.json` / `onboardingBikes.json` (missing breakout stars, iconic bikes). **Do not auto-edit** these files — propose JSON rows only; Cursor/human merges. Run `node scripts/test-onboarding-facts.mjs` if touching match logic. |
 
 Label each improvement **P0** (breaks users), **P1** (should fix soon), **P2** (polish/refactor).
 

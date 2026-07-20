@@ -14,7 +14,7 @@
           "number": 1,
           "label": "Doohan Corner",
           "shape": "Sweeper",
-          "direction": "right",
+          "direction": "left",
           "approachFrom": "main straight / start-finish"
         },
         {
@@ -30,7 +30,7 @@
           "number": 3,
           "label": "Stoner Corner",
           "shape": "Kink",
-          "direction": "right",
+          "direction": "left",
           "approachFrom": "T2 (Southern Loop) exit"
         },
         {
@@ -38,7 +38,7 @@
           "number": 4,
           "label": "Miller Corner (formerly Honda Corner)",
           "shape": "Hairpin",
-          "direction": "complex",
+          "direction": "right",
           "approachFrom": "T3 (Stoner Corner) exit"
         },
         {
@@ -70,7 +70,7 @@
           "number": 8,
           "label": "Lukey Heights proper",
           "shape": "Corner / complex",
-          "direction": "right",
+          "direction": "left",
           "approachFrom": "T7 (Lukey Heights entry) exit"
         },
         {
@@ -78,7 +78,7 @@
           "number": 9,
           "label": "MG Hairpin",
           "shape": "Hairpin",
-          "direction": "left",
+          "direction": "right",
           "approachFrom": "T8 (Lukey Heights proper) exit"
         },
         {
@@ -121,7 +121,7 @@
           "number": 1,
           "label": "Turn 1 kink / lead-in to Turn 2",
           "shape": "Kink / lead-in complex",
-          "direction": "right",
+          "direction": "complex",
           "approachFrom": "main straight / start-finish"
         },
         {
@@ -137,7 +137,7 @@
           "number": 3,
           "label": "Turn 3 (top-left hairpin, geographically far-left end of circuit)",
           "shape": "Hairpin",
-          "direction": "right",
+          "direction": "complex",
           "approachFrom": "T2 (Turn 2) exit"
         },
         {
@@ -145,7 +145,7 @@
           "number": 4,
           "label": "Turn 4 (long top section / sweeper)",
           "shape": "Fast sweeper / long radius",
-          "direction": "right",
+          "direction": "complex",
           "approachFrom": "T3 (Turn 3) exit"
         },
         {
@@ -153,15 +153,15 @@
           "number": 5,
           "label": "Turn 5 (top-right bend)",
           "shape": "Medium-speed bend / direction change",
-          "direction": "right",
+          "direction": "complex",
           "approachFrom": "T4 (Turn 4) exit"
         },
         {
           "id": "mallala_t6",
           "number": 6,
-          "label": "Turn 6 (right-side run / slight bend)",
+          "label": "Turn 6 (left kink / setup for hairpin)",
           "shape": "Fast kink / setup",
-          "direction": "right",
+          "direction": "left",
           "approachFrom": "T5 (Turn 5) exit"
         },
         {
@@ -177,7 +177,7 @@
           "number": 8,
           "label": "Turn 8 (bottom-mid kink / connector)",
           "shape": "Kink / transition",
-          "direction": "left",
+          "direction": "complex",
           "approachFrom": "T7 (Turn 7) exit"
         },
         {
@@ -185,7 +185,7 @@
           "number": 9,
           "label": "Turn 9 (final corner onto main straight)",
           "shape": "Final turn / drive corner",
-          "direction": "right",
+          "direction": "complex",
           "approachFrom": "T8 (Turn 8) exit"
         },
         {
@@ -202,15 +202,15 @@
     {
       "id": "mac_park",
       "name": "McNamara Park Raceway (Mac Park)",
-      "layout": "Main circuit",
-      "direction": "unknown",
+      "layout": "Main circuit (2.4 km, 12 turns)",
+      "direction": "clockwise",
       "lengthKm": "2.4 km",
       "isOther": false,
       "corners": [
         {
           "id": "mac_park_t1",
           "number": 1,
-          "label": "Hairpin (The Hairpin)",
+          "label": "The Hairpin",
           "shape": "Hairpin",
           "direction": "complex",
           "approachFrom": "main straight / start-finish"
@@ -218,50 +218,90 @@
         {
           "id": "mac_park_t2",
           "number": 2,
-          "label": "Turns 2-3",
-          "shape": "Hairpin",
-          "direction": "complex",
+          "label": "Turn 2 (blind crest)",
+          "shape": "Corner / complex",
+          "direction": "left",
           "approachFrom": "T1 (The Hairpin) exit"
+        },
+        {
+          "id": "mac_park_t3",
+          "number": 3,
+          "label": "Turn 3",
+          "shape": "Kink",
+          "direction": "right",
+          "approachFrom": "T2 (Turn 2) exit"
         },
         {
           "id": "mac_park_t4",
           "number": 4,
-          "label": "Left-hander",
+          "label": "Turn 4 (Left-hander)",
           "shape": "Corner / complex",
           "direction": "left",
-          "approachFrom": "T2 (Turns 2-3) exit"
+          "approachFrom": "T3 (Turn 3) exit"
         },
         {
           "id": "mac_park_t5",
           "number": 5,
-          "label": "Right-hand sweeper",
-          "shape": "Esses / S",
+          "label": "Turn 5 (Right-hand sweeper)",
+          "shape": "Sweeper",
           "direction": "right",
-          "approachFrom": "T4 (Left-hander) exit"
+          "approachFrom": "T4 (Turn 4) exit"
+        },
+        {
+          "id": "mac_park_t6",
+          "number": 6,
+          "label": "Turn 6 (chicane entry)",
+          "shape": "Kink",
+          "direction": "complex",
+          "approachFrom": "T5 (Turn 5) exit"
+        },
+        {
+          "id": "mac_park_t7",
+          "number": 7,
+          "label": "Turn 7 (fast left sweeper / crest)",
+          "shape": "Sweeper",
+          "direction": "left",
+          "approachFrom": "T6 (Turn 6) exit"
         },
         {
           "id": "mac_park_t8",
           "number": 8,
-          "label": "Fast Right",
+          "label": "Turn 8 (Fast Right)",
           "shape": "Sweeper",
           "direction": "right",
-          "approachFrom": "T5 (Right-hand sweeper) exit"
+          "approachFrom": "T7 (Turn 7) exit"
         },
         {
           "id": "mac_park_t9",
           "number": 9,
-          "label": "Hairpin",
+          "label": "Turn 9 (Clubhouse Hairpin)",
           "shape": "Hairpin",
+          "direction": "complex",
+          "approachFrom": "T8 (Turn 8) exit"
+        },
+        {
+          "id": "mac_park_t10",
+          "number": 10,
+          "label": "Turn 10 (esses / blind crest)",
+          "shape": "Esses / S",
           "direction": "left",
-          "approachFrom": "T8 (Fast Right) exit"
+          "approachFrom": "T9 (Turn 9) exit"
+        },
+        {
+          "id": "mac_park_t11",
+          "number": 11,
+          "label": "Turn 11 (esses right)",
+          "shape": "Esses / S",
+          "direction": "right",
+          "approachFrom": "T10 (Turn 10) exit"
         },
         {
           "id": "mac_park_t12",
           "number": 12,
-          "label": "Final corner",
+          "label": "Turn 12 (final left onto main straight)",
           "shape": "Hairpin",
-          "direction": "right",
-          "approachFrom": "T9 (Hairpin) exit"
+          "direction": "left",
+          "approachFrom": "T11 (Turn 11) exit"
         },
         {
           "id": "mac_park_t_finish",
@@ -418,7 +458,7 @@
           "number": 6,
           "label": "Turns 6 & 7 (The Fish Hook)",
           "shape": "Hairpin",
-          "direction": "right",
+          "direction": "complex",
           "approachFrom": "T5 (Turn 5) exit"
         },
         {
@@ -675,7 +715,7 @@
           "number": 1,
           "label": "Turn 1 (right sweeper / entry)",
           "shape": "Sweeper",
-          "direction": "right",
+          "direction": "complex",
           "approachFrom": "main straight / start-finish"
         },
         {
@@ -683,7 +723,7 @@
           "number": 2,
           "label": "Turn 2 (left hairpin)",
           "shape": "Hairpin",
-          "direction": "left",
+          "direction": "complex",
           "approachFrom": "T1 exit"
         },
         {
@@ -691,7 +731,7 @@
           "number": 3,
           "label": "Turn 3 (right hairpin)",
           "shape": "Hairpin",
-          "direction": "right",
+          "direction": "complex",
           "approachFrom": "T2 exit"
         },
         {
@@ -699,7 +739,7 @@
           "number": 4,
           "label": "Turn 4 (right sweeper / infield loop)",
           "shape": "Sweeper",
-          "direction": "right",
+          "direction": "complex",
           "approachFrom": "T3 exit"
         },
         {
@@ -707,7 +747,7 @@
           "number": 5,
           "label": "Turn 5 (left hairpin)",
           "shape": "Hairpin",
-          "direction": "left",
+          "direction": "complex",
           "approachFrom": "T4 exit"
         },
         {
@@ -723,7 +763,7 @@
           "number": 7,
           "label": "Turn 7 (right hairpin / back section)",
           "shape": "Hairpin",
-          "direction": "right",
+          "direction": "complex",
           "approachFrom": "T6 exit"
         },
         {
@@ -731,7 +771,7 @@
           "number": 8,
           "label": "Turn 8 (left hairpin)",
           "shape": "Hairpin",
-          "direction": "left",
+          "direction": "complex",
           "approachFrom": "T7 exit"
         },
         {
@@ -739,7 +779,7 @@
           "number": 9,
           "label": "Turn 9 (right sweeper)",
           "shape": "Sweeper",
-          "direction": "right",
+          "direction": "complex",
           "approachFrom": "T8 exit"
         },
         {
@@ -757,7 +797,7 @@
       "id": "smp_gardner",
       "name": "Sydney Motorsport Park (Gardner GP Circuit)",
       "layout": "Gardner GP Circuit (4.5 km)",
-      "direction": "clockwise",
+      "direction": "anticlockwise",
       "lengthKm": "4.5 km",
       "isOther": false,
       "corners": [
@@ -864,7 +904,7 @@
       "id": "smp_brabham",
       "name": "Sydney Motorsport Park (Brabham Circuit)",
       "layout": "Brabham Circuit",
-      "direction": "clockwise",
+      "direction": "anticlockwise",
       "lengthKm": "~3.0 km",
       "isOther": false,
       "corners": [
@@ -873,7 +913,7 @@
           "number": 1,
           "label": "Turn 1 (entry kink)",
           "shape": "Kink",
-          "direction": "left",
+          "direction": "complex",
           "approachFrom": "main straight / start-finish"
         },
         {
@@ -889,7 +929,7 @@
           "number": 3,
           "label": "Turn 3 (right sweeper)",
           "shape": "Sweeper",
-          "direction": "right",
+          "direction": "complex",
           "approachFrom": "T2 exit"
         },
         {
@@ -897,7 +937,7 @@
           "number": 4,
           "label": "Turn 4 (left sweeper)",
           "shape": "Sweeper",
-          "direction": "left",
+          "direction": "complex",
           "approachFrom": "T3 exit"
         },
         {
@@ -905,7 +945,7 @@
           "number": 5,
           "label": "Turn 5 (left hairpin complex)",
           "shape": "Hairpin",
-          "direction": "left",
+          "direction": "complex",
           "approachFrom": "T4 exit"
         },
         {
@@ -913,7 +953,7 @@
           "number": 6,
           "label": "Turn 6 (left hairpin)",
           "shape": "Hairpin",
-          "direction": "left",
+          "direction": "complex",
           "approachFrom": "T5 exit"
         },
         {
@@ -921,7 +961,7 @@
           "number": 7,
           "label": "Turn 7 (right hairpin)",
           "shape": "Hairpin",
-          "direction": "right",
+          "direction": "complex",
           "approachFrom": "T6 exit"
         },
         {
@@ -929,7 +969,7 @@
           "number": 8,
           "label": "Turn 8 (left kink)",
           "shape": "Kink",
-          "direction": "left",
+          "direction": "complex",
           "approachFrom": "T7 exit"
         },
         {
@@ -937,7 +977,7 @@
           "number": 9,
           "label": "Turn 9 (right hairpin)",
           "shape": "Hairpin",
-          "direction": "right",
+          "direction": "complex",
           "approachFrom": "T8 exit"
         },
         {
@@ -945,7 +985,7 @@
           "number": 10,
           "label": "Turn 10 (right kink)",
           "shape": "Kink",
-          "direction": "right",
+          "direction": "complex",
           "approachFrom": "T9 exit"
         },
         {
@@ -953,7 +993,7 @@
           "number": 11,
           "label": "Turn 11 (left hairpin / final)",
           "shape": "Hairpin",
-          "direction": "left",
+          "direction": "complex",
           "approachFrom": "T10 exit"
         },
         {
@@ -971,7 +1011,7 @@
       "id": "smp_druitt",
       "name": "Sydney Motorsport Park (Druitt Circuit)",
       "layout": "Druitt Circuit",
-      "direction": "clockwise",
+      "direction": "anticlockwise",
       "lengthKm": "~1.9 km",
       "isOther": false,
       "corners": [
@@ -980,7 +1020,7 @@
           "number": 1,
           "label": "Turn 1 (entry / right kink)",
           "shape": "Kink",
-          "direction": "right",
+          "direction": "complex",
           "approachFrom": "main straight / start-finish"
         },
         {
@@ -988,7 +1028,7 @@
           "number": 2,
           "label": "Turn 2 (right sweeper)",
           "shape": "Sweeper",
-          "direction": "right",
+          "direction": "complex",
           "approachFrom": "T1 exit"
         },
         {
@@ -996,7 +1036,7 @@
           "number": 3,
           "label": "Turn 3 (left kink)",
           "shape": "Kink",
-          "direction": "left",
+          "direction": "complex",
           "approachFrom": "T2 exit"
         },
         {
@@ -1004,7 +1044,7 @@
           "number": 4,
           "label": "Turn 4 (left hairpin)",
           "shape": "Hairpin",
-          "direction": "left",
+          "direction": "complex",
           "approachFrom": "T3 exit"
         },
         {
@@ -1012,7 +1052,7 @@
           "number": 5,
           "label": "Turn 5 (right sweeper)",
           "shape": "Sweeper",
-          "direction": "right",
+          "direction": "complex",
           "approachFrom": "T4 exit"
         },
         {
@@ -1020,7 +1060,7 @@
           "number": 6,
           "label": "Turn 6 (left hairpin / final)",
           "shape": "Hairpin",
-          "direction": "left",
+          "direction": "complex",
           "approachFrom": "T5 exit"
         },
         {
@@ -1179,9 +1219,9 @@
         {
           "id": "mount_panorama_t1",
           "number": 1,
-          "label": "Turn 1 (Griffin's Bend / entry left)",
-          "shape": "Sweeper",
-          "direction": "left",
+          "label": "Hell Corner",
+          "shape": "Hairpin",
+          "direction": "right",
           "approachFrom": "main straight / start-finish"
         },
         {
@@ -1189,7 +1229,7 @@
           "number": 2,
           "label": "Murray's Corner",
           "shape": "Sweeper",
-          "direction": "right",
+          "direction": "complex",
           "approachFrom": "T1 exit"
         },
         {
@@ -1197,7 +1237,7 @@
           "number": 3,
           "label": "McPhillamy Park (left hairpin)",
           "shape": "Hairpin",
-          "direction": "left",
+          "direction": "complex",
           "approachFrom": "T2 exit"
         },
         {
@@ -1229,7 +1269,7 @@
           "number": 7,
           "label": "The Dipper (fast left descent)",
           "shape": "Sweeper",
-          "direction": "left",
+          "direction": "complex",
           "approachFrom": "T6 exit"
         },
         {
@@ -1237,7 +1277,7 @@
           "number": 8,
           "label": "Forrest's Elbow (right kink / descent)",
           "shape": "Kink",
-          "direction": "right",
+          "direction": "complex",
           "approachFrom": "T7 exit"
         },
         {
@@ -1245,7 +1285,7 @@
           "number": 9,
           "label": "The Chase (Sweeper left)",
           "shape": "Sweeper",
-          "direction": "left",
+          "direction": "complex",
           "approachFrom": "T8 exit"
         },
         {
@@ -1253,7 +1293,7 @@
           "number": 10,
           "label": "Murrays Hairpin (bottom of mountain, left hairpin)",
           "shape": "Hairpin",
-          "direction": "left",
+          "direction": "complex",
           "approachFrom": "T9 exit"
         },
         {
@@ -1261,15 +1301,15 @@
           "number": 11,
           "label": "Reid Park left sweeper",
           "shape": "Sweeper",
-          "direction": "left",
+          "direction": "complex",
           "approachFrom": "T10 exit"
         },
         {
           "id": "mount_panorama_t12",
           "number": 12,
-          "label": "Hell Corner (final right hairpin)",
+          "label": "Turn 12",
           "shape": "Hairpin",
-          "direction": "right",
+          "direction": "complex",
           "approachFrom": "T11 exit"
         },
         {
@@ -1296,7 +1336,7 @@
           "number": 1,
           "label": "Turn 1 (first left hairpin complex)",
           "shape": "Hairpin",
-          "direction": "left",
+          "direction": "complex",
           "approachFrom": "main straight / start-finish"
         },
         {
@@ -1304,7 +1344,7 @@
           "number": 2,
           "label": "Turn 2 (left kink onto back section)",
           "shape": "Kink",
-          "direction": "left",
+          "direction": "complex",
           "approachFrom": "T1 exit"
         },
         {
@@ -1312,7 +1352,7 @@
           "number": 3,
           "label": "Turn 3 (left sweeper)",
           "shape": "Sweeper",
-          "direction": "left",
+          "direction": "complex",
           "approachFrom": "T2 exit"
         },
         {
@@ -1320,7 +1360,7 @@
           "number": 4,
           "label": "Turn 4 (left kink / Dandenong Road complex)",
           "shape": "Kink",
-          "direction": "left",
+          "direction": "complex",
           "approachFrom": "T3 exit"
         },
         {
@@ -1328,7 +1368,7 @@
           "number": 5,
           "label": "Turn 5 (final complex onto main straight)",
           "shape": "Corner / complex",
-          "direction": "left",
+          "direction": "complex",
           "approachFrom": "T4 exit"
         },
         {
@@ -1355,7 +1395,7 @@
           "number": 1,
           "label": "Turn 1 (entry complex / left kink)",
           "shape": "Kink",
-          "direction": "left",
+          "direction": "complex",
           "approachFrom": "main straight / start-finish"
         },
         {
@@ -1363,7 +1403,7 @@
           "number": 2,
           "label": "Turn 2 (right sweeper)",
           "shape": "Sweeper",
-          "direction": "right",
+          "direction": "complex",
           "approachFrom": "T1 exit"
         },
         {
@@ -1371,7 +1411,7 @@
           "number": 3,
           "label": "Turn 3 (right sweeper)",
           "shape": "Sweeper",
-          "direction": "right",
+          "direction": "complex",
           "approachFrom": "T2 exit"
         },
         {
@@ -1379,7 +1419,7 @@
           "number": 4,
           "label": "Turn 4 (left sweeper / infield)",
           "shape": "Sweeper",
-          "direction": "left",
+          "direction": "complex",
           "approachFrom": "T3 exit"
         },
         {
@@ -1387,7 +1427,7 @@
           "number": 5,
           "label": "Turn 5 (right hairpin)",
           "shape": "Hairpin",
-          "direction": "right",
+          "direction": "complex",
           "approachFrom": "T4 exit"
         },
         {
@@ -1403,7 +1443,7 @@
           "number": 7,
           "label": "Turn 7 (left sweeper)",
           "shape": "Sweeper",
-          "direction": "left",
+          "direction": "complex",
           "approachFrom": "T6 exit"
         },
         {
@@ -1411,7 +1451,7 @@
           "number": 8,
           "label": "Turn 8 (right hairpin / final)",
           "shape": "Hairpin",
-          "direction": "right",
+          "direction": "complex",
           "approachFrom": "T7 exit"
         },
         {
@@ -1438,7 +1478,7 @@
           "number": 1,
           "label": "Turn 1 (right hairpin / main hairpin)",
           "shape": "Hairpin",
-          "direction": "right",
+          "direction": "complex",
           "approachFrom": "main straight / start-finish"
         },
         {
@@ -1454,7 +1494,7 @@
           "number": 3,
           "label": "Turn 3 (right hairpin / back section)",
           "shape": "Hairpin",
-          "direction": "right",
+          "direction": "complex",
           "approachFrom": "T2 exit"
         },
         {
@@ -1464,6 +1504,228 @@
           "shape": "Straight",
           "direction": "straight",
           "approachFrom": "T3 exit onto main straight",
+          "isFinish": true
+        }
+      ]
+    },
+    {
+      "id": "hidden_valley",
+      "name": "Hidden Valley Raceway",
+      "layout": "Full Circuit (2.87 km, 14 turns)",
+      "direction": "anticlockwise",
+      "lengthKm": "2.87 km",
+      "isOther": false,
+      "corners": [
+        {
+          "id": "hidden_valley_t1",
+          "number": 1,
+          "label": "Turn 1",
+          "shape": "Corner / complex",
+          "direction": "complex",
+          "approachFrom": "main straight / start-finish"
+        },
+        {
+          "id": "hidden_valley_t2",
+          "number": 2,
+          "label": "Turn 2",
+          "shape": "Corner / complex",
+          "direction": "complex",
+          "approachFrom": "T1 exit"
+        },
+        {
+          "id": "hidden_valley_t3",
+          "number": 3,
+          "label": "Turn 3",
+          "shape": "Corner / complex",
+          "direction": "complex",
+          "approachFrom": "T2 exit"
+        },
+        {
+          "id": "hidden_valley_t4",
+          "number": 4,
+          "label": "Turn 4",
+          "shape": "Corner / complex",
+          "direction": "complex",
+          "approachFrom": "T3 exit"
+        },
+        {
+          "id": "hidden_valley_t5",
+          "number": 5,
+          "label": "Turn 5",
+          "shape": "Corner / complex",
+          "direction": "complex",
+          "approachFrom": "T4 exit"
+        },
+        {
+          "id": "hidden_valley_t6",
+          "number": 6,
+          "label": "Turn 6",
+          "shape": "Corner / complex",
+          "direction": "complex",
+          "approachFrom": "T5 exit"
+        },
+        {
+          "id": "hidden_valley_t7",
+          "number": 7,
+          "label": "Turn 7",
+          "shape": "Corner / complex",
+          "direction": "complex",
+          "approachFrom": "T6 exit"
+        },
+        {
+          "id": "hidden_valley_t8",
+          "number": 8,
+          "label": "Turn 8",
+          "shape": "Corner / complex",
+          "direction": "complex",
+          "approachFrom": "T7 exit"
+        },
+        {
+          "id": "hidden_valley_t9",
+          "number": 9,
+          "label": "Turn 9",
+          "shape": "Corner / complex",
+          "direction": "complex",
+          "approachFrom": "T8 exit"
+        },
+        {
+          "id": "hidden_valley_t10",
+          "number": 10,
+          "label": "Turn 10",
+          "shape": "Corner / complex",
+          "direction": "complex",
+          "approachFrom": "T9 exit"
+        },
+        {
+          "id": "hidden_valley_t11",
+          "number": 11,
+          "label": "Turn 11",
+          "shape": "Corner / complex",
+          "direction": "complex",
+          "approachFrom": "T10 exit"
+        },
+        {
+          "id": "hidden_valley_t12",
+          "number": 12,
+          "label": "Turn 12",
+          "shape": "Corner / complex",
+          "direction": "complex",
+          "approachFrom": "T11 exit"
+        },
+        {
+          "id": "hidden_valley_t13",
+          "number": 13,
+          "label": "Turn 13",
+          "shape": "Corner / complex",
+          "direction": "complex",
+          "approachFrom": "T12 exit"
+        },
+        {
+          "id": "hidden_valley_t14",
+          "number": 14,
+          "label": "Turn 14",
+          "shape": "Corner / complex",
+          "direction": "complex",
+          "approachFrom": "T13 exit"
+        },
+        {
+          "id": "hidden_valley_t_finish",
+          "number": null,
+          "label": "T-Finish",
+          "shape": "Straight",
+          "direction": "straight",
+          "approachFrom": "T14 exit onto main straight",
+          "isFinish": true
+        }
+      ]
+    },
+    {
+      "id": "baskerville",
+      "name": "Baskerville Raceway",
+      "layout": "Full Circuit (2.01 km, 9 turns)",
+      "direction": "anticlockwise",
+      "lengthKm": "2.01 km",
+      "isOther": false,
+      "corners": [
+        {
+          "id": "baskerville_t1",
+          "number": 1,
+          "label": "Turn 1",
+          "shape": "Corner / complex",
+          "direction": "complex",
+          "approachFrom": "main straight / start-finish"
+        },
+        {
+          "id": "baskerville_t2",
+          "number": 2,
+          "label": "Turn 2",
+          "shape": "Corner / complex",
+          "direction": "complex",
+          "approachFrom": "T1 exit"
+        },
+        {
+          "id": "baskerville_t3",
+          "number": 3,
+          "label": "Turn 3",
+          "shape": "Corner / complex",
+          "direction": "complex",
+          "approachFrom": "T2 exit"
+        },
+        {
+          "id": "baskerville_t4",
+          "number": 4,
+          "label": "Turn 4",
+          "shape": "Corner / complex",
+          "direction": "complex",
+          "approachFrom": "T3 exit"
+        },
+        {
+          "id": "baskerville_t5",
+          "number": 5,
+          "label": "Turn 5",
+          "shape": "Corner / complex",
+          "direction": "complex",
+          "approachFrom": "T4 exit"
+        },
+        {
+          "id": "baskerville_t6",
+          "number": 6,
+          "label": "Turn 6",
+          "shape": "Corner / complex",
+          "direction": "complex",
+          "approachFrom": "T5 exit"
+        },
+        {
+          "id": "baskerville_t7",
+          "number": 7,
+          "label": "Turn 7",
+          "shape": "Corner / complex",
+          "direction": "complex",
+          "approachFrom": "T6 exit"
+        },
+        {
+          "id": "baskerville_t8",
+          "number": 8,
+          "label": "Turn 8",
+          "shape": "Corner / complex",
+          "direction": "complex",
+          "approachFrom": "T7 exit"
+        },
+        {
+          "id": "baskerville_t9",
+          "number": 9,
+          "label": "Turn 9",
+          "shape": "Corner / complex",
+          "direction": "complex",
+          "approachFrom": "T8 exit"
+        },
+        {
+          "id": "baskerville_t_finish",
+          "number": null,
+          "label": "T-Finish",
+          "shape": "Straight",
+          "direction": "straight",
+          "approachFrom": "T9 exit onto main straight",
           "isFinish": true
         }
       ]

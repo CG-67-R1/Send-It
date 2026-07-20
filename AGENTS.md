@@ -60,6 +60,7 @@ cd ../app && npx tsc --noEmit
 - `PROJECT_STATUS_AND_PRE_PRODUCTION.md` — health checks and pre-prod work
 - `POC_HOSTING_GUIDE.md` — Render / Vercel hosting notes
 - `SCREEN_BRIEF_FOR_VISUALS.md` — screen UX intent
+- `app/src/data/onboardingRiders.json` + `onboardingBikes.json` — curated onboarding blurbs (aliases + characteristics); Hermes flags gaps only — run `node scripts/test-onboarding-facts.mjs` after edits
 
 ## Hermes + Cursor split
 
@@ -98,6 +99,8 @@ Track structural gate (also part of mobile-review preflight):
 ```powershell
 node scripts/validate-track-data.mjs
 ```
+
+**Turn hands are P0:** wrong left/right must not ship. Allowed hands live in `app/src/data/track_turn_verification.json`. After catalog edits run `node scripts/enforce-turn-verification.mjs --write` then the validator. GPX alone must never set turn direction.
 
 **Skill sources (in repo):** `docs/hermes/skills/send-it/` — installed to `%LOCALAPPDATA%\hermes\skills\send-it\` by the install script.
 

@@ -9,12 +9,21 @@ export type AskSource = {
   effectiveDate?: string;
   page?: number;
   summary?: string;
+  chapterNumber?: number;
+  chapterTitle?: string;
+  onlineUrl?: string;
+};
+
+export type MomsOnlineMeta = {
+  sourcePage: string;
+  fullPdfUrl?: string;
+  edition?: string;
 };
 
 export type AskMode = 'ask' | 'rules';
 
 export type AskChatResult =
-  | { ok: true; reply: string; sources: AskSource[]; fromKb: boolean }
+  | { ok: true; reply: string; sources: AskSource[]; fromKb: boolean; momsOnline?: MomsOnlineMeta }
   | { ok: false; error: string };
 
 function asAskSource(s: unknown): AskSource | null {
@@ -29,7 +38,20 @@ function asAskSource(s: unknown): AskSource | null {
   if (typeof o.effectiveDate === 'string') source.effectiveDate = o.effectiveDate;
   if (typeof o.page === 'number') source.page = o.page;
   if (typeof o.summary === 'string') source.summary = o.summary;
+  if (typeof o.chapterNumber === 'number') source.chapterNumber = o.chapterNumber;
+  if (typeof o.chapterTitle === 'string') source.chapterTitle = o.chapterTitle;
+  if (typeof o.onlineUrl === 'string') source.onlineUrl = o.onlineUrl;
   return source;
+}
+
+function asMomsOnlineMeta(o: unknown): MomsOnlineMeta | undefined {
+  if (typeof o !== 'object' || o === null) return undefined;
+  const m = o as Record<string, unknown>;
+  if (typeof m.sourcePage !== 'string') return undefined;
+  const meta: MomsOnlineMeta = { sourcePage: m.sourcePage };
+  if (typeof m.fullPdfUrl === 'string') meta.fullPdfUrl = m.fullPdfUrl;
+  if (typeof m.edition === 'string') meta.edition = m.edition;
+  return meta;
 }
 
 export async function sendAskChat(
@@ -44,7 +66,7 @@ export async function sendAskChat(
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify(body),
-      signal: AbortSignal.timeout(60000),
+      signal: AbortSignal.timeout(90000),
     });
     const data = await res.json();
 
@@ -66,6 +88,7 @@ export async function sendAskChat(
       reply,
       sources,
       fromKb: Boolean(data.fromKb),
+      momsOnline: asMomsOnlineMeta(data.momsOnline),
     };
   } catch (e) {
     return { ok: false, error: e instanceof Error ? e.message : 'Network error' };

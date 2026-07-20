@@ -1,0 +1,590 @@
+[
+  {
+    "id": "honda_cb750",
+    "displayName": "Honda CB750",
+    "aliases": ["honda cb750", "cb750", "cb 750"],
+    "era": "classic",
+    "characteristics": {
+      "character": ["game_changer", "inline_four"],
+      "signature": "the first mass-production superbike"
+    },
+    "blurb": "Honda CB750: the bike that invented the superbike for everyone. Disc brake, four pipes, and a whole industry scrambling to catch up. Proper foundation myth.",
+    "active": true
+  },
+  {
+    "id": "kawasaki_z1",
+    "displayName": "Kawasaki Z1",
+    "aliases": ["kawasaki z1", "z1", "z 1", "900 z1"],
+    "era": "classic",
+    "characteristics": {
+      "character": ["fast", "dohc"],
+      "signature": "the performance king that raised the bar"
+    },
+    "blurb": "Kawasaki Z1: after the CB750, Kawasaki said 'hold my wrench' and dropped a 900 that owned the seventies. Legend status, earned.",
+    "active": true
+  },
+  {
+    "id": "ducati_900ss",
+    "displayName": "Ducati 900SS",
+    "aliases": ["ducati 900ss", "900ss", "900 ss", "ducati 750ss", "750ss"],
+    "era": "classic",
+    "characteristics": {
+      "character": ["desmo", "race_bred"],
+      "signature": "desmo twin race DNA"
+    },
+    "blurb": "Ducati 900SS: lean, loud, and desmo through and through. The shape of Italian race DNA before the 916 made it a poster. Respect.",
+    "active": true
+  },
+  {
+    "id": "suzuki_gsxr750_slabside",
+    "displayName": "Suzuki GSX-R750",
+    "aliases": ["gsx-r750", "gsxr750", "gsxr 750", "suzuki gsx-r750", "slabside", "srad"],
+    "era": "iconic",
+    "characteristics": {
+      "character": ["race_replica", "lightweight"],
+      "signature": "invented the modern race-replica"
+    },
+    "blurb": "Suzuki GSX-R750: the original race-replica that taught the world what a street superbike should feel like. Slabside to SRAD — pure Gixxer religion.",
+    "active": true
+  },
+  {
+    "id": "honda_rc30",
+    "displayName": "Honda VFR750R RC30",
+    "aliases": ["rc30", "rc 30", "vfr750r", "honda rc30"],
+    "era": "iconic",
+    "characteristics": {
+      "character": ["homologation", "v4"],
+      "signature": "homologation royalty"
+    },
+    "blurb": "Honda RC30: homologation royalty. Expensive then, priceless now, and still the bike people lower their voice to talk about. Elite taste.",
+    "active": true
+  },
+  {
+    "id": "honda_fireblade_first",
+    "displayName": "Honda CBR900RR Fireblade",
+    "aliases": ["cbr900rr", "fireblade", "fire blade", "honda fireblade", "cbr900", "baba blade"],
+    "era": "iconic",
+    "characteristics": {
+      "character": ["lightweight", "game_changer"],
+      "signature": "weight over power — Baba's revolution"
+    },
+    "blurb": "Honda Fireblade: Tadao Baba's lightweight revolution. Not the most horsepower — just the most important. The Blade that cut the rulebook.",
+    "active": true
+  },
+  {
+    "id": "ducati_916",
+    "displayName": "Ducati 916",
+    "aliases": ["ducati 916", "916", "996", "998", "ducati 996", "ducati 998"],
+    "era": "iconic",
+    "characteristics": {
+      "character": ["beautiful", "single_sider", "wsbk_icon"],
+      "signature": "the shape that made everyone else look ordinary"
+    },
+    "blurb": "Ducati 916: Tamburini sculpture with Fogarty WSBK DNA. Underseat exhausts, single-sider, and a silhouette still stealing the show. Iconic doesn't cover it.",
+    "active": true
+  },
+  {
+    "id": "yamaha_r1_1998",
+    "displayName": "Yamaha YZF-R1",
+    "aliases": ["yamaha r1", "yzf-r1", "yzfr1", "r1", "crossplane"],
+    "era": "iconic",
+    "characteristics": {
+      "character": ["litre_class_redefined", "howl"],
+      "signature": "redefined what a litre bike should be"
+    },
+    "blurb": "Yamaha R1: that crossplane howl and the feeling the front end is reading your mind. From '98 on, the litre class had a new boss.",
+    "active": true
+  },
+  {
+    "id": "suzuki_hayabusa",
+    "displayName": "Suzuki Hayabusa",
+    "aliases": ["hayabusa", "busa", "gsx1300r", "gsx-1300r", "suzuki hayabusa"],
+    "era": "iconic",
+    "characteristics": {
+      "character": ["speed", "cult"],
+      "signature": "cult speed icon"
+    },
+    "blurb": "Suzuki Hayabusa: the bird of prey that made speedometers blush. Controversially shaped, cultishly loved. Gen-1 copper still starts arguments.",
+    "active": true
+  },
+  {
+    "id": "honda_sp1_sp2",
+    "displayName": "Honda VTR1000 SP-1 / SP-2",
+    "aliases": ["sp1", "sp2", "sp-1", "sp-2", "vtr1000", "vtr 1000", "honda sp1", "honda sp2"],
+    "era": "iconic",
+    "characteristics": {
+      "character": ["wsbk_hero", "v_twin"],
+      "signature": "WSBK hero in street clothes"
+    },
+    "blurb": "Honda SP-1 / SP-2: WSBK twin that punched Ducati in the badge. Race-rep paint jobs still haunt paddocks. Proper hero bike.",
+    "active": true
+  },
+  {
+    "id": "suzuki_gsxr1000_k1",
+    "displayName": "Suzuki GSX-R1000",
+    "aliases": ["gsx-r1000", "gsxr1000", "gsxr 1000", "gixxer 1000", "suzuki gsx-r1000", "k1"],
+    "era": "iconic",
+    "characteristics": {
+      "character": ["litre_weapon", "race_rep"],
+      "signature": "early-2000s litre king"
+    },
+    "blurb": "Suzuki GSX-R1000: especially the early K1 era — the litre race-rep that owned the 2000s. Light, vicious, and still grinned about in sheds.",
+    "active": true
+  },
+  {
+    "id": "kawasaki_zx10r",
+    "displayName": "Kawasaki Ninja ZX-10R",
+    "aliases": ["zx-10r", "zx10r", "zx10", "ninja zx-10r", "kawasaki zx-10r"],
+    "era": "current",
+    "characteristics": {
+      "character": ["green_meanie", "wsbk"],
+      "signature": "green meanie that wins"
+    },
+    "blurb": "Kawasaki ZX-10R: green meanie. WSBK has a lot to thank this bike for. If you love the Ninja, you love winning.",
+    "active": true
+  },
+  {
+    "id": "bmw_s1000rr",
+    "displayName": "BMW S1000RR",
+    "aliases": ["s1000rr", "s1000", "bmw s1000rr", "s 1000 rr"],
+    "era": "current",
+    "characteristics": {
+      "character": ["powerful", "electronics"],
+      "signature": "when BMW decided to build a superbike"
+    },
+    "blurb": "BMW S1000RR: asymmetric headlights and serious power. The Germans decided to build a superbike. They succeeded.",
+    "active": true
+  },
+  {
+    "id": "kawasaki_ninja_h2",
+    "displayName": "Kawasaki Ninja H2",
+    "aliases": ["ninja h2", "kawasaki h2", "h2r", "ninja h2r", "supercharged h2"],
+    "era": "current",
+    "characteristics": {
+      "character": ["supercharged", "headline"],
+      "signature": "supercharged headline machine"
+    },
+    "blurb": "Kawasaki Ninja H2: supercharged insanity in street clothes. When magazines need a cover bike that breaks brains, this is it.",
+    "active": true
+  },
+  {
+    "id": "norton_manx",
+    "displayName": "Norton Manx",
+    "aliases": ["norton manx", "manx norton", "manx", "featherbed manx"],
+    "era": "classic",
+    "characteristics": {
+      "character": ["tt_legend", "featherbed", "single"],
+      "signature": "Featherbed TT legend"
+    },
+    "blurb": "Norton Manx: Featherbed frame, Isle of Man lore, and the sound of a single that built British racing. Hailwood's playground. Pure icon.",
+    "active": true
+  },
+  {
+    "id": "norton_commando",
+    "displayName": "Norton Commando",
+    "aliases": ["norton commando", "commando", "yellow peril", "norton production racer"],
+    "era": "classic",
+    "characteristics": {
+      "character": ["british_twin", "isolastic"],
+      "signature": "Britain's last stand twin"
+    },
+    "blurb": "Norton Commando: Isolastic twin attitude when Japan was inventing the superbike. Fastback, Roadster, Yellow Peril — British character on two wheels.",
+    "active": true
+  },
+  {
+    "id": "britten_v1000",
+    "displayName": "Britten V1000",
+    "aliases": ["britten", "britten v1000", "v1000 britten", "john britten"],
+    "era": "iconic",
+    "characteristics": {
+      "character": ["garage_genius", "carbon", "nz_legend"],
+      "signature": "NZ garage genius that beat the factories"
+    },
+    "blurb": "Britten V1000: built in a New Zealand workshop, carbon-fibre bones, and faster thinking than the factory teams. Only a handful exist — dream-bike royalty.",
+    "active": true
+  },
+  {
+    "id": "ducati_panigale_v4",
+    "displayName": "Ducati Panigale V4",
+    "aliases": ["panigale v4", "panigale", "ducati panigale", "ducati v4"],
+    "era": "current",
+    "characteristics": {
+      "character": ["loud", "aggressive"],
+      "signature": "sounds like an argument and goes like a missile"
+    },
+    "blurb": "Ducati Panigale V4: the bike that sounds like an argument and goes like a missile. You don't choose the Panigale life — it chooses you.",
+    "active": true
+  },
+  {
+    "id": "ducati_panigale_v2",
+    "displayName": "Ducati Panigale V2",
+    "aliases": ["panigale v2", "ducati v2"],
+    "era": "current",
+    "characteristics": {
+      "character": ["twin", "beautiful"],
+      "signature": "Italian twin with manners and menace"
+    },
+    "blurb": "Ducati Panigale V2: twin-cylinder Italian attitude without needing a factory contract. Beautiful, sharp, and still very Ducati.",
+    "active": true
+  },
+  {
+    "id": "aprilia_rsv4",
+    "displayName": "Aprilia RSV4",
+    "aliases": ["rsv4", "aprilia rsv4", "aprilia rsv"],
+    "era": "current",
+    "characteristics": {
+      "character": ["v4", "italian"],
+      "signature": "V4 symphony and Italian attitude"
+    },
+    "blurb": "Aprilia RSV4: V4 symphony and Italian attitude. If you picked Aprilia, you don't do boring. We approve.",
+    "active": true
+  },
+  {
+    "id": "aprilia_tuono",
+    "displayName": "Aprilia Tuono",
+    "aliases": ["tuono", "aprilia tuono"],
+    "era": "current",
+    "characteristics": {
+      "character": ["naked", "v4"],
+      "signature": "superbike heart, naked soul"
+    },
+    "blurb": "Aprilia Tuono: superbike heart with the fairings thrown away. Wheelie-friendly Italian chaos. Excellent life choice.",
+    "active": true
+  },
+  {
+    "id": "aprilia_rsv_mille",
+    "displayName": "Aprilia RSV Mille",
+    "aliases": ["rsv mille", "aprilia mille", "rsv1000", "mille"],
+    "era": "iconic",
+    "characteristics": {
+      "character": ["v_twin", "90s_icon"],
+      "signature": "Noale's twin that earned respect"
+    },
+    "blurb": "Aprilia RSV Mille: Noale's V-twin that proved Aprilia belonged with the big boys. 90s/00s cult classic. Nice deep cut.",
+    "active": true
+  },
+  {
+    "id": "mv_agusta_f4",
+    "displayName": "MV Agusta F4",
+    "aliases": ["mv agusta f4", "mv f4", "f4", "mv augusta f4"],
+    "era": "iconic",
+    "characteristics": {
+      "character": ["art", "exclusive"],
+      "signature": "art on two wheels"
+    },
+    "blurb": "MV Agusta F4: Tamburini art with a four-exhaust symphony. They don't make many, and they don't need to. Rare taste.",
+    "active": true
+  },
+  {
+    "id": "mv_agusta_brutale",
+    "displayName": "MV Agusta Brutale",
+    "aliases": ["mv agusta", "mv augusta", "brutale", "dragster", "mv brutale"],
+    "era": "current",
+    "characteristics": {
+      "character": ["art", "naked"],
+      "signature": "Italian sculpture that happens to go fast"
+    },
+    "blurb": "MV Agusta: art on two wheels. Brutale, Dragster, or F4 — you've got rare taste and you know it.",
+    "active": true
+  },
+  {
+    "id": "honda_cbr1000rr",
+    "displayName": "Honda CBR1000RR Fireblade",
+    "aliases": ["cbr1000rr", "cbr1000", "honda cbr1000rr", "blade"],
+    "era": "current",
+    "characteristics": {
+      "character": ["balanced", "hrc"],
+      "signature": "The Blade keeps cutting"
+    },
+    "blurb": "Honda CBR1000RR Fireblade: HRC DNA in a road bike. Decades of Blade lineage and still cutting corners with class.",
+    "active": true
+  },
+  {
+    "id": "honda_rc213v_s",
+    "displayName": "Honda RC213V-S",
+    "aliases": ["rc213v", "rc213v-s", "rc 213"],
+    "era": "current",
+    "characteristics": {
+      "character": ["motogp_homologation", "exotic"],
+      "signature": "MotoGP DNA for the street"
+    },
+    "blurb": "Honda RC213V-S: as close as most mortals get to a MotoGP bike with number plates. Exotic doesn't begin to cover it.",
+    "active": true
+  },
+  {
+    "id": "triumph_speed_triple",
+    "displayName": "Triumph Speed Triple",
+    "aliases": ["speed triple", "triumph speed triple"],
+    "era": "current",
+    "characteristics": {
+      "character": ["triple", "naked"],
+      "signature": "British triple character"
+    },
+    "blurb": "Triumph Speed Triple: that triple soundtrack and streetfighter stare. British character with enough torque to make corners optional.",
+    "active": true
+  },
+  {
+    "id": "triumph_street_triple",
+    "displayName": "Triumph Street Triple",
+    "aliases": ["street triple", "triumph street triple"],
+    "era": "current",
+    "characteristics": {
+      "character": ["triple", "flickable"],
+      "signature": "the grin machine"
+    },
+    "blurb": "Triumph Street Triple: the middleweight grin machine. Light, loud enough, and always up for another corner.",
+    "active": true
+  },
+  {
+    "id": "triumph_daytona_675",
+    "displayName": "Triumph Daytona 675",
+    "aliases": ["daytona 675", "daytona675", "triumph daytona", "675"],
+    "era": "iconic",
+    "characteristics": {
+      "character": ["triple", "supersport"],
+      "signature": "the triple that punched above"
+    },
+    "blurb": "Triumph Daytona 675: the triple that made supersport interesting again. Soundtrack alone is worth the price of admission.",
+    "active": true
+  },
+  {
+    "id": "ktm_super_duke",
+    "displayName": "KTM Super Duke",
+    "aliases": ["super duke", "1290 super duke", "ktm 1290", "ktm super duke"],
+    "era": "current",
+    "characteristics": {
+      "character": ["orange", "chaos"],
+      "signature": "ready to race, unapologetic"
+    },
+    "blurb": "KTM Super Duke: orange, unapologetic, and ready to misbehave. You clearly like a bit of chaos.",
+    "active": true
+  },
+  {
+    "id": "ktm_rc8",
+    "displayName": "KTM RC8",
+    "aliases": ["rc8", "ktm rc8"],
+    "era": "iconic",
+    "characteristics": {
+      "character": ["v_twin", "orange"],
+      "signature": "Austria's superbike statement"
+    },
+    "blurb": "KTM RC8: Austria's V-twin superbike statement. Rare, angular, and very orange. Cult pick.",
+    "active": true
+  },
+  {
+    "id": "yamaha_r6",
+    "displayName": "Yamaha YZF-R6",
+    "aliases": ["r6", "yzf-r6", "yamaha r6"],
+    "era": "current",
+    "characteristics": {
+      "character": ["supersport", "revvy"],
+      "signature": "supersport scalpel"
+    },
+    "blurb": "Yamaha R6: the supersport scalpel. High-revving, track-day royalty, and still the bike that teaches corner speed properly.",
+    "active": true
+  },
+  {
+    "id": "kawasaki_zx6r",
+    "displayName": "Kawasaki Ninja ZX-6R",
+    "aliases": ["zx-6r", "zx6r", "ninja 636", "636", "kawasaki zx-6r"],
+    "era": "current",
+    "characteristics": {
+      "character": ["supersport", "green"],
+      "signature": "middleweight Ninja bite"
+    },
+    "blurb": "Kawasaki ZX-6R / 636: middleweight Ninja bite. Track-day favourite with proper green menace. Solid choice.",
+    "active": true
+  },
+  {
+    "id": "honda_cbr600rr",
+    "displayName": "Honda CBR600RR",
+    "aliases": ["cbr600rr", "cbr600", "honda cbr600"],
+    "era": "current",
+    "characteristics": {
+      "character": ["supersport", "balanced"],
+      "signature": "the complete middleweight"
+    },
+    "blurb": "Honda CBR600RR: the complete middleweight. Balanced, sharp, and still the reference for 'just ride it faster.'",
+    "active": true
+  },
+  {
+    "id": "suzuki_gsxr600",
+    "displayName": "Suzuki GSX-R600",
+    "aliases": ["gsx-r600", "gsxr600", "gixxer 600"],
+    "era": "current",
+    "characteristics": {
+      "character": ["supersport", "flickable"],
+      "signature": "flickable Gixxer junior"
+    },
+    "blurb": "Suzuki GSX-R600: flickable Gixxer energy in supersport form. Light, honest, and still making riders grin.",
+    "active": true
+  },
+  {
+    "id": "yamaha_r3",
+    "displayName": "Yamaha YZF-R3",
+    "aliases": ["r3", "yzf-r3", "yamaha r3"],
+    "era": "current",
+    "characteristics": {
+      "character": ["learner", "fun"],
+      "signature": "the gateway drug done right"
+    },
+    "blurb": "Yamaha R3: the gateway drug done right. Light, friendly, and still enough fun to remind you why you started.",
+    "active": true
+  },
+  {
+    "id": "kawasaki_ninja_400",
+    "displayName": "Kawasaki Ninja 400",
+    "aliases": ["ninja 400", "ninja400", "kawasaki 400"],
+    "era": "current",
+    "characteristics": {
+      "character": ["learner", "track_day"],
+      "signature": "small bike, big grin"
+    },
+    "blurb": "Kawasaki Ninja 400: small bike, big grin. Track days, learner plates, and more fun per cc than the brochure admits.",
+    "active": true
+  },
+  {
+    "id": "ktm_rc390",
+    "displayName": "KTM RC 390",
+    "aliases": ["rc390", "rc 390", "ktm rc390"],
+    "era": "current",
+    "characteristics": {
+      "character": ["learner", "sharp"],
+      "signature": "orange pocket rocket"
+    },
+    "blurb": "KTM RC 390: orange pocket rocket. Sharp enough to teach race lines without needing a second mortgage.",
+    "active": true
+  },
+  {
+    "id": "honda_rc45",
+    "displayName": "Honda RC45",
+    "aliases": ["rc45", "rc 45", "rvf750", "honda rc45"],
+    "era": "iconic",
+    "characteristics": {
+      "character": ["homologation", "v4"],
+      "signature": "the RC30's fierce successor"
+    },
+    "blurb": "Honda RC45: the RC30's fiercer little sibling. Homologation special energy and V4 howl. Deep-cut excellence.",
+    "active": true
+  },
+  {
+    "id": "kawasaki_zx7r",
+    "displayName": "Kawasaki ZX-7R",
+    "aliases": ["zx-7r", "zx7r", "zx7", "ninja zx-7r"],
+    "era": "iconic",
+    "characteristics": {
+      "character": ["90s_superbike", "green"],
+      "signature": "90s green superbike icon"
+    },
+    "blurb": "Kawasaki ZX-7R: 90s green superbike icon. Twin-headlight stare and club-racing immortality. Proper nostalgia pick.",
+    "active": true
+  },
+  {
+    "id": "kawasaki_zx9r",
+    "displayName": "Kawasaki ZX-9R",
+    "aliases": ["zx-9r", "zx9r", "zx9"],
+    "era": "iconic",
+    "characteristics": {
+      "character": ["litre_ish", "torque"],
+      "signature": "the big Ninja before the ZX-10R"
+    },
+    "blurb": "Kawasaki ZX-9R: the big Ninja before the ZX-10R took over. Torque, drama, and 90s/00s streetfighter dreams.",
+    "active": true
+  },
+  {
+    "id": "yamaha_fzr1000",
+    "displayName": "Yamaha FZR1000",
+    "aliases": ["fzr1000", "fzr 1000", "exup", "yamaha fzr"],
+    "era": "iconic",
+    "characteristics": {
+      "character": ["genesis", "exup"],
+      "signature": "EXUP-era Yamaha muscle"
+    },
+    "blurb": "Yamaha FZR1000: Genesis motor, EXUP valve, and the muscle that led toward the R1. 80s/90s Yamaha done loud.",
+    "active": true
+  },
+  {
+    "id": "ducati_monster",
+    "displayName": "Ducati Monster",
+    "aliases": ["ducati monster", "monster"],
+    "era": "iconic",
+    "characteristics": {
+      "character": ["naked", "desmo"],
+      "signature": "the naked that started a category"
+    },
+    "blurb": "Ducati Monster: the naked that spawned a thousand streetfighters. Trellis, desmo, and café attitude. Timeless.",
+    "active": true
+  },
+  {
+    "id": "yamaha_rd350",
+    "displayName": "Yamaha RD350",
+    "aliases": ["rd350", "rd 350", "rd400", "rd 400", "yamaha rd"],
+    "era": "classic",
+    "characteristics": {
+      "character": ["two_stroke", "cult"],
+      "signature": "two-stroke cult classic"
+    },
+    "blurb": "Yamaha RD350/400: two-stroke cult classic. The smell, the scream, the stories. If this is your favourite, you know.",
+    "active": true
+  },
+  {
+    "id": "kawasaki_mach_h2",
+    "displayName": "Kawasaki H2 Mach",
+    "aliases": ["mach iv", "mach iv h2", "h2 mach", "kawasaki mach", "mach iii", "h1 mach"],
+    "era": "classic",
+    "characteristics": {
+      "character": ["two_stroke", "wild"],
+      "signature": "two-stroke triple chaos"
+    },
+    "blurb": "Kawasaki Mach H1/H2: two-stroke triple chaos from an era before traction control. Wild, smoky, unforgettable.",
+    "active": true
+  },
+  {
+    "id": "triumph_bonneville",
+    "displayName": "Triumph Bonneville",
+    "aliases": ["bonneville", "triumph bonneville", "bonnie"],
+    "era": "classic",
+    "characteristics": {
+      "character": ["british", "icon"],
+      "signature": "the British icon"
+    },
+    "blurb": "Triumph Bonneville: the British icon. Café racers, desert sleds, and a name that still means motorcycle. Classic taste.",
+    "active": true
+  },
+  {
+    "id": "laverda_jota",
+    "displayName": "Laverda Jota",
+    "aliases": ["laverda jota", "jota", "laverda"],
+    "era": "classic",
+    "characteristics": {
+      "character": ["triple", "italian"],
+      "signature": "Italian triple thunder"
+    },
+    "blurb": "Laverda Jota: Italian triple thunder with a cult following. Rare, loud, and never boring. Excellent deep cut.",
+    "active": true
+  },
+  {
+    "id": "bimota",
+    "displayName": "Bimota",
+    "aliases": ["bimota", "bimota db", "bimota sb"],
+    "era": "iconic",
+    "characteristics": {
+      "character": ["exotic", "hand_built"],
+      "signature": "Rimini exotica"
+    },
+    "blurb": "Bimota: Rimini exotica — chassis jewellery wrapped around serious engines. Magazine dream-bike energy. Rare taste confirmed.",
+    "active": true
+  },
+  {
+    "id": "ducati_851",
+    "displayName": "Ducati 851 / 888",
+    "aliases": ["ducati 851", "851", "888", "ducati 888"],
+    "era": "iconic",
+    "characteristics": {
+      "character": ["desmoquattro", "wsbk"],
+      "signature": "the Desmoquattro that started the modern Ducati SBK story"
+    },
+    "blurb": "Ducati 851/888: Desmoquattro beginnings of modern Ducati WSBK dominance. Before the 916 — the spark. Proper history.",
+    "active": true
+  }
+]
