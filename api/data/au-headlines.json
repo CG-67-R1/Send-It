@@ -1,5 +1,5 @@
 {
-  "updatedAt": "2026-07-20T06:42:00.150Z",
+  "updatedAt": "2026-07-20T08:53:20.239Z",
   "sourceIds": [
     "ma_roadrace",
     "mcnews",
@@ -178,6 +178,14 @@
       "imageUrl": "https://amcn.com.au/data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMSIgaGVpZ2h0PSIxIiB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciPjwvc3ZnPg=="
     },
     {
+      "title": "ASBK | A season of change Mark Bracks is feeling the summer love already",
+      "url": "https://amcn.com.au/editorial/asbk-season-of-change/",
+      "source": "AMCN ASBK",
+      "sourceId": "amcn_asbk",
+      "date": null,
+      "imageUrl": "https://amcn.com.au/data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMSIgaGVpZ2h0PSIxIiB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciPjwvc3ZnPg=="
+    },
+    {
       "title": "Farnsworth and Edwards crowned in dramatic wet Supersport/Next gen finale Queensland Raceway dished up rain, a red flag and a late twist, with Jake Farnsworth and Tom Edwards emerging as champions",
       "url": "https://amcn.com.au/editorial/farnsworth-and-edwards-crowned-in-dramatic-wet-supersport-next-gen-finale/",
       "source": "AMCN ASBK",
@@ -244,14 +252,6 @@
     {
       "title": "Waters masters the wet for pole at The Bend McMartin Racing Ducati rider leads teammate Harrison Voight in saturated ASBK qualifying session",
       "url": "https://amcn.com.au/editorial/waters-masters-the-wet-for-pole-at-the-bend/",
-      "source": "AMCN ASBK",
-      "sourceId": "amcn_asbk",
-      "date": null,
-      "imageUrl": "https://amcn.com.au/data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMSIgaGVpZ2h0PSIxIiB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciPjwvc3ZnPg=="
-    },
-    {
-      "title": "TARA MORRISON | Elbow room “We went through the apex elbow-to-elbow and he lost the rear. I actually stopped him from highsiding but we both went down\"",
-      "url": "https://amcn.com.au/editorial/tara-morrison-elbow-room/",
       "source": "AMCN ASBK",
       "sourceId": "amcn_asbk",
       "date": null,

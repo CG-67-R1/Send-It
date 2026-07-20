@@ -1,7 +1,7 @@
 {
-  "updatedAt": "2026-07-17T01:56:24.830Z",
+  "updatedAt": "2026-07-20T08:54:11.643Z",
   "sourceCount": 26,
-  "eventCount": 59,
+  "eventCount": 62,
   "errors": [],
   "events": [
     {
@@ -170,20 +170,6 @@
       "entry_url": "https://www.computime.com.au/calendar/calendar",
       "discipline": "road_race",
       "notes": null,
-      "confidence": "high"
-    },
-    {
-      "name": "Mac Park Ride Day",
-      "start_date": "2026-07-18",
-      "end_date": "2026-07-18",
-      "state": null,
-      "venue": "Mac Park Road Race Circuit",
-      "organiser": "Motorcycling Australia (MA) - National Calendar",
-      "source_id": "gov_ma_national_calendar",
-      "source_url": "https://www.ma.org.au/ma-calendar/",
-      "entry_url": "https://calendar.time.ly/lom2ukea/event/78313776/20260718000000",
-      "discipline": "road_race",
-      "notes": "Timely: Road Race,Classic",
       "confidence": "high"
     },
     {
@@ -621,6 +607,62 @@
       "confidence": "high"
     },
     {
+      "name": "Collie Motorplex",
+      "start_date": "2026-09-13",
+      "end_date": "2026-09-13",
+      "state": "WA",
+      "venue": "Collie Motorplex",
+      "organiser": "Champions Ride Days",
+      "source_id": "club_au_champions_ride_days",
+      "source_url": "https://championsridedays.com.au/event-calender/",
+      "entry_url": "https://championsridedays.com.au/product/collie-motorplex-89/",
+      "discipline": "track_day",
+      "notes": "Track day — book via Champions Ride Days",
+      "confidence": "high"
+    },
+    {
+      "name": "Morgan Park Raceway Wednesday",
+      "start_date": "2026-09-16",
+      "end_date": "2026-09-16",
+      "state": "QLD",
+      "venue": "Morgan Park Raceway",
+      "organiser": "Champions Ride Days",
+      "source_id": "club_au_champions_ride_days",
+      "source_url": "https://championsridedays.com.au/event-calender/",
+      "entry_url": "https://championsridedays.com.au/product/morgan-park-raceway-wednesday-6/",
+      "discipline": "track_day",
+      "notes": "Track day — book via Champions Ride Days",
+      "confidence": "high"
+    },
+    {
+      "name": "Morgan Park Raceway 16-17 Sept 2026 DOUBLE!!",
+      "start_date": "2026-09-16",
+      "end_date": "2026-09-16",
+      "state": "QLD",
+      "venue": "Morgan Park Raceway",
+      "organiser": "Champions Ride Days",
+      "source_id": "club_au_champions_ride_days",
+      "source_url": "https://championsridedays.com.au/event-calender/",
+      "entry_url": "https://championsridedays.com.au/product/morgan-park-raceway-16-17-sept-2026-double/",
+      "discipline": "track_day",
+      "notes": "Track day — book via Champions Ride Days",
+      "confidence": "high"
+    },
+    {
+      "name": "Morgan Park Raceway Thursday",
+      "start_date": "2026-09-17",
+      "end_date": "2026-09-17",
+      "state": "QLD",
+      "venue": "Morgan Park Raceway",
+      "organiser": "Champions Ride Days",
+      "source_id": "club_au_champions_ride_days",
+      "source_url": "https://championsridedays.com.au/event-calender/",
+      "entry_url": "https://championsridedays.com.au/product/morgan-park-raceway-thursday-2/",
+      "discipline": "track_day",
+      "notes": "Track day — book via Champions Ride Days",
+      "confidence": "high"
+    },
+    {
       "name": "MotoMini Australia: Round 4",
       "start_date": "2026-09-19",
       "end_date": "2026-09-20",
@@ -830,7 +872,5 @@
       "notes": "Timely: Road Race",
       "confidence": "high"
     }
-  ],
-  "dedupedAt": "2026-07-17T01:56:24.831Z",
-  "dedupeNote": "Removed MA/SCB Timely duplicates (prefer gov_ma_national_calendar)"
+  ]
 }
