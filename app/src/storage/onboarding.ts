@@ -1,8 +1,9 @@
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import { STORAGE_KEYS } from '../constants/storageKeys';
 import { clearAvatarFacePhoto } from './avatarFacePhoto';
 
-const KEY_ONBOARDING_DONE = '@roadrace_onboarding_done';
-const KEY_ONBOARDING_ANSWERS = '@roadrace_onboarding_answers';
+const KEY_ONBOARDING_DONE = STORAGE_KEYS.ONBOARDING_DONE;
+const KEY_ONBOARDING_ANSWERS = STORAGE_KEYS.ONBOARDING_ANSWERS;
 
 export interface OnboardingAnswers {
   favouriteBike: string;

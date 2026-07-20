@@ -37,7 +37,6 @@ export const API_BASE_URL = getApiBaseUrl();
 export const HEADLINES_URL = `${API_BASE_URL}/headlines`;
 export const SOURCES_URL = `${API_BASE_URL}/sources`;
 export const HEADLINES_CUSTOM_URL = `${API_BASE_URL}/headlines/custom`;
-export const QA_SEARCH_URL = `${API_BASE_URL}/qa/search`;
 export const QA_TRIVIA_URL = `${API_BASE_URL}/qa/trivia`;
 export const CALENDAR_URL = `${API_BASE_URL}/calendar`;
 

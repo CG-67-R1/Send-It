@@ -1,10 +1,11 @@
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import { STORAGE_KEYS } from '../constants/storageKeys';
 import type { CustomSource, PriorityOrder } from '../types';
 
-const KEY_PRIORITY = '@roadrace_headlines_priority';
-const KEY_CUSTOM_SOURCES = '@roadrace_headlines_custom_sources';
-const KEY_NOTIFY_PRIORITY_1 = '@roadrace_headlines_notify_priority_1';
-const KEY_LAST_SEEN_P1_URLS = '@roadrace_headlines_last_seen_p1_urls';
+const KEY_PRIORITY = STORAGE_KEYS.HEADLINES_PRIORITY;
+const KEY_CUSTOM_SOURCES = STORAGE_KEYS.HEADLINES_CUSTOM_SOURCES;
+const KEY_NOTIFY_PRIORITY_1 = STORAGE_KEYS.HEADLINES_NOTIFY_PRIORITY_1;
+const KEY_LAST_SEEN_P1_URLS = STORAGE_KEYS.HEADLINES_LAST_SEEN_P1_URLS;
 
 const DEFAULT_PRIORITY: PriorityOrder = [
   'gpone',

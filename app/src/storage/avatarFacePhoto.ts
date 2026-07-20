@@ -1,13 +1,14 @@
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import { STORAGE_KEYS } from '../constants/storageKeys';
 import {
   clearPersistedLocalPhoto,
   getPersistedLocalPhoto,
   persistLocalPhoto,
 } from './localPhotoStorage';
 
-const KEY_AVATAR_FACE_URI = '@roadrace_avatar_face_photo_uri';
+const KEY_AVATAR_FACE_URI = STORAGE_KEYS.AVATAR_FACE_URI;
 /** Bumps on each save so display URIs change and Image/SvgImage reload (same path is otherwise cached). */
-const KEY_AVATAR_FACE_REV = '@roadrace_avatar_face_photo_rev';
+const KEY_AVATAR_FACE_REV = STORAGE_KEYS.AVATAR_FACE_REV;
 const FACE_FILENAME = 'avatar_face.jpg';
 
 const FACE_WEB_MAX_DIMENSION = 512;

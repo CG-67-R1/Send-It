@@ -85,6 +85,38 @@ const cases = [
   ['rider', 'Jonathan Rea', 'Jonathan Rea'],
   ['rider', 'Doohan', 'Mick Doohan'],
   ['rider', 'Foggy', 'Carl Fogarty'],
+  ['rider', 'Remy Gardner', 'Remy Gardner'],
+  ['rider', 'Broc Parkes', 'Broc Parkes'],
+  ['rider', 'Joey Dunlop', 'Joey Dunlop'],
+  ['rider', 'McGuinness', 'John McGuinness'],
+  ['rider', 'Shakey', 'Shane Byrne'],
+  ['rider', 'Josh Brookes', 'Josh Brookes'],
+  ['rider', 'Mat Mladin', 'Mat Mladin'],
+  ['rider', 'Ben Spies', 'Ben Spies'],
+  ['rider', 'Cameron Beaubier', 'Cameron Beaubier'],
+  ['rider', 'Ai Ogura', 'Ai Ogura'],
+  ['rider', 'Joe Roberts', 'Joe Roberts'],
+  ['rider', 'Senna Agius', 'Senna Agius'],
+  ['rider', 'Bryan Staring', 'Bryan Staring'],
+  ['rider', 'David Alonso', 'David Alonso'],
+  ['rider', 'Danny Kent', 'Danny Kent'],
+  ['rider', 'José Antonio Rueda', 'José Antonio Rueda'],
+  ['rider', 'Can Öncü', 'Can Öncü'],
+  ['rider', 'Brian Uriarte', 'Brian Uriarte'],
+  ['rider', 'Sandro Cortese', 'Sandro Cortese'],
+  ['rider', 'Guy Martin', 'Guy Martin'],
+  ['rider', 'Norick Abe', 'Norick Abe'],
+  ['rider', 'Nitro Nori', 'Noriyuki Haga'],
+  ['rider', 'Sete Gibernau', 'Sete Gibernau'],
+  ['rider', 'Garry McCoy', 'Garry McCoy'],
+  ['rider', 'Barry Sheene', 'Barry Sheene'],
+  ['rider', 'Sheene', 'Barry Sheene'],
+  ['rider', 'Kenan Sofuoğlu', 'Kenan Sofuoğlu'],
+  ['rider', 'Takumi Takahashi', 'Takumi Takahashi'],
+  ['rider', 'Steve Hislop', 'Steve Hislop'],
+  ['rider', 'Hizzy', 'Steve Hislop'],
+  ['rider', 'Marco Simoncelli', 'Marco Simoncelli'],
+  ['rider', 'Geoff Duke', 'Geoff Duke'],
   ['bike', '916', 'Ducati 916'],
   ['bike', 'Britten', 'Britten V1000'],
   ['bike', 'Norton Manx', 'Norton Manx'],
@@ -114,6 +146,14 @@ assert(bikeFact("Bob's shed special").includes("bike's got stories"), 'unknown b
 // Short alias should not false-hit: bare "rea" should NOT match Jonathan Rea
 assert(bestBlurb('rea', riders) === null, 'bare "rea" does not match');
 assert(bestBlurb('max', riders) === null, 'bare "max" does not match Biaggi');
+// Bare "gardner" stays Wayne; Remy needs first name
+assert(bestBlurb('gardner', riders)?.id === 'gardner', 'bare "gardner" → Wayne Gardner');
+assert(bestBlurb('remy gardner', riders)?.id === 'remy_gardner', '"remy gardner" → Remy');
+assert(bestBlurb('remy', riders)?.id === 'remy_gardner', 'bare "remy" → Remy');
+assert(bestBlurb('joe roberts', riders)?.id === 'joe_roberts', '"joe roberts" → Joe (not Kenny)');
+assert(bestBlurb('roberts', riders)?.id === 'roberts', 'bare "roberts" → Kenny Roberts');
+assert(bestBlurb('michael dunlop', riders)?.id === 'michael_dunlop', '"michael dunlop" → Michael');
+assert(bestBlurb('joey dunlop', riders)?.id === 'joey_dunlop', '"joey dunlop" → Joey');
 
 if (failed) {
   console.error(`\n${failed} failure(s)`);

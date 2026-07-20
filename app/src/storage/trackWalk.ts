@@ -1,8 +1,9 @@
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import { STORAGE_KEYS } from '../constants/storageKeys';
 import type { CornerDirection, OtherTrackContext } from '../data/tracks';
 import { formatCornerHeading, getTrackById, isOtherTrackComplete } from '../data/tracks';
 
-const KEY_SESSIONS = '@roadrace_track_walk_sessions';
+const KEY_SESSIONS = STORAGE_KEYS.TRACK_WALK_SESSIONS;
 
 /** @deprecated use 'corner' */
 export type TrackWalkEntryType = 'note' | 'turn' | 'corner';

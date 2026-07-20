@@ -1,10 +1,11 @@
 import { Platform } from 'react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import * as Location from 'expo-location';
+import { STORAGE_KEYS } from '../constants/storageKeys';
 import { findTrackByLocation, type TrackGeofenceMatch } from './trackGeofenceMatch';
 
-const KEY_ENABLED = '@roadrace_track_arrival_enabled';
-const KEY_STATE = '@roadrace_track_arrival_state';
+const KEY_ENABLED = STORAGE_KEYS.TRACK_ARRIVAL_ENABLED;
+const KEY_STATE = STORAGE_KEYS.TRACK_ARRIVAL_STATE;
 
 type TrackArrivalState = Record<
   string,

@@ -1,12 +1,13 @@
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import { STORAGE_KEYS } from '../constants/storageKeys';
 import {
   clearPersistedLocalPhoto,
   getPersistedLocalPhoto,
   persistLocalPhoto,
 } from './localPhotoStorage';
 
-const KEY_BIKE_PHOTO_URI = '@roadrace_bike_photo_uri';
-const KEY_BIKE_PHOTO_REV = '@roadrace_bike_photo_rev';
+const KEY_BIKE_PHOTO_URI = STORAGE_KEYS.BIKE_PHOTO_URI;
+const KEY_BIKE_PHOTO_REV = STORAGE_KEYS.BIKE_PHOTO_REV;
 const BIKE_PHOTO_FILENAME = 'bike_photo.jpg';
 
 const BIKE_WEB_MAX_DIMENSION = 1200;

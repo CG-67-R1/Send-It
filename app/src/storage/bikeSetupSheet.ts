@@ -1,7 +1,8 @@
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import { STORAGE_KEYS } from '../constants/storageKeys';
 
-const KEY_DAY_SHEET = '@roadrace_bike_setup_day_sheet';
-export const KEY_SESSION_HISTORY = '@roadrace_bike_setup_session_history';
+const KEY_DAY_SHEET = STORAGE_KEYS.BIKE_SETUP_DAY_SHEET;
+export const KEY_SESSION_HISTORY = STORAGE_KEYS.BIKE_SETUP_SESSION_HISTORY;
 
 export type BikeSetupDaySheet = {
   dateIso: string;

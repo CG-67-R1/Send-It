@@ -18,8 +18,9 @@ import { logAnalyticsEvent } from '../utils/analytics';
 import { sendAskChat, type AskSource, type MomsOnlineMeta } from '../utils/askChat';
 import { AppLogo } from '../components/AppLogo';
 import { SCREEN_LOGO_SIZE } from '../constants/logoSizing';
+import { STORAGE_KEYS } from '../constants/storageKeys';
 
-const TRIVIA_BEST_SCORE_KEY = 'ROADRACER_TRIVIA_BEST';
+const TRIVIA_BEST_SCORE_KEY = STORAGE_KEYS.TRIVIA_BEST_SCORE;
 /** Gamification overlay only — not a user profile / onboarding avatar. */
 const THE_GOAT_SOURCE: ImageSourcePropType = require('../../avatar/the_goat.png');
 
