@@ -213,7 +213,7 @@ const styles = StyleSheet.create({
   },
   diagramWrap: {
     width: '100%',
-    aspectRatio: 1788 / 858,
+    aspectRatio: 1024 / 682,
     backgroundColor: 'transparent',
   },
   diagram: {
