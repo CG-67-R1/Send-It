@@ -1,5 +1,5 @@
 {
-  "updatedAt": "2026-07-22T13:40:06.169Z",
+  "updatedAt": "2026-07-22T17:11:36.741Z",
   "sourceIds": [
     "ma_roadrace",
     "mcnews",
@@ -138,24 +138,8 @@
       "imageUrl": "https://www.ma.org.au/wp-content/uploads/2026/03/2026-ASBK-Rnd2-SMP-RbMotoLens-RML_3718-R5-Race-Podium-SBK-Harry-Voight-Josh-Waters-Cru-Halliday-300x200.jpg"
     },
     {
-      "title": "This is BMW’s weapon for the 2026 GS Trophy",
-      "url": "https://www.mcnews.com.au/bmw-r-12-gs-2026-gs-trophy-competition-bike/",
-      "source": "MCNews (AU)",
-      "sourceId": "mcnews",
-      "date": null,
-      "imageUrl": null
-    },
-    {
       "title": "2026 Triumph Street Triple 765 RX Review | Barber Track Test",
       "url": "https://www.mcnews.com.au/2026-triumph-street-triple-765-rx-review/",
-      "source": "MCNews (AU)",
-      "sourceId": "mcnews",
-      "date": null,
-      "imageUrl": null
-    },
-    {
-      "title": "Öhlins, Akrapovič and carbon for Speed Twin 1200 TFC",
-      "url": "https://www.mcnews.com.au/2027-triumph-speed-twin-1200-tfc/",
       "source": "MCNews (AU)",
       "sourceId": "mcnews",
       "date": null,
@@ -178,6 +162,22 @@
       "imageUrl": null
     },
     {
+      "title": "This is BMW’s weapon for the 2026 GS Trophy",
+      "url": "https://www.mcnews.com.au/bmw-r-12-gs-2026-gs-trophy-competition-bike/",
+      "source": "MCNews (AU)",
+      "sourceId": "mcnews",
+      "date": null,
+      "imageUrl": null
+    },
+    {
+      "title": "Öhlins, Akrapovič and carbon for Speed Twin 1200 TFC",
+      "url": "https://www.mcnews.com.au/2027-triumph-speed-twin-1200-tfc/",
+      "source": "MCNews (AU)",
+      "sourceId": "mcnews",
+      "date": null,
+      "imageUrl": null
+    },
+    {
       "title": "2026 Honda Africa Twin range lands in Australia from $22,999",
       "url": "https://www.mcnews.com.au/2026-honda-africa-twin-range-australia/",
       "source": "MCNews (AU)",
@@ -186,16 +186,8 @@
       "imageUrl": null
     },
     {
-      "title": "Yamaha XSR900 GP Review | The retro Yamaha that stole the show at Yamafest",
-      "url": "https://www.mcnews.com.au/yamaha-xsr900-gp-review-2026/",
-      "source": "MCNews (AU)",
-      "sourceId": "mcnews",
-      "date": null,
-      "imageUrl": null
-    },
-    {
-      "title": "KTM Power Deals offer savings of up to $7000",
-      "url": "https://www.mcnews.com.au/ktm-power-deals-2026-australia-prices/",
+      "title": "Vespa celebrate 80 years with GTS 300 Anniversary Edition",
+      "url": "https://www.mcnews.com.au/vespa-celebrate-80-years-with-gts-300-anniversary-edition/",
       "source": "MCNews (AU)",
       "sourceId": "mcnews",
       "date": null,
@@ -210,8 +202,16 @@
       "imageUrl": null
     },
     {
-      "title": "EV Electromobility News",
-      "url": "https://www.mcnews.com.au/motorcycle-news/e-bike/",
+      "title": "QJMOTOR and VOGE to launch 16 motorcycles in Australia",
+      "url": "https://www.mcnews.com.au/qjmotor-voge-australia-2026-launch/",
+      "source": "MCNews (AU)",
+      "sourceId": "mcnews",
+      "date": null,
+      "imageUrl": null
+    },
+    {
+      "title": "Yamaha XSR900 GP Review | The retro Yamaha that stole the show at Yamafest",
+      "url": "https://www.mcnews.com.au/yamaha-xsr900-gp-review-2026/",
       "source": "MCNews (AU)",
       "sourceId": "mcnews",
       "date": null,
