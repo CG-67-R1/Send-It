@@ -1,5 +1,5 @@
 {
-  "updatedAt": "2026-07-23T06:26:58.319Z",
+  "updatedAt": "2026-07-23T10:15:42.164Z",
   "sourceIds": [
     "ma_roadrace",
     "mcnews",
@@ -170,6 +170,14 @@
       "imageUrl": null
     },
     {
+      "title": "Vespa celebrate 80 years with GTS 300 Anniversary Edition",
+      "url": "https://www.mcnews.com.au/vespa-celebrate-80-years-with-gts-300-anniversary-edition/",
+      "source": "MCNews (AU)",
+      "sourceId": "mcnews",
+      "date": null,
+      "imageUrl": null
+    },
+    {
       "title": "Öhlins, Akrapovič and carbon for Speed Twin 1200 TFC",
       "url": "https://www.mcnews.com.au/2027-triumph-speed-twin-1200-tfc/",
       "source": "MCNews (AU)",
@@ -186,8 +194,8 @@
       "imageUrl": null
     },
     {
-      "title": "Vespa celebrate 80 years with GTS 300 Anniversary Edition",
-      "url": "https://www.mcnews.com.au/vespa-celebrate-80-years-with-gts-300-anniversary-edition/",
+      "title": "QJMOTOR and VOGE to launch 16 motorcycles in Australia",
+      "url": "https://www.mcnews.com.au/qjmotor-voge-australia-2026-launch/",
       "source": "MCNews (AU)",
       "sourceId": "mcnews",
       "date": null,
@@ -202,16 +210,8 @@
       "imageUrl": null
     },
     {
-      "title": "QJMOTOR and VOGE to launch 16 motorcycles in Australia",
-      "url": "https://www.mcnews.com.au/qjmotor-voge-australia-2026-launch/",
-      "source": "MCNews (AU)",
-      "sourceId": "mcnews",
-      "date": null,
-      "imageUrl": null
-    },
-    {
-      "title": "Yamaha XSR900 GP Review | The retro Yamaha that stole the show at Yamafest",
-      "url": "https://www.mcnews.com.au/yamaha-xsr900-gp-review-2026/",
+      "title": "Stark VARG MX and EX Factory Editions score full KYB A-Kit suspension",
+      "url": "https://www.mcnews.com.au/stark-varg-mx-and-ex-factory-editions-score-full-kyb-a-kit-suspension/",
       "source": "MCNews (AU)",
       "sourceId": "mcnews",
       "date": null,
