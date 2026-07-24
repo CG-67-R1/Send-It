@@ -1,5 +1,5 @@
 {
-  "updatedAt": "2026-07-24T17:25:28.746Z",
+  "updatedAt": "2026-07-24T20:58:00.341Z",
   "sourceIds": [
     "ma_roadrace",
     "mcnews",
@@ -138,14 +138,6 @@
       "imageUrl": "https://www.ma.org.au/wp-content/uploads/2026/03/2026-ASBK-Rnd2-SMP-RbMotoLens-RML_3718-R5-Race-Podium-SBK-Harry-Voight-Josh-Waters-Cru-Halliday-300x200.jpg"
     },
     {
-      "title": "2026 Triumph Street Triple 765 RX Review | Barber Track Test",
-      "url": "https://www.mcnews.com.au/2026-triumph-street-triple-765-rx-review/",
-      "source": "MCNews (AU)",
-      "sourceId": "mcnews",
-      "date": null,
-      "imageUrl": null
-    },
-    {
       "title": "Ryde and Redding trade blows as Bayliss bags Brands double",
       "url": "https://www.mcnews.com.au/2026-bsb-brands-hatch-results-ryde-redding-bayliss/",
       "source": "MCNews (AU)",
@@ -156,14 +148,6 @@
     {
       "title": "Vespa celebrate 80 years with GTS 300 Anniversary Edition",
       "url": "https://www.mcnews.com.au/vespa-celebrate-80-years-with-gts-300-anniversary-edition/",
-      "source": "MCNews (AU)",
-      "sourceId": "mcnews",
-      "date": null,
-      "imageUrl": null
-    },
-    {
-      "title": "Royal Enfield Bullet 650 Review | Sixties style, modern manners",
-      "url": "https://www.mcnews.com.au/royal-enfield-650-bullet-review/",
       "source": "MCNews (AU)",
       "sourceId": "mcnews",
       "date": null,
@@ -186,8 +170,16 @@
       "imageUrl": null
     },
     {
-      "title": "This is BMW’s weapon for the 2026 GS Trophy",
-      "url": "https://www.mcnews.com.au/bmw-r-12-gs-2026-gs-trophy-competition-bike/",
+      "title": "Royal Enfield Bullet 650 Review | Sixties style, modern manners",
+      "url": "https://www.mcnews.com.au/royal-enfield-650-bullet-review/",
+      "source": "MCNews (AU)",
+      "sourceId": "mcnews",
+      "date": null,
+      "imageUrl": null
+    },
+    {
+      "title": "2026 Triumph Street Triple 765 RX Review | Barber Track Test",
+      "url": "https://www.mcnews.com.au/2026-triumph-street-triple-765-rx-review/",
       "source": "MCNews (AU)",
       "sourceId": "mcnews",
       "date": null,
@@ -212,6 +204,14 @@
     {
       "title": "Kulkyne Premium Biker Swag Review | A Tent Man Converted",
       "url": "https://www.mcnews.com.au/kulkyne-premium-biker-swag-review-a-tent-man-converted/",
+      "source": "MCNews (AU)",
+      "sourceId": "mcnews",
+      "date": null,
+      "imageUrl": null
+    },
+    {
+      "title": "This is BMW’s weapon for the 2026 GS Trophy",
+      "url": "https://www.mcnews.com.au/bmw-r-12-gs-2026-gs-trophy-competition-bike/",
       "source": "MCNews (AU)",
       "sourceId": "mcnews",
       "date": null,
