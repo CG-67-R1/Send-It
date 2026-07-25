@@ -1,0 +1,18 @@
+{
+  "project": "bike-balance-setup",
+  "productName": "Bike Balance Setup",
+  "version": "0.3.0",
+  "principle": "Accessible UX; non-negotiable correct math; one calc engine for all skill modes",
+  "disclaimer": "Informational setup aid only. Not affiliated with Zero Chassis Software. Not a substitute for a qualified technician. Prefer Ref→proposal deltas over absolute numbers.",
+  "sources": {
+    "primaryInternal": "docs/bike-balance/ZeroChassis-Result-Reference-Guide.pdf",
+    "equationRegister": "docs/bike-balance/equation-register.md",
+    "equationsMachine": "docs/bike-balance/equations.json"
+  },
+  "skillModes": ["rider", "tuner", "engineer"],
+  "milestones": {
+    "v0.1": "MVP Extended/static derived outputs + §8 golden tests + Coach Tools UI",
+    "v0.2": "Force presets, SFC/SRC%/AS flag/F%, symptom guide, Ext golden set — see FUNCTIONALITY_REVIEW.md",
+    "v0.3": "AS from geometry (IFC), per-position travels, citable Markdown export"
+  }
+}

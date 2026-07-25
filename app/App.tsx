@@ -18,6 +18,7 @@ import { ImportTrackNotesScreen } from './src/screens/ImportTrackNotesScreen';
 import { BikeSetupBasicsScreen } from './src/screens/BikeSetupBasicsScreen';
 import { BikeSetupSheetScreen } from './src/screens/BikeSetupSheetScreen';
 import { RoadRacerAiFaqsScreen } from './src/screens/RoadRacerAiFaqsScreen';
+import { BikeBalanceSetupScreen } from './src/screens/BikeBalanceSetupScreen';
 import { TrackWalkScreen } from './src/screens/TrackWalkScreen';
 import { OnboardingScreen } from './src/screens/OnboardingScreen';
 import { getOnboardingDone, resetOnboardingForRetest } from './src/storage/onboarding';
@@ -165,6 +166,11 @@ function RiderCoachStack() {
         name="RoadRacerAiFaqs"
         component={RoadRacerAiFaqsScreen}
         options={{ title: 'RoadRacer AI FAQs' }}
+      />
+      <Stack.Screen
+        name="BikeBalanceSetup"
+        component={BikeBalanceSetupScreen}
+        options={{ title: 'Bike Balance Setup' }}
       />
       <Stack.Screen
         name="ImportTrackNotes"

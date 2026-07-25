@@ -12,6 +12,7 @@ export const STORAGE_KEYS = {
   HEADLINES_LAST_SEEN_P1_URLS: '@roadrace_headlines_last_seen_p1_urls',
   BIKE_SETUP_DAY_SHEET: '@roadrace_bike_setup_day_sheet',
   BIKE_SETUP_SESSION_HISTORY: '@roadrace_bike_setup_session_history',
+  BIKE_BALANCE_STATE: '@roadrace_bike_balance_state',
   BIKE_PHOTO_URI: '@roadrace_bike_photo_uri',
   BIKE_PHOTO_REV: '@roadrace_bike_photo_rev',
   AVATAR_FACE_URI: '@roadrace_avatar_face_photo_uri',

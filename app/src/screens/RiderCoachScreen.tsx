@@ -27,6 +27,7 @@ export type RiderCoachStackParamList = {
   BikeSetupBasics: undefined;
   BikeSetupSheet: undefined;
   RoadRacerAiFaqs: undefined;
+  BikeBalanceSetup: undefined;
 };
 
 type RiderCoachNav = NativeStackNavigationProp<RiderCoachStackParamList, 'RiderCoach'>;
@@ -103,6 +104,13 @@ export function RiderCoachScreen() {
         activeOpacity={0.8}
       >
         <Text style={styles.navButtonText}>RoadRacer AI FAQs</Text>
+      </TouchableOpacity>
+      <TouchableOpacity
+        style={styles.navButton}
+        onPress={() => navigation.navigate('BikeBalanceSetup')}
+        activeOpacity={0.8}
+      >
+        <Text style={styles.navButtonText}>Bike Balance Setup</Text>
       </TouchableOpacity>
     </ScrollView>
   );

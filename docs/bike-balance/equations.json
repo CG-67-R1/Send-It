@@ -1,0 +1,138 @@
+{
+  "version": "0.1.0",
+  "equations": [
+    {
+      "id": "EQ-FW-TRAVEL-01",
+      "name": "Front wheel travel",
+      "formula": "Fw_travel = fork_travel * cos(rake)",
+      "unit": "mm",
+      "group": "travel",
+      "tier": "public",
+      "riderLabel": "Front travel at the tyre",
+      "riderMeaning": "How far the front tyre has moved vertically — what the road feels, not just fork stroke.",
+      "publicRefs": ["Motorcycle chassis kinematics: vertical wheel travel through fork rake"],
+      "section8": { "fork_travel_mm": 56.6, "rake_deg": 24, "expected_mm": 51.6, "tol_mm": 0.2 }
+    },
+    {
+      "id": "EQ-FW-RATE-01",
+      "name": "Front wheel rate",
+      "formula": "Fw_rate = fork_rate / cos^2(rake)",
+      "unit": "N/mm",
+      "group": "rates",
+      "tier": "public",
+      "riderLabel": "Front stiffness at the tyre",
+      "riderMeaning": "The spring rate the front tyre feels. Geometry changes can move this even without changing springs.",
+      "publicRefs": ["Virtual work: angled fork spring to vertical wheel rate"],
+      "section8": { "fork_rate_N_per_mm": 23.3, "rake_deg": 24, "expected_N_per_mm": 28.0, "tol": 0.2 }
+    },
+    {
+      "id": "EQ-FW-FORCE-01",
+      "name": "Front wheel force",
+      "formula": "Fw_force = fork_force / cos(rake)",
+      "unit": "N",
+      "group": "rates",
+      "tier": "public",
+      "riderLabel": "Front load from springs",
+      "riderMeaning": "Vertical spring force at the front contact — sanity-check against corner weights.",
+      "publicRefs": ["Force resolution along fork axis to vertical"],
+      "section8": { "fork_force_N": 1542.4, "rake_deg": 24, "expected_N": 1692.0, "tol": 5 }
+    },
+    {
+      "id": "EQ-RW-FORCE-01",
+      "name": "Rear wheel force",
+      "formula": "Rw_force = shock_force / link_ratio",
+      "unit": "N",
+      "group": "rates",
+      "tier": "public",
+      "riderLabel": "Rear load from springs",
+      "riderMeaning": "Vertical spring force at the rear contact after the linkage.",
+      "publicRefs": ["Linkage motion ratio force transformation"],
+      "section8": { "shock_force_N": 3717.3, "link_ratio": 2.07, "expected_N": 1798.0, "tol": 3 }
+    },
+    {
+      "id": "EQ-RW-RATE-01",
+      "name": "Rear wheel rate",
+      "formula": "Rw_rate = shock_rate / link_ratio^2",
+      "unit": "N/mm",
+      "group": "rates",
+      "tier": "public",
+      "riderLabel": "Rear stiffness at the tyre",
+      "riderMeaning": "The spring rate the rear tyre feels. Linkage ratio enters squared.",
+      "publicRefs": ["Linkage: wheel rate = spring rate / MR^2"],
+      "section8": { "shock_rate_N_per_mm": 105.5, "link_ratio": 2.07, "expected_N_per_mm": 24.63, "tol": 0.15, "note": "Uses instantaneous MR definition; displayed ZC rates may use local average MR" }
+    },
+    {
+      "id": "EQ-RW-TRAVEL-01",
+      "name": "Rear wheel travel",
+      "formula": "Rw_travel = shock_travel * link_ratio",
+      "unit": "mm",
+      "group": "travel",
+      "tier": "public",
+      "riderLabel": "Rear travel at the tyre",
+      "riderMeaning": "Vertical rear wheel movement for the current shock stroke and linkage ratio.",
+      "publicRefs": ["Linkage motion ratio travel transformation"],
+      "section8": { "shock_travel_mm": 21, "link_ratio": 2.07, "expected_mm": 43.47, "tol": 1.0, "note": "Guide lists Rw travel 44.4 mm — local MR may differ from displayed 2.07" }
+    },
+    {
+      "id": "EQ-REAR-NTRAIL-01",
+      "name": "Rear normal trail",
+      "formula": "rear_normal_trail = (WB + trail) * cos(rake)",
+      "unit": "mm",
+      "group": "geometry",
+      "tier": "public",
+      "riderLabel": "Rear steering influence",
+      "riderMeaning": "How strongly rear lateral force can steer the chassis (rear-steer effect).",
+      "publicRefs": ["Steering geometry: rear normal trail construction"],
+      "section8": { "wb_mm": 1426, "trail_mm": 108.3, "rake_deg": 24, "expected_mm": 1401.5, "tol": 0.5 }
+    },
+    {
+      "id": "EQ-LT-ANGLE-01",
+      "name": "Load-transfer angle",
+      "formula": "LT_angle = atan(CoG_Y / WB)",
+      "unit": "deg",
+      "group": "antiSquat",
+      "tier": "public",
+      "riderLabel": "Acceleration squat demand",
+      "riderMeaning": "How hard throttle tries to squat the rear, from mass height over wheelbase.",
+      "publicRefs": ["Cossalter / Foale: load transfer angle atan(h/L)"],
+      "section8": { "cog_y_mm": 672, "wb_mm": 1426, "expected_deg": 25.2, "tol_deg": 0.05 }
+    },
+    {
+      "id": "EQ-AS-PCT-01",
+      "name": "Anti-squat percent",
+      "formula": "AS_pct = tan(AS_angle) / tan(LT_angle) * 100",
+      "unit": "%",
+      "group": "antiSquat",
+      "tier": "public",
+      "riderLabel": "Throttle squat vs extend",
+      "riderMeaning": "Near 100% holds rear height under drive; under 100% squats; over 100% extends. Needs a trustworthy CoG for the percent.",
+      "publicRefs": ["Foale / classic anti-squat: tan(AS)/tan(LT)"],
+      "requiresCogProvenance": "measuredPreferred",
+      "section8": { "as_angle_deg": 24.9, "lt_angle_deg": 25.2, "expected_pct": 98.4, "tol_pct": 0.3 }
+    },
+    {
+      "id": "EQ-WEIGHT-01",
+      "name": "Static weight split",
+      "formula": "R_pct = CoG_X / WB * 100; F_pct = 100 - R_pct",
+      "unit": "%",
+      "group": "mass",
+      "tier": "public",
+      "riderLabel": "Front / rear weight share",
+      "riderMeaning": "Static load split. Front-biased aids turn-in; rear share matters for drive grip.",
+      "publicRefs": ["Statics: axle load share from horizontal CoG"],
+      "section8": { "cog_x_mm": 698.9, "wb_mm": 1426, "expected_r_pct": 49.01, "expected_f_pct": 50.99, "tol_pct": 0.02 }
+    },
+    {
+      "id": "EQ-SRC-01",
+      "name": "Spring rate centre",
+      "formula": "SRC = Rw_rate / (Fw_rate + Rw_rate) * WB",
+      "unit": "mm",
+      "group": "rates",
+      "tier": "public",
+      "riderLabel": "Spring balance point",
+      "riderMeaning": "Where combined wheel-rate stiffness is centred. Compare to CoG X for pitch balance.",
+      "publicRefs": ["Spring rate centre from front/rear wheel rates"],
+      "section8": { "fw_rate": 28, "rw_rate": 26, "wb_mm": 1426, "expected_mm": 686.8, "tol_mm": 0.5 }
+    }
+  ]
+}
