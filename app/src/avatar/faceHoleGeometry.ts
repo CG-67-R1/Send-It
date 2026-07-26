@@ -23,9 +23,9 @@ export const FACE_HOLE_EXTRA_HEIGHT_TOP_PX = 0;
 export const FACE_IN_HOLE_SCALE = 1.0;
 
 /**
- * How much wider FOV to show behind the badge so an arm's-length face fits the hole.
- * Implemented by laying out CameraView larger than the badge (not a CSS transform — that
- * would not match takePictureAsync).
+ * Live preview zoom-out around the face hole (CSS transform on CameraView).
+ * 1 = face fills most of the frame; ~0.42 fits an arm's-length head in the hole.
+ * Capture maps the hole back through this scale into the untransformed preview/photo.
  */
 export const CAPTURE_PREVIEW_SCALE = 0.42;
 
@@ -39,14 +39,6 @@ export type FaceHoleGeometry = {
   rx: number;
   ry: number;
   faceScale: number;
-};
-
-export type CaptureCameraLayout = {
-  /** Screen rect of the CameraView (may extend past the badge). */
-  camLeft: number;
-  camTop: number;
-  camWidth: number;
-  camHeight: number;
 };
 
 /** Ellipse + face-photo placement inside a square badge of `badgeSize`. */
@@ -97,25 +89,6 @@ export function computeCaptureGuide(
   };
 }
 
-/**
- * CameraView layout behind the badge: oversized and centered on the face hole so the
- * live FOV through the hole matches CAPTURE_PREVIEW_SCALE without CSS transforms.
- */
-export function computeCaptureCameraLayout(
-  guide: FaceHoleGeometry & { badgeSize: number; badgeLeft: number; badgeTop: number },
-  previewScale: number = CAPTURE_PREVIEW_SCALE
-): CaptureCameraLayout {
-  const scale = Math.max(0.05, previewScale);
-  const camWidth = guide.badgeSize / scale;
-  const camHeight = guide.badgeSize / scale;
-  return {
-    camWidth,
-    camHeight,
-    camLeft: guide.cx - camWidth / 2,
-    camTop: guide.cy - camHeight / 2,
-  };
-}
-
 /** Map a point in the CameraView layout (cover-fit) to source image pixels. */
 export function mapCoverPointToImage(
   viewX: number,
@@ -137,24 +110,25 @@ export function mapCoverPointToImage(
 }
 
 /**
- * Exact face-hole rectangle in image pixels (same aspect as the hole / home avatar),
- * mapped through the CameraView layout that was on screen.
+ * Exact face-hole rectangle in image pixels (same aspect as the home avatar hole).
+ * `previewScale` undoes the live CSS zoom-out around the hole center; the photo itself
+ * matches the untransformed full-screen CameraView (cover-fit).
  */
 export function captureHoleImageCrop(
-  cam: CaptureCameraLayout,
+  screenW: number,
+  screenH: number,
   imageW: number,
   imageH: number,
-  hole: Pick<FaceHoleGeometry, 'left' | 'top' | 'ew' | 'eh'>
+  hole: Pick<FaceHoleGeometry, 'left' | 'top' | 'ew' | 'eh' | 'cx' | 'cy'>,
+  previewScale: number = CAPTURE_PREVIEW_SCALE
 ): { originX: number; originY: number; width: number; height: number } {
-  const mapScreen = (sx: number, sy: number) =>
-    mapCoverPointToImage(
-      sx - cam.camLeft,
-      sy - cam.camTop,
-      cam.camWidth,
-      cam.camHeight,
-      imageW,
-      imageH
-    );
+  const scale = Math.max(0.05, previewScale);
+  const mapScreen = (sx: number, sy: number) => {
+    // Inverse of scale around hole center → point in untransformed CameraView layout.
+    const viewX = hole.cx + (sx - hole.cx) / scale;
+    const viewY = hole.cy + (sy - hole.cy) / scale;
+    return mapCoverPointToImage(viewX, viewY, screenW, screenH, imageW, imageH);
+  };
 
   const tl = mapScreen(hole.left, hole.top);
   const br = mapScreen(hole.left + hole.ew, hole.top + hole.eh);
@@ -163,7 +137,6 @@ export function captureHoleImageCrop(
   let x1 = Math.max(tl.x, br.x);
   let y1 = Math.max(tl.y, br.y);
 
-  // Clamp to image bounds while preserving aspect as much as possible
   x0 = Math.max(0, Math.min(imageW, x0));
   y0 = Math.max(0, Math.min(imageH, y0));
   x1 = Math.max(0, Math.min(imageW, x1));

@@ -17,8 +17,8 @@ import { StatusBar } from 'expo-status-bar';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import Svg, { Defs, Mask, Rect } from 'react-native-svg';
 import {
+  CAPTURE_PREVIEW_SCALE,
   captureHoleImageCrop,
-  computeCaptureCameraLayout,
   computeCaptureGuide,
 } from '../avatar/faceHoleGeometry';
 import { DEFAULT_FACE_HOLE_LAYOUT, type FaceHoleLayout } from '../avatar/presets';
@@ -41,7 +41,7 @@ type Props = {
 
 /**
  * Front camera under the rider avatar — aim with the real face hole (no guide dots).
- * Capture crops exactly that hole so home-screen AvatarFaceEllipse matches the preview.
+ * Preview is zoomed out for framing; capture crops that same hole for the home avatar.
  */
 export function AvatarFaceCameraModal({
   visible,
@@ -59,8 +59,7 @@ export function AvatarFaceCameraModal({
   const maskDomId = useId().replace(/:/g, '');
 
   const guide = computeCaptureGuide(width, height, layout);
-  const { badgeSize, badgeLeft, badgeTop, left, top, ew, eh } = guide;
-  const cam = computeCaptureCameraLayout(guide);
+  const { cx, cy, badgeSize, badgeLeft, badgeTop, left, top, ew, eh } = guide;
 
   React.useEffect(() => {
     if (!visible) return;
@@ -74,7 +73,7 @@ export function AvatarFaceCameraModal({
     if (!cameraRef.current || !ready || busy) return;
     setBusy(true);
     try {
-      // Process the frame so front-camera `mirror` is baked into pixel data (needed on Android).
+      // Process so front-camera `mirror` is baked into pixels (needed on Android).
       const photo = await cameraRef.current.takePictureAsync({
         quality: 0.92,
       });
@@ -90,8 +89,15 @@ export function AvatarFaceCameraModal({
       try {
         const actions: ImageManipulator.Action[] = [];
         if (iw > 0 && ih > 0) {
-          // Crop the exact hole rect as shown through the avatar (same aspect as home).
-          const crop = captureHoleImageCrop(cam, iw, ih, { left, top, ew, eh });
+          // Map the on-screen hole through preview zoom-out → photo (exact hole aspect).
+          const crop = captureHoleImageCrop(
+            width,
+            height,
+            iw,
+            ih,
+            { left, top, ew, eh, cx, cy },
+            CAPTURE_PREVIEW_SCALE
+          );
           actions.push({
             crop: {
               originX: crop.originX,
@@ -101,7 +107,7 @@ export function AvatarFaceCameraModal({
             },
           });
         }
-        // Preview is mirrored; flip so the saved face is true left/right on the home avatar.
+        // Preview is mirrored; flip so the home avatar is true left/right.
         actions.push({ flip: ImageManipulator.FlipType.Horizontal });
         const manipulated = await ImageManipulator.manipulateAsync(photo.uri, actions, {
           compress: 0.88,
@@ -120,7 +126,7 @@ export function AvatarFaceCameraModal({
     } finally {
       setBusy(false);
     }
-  }, [busy, cam, eh, ew, left, onCapture, onClose, ready, top]);
+  }, [busy, cx, cy, eh, ew, height, left, onCapture, onClose, ready, top, width]);
 
   return (
     <Modal visible={visible} animationType="slide" onRequestClose={onClose}>
@@ -128,26 +134,17 @@ export function AvatarFaceCameraModal({
       <View style={styles.root}>
         {permission?.granted ? (
           <>
-            {/* Camera sized to real layout FOV (not CSS scale) so capture matches the hole. */}
-            <View
-              style={{
-                position: 'absolute',
-                left: badgeLeft,
-                top: badgeTop,
-                width: badgeSize,
-                height: badgeSize,
-                overflow: 'hidden',
-              }}
-            >
+            {/* Full-screen camera, zoomed out around the hole for comfortable face size. */}
+            <View style={[StyleSheet.absoluteFill, styles.cameraClip]}>
               <CameraView
                 ref={cameraRef}
-                style={{
-                  position: 'absolute',
-                  left: cam.camLeft - badgeLeft,
-                  top: cam.camTop - badgeTop,
-                  width: cam.camWidth,
-                  height: cam.camHeight,
-                }}
+                style={[
+                  StyleSheet.absoluteFillObject,
+                  {
+                    transformOrigin: [cx, cy],
+                    transform: [{ scale: CAPTURE_PREVIEW_SCALE }],
+                  },
+                ]}
                 facing="front"
                 mirror
                 mode="picture"
@@ -239,6 +236,9 @@ const styles = StyleSheet.create({
   root: {
     flex: 1,
     backgroundColor: MODAL_SCREEN_BG,
+  },
+  cameraClip: {
+    overflow: 'hidden',
   },
   overlaySvg: {
     zIndex: 1,
