@@ -1,5 +1,5 @@
 {
-  "updatedAt": "2026-07-26T13:09:20.473Z",
+  "updatedAt": "2026-07-26T16:54:01.468Z",
   "sourceIds": [
     "ma_roadrace",
     "mcnews",
@@ -162,14 +162,6 @@
       "imageUrl": null
     },
     {
-      "title": "Ryde and Redding trade blows as Bayliss bags Brands double",
-      "url": "https://www.mcnews.com.au/2026-bsb-brands-hatch-results-ryde-redding-bayliss/",
-      "source": "MCNews (AU)",
-      "sourceId": "mcnews",
-      "date": null,
-      "imageUrl": null
-    },
-    {
       "title": "2026 Honda Africa Twin range lands in Australia from $22,999",
       "url": "https://www.mcnews.com.au/2026-honda-africa-twin-range-australia/",
       "source": "MCNews (AU)",
@@ -210,8 +202,16 @@
       "imageUrl": null
     },
     {
-      "title": "Royal Enfield Bullet 650 Review | Sixties style, modern manners",
-      "url": "https://www.mcnews.com.au/royal-enfield-650-bullet-review/",
+      "title": "Ryde and Redding trade blows as Bayliss bags Brands double",
+      "url": "https://www.mcnews.com.au/2026-bsb-brands-hatch-results-ryde-redding-bayliss/",
+      "source": "MCNews (AU)",
+      "sourceId": "mcnews",
+      "date": null,
+      "imageUrl": null
+    },
+    {
+      "title": "Aprilia RS 457 GP Replica and Tuono 457 confirmed for Australia",
+      "url": "https://www.mcnews.com.au/aprilia-rs-457-gp-replica-and-tuono-457-confirmed-for-australia/",
       "source": "MCNews (AU)",
       "sourceId": "mcnews",
       "date": null,
