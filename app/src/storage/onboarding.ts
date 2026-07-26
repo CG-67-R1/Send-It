@@ -17,7 +17,7 @@ export interface OnboardingAnswers {
   noFaceFrameId?: string;
   /** Name, race number or nickname shown on the home screen (optional for backward compatibility) */
   riderNickname?: string;
-  /** Future racer flow: whether they picked \"Want to have a go at racing one day!\" */
+  /** Future racer flow: whether they picked \"I would like to know about local racing\" */
   futureRacer?: boolean;
   /** Future racer flow: state they selected for learning how to race (e.g. 'NSW'). */
   racingStateCode?: string;

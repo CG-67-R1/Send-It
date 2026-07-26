@@ -841,6 +841,37 @@
     "active": true
   },
   {
+    "id": "greene",
+    "displayName": "Chris Greene",
+    "aliases": [
+      "chris greene",
+      "greene",
+      "greeney",
+      "greeny",
+      "geedog",
+      "gee dog",
+      "67"
+    ],
+    "series": [
+      "asbk",
+      "australian"
+    ],
+    "era": "legend",
+    "characteristics": {
+      "style": [
+        "fighter",
+        "race_craft"
+      ],
+      "vibe": [
+        "south_aussie_legend",
+        "godfather"
+      ],
+      "signature": "Godfather of Road Racing in SA"
+    },
+    "blurb": "Chris Greene — Greeney, Greeny, GeeDog — a stand-up legend who became the Godfather of Road Racing in SA. Number 67, that envy-inducing 60th-anniversary 2016 R1, fought hard on track and harder for the sport off it, often leaving his name in the dark. Proper South Aussie pick.",
+    "active": true
+  },
+  {
     "id": "schwantz",
     "displayName": "Kevin Schwantz",
     "aliases": [

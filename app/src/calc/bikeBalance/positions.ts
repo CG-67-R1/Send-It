@@ -1,5 +1,6 @@
 /**
- * Position presets from Result Reference Guide (ZeroChassis-class force model).
+ * Position presets using a common force-based teaching model
+ * (fixed vertical wheel forces for non-Ext positions — not fixed travel).
  * Non-Ext presets apply fixed VERTICAL wheel forces — not fixed travel.
  * Component forces are derived with exact inverses of EQ-FW-FORCE / EQ-RW-FORCE.
  * Travel is never invented from force/rate (preload unknown).
@@ -37,7 +38,7 @@ export const POSITION_PRESETS: PositionPreset[] = [
     leanDeg: 0,
     frontWheelForceN: 950,
     rearWheelForceN: 950,
-    note: 'Fixed vertical wheel forces 950/950 N. Travels must be measured at this load — not predicted.',
+    note: 'Fixed vertical wheel forces 950/950 N. Travels must be measured at this load, not predicted.',
   },
   {
     id: 'acceleration',
@@ -73,7 +74,7 @@ export const POSITION_PRESETS: PositionPreset[] = [
     leanDeg: 50,
     frontWheelForceN: 1850,
     rearWheelForceN: 1600,
-    note: 'Same corner forces with 50° lean context. Effective trail/WB change with lean — enter leaned geometry when you have it.',
+    note: 'Same corner forces with 50 deg lean context. Effective trail and wheelbase change with lean. Enter leaned geometry when you have it.',
   },
   {
     id: 'custom',
@@ -130,7 +131,7 @@ export function applyPositionPreset(
   if (travelLoad.note) warnings.push(travelLoad.note);
 
   if (position === 'custom') {
-    warnings.push('Custom position — enter forces and travels manually.');
+    warnings.push('Custom position: enter forces and travels manually.');
     return { inputs: rememberTravelsForPosition(next), warnings };
   }
 
@@ -144,19 +145,19 @@ export function applyPositionPreset(
   }
 
   if (next.rakeDeg == null) {
-    warnings.push('Needs rake to convert front wheel force → fork force.');
+    warnings.push('Needs rake to convert front wheel force to fork force.');
   } else {
     next.forkForceN = forkForceFromWheelForceN(preset.frontWheelForceN, next.rakeDeg);
   }
 
   if (next.linkRatio == null) {
-    warnings.push('Needs link ratio to convert rear wheel force → shock force.');
+    warnings.push('Needs link ratio to convert rear wheel force to shock force.');
   } else {
     next.shockForceN = shockForceFromWheelForceN(preset.rearWheelForceN, next.linkRatio);
   }
 
   warnings.push(
-    `Applied ${preset.label} wheel forces ${preset.frontWheelForceN}/${preset.rearWheelForceN} N. Travels come from measured slots — never predicted from force.`
+    `Applied ${preset.label} wheel forces ${preset.frontWheelForceN}/${preset.rearWheelForceN} N. Travels come from measured slots and are never predicted from force.`
   );
 
   return { inputs: rememberTravelsForPosition(next), warnings };

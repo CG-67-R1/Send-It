@@ -12,6 +12,8 @@ export type BikeBalancePersistedState = {
   inputs: BikeBalanceInputs;
   refInputs: BikeBalanceInputs | null;
   skillMode: SkillMode;
+  /** User passed the audience gate for this tool. */
+  introAccepted: boolean;
 };
 
 function mergeInputs(raw: Partial<BikeBalanceInputs> | undefined): BikeBalanceInputs {
@@ -35,6 +37,7 @@ export async function loadBikeBalanceState(): Promise<BikeBalancePersistedState>
         inputs: { ...DEFAULT_BIKE_BALANCE_INPUTS },
         refInputs: null,
         skillMode: 'rider',
+        introAccepted: false,
       };
     }
     const parsed = JSON.parse(raw) as Partial<BikeBalancePersistedState>;
@@ -42,12 +45,14 @@ export async function loadBikeBalanceState(): Promise<BikeBalancePersistedState>
       inputs: mergeInputs(parsed.inputs),
       refInputs: parsed.refInputs ? mergeInputs(parsed.refInputs) : null,
       skillMode: parsed.skillMode ?? 'rider',
+      introAccepted: Boolean(parsed.introAccepted),
     };
   } catch {
     return {
       inputs: { ...DEFAULT_BIKE_BALANCE_INPUTS },
       refInputs: null,
       skillMode: 'rider',
+      introAccepted: false,
     };
   }
 }

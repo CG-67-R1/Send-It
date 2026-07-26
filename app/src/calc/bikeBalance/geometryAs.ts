@@ -1,5 +1,5 @@
 /**
- * Anti-squat geometry: IFC from swingarm line × top chain run.
+ * Anti-squat geometry: IFC from swingarm line and top chain run.
  *
  * Coordinate frame (lean 0):
  * - Origin at front contact patch
@@ -7,7 +7,7 @@
  * - +Y up
  *
  * Swingarm angle: degrees above horizontal, positive when pivot is above the rear axle
- * (user-friendly; ZeroChassis often shows the opposite sign).
+ * (user-friendly; some software uses the opposite sign).
  *
  * Chain model: upper direct common external tangent between countershaft and rear
  * sprocket pitch circles (not the centreline through axle). Documented assumption.
@@ -82,7 +82,7 @@ export function upperExternalTangent(
   const dy = c2.y - c1.y;
   const d = Math.hypot(dx, dy);
   if (d <= Math.abs(r1 - r2) + 1e-9) {
-    throw new Error('Sprocket circles nested or touching — check radii / layout');
+    throw new Error('Sprocket circles nested or touching. Check radii / layout');
   }
   const a = Math.atan2(dy, dx);
   const phi = Math.asin(Math.max(-1, Math.min(1, (r1 - r2) / d)));
@@ -129,7 +129,7 @@ export function computeAntiSquatFromGeometry(
     'Swingarm angle positive when pivot is above rear axle',
     'Top chain run = upper direct common external tangent between sprocket pitch circles',
     'Rear sprocket concentric with rear axle',
-    'Chain pitch radius = teeth × pitch / (2π)',
+    'Chain pitch radius = teeth x pitch / (2*pi)',
   ];
 
   const { rearContact, rearAxle, pivot } = pivotAndAxleFromSwingarm(
@@ -162,14 +162,14 @@ export function computeAntiSquatFromGeometry(
 
   const ifc = lineIntersection(pivot, rearAxle, chainTangentP1, chainTangentP2);
   if (!ifc) {
-    throw new Error('Swingarm and chain lines are parallel — check geometry inputs');
+    throw new Error('Swingarm and chain lines are parallel. Check geometry inputs');
   }
 
-  // Angle of squat line at rear contact, looking toward IFC (typically forward & up)
+  // Angle of squat line at rear contact, looking toward IFC (typically forward and up)
   const forward = rearContact.x - ifc.x;
   const up = ifc.y - rearContact.y;
   if (forward <= 1e-9) {
-    throw new Error('IFC is not forward of the rear contact — check swingarm/CS layout');
+    throw new Error('IFC is not forward of the rear contact. Check swingarm/CS layout');
   }
   const antiSquatAngleDeg = radToDeg(Math.atan2(up, forward));
 

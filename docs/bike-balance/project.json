@@ -3,9 +3,10 @@
   "productName": "Bike Balance Setup",
   "version": "0.3.0",
   "principle": "Accessible UX; non-negotiable correct math; one calc engine for all skill modes",
-  "disclaimer": "Informational setup aid only. Not affiliated with Zero Chassis Software. Not a substitute for a qualified technician. Prefer Ref→proposal deltas over absolute numbers.",
+  "disclaimer": "Informational setup aid only. Not a substitute for a qualified technician. Prefer Ref to proposal deltas over absolute numbers. Cite only published books, journals, or public OEM documentation.",
   "sources": {
-    "primaryInternal": "docs/bike-balance/ZeroChassis-Result-Reference-Guide.pdf",
+    "citationPolicy": "docs/bike-balance/ATTRIBUTION.md",
+    "citationsModule": "app/src/calc/bikeBalance/citations.ts",
     "equationRegister": "docs/bike-balance/equation-register.md",
     "equationsMachine": "docs/bike-balance/equations.json"
   },

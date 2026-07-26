@@ -15,6 +15,7 @@ import {
   springRateCentreMm,
   weightSplitPct,
 } from './kinematics';
+import { PUBLIC_ENGINEERING } from './citations';
 import { computeAntiSquatFromGeometry } from './geometryAs';
 import type { BikeBalanceInputs, CalcResult } from './types';
 
@@ -128,9 +129,9 @@ export function computeBikeBalance(inputs: BikeBalanceInputs): CalcResult[] {
       'travel',
       'mm',
       'Front travel at the tyre',
-      'How far the front tyre has moved vertically — what the road feels, not just fork stroke.',
-      'Fw_travel = fork_travel × cos(rake)',
-      ['Motorcycle chassis kinematics: vertical wheel travel through fork rake']
+      'How far the front tyre has moved vertically: what the road feels, not just fork stroke.',
+      'Fw_travel = fork_travel x cos(rake)',
+      [PUBLIC_ENGINEERING.forkRakeWheelTravel]
     );
     const req = need(inputs, ['forkTravelMm', 'rakeDeg']);
     if (!req.ok) {
@@ -153,8 +154,8 @@ export function computeBikeBalance(inputs: BikeBalanceInputs): CalcResult[] {
       'N/mm',
       'Front stiffness at the tyre',
       'The spring rate the front tyre feels. Geometry changes can move this even without changing springs.',
-      'Fw_rate = fork_rate ÷ cos²(rake)',
-      ['Virtual work: angled fork spring to vertical wheel rate']
+      'Fw_rate = fork_rate / cos^2(rake)',
+      [PUBLIC_ENGINEERING.forkRakeWheelRate]
     );
     const req = need(inputs, ['forkRateNPerMm', 'rakeDeg']);
     if (!req.ok) {
@@ -176,9 +177,9 @@ export function computeBikeBalance(inputs: BikeBalanceInputs): CalcResult[] {
       'rates',
       'N',
       'Front load from springs',
-      'Vertical spring force at the front contact — sanity-check against corner weights.',
-      'Fw_force = fork_force ÷ cos(rake)',
-      ['Force resolution along fork axis to vertical']
+      'Vertical spring force at the front contact. Sanity-check against corner weights.',
+      'Fw_force = fork_force / cos(rake)',
+      [PUBLIC_ENGINEERING.forkRakeWheelForce]
     );
     const req = need(inputs, ['forkForceN', 'rakeDeg']);
     if (!req.ok) {
@@ -201,8 +202,8 @@ export function computeBikeBalance(inputs: BikeBalanceInputs): CalcResult[] {
       'mm',
       'Rear travel at the tyre',
       'Vertical rear wheel movement for the current shock stroke and linkage ratio.',
-      'Rw_travel = shock_travel × link_ratio',
-      ['Linkage motion ratio travel transformation']
+      'Rw_travel = shock_travel x link_ratio',
+      [PUBLIC_ENGINEERING.linkageMotionRatioTravel]
     );
     const req = need(inputs, ['shockTravelMm', 'linkRatio']);
     if (!req.ok) {
@@ -225,8 +226,8 @@ export function computeBikeBalance(inputs: BikeBalanceInputs): CalcResult[] {
       'N',
       'Rear load from springs',
       'Vertical spring force at the rear contact after the linkage.',
-      'Rw_force = shock_force ÷ link_ratio',
-      ['Linkage motion ratio force transformation']
+      'Rw_force = shock_force / link_ratio',
+      [PUBLIC_ENGINEERING.linkageMotionRatioForce]
     );
     const req = need(inputs, ['shockForceN', 'linkRatio']);
     if (!req.ok) {
@@ -250,8 +251,8 @@ export function computeBikeBalance(inputs: BikeBalanceInputs): CalcResult[] {
       'N/mm',
       'Rear stiffness at the tyre',
       'The spring rate the rear tyre feels. Linkage ratio enters squared.',
-      'Rw_rate = shock_rate ÷ link_ratio²',
-      ['Linkage: wheel rate = spring rate / MR²']
+      'Rw_rate = shock_rate / link_ratio^2',
+      [PUBLIC_ENGINEERING.linkageMotionRatioRate]
     );
     const req = need(inputs, ['shockRateNPerMm', 'linkRatio']);
     if (!req.ok) {
@@ -275,8 +276,8 @@ export function computeBikeBalance(inputs: BikeBalanceInputs): CalcResult[] {
       'mm',
       'Rear steering influence',
       'How strongly rear lateral force can steer the chassis (rear-steer effect).',
-      'rear_normal_trail = (WB + trail) × cos(rake)',
-      ['Steering geometry: rear normal trail construction']
+      'rear_normal_trail = (WB + trail) x cos(rake)',
+      [PUBLIC_ENGINEERING.rearNormalTrail]
     );
     const req = need(inputs, ['wheelbaseMm', 'trailMm', 'rakeDeg']);
     if (!req.ok) {
@@ -301,7 +302,7 @@ export function computeBikeBalance(inputs: BikeBalanceInputs): CalcResult[] {
       'Acceleration squat demand',
       'How hard throttle tries to squat the rear, from mass height over wheelbase.',
       'LT_angle = atan(CoG_Y / WB)',
-      ['Load transfer angle atan(h/L) — motorcycle dynamics texts (e.g. Cossalter, Foale)']
+      [PUBLIC_ENGINEERING.loadTransferAngle]
     );
     const req = need(inputs, ['cogYMm', 'wheelbaseMm']);
     if (!req.ok) {
@@ -322,15 +323,12 @@ export function computeBikeBalance(inputs: BikeBalanceInputs): CalcResult[] {
       'deg',
       'Anti-squat angle',
       resolved.fromGeometry
-        ? 'From swingarm × top chain run (IFC). Pure geometry — preferred when CoG is estimated.'
-        : 'Manual anti-squat angle (workshop / other software). Switch mode to Geometry to compute from layout.',
+        ? 'From swingarm and top chain run (IFC). Pure geometry. Preferred when CoG is estimated.'
+        : 'Manual anti-squat angle (workshop or other analysis). Switch mode to Geometry to compute from layout.',
       resolved.fromGeometry
-        ? 'AS_angle = atan2(IFC_y, WB − IFC_x); IFC = swingarm ∩ top chain tangent'
+        ? 'AS_angle = atan2(IFC_y, WB - IFC_x); IFC = swingarm intersect top chain tangent'
         : 'AS_angle = user-entered',
-      [
-        'Classic IFC anti-squat construction (e.g. Foale / motorcycle dynamics texts)',
-        'Top chain = upper external sprocket tangent (documented model assumption)',
-      ]
+      [PUBLIC_ENGINEERING.antiSquatIfc]
     );
 
     if (resolved.fromGeometry) {
@@ -378,8 +376,8 @@ export function computeBikeBalance(inputs: BikeBalanceInputs): CalcResult[] {
       '%',
       'Throttle squat vs extend',
       'Near 100% holds rear height under drive; under 100% squats; over 100% extends.',
-      'AS% = tan(AS_angle) / tan(LT_angle) × 100',
-      ['Classic anti-squat: tan(AS)/tan(LT) — motorcycle dynamics texts (e.g. Foale)']
+      'AS% = tan(AS_angle) / tan(LT_angle) x 100',
+      [PUBLIC_ENGINEERING.antiSquatPercent]
     );
     const flagMeta = baseMeta(
       'EQ-AS-FLAG-01',
@@ -388,8 +386,8 @@ export function computeBikeBalance(inputs: BikeBalanceInputs): CalcResult[] {
       '',
       'Throttle: squat or extend?',
       'Quick read of anti-squat %: Extend when >100%, Squat when <100%, Hold near 100%.',
-      'flag = sign(AS% − 100)',
-      ['Companion to anti-squat % (Result Reference Guide §7)']
+      'flag = sign(AS% - 100)',
+      [PUBLIC_ENGINEERING.asFlag]
     );
 
     if (asAngle == null) {
@@ -421,7 +419,7 @@ export function computeBikeBalance(inputs: BikeBalanceInputs): CalcResult[] {
     } else {
       const warning =
         inputs.cogProvenance !== 'measured'
-          ? 'CoG is not marked measured — prefer anti-squat angle (EQ-AS-GEO-01) over % until CoG is verified.'
+          ? 'CoG is not marked measured. Prefer anti-squat angle (EQ-AS-GEO-01) over % until CoG is verified.'
           : undefined;
       const asPct = antiSquatPercent(asAngle, ltAngle);
       results.push({
@@ -454,8 +452,8 @@ export function computeBikeBalance(inputs: BikeBalanceInputs): CalcResult[] {
       '%',
       'Rear weight share',
       'Static rear axle load share. Drive-grip side of the split.',
-      'R% = CoG_X / WB × 100',
-      ['Statics: axle load share from horizontal CoG']
+      'R% = CoG_X / WB x 100',
+      [PUBLIC_ENGINEERING.weightSplit]
     );
     const metaF = baseMeta(
       'EQ-WEIGHT-F-01',
@@ -464,8 +462,8 @@ export function computeBikeBalance(inputs: BikeBalanceInputs): CalcResult[] {
       '%',
       'Front weight share',
       'Static front axle load share. Front-biased setups aid turn-in confidence.',
-      'F% = 100 − R%',
-      ['Statics: axle load share from horizontal CoG']
+      'F% = 100 - R%',
+      [PUBLIC_ENGINEERING.weightSplit]
     );
     const req = need(inputs, ['cogXMm', 'wheelbaseMm']);
     if (!req.ok) {
@@ -476,13 +474,13 @@ export function computeBikeBalance(inputs: BikeBalanceInputs): CalcResult[] {
       results.push({
         ...metaR,
         value: split.rearPct,
-        riderMeaning: `Rear ${split.rearPct.toFixed(2)}% · Front ${split.frontPct.toFixed(2)}%.`,
+        riderMeaning: `Rear ${split.rearPct.toFixed(2)}%, Front ${split.frontPct.toFixed(2)}%.`,
         inputsUsed: req.values,
       });
       results.push({
         ...metaF,
         value: split.frontPct,
-        riderMeaning: `Front ${split.frontPct.toFixed(2)}% · Rear ${split.rearPct.toFixed(2)}%.`,
+        riderMeaning: `Front ${split.frontPct.toFixed(2)}%, Rear ${split.rearPct.toFixed(2)}%.`,
         inputsUsed: req.values,
       });
     }
@@ -498,8 +496,8 @@ export function computeBikeBalance(inputs: BikeBalanceInputs): CalcResult[] {
       'mm',
       'Spring balance point',
       'Where combined wheel-rate stiffness is centred. Compare to CoG X for pitch balance.',
-      'SRC = Rw_rate / (Fw_rate + Rw_rate) × WB',
-      ['Spring rate centre from front/rear wheel rates']
+      'SRC = Rw_rate / (Fw_rate + Rw_rate) x WB',
+      [PUBLIC_ENGINEERING.springRateCentre]
     );
     if (fwRate == null || rwRate == null || inputs.wheelbaseMm == null) {
       results.push({
@@ -522,9 +520,9 @@ export function computeBikeBalance(inputs: BikeBalanceInputs): CalcResult[] {
           'rates',
           '% WB',
           'Spring balance (% of wheelbase)',
-          'SRC as % of wheelbase — compare directly with CoG X %.',
-          'SRC% = SRC / WB × 100',
-          ['Spring rate centre expressed as % wheelbase']
+          'SRC as % of wheelbase. Compare directly with CoG X %.',
+          'SRC% = SRC / WB x 100',
+          [PUBLIC_ENGINEERING.springRateCentre]
         ),
         value: pctOfWheelbase(srcMm, inputs.wheelbaseMm),
         inputsUsed: { srcMm, wheelbaseMm: inputs.wheelbaseMm },
@@ -540,9 +538,9 @@ export function computeBikeBalance(inputs: BikeBalanceInputs): CalcResult[] {
       'rates',
       'mm',
       'Load balance point (now)',
-      'Where current front/rear wheel spring forces balance. In static, should sit near CoG X — divergence hints preload imbalance.',
-      'SFC = Rw_force / (Fw_force + Rw_force) × WB',
-      ['Spring force centre — force sibling of SRC']
+      'Where current front/rear wheel spring forces balance. In static, should sit near CoG X. Divergence hints preload imbalance.',
+      'SFC = Rw_force / (Fw_force + Rw_force) x WB',
+      [PUBLIC_ENGINEERING.springForceCentre]
     );
     const fwForce = results.find((r) => r.equationId === 'EQ-FW-FORCE-01')?.value ?? null;
     const rwForce = results.find((r) => r.equationId === 'EQ-RW-FORCE-01')?.value ?? null;
@@ -559,7 +557,7 @@ export function computeBikeBalance(inputs: BikeBalanceInputs): CalcResult[] {
       if (inputs.cogXMm != null) {
         const drift = Math.abs(sfc - inputs.cogXMm);
         if (drift > 20) {
-          warning = `SFC is ${drift.toFixed(0)} mm from CoG X — check preload balance / position.`;
+          warning = `SFC is ${drift.toFixed(0)} mm from CoG X. Check preload balance / position.`;
         }
       }
       results.push({
@@ -577,7 +575,7 @@ export function computeBikeBalance(inputs: BikeBalanceInputs): CalcResult[] {
     if (trail && trail.value != null) {
       trail.warning =
         (trail.warning ? `${trail.warning} ` : '') +
-        `Lean context ${inputs.leanDeg}° — effective trail/WB change with lean; enter leaned geometry when available.`;
+        `Lean context ${inputs.leanDeg} deg. Effective trail/WB change with lean. Enter leaned geometry when available.`;
     }
   }
 
@@ -586,9 +584,9 @@ export function computeBikeBalance(inputs: BikeBalanceInputs): CalcResult[] {
 
 export function formatBikeBalanceForAi(inputs: BikeBalanceInputs, results: CalcResult[]): string {
   const lines: string[] = [
-    'Bike Balance Setup (engine outputs — do not invent replacement numbers):',
+    'Bike Balance Setup (engine outputs; do not invent replacement numbers):',
     `Bike: ${inputs.name}`,
-    `Position: ${inputs.position}, Lean: ${inputs.leanDeg}°`,
+    `Position: ${inputs.position}, Lean: ${inputs.leanDeg} deg`,
     `CoG provenance: ${inputs.cogProvenance}`,
     '',
     'Inputs:',
@@ -596,7 +594,7 @@ export function formatBikeBalanceForAi(inputs: BikeBalanceInputs, results: CalcR
   lines.push(`Anti-squat mode: ${inputs.antiSquatAngleMode}`);
   const resolved = resolveAntiSquatAngle(inputs);
   if (resolved.angleDeg != null) {
-    lines.push(`Anti-squat angle (effective): ${resolved.angleDeg.toFixed(3)}°`);
+    lines.push(`Anti-squat angle (effective): ${resolved.angleDeg.toFixed(3)} deg`);
   }
   const inputEntries: [string, number | null][] = [
     ['rakeDeg', inputs.rakeDeg],

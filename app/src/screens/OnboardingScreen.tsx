@@ -31,7 +31,7 @@ const ACTIVITY_OPTIONS: { value: Activity; label: string }[] = [
   { value: 'race', label: 'I race 🏁' },
   { value: 'track_days', label: 'Track days only 🛞' },
   { value: 'just_love_bikes', label: 'Just love bikes 🏍️' },
-  { value: 'race_one_day', label: 'Want to have a go at racing one day!' },
+  { value: 'race_one_day', label: "I would like to know about local racing" },
 ];
 
 interface OnboardingScreenProps {

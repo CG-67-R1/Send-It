@@ -11,9 +11,12 @@ import {
 import * as Clipboard from 'expo-clipboard';
 import { useNavigation } from '@react-navigation/native';
 import type { NativeStackNavigationProp } from '@react-navigation/native-stack';
+import { BikeBalanceDataGuide } from '../components/bikeBalance/BikeBalanceDataGuide';
 import { BikeBalanceDiagramPanel } from '../components/bikeBalance/BikeBalanceDiagramPanel';
+import { BikeBalanceIntroGate } from '../components/bikeBalance/BikeBalanceIntroGate';
 import { BikeBalanceSourcesSheet } from '../components/BikeBalanceSourcesSheet';
 import {
+  DEFAULT_BIKE_BALANCE_INPUTS,
   GEOMETRY_AS_FIXTURE,
   POSITION_PRESETS,
   SECTION8_EXT_EXAMPLE,
@@ -23,6 +26,7 @@ import {
   applyPositionPreset,
   buildCitableReport,
   computeBikeBalance,
+  createR6_2020StartingInputs,
   formatBikeBalanceForAi,
   rememberTravelsForPosition,
   runCrossChecks,
@@ -53,8 +57,8 @@ const INPUT_FIELDS: {
   { key: 'rakeDeg', label: 'Rake (°)', hint: 'Steering axis from vertical' },
   { key: 'trailMm', label: 'Trail (mm)', hint: 'Ground trail' },
   { key: 'wheelbaseMm', label: 'Wheelbase (mm)', hint: 'Contact patch to contact patch' },
-  { key: 'forkTravelMm', label: 'Fork travel (mm)', hint: 'Along fork axis — measure at Pos' },
-  { key: 'shockTravelMm', label: 'Shock travel (mm)', hint: 'Shock shaft — measure at Pos' },
+  { key: 'forkTravelMm', label: 'Fork travel (mm)', hint: 'Along fork axis. Measure at Pos.' },
+  { key: 'shockTravelMm', label: 'Shock travel (mm)', hint: 'Shock shaft. Measure at Pos.' },
   { key: 'forkRateNPerMm', label: 'Fork rate (N/mm)', hint: 'Combined legs' },
   { key: 'shockRateNPerMm', label: 'Shock rate (N/mm)', hint: 'At shaft' },
   { key: 'linkRatio', label: 'Link ratio', hint: 'Instantaneous MR' },
@@ -79,9 +83,9 @@ const GEO_FIELDS: {
   },
   { key: 'csFromPivotXMm', label: 'CS from pivot X (mm)', hint: '+ rearward (frame convention)' },
   { key: 'csFromPivotYMm', label: 'CS from pivot Y (mm)', hint: '+ up' },
-  { key: 'frontSprocketTeeth', label: 'Front sprocket teeth', hint: 'e.g. 15–17' },
-  { key: 'rearSprocketTeeth', label: 'Rear sprocket teeth', hint: 'e.g. 40–45' },
-  { key: 'chainPitchMm', label: 'Chain pitch (mm)', hint: '520/525/530 ≈ 15.875' },
+  { key: 'frontSprocketTeeth', label: 'Front sprocket teeth', hint: 'for example 15 to 17' },
+  { key: 'rearSprocketTeeth', label: 'Rear sprocket teeth', hint: 'for example 40 to 45' },
+  { key: 'chainPitchMm', label: 'Chain pitch (mm)', hint: '520/525/530 pitch is about 15.875 mm' },
 ];
 
 function parseOptionalNumber(text: string): number | null {
@@ -97,7 +101,7 @@ function formatValue(v: number | null | undefined): string {
 }
 
 function formatResultValue(r: CalcResult): string {
-  if (r.value == null) return '—';
+  if (r.value == null) return '-';
   if (r.equationId === 'EQ-AS-FLAG-01') return antiSquatFlagLabel(r.value);
   const digits = Math.abs(r.value) >= 100 ? 1 : 2;
   return `${r.value.toFixed(digits)}${r.unit ? ` ${r.unit}` : ''}`;
@@ -113,14 +117,17 @@ function resultDelta(current: number | null, ref: number | null): string | null 
 export function BikeBalanceSetupScreen() {
   const navigation = useNavigation<Nav>();
   const [ready, setReady] = useState(false);
-  const [inputs, setInputs] = useState<BikeBalanceInputs>({ ...SECTION8_LADEN_EXAMPLE });
+  const [inputs, setInputs] = useState<BikeBalanceInputs>({ ...DEFAULT_BIKE_BALANCE_INPUTS });
   const [refInputs, setRefInputs] = useState<BikeBalanceInputs | null>(null);
   const [skillMode, setSkillMode] = useState<SkillMode>('rider');
-  const [tab, setTab] = useState<TabKey>('results');
+  const [tab, setTab] = useState<TabKey>('guide');
   const [sourceResult, setSourceResult] = useState<CalcResult | null>(null);
   const [showVerify, setShowVerify] = useState(false);
   const [presetNotes, setPresetNotes] = useState<string[]>([]);
   const [highlightEqIds, setHighlightEqIds] = useState<string[]>([]);
+  const [introAccepted, setIntroAccepted] = useState(false);
+  const [showDataGuide, setShowDataGuide] = useState(true);
+  const [highlightFieldKeys, setHighlightFieldKeys] = useState<string[]>([]);
 
   useEffect(() => {
     let cancelled = false;
@@ -130,6 +137,8 @@ export function BikeBalanceSetupScreen() {
       setInputs(state.inputs);
       setRefInputs(state.refInputs);
       setSkillMode(state.skillMode);
+      setIntroAccepted(state.introAccepted);
+      setShowDataGuide(!state.introAccepted);
       setReady(true);
     })();
     return () => {
@@ -140,8 +149,19 @@ export function BikeBalanceSetupScreen() {
   useEffect(() => {
     if (!ready) return;
     const withTravels = rememberTravelsForPosition(inputs);
-    void saveBikeBalanceState({ inputs: withTravels, refInputs, skillMode });
-  }, [inputs, refInputs, skillMode, ready]);
+    void saveBikeBalanceState({
+      inputs: withTravels,
+      refInputs,
+      skillMode,
+      introAccepted,
+    });
+  }, [inputs, refInputs, skillMode, introAccepted, ready]);
+
+  const acceptIntro = useCallback((openGuide: boolean) => {
+    setIntroAccepted(true);
+    setShowDataGuide(openGuide);
+    setTab(openGuide ? 'guide' : 'inputs');
+  }, []);
 
   const results = useMemo(() => computeBikeBalance(inputs), [inputs]);
   const refResults = useMemo(
@@ -186,6 +206,22 @@ export function BikeBalanceSetupScreen() {
     await Clipboard.setStringAsync(md);
     Alert.alert('Report copied', 'Citable Markdown report is on the clipboard.');
   }, [inputs, refInputs]);
+
+  if (!ready) {
+    return <View style={styles.container} />;
+  }
+
+  if (!introAccepted) {
+    return (
+      <BikeBalanceIntroGate
+        onContinue={() => acceptIntro(false)}
+        onOpenDataGuide={() => acceptIntro(true)}
+        onGoDaySetup={() => navigation.navigate('BikeSetupSheet')}
+        onGoBasics={() => navigation.navigate('BikeSetupBasics')}
+        onGoFaqs={() => navigation.navigate('RoadRacerAiFaqs')}
+      />
+    );
+  }
 
   const renderResultCard = (r: CalcResult) => {
     const highlighted = highlightEqIds.includes(r.equationId);
@@ -232,7 +268,7 @@ export function BikeBalanceSetupScreen() {
             <Text style={styles.rowValue}>{formatResultValue(r)}</Text>
           )}
           {delta != null && r.equationId !== 'EQ-AS-FLAG-01' ? (
-            <Text style={styles.delta}>Δ {delta}</Text>
+            <Text style={styles.delta}>delta {delta}</Text>
           ) : null}
         </View>
       </TouchableOpacity>
@@ -243,13 +279,63 @@ export function BikeBalanceSetupScreen() {
     <View style={styles.container}>
       <ScrollView contentContainerStyle={styles.content} keyboardShouldPersistTaps="handled">
         <Text style={styles.disclaimer}>
-          Informational setup aid. Same math in every skill mode. Not affiliated with Zero Chassis
-          Software. Prefer deltas vs Ref. Travels are never invented from force presets.
+          Deep technical tool. Same math in every skill mode. Sources in Why this number must be
+          published books, journals, or public OEM documentation. Prefer deltas versus Ref.
         </Text>
+        <TouchableOpacity
+          onPress={() => {
+            setIntroAccepted(false);
+          }}
+        >
+          <Text style={styles.linkish}>Not what I need? See other Coach tools</Text>
+        </TouchableOpacity>
 
         <Text style={styles.meta}>
-          Pos: {inputs.position} · Lean: {inputs.leanDeg}° · CoG: {inputs.cogProvenance}
+          Pos: {inputs.position}, Lean: {inputs.leanDeg} deg, CoG: {inputs.cogProvenance}
         </Text>
+
+        {tab === 'guide' && showDataGuide ? (
+          <BikeBalanceDataGuide
+            inputs={inputs}
+            onLoadR6Shell={() => {
+              setInputs(createR6_2020StartingInputs());
+              setHighlightFieldKeys(['rakeDeg', 'trailMm', 'wheelbaseMm']);
+              setPresetNotes([
+                'Loaded 2020 YZF-R6 public chassis specs only. Measure travels, springs, CoG, and drive-side geometry next.',
+              ]);
+              setTab('inputs');
+            }}
+            onGoToStepFields={(fieldKeys) => {
+              setHighlightFieldKeys(fieldKeys);
+              if (
+                fieldKeys.some((k) =>
+                  [
+                    'rearTyreRadiusMm',
+                    'swingarmLengthMm',
+                    'swingarmAngleDeg',
+                    'csFromPivotXMm',
+                    'csFromPivotYMm',
+                    'frontSprocketTeeth',
+                    'rearSprocketTeeth',
+                  ].includes(k)
+                )
+              ) {
+                setInputs((prev) =>
+                  prev.antiSquatAngleMode === 'geometry'
+                    ? prev
+                    : { ...prev, antiSquatAngleMode: 'geometry' }
+                );
+              }
+              setTab('inputs');
+            }}
+            onClose={() => setShowDataGuide(false)}
+          />
+        ) : null}
+        {tab === 'guide' && !showDataGuide ? (
+          <TouchableOpacity onPress={() => setShowDataGuide(true)}>
+            <Text style={styles.linkish}>Show R6 data-gathering guide</Text>
+          </TouchableOpacity>
+        ) : null}
 
         {tab === 'guide' || (tab === 'results' && skillMode === 'rider') ? (
           <BikeBalanceDiagramPanel />
@@ -362,25 +448,32 @@ export function BikeBalanceSetupScreen() {
               ))}
             </View>
             <Text style={styles.hint}>
-              Geometry computes AS angle from swingarm × top chain run (IFC). Travels are stored per
-              position when you edit them.
+              Geometry computes AS angle from swingarm and top chain run (IFC). Travels are stored
+              per position when you edit them.
             </Text>
+
+            {highlightFieldKeys.length ? (
+              <TouchableOpacity onPress={() => setHighlightFieldKeys([])}>
+                <Text style={styles.linkish}>Clear input highlight from guide</Text>
+              </TouchableOpacity>
+            ) : null}
 
             {INPUT_FIELDS.map((field) => {
               if (field.key === 'antiSquatAngleDeg' && inputs.antiSquatAngleMode === 'geometry') {
                 return null;
               }
+              const highlighted = highlightFieldKeys.includes(field.key);
               return (
-                <View key={field.key}>
+                <View key={field.key} style={highlighted ? styles.fieldHighlight : undefined}>
                   <Text style={styles.fieldLabel}>{field.label}</Text>
                   <Text style={styles.hint}>{field.hint}</Text>
                   <TextInput
-                    style={styles.input}
+                    style={[styles.input, highlighted && styles.inputHighlight]}
                     keyboardType="decimal-pad"
                     value={formatValue(inputs[field.key] as number | null)}
                     onChangeText={(t) => setNum(field.key, t)}
                     placeholderTextColor="#64748b"
-                    placeholder="—"
+                    placeholder="-"
                   />
                 </View>
               );
@@ -389,20 +482,23 @@ export function BikeBalanceSetupScreen() {
             {inputs.antiSquatAngleMode === 'geometry' ? (
               <View>
                 <Text style={styles.sectionLabel}>Drive-side geometry</Text>
-                {GEO_FIELDS.map((field) => (
-                  <View key={field.key}>
-                    <Text style={styles.fieldLabel}>{field.label}</Text>
-                    <Text style={styles.hint}>{field.hint}</Text>
-                    <TextInput
-                      style={styles.input}
-                      keyboardType="decimal-pad"
-                      value={formatValue(inputs[field.key] as number | null)}
-                      onChangeText={(t) => setNum(field.key, t)}
-                      placeholderTextColor="#64748b"
-                      placeholder="—"
-                    />
-                  </View>
-                ))}
+                {GEO_FIELDS.map((field) => {
+                  const highlighted = highlightFieldKeys.includes(field.key);
+                  return (
+                    <View key={field.key} style={highlighted ? styles.fieldHighlight : undefined}>
+                      <Text style={styles.fieldLabel}>{field.label}</Text>
+                      <Text style={styles.hint}>{field.hint}</Text>
+                      <TextInput
+                        style={[styles.input, highlighted && styles.inputHighlight]}
+                        keyboardType="decimal-pad"
+                        value={formatValue(inputs[field.key] as number | null)}
+                        onChangeText={(t) => setNum(field.key, t)}
+                        placeholderTextColor="#64748b"
+                        placeholder="-"
+                      />
+                    </View>
+                  );
+                })}
               </View>
             ) : null}
 
@@ -410,21 +506,21 @@ export function BikeBalanceSetupScreen() {
               style={styles.secondaryBtn}
               onPress={() => {
                 setInputs({ ...SECTION8_LADEN_EXAMPLE });
-                setPresetNotes(['Loaded §8 laden worked example.']);
+                setPresetNotes(['Loaded demo sportsbike dataset for math verification.']);
                 setTab('results');
               }}
             >
-              <Text style={styles.secondaryBtnText}>Load §8 laden example</Text>
+              <Text style={styles.secondaryBtnText}>Load demo sportsbike (verify math)</Text>
             </TouchableOpacity>
             <TouchableOpacity
               style={styles.secondaryBtn}
               onPress={() => {
                 setInputs({ ...SECTION8_EXT_EXAMPLE });
-                setPresetNotes(['Loaded §8 Ext example (full extension).']);
+                setPresetNotes(['Loaded demo Ext dataset (full extension) for math checks.']);
                 setTab('results');
               }}
             >
-              <Text style={styles.secondaryBtnText}>Load §8 Ext example</Text>
+              <Text style={styles.secondaryBtnText}>Load demo Ext dataset</Text>
             </TouchableOpacity>
             <TouchableOpacity
               style={styles.secondaryBtn}
@@ -435,6 +531,20 @@ export function BikeBalanceSetupScreen() {
               }}
             >
               <Text style={styles.secondaryBtnText}>Load geometry AS fixture</Text>
+            </TouchableOpacity>
+            <TouchableOpacity
+              style={styles.secondaryBtn}
+              onPress={() => {
+                setInputs(createR6_2020StartingInputs());
+                setHighlightFieldKeys(['rakeDeg', 'trailMm', 'wheelbaseMm']);
+                setPresetNotes([
+                  'Loaded 2020 R6 public chassis shell. Workshop fields left blank on purpose.',
+                ]);
+                setShowDataGuide(true);
+                setTab('guide');
+              }}
+            >
+              <Text style={styles.secondaryBtnText}>Load 2020 R6 public chassis</Text>
             </TouchableOpacity>
           </View>
         ) : null}
@@ -469,7 +579,7 @@ export function BikeBalanceSetupScreen() {
                 ) : (
                   checks.map((c) => (
                     <Text key={c.id} style={c.pass ? styles.pass : styles.fail}>
-                      {c.pass ? '✓' : '✗'} {c.label}
+                      {c.pass ? 'PASS' : 'FAIL'} {c.label}
                     </Text>
                   ))
                 )}
@@ -511,7 +621,7 @@ export function BikeBalanceSetupScreen() {
                       <Text style={styles.rowName}>{r.name}</Text>
                       <View style={styles.rowRight}>
                         <Text style={styles.rowValue}>{formatResultValue(r)}</Text>
-                        <Text style={styles.delta}>{delta ? `Δ ${delta}` : 'Δ —'}</Text>
+                        <Text style={styles.delta}>{delta ? `delta ${delta}` : 'delta -'}</Text>
                       </View>
                     </View>
                   );
@@ -523,8 +633,9 @@ export function BikeBalanceSetupScreen() {
 
         {tab === 'guide' ? (
           <View>
+            <Text style={styles.sectionLabel}>Feel / problem guide</Text>
             <Text style={styles.muted}>
-              Pick a feel/problem — we highlight related results. Math is unchanged.
+              Pick a feel or problem. Related results are highlighted. Math is unchanged.
             </Text>
             {SYMPTOM_GUIDES.map((g) => (
               <TouchableOpacity
@@ -588,6 +699,16 @@ const styles = StyleSheet.create({
   segmentTextActive: { color: '#f8fafc' },
   fieldLabel: { marginTop: 10, color: '#e2e8f0', fontSize: 13, fontWeight: '600' },
   hint: { color: '#64748b', fontSize: 11, marginBottom: 4, lineHeight: 15 },
+  fieldHighlight: {
+    marginTop: 4,
+    marginBottom: 4,
+    paddingHorizontal: 8,
+    paddingBottom: 8,
+    borderRadius: 10,
+    borderWidth: 1,
+    borderColor: '#38bdf8',
+    backgroundColor: 'rgba(56, 189, 248, 0.08)',
+  },
   input: {
     backgroundColor: '#1e293b',
     borderWidth: 1,
@@ -597,6 +718,9 @@ const styles = StyleSheet.create({
     paddingHorizontal: 12,
     paddingVertical: 10,
     fontSize: 15,
+  },
+  inputHighlight: {
+    borderColor: '#38bdf8',
   },
   card: {
     backgroundColor: '#1e293b',

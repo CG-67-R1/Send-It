@@ -9,19 +9,19 @@ const DIAGRAMS: { id: DiagramId; title: string; caption: string }[] = [
     id: 'steering',
     title: 'Steering geometry',
     caption:
-      'Rake is the steering-axis angle from vertical. Trail is the ground distance from where that axis hits the ground back to the front contact patch — the main stability number.',
+      'Rake is the steering-axis angle from vertical. Trail is the ground distance from where that axis hits the ground back to the front contact patch. Trail is the main stability number.',
   },
   {
     id: 'antiSquat',
     title: 'Anti-squat (IFC)',
     caption:
-      'The squat line runs from the rear contact through the Instantaneous Force Centre (IFC) — where the swingarm line meets the top chain run. Compare its angle to the load-transfer line from CoG height / wheelbase.',
+      'The squat line runs from the rear contact through the Instantaneous Force Centre (IFC), where the swingarm line meets the top chain run. Compare its angle to the load-transfer line from CoG height / wheelbase.',
   },
   {
     id: 'wheelRate',
     title: 'Wheel rate vs spring',
     caption:
-      'Workshop springs are along the fork/shock. The tyre feels wheel rate: front ≈ fork ÷ cos²(rake); rear ≈ shock ÷ link_ratio². Geometry can change wheel rate without changing the spring.',
+      'Workshop springs act along the fork or shock. The tyre feels wheel rate: front Fw_rate = fork_rate / cos^2(rake); rear Rw_rate = shock_rate / link_ratio^2. Geometry can change wheel rate without changing the spring.',
   },
 ];
 
@@ -118,7 +118,7 @@ function AntiSquatDiagram() {
         strokeDasharray="5 3"
       />
       <SvgText x={145} y={140} fill="#f472b6" fontSize={10}>
-        Squat line → AS angle
+        Squat line (AS angle)
       </SvgText>
       {/* Load transfer hint */}
       <Line
@@ -159,7 +159,7 @@ function WheelRateDiagram() {
       {/* Arrow cos */}
       <Path d="M 110 80 Q 140 100 110 130" stroke="#a78bfa" strokeWidth={2} fill="none" />
       <SvgText x={145} y={108} fill="#a78bfa" fontSize={11}>
-        ÷ cos²(rake)
+        / cos^2(rake)
       </SvgText>
       {/* Rear block */}
       <Rect x={210} y={50} width={18} height={50} rx={3} fill="#334155" stroke="#94a3b8" />
@@ -170,7 +170,7 @@ function WheelRateDiagram() {
       <Circle cx={260} cy={145} r={22} stroke="#94a3b8" strokeWidth={3} fill="none" />
       <Line x1={260} y1={123} x2={260} y2={167} stroke="#38bdf8" strokeWidth={2} />
       <SvgText x={200} y={175} fill="#38bdf8" fontSize={10}>
-        Rw ÷ ratio²
+        Rw / ratio^2
       </SvgText>
     </Svg>
   );

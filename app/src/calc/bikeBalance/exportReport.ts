@@ -1,5 +1,5 @@
 /**
- * Citable Markdown report for legitimacy / sharing.
+ * Citable report for legitimacy / sharing.
  */
 
 import { computeBikeBalance, formatBikeBalanceForAi } from './compute';
@@ -24,26 +24,26 @@ export function buildCitableReport(
   const checks = runCrossChecks(inputs);
 
   const lines: string[] = [
-    '# Bike Balance Setup — citable report',
+    '# Bike Balance Setup citable report',
     '',
     `Generated: ${new Date().toISOString()}`,
     `Setup: ${inputs.name}`,
-    `Position: ${inputs.position} · Lean: ${inputs.leanDeg}°`,
+    `Position: ${inputs.position}, Lean: ${inputs.leanDeg} deg`,
     `CoG provenance: ${inputs.cogProvenance}`,
     `Anti-squat mode: ${inputs.antiSquatAngleMode}`,
     '',
-    '> Informational setup aid only. Not affiliated with Zero Chassis Software.',
-    '> Prefer Ref→proposal deltas. Safety-critical work: qualified technician.',
+    'Informational setup aid only. Sources are published books, journals, or public OEM documentation.',
+    'Prefer Ref to proposal deltas. Safety-critical work: qualified technician.',
     '',
     '## Results',
     '',
-    '| ID | Name | Value | Δ vs Ref |',
+    '| ID | Name | Value | delta vs Ref |',
     '|----|------|------:|---------:|',
   ];
 
   for (const r of results) {
     const ref = refMap.get(r.equationId);
-    let delta = '—';
+    let delta = '-';
     if (r.value != null && ref?.value != null && r.equationId !== 'EQ-AS-FLAG-01') {
       const d = r.value - ref.value;
       delta = `${d >= 0 ? '+' : ''}${d.toFixed(3)}`;
@@ -51,9 +51,9 @@ export function buildCitableReport(
     lines.push(`| ${r.equationId} | ${r.name} | ${fmt(r)} | ${delta} |`);
   }
 
-  lines.push('', '## Equations & sources', '');
+  lines.push('', '## Equations and sources', '');
   for (const r of results) {
-    lines.push(`### ${r.equationId} — ${r.name}`);
+    lines.push(`### ${r.equationId}: ${r.name}`);
     lines.push(`- Formula: \`${r.formula}\``);
     lines.push(`- Value: ${fmt(r)}`);
     if (r.warning) lines.push(`- Warning: ${r.warning}`);
@@ -71,7 +71,7 @@ export function buildCitableReport(
       const g = requireGeometry(inputs);
       if (g) {
         const as = computeAntiSquatFromGeometry(g);
-        lines.push(`- Computed AS angle: ${as.antiSquatAngleDeg.toFixed(3)}°`);
+        lines.push(`- Computed AS angle: ${as.antiSquatAngleDeg.toFixed(3)} deg`);
         lines.push(`- IFC: (${as.ifc.x.toFixed(2)}, ${as.ifc.y.toFixed(2)}) mm`);
         lines.push(`- Pivot: (${as.pivot.x.toFixed(2)}, ${as.pivot.y.toFixed(2)}) mm`);
         lines.push('- Assumptions:');

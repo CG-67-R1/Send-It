@@ -35,12 +35,12 @@ export function loadTravelsForPosition(
     return {
       forkTravelMm: 0,
       shockTravelMm: 0,
-      note: 'Extended: no saved travels — using 0/0 mm.',
+      note: 'Extended: no saved travels, using 0/0 mm.',
     };
   }
   return {
     forkTravelMm: inputs.forkTravelMm,
     shockTravelMm: inputs.shockTravelMm,
-    note: `No measured travels saved for ${position} — keeping current travel fields.`,
+    note: `No measured travels saved for ${position}. Keeping current travel fields.`,
   };
 }

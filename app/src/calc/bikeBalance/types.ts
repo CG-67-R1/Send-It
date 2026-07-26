@@ -117,7 +117,7 @@ export const DEFAULT_BIKE_BALANCE_INPUTS: BikeBalanceInputs = {
 /** §8 laden worked example — useful as demo / golden fixture. */
 export const SECTION8_LADEN_EXAMPLE: BikeBalanceInputs = {
   ...DEFAULT_BIKE_BALANCE_INPUTS,
-  name: '§8 laden example (1000 cc sportsbike)',
+  name: 'Demo sportsbike (laden verify set)',
   position: 'static',
   leanDeg: 0,
   rakeDeg: 24,
@@ -144,7 +144,7 @@ export const SECTION8_LADEN_EXAMPLE: BikeBalanceInputs = {
 /** §8 second dataset — full extension (Pos: Ext). */
 export const SECTION8_EXT_EXAMPLE: BikeBalanceInputs = {
   ...DEFAULT_BIKE_BALANCE_INPUTS,
-  name: '§8 Ext example (same model, full extension)',
+  name: 'Demo sportsbike (Ext verify set)',
   position: 'ext',
   leanDeg: 0,
   rakeDeg: 24.3,

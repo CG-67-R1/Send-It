@@ -35,3 +35,20 @@ export {
 } from './geometryAs';
 export { rememberTravelsForPosition, loadTravelsForPosition } from './travels';
 export { buildCitableReport } from './exportReport';
+export {
+  DATA_GUIDE_STEPS,
+  R6_2020_PUBLIC_CHASSIS,
+  R6_PUBLIC_PREFILL_KEYS,
+  R6_WORKSHOP_KEYS,
+  createR6_2020StartingInputs,
+  getDataGuideProgress,
+  getStepProgress,
+  type DataGuideStep,
+  type DataGuideStepProgress,
+} from './r6Guide';
+export {
+  CITATION_POLICY,
+  PUBLIC_BOOKS,
+  PUBLIC_ENGINEERING,
+  PUBLIC_OEM_DOCS,
+} from './citations';

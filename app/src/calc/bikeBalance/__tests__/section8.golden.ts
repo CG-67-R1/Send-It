@@ -4,11 +4,14 @@
  */
 import {
   GEOMETRY_AS_FIXTURE,
+  R6_2020_PUBLIC_CHASSIS,
   SECTION8_LADEN_EXAMPLE,
   applyPositionPreset,
   buildCitableReport,
   computeAntiSquatFromGeometry,
   computeBikeBalance,
+  createR6_2020StartingInputs,
+  getDataGuideProgress,
   rememberTravelsForPosition,
   section8GoldenAssertions,
   type BikeBalanceInputs,
@@ -108,6 +111,42 @@ for (const id of requiredIds) {
     failed += 1;
   } else {
     console.log('PASS  citable report builds');
+  }
+}
+
+// R6 public chassis guide shell
+{
+  const r6 = createR6_2020StartingInputs();
+  const okChassis =
+    r6.rakeDeg === R6_2020_PUBLIC_CHASSIS.rakeDeg &&
+    r6.trailMm === R6_2020_PUBLIC_CHASSIS.trailMm &&
+    r6.wheelbaseMm === R6_2020_PUBLIC_CHASSIS.wheelbaseMm;
+  const workshopEmpty =
+    r6.forkTravelMm == null &&
+    r6.shockTravelMm == null &&
+    r6.forkRateNPerMm == null &&
+    r6.linkRatio == null &&
+    r6.cogXMm == null &&
+    r6.antiSquatAngleDeg == null &&
+    r6.swingarmLengthMm == null;
+  if (!okChassis) {
+    console.log('FAIL  R6 shell missing public chassis numbers');
+    failed += 1;
+  } else if (!workshopEmpty) {
+    console.log('FAIL  R6 shell must leave workshop fields blank');
+    failed += 1;
+  } else {
+    console.log('PASS  R6 public chassis shell prefills only OEM numbers');
+  }
+
+  const progress = getDataGuideProgress(r6);
+  if (progress.completeCount < 1) {
+    console.log('FAIL  R6 shell should complete chassis step');
+    failed += 1;
+  } else {
+    console.log(
+      `PASS  R6 guide progress ${progress.completeCount}/${progress.totalSteps} after public shell`
+    );
   }
 }
 

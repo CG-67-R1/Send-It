@@ -71,14 +71,14 @@ export function BikeBalanceSourcesSheet({ result, visible, onClose }: Props) {
             <Text style={styles.label}>Sources</Text>
             {result.publicRefs.map((ref) => (
               <Text key={ref} style={styles.value}>
-                • {ref}
+                - {ref}
               </Text>
             ))}
 
             <Text style={styles.disclaimer}>
-              Informational setup aid only. Not affiliated with Zero Chassis Software. Prefer
-              Ref→proposal deltas over absolute numbers; have safety-critical work checked by a
-              qualified technician.
+              Informational setup aid only. Sources must be published books, journals, or publicly
+              accessible OEM documentation. Prefer Ref to proposal deltas. Have safety-critical work
+              checked by a qualified technician.
             </Text>
           </ScrollView>
           <TouchableOpacity style={styles.closeBtn} onPress={onClose} activeOpacity={0.85}>
