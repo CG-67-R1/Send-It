@@ -22,6 +22,13 @@ export const FACE_HOLE_EXTRA_HEIGHT_TOP_PX = 0;
  */
 export const FACE_IN_HOLE_SCALE = 1.0;
 
+/**
+ * Shrink the live camera feed around the face-hole pivot so an arm's-length selfie
+ * fits the oval. 1 = full-screen cover (face much larger than the hole); ~0.4 matches
+ * a typical head width to the artwork hole.
+ */
+export const CAPTURE_PREVIEW_SCALE = 0.42;
+
 export type FaceHoleGeometry = {
   left: number;
   top: number;
@@ -63,11 +70,12 @@ export function computeCaptureGuide(
   layout: FaceHoleLayout
 ): FaceHoleGeometry & { badgeSize: number; badgeLeft: number; badgeTop: number } {
   const pad = 24;
-  const maxBadge = Math.min(screenW - pad * 2, screenH * 0.55, 360);
-  const badgeSize = Math.max(200, Math.floor(maxBadge));
+  // Prefer a large on-screen badge so the hole is easy to aim at (no 360px cap).
+  const maxBadge = Math.min(screenW - pad * 2, screenH * 0.62);
+  const badgeSize = Math.max(240, Math.floor(maxBadge));
   const badgeLeft = (screenW - badgeSize) / 2;
   // Bias badge upward so hole is in upper-mid frame (like the home hero)
-  const badgeTop = Math.max(pad + 48, screenH * 0.18 - badgeSize * 0.12);
+  const badgeTop = Math.max(pad + 48, screenH * 0.16 - badgeSize * 0.08);
   const hole = computeFaceHole(badgeSize, layout);
   return {
     ...hole,
@@ -78,6 +86,71 @@ export function computeCaptureGuide(
     badgeSize,
     badgeLeft,
     badgeTop,
+  };
+}
+
+/** Map a point in the CameraView layout (cover-fit) to source image pixels. */
+export function mapCoverPointToImage(
+  viewX: number,
+  viewY: number,
+  viewW: number,
+  viewH: number,
+  imageW: number,
+  imageH: number
+): { x: number; y: number } {
+  const scale = Math.max(viewW / Math.max(imageW, 1), viewH / Math.max(imageH, 1));
+  const dispW = imageW * scale;
+  const dispH = imageH * scale;
+  const offX = (viewW - dispW) / 2;
+  const offY = (viewH - dispH) / 2;
+  return {
+    x: (viewX - offX) / scale,
+    y: (viewY - offY) / scale,
+  };
+}
+
+/**
+ * Square crop in image pixels for the on-screen face hole, accounting for the live
+ * preview scale around the hole center (see CAPTURE_PREVIEW_SCALE).
+ */
+export function captureHoleImageCrop(
+  screenW: number,
+  screenH: number,
+  imageW: number,
+  imageH: number,
+  hole: Pick<FaceHoleGeometry, 'left' | 'top' | 'ew' | 'eh' | 'cx' | 'cy'>,
+  previewScale: number = CAPTURE_PREVIEW_SCALE
+): { originX: number; originY: number; width: number; height: number } {
+  const scale = Math.max(0.05, previewScale);
+  const mapScreen = (sx: number, sy: number) => {
+    const viewX = hole.cx + (sx - hole.cx) / scale;
+    const viewY = hole.cy + (sy - hole.cy) / scale;
+    return mapCoverPointToImage(viewX, viewY, screenW, screenH, imageW, imageH);
+  };
+
+  const tl = mapScreen(hole.left, hole.top);
+  const br = mapScreen(hole.left + hole.ew, hole.top + hole.eh);
+  let x0 = Math.min(tl.x, br.x);
+  let y0 = Math.min(tl.y, br.y);
+  let x1 = Math.max(tl.x, br.x);
+  let y1 = Math.max(tl.y, br.y);
+
+  let cropW = x1 - x0;
+  let cropH = y1 - y0;
+  const side = Math.max(cropW, cropH);
+  let originX = x0 - (side - cropW) / 2;
+  let originY = y0 - (side - cropH) / 2;
+
+  originX = Math.max(0, Math.min(imageW - 1, originX));
+  originY = Math.max(0, Math.min(imageH - 1, originY));
+  const maxSide = Math.min(imageW - originX, imageH - originY);
+  const finalSide = Math.max(1, Math.floor(Math.min(side, maxSide)));
+
+  return {
+    originX: Math.floor(originX),
+    originY: Math.floor(originY),
+    width: finalSide,
+    height: finalSide,
   };
 }
 

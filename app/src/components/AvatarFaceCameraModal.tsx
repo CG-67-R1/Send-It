@@ -4,7 +4,6 @@ import {
   Alert,
   Image,
   Modal,
-  Platform,
   StyleSheet,
   Text,
   TouchableOpacity,
@@ -17,14 +16,15 @@ import * as ImageManipulator from 'expo-image-manipulator';
 import { StatusBar } from 'expo-status-bar';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import Svg, { Circle, Defs, Ellipse, G, Mask, Rect, ClipPath } from 'react-native-svg';
-import { computeCaptureGuide } from '../avatar/faceHoleGeometry';
+import {
+  CAPTURE_PREVIEW_SCALE,
+  captureHoleImageCrop,
+  computeCaptureGuide,
+} from '../avatar/faceHoleGeometry';
 import { DEFAULT_FACE_HOLE_LAYOUT, type FaceHoleLayout } from '../avatar/presets';
 
 /** Solid around the rider badge (matches app chrome). */
 const MODAL_SCREEN_BG = '#0f172a';
-
-/** Mild center square crop so Align modal gets a face-forward starting point (not guide-mapped). */
-const CAPTURE_CENTER_CROP_FRAC = 0.92;
 
 const FACE_GUIDE_DOT_R = 4;
 const EYE_GUIDE_Y_FRAC = 0.14;
@@ -34,7 +34,10 @@ const EYE_GUIDE_OFFSET_X_FRAC = -0.02;
 type Props = {
   visible: boolean;
   onClose: () => void;
-  /** Called with a JPEG URI — callers open AvatarFaceAlignModal next (same as library). */
+  /**
+   * Called with a JPEG URI cropped to the face hole (matches mirrored preview),
+   * ready for AvatarFaceEllipse — callers should not open Align after camera capture.
+   */
   onCapture: (uri: string) => void;
   /** Leathers PNG shown over the camera; face shows through the transparent hole. */
   avatarSource: ImageSourcePropType;
@@ -43,7 +46,8 @@ type Props = {
 
 /**
  * Front camera with the rider avatar overlaid so the user puts their face in the real hole.
- * Capture does a mild center square crop only; fine alignment uses AvatarFaceAlignModal.
+ * Capture mirrors + crops to the hole so the result matches the guide (library picks still
+ * use AvatarFaceAlignModal).
  */
 export function AvatarFaceCameraModal({
   visible,
@@ -61,12 +65,15 @@ export function AvatarFaceCameraModal({
   const maskDomId = useId().replace(/:/g, '');
 
   const guide = computeCaptureGuide(width, height, layout);
-  const { cx, cy, rx, ry, badgeSize, badgeLeft, badgeTop } = guide;
+  const { cx, cy, rx, ry, badgeSize, badgeLeft, badgeTop, left, top, ew, eh } = guide;
 
   const eyeY = cy - EYE_GUIDE_Y_FRAC * ry;
   const eyeDx = EYE_GUIDE_DX_FRAC * rx;
   const eyeCenterX = cx + EYE_GUIDE_OFFSET_X_FRAC * rx;
   const guideClipId = `${maskDomId}-guideclip`;
+
+  const previewPivotX = cx - width / 2;
+  const previewPivotY = cy - height / 2;
 
   React.useEffect(() => {
     if (!visible) return;
@@ -80,9 +87,10 @@ export function AvatarFaceCameraModal({
     if (!cameraRef.current || !ready || busy) return;
     setBusy(true);
     try {
+      // Do not skipProcessing on Android — that skips the mirror bake and leaves a
+      // sensor-oriented JPEG that does not match the mirrored preview / guide.
       const photo = await cameraRef.current.takePictureAsync({
         quality: 0.92,
-        skipProcessing: Platform.OS === 'android',
       });
       if (!photo?.uri) {
         Alert.alert('Capture failed', 'No image was returned from the camera. Try again.');
@@ -93,20 +101,29 @@ export function AvatarFaceCameraModal({
       const ih = photo.height ?? 0;
       let outputUri = photo.uri;
 
-      // Mild center square only — do NOT map the on-screen hole to photo pixels
-      // (CameraView cover/mirror makes that mapping unreliable). Align modal does the rest.
       if (iw > 0 && ih > 0) {
-        const minDim = Math.min(iw, ih);
-        const side = Math.min(
-          Math.max(1, Math.floor(minDim * CAPTURE_CENTER_CROP_FRAC)),
-          minDim
-        );
-        const originX = Math.max(0, Math.floor((iw - side) / 2));
-        const originY = Math.max(0, Math.floor((ih - side) / 2));
         try {
+          const crop = captureHoleImageCrop(
+            width,
+            height,
+            iw,
+            ih,
+            { left, top, ew, eh, cx, cy },
+            CAPTURE_PREVIEW_SCALE
+          );
+          // Crop matches the mirrored preview (CameraView `mirror` + processed capture).
           const manipulated = await ImageManipulator.manipulateAsync(
             photo.uri,
-            [{ crop: { originX, originY, width: side, height: side } }],
+            [
+              {
+                crop: {
+                  originX: crop.originX,
+                  originY: crop.originY,
+                  width: crop.width,
+                  height: crop.height,
+                },
+              },
+            ],
             { compress: 0.88, format: ImageManipulator.SaveFormat.JPEG }
           );
           outputUri = manipulated.uri;
@@ -123,7 +140,7 @@ export function AvatarFaceCameraModal({
     } finally {
       setBusy(false);
     }
-  }, [busy, onCapture, onClose, ready]);
+  }, [busy, cx, cy, eh, ew, height, left, onCapture, onClose, ready, top, width]);
 
   return (
     <Modal visible={visible} animationType="slide" onRequestClose={onClose}>
@@ -131,14 +148,27 @@ export function AvatarFaceCameraModal({
       <View style={styles.root}>
         {permission?.granted ? (
           <>
-            <CameraView
-              ref={cameraRef}
-              style={StyleSheet.absoluteFill}
-              facing="front"
-              mirror
-              mode="picture"
-              onCameraReady={() => setReady(true)}
-            />
+            <View style={[StyleSheet.absoluteFill, styles.cameraClip]}>
+              <CameraView
+                ref={cameraRef}
+                style={[
+                  StyleSheet.absoluteFill,
+                  {
+                    transform: [
+                      { translateX: previewPivotX },
+                      { translateY: previewPivotY },
+                      { scale: CAPTURE_PREVIEW_SCALE },
+                      { translateX: -previewPivotX },
+                      { translateY: -previewPivotY },
+                    ],
+                  },
+                ]}
+                facing="front"
+                mirror
+                mode="picture"
+                onCameraReady={() => setReady(true)}
+              />
+            </View>
 
             {/* Dim outside the rider badge */}
             <Svg
@@ -213,7 +243,7 @@ export function AvatarFaceCameraModal({
 
             <View style={styles.hintWrap} pointerEvents="none">
               <Text style={styles.hint}>
-                Put your face in the hole on your rider. You can fine-tune alignment on the next screen.
+                Line up your eyes with the dots in the hole on your rider, then capture.
               </Text>
             </View>
 
@@ -254,6 +284,9 @@ const styles = StyleSheet.create({
   root: {
     flex: 1,
     backgroundColor: MODAL_SCREEN_BG,
+  },
+  cameraClip: {
+    overflow: 'hidden',
   },
   overlaySvg: {
     zIndex: 1,

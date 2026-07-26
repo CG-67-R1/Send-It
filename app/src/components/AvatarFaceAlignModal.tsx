@@ -37,8 +37,8 @@ type Props = {
 type NaturalSize = { width: number; height: number };
 
 /**
- * After library pick or camera capture: pan/zoom the photo under the leathers so the face
- * sits in the hole, then bake a square crop for AvatarFaceEllipse.
+ * After library pick: pan/zoom the photo under the leathers so the face sits in the hole,
+ * then bake a square crop for AvatarFaceEllipse. Camera capture crops in-camera and skips this.
  */
 export function AvatarFaceAlignModal({
   visible,

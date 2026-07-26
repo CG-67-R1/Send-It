@@ -259,8 +259,14 @@ export function HeadlinesSettingsScreen() {
     setFaceCameraOpen(true);
   }, []);
 
-  const onRiderFaceCaptured = useCallback((uri: string) => {
-    setAlignImageUri(uri);
+  /** Camera already crops to the face hole — skip Align (library picks still use it). */
+  const onRiderFaceCaptured = useCallback(async (uri: string) => {
+    try {
+      const saved = await setAvatarFacePhotoUri(uri);
+      setFacePreviewUri(saved);
+    } catch (e) {
+      Alert.alert('Error', e instanceof Error ? e.message : 'Could not save photo');
+    }
   }, []);
 
   const onRiderFaceAligned = useCallback(async (uri: string) => {
