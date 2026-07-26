@@ -23,9 +23,9 @@ export const FACE_HOLE_EXTRA_HEIGHT_TOP_PX = 0;
 export const FACE_IN_HOLE_SCALE = 1.0;
 
 /**
- * Shrink the live camera feed around the face-hole pivot so an arm's-length selfie
- * fits the oval. 1 = full-screen cover (face much larger than the hole); ~0.4 matches
- * a typical head width to the artwork hole.
+ * How much wider FOV to show behind the badge so an arm's-length face fits the hole.
+ * Implemented by laying out CameraView larger than the badge (not a CSS transform — that
+ * would not match takePictureAsync).
  */
 export const CAPTURE_PREVIEW_SCALE = 0.42;
 
@@ -39,6 +39,14 @@ export type FaceHoleGeometry = {
   rx: number;
   ry: number;
   faceScale: number;
+};
+
+export type CaptureCameraLayout = {
+  /** Screen rect of the CameraView (may extend past the badge). */
+  camLeft: number;
+  camTop: number;
+  camWidth: number;
+  camHeight: number;
 };
 
 /** Ellipse + face-photo placement inside a square badge of `badgeSize`. */
@@ -89,6 +97,25 @@ export function computeCaptureGuide(
   };
 }
 
+/**
+ * CameraView layout behind the badge: oversized and centered on the face hole so the
+ * live FOV through the hole matches CAPTURE_PREVIEW_SCALE without CSS transforms.
+ */
+export function computeCaptureCameraLayout(
+  guide: FaceHoleGeometry & { badgeSize: number; badgeLeft: number; badgeTop: number },
+  previewScale: number = CAPTURE_PREVIEW_SCALE
+): CaptureCameraLayout {
+  const scale = Math.max(0.05, previewScale);
+  const camWidth = guide.badgeSize / scale;
+  const camHeight = guide.badgeSize / scale;
+  return {
+    camWidth,
+    camHeight,
+    camLeft: guide.cx - camWidth / 2,
+    camTop: guide.cy - camHeight / 2,
+  };
+}
+
 /** Map a point in the CameraView layout (cover-fit) to source image pixels. */
 export function mapCoverPointToImage(
   viewX: number,
@@ -110,23 +137,24 @@ export function mapCoverPointToImage(
 }
 
 /**
- * Square crop in image pixels for the on-screen face hole, accounting for the live
- * preview scale around the hole center (see CAPTURE_PREVIEW_SCALE).
+ * Exact face-hole rectangle in image pixels (same aspect as the hole / home avatar),
+ * mapped through the CameraView layout that was on screen.
  */
 export function captureHoleImageCrop(
-  screenW: number,
-  screenH: number,
+  cam: CaptureCameraLayout,
   imageW: number,
   imageH: number,
-  hole: Pick<FaceHoleGeometry, 'left' | 'top' | 'ew' | 'eh' | 'cx' | 'cy'>,
-  previewScale: number = CAPTURE_PREVIEW_SCALE
+  hole: Pick<FaceHoleGeometry, 'left' | 'top' | 'ew' | 'eh'>
 ): { originX: number; originY: number; width: number; height: number } {
-  const scale = Math.max(0.05, previewScale);
-  const mapScreen = (sx: number, sy: number) => {
-    const viewX = hole.cx + (sx - hole.cx) / scale;
-    const viewY = hole.cy + (sy - hole.cy) / scale;
-    return mapCoverPointToImage(viewX, viewY, screenW, screenH, imageW, imageH);
-  };
+  const mapScreen = (sx: number, sy: number) =>
+    mapCoverPointToImage(
+      sx - cam.camLeft,
+      sy - cam.camTop,
+      cam.camWidth,
+      cam.camHeight,
+      imageW,
+      imageH
+    );
 
   const tl = mapScreen(hole.left, hole.top);
   const br = mapScreen(hole.left + hole.ew, hole.top + hole.eh);
@@ -135,22 +163,20 @@ export function captureHoleImageCrop(
   let x1 = Math.max(tl.x, br.x);
   let y1 = Math.max(tl.y, br.y);
 
-  let cropW = x1 - x0;
-  let cropH = y1 - y0;
-  const side = Math.max(cropW, cropH);
-  let originX = x0 - (side - cropW) / 2;
-  let originY = y0 - (side - cropH) / 2;
+  // Clamp to image bounds while preserving aspect as much as possible
+  x0 = Math.max(0, Math.min(imageW, x0));
+  y0 = Math.max(0, Math.min(imageH, y0));
+  x1 = Math.max(0, Math.min(imageW, x1));
+  y1 = Math.max(0, Math.min(imageH, y1));
 
-  originX = Math.max(0, Math.min(imageW - 1, originX));
-  originY = Math.max(0, Math.min(imageH - 1, originY));
-  const maxSide = Math.min(imageW - originX, imageH - originY);
-  const finalSide = Math.max(1, Math.floor(Math.min(side, maxSide)));
+  const width = Math.max(1, Math.floor(x1 - x0));
+  const height = Math.max(1, Math.floor(y1 - y0));
 
   return {
-    originX: Math.floor(originX),
-    originY: Math.floor(originY),
-    width: finalSide,
-    height: finalSide,
+    originX: Math.floor(x0),
+    originY: Math.floor(y0),
+    width: Math.min(width, imageW - Math.floor(x0)),
+    height: Math.min(height, imageH - Math.floor(y0)),
   };
 }
 
