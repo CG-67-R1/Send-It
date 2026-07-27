@@ -126,7 +126,14 @@ export function pickRandomNoPhotoAvatar(): string {
   return pool[Math.floor(Math.random() * pool.length)].id;
 }
 
-/** Where to place the user’s face photo (percent of badge box). Tune per art if needed. */
+/** Intrinsic pixel size of leathers face-hole PNGs (`*_no_face.png`). */
+export const AVATAR_ART_WIDTH = 1024;
+export const AVATAR_ART_HEIGHT = 1536;
+
+/**
+ * Face hole as fractions of the **artwork bitmap** (not the letterboxed square badge).
+ * `computeFaceHole` maps these through Image `contain` into badge coordinates.
+ */
 export type FaceHoleLayout = {
   widthPct: number;
   heightPct: number;
@@ -135,21 +142,20 @@ export type FaceHoleLayout = {
 };
 
 /**
- * Oval hole (ellipse) — pixel-accurate to the transparent face hole in the leathers art.
- * Measured via per-pixel alpha scan across all six avatar PNGs (1024×1536, contain in badge).
- * Expressed as fractions of the badge box; scales with `HERO_AVATAR_BADGE_SIZE`.
+ * Oval hole in the leathers art — averaged from per-row alpha aperture scans across all
+ * face-hole PNGs (1024×1536). Values are fractions of the artwork, then placed with
+ * `contain` in the square badge (same as the Image).
  *
- * Previous values (0.34/0.42/0.33/0.15) had the ellipse ~2× too tall and 8% too low —
- * corrected to match the actual cut-out in the artwork.
+ * Prior badge-space constants (0.37/0.17/0.25/0.23) sat too low and short vs the PNG hole.
  */
 export const DEFAULT_FACE_HOLE_LAYOUT: FaceHoleLayout = {
-  widthPct: 0.25,
-  heightPct: 0.23,
-  leftPct: 0.37,
-  topPct: 0.17,
+  leftPct: 0.294,
+  topPct: 0.15,
+  widthPct: 0.373,
+  heightPct: 0.25,
 };
 
-/** Per-frame overrides (optional). Keys match `AvatarPreset.id`. */
+/** Per-frame overrides (optional). Keys match `AvatarPreset.id`. Art-space fractions. */
 const FACE_HOLE_LAYOUT_OVERRIDES: Partial<Record<string, FaceHoleLayout>> = {};
 
 export function getFaceHoleLayout(avatarId: string | null | undefined): FaceHoleLayout | null {
@@ -158,7 +164,7 @@ export function getFaceHoleLayout(avatarId: string | null | undefined): FaceHole
   return FACE_HOLE_LAYOUT_OVERRIDES[avatarId ?? ''] ?? DEFAULT_FACE_HOLE_LAYOUT;
 }
 
-/** Width/height ratio of the face hole bounding box (matches camera crop & ellipse). */
+/** Width/height ratio of the face hole in pixels (matches camera crop & ellipse). */
 export function getFaceHoleAspectRatio(layout: FaceHoleLayout): number {
-  return layout.widthPct / layout.heightPct;
+  return (layout.widthPct * AVATAR_ART_WIDTH) / (layout.heightPct * AVATAR_ART_HEIGHT);
 }

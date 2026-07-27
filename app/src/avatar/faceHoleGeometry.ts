@@ -1,5 +1,5 @@
 import { HERO_AVATAR_BADGE_BASE_SIZE } from './heroBadgeSizing';
-import type { FaceHoleLayout } from './presets';
+import { AVATAR_ART_HEIGHT, AVATAR_ART_WIDTH, type FaceHoleLayout } from './presets';
 
 /**
  * Sub-pixel offsets (in px at HERO_AVATAR_BADGE_BASE_SIZE) applied on top of the layout
@@ -47,18 +47,27 @@ export type CaptureCameraLayout = {
   camHeight: number;
 };
 
-/** Ellipse + face-photo placement inside a square badge of `badgeSize`. */
+/**
+ * Ellipse + face-photo placement inside a square badge of `badgeSize`.
+ * `layout` is in **artwork** space; we map through the same `contain` fit used by
+ * `<Image resizeMode="contain" />` so the math hole matches the PNG cut-out.
+ */
 export function computeFaceHole(badgeSize: number, layout: FaceHoleLayout): FaceHoleGeometry {
-  const W = badgeSize;
-  const H = badgeSize;
+  const scale = Math.min(badgeSize / AVATAR_ART_WIDTH, badgeSize / AVATAR_ART_HEIGHT);
+  const drawnW = AVATAR_ART_WIDTH * scale;
+  const drawnH = AVATAR_ART_HEIGHT * scale;
+  const originX = (badgeSize - drawnW) / 2;
+  const originY = (badgeSize - drawnH) / 2;
   const offsetScale = badgeSize / HERO_AVATAR_BADGE_BASE_SIZE;
-  const left = layout.leftPct * W + FACE_HOLE_OFFSET_X_PX * offsetScale;
+
+  const left = originX + layout.leftPct * drawnW + FACE_HOLE_OFFSET_X_PX * offsetScale;
   const top =
-    layout.topPct * H +
+    originY +
+    layout.topPct * drawnH +
     FACE_HOLE_OFFSET_Y_PX * offsetScale -
     FACE_HOLE_EXTRA_HEIGHT_TOP_PX * offsetScale;
-  const ew = layout.widthPct * W + FACE_HOLE_EXTRA_WIDTH_RIGHT_PX * offsetScale;
-  const eh = layout.heightPct * H + FACE_HOLE_EXTRA_HEIGHT_TOP_PX * offsetScale;
+  const ew = layout.widthPct * drawnW + FACE_HOLE_EXTRA_WIDTH_RIGHT_PX * offsetScale;
+  const eh = layout.heightPct * drawnH + FACE_HOLE_EXTRA_HEIGHT_TOP_PX * offsetScale;
   const cx = left + ew / 2;
   const cy = top + eh / 2;
   const rx = ew / 2;

@@ -6,8 +6,9 @@
  * `badgeSize / HERO_AVATAR_BADGE_BASE_SIZE`. So changing **`HERO_AVATAR_BADGE_SCALE`** scales the
  * leathers art and the face hole **together**; no separate hole size constant.
  *
- * **`DEFAULT_FACE_HOLE_LAYOUT`** (presets) is expressed as fractions of the badge box; it does not
- * need to change when scale changes.
+ * **`DEFAULT_FACE_HOLE_LAYOUT`** (presets) is expressed as fractions of the artwork bitmap;
+ * `computeFaceHole` maps it through `contain` into the badge. It does not need to change when
+ * badge scale changes.
  *
  * **`FACE_IN_HOLE_SCALE`** / **`FACE_HOLE_OFFSET_*`** (`faceHoleGeometry.ts`) are tuning relative to the
  * hole; they stay the same when only the badge scale changes.
