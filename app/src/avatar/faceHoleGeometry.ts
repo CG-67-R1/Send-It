@@ -23,8 +23,8 @@ export const FACE_IN_HOLE_SCALE = 1.0;
 
 /**
  * Preview zoom-out so an arm's-length face fits the hole.
- * Implemented as a real CameraView layout size (screen × scale), not a CSS transform —
- * takePictureAsync matches the view layout, not post-layout transforms.
+ * CameraView is sized to (hole / scale) and centered on the hole; capture keeps the
+ * center `scale` fraction of that photo (same region visible through the hole).
  */
 export const CAPTURE_PREVIEW_SCALE = 0.42;
 
@@ -103,20 +103,16 @@ export function computeCaptureGuide(
 }
 
 /**
- * CameraView layout whose cover-fit FOV through the face hole matches the old
- * full-screen + CSS `scale(CAPTURE_PREVIEW_SCALE)` preview, without using CSS transforms.
- *
- * FOV through hole ≈ holeWidth / (screenW * scale) — same as inverse-scaled full-screen preview.
+ * CameraView larger than the hole and centered on it. The hole shows the center
+ * `previewScale` fraction of this view (zoom-out for arm's-length framing).
  */
 export function computeCaptureCameraLayout(
-  screenW: number,
-  screenH: number,
-  hole: Pick<FaceHoleGeometry, 'cx' | 'cy'>,
+  hole: Pick<FaceHoleGeometry, 'cx' | 'cy' | 'ew' | 'eh'>,
   previewScale: number = CAPTURE_PREVIEW_SCALE
 ): CaptureCameraLayout {
   const scale = Math.max(0.05, Math.min(1, previewScale));
-  const camWidth = screenW * scale;
-  const camHeight = screenH * scale;
+  const camWidth = hole.ew / scale;
+  const camHeight = hole.eh / scale;
   return {
     camWidth,
     camHeight,
@@ -125,64 +121,24 @@ export function computeCaptureCameraLayout(
   };
 }
 
-/** Map a point in the CameraView layout (cover-fit) to source image pixels. */
-export function mapCoverPointToImage(
-  viewX: number,
-  viewY: number,
-  viewW: number,
-  viewH: number,
-  imageW: number,
-  imageH: number
-): { x: number; y: number } {
-  const scale = Math.max(viewW / Math.max(imageW, 1), viewH / Math.max(imageH, 1));
-  const dispW = imageW * scale;
-  const dispH = imageH * scale;
-  const offX = (viewW - dispW) / 2;
-  const offY = (viewH - dispH) / 2;
-  return {
-    x: (viewX - offX) / scale,
-    y: (viewY - offY) / scale,
-  };
-}
-
 /**
- * Crop the exact home-avatar face-hole rectangle from a photo taken with `cam` layout.
- * Output aspect matches the hole used by AvatarFaceEllipse.
+ * Center crop of the photo matching the hole (center `previewScale` of the CameraView).
+ * Used when the CameraView is hole-centered and sized to hole/scale — no screen→pixel cover math.
  */
-export function captureHoleImageCrop(
-  cam: CaptureCameraLayout,
+export function captureCenterHoleCrop(
   imageW: number,
   imageH: number,
-  hole: Pick<FaceHoleGeometry, 'left' | 'top' | 'ew' | 'eh'>
+  previewScale: number = CAPTURE_PREVIEW_SCALE
 ): { originX: number; originY: number; width: number; height: number } {
-  const mapScreen = (sx: number, sy: number) =>
-    mapCoverPointToImage(
-      sx - cam.camLeft,
-      sy - cam.camTop,
-      cam.camWidth,
-      cam.camHeight,
-      imageW,
-      imageH
-    );
-
-  const tl = mapScreen(hole.left, hole.top);
-  const br = mapScreen(hole.left + hole.ew, hole.top + hole.eh);
-  let x0 = Math.min(tl.x, br.x);
-  let y0 = Math.min(tl.y, br.y);
-  let x1 = Math.max(tl.x, br.x);
-  let y1 = Math.max(tl.y, br.y);
-
-  x0 = Math.max(0, Math.min(imageW, x0));
-  y0 = Math.max(0, Math.min(imageH, y0));
-  x1 = Math.max(0, Math.min(imageW, x1));
-  y1 = Math.max(0, Math.min(imageH, y1));
-
-  const originX = Math.floor(x0);
-  const originY = Math.floor(y0);
-  const width = Math.max(1, Math.min(Math.floor(x1 - x0), imageW - originX));
-  const height = Math.max(1, Math.min(Math.floor(y1 - y0), imageH - originY));
-
-  return { originX, originY, width, height };
+  const scale = Math.max(0.05, Math.min(1, previewScale));
+  const width = Math.max(1, Math.floor(imageW * scale));
+  const height = Math.max(1, Math.floor(imageH * scale));
+  return {
+    originX: Math.max(0, Math.floor((imageW - width) / 2)),
+    originY: Math.max(0, Math.floor((imageH - height) / 2)),
+    width: Math.min(width, imageW),
+    height: Math.min(height, imageH),
+  };
 }
 
 /** SVG transform string scaling the face photo around the hole center. */

@@ -17,7 +17,8 @@ import { StatusBar } from 'expo-status-bar';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import Svg, { Defs, Ellipse, Mask, Rect } from 'react-native-svg';
 import {
-  captureHoleImageCrop,
+  CAPTURE_PREVIEW_SCALE,
+  captureCenterHoleCrop,
   computeCaptureCameraLayout,
   computeCaptureGuide,
 } from '../avatar/faceHoleGeometry';
@@ -30,7 +31,7 @@ type Props = {
   visible: boolean;
   onClose: () => void;
   /**
-   * Called with a JPEG URI cropped to the home-avatar face hole and un-mirrored,
+   * Called with a JPEG URI of exactly what was visible in the face hole (un-mirrored),
    * ready for AvatarFaceEllipse — callers should not open Align after camera capture.
    */
   onCapture: (uri: string) => void;
@@ -40,8 +41,8 @@ type Props = {
 };
 
 /**
- * Front camera under the rider avatar. The live hole is the same ellipse bbox used on the
- * home screen; capture crops that exact rect so framing matches AvatarFaceEllipse.
+ * Front camera under the rider avatar. Camera is hole-centered; capture keeps the center
+ * fraction shown through the hole so the home avatar matches framing (no screen→photo map).
  */
 export function AvatarFaceCameraModal({
   visible,
@@ -60,7 +61,7 @@ export function AvatarFaceCameraModal({
 
   const guide = computeCaptureGuide(width, height, layout);
   const { cx, cy, rx, ry, badgeSize, badgeLeft, badgeTop, left, top, ew, eh } = guide;
-  const cam = computeCaptureCameraLayout(width, height, { cx, cy });
+  const cam = computeCaptureCameraLayout({ cx, cy, ew, eh });
 
   React.useEffect(() => {
     if (!visible) return;
@@ -89,8 +90,8 @@ export function AvatarFaceCameraModal({
       try {
         const actions: ImageManipulator.Action[] = [];
         if (iw > 0 && ih > 0) {
-          // Same hole rect AvatarFaceEllipse uses (screen-space guide → photo via cam layout).
-          const crop = captureHoleImageCrop(cam, iw, ih, { left, top, ew, eh });
+          // Photo matches the CameraView; hole is the center CAPTURE_PREVIEW_SCALE fraction.
+          const crop = captureCenterHoleCrop(iw, ih, CAPTURE_PREVIEW_SCALE);
           actions.push({
             crop: {
               originX: crop.originX,
@@ -119,7 +120,7 @@ export function AvatarFaceCameraModal({
     } finally {
       setBusy(false);
     }
-  }, [busy, cam, eh, ew, left, onCapture, onClose, ready, top]);
+  }, [busy, onCapture, onClose, ready]);
 
   return (
     <Modal visible={visible} animationType="slide" onRequestClose={onClose}>
@@ -128,28 +129,36 @@ export function AvatarFaceCameraModal({
         {permission?.granted ? (
           <>
             {/*
-              Real layout zoom-out (no CSS transform): CameraView size matches the FOV
-              that takePictureAsync uses, centered on the face hole.
+              Clip to the face-hole box; CameraView is larger (zoom-out) and centered so the
+              hole shows the center fraction — that same center fraction is what we save.
             */}
-            <CameraView
-              ref={cameraRef}
+            <View
               style={{
                 position: 'absolute',
-                left: cam.camLeft,
-                top: cam.camTop,
-                width: cam.camWidth,
-                height: cam.camHeight,
+                left,
+                top,
+                width: ew,
+                height: eh,
+                overflow: 'hidden',
               }}
-              facing="front"
-              mirror
-              mode="picture"
-              onCameraReady={() => setReady(true)}
-            />
+            >
+              <CameraView
+                ref={cameraRef}
+                style={{
+                  position: 'absolute',
+                  left: cam.camLeft - left,
+                  top: cam.camTop - top,
+                  width: cam.camWidth,
+                  height: cam.camHeight,
+                }}
+                facing="front"
+                mirror
+                mode="picture"
+                onCameraReady={() => setReady(true)}
+              />
+            </View>
 
-            {/*
-              Dim everything except the home-avatar face ellipse so the aiming region is
-              exactly the area AvatarFaceEllipse will show.
-            */}
+            {/* Dim everything except the home-avatar face ellipse */}
             <Svg
               width={width}
               height={height}
@@ -165,7 +174,6 @@ export function AvatarFaceCameraModal({
               <Rect width={width} height={height} fill={MODAL_SCREEN_BG} mask={`url(#${maskDomId})`} />
             </Svg>
 
-            {/* Leathers over the top — transparent hole reveals the ellipse-clipped camera. */}
             <View
               pointerEvents="none"
               style={{
