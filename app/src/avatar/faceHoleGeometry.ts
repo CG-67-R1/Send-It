@@ -16,16 +16,15 @@ export const FACE_HOLE_EXTRA_WIDTH_RIGHT_PX = 0;
 export const FACE_HOLE_EXTRA_HEIGHT_TOP_PX = 0;
 
 /**
- * Zoom of face photo inside the hole (pivot: top-center).
+ * Zoom of face photo inside the hole (pivot: hole center).
  * 1.0 = fill the entire ellipse bounding box; < 1 shrinks the photo inside the hole.
- * Was 0.66 which made faces appear very small — corrected to 1.0.
  */
 export const FACE_IN_HOLE_SCALE = 1.0;
 
 /**
- * Live preview zoom-out around the face hole (CSS transform on CameraView).
- * 1 = face fills most of the frame; ~0.42 fits an arm's-length head in the hole.
- * Capture maps the hole back through this scale into the untransformed preview/photo.
+ * Preview zoom-out so an arm's-length face fits the hole.
+ * Implemented as a real CameraView layout size (screen × scale), not a CSS transform —
+ * takePictureAsync matches the view layout, not post-layout transforms.
  */
 export const CAPTURE_PREVIEW_SCALE = 0.42;
 
@@ -39,6 +38,13 @@ export type FaceHoleGeometry = {
   rx: number;
   ry: number;
   faceScale: number;
+};
+
+export type CaptureCameraLayout = {
+  camLeft: number;
+  camTop: number;
+  camWidth: number;
+  camHeight: number;
 };
 
 /** Ellipse + face-photo placement inside a square badge of `badgeSize`. */
@@ -70,11 +76,9 @@ export function computeCaptureGuide(
   layout: FaceHoleLayout
 ): FaceHoleGeometry & { badgeSize: number; badgeLeft: number; badgeTop: number } {
   const pad = 24;
-  // Prefer a large on-screen badge so the hole is easy to aim at (no 360px cap).
   const maxBadge = Math.min(screenW - pad * 2, screenH * 0.62);
   const badgeSize = Math.max(240, Math.floor(maxBadge));
   const badgeLeft = (screenW - badgeSize) / 2;
-  // Bias badge upward so hole is in upper-mid frame (like the home hero)
   const badgeTop = Math.max(pad + 48, screenH * 0.16 - badgeSize * 0.08);
   const hole = computeFaceHole(badgeSize, layout);
   return {
@@ -86,6 +90,29 @@ export function computeCaptureGuide(
     badgeSize,
     badgeLeft,
     badgeTop,
+  };
+}
+
+/**
+ * CameraView layout whose cover-fit FOV through the face hole matches the old
+ * full-screen + CSS `scale(CAPTURE_PREVIEW_SCALE)` preview, without using CSS transforms.
+ *
+ * FOV through hole ≈ holeWidth / (screenW * scale) — same as inverse-scaled full-screen preview.
+ */
+export function computeCaptureCameraLayout(
+  screenW: number,
+  screenH: number,
+  hole: Pick<FaceHoleGeometry, 'cx' | 'cy'>,
+  previewScale: number = CAPTURE_PREVIEW_SCALE
+): CaptureCameraLayout {
+  const scale = Math.max(0.05, Math.min(1, previewScale));
+  const camWidth = screenW * scale;
+  const camHeight = screenH * scale;
+  return {
+    camWidth,
+    camHeight,
+    camLeft: hole.cx - camWidth / 2,
+    camTop: hole.cy - camHeight / 2,
   };
 }
 
@@ -110,25 +137,24 @@ export function mapCoverPointToImage(
 }
 
 /**
- * Exact face-hole rectangle in image pixels (same aspect as the home avatar hole).
- * `previewScale` undoes the live CSS zoom-out around the hole center; the photo itself
- * matches the untransformed full-screen CameraView (cover-fit).
+ * Crop the exact home-avatar face-hole rectangle from a photo taken with `cam` layout.
+ * Output aspect matches the hole used by AvatarFaceEllipse.
  */
 export function captureHoleImageCrop(
-  screenW: number,
-  screenH: number,
+  cam: CaptureCameraLayout,
   imageW: number,
   imageH: number,
-  hole: Pick<FaceHoleGeometry, 'left' | 'top' | 'ew' | 'eh' | 'cx' | 'cy'>,
-  previewScale: number = CAPTURE_PREVIEW_SCALE
+  hole: Pick<FaceHoleGeometry, 'left' | 'top' | 'ew' | 'eh'>
 ): { originX: number; originY: number; width: number; height: number } {
-  const scale = Math.max(0.05, previewScale);
-  const mapScreen = (sx: number, sy: number) => {
-    // Inverse of scale around hole center → point in untransformed CameraView layout.
-    const viewX = hole.cx + (sx - hole.cx) / scale;
-    const viewY = hole.cy + (sy - hole.cy) / scale;
-    return mapCoverPointToImage(viewX, viewY, screenW, screenH, imageW, imageH);
-  };
+  const mapScreen = (sx: number, sy: number) =>
+    mapCoverPointToImage(
+      sx - cam.camLeft,
+      sy - cam.camTop,
+      cam.camWidth,
+      cam.camHeight,
+      imageW,
+      imageH
+    );
 
   const tl = mapScreen(hole.left, hole.top);
   const br = mapScreen(hole.left + hole.ew, hole.top + hole.eh);
@@ -142,15 +168,12 @@ export function captureHoleImageCrop(
   x1 = Math.max(0, Math.min(imageW, x1));
   y1 = Math.max(0, Math.min(imageH, y1));
 
-  const width = Math.max(1, Math.floor(x1 - x0));
-  const height = Math.max(1, Math.floor(y1 - y0));
+  const originX = Math.floor(x0);
+  const originY = Math.floor(y0);
+  const width = Math.max(1, Math.min(Math.floor(x1 - x0), imageW - originX));
+  const height = Math.max(1, Math.min(Math.floor(y1 - y0), imageH - originY));
 
-  return {
-    originX: Math.floor(x0),
-    originY: Math.floor(y0),
-    width: Math.min(width, imageW - Math.floor(x0)),
-    height: Math.min(height, imageH - Math.floor(y0)),
-  };
+  return { originX, originY, width, height };
 }
 
 /** SVG transform string scaling the face photo around the hole center. */

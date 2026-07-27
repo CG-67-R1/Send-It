@@ -15,10 +15,10 @@ import { CameraView, useCameraPermissions } from 'expo-camera';
 import * as ImageManipulator from 'expo-image-manipulator';
 import { StatusBar } from 'expo-status-bar';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
-import Svg, { Defs, Mask, Rect } from 'react-native-svg';
+import Svg, { Defs, Ellipse, Mask, Rect } from 'react-native-svg';
 import {
-  CAPTURE_PREVIEW_SCALE,
   captureHoleImageCrop,
+  computeCaptureCameraLayout,
   computeCaptureGuide,
 } from '../avatar/faceHoleGeometry';
 import { DEFAULT_FACE_HOLE_LAYOUT, type FaceHoleLayout } from '../avatar/presets';
@@ -30,7 +30,7 @@ type Props = {
   visible: boolean;
   onClose: () => void;
   /**
-   * Called with a JPEG URI cropped to the avatar face hole and un-mirrored,
+   * Called with a JPEG URI cropped to the home-avatar face hole and un-mirrored,
    * ready for AvatarFaceEllipse — callers should not open Align after camera capture.
    */
   onCapture: (uri: string) => void;
@@ -40,8 +40,8 @@ type Props = {
 };
 
 /**
- * Front camera under the rider avatar — aim with the real face hole (no guide dots).
- * Preview is zoomed out for framing; capture crops that same hole for the home avatar.
+ * Front camera under the rider avatar. The live hole is the same ellipse bbox used on the
+ * home screen; capture crops that exact rect so framing matches AvatarFaceEllipse.
  */
 export function AvatarFaceCameraModal({
   visible,
@@ -59,7 +59,8 @@ export function AvatarFaceCameraModal({
   const maskDomId = useId().replace(/:/g, '');
 
   const guide = computeCaptureGuide(width, height, layout);
-  const { cx, cy, badgeSize, badgeLeft, badgeTop, left, top, ew, eh } = guide;
+  const { cx, cy, rx, ry, badgeSize, badgeLeft, badgeTop, left, top, ew, eh } = guide;
+  const cam = computeCaptureCameraLayout(width, height, { cx, cy });
 
   React.useEffect(() => {
     if (!visible) return;
@@ -73,7 +74,6 @@ export function AvatarFaceCameraModal({
     if (!cameraRef.current || !ready || busy) return;
     setBusy(true);
     try {
-      // Process so front-camera `mirror` is baked into pixels (needed on Android).
       const photo = await cameraRef.current.takePictureAsync({
         quality: 0.92,
       });
@@ -89,15 +89,8 @@ export function AvatarFaceCameraModal({
       try {
         const actions: ImageManipulator.Action[] = [];
         if (iw > 0 && ih > 0) {
-          // Map the on-screen hole through preview zoom-out → photo (exact hole aspect).
-          const crop = captureHoleImageCrop(
-            width,
-            height,
-            iw,
-            ih,
-            { left, top, ew, eh, cx, cy },
-            CAPTURE_PREVIEW_SCALE
-          );
+          // Same hole rect AvatarFaceEllipse uses (screen-space guide → photo via cam layout).
+          const crop = captureHoleImageCrop(cam, iw, ih, { left, top, ew, eh });
           actions.push({
             crop: {
               originX: crop.originX,
@@ -126,7 +119,7 @@ export function AvatarFaceCameraModal({
     } finally {
       setBusy(false);
     }
-  }, [busy, cx, cy, eh, ew, height, left, onCapture, onClose, ready, top, width]);
+  }, [busy, cam, eh, ew, left, onCapture, onClose, ready, top]);
 
   return (
     <Modal visible={visible} animationType="slide" onRequestClose={onClose}>
@@ -134,25 +127,29 @@ export function AvatarFaceCameraModal({
       <View style={styles.root}>
         {permission?.granted ? (
           <>
-            {/* Full-screen camera, zoomed out around the hole for comfortable face size. */}
-            <View style={[StyleSheet.absoluteFill, styles.cameraClip]}>
-              <CameraView
-                ref={cameraRef}
-                style={[
-                  StyleSheet.absoluteFillObject,
-                  {
-                    transformOrigin: [cx, cy],
-                    transform: [{ scale: CAPTURE_PREVIEW_SCALE }],
-                  },
-                ]}
-                facing="front"
-                mirror
-                mode="picture"
-                onCameraReady={() => setReady(true)}
-              />
-            </View>
+            {/*
+              Real layout zoom-out (no CSS transform): CameraView size matches the FOV
+              that takePictureAsync uses, centered on the face hole.
+            */}
+            <CameraView
+              ref={cameraRef}
+              style={{
+                position: 'absolute',
+                left: cam.camLeft,
+                top: cam.camTop,
+                width: cam.camWidth,
+                height: cam.camHeight,
+              }}
+              facing="front"
+              mirror
+              mode="picture"
+              onCameraReady={() => setReady(true)}
+            />
 
-            {/* Dim outside the rider badge */}
+            {/*
+              Dim everything except the home-avatar face ellipse so the aiming region is
+              exactly the area AvatarFaceEllipse will show.
+            */}
             <Svg
               width={width}
               height={height}
@@ -162,19 +159,13 @@ export function AvatarFaceCameraModal({
               <Defs>
                 <Mask id={maskDomId}>
                   <Rect width={width} height={height} fill="#ffffff" />
-                  <Rect
-                    x={badgeLeft}
-                    y={badgeTop}
-                    width={badgeSize}
-                    height={badgeSize}
-                    fill="#000000"
-                  />
+                  <Ellipse cx={cx} cy={cy} rx={rx} ry={ry} fill="#000000" />
                 </Mask>
               </Defs>
               <Rect width={width} height={height} fill={MODAL_SCREEN_BG} mask={`url(#${maskDomId})`} />
             </Svg>
 
-            {/* Real leathers — camera shows through the transparent face hole (the only guide). */}
+            {/* Leathers over the top — transparent hole reveals the ellipse-clipped camera. */}
             <View
               pointerEvents="none"
               style={{
@@ -236,9 +227,6 @@ const styles = StyleSheet.create({
   root: {
     flex: 1,
     backgroundColor: MODAL_SCREEN_BG,
-  },
-  cameraClip: {
-    overflow: 'hidden',
   },
   overlaySvg: {
     zIndex: 1,
