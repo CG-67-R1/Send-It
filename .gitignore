@@ -17,6 +17,8 @@ app/.vercel/
 # IDE / editor
 .cursor/*
 !.cursor/mcp.json
+!.cursor/rules/
+!.cursor/rules/**
 
 # OS
 .DS_Store

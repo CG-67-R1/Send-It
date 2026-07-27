@@ -1,0 +1,31 @@
+---
+description: Avatar face-hole photo capture/display invariants — read before changing avatar art or face camera/crop
+globs: app/src/avatar/**/*,app/src/components/AvatarFace*.tsx,app/src/storage/avatarFacePhoto.ts,app/avatar/**/*,app/src/screens/OnboardingScreen.tsx,app/src/screens/HeadlinesSettingsScreen.tsx,app/src/screens/HeadlinesScreen.tsx
+alwaysApply: false
+---
+
+# Avatar face photo (capture ↔ home)
+
+Full write-up: `app/src/avatar/FACE_PHOTO.md`
+
+## Invariant
+
+**What is visible through the face hole at capture must be what fills the hole on the home avatar** (optional un-mirror after crop is OK; framing must not change).
+
+## Do
+
+- Keep the CameraView **hole-centered** and sized from the hole (`hole / CAPTURE_PREVIEW_SCALE`).
+- Save the **center fraction** of that photo (`captureCenterHoleCrop`) — same region shown through the hole.
+- Keep face-hole layout in **artwork space** (1024×1536); map with `contain` via `computeFaceHole` (same as `<Image resizeMode="contain" />`).
+- Skip Align modal after **camera** capture; Align is for **library** picks only.
+- Process the capture (do **not** use `skipProcessing` on Android) so front-camera `mirror` is baked in before crop/flip.
+
+## Do not
+
+- Reintroduce screen→photo **cover-fit mapping** (CSS scale / full-screen projection). It caused wrong home framing (partial face, offset head).
+- Apply hole `%` as if the badge were filled edge-to-edge without `contain` letterboxing.
+- Change leathers PNG size/aspect or hole cut-out without **re-measuring** art-space hole fractions and updating `DEFAULT_FACE_HOLE_LAYOUT`.
+
+## Manual check after changes
+
+Take photo with full face in hole → home avatar shows the same full face (not a zoomed corner / offset crop).
