@@ -43,6 +43,7 @@ type Props = {
 /**
  * Front camera under the rider avatar. Camera is hole-centered; capture keeps the center
  * fraction shown through the hole so the home avatar matches framing (no screen→photo map).
+ * See `../avatar/FACE_PHOTO.md` before changing crop, mirror, or camera layout.
  */
 export function AvatarFaceCameraModal({
   visible,

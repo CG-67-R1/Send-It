@@ -53,6 +53,7 @@ cd ../app && npx tsc --noEmit
 
 ## Key docs
 
+- `app/src/avatar/FACE_PHOTO.md` — **avatar face-hole capture ↔ home display invariants** (read before changing leathers art, hole math, or take-photo camera)
 - `README.md` — quick start and features
 - `ENVIRONMENT.md` — GitHub, Render, and Vercel URLs, branch policy, health checks
 - `docs/hermes/CRON_SETUP.md` — Hermes RR app expert cron setup

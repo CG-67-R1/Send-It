@@ -146,7 +146,8 @@ export type FaceHoleLayout = {
  * face-hole PNGs (1024×1536). Values are fractions of the artwork, then placed with
  * `contain` in the square badge (same as the Image).
  *
- * Prior badge-space constants (0.37/0.17/0.25/0.23) sat too low and short vs the PNG hole.
+ * Re-measure and update if PNG size/aspect or the transparent cut-out changes.
+ * See `./FACE_PHOTO.md` for capture ↔ home invariants.
  */
 export const DEFAULT_FACE_HOLE_LAYOUT: FaceHoleLayout = {
   leftPct: 0.294,

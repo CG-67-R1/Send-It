@@ -1,3 +1,7 @@
+/**
+ * Face-hole geometry + capture crop helpers.
+ * Invariants / regression notes: ./FACE_PHOTO.md
+ */
 import { HERO_AVATAR_BADGE_BASE_SIZE } from './heroBadgeSizing';
 import { AVATAR_ART_HEIGHT, AVATAR_ART_WIDTH, type FaceHoleLayout } from './presets';
 
