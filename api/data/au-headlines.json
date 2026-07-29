@@ -1,5 +1,5 @@
 {
-  "updatedAt": "2026-07-28T21:03:20.589Z",
+  "updatedAt": "2026-07-29T02:06:45.632Z",
   "sourceIds": [
     "ma_roadrace",
     "mcnews",
@@ -170,24 +170,8 @@
       "imageUrl": null
     },
     {
-      "title": "Norton Atlas Review | New adventure twin tested in Iceland",
-      "url": "https://www.mcnews.com.au/norton-atlas-review/",
-      "source": "MCNews (AU)",
-      "sourceId": "mcnews",
-      "date": null,
-      "imageUrl": null
-    },
-    {
       "title": "Stark VARG MX and EX Factory Editions score full KYB A-Kit suspension",
       "url": "https://www.mcnews.com.au/stark-varg-mx-and-ex-factory-editions-score-full-kyb-a-kit-suspension/",
-      "source": "MCNews (AU)",
-      "sourceId": "mcnews",
-      "date": null,
-      "imageUrl": null
-    },
-    {
-      "title": "2026 Honda Africa Twin range lands in Australia from $22,999",
-      "url": "https://www.mcnews.com.au/2026-honda-africa-twin-range-australia/",
       "source": "MCNews (AU)",
       "sourceId": "mcnews",
       "date": null,
@@ -202,8 +186,8 @@
       "imageUrl": null
     },
     {
-      "title": "Fabio Quartararo signs with Honda for 2027 MotoGP reset",
-      "url": "https://www.mcnews.com.au/fabio-quartararo-honda-motogp-2027/",
+      "title": "Moto Guzzi to open new Mandello factory and museum at World Days 2026",
+      "url": "https://www.mcnews.com.au/moto-guzzi-world-days-2026-factory-museum/",
       "source": "MCNews (AU)",
       "sourceId": "mcnews",
       "date": null,
@@ -212,6 +196,22 @@
     {
       "title": "Yamaha XSR900 GP Review | The retro Yamaha that stole the show at Yamafest",
       "url": "https://www.mcnews.com.au/yamaha-xsr900-gp-review-2026/",
+      "source": "MCNews (AU)",
+      "sourceId": "mcnews",
+      "date": null,
+      "imageUrl": null
+    },
+    {
+      "title": "Akrapovič launch new titanium lightweight adventure footpegs",
+      "url": "https://www.mcnews.com.au/akrapovic-titanium-adventure-footpegs-australia/",
+      "source": "MCNews (AU)",
+      "sourceId": "mcnews",
+      "date": null,
+      "imageUrl": null
+    },
+    {
+      "title": "Stewart goes two-in-a-Row in Arlington; Cianciarulo wins 250",
+      "url": "https://www.mcnews.com.au/2014_ama_sx_arlington_reports_results/",
       "source": "MCNews (AU)",
       "sourceId": "mcnews",
       "date": null,
