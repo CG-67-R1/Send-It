@@ -1,5 +1,5 @@
 {
-  "updatedAt": "2026-07-29T02:06:45.632Z",
+  "updatedAt": "2026-07-29T06:27:33.722Z",
   "sourceIds": [
     "ma_roadrace",
     "mcnews",
@@ -15,7 +15,7 @@
     "amcn_worldwcr",
     "amcn_endurance"
   ],
-  "count": 97,
+  "count": 87,
   "headlines": [
     {
       "title": "Vale Tom Williams",
@@ -136,86 +136,6 @@
       "sourceId": "ma_roadrace",
       "date": "2026-03-30",
       "imageUrl": "https://www.ma.org.au/wp-content/uploads/2026/03/2026-ASBK-Rnd2-SMP-RbMotoLens-RML_3718-R5-Race-Podium-SBK-Harry-Voight-Josh-Waters-Cru-Halliday-300x200.jpg"
-    },
-    {
-      "title": "Special 2017 CBR1000RR launch offer | $21,499 R/A",
-      "url": "https://www.mcnews.com.au/special-2017-cbr1000rr-launch-offer-21499-ra/",
-      "source": "MCNews (AU)",
-      "sourceId": "mcnews",
-      "date": null,
-      "imageUrl": null
-    },
-    {
-      "title": "Detailed blow by blow race report from AMA SX Rnd 16",
-      "url": "https://www.mcnews.com.au/detailed-blow-by-blow-race-report-from-ama-sx-rnd-16/",
-      "source": "MCNews (AU)",
-      "sourceId": "mcnews",
-      "date": null,
-      "imageUrl": null
-    },
-    {
-      "title": "Vespa celebrate 80 years with GTS 300 Anniversary Edition",
-      "url": "https://www.mcnews.com.au/vespa-celebrate-80-years-with-gts-300-anniversary-edition/",
-      "source": "MCNews (AU)",
-      "sourceId": "mcnews",
-      "date": null,
-      "imageUrl": null
-    },
-    {
-      "title": "QJMOTOR and VOGE to launch 16 motorcycles in Australia",
-      "url": "https://www.mcnews.com.au/qjmotor-voge-australia-2026-launch/",
-      "source": "MCNews (AU)",
-      "sourceId": "mcnews",
-      "date": null,
-      "imageUrl": null
-    },
-    {
-      "title": "Stark VARG MX and EX Factory Editions score full KYB A-Kit suspension",
-      "url": "https://www.mcnews.com.au/stark-varg-mx-and-ex-factory-editions-score-full-kyb-a-kit-suspension/",
-      "source": "MCNews (AU)",
-      "sourceId": "mcnews",
-      "date": null,
-      "imageUrl": null
-    },
-    {
-      "title": "Kulkyne Premium Biker Swag Review | A Tent Man Converted",
-      "url": "https://www.mcnews.com.au/kulkyne-premium-biker-swag-review-a-tent-man-converted/",
-      "source": "MCNews (AU)",
-      "sourceId": "mcnews",
-      "date": null,
-      "imageUrl": null
-    },
-    {
-      "title": "Moto Guzzi to open new Mandello factory and museum at World Days 2026",
-      "url": "https://www.mcnews.com.au/moto-guzzi-world-days-2026-factory-museum/",
-      "source": "MCNews (AU)",
-      "sourceId": "mcnews",
-      "date": null,
-      "imageUrl": null
-    },
-    {
-      "title": "Yamaha XSR900 GP Review | The retro Yamaha that stole the show at Yamafest",
-      "url": "https://www.mcnews.com.au/yamaha-xsr900-gp-review-2026/",
-      "source": "MCNews (AU)",
-      "sourceId": "mcnews",
-      "date": null,
-      "imageUrl": null
-    },
-    {
-      "title": "Akrapovič launch new titanium lightweight adventure footpegs",
-      "url": "https://www.mcnews.com.au/akrapovic-titanium-adventure-footpegs-australia/",
-      "source": "MCNews (AU)",
-      "sourceId": "mcnews",
-      "date": null,
-      "imageUrl": null
-    },
-    {
-      "title": "Stewart goes two-in-a-Row in Arlington; Cianciarulo wins 250",
-      "url": "https://www.mcnews.com.au/2014_ama_sx_arlington_reports_results/",
-      "source": "MCNews (AU)",
-      "sourceId": "mcnews",
-      "date": null,
-      "imageUrl": null
     },
     {
       "title": "2026 Cancer Council Cup The Mac Park Cancer Council Cup is back, where the local community wins with each and every lap",
