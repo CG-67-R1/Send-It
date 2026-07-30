@@ -1,5 +1,5 @@
 {
-  "updatedAt": "2026-07-30T17:22:27.806Z",
+  "updatedAt": "2026-07-30T21:08:59.477Z",
   "sourceIds": [
     "ma_roadrace",
     "mcnews",
@@ -154,14 +154,6 @@
       "imageUrl": null
     },
     {
-      "title": "Yamaha XSR900 GP Review | The retro Yamaha that stole the show at Yamafest",
-      "url": "https://www.mcnews.com.au/yamaha-xsr900-gp-review-2026/",
-      "source": "MCNews (AU)",
-      "sourceId": "mcnews",
-      "date": null,
-      "imageUrl": null
-    },
-    {
       "title": "Inside Sidi: Racing, manufacturing and motorcycle boots built to last",
       "url": "https://www.mcnews.com.au/inside-sidi-motorcycle-boot-development/",
       "source": "MCNews (AU)",
@@ -170,8 +162,8 @@
       "imageUrl": null
     },
     {
-      "title": "Stewart goes two-in-a-Row in Arlington; Cianciarulo wins 250",
-      "url": "https://www.mcnews.com.au/2014_ama_sx_arlington_reports_results/",
+      "title": "Yamaha XSR900 GP Review | The retro Yamaha that stole the show at Yamafest",
+      "url": "https://www.mcnews.com.au/yamaha-xsr900-gp-review-2026/",
       "source": "MCNews (AU)",
       "sourceId": "mcnews",
       "date": null,
@@ -180,6 +172,14 @@
     {
       "title": "2026 Kawasaki Z1100 Review | Better on the road than on paper",
       "url": "https://www.mcnews.com.au/kawasaki-z1100-se-abs-review-2026/",
+      "source": "MCNews (AU)",
+      "sourceId": "mcnews",
+      "date": null,
+      "imageUrl": null
+    },
+    {
+      "title": "Stewart goes two-in-a-Row in Arlington; Cianciarulo wins 250",
+      "url": "https://www.mcnews.com.au/2014_ama_sx_arlington_reports_results/",
       "source": "MCNews (AU)",
       "sourceId": "mcnews",
       "date": null,
