@@ -1,5 +1,5 @@
 {
-  "updatedAt": "2026-07-30T06:22:49.622Z",
+  "updatedAt": "2026-07-30T10:20:57.667Z",
   "sourceIds": [
     "ma_roadrace",
     "mcnews",
@@ -258,6 +258,14 @@
       "imageUrl": "https://amcn.com.au/data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMSIgaGVpZ2h0PSIxIiB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciPjwvc3ZnPg=="
     },
     {
+      "title": "GRID TALK | Miller's Ultimate Wingman A childhood promise brought them together in the MotoGP paddock. Today Thomas van Leeuwen is one of Jack Miller’s most trusted allies",
+      "url": "https://amcn.com.au/editorial/grid-talk-millers-ultimate-wingman/",
+      "source": "AMCN MotoGP",
+      "sourceId": "amcn_motogp",
+      "date": null,
+      "imageUrl": "https://amcn.com.au/data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMSIgaGVpZ2h0PSIxIiB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciPjwvc3ZnPg=="
+    },
+    {
       "title": "PETER BOM | It's all just MotoGP hot air Peter Bom tackles the big issues of racing exclusively for AMCN. This time he blows a fuse over winged wonders",
       "url": "https://amcn.com.au/editorial/peter-bom-its-all-just-motogp-hot-air/",
       "source": "AMCN MotoGP",
@@ -308,14 +316,6 @@
     {
       "title": "Agius falls agonisingly short at Assen Final chicane chaos leaves Agius 0.234s from Moto2 victory, as Kelso makes Moto3 gains with Honda",
       "url": "https://amcn.com.au/editorial/agius-falls-agonisingly-short-at-assen/",
-      "source": "AMCN MotoGP",
-      "sourceId": "amcn_motogp",
-      "date": null,
-      "imageUrl": "https://amcn.com.au/data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMSIgaGVpZ2h0PSIxIiB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciPjwvc3ZnPg=="
-    },
-    {
-      "title": "Ogura becomes the first Japanese MotoGP winner in 22 years Ai Ogura's Assen assault hands Trackhouse a 1-2 finish as Martin grabs title lead, while Jack Miller again scores points for Yamaha",
-      "url": "https://amcn.com.au/editorial/ogura-becomes-the-first-japanese-motogp-winner-in-22-years/",
       "source": "AMCN MotoGP",
       "sourceId": "amcn_motogp",
       "date": null,
