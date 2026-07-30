@@ -1,5 +1,5 @@
 {
-  "updatedAt": "2026-07-30T13:47:38.753Z",
+  "updatedAt": "2026-07-30T17:22:27.806Z",
   "sourceIds": [
     "ma_roadrace",
     "mcnews",
@@ -154,40 +154,8 @@
       "imageUrl": null
     },
     {
-      "title": "Moto Guzzi to open new Mandello factory and museum at World Days 2026",
-      "url": "https://www.mcnews.com.au/moto-guzzi-world-days-2026-factory-museum/",
-      "source": "MCNews (AU)",
-      "sourceId": "mcnews",
-      "date": null,
-      "imageUrl": null
-    },
-    {
       "title": "Yamaha XSR900 GP Review | The retro Yamaha that stole the show at Yamafest",
       "url": "https://www.mcnews.com.au/yamaha-xsr900-gp-review-2026/",
-      "source": "MCNews (AU)",
-      "sourceId": "mcnews",
-      "date": null,
-      "imageUrl": null
-    },
-    {
-      "title": "Akrapovič launch new titanium lightweight adventure footpegs",
-      "url": "https://www.mcnews.com.au/akrapovic-titanium-adventure-footpegs-australia/",
-      "source": "MCNews (AU)",
-      "sourceId": "mcnews",
-      "date": null,
-      "imageUrl": null
-    },
-    {
-      "title": "Stewart goes two-in-a-Row in Arlington; Cianciarulo wins 250",
-      "url": "https://www.mcnews.com.au/2014_ama_sx_arlington_reports_results/",
-      "source": "MCNews (AU)",
-      "sourceId": "mcnews",
-      "date": null,
-      "imageUrl": null
-    },
-    {
-      "title": "2026 Yamaha YZF-R7 Review | Electronics transform CP2 sportbike",
-      "url": "https://www.mcnews.com.au/2026-yamaha-yzf-r7-review/",
       "source": "MCNews (AU)",
       "sourceId": "mcnews",
       "date": null,
@@ -202,8 +170,24 @@
       "imageUrl": null
     },
     {
+      "title": "Stewart goes two-in-a-Row in Arlington; Cianciarulo wins 250",
+      "url": "https://www.mcnews.com.au/2014_ama_sx_arlington_reports_results/",
+      "source": "MCNews (AU)",
+      "sourceId": "mcnews",
+      "date": null,
+      "imageUrl": null
+    },
+    {
       "title": "2026 Kawasaki Z1100 Review | Better on the road than on paper",
       "url": "https://www.mcnews.com.au/kawasaki-z1100-se-abs-review-2026/",
+      "source": "MCNews (AU)",
+      "sourceId": "mcnews",
+      "date": null,
+      "imageUrl": null
+    },
+    {
+      "title": "Akrapovič launch new titanium lightweight adventure footpegs",
+      "url": "https://www.mcnews.com.au/akrapovic-titanium-adventure-footpegs-australia/",
       "source": "MCNews (AU)",
       "sourceId": "mcnews",
       "date": null,
@@ -216,6 +200,22 @@
       "sourceId": "mcnews",
       "date": null,
       "imageUrl": null
+    },
+    {
+      "title": "Motorcycle Industry News & Employment",
+      "url": "https://www.mcnews.com.au/motorcycle-news/motorcycle-industry-news-employment/",
+      "source": "MCNews (AU)",
+      "sourceId": "mcnews",
+      "date": null,
+      "imageUrl": "https://www.mcnews.com.au/wp-content/uploads/2026/07/QJMotor-SRK-800-RR-Action-750x451.jpg"
+    },
+    {
+      "title": "QJMOTOR Australia details warranty and local parts support",
+      "url": "https://www.mcnews.com.au/qjmotor-australia-three-year-warranty-aftersales/",
+      "source": "MCNews (AU)",
+      "sourceId": "mcnews",
+      "date": null,
+      "imageUrl": "https://www.mcnews.com.au/wp-content/uploads/2026/07/QJMotor-SRK-800-RR-Action-750x451.jpg"
     },
     {
       "title": "2026 Cancer Council Cup The Mac Park Cancer Council Cup is back, where the local community wins with each and every lap",
