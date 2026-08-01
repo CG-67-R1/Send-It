@@ -1,5 +1,5 @@
 {
-  "updatedAt": "2026-08-01T06:24:24.117Z",
+  "updatedAt": "2026-08-01T09:53:57.406Z",
   "sourceIds": [
     "ma_roadrace",
     "mcnews",
@@ -15,7 +15,7 @@
     "amcn_worldwcr",
     "amcn_endurance"
   ],
-  "count": 87,
+  "count": 97,
   "headlines": [
     {
       "title": "Vale Tom Williams",
@@ -712,6 +712,86 @@
       "sourceId": "amcn_endurance",
       "date": null,
       "imageUrl": "https://amcn.com.au/data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMSIgaGVpZ2h0PSIxIiB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciPjwvc3ZnPg=="
+    },
+    {
+      "title": "Vale Tom Williams",
+      "url": "https://www.asbk.com.au/news/vale-tom-williams/",
+      "source": "ASBK",
+      "sourceId": "asbk",
+      "date": null,
+      "imageUrl": "https://www.asbk.com.au/wp-content/uploads/2026/07/2025-ASBK-Rnd5-QLD-Raceway-RbMotoLens-RML_8994-webres1-512x512.jpg"
+    },
+    {
+      "title": "Cameron wraps up 2026 OJC in rollercoaster season finale",
+      "url": "https://www.asbk.com.au/news/cameron-wraps-up-2026-ojc-in-rollercoaster-season-finale/",
+      "source": "ASBK",
+      "sourceId": "asbk",
+      "date": null,
+      "imageUrl": "https://www.asbk.com.au/wp-content/uploads/2026/06/Thomas-Cameron-2026-OJC-champion-512x512.jpg"
+    },
+    {
+      "title": "2026 ASBK celebrations for Edwards, Farnsworth, King and Lewis",
+      "url": "https://www.asbk.com.au/news/asbk-celebrations-for-edwards-farnsworth-king-and-lewis-at-queensland-raceway/",
+      "source": "ASBK",
+      "sourceId": "asbk",
+      "date": null,
+      "imageUrl": "https://www.asbk.com.au/wp-content/uploads/2026/06/2026-ASBK-Rnd5-QLD-Raceway-RbMotoLens-RML_1882-web-res--512x512.jpg"
+    },
+    {
+      "title": "Voight clinches 2026 ASBK Championship in style at QR",
+      "url": "https://www.asbk.com.au/news/voight-clinches-2026-asbk-championship-in-style-at-queensland-raceway/",
+      "source": "ASBK",
+      "sourceId": "asbk",
+      "date": null,
+      "imageUrl": "https://www.asbk.com.au/wp-content/uploads/2026/06/2026-ASBK-Rnd5-QLD-Raceway-RbMotoLens-RML_4332--512x512.jpg"
+    },
+    {
+      "title": "Halliday storms to Superbike pole position at Queensland Raceway",
+      "url": "https://www.asbk.com.au/news/halliday-storms-to-superbike-pole-position-at-queensland-raceway/",
+      "source": "ASBK",
+      "sourceId": "asbk",
+      "date": null,
+      "imageUrl": "https://www.asbk.com.au/wp-content/uploads/2026/06/2026-ASBK-Rnd5-QLD-Raceway-RbMotoLens-RML_9711-FP4-SBK-Cru-Halliday-512x512.jpg"
+    },
+    {
+      "title": "Halliday comes out swinging as ASBK finale kicks off at QR",
+      "url": "https://www.asbk.com.au/news/halliday-comes-out-swinging-as-asbk-finale-kicks-off-at-queensland-raceway/",
+      "source": "ASBK",
+      "sourceId": "asbk",
+      "date": null,
+      "imageUrl": "https://www.asbk.com.au/wp-content/uploads/2026/06/7cd00c22-2625-7bc6-1a42-754831adff5d-512x512.jpg"
+    },
+    {
+      "title": "Youth versus experience as ASBK reaches thrilling Queensland finale",
+      "url": "https://www.asbk.com.au/news/youth-versus-experience-as-asbk-reaches-thrilling-queensland-finale/",
+      "source": "ASBK",
+      "sourceId": "asbk",
+      "date": null,
+      "imageUrl": "https://www.asbk.com.au/wp-content/uploads/2026/06/2025-ASBK-Rnd4-Morgan-Park-RbMotoLens-RML_0082-Q1-SBK-Harry-Voight-512x512.jpg"
+    },
+    {
+      "title": "Australian WorldSBK round moving to The Bend from 2028",
+      "url": "https://www.asbk.com.au/news/australian-worldsbk-round-moving-to-the-bend-from-2028/",
+      "source": "ASBK",
+      "sourceId": "asbk",
+      "date": null,
+      "imageUrl": "https://www.asbk.com.au/wp-content/uploads/2026/06/2026-ASBK-Rnd3-TheBend-RbMotoLens-RML_4025--512x512.jpg"
+    },
+    {
+      "title": "Win the Ultimate ASBK Pillion Ride Experience!",
+      "url": "https://www.asbk.com.au/news/win-pillionride-2026qr/",
+      "source": "ASBK",
+      "sourceId": "asbk",
+      "date": null,
+      "imageUrl": "https://www.asbk.com.au/wp-content/uploads/2024/08/Pillion-1-e1781229749270-512x512.jpg"
+    },
+    {
+      "title": "Waters to compete in Race of Champions at World Ducati Week 2026",
+      "url": "https://www.asbk.com.au/news/waters-to-compete-in-race-of-champions-at-world-ducati-week-2026/",
+      "source": "ASBK",
+      "sourceId": "asbk",
+      "date": null,
+      "imageUrl": "https://www.asbk.com.au/wp-content/uploads/2026/06/McMartin_Gall1_1-Credit-Rob-Mott-920x1080-1-512x512.jpg"
     }
   ]
 }
