@@ -1,5 +1,5 @@
 {
-  "updatedAt": "2026-08-01T09:53:57.406Z",
+  "updatedAt": "2026-08-01T13:07:43.563Z",
   "sourceIds": [
     "ma_roadrace",
     "mcnews",
@@ -162,14 +162,6 @@
       "imageUrl": null
     },
     {
-      "title": "2026 Kawasaki Z1100 Review | Better on the road than on paper",
-      "url": "https://www.mcnews.com.au/kawasaki-z1100-se-abs-review-2026/",
-      "source": "MCNews (AU)",
-      "sourceId": "mcnews",
-      "date": null,
-      "imageUrl": null
-    },
-    {
       "title": "Yamaha XSR900 GP Review | The retro Yamaha that stole the show at Yamafest",
       "url": "https://www.mcnews.com.au/yamaha-xsr900-gp-review-2026/",
       "source": "MCNews (AU)",
@@ -178,8 +170,8 @@
       "imageUrl": null
     },
     {
-      "title": "2026 Yamaha YZF-R7 Review | Electronics transform CP2 sportbike",
-      "url": "https://www.mcnews.com.au/2026-yamaha-yzf-r7-review/",
+      "title": "2026 Kawasaki Z1100 Review | Better on the road than on paper",
+      "url": "https://www.mcnews.com.au/kawasaki-z1100-se-abs-review-2026/",
       "source": "MCNews (AU)",
       "sourceId": "mcnews",
       "date": null,
@@ -216,6 +208,14 @@
       "sourceId": "mcnews",
       "date": null,
       "imageUrl": "https://www.mcnews.com.au/wp-content/uploads/2026/07/2026-TeamMoto-Aug-1920x1080-1-750x422.jpg"
+    },
+    {
+      "title": "FIVE GT1 EVO GTX brings serious protection to all-weather touring",
+      "url": "https://www.mcnews.com.au/five-gt1-evo-gtx-motorcycle-gloves/",
+      "source": "MCNews (AU)",
+      "sourceId": "mcnews",
+      "date": null,
+      "imageUrl": "https://www.mcnews.com.au/wp-content/uploads/2026/07/2026-Moto-National-Five-Gloves-GT1-EVO-GTX-Black-3-750x474.jpg"
     },
     {
       "title": "2026 Cancer Council Cup The Mac Park Cancer Council Cup is back, where the local community wins with each and every lap",
