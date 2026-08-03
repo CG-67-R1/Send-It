@@ -1,5 +1,5 @@
 {
-  "updatedAt": "2026-08-02T20:48:10.602Z",
+  "updatedAt": "2026-08-03T02:21:59.978Z",
   "sourceIds": [
     "ma_roadrace",
     "mcnews",
@@ -146,14 +146,6 @@
       "imageUrl": null
     },
     {
-      "title": "2026 Yamaha YZF-R7 Review | Electronics transform CP2 sportbike",
-      "url": "https://www.mcnews.com.au/2026-yamaha-yzf-r7-review/",
-      "source": "MCNews (AU)",
-      "sourceId": "mcnews",
-      "date": null,
-      "imageUrl": null
-    },
-    {
       "title": "€2.5bn Ducati proposal: PATRITALIA puts its documents on the record",
       "url": "https://www.mcnews.com.au/patritalia-ducati-2-5-billion-bid-documents/",
       "source": "MCNews (AU)",
@@ -162,8 +154,8 @@
       "imageUrl": null
     },
     {
-      "title": "Allerton’s WSBK debut",
-      "url": "https://www.mcnews.com.au/allertons-wsbk-debut/",
+      "title": "2026 Yamaha YZF-R7 Review | Electronics transform CP2 sportbike",
+      "url": "https://www.mcnews.com.au/2026-yamaha-yzf-r7-review/",
       "source": "MCNews (AU)",
       "sourceId": "mcnews",
       "date": null,
@@ -178,44 +170,52 @@
       "imageUrl": null
     },
     {
+      "title": "Stewart goes two-in-a-Row in Arlington; Cianciarulo wins 250",
+      "url": "https://www.mcnews.com.au/2014_ama_sx_arlington_reports_results/",
+      "source": "MCNews (AU)",
+      "sourceId": "mcnews",
+      "date": null,
+      "imageUrl": null
+    },
+    {
+      "title": "American Road Racing",
+      "url": "https://www.mcnews.com.au/motorcycle-news/motorcycle-racing/american-road-racing/",
+      "source": "MCNews (AU)",
+      "sourceId": "mcnews",
+      "date": null,
+      "imageUrl": null
+    },
+    {
+      "title": "Paige and Vossberg split MotoAmerica Twins Cup wins at Mid-Ohio",
+      "url": "https://www.mcnews.com.au/paige-and-vossberg-split-motoamerica-twins-cup-wins-at-mid-ohio/",
+      "source": "MCNews (AU)",
+      "sourceId": "mcnews",
+      "date": null,
+      "imageUrl": null
+    },
+    {
+      "title": "Herlings and McLellan sweep Lommel | 2026 MXGP of Flanders Full Coverage",
+      "url": "https://www.mcnews.com.au/2026-mxgp-flanders-lommel-results/",
+      "source": "MCNews (AU)",
+      "sourceId": "mcnews",
+      "date": null,
+      "imageUrl": null
+    },
+    {
+      "title": "Oulton Park BSB: Ryde doubles as Bayliss makes it five straight",
+      "url": "https://www.mcnews.com.au/oulton-park-bsb-2026-results-ryde-bayliss/",
+      "source": "MCNews (AU)",
+      "sourceId": "mcnews",
+      "date": null,
+      "imageUrl": null
+    },
+    {
       "title": "Lettenbichler makes history as Kerswell leads Aussie charge at Romaniacs",
       "url": "https://www.mcnews.com.au/2026-red-bull-romaniacs-results-lettenbichler/",
       "source": "MCNews (AU)",
       "sourceId": "mcnews",
       "date": null,
-      "imageUrl": null
-    },
-    {
-      "title": "Brady Kurtz takes Speedway GP lead as Lambert wins in Lodz",
-      "url": "https://www.mcnews.com.au/brady-kurtz-speedway-gp-lead-lambert-lodz-2026/",
-      "source": "MCNews (AU)",
-      "sourceId": "mcnews",
-      "date": null,
-      "imageUrl": null
-    },
-    {
-      "title": "TT Sidecars have a path back – but the old formula cannot return",
-      "url": "https://www.mcnews.com.au/tt-sidecar-sustainability-review-2027-return/",
-      "source": "MCNews (AU)",
-      "sourceId": "mcnews",
-      "date": null,
-      "imageUrl": "https://www.mcnews.com.au/wp-content/uploads/2026/05/2026-IOMTT-QP-Wed-Sidecar-Crowe-Creg-750x422.jpg"
-    },
-    {
-      "title": "TeamMoto extends $500 Trade-Up Bonus through August",
-      "url": "https://www.mcnews.com.au/teammoto-500-trade-up-bonus-august-2026/",
-      "source": "MCNews (AU)",
-      "sourceId": "mcnews",
-      "date": null,
-      "imageUrl": null
-    },
-    {
-      "title": "FIVE GT1 EVO GTX brings serious protection to all-weather touring",
-      "url": "https://www.mcnews.com.au/five-gt1-evo-gtx-motorcycle-gloves/",
-      "source": "MCNews (AU)",
-      "sourceId": "mcnews",
-      "date": null,
-      "imageUrl": "https://www.mcnews.com.au/wp-content/uploads/2026/07/2026-Moto-National-Five-Gloves-GT1-EVO-GTX-Black-3-750x474.jpg"
+      "imageUrl": "https://www.mcnews.com.au/wp-content/uploads/2026/08/2026-Red-Bull-Romaniacs-Silver-Class-Podium-750x443.jpg"
     },
     {
       "title": "2026 Cancer Council Cup The Mac Park Cancer Council Cup is back, where the local community wins with each and every lap",
