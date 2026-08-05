@@ -1,5 +1,5 @@
 {
-  "updatedAt": "2026-08-05T13:56:15.756Z",
+  "updatedAt": "2026-08-05T17:24:58.697Z",
   "sourceIds": [
     "ma_roadrace",
     "mcnews",
@@ -26,8 +26,8 @@
       "imageUrl": null
     },
     {
-      "title": "Andrea Iannone suspended for doping violation",
-      "url": "https://www.mcnews.com.au/andrea-iannone-doping/",
+      "title": "Harley-Davidson Wide Glide",
+      "url": "https://www.mcnews.com.au/harley-davidson-wide-glide/",
       "source": "MCNews (AU)",
       "sourceId": "mcnews",
       "date": null,
@@ -36,6 +36,14 @@
     {
       "title": "SIDI Taurus GTX Tested | VERY WET 2500 km in a couple of days Touring Review",
       "url": "https://www.mcnews.com.au/sidi-taurus-gtx-tested/",
+      "source": "MCNews (AU)",
+      "sourceId": "mcnews",
+      "date": null,
+      "imageUrl": null
+    },
+    {
+      "title": "Andrea Iannone suspended for doping violation",
+      "url": "https://www.mcnews.com.au/andrea-iannone-doping/",
       "source": "MCNews (AU)",
       "sourceId": "mcnews",
       "date": null,
@@ -88,14 +96,6 @@
       "sourceId": "mcnews",
       "date": null,
       "imageUrl": "https://www.mcnews.com.au/wp-content/uploads/2026/08/2026-Beachman-Special-Vehicles-CB500-7-750x422.jpg"
-    },
-    {
-      "title": "Moto Wrap Weekly: Larwood crowned, Mani makes history and Kurtz takes control",
-      "url": "https://www.mcnews.com.au/weekly-off-road-moto-news-wrap-august4-2026/",
-      "source": "MCNews (AU)",
-      "sourceId": "mcnews",
-      "date": null,
-      "imageUrl": "https://www.mcnews.com.au/wp-content/uploads/2026/08/200714_01_de-Wolf_MXGP_Everts_MX2_Nestaan-Husqvarna_2026-_2_-750x422.jpg"
     },
     {
       "title": "2026 Cancer Council Cup The Mac Park Cancer Council Cup is back, where the local community wins with each and every lap",
