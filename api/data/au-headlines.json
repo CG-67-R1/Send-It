@@ -1,5 +1,5 @@
 {
-  "updatedAt": "2026-08-04T21:07:03.085Z",
+  "updatedAt": "2026-08-05T02:01:40.323Z",
   "sourceIds": [
     "ma_roadrace",
     "mcnews",
@@ -26,6 +26,14 @@
       "imageUrl": null
     },
     {
+      "title": "Andrea Iannone suspended for doping violation",
+      "url": "https://www.mcnews.com.au/andrea-iannone-doping/",
+      "source": "MCNews (AU)",
+      "sourceId": "mcnews",
+      "date": null,
+      "imageUrl": null
+    },
+    {
       "title": "SIDI Taurus GTX Tested | VERY WET 2500 km in a couple of days Touring Review",
       "url": "https://www.mcnews.com.au/sidi-taurus-gtx-tested/",
       "source": "MCNews (AU)",
@@ -34,8 +42,16 @@
       "imageUrl": null
     },
     {
-      "title": "Andrea Iannone suspended for doping violation",
-      "url": "https://www.mcnews.com.au/andrea-iannone-doping/",
+      "title": "Givi Canyon GRT721B rackless luggage review – Rackless and ready",
+      "url": "https://www.mcnews.com.au/givi-canyon-grt721b-rackless-luggage-review/",
+      "source": "MCNews (AU)",
+      "sourceId": "mcnews",
+      "date": null,
+      "imageUrl": null
+    },
+    {
+      "title": "Royal Enfield | Registrations Open for One Ride 2026!",
+      "url": "https://www.mcnews.com.au/royal-enfield-registrations-open-for-one-ride-2026/",
       "source": "MCNews (AU)",
       "sourceId": "mcnews",
       "date": null,
@@ -63,7 +79,7 @@
       "source": "MCNews (AU)",
       "sourceId": "mcnews",
       "date": null,
-      "imageUrl": null
+      "imageUrl": "https://www.mcnews.com.au/wp-content/uploads/2026/08/2026-Beachman-Special-Vehicles-CB500-7-750x422.jpg"
     },
     {
       "title": "Beachman rebuilds dead Honda CB500 as 14.4 kWh electric café racer",
@@ -71,7 +87,7 @@
       "source": "MCNews (AU)",
       "sourceId": "mcnews",
       "date": null,
-      "imageUrl": null
+      "imageUrl": "https://www.mcnews.com.au/wp-content/uploads/2026/08/2026-Beachman-Special-Vehicles-CB500-7-750x422.jpg"
     },
     {
       "title": "Moto Wrap Weekly: Larwood crowned, Mani makes history and Kurtz takes control",
@@ -79,23 +95,7 @@
       "source": "MCNews (AU)",
       "sourceId": "mcnews",
       "date": null,
-      "imageUrl": null
-    },
-    {
-      "title": "Larwood survives QMP scare as Draper and Turner seal ProMX titles",
-      "url": "https://www.mcnews.com.au/promx-qmp-2026-results-larwood-draper-turner/",
-      "source": "MCNews (AU)",
-      "sourceId": "mcnews",
-      "date": null,
-      "imageUrl": "https://www.mcnews.com.au/wp-content/uploads/2026/08/2026-Penrite-AusProMX-QLD-Park-Rnd8-Kawasaki-MX1-StartC-750x422.jpg"
-    },
-    {
-      "title": "Is the Stark VARG EX really the world’s best-selling enduro bike?",
-      "url": "https://www.mcnews.com.au/stark-varg-best-selling-enduro-2026-results/",
-      "source": "MCNews (AU)",
-      "sourceId": "mcnews",
-      "date": null,
-      "imageUrl": "https://www.mcnews.com.au/wp-content/uploads/2026/07/2026-Stark-VARG-EX-Factory-Edition-8-750x422.jpg"
+      "imageUrl": "https://www.mcnews.com.au/wp-content/uploads/2026/08/200714_01_de-Wolf_MXGP_Everts_MX2_Nestaan-Husqvarna_2026-_2_-750x422.jpg"
     },
     {
       "title": "2026 Cancer Council Cup The Mac Park Cancer Council Cup is back, where the local community wins with each and every lap",
@@ -258,6 +258,14 @@
       "imageUrl": "https://amcn.com.au/data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMSIgaGVpZ2h0PSIxIiB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciPjwvc3ZnPg=="
     },
     {
+      "title": "PETER BOM | Eclipse of the Sun Kings Peter Bom analyses why Aprilia has outshone Ducati through the first half of the 2026 MotoGP season",
+      "url": "https://amcn.com.au/editorial/peter-bom-eclipse-of-the-sun-kings/",
+      "source": "AMCN MotoGP",
+      "sourceId": "amcn_motogp",
+      "date": null,
+      "imageUrl": "https://amcn.com.au/data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMSIgaGVpZ2h0PSIxIiB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciPjwvc3ZnPg=="
+    },
+    {
       "title": "RIDDEN | Marc Marquez’s factory Ducati GP26 Endless pre-tests, suffocating nerves and one unforgettable reward: riding the ultimate racing motorcycle",
       "url": "https://amcn.com.au/editorial/ridden-marc-marquezs-factory-ducati-gp26/",
       "source": "AMCN MotoGP",
@@ -308,14 +316,6 @@
     {
       "title": "MICHAEL SCOTT | Japan's sleeping giants “In MotoGP, the margins between hero and zero are very, very small. Yet very, very painful”",
       "url": "https://amcn.com.au/editorial/michael-scott-japans-sleeping-giants/",
-      "source": "AMCN MotoGP",
-      "sourceId": "amcn_motogp",
-      "date": null,
-      "imageUrl": "https://amcn.com.au/data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMSIgaGVpZ2h0PSIxIiB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciPjwvc3ZnPg=="
-    },
-    {
-      "title": "KTM sign Alex Marquez and Di Giannantonio for 2027 KTM has landed two of MotoGP’s hottest names for the new 850cc era as the Austrian factory team looks to reset its fortunes",
-      "url": "https://amcn.com.au/editorial/ktm-sign-alex-marquez-and-di-giannantonio-for-2027/",
       "source": "AMCN MotoGP",
       "sourceId": "amcn_motogp",
       "date": null,
