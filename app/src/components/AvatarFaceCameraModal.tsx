@@ -15,7 +15,7 @@ import { CameraView, useCameraPermissions } from 'expo-camera';
 import * as ImageManipulator from 'expo-image-manipulator';
 import { StatusBar } from 'expo-status-bar';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
-import Svg, { Defs, Ellipse, Mask, Rect } from 'react-native-svg';
+import Svg, { Defs, Mask, Rect } from 'react-native-svg';
 import {
   CAPTURE_PREVIEW_SCALE,
   captureCenterHoleCrop,
@@ -41,8 +41,9 @@ type Props = {
 };
 
 /**
- * Front camera under the rider avatar. Camera is hole-centered; capture keeps the center
- * fraction shown through the hole so the home avatar matches framing (no screen→photo map).
+ * Front camera under the rider avatar. The PNG transparent hole is the only aim guide
+ * (no separate math-ellipse mask). Camera is hole-centered; capture keeps the center
+ * fraction shown through that hole.
  * See `../avatar/FACE_PHOTO.md` before changing crop, mirror, or camera layout.
  */
 export function AvatarFaceCameraModal({
@@ -61,8 +62,9 @@ export function AvatarFaceCameraModal({
   const maskDomId = useId().replace(/:/g, '');
 
   const guide = computeCaptureGuide(width, height, layout);
-  const { cx, cy, rx, ry, badgeSize, badgeLeft, badgeTop, left, top, ew, eh } = guide;
+  const { badgeSize, badgeLeft, badgeTop, left, top, ew, eh, cx, cy } = guide;
   const cam = computeCaptureCameraLayout({ cx, cy, ew, eh });
+  const holeAspect = ew / Math.max(eh, 1);
 
   React.useEffect(() => {
     if (!visible) return;
@@ -91,8 +93,7 @@ export function AvatarFaceCameraModal({
       try {
         const actions: ImageManipulator.Action[] = [];
         if (iw > 0 && ih > 0) {
-          // Photo matches the CameraView; hole is the center CAPTURE_PREVIEW_SCALE fraction.
-          const crop = captureCenterHoleCrop(iw, ih, CAPTURE_PREVIEW_SCALE);
+          const crop = captureCenterHoleCrop(iw, ih, holeAspect, CAPTURE_PREVIEW_SCALE);
           actions.push({
             crop: {
               originX: crop.originX,
@@ -121,7 +122,7 @@ export function AvatarFaceCameraModal({
     } finally {
       setBusy(false);
     }
-  }, [busy, onCapture, onClose, ready]);
+  }, [busy, holeAspect, onCapture, onClose, ready]);
 
   return (
     <Modal visible={visible} animationType="slide" onRequestClose={onClose}>
@@ -131,7 +132,7 @@ export function AvatarFaceCameraModal({
           <>
             {/*
               Clip to the face-hole box; CameraView is larger (zoom-out) and centered so the
-              hole shows the center fraction — that same center fraction is what we save.
+              PNG hole shows the center fraction — that same center fraction is what we save.
             */}
             <View
               style={{
@@ -159,7 +160,7 @@ export function AvatarFaceCameraModal({
               />
             </View>
 
-            {/* Dim everything except the home-avatar face ellipse */}
+            {/* Dim outside the rider badge only — PNG hole is the capture guide. */}
             <Svg
               width={width}
               height={height}
@@ -169,7 +170,13 @@ export function AvatarFaceCameraModal({
               <Defs>
                 <Mask id={maskDomId}>
                   <Rect width={width} height={height} fill="#ffffff" />
-                  <Ellipse cx={cx} cy={cy} rx={rx} ry={ry} fill="#000000" />
+                  <Rect
+                    x={badgeLeft}
+                    y={badgeTop}
+                    width={badgeSize}
+                    height={badgeSize}
+                    fill="#000000"
+                  />
                 </Mask>
               </Defs>
               <Rect width={width} height={height} fill={MODAL_SCREEN_BG} mask={`url(#${maskDomId})`} />

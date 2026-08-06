@@ -126,22 +126,41 @@ export function computeCaptureCameraLayout(
 }
 
 /**
- * Center crop of the photo matching the hole (center `previewScale` of the CameraView).
- * Used when the CameraView is hole-centered and sized to hole/scale — no screen→pixel cover math.
+ * Crop the hole region from a capture.
+ * 1) Cover-crop the photo to the hole aspect (handles full-sensor frames that do not
+ *    match the CameraView).
+ * 2) Keep the center `previewScale` fraction — same region shown through the hole when
+ *    the CameraView is sized to hole/previewScale.
  */
 export function captureCenterHoleCrop(
   imageW: number,
   imageH: number,
+  holeAspect: number,
   previewScale: number = CAPTURE_PREVIEW_SCALE
 ): { originX: number; originY: number; width: number; height: number } {
   const scale = Math.max(0.05, Math.min(1, previewScale));
-  const width = Math.max(1, Math.floor(imageW * scale));
-  const height = Math.max(1, Math.floor(imageH * scale));
+  const aspect = Math.max(0.05, holeAspect);
+
+  let x0 = 0;
+  let y0 = 0;
+  let cw = imageW;
+  let ch = imageH;
+  const imgAspect = imageW / Math.max(imageH, 1);
+  if (imgAspect > aspect) {
+    cw = Math.max(1, Math.floor(imageH * aspect));
+    x0 = Math.max(0, Math.floor((imageW - cw) / 2));
+  } else if (imgAspect < aspect) {
+    ch = Math.max(1, Math.floor(imageW / aspect));
+    y0 = Math.max(0, Math.floor((imageH - ch) / 2));
+  }
+
+  const width = Math.max(1, Math.floor(cw * scale));
+  const height = Math.max(1, Math.floor(ch * scale));
   return {
-    originX: Math.max(0, Math.floor((imageW - width) / 2)),
-    originY: Math.max(0, Math.floor((imageH - height) / 2)),
-    width: Math.min(width, imageW),
-    height: Math.min(height, imageH),
+    originX: x0 + Math.max(0, Math.floor((cw - width) / 2)),
+    originY: y0 + Math.max(0, Math.floor((ch - height) / 2)),
+    width: Math.min(width, imageW - x0),
+    height: Math.min(height, imageH - y0),
   };
 }
 

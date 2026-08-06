@@ -150,10 +150,11 @@ export type FaceHoleLayout = {
  * See `./FACE_PHOTO.md` for capture ↔ home invariants.
  */
 export const DEFAULT_FACE_HOLE_LAYOUT: FaceHoleLayout = {
-  leftPct: 0.294,
-  topPct: 0.15,
-  widthPct: 0.373,
-  heightPct: 0.25,
+  // p02–p98 of transparent face aperture across all leathers PNGs (art space).
+  leftPct: 0.317,
+  topPct: 0.158,
+  widthPct: 0.342,
+  heightPct: 0.229,
 };
 
 /** Per-frame overrides (optional). Keys match `AvatarPreset.id`. Art-space fractions. */
