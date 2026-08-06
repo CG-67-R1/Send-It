@@ -126,11 +126,58 @@ export function computeCaptureCameraLayout(
 }
 
 /**
- * Crop the hole region from a capture.
- * 1) Cover-crop the photo to the hole aspect (handles full-sensor frames that do not
- *    match the CameraView).
- * 2) Keep the center `previewScale` fraction — same region shown through the hole when
- *    the CameraView is sized to hole/previewScale.
+ * Crop the face-hole region from a captured camera frame.
+ *
+ * Assumes the preview shows the frame with object-fit:cover inside CameraView (camW×camH),
+ * and the hole (holeW×holeH) is centered in that view — matching expo-camera web (`objectFit:
+ * 'cover'`) and typical native preview fill.
+ *
+ * Critical: on web, takePicture draws the *entire* `<video>` frame, not the CSS-clipped
+ * preview. Center-fraction crops of that frame do not match the hole. This mapping does.
+ */
+export function captureHoleFromCoverPreview(
+  imageW: number,
+  imageH: number,
+  camW: number,
+  camH: number,
+  holeW: number,
+  holeH: number
+): { originX: number; originY: number; width: number; height: number } {
+  const s = Math.max(camW / Math.max(imageW, 1), camH / Math.max(imageH, 1));
+  const dispW = imageW * s;
+  const dispH = imageH * s;
+  const offX = (camW - dispW) / 2;
+  const offY = (camH - dispH) / 2;
+  const holeLeft = (camW - holeW) / 2;
+  const holeTop = (camH - holeH) / 2;
+
+  const map = (sx: number, sy: number) => ({
+    x: (sx - offX) / s,
+    y: (sy - offY) / s,
+  });
+
+  const tl = map(holeLeft, holeTop);
+  const br = map(holeLeft + holeW, holeTop + holeH);
+  let x0 = Math.min(tl.x, br.x);
+  let y0 = Math.min(tl.y, br.y);
+  let x1 = Math.max(tl.x, br.x);
+  let y1 = Math.max(tl.y, br.y);
+
+  x0 = Math.max(0, Math.min(imageW, x0));
+  y0 = Math.max(0, Math.min(imageH, y0));
+  x1 = Math.max(0, Math.min(imageW, x1));
+  y1 = Math.max(0, Math.min(imageH, y1));
+
+  const originX = Math.floor(x0);
+  const originY = Math.floor(y0);
+  const width = Math.max(1, Math.min(Math.floor(x1 - x0), imageW - originX));
+  const height = Math.max(1, Math.min(Math.floor(y1 - y0), imageH - originY));
+  return { originX, originY, width, height };
+}
+
+/**
+ * @deprecated Prefer `captureHoleFromCoverPreview` — center-fraction crops assume the
+ * JPEG equals the CameraView contents, which is false on web (full video frame).
  */
 export function captureCenterHoleCrop(
   imageW: number,

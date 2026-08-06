@@ -28,28 +28,32 @@ function readDefaultLayout() {
   };
 }
 
-function captureCenterHoleCrop(imageW, imageH, holeAspect, previewScale = CAPTURE_PREVIEW_SCALE) {
-  const scale = Math.max(0.05, Math.min(1, previewScale));
-  const aspect = Math.max(0.05, holeAspect);
-  let x0 = 0;
-  let y0 = 0;
-  let cw = imageW;
-  let ch = imageH;
-  const imgAspect = imageW / Math.max(imageH, 1);
-  if (imgAspect > aspect) {
-    cw = Math.max(1, Math.floor(imageH * aspect));
-    x0 = Math.max(0, Math.floor((imageW - cw) / 2));
-  } else if (imgAspect < aspect) {
-    ch = Math.max(1, Math.floor(imageW / aspect));
-    y0 = Math.max(0, Math.floor((imageH - ch) / 2));
-  }
-  const width = Math.max(1, Math.floor(cw * scale));
-  const height = Math.max(1, Math.floor(ch * scale));
+function captureHoleFromCoverPreview(imageW, imageH, camW, camH, holeW, holeH) {
+  const s = Math.max(camW / Math.max(imageW, 1), camH / Math.max(imageH, 1));
+  const dispW = imageW * s;
+  const dispH = imageH * s;
+  const offX = (camW - dispW) / 2;
+  const offY = (camH - dispH) / 2;
+  const holeLeft = (camW - holeW) / 2;
+  const holeTop = (camH - holeH) / 2;
+  const map = (sx, sy) => ({ x: (sx - offX) / s, y: (sy - offY) / s });
+  const tl = map(holeLeft, holeTop);
+  const br = map(holeLeft + holeW, holeTop + holeH);
+  let x0 = Math.min(tl.x, br.x);
+  let y0 = Math.min(tl.y, br.y);
+  let x1 = Math.max(tl.x, br.x);
+  let y1 = Math.max(tl.y, br.y);
+  x0 = Math.max(0, Math.min(imageW, x0));
+  y0 = Math.max(0, Math.min(imageH, y0));
+  x1 = Math.max(0, Math.min(imageW, x1));
+  y1 = Math.max(0, Math.min(imageH, y1));
+  const originX = Math.floor(x0);
+  const originY = Math.floor(y0);
   return {
-    originX: x0 + Math.max(0, Math.floor((cw - width) / 2)),
-    originY: y0 + Math.max(0, Math.floor((ch - height) / 2)),
-    width: Math.min(width, imageW - x0),
-    height: Math.min(height, imageH - y0),
+    originX,
+    originY,
+    width: Math.max(1, Math.min(Math.floor(x1 - x0), imageW - originX)),
+    height: Math.max(1, Math.min(Math.floor(y1 - y0), imageH - originY)),
   };
 }
 
@@ -80,19 +84,26 @@ assert(Math.abs(artW - artH) < 3, `layout should be ~pixel circle (Δ=${(artW - 
 const hole = computeFaceHole(300, layout);
 assert(Math.abs(hole.ew - hole.eh) < 1.5, `badge hole should be ~circle (ew=${hole.ew}, eh=${hole.eh})`);
 
-const holeAspect = hole.ew / hole.eh;
-const square = captureCenterHoleCrop(1000, 1000, holeAspect);
-assert(square.width === square.height, 'square sensor + circle hole → square crop');
-assert(square.originX === square.originY, 'square crop centered');
-assert(square.width === Math.floor(1000 * CAPTURE_PREVIEW_SCALE), 'preview scale applied');
+// Cam larger than hole by CAPTURE_PREVIEW_SCALE; hole centered in cam.
+const camW = hole.ew / CAPTURE_PREVIEW_SCALE;
+const camH = hole.eh / CAPTURE_PREVIEW_SCALE;
 
-const wide = captureCenterHoleCrop(1920, 1080, 1);
-assert(wide.width === wide.height, 'wide sensor cover-cropped to square hole aspect');
-assert(wide.originX > 0 && wide.originY === Math.floor((1080 - wide.height) / 2) || wide.originY >= 0, 'wide crop centered');
+// Square frame matching cam aspect → cover is identity scale; hole = center fraction.
+const matched = captureHoleFromCoverPreview(1000, 1000, camW, camH, hole.ew, hole.eh);
+assert(matched.width === matched.height, 'square frame → square hole crop');
+assert(Math.abs(matched.width / 1000 - CAPTURE_PREVIEW_SCALE) < 0.02, 'matched frame → ~preview scale');
 
-const tall = captureCenterHoleCrop(1080, 1920, 1);
-assert(tall.width === tall.height, 'tall sensor cover-cropped to square hole aspect');
+// Wide full video (web-style): cover into square-ish cam, hole still centered.
+const wide = captureHoleFromCoverPreview(1920, 1080, camW, camH, hole.ew, hole.eh);
+assert(wide.width > 0 && wide.height > 0, 'wide frame yields crop');
+assert(wide.originX > 0, 'wide frame crops sides');
+assert(Math.abs(wide.width / wide.height - hole.ew / hole.eh) < 0.05, 'wide crop keeps hole aspect');
+
+const tall = captureHoleFromCoverPreview(1080, 1920, camW, camH, hole.ew, hole.eh);
+assert(tall.width > 0 && tall.height > 0, 'tall frame yields crop');
+assert(tall.originY > 0, 'tall frame crops top/bottom');
 
 console.log('PASS: face-hole geometry checks');
 console.log(`  layout=${JSON.stringify(layout)}`);
 console.log(`  art circle Δpx=${(artW - artH).toFixed(2)}  badge ew/eh=${(hole.ew / hole.eh).toFixed(4)}`);
+console.log(`  cover-preview crop wide=${wide.width}x${wide.height} tall=${tall.width}x${tall.height}`);

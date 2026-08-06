@@ -15,17 +15,17 @@ Full write-up: `app/src/avatar/FACE_PHOTO.md`
 ## Do
 
 - Keep the CameraView **hole-centered** and sized from the hole (`hole / CAPTURE_PREVIEW_SCALE`).
-- Save the **center fraction** of that photo (`captureCenterHoleCrop`) — same region shown through the hole.
-- Keep face-hole layout in **artwork space** (1024×1536); map with `contain` via `computeFaceHole` (same as `<Image resizeMode="contain" />`). The leathers cut-out is a **pixel circle** — re-measure with `python3 scripts/measure-face-holes.py` after art changes.
-- Skip Align modal after **camera** capture; Align is for **library** picks only (hole-aspect crop, not forced square).
-- Process the capture (do **not** use `skipProcessing` on Android) so front-camera `mirror` is baked in before crop/flip.
-- On **web**, resolve crop size with `Image.getSize` (track settings lie) and **do not** flip after capture (preview mirror is CSS-only).
+- Crop with **`captureHoleFromCoverPreview`** (frame → cover into CameraView → centered hole). On web, `takePicture` is the **full video frame**, not the clipped preview — naive center-fraction crops will mis-frame.
+- Keep face-hole layout in **artwork space** (1024×1536); map with `contain` via `computeFaceHole`. Re-measure with `python3 scripts/measure-face-holes.py` after art changes.
+- Skip Align modal after **camera** capture; Align is for **library** picks only.
+- Native: process capture + flip after crop. Web: `Image.getSize` for dimensions; **do not** flip (CSS mirror only).
 
 ## Do not
 
-- Reintroduce screen→photo **cover-fit mapping** (CSS scale / full-screen projection). It caused wrong home framing (partial face, offset head).
-- Apply hole `%` as if the badge were filled edge-to-edge without `contain` letterboxing.
-- Change leathers PNG size/aspect or hole cut-out without **re-measuring** art-space hole fractions and updating `DEFAULT_FACE_HOLE_LAYOUT`.
+- Assume the JPEG equals the CameraView contents (false on web).
+- Use `captureCenterHoleCrop` / “center 42% of the JPEG” as the primary path.
+- Apply hole `%` as if the badge were filled without `contain` letterboxing.
+- Change leathers PNG hole without re-measuring `DEFAULT_FACE_HOLE_LAYOUT`.
 
 ## Manual check after changes
 

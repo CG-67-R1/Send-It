@@ -18,8 +18,7 @@ import { StatusBar } from 'expo-status-bar';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import Svg, { Defs, Mask, Rect } from 'react-native-svg';
 import {
-  CAPTURE_PREVIEW_SCALE,
-  captureCenterHoleCrop,
+  captureHoleFromCoverPreview,
   computeCaptureCameraLayout,
   computeCaptureGuide,
 } from '../avatar/faceHoleGeometry';
@@ -90,7 +89,6 @@ export function AvatarFaceCameraModal({
   const guide = computeCaptureGuide(width, height, layout);
   const { badgeSize, badgeLeft, badgeTop, left, top, ew, eh, cx, cy } = guide;
   const cam = computeCaptureCameraLayout({ cx, cy, ew, eh });
-  const holeAspect = ew / Math.max(eh, 1);
 
   React.useEffect(() => {
     if (!visible) return;
@@ -121,7 +119,16 @@ export function AvatarFaceCameraModal({
       try {
         const actions: ImageManipulator.Action[] = [];
         if (iw > 0 && ih > 0) {
-          const crop = captureCenterHoleCrop(iw, ih, holeAspect, CAPTURE_PREVIEW_SCALE);
+          // Map hole through the same object-fit:cover preview as CameraView (required on web:
+          // JPEG is the full video frame, not the clipped preview).
+          const crop = captureHoleFromCoverPreview(
+            iw,
+            ih,
+            cam.camWidth,
+            cam.camHeight,
+            ew,
+            eh
+          );
           actions.push({
             crop: {
               originX: crop.originX,
@@ -155,7 +162,7 @@ export function AvatarFaceCameraModal({
     } finally {
       setBusy(false);
     }
-  }, [busy, holeAspect, onCapture, onClose, ready]);
+  }, [busy, cam.camHeight, cam.camWidth, eh, ew, onCapture, onClose, ready]);
 
   return (
     <Modal visible={visible} animationType="slide" onRequestClose={onClose}>

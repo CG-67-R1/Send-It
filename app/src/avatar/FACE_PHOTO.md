@@ -10,7 +10,11 @@ Read this before changing leathers art, face-hole geometry, the take-photo camer
 
 Several bugs stacked: Android `skipProcessing` skipped mirror bake; Align always opened after camera; hole math treated the square badge as filled art while PNGs are **1024×1536** with `contain` letterboxing; and screen→photo cover mapping did not match `takePictureAsync`. Symptom: full face in the hole at capture, but home showed a cropped/offset region (e.g. nose–forehead, head shifted).
 
-**Working approach:** CameraView is framed on the hole (larger by `CAPTURE_PREVIEW_SCALE` for arm’s-length zoom-out). Save the **center** of that preview — do not project hole screen coordinates into the sensor image.
+**Working approach:** CameraView is framed on the hole (larger by `CAPTURE_PREVIEW_SCALE` for arm’s-length zoom-out). Crop with `captureHoleFromCoverPreview`: map the hole through the same `object-fit: cover` as the preview. Do **not** assume the JPEG equals the clipped CameraView — on web, `takePicture` draws the full `<video>` frame.
+
+## Why automatic crop kept failing
+
+expo-camera **preview ≠ saved frame** on web (and sometimes native): the hole shows a CSS-covered, clipped slice of the stream, while `takePictureAsync` stores the whole frame. “Center 42% of the JPEG” therefore cannot match what you aimed. Fixing hole PNG math alone cannot fix that.
 
 ## Key files
 
@@ -31,7 +35,7 @@ Several bugs stacked: Android `skipProcessing` skipped mirror bake; Align always
 3. **Camera vs library.** Camera skips Align and writes a hole-ready crop. Library still uses `AvatarFaceAlignModal` (pan/zoom), which bakes a **hole-aspect** crop — not a forced square.
 4. **Mirror.** Native: use CameraView `mirror` (baked into the JPEG) then flip after crop for true left/right. Web: preview is CSS-mirrored only — do **not** flip the capture (canvas is already un-mirrored). Always crop using **decoded image size** (`Image.getSize`), not `photo.width`/`height` from MediaTrackSettings (wrong on iOS Safari web → face jammed in a corner).
 5. **Display.** `AvatarFaceEllipse` clips to the same hole geometry; keep face fill consistent with the captured hole aspect.
-6. **Crop.** `captureCenterHoleCrop` cover-fits to hole aspect first, then keeps the center `CAPTURE_PREVIEW_SCALE` fraction (handles full-sensor frames).
+6. **Crop.** Use `captureHoleFromCoverPreview(imageW, imageH, camW, camH, holeW, holeH)` — cover-fit the frame into the CameraView, then take the centered hole rect. Do not use naive center-fraction crops of the raw JPEG on web.
 
 ## Manual QA (when any of the above changes)
 
