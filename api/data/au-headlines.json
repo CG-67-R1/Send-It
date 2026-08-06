@@ -1,5 +1,5 @@
 {
-  "updatedAt": "2026-08-06T02:05:20.129Z",
+  "updatedAt": "2026-08-06T06:25:58.283Z",
   "sourceIds": [
     "ma_roadrace",
     "mcnews",
@@ -146,6 +146,14 @@
       "imageUrl": null
     },
     {
+      "title": "Andrea Iannone suspended for doping violation",
+      "url": "https://www.mcnews.com.au/andrea-iannone-doping/",
+      "source": "MCNews (AU)",
+      "sourceId": "mcnews",
+      "date": null,
+      "imageUrl": null
+    },
+    {
       "title": "SIDI Taurus GTX Tested | VERY WET 2500 km in a couple of days Touring Review",
       "url": "https://www.mcnews.com.au/sidi-taurus-gtx-tested/",
       "source": "MCNews (AU)",
@@ -162,60 +170,52 @@
       "imageUrl": null
     },
     {
-      "title": "Andrea Iannone suspended for doping violation",
-      "url": "https://www.mcnews.com.au/andrea-iannone-doping/",
+      "title": "Yamaha XSR900 GP Review | The retro Yamaha that stole the show at Yamafest",
+      "url": "https://www.mcnews.com.au/yamaha-xsr900-gp-review-2026/",
       "source": "MCNews (AU)",
       "sourceId": "mcnews",
       "date": null,
       "imageUrl": null
     },
     {
-      "title": "Last chance to score an extra $500 with TeamMoto’s Trade-Up Bonus",
-      "url": "https://www.mcnews.com.au/teammoto-500-trade-up-bonus-august-2026-2/",
+      "title": "Honda turns Finke triumph into limited-edition CRF450RX",
+      "url": "https://www.mcnews.com.au/honda-crf450rx-finke-limited-edition/",
       "source": "MCNews (AU)",
       "sourceId": "mcnews",
       "date": null,
       "imageUrl": null
     },
     {
-      "title": "Givi Canyon GRT721B adventure luggage review – Rackless and ready",
-      "url": "https://www.mcnews.com.au/givi-canyon-grt721b-rackless-luggage-review/",
+      "title": "Yamaha Australia to remain in SSV market after Wolverine and Viking production ends",
+      "url": "https://www.mcnews.com.au/yamaha-australia-to-remain-in-ssv-market-after-wolverine-and-viking-production-ends/",
       "source": "MCNews (AU)",
       "sourceId": "mcnews",
       "date": null,
       "imageUrl": null
     },
     {
-      "title": "Royal Enfield | Registrations Open for One Ride 2026!",
-      "url": "https://www.mcnews.com.au/royal-enfield-registrations-open-for-one-ride-2026/",
+      "title": "Motorcycle Industry News & Employment",
+      "url": "https://www.mcnews.com.au/motorcycle-news/motorcycle-industry-news-employment/",
       "source": "MCNews (AU)",
       "sourceId": "mcnews",
       "date": null,
       "imageUrl": null
     },
     {
-      "title": "ATC / Rookies / Junior GP / MiniGP /Moto4",
-      "url": "https://www.mcnews.com.au/motorcycle-news/motorcycle-racing/minigp/",
+      "title": "Triumph reshuffles senior leadership as Paul Stroud prepares to retire",
+      "url": "https://www.mcnews.com.au/triumph-executive-changes-david-george-nick-bell/",
       "source": "MCNews (AU)",
       "sourceId": "mcnews",
       "date": null,
-      "imageUrl": "https://www.mcnews.com.au/wp-content/uploads/2026/08/2026-idemitsu-Moto4-Asia-Cup-Rnd2-Sepang-Judd-Plaisted-750x422.jpg"
+      "imageUrl": null
     },
     {
-      "title": "Qayyim Razin sweeps Sepang as Judd Plaisted charges to sixth",
-      "url": "https://www.mcnews.com.au/2026-moto4-asia-cup-sepang-results/",
+      "title": "MotoGP is back! Silverstone restarts a wide-open title fight",
+      "url": "https://www.mcnews.com.au/2026-british-motogp-preview-silverstone/",
       "source": "MCNews (AU)",
       "sourceId": "mcnews",
       "date": null,
-      "imageUrl": "https://www.mcnews.com.au/wp-content/uploads/2026/08/2026-idemitsu-Moto4-Asia-Cup-Rnd2-Sepang-Judd-Plaisted-750x422.jpg"
-    },
-    {
-      "title": "EV Electromobility News",
-      "url": "https://www.mcnews.com.au/motorcycle-news/e-bike/",
-      "source": "MCNews (AU)",
-      "sourceId": "mcnews",
-      "date": null,
-      "imageUrl": "https://www.mcnews.com.au/wp-content/uploads/2026/08/2026-Beachman-Special-Vehicles-CB500-7-750x422.jpg"
+      "imageUrl": "https://www.mcnews.com.au/wp-content/uploads/2026/07/2026-MotoGP-Rnd11-Sachsenring-Sun-Martin-Bagnaia-750x437.jpg"
     },
     {
       "title": "2026 Cancer Council Cup The Mac Park Cancer Council Cup is back, where the local community wins with each and every lap",
