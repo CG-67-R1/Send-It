@@ -1,0 +1,11 @@
+{
+  "sources": [
+    {
+      "id": "bmkg",
+      "name": "BMKG (Badan Meteorologi, Klimatologi, dan Geofisika)",
+      "url": "https://www.bmkg.go.id",
+      "confidence": "official",
+      "nodeId": "id"
+    }
+  ]
+}

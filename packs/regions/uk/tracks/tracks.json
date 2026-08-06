@@ -1,0 +1,95 @@
+{
+  "version": 1,
+  "tracks": [
+    {
+      "id": "silverstone",
+      "name": "Silverstone Circuit",
+      "nodeId": "uk-england",
+      "kind": "road_circuit",
+      "lat": 52.0733,
+      "lng": -1.0147,
+      "layout": "GP",
+      "direction": "clockwise",
+      "corners": [],
+      "isOther": false,
+      "confidence": "official"
+    },
+    {
+      "id": "donington",
+      "name": "Donington Park",
+      "nodeId": "uk-england",
+      "kind": "road_circuit",
+      "lat": 52.8305,
+      "lng": -1.375,
+      "corners": [],
+      "isOther": false,
+      "confidence": "official"
+    },
+    {
+      "id": "brands-hatch",
+      "name": "Brands Hatch",
+      "nodeId": "uk-england",
+      "kind": "road_circuit",
+      "lat": 51.3567,
+      "lng": 0.2617,
+      "corners": [],
+      "isOther": false,
+      "confidence": "official"
+    },
+    {
+      "id": "oulton-park",
+      "name": "Oulton Park",
+      "nodeId": "uk-england",
+      "kind": "road_circuit",
+      "lat": 53.1803,
+      "lng": -2.6139,
+      "corners": [],
+      "isOther": false,
+      "confidence": "official"
+    },
+    {
+      "id": "snetterton",
+      "name": "Snetterton Circuit",
+      "nodeId": "uk-england",
+      "kind": "road_circuit",
+      "lat": 52.4636,
+      "lng": 0.9517,
+      "corners": [],
+      "isOther": false,
+      "confidence": "official"
+    },
+    {
+      "id": "cadwell-park",
+      "name": "Cadwell Park",
+      "nodeId": "uk-england",
+      "kind": "road_circuit",
+      "lat": 53.3106,
+      "lng": -0.0633,
+      "corners": [],
+      "isOther": false,
+      "confidence": "official"
+    },
+    {
+      "id": "knockhill",
+      "name": "Knockhill Racing Circuit",
+      "nodeId": "uk-scotland",
+      "kind": "road_circuit",
+      "lat": 56.1292,
+      "lng": -3.5036,
+      "corners": [],
+      "isOther": false,
+      "confidence": "official"
+    },
+    {
+      "id": "anglesey",
+      "name": "Anglesey Circuit (Trac Môn)",
+      "nodeId": "uk-wales",
+      "kind": "road_circuit",
+      "lat": 53.1917,
+      "lng": -4.5083,
+      "corners": [],
+      "isOther": false,
+      "confidence": "official"
+    }
+  ]
+}

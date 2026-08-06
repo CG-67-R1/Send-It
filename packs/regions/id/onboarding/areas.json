@@ -1,0 +1,28 @@
+{
+  "areas": [
+    {
+      "code": "ID",
+      "nodeId": "id",
+      "name": "Indonesia",
+      "clubs": [
+        {
+          "name": "IMI-affiliated road racing clubs",
+          "location": "Indonesia",
+          "website": "https://www.imi.co.id"
+        }
+      ],
+      "classes": [
+        "Superbike",
+        "Supersport",
+        "MotoPrix",
+        "Underbone 150cc"
+      ],
+      "coaches": [
+        {
+          "name": "Mandalika circuit coaching",
+          "description": "Track day and rider development programmes at Mandalika International Street Circuit."
+        }
+      ]
+    }
+  ]
+}

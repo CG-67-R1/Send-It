@@ -1,0 +1,101 @@
+{
+  "version": 1,
+  "tracks": [
+    {
+      "id": "weathertech-laguna-seca",
+      "name": "WeatherTech Raceway Laguna Seca",
+      "nodeId": "na-west-western-us",
+      "kind": "road_circuit",
+      "lat": 36.5841,
+      "lng": -121.7527,
+      "corners": [],
+      "isOther": false,
+      "confidence": "official",
+      "notes": "Salinas, California. 2.238-mile circuit with iconic Corkscrew. MotoAmerica venue."
+    },
+    {
+      "id": "portland-international-raceway",
+      "name": "Portland International Raceway (PIR)",
+      "nodeId": "na-west-western-us",
+      "kind": "road_circuit",
+      "lat": 45.5962,
+      "lng": -122.6906,
+      "corners": [],
+      "isOther": false,
+      "confidence": "official",
+      "notes": "Portland, Oregon. 1.97-mile circuit; OMRRA base circuit."
+    },
+    {
+      "id": "the-ridge",
+      "name": "The Ridge Motorsports Park",
+      "nodeId": "na-west-western-us",
+      "kind": "road_circuit",
+      "lat": 47.3384,
+      "lng": -122.9256,
+      "corners": [],
+      "isOther": false,
+      "confidence": "official",
+      "notes": "Shelton, Washington. 2.47-mile road course."
+    },
+    {
+      "id": "sonoma-raceway",
+      "name": "Sonoma Raceway",
+      "nodeId": "na-west-western-us",
+      "kind": "road_circuit",
+      "lat": 38.1611,
+      "lng": -122.4553,
+      "corners": [],
+      "isOther": false,
+      "confidence": "official",
+      "notes": "Sonoma, California. 2.52-mile road course."
+    },
+    {
+      "id": "utah-motorsports-campus",
+      "name": "Utah Motorsports Campus",
+      "nodeId": "na-west-western-us",
+      "kind": "road_circuit",
+      "lat": 40.0617,
+      "lng": -112.4448,
+      "corners": [],
+      "isOther": false,
+      "confidence": "official",
+      "notes": "Grantsville, Utah. Multiple road course configurations including 3.048-mile main circuit."
+    },
+    {
+      "id": "americas",
+      "name": "Circuit of the Americas (COTA)",
+      "nodeId": "na-west-western-us",
+      "kind": "road_circuit",
+      "lat": 30.1328,
+      "lng": -97.6411,
+      "corners": [],
+      "isOther": false,
+      "confidence": "official",
+      "notes": "Austin, Texas. 3.427-mile FIM-grade circuit; hosts MotoGP US Grand Prix."
+    },
+    {
+      "id": "mission-raceway",
+      "name": "Mission Raceway Park",
+      "nodeId": "na-west-western-canada",
+      "kind": "road_circuit",
+      "lat": 49.1358,
+      "lng": -122.2649,
+      "corners": [],
+      "isOther": false,
+      "confidence": "established-press",
+      "notes": "Mission, British Columbia. 1.6 km road course."
+    },
+    {
+      "id": "calgary-motorsports-park",
+      "name": "Calgary Motorsports Park",
+      "nodeId": "na-west-western-canada",
+      "kind": "road_circuit",
+      "lat": 51.1168,
+      "lng": -113.7864,
+      "corners": [],
+      "isOther": false,
+      "confidence": "established-press",
+      "notes": "Calgary, Alberta. Club road-race circuit."
+    }
+  ]
+}

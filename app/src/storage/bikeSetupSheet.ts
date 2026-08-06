@@ -203,12 +203,74 @@ function line(label: string, value: string): string | null {
   return `${label}: ${trimmed}`;
 }
 
-/** Format filled fields into a draft message for Bike Setup AI. */
-export function formatBikeSetupSheetForAi(sheet: BikeSetupDaySheet): string {
-  const sections: string[] = [
-    'Here is my start-of-day bike setup sheet. Please review and advise.',
-    '',
-  ];
+const COMPARE_FIELDS: { key: keyof BikeSetupDaySheet; label: string }[] = [
+  { key: 'dateIso', label: 'Date' },
+  { key: 'trackName', label: 'Track' },
+  { key: 'sessionNumber', label: 'Session number' },
+  { key: 'sessionNotes', label: 'Session notes' },
+  { key: 'goalsForToday', label: 'Goals' },
+  { key: 'tyreBrandCompound', label: 'Tyre brand / compound' },
+  { key: 'tyreFrontPressureCold', label: 'Front cold pressure' },
+  { key: 'tyreFrontPressureHot', label: 'Front hot pressure' },
+  { key: 'tyreRearPressureCold', label: 'Rear cold pressure' },
+  { key: 'tyreRearPressureHot', label: 'Rear hot pressure' },
+  { key: 'frontSag', label: 'Front sag' },
+  { key: 'frontPreload', label: 'Front preload' },
+  { key: 'frontCompression', label: 'Front compression' },
+  { key: 'frontRebound', label: 'Front rebound' },
+  { key: 'frontRideHeight', label: 'Front ride height' },
+  { key: 'rearSag', label: 'Rear sag' },
+  { key: 'rearPreload', label: 'Rear preload' },
+  { key: 'rearCompression', label: 'Rear compression' },
+  { key: 'rearRebound', label: 'Rear rebound' },
+  { key: 'rearRideHeight', label: 'Rear ride height' },
+  { key: 'ambientTemp', label: 'Ambient temperature' },
+  { key: 'trackTemp', label: 'Track temperature' },
+  { key: 'fuelLevel', label: 'Fuel level' },
+  { key: 'gearing', label: 'Gearing' },
+  { key: 'lapTimes', label: 'Lap times' },
+  { key: 'changesMade', label: 'Changes made' },
+  { key: 'changeResult', label: 'Result of changes' },
+];
+
+export type BikeSetupFieldDiff = {
+  key: keyof BikeSetupDaySheet;
+  label: string;
+  current: string;
+  saved: string;
+};
+
+/** Field-level diffs between the working sheet and a saved snapshot (for comparison). */
+export function compareBikeSetupSheets(
+  current: BikeSetupDaySheet,
+  saved: BikeSetupDaySheet
+): BikeSetupFieldDiff[] {
+  const diffs: BikeSetupFieldDiff[] = [];
+  for (const field of COMPARE_FIELDS) {
+    const currentValue = String(current[field.key] ?? '').trim();
+    const savedValue = String(saved[field.key] ?? '').trim();
+    if (currentValue === savedValue) continue;
+    if (!currentValue && !savedValue) continue;
+    diffs.push({
+      key: field.key,
+      label: field.label,
+      current: currentValue || '—',
+      saved: savedValue || '—',
+    });
+  }
+  if (current.pressureUnit !== saved.pressureUnit) {
+    diffs.unshift({
+      key: 'pressureUnit',
+      label: 'Pressure unit',
+      current: current.pressureUnit,
+      saved: saved.pressureUnit,
+    });
+  }
+  return diffs;
+}
+
+function sheetSections(sheet: BikeSetupDaySheet): string[] {
+  const sections: string[] = [];
 
   const session = [
     line('Date', sheet.dateIso),
@@ -271,6 +333,33 @@ export function formatBikeSetupSheetForAi(sheet: BikeSetupDaySheet): string {
   if (extended.length) {
     sections.push('Extended session', ...extended, '');
   }
+
+  return sections;
+}
+
+export function bikeSetupSheetShareTitle(sheet: BikeSetupDaySheet): string {
+  const track = sheet.trackName.trim() || 'Bike setup';
+  const date = sheet.dateIso.trim();
+  return date ? `${track} – ${date}` : track;
+}
+
+/** Plain-text setup for messaging / export (no AI prompt wrapper). */
+export function formatBikeSetupSheetAsText(sheet: BikeSetupDaySheet): string {
+  const sections = sheetSections(sheet);
+  const body = sections.join('\n').trim();
+  if (!body) {
+    return 'Bike setup sheet (no settings filled in yet).';
+  }
+  return `Bike setup sheet\n\n${body}`;
+}
+
+/** Format filled fields into a draft message for Bike Setup AI. */
+export function formatBikeSetupSheetForAi(sheet: BikeSetupDaySheet): string {
+  const sections: string[] = [
+    'Here is my start-of-day bike setup sheet. Please review and advise.',
+    '',
+    ...sheetSections(sheet),
+  ];
 
   const body = sections.join('\n').trim();
   if (body === 'Here is my start-of-day bike setup sheet. Please review and advise.') {

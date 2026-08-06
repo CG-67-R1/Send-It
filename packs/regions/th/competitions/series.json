@@ -1,0 +1,28 @@
+{
+  "series": [
+    {
+      "id": "thailand-superbike",
+      "name": "Thailand Superbike Championship",
+      "nodeId": "th",
+      "local": true,
+      "website": "https://www.fmsct.or.th",
+      "confidence": "official"
+    },
+    {
+      "id": "arrc",
+      "name": "Asia Road Racing Championship (ARRC)",
+      "nodeId": "th",
+      "local": false,
+      "website": "https://www.arrc.tv",
+      "confidence": "official",
+      "notes": "Regional FIM series with Thailand rounds at Chang / Bangsaen."
+    },
+    {
+      "id": "pttrrc",
+      "name": "PTT Thailand Road Racing Championship",
+      "nodeId": "th",
+      "local": true,
+      "confidence": "established-press"
+    }
+  ]
+}

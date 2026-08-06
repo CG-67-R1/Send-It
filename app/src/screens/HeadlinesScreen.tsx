@@ -21,7 +21,7 @@ import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { getBikePhotoUri, setBikePhotoUri, clearBikePhoto } from '../storage/bikePhoto';
 import { photoDisplayUri } from '../storage/localPhotoStorage';
 import { getAvatarFacePhotoUri } from '../storage/avatarFacePhoto';
-import { HEADLINES_URL } from '../../constants/api';
+import { apiFetch, HEADLINES_URL } from '../../constants/api';
 import { getOnboardingAnswers } from '../storage/onboarding';
 import { HERO_AVATAR_BADGE_SIZE } from '../avatar/heroBadgeSizing';
 import { getAvatarPreset, getAvatarSource, getFaceHoleLayout } from '../avatar/presets';
@@ -50,7 +50,7 @@ export function HeadlinesScreen() {
     setHasPrefetchedHeadlines(true);
     (async () => {
       try {
-        await fetch(HEADLINES_URL, { signal: AbortSignal.timeout(25000) });
+        await apiFetch(HEADLINES_URL, { signal: AbortSignal.timeout(25000) });
       } catch {
         // Best-effort warm-up only.
       }

@@ -1,0 +1,34 @@
+{
+  "meta": {
+    "timezone": "America/Los_Angeles",
+    "event_scope": {
+      "discipline": "road_race"
+    }
+  },
+  "sources": [
+    {
+      "id": "motoamerica-calendar",
+      "name": "MotoAmerica Schedule",
+      "type": "series_calendar",
+      "url": "https://www.motoamerica.com/schedule",
+      "nodeId": "na-west",
+      "confidence": "official"
+    },
+    {
+      "id": "afm-calendar",
+      "name": "AFM Race Calendar",
+      "type": "series_calendar",
+      "url": "https://www.afmracing.org/calendar",
+      "nodeId": "na-west-western-us",
+      "confidence": "official"
+    },
+    {
+      "id": "omrra-calendar",
+      "name": "OMRRA Calendar",
+      "type": "series_calendar",
+      "url": "https://www.omrra.com/schedule",
+      "nodeId": "na-west-western-us",
+      "confidence": "official"
+    }
+  ]
+}

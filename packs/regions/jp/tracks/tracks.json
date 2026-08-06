@@ -1,0 +1,77 @@
+{
+  "version": 1,
+  "tracks": [
+    {
+      "id": "motegi",
+      "name": "Twin Ring Motegi",
+      "nodeId": "jp",
+      "kind": "road_circuit",
+      "lat": 36.5412,
+      "lng": 140.2069,
+      "corners": [],
+      "isOther": false,
+      "confidence": "official",
+      "notes": "Motegi, Tochigi. 4.801 km; hosts MFJ Superbike and Japanese MotoGP GP."
+    },
+    {
+      "id": "suzuka",
+      "name": "Suzuka Circuit",
+      "nodeId": "jp",
+      "kind": "road_circuit",
+      "lat": 34.8431,
+      "lng": 136.5411,
+      "corners": [],
+      "isOther": false,
+      "confidence": "official",
+      "notes": "Suzuka, Mie. 5.807 km figure-8 circuit; famous 8 Hours endurance race."
+    },
+    {
+      "id": "autopolis",
+      "name": "Autopolis",
+      "nodeId": "jp",
+      "kind": "road_circuit",
+      "lat": 33.0353,
+      "lng": 131.0711,
+      "corners": [],
+      "isOther": false,
+      "confidence": "official",
+      "notes": "Kamitsue, Oita. 4.674 km; MFJ Superbike round."
+    },
+    {
+      "id": "okayama",
+      "name": "Okayama International Circuit",
+      "nodeId": "jp",
+      "kind": "road_circuit",
+      "lat": 34.9152,
+      "lng": 134.2207,
+      "corners": [],
+      "isOther": false,
+      "confidence": "official",
+      "notes": "Aida, Okayama. 3.703 km; MFJ rounds."
+    },
+    {
+      "id": "sugo",
+      "name": "Sportland SUGO",
+      "nodeId": "jp",
+      "kind": "road_circuit",
+      "lat": 38.2893,
+      "lng": 140.7042,
+      "corners": [],
+      "isOther": false,
+      "confidence": "official",
+      "notes": "Murata, Miyagi. 3.704 km; MFJ Superbike round."
+    },
+    {
+      "id": "sepang-international-circuit-jp",
+      "name": "Tsukuba Circuit",
+      "nodeId": "jp",
+      "kind": "road_circuit",
+      "lat": 36.0958,
+      "lng": 140.0718,
+      "corners": [],
+      "isOther": false,
+      "confidence": "official",
+      "notes": "Tsukuba, Ibaraki. 2.07 km club circuit; popular for club racing and time attack."
+    }
+  ]
+}

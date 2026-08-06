@@ -1,0 +1,20 @@
+{
+  "pathways": [
+    {
+      "id": "cn-fms-competition",
+      "title": "FMS / CAMS competition licence pathway",
+      "nodeId": "cn",
+      "steps": [
+        "Join an FMS/CAMS-affiliated club",
+        "Obtain FMS membership",
+        "Apply for appropriate competition licence (National C / B / A / International)",
+        "Complete medical examination",
+        "Pass rider licence course at FMS-approved school"
+      ],
+      "urls": [
+        "https://www.cams.net.cn"
+      ],
+      "confidence": "official"
+    }
+  ]
+}

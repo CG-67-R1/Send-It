@@ -1,0 +1,118 @@
+{
+  "areas": [
+    {
+      "code": "BR",
+      "nodeId": "sa-br",
+      "name": "Brazil",
+      "clubs": [
+        {
+          "name": "CBM-affiliated clubs",
+          "location": "Brazil",
+          "website": "https://www.cbm.esp.br"
+        }
+      ],
+      "classes": [
+        "Moto1000GP",
+        "Superbike",
+        "Supersport",
+        "MotoVerde"
+      ],
+      "coaches": [
+        {
+          "name": "Interlagos track day providers",
+          "description": "Interlagos S\u00e3o Paulo and Curitiba host track days and coaching."
+        }
+      ]
+    },
+    {
+      "code": "AR",
+      "nodeId": "sa-ar",
+      "name": "Argentina",
+      "clubs": [
+        {
+          "name": "CAM-affiliated clubs",
+          "location": "Argentina",
+          "website": "https://www.motociclismocam.com.ar"
+        }
+      ],
+      "classes": [
+        "MOTOVEL Superbike",
+        "Supersport"
+      ],
+      "coaches": [
+        {
+          "name": "San Juan / Buenos Aires circuit coaching",
+          "description": "San Juan Villicum and G\u00e1lvez circuit offer track days."
+        }
+      ]
+    },
+    {
+      "code": "CL",
+      "nodeId": "sa-cl",
+      "name": "Chile",
+      "clubs": [
+        {
+          "name": "FMCH-affiliated clubs",
+          "location": "Chile",
+          "website": "https://www.fmch.cl"
+        }
+      ],
+      "classes": [
+        "Superbike",
+        "Supersport"
+      ],
+      "coaches": []
+    },
+    {
+      "code": "CO",
+      "nodeId": "sa-co",
+      "name": "Colombia",
+      "clubs": [
+        {
+          "name": "FCM-affiliated clubs",
+          "location": "Colombia",
+          "website": "https://www.fedemotor.com"
+        }
+      ],
+      "classes": [
+        "Superbike",
+        "Supersport"
+      ],
+      "coaches": []
+    },
+    {
+      "code": "PE",
+      "nodeId": "sa-pe",
+      "name": "Peru",
+      "clubs": [
+        {
+          "name": "FPM-affiliated clubs",
+          "location": "Peru",
+          "website": "https://www.fpm.pe"
+        }
+      ],
+      "classes": [
+        "Superbike",
+        "Supersport"
+      ],
+      "coaches": []
+    },
+    {
+      "code": "UY",
+      "nodeId": "sa-uy",
+      "name": "Uruguay",
+      "clubs": [
+        {
+          "name": "FUM-affiliated clubs",
+          "location": "Uruguay",
+          "website": "https://www.fum.org.uy"
+        }
+      ],
+      "classes": [
+        "Superbike",
+        "Supersport"
+      ],
+      "coaches": []
+    }
+  ]
+}

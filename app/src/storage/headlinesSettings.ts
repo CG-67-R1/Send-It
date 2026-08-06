@@ -7,7 +7,8 @@ const KEY_CUSTOM_SOURCES = STORAGE_KEYS.HEADLINES_CUSTOM_SOURCES;
 const KEY_NOTIFY_PRIORITY_1 = STORAGE_KEYS.HEADLINES_NOTIFY_PRIORITY_1;
 const KEY_LAST_SEEN_P1_URLS = STORAGE_KEYS.HEADLINES_LAST_SEEN_P1_URLS;
 
-const DEFAULT_PRIORITY: PriorityOrder = [
+/** Default built-in source order (10). Users can add custom RSS sources. */
+export const DEFAULT_PRIORITY: PriorityOrder = [
   'gpone',
   'worldsbk',
   'mcn',
@@ -18,16 +19,6 @@ const DEFAULT_PRIORITY: PriorityOrder = [
   'ma_roadrace',
   'asbk',
   'amcn_asbk',
-  'amcn_club',
-  'amcn_motogp',
-  'amcn_worldsbk',
-  'amcn_road_racing',
-  'mcnews',
-  'amcn_bsb',
-  'amcn_endurance',
-  'amcn_worldwcr',
-  'amcn_kotb',
-  'amcn_esbk',
 ];
 
 /** Keep saved order, drop removed sources, append any new built-in/custom ids. */

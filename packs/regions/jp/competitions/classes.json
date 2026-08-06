@@ -1,0 +1,29 @@
+{
+  "classes": [
+    {
+      "id": "jsb1000",
+      "name": "JSB1000 / Superbike",
+      "nodeId": "jp"
+    },
+    {
+      "id": "j-gp2",
+      "name": "J-GP2 (Moto2 spec)",
+      "nodeId": "jp"
+    },
+    {
+      "id": "j-gp3",
+      "name": "J-GP3 (Moto3 spec)",
+      "nodeId": "jp"
+    },
+    {
+      "id": "st1000",
+      "name": "ST1000 (Superstock)",
+      "nodeId": "jp"
+    },
+    {
+      "id": "st600",
+      "name": "ST600 (Supersport)",
+      "nodeId": "jp"
+    }
+  ]
+}

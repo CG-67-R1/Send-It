@@ -1,0 +1,14 @@
+{
+  "sourceIds": [
+    "gpone"
+  ],
+  "sources": [
+    {
+      "id": "gpone",
+      "name": "GPone",
+      "type": "scraper",
+      "confidence": "established-press",
+      "nodeId": "it"
+    }
+  ]
+}

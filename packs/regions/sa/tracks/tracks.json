@@ -1,0 +1,89 @@
+{
+  "version": 1,
+  "tracks": [
+    {
+      "id": "autodromo-jose-carlos-pace",
+      "name": "Aut\u00f3dromo Jos\u00e9 Carlos Pace (Interlagos)",
+      "nodeId": "sa-br",
+      "kind": "road_circuit",
+      "lat": -23.7036,
+      "lng": -46.6997,
+      "corners": [],
+      "isOther": false,
+      "confidence": "official",
+      "notes": "S\u00e3o Paulo, Brazil. 4.309 km; hosts MotoGP Brazilian Grand Prix."
+    },
+    {
+      "id": "autodromo-internacional-de-curitiba",
+      "name": "Aut\u00f3dromo Internacional de Curitiba",
+      "nodeId": "sa-br",
+      "kind": "road_circuit",
+      "lat": -25.4872,
+      "lng": -49.3116,
+      "corners": [],
+      "isOther": false,
+      "confidence": "established-press",
+      "notes": "Curitiba, Paran\u00e1, Brazil. Hosts Brazilian Superbike championship rounds."
+    },
+    {
+      "id": "autodromo-internacional-nelson-piquet",
+      "name": "Aut\u00f3dromo Internacional Nelson Piquet",
+      "nodeId": "sa-br",
+      "kind": "road_circuit",
+      "lat": -15.8667,
+      "lng": -48.0461,
+      "corners": [],
+      "isOther": false,
+      "confidence": "established-press",
+      "notes": "Bras\u00edlia, Brazil. National-level road racing rounds."
+    },
+    {
+      "id": "circuito-san-juan-villicum",
+      "name": "Circuito San Juan Villicum",
+      "nodeId": "sa-ar",
+      "kind": "road_circuit",
+      "lat": -31.4419,
+      "lng": -68.5514,
+      "corners": [],
+      "isOther": false,
+      "confidence": "official",
+      "notes": "San Juan, Argentina. 4.276 km; FIM Grade 1 circuit that hosted MotoGP Argentine GP."
+    },
+    {
+      "id": "autodromo-oscar-alfredo-galvez",
+      "name": "Aut\u00f3dromo Oscar y Juan G\u00e1lvez",
+      "nodeId": "sa-ar",
+      "kind": "road_circuit",
+      "lat": -34.6868,
+      "lng": -58.4466,
+      "corners": [],
+      "isOther": false,
+      "confidence": "official",
+      "notes": "Buenos Aires, Argentina. National circuit used for Argentina motorcycle races."
+    },
+    {
+      "id": "autodromo-de-buenos-aires",
+      "name": "Aut\u00f3dromo de La Plata",
+      "nodeId": "sa-ar",
+      "kind": "road_circuit",
+      "lat": -34.9112,
+      "lng": -57.9527,
+      "corners": [],
+      "isOther": false,
+      "confidence": "established-press",
+      "notes": "La Plata, Buenos Aires province. Regional motorcycle racing."
+    },
+    {
+      "id": "autodromo-internacional-de-chile",
+      "name": "Aut\u00f3dromo Internacional de Chile",
+      "nodeId": "sa-cl",
+      "kind": "road_circuit",
+      "lat": -33.5992,
+      "lng": -70.5826,
+      "corners": [],
+      "isOther": false,
+      "confidence": "established-press",
+      "notes": "Buenaventura, Chile. National road racing circuit."
+    }
+  ]
+}

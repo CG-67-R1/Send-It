@@ -1,0 +1,32 @@
+{
+  "sources": [
+    {
+      "id": "mfj-news",
+      "name": "MFJ News",
+      "url": "https://www.mfj.or.jp/news",
+      "confidence": "official",
+      "nodeId": "jp"
+    },
+    {
+      "id": "gpone-jp",
+      "name": "GPone Japan",
+      "url": "https://www.gpone.com/ja",
+      "confidence": "established-press",
+      "nodeId": "jp"
+    },
+    {
+      "id": "young-machine",
+      "name": "Young Machine",
+      "url": "https://young-machine.com",
+      "confidence": "established-press",
+      "nodeId": "jp"
+    },
+    {
+      "id": "motegi-news",
+      "name": "Twin Ring Motegi / Honda Racing",
+      "url": "https://www.honda-racing.jp",
+      "confidence": "established-press",
+      "nodeId": "jp"
+    }
+  ]
+}

@@ -1,0 +1,10 @@
+{
+  "governingBody": "Federation of Motor Sports of Thailand (FMSCT)",
+  "shortName": "FMSCT",
+  "edition": null,
+  "urls": {
+    "sourcePage": "https://www.fmsct.or.th"
+  },
+  "chapters": {},
+  "note": "Seed: link-out to FMSCT regulations. In-app KB not yet ingested."
+}

@@ -1,0 +1,71 @@
+{
+  "version": 1,
+  "tracks": [
+    {
+      "id": "mugello",
+      "name": "Autodromo Internazionale del Mugello",
+      "nodeId": "it",
+      "kind": "road_circuit",
+      "lat": 43.9975,
+      "lng": 11.3719,
+      "corners": [],
+      "isOther": false,
+      "confidence": "official"
+    },
+    {
+      "id": "misano",
+      "name": "Misano World Circuit Marco Simoncelli",
+      "nodeId": "it",
+      "kind": "road_circuit",
+      "lat": 43.9614,
+      "lng": 12.6833,
+      "corners": [],
+      "isOther": false,
+      "confidence": "official"
+    },
+    {
+      "id": "monza",
+      "name": "Autodromo Nazionale Monza",
+      "nodeId": "it",
+      "kind": "road_circuit",
+      "lat": 45.6156,
+      "lng": 9.2811,
+      "corners": [],
+      "isOther": false,
+      "confidence": "official"
+    },
+    {
+      "id": "imola",
+      "name": "Autodromo Enzo e Dino Ferrari (Imola)",
+      "nodeId": "it",
+      "kind": "road_circuit",
+      "lat": 44.3439,
+      "lng": 11.7167,
+      "corners": [],
+      "isOther": false,
+      "confidence": "official"
+    },
+    {
+      "id": "cremona",
+      "name": "Cremona Circuit",
+      "nodeId": "it",
+      "kind": "road_circuit",
+      "lat": 45.085,
+      "lng": 10.116,
+      "corners": [],
+      "isOther": false,
+      "confidence": "community"
+    },
+    {
+      "id": "vallelunga",
+      "name": "Autodromo Vallelunga",
+      "nodeId": "it",
+      "kind": "road_circuit",
+      "lat": 42.1589,
+      "lng": 12.3889,
+      "corners": [],
+      "isOther": false,
+      "confidence": "official"
+    }
+  ]
+}

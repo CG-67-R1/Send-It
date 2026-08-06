@@ -1,0 +1,65 @@
+{
+  "version": 1,
+  "tracks": [
+    {
+      "id": "shanghai-international-circuit",
+      "name": "Shanghai International Circuit",
+      "nodeId": "cn",
+      "kind": "road_circuit",
+      "lat": 31.3396,
+      "lng": 121.22,
+      "corners": [],
+      "isOther": false,
+      "confidence": "official",
+      "notes": "Shanghai. 5.451 km; FIA F1 grade; has hosted motorcycle events."
+    },
+    {
+      "id": "zhuhai-international-circuit",
+      "name": "Zhuhai International Circuit",
+      "nodeId": "cn",
+      "kind": "road_circuit",
+      "lat": 22.3067,
+      "lng": 113.5578,
+      "corners": [],
+      "isOther": false,
+      "confidence": "official",
+      "notes": "Zhuhai, Guangdong. 4.32 km; hosts Asia road racing events and track days."
+    },
+    {
+      "id": "chengdu-tianfu-international-circuit",
+      "name": "Chengdu Tianfu International Circuit",
+      "nodeId": "cn",
+      "kind": "road_circuit",
+      "lat": 30.2781,
+      "lng": 104.3042,
+      "corners": [],
+      "isOther": false,
+      "confidence": "official",
+      "notes": "Chengdu, Sichuan. 5.279 km; modern FIM-grade circuit (since 2023 MotoGP)."
+    },
+    {
+      "id": "beijing-goldenport",
+      "name": "Beijing Goldenport Motor Park",
+      "nodeId": "cn",
+      "kind": "road_circuit",
+      "lat": 39.9985,
+      "lng": 116.5617,
+      "corners": [],
+      "isOther": false,
+      "confidence": "established-press",
+      "notes": "Beijing. 2.4 km; used for club and national racing events."
+    },
+    {
+      "id": "ningbo-international-speedpark",
+      "name": "Ningbo International Speedpark",
+      "nodeId": "cn",
+      "kind": "road_circuit",
+      "lat": 29.8695,
+      "lng": 121.5534,
+      "corners": [],
+      "isOther": false,
+      "confidence": "established-press",
+      "notes": "Ningbo, Zhejiang. Road course used for national championship rounds."
+    }
+  ]
+}

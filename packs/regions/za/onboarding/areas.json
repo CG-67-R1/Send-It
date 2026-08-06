@@ -1,0 +1,27 @@
+{
+  "areas": [
+    {
+      "code": "ZA",
+      "nodeId": "za",
+      "name": "South Africa",
+      "clubs": [
+        {
+          "name": "MSA-affiliated road racing clubs",
+          "location": "South Africa",
+          "website": "https://www.motorsport.co.za"
+        }
+      ],
+      "classes": [
+        "Superbike SA",
+        "Supersport",
+        "Superstock 1000"
+      ],
+      "coaches": [
+        {
+          "name": "Circuit coaching providers",
+          "description": "Kyalami, Phakisa, Killarney, and Zwartkops offer track day and coaching programmes."
+        }
+      ]
+    }
+  ]
+}

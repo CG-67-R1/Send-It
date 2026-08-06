@@ -1,0 +1,24 @@
+{
+  "classes": [
+    {
+      "id": "superbike",
+      "name": "Superbike",
+      "nodeId": "th"
+    },
+    {
+      "id": "supersport",
+      "name": "Supersport",
+      "nodeId": "th"
+    },
+    {
+      "id": "super-sport-600",
+      "name": "Super Sport 600",
+      "nodeId": "th"
+    },
+    {
+      "id": "underbone-150",
+      "name": "Underbone 150cc",
+      "nodeId": "th"
+    }
+  ]
+}

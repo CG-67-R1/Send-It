@@ -1,0 +1,9 @@
+{
+  "governingBody": "Federazione Motociclistica Italiana",
+  "shortName": "FMI",
+  "urls": {
+    "sourcePage": "https://www.federmoto.it"
+  },
+  "chapters": {},
+  "note": "Seed: link-out; in-app rules KB not ingested."
+}

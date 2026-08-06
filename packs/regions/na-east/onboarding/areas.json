@@ -1,0 +1,79 @@
+{
+  "areas": [
+    {
+      "code": "NE-US",
+      "nodeId": "na-east-northeast-us",
+      "name": "Northeast United States",
+      "clubs": [
+        {
+          "name": "WERA — Eastern region clubs",
+          "location": "Eastern US",
+          "website": "https://www.wera.com"
+        },
+        {
+          "name": "CCS East",
+          "location": "Eastern US",
+          "website": "https://www.ccsracing.us"
+        }
+      ],
+      "classes": [
+        "MotoAmerica Superbike",
+        "MotoAmerica Supersport",
+        "WERA Heavyweight Superbike",
+        "Clubman / amateur classes"
+      ],
+      "coaches": [
+        {
+          "name": "Track day coaches at regional circuits",
+          "description": "Road America, NJMP, VIR, and Summit Point offer coach-led track days."
+        }
+      ]
+    },
+    {
+      "code": "SE-US",
+      "nodeId": "na-east-southeast-us",
+      "name": "Southeast United States",
+      "clubs": [
+        {
+          "name": "CMRA — Carolinas",
+          "location": "Carolinas",
+          "website": "https://www.cmra.us"
+        }
+      ],
+      "classes": [
+        "MotoAmerica regional",
+        "WERA Southeast",
+        "Club Superbike / Supersport"
+      ],
+      "coaches": [
+        {
+          "name": "Barber Motorsports Academy",
+          "description": "Track day and rider coaching programs at Barber Motorsports Park."
+        }
+      ]
+    },
+    {
+      "code": "E-CA",
+      "nodeId": "na-east-eastern-canada",
+      "name": "Eastern Canada",
+      "clubs": [
+        {
+          "name": "MSAO — Motorcycle Sport Association of Ontario",
+          "location": "Ontario",
+          "website": "https://www.msao.ca"
+        }
+      ],
+      "classes": [
+        "CSBK Pro Superbike",
+        "CSBK Supersport",
+        "Amateur / regional classes"
+      ],
+      "coaches": [
+        {
+          "name": "Calabogie track day providers",
+          "description": "Multiple track day organisations operate at Calabogie Motorsports Park."
+        }
+      ]
+    }
+  ]
+}

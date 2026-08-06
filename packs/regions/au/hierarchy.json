@@ -1,0 +1,189 @@
+{
+  "packId": "au",
+  "nodes": [
+    {
+      "id": "au",
+      "parentId": null,
+      "kind": "region",
+      "displayName": "Australia",
+      "locales": [
+        "en-AU"
+      ],
+      "timezones": [
+        "Australia/Adelaide",
+        "Australia/Sydney",
+        "Australia/Melbourne",
+        "Australia/Brisbane",
+        "Australia/Perth",
+        "Australia/Hobart",
+        "Australia/Darwin"
+      ],
+      "isoCountries": [
+        "AU"
+      ],
+      "adminAreas": [
+        "NSW",
+        "VIC",
+        "QLD",
+        "SA",
+        "WA",
+        "TAS",
+        "ACT",
+        "NT"
+      ],
+      "status": "active"
+    },
+    {
+      "id": "au-nsw",
+      "parentId": "au",
+      "kind": "subdivision",
+      "displayName": "New South Wales",
+      "locales": [
+        "en-AU"
+      ],
+      "timezones": [
+        "Australia/Sydney"
+      ],
+      "isoCountries": [
+        "AU"
+      ],
+      "adminAreas": [
+        "NSW"
+      ],
+      "status": "active"
+    },
+    {
+      "id": "au-vic",
+      "parentId": "au",
+      "kind": "subdivision",
+      "displayName": "Victoria",
+      "locales": [
+        "en-AU"
+      ],
+      "timezones": [
+        "Australia/Melbourne"
+      ],
+      "isoCountries": [
+        "AU"
+      ],
+      "adminAreas": [
+        "VIC"
+      ],
+      "status": "active"
+    },
+    {
+      "id": "au-qld",
+      "parentId": "au",
+      "kind": "subdivision",
+      "displayName": "Queensland",
+      "locales": [
+        "en-AU"
+      ],
+      "timezones": [
+        "Australia/Brisbane"
+      ],
+      "isoCountries": [
+        "AU"
+      ],
+      "adminAreas": [
+        "QLD"
+      ],
+      "status": "active"
+    },
+    {
+      "id": "au-sa",
+      "parentId": "au",
+      "kind": "subdivision",
+      "displayName": "South Australia",
+      "locales": [
+        "en-AU"
+      ],
+      "timezones": [
+        "Australia/Adelaide"
+      ],
+      "isoCountries": [
+        "AU"
+      ],
+      "adminAreas": [
+        "SA"
+      ],
+      "status": "active"
+    },
+    {
+      "id": "au-wa",
+      "parentId": "au",
+      "kind": "subdivision",
+      "displayName": "Western Australia",
+      "locales": [
+        "en-AU"
+      ],
+      "timezones": [
+        "Australia/Perth"
+      ],
+      "isoCountries": [
+        "AU"
+      ],
+      "adminAreas": [
+        "WA"
+      ],
+      "status": "active"
+    },
+    {
+      "id": "au-tas",
+      "parentId": "au",
+      "kind": "subdivision",
+      "displayName": "Tasmania",
+      "locales": [
+        "en-AU"
+      ],
+      "timezones": [
+        "Australia/Hobart"
+      ],
+      "isoCountries": [
+        "AU"
+      ],
+      "adminAreas": [
+        "TAS"
+      ],
+      "status": "active"
+    },
+    {
+      "id": "au-act",
+      "parentId": "au",
+      "kind": "subdivision",
+      "displayName": "Australian Capital Territory",
+      "locales": [
+        "en-AU"
+      ],
+      "timezones": [
+        "Australia/Sydney"
+      ],
+      "isoCountries": [
+        "AU"
+      ],
+      "adminAreas": [
+        "ACT"
+      ],
+      "status": "active"
+    },
+    {
+      "id": "au-nt",
+      "parentId": "au",
+      "kind": "subdivision",
+      "displayName": "Northern Territory",
+      "locales": [
+        "en-AU"
+      ],
+      "timezones": [
+        "Australia/Darwin"
+      ],
+      "isoCountries": [
+        "AU"
+      ],
+      "adminAreas": [
+        "NT"
+      ],
+      "status": "active"
+    }
+  ]
+}

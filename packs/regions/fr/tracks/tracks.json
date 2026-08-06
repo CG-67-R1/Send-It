@@ -1,0 +1,89 @@
+{
+  "version": 1,
+  "tracks": [
+    {
+      "id": "le-mans",
+      "name": "Circuit de la Sarthe (Le Mans)",
+      "nodeId": "fr",
+      "kind": "road_circuit",
+      "lat": 47.9561,
+      "lng": 0.2075,
+      "corners": [],
+      "isOther": false,
+      "confidence": "official",
+      "notes": "Le Mans, Sarthe. 4.185 km motorcycle circuit; hosts MotoGP French Grand Prix and 24 Heures Motos endurance."
+    },
+    {
+      "id": "circuit-de-nevers-magny-cours",
+      "name": "Circuit de Nevers Magny-Cours",
+      "nodeId": "fr",
+      "kind": "road_circuit",
+      "lat": 46.8641,
+      "lng": 3.1636,
+      "corners": [],
+      "isOther": false,
+      "confidence": "official",
+      "notes": "Magny-Cours, Ni\u00e8vre. 4.411 km; hosts World Superbike French round."
+    },
+    {
+      "id": "paul-ricard",
+      "name": "Circuit Paul Ricard",
+      "nodeId": "fr",
+      "kind": "road_circuit",
+      "lat": 43.2506,
+      "lng": 5.7914,
+      "corners": [],
+      "isOther": false,
+      "confidence": "official",
+      "notes": "Le Castellet, Var. 5.842 km; modern FIA/FIM circuit with extensive runoff. FFM national rounds."
+    },
+    {
+      "id": "circuit-de-ledenon",
+      "name": "Circuit de L\u00e9denon",
+      "nodeId": "fr",
+      "kind": "road_circuit",
+      "lat": 43.9419,
+      "lng": 4.5264,
+      "corners": [],
+      "isOther": false,
+      "confidence": "established-press",
+      "notes": "L\u00e9denon, Gard. 3.15 km; popular FFM club and national championship circuit."
+    },
+    {
+      "id": "nogaro",
+      "name": "Circuit Paul Armagnac (Nogaro)",
+      "nodeId": "fr",
+      "kind": "road_circuit",
+      "lat": 43.7698,
+      "lng": -0.0355,
+      "corners": [],
+      "isOther": false,
+      "confidence": "official",
+      "notes": "Nogaro, Gers. 3.636 km; FFM national rounds."
+    },
+    {
+      "id": "carole",
+      "name": "Circuit de Carole",
+      "nodeId": "fr",
+      "kind": "road_circuit",
+      "lat": 48.9853,
+      "lng": 2.5547,
+      "corners": [],
+      "isOther": false,
+      "confidence": "established-press",
+      "notes": "Tremblay-en-France, Seine-Saint-Denis. 2.17 km club circuit near Paris; FFM events."
+    },
+    {
+      "id": "val-de-vienne",
+      "name": "Circuit de Val de Vienne",
+      "nodeId": "fr",
+      "kind": "road_circuit",
+      "lat": 46.2892,
+      "lng": 0.5444,
+      "corners": [],
+      "isOther": false,
+      "confidence": "established-press",
+      "notes": "Le Vigeant, Vienne. 4.035 km; French Superbike championship rounds."
+    }
+  ]
+}

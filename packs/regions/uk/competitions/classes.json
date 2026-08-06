@@ -1,0 +1,24 @@
+{
+  "classes": [
+    {
+      "id": "bsb-superbike",
+      "name": "British Superbike",
+      "nodeId": "uk"
+    },
+    {
+      "id": "supersport",
+      "name": "Supersport",
+      "nodeId": "uk"
+    },
+    {
+      "id": "superstock",
+      "name": "Superstock",
+      "nodeId": "uk"
+    },
+    {
+      "id": "clubman",
+      "name": "Clubman / national",
+      "nodeId": "uk"
+    }
+  ]
+}

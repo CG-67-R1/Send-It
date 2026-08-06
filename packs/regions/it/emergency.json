@@ -1,0 +1,11 @@
+{
+  "contacts": [
+    {
+      "id": "it-112",
+      "name": "Emergency services",
+      "phone": "112",
+      "nodeId": "it"
+    }
+  ],
+  "notes": "Follow circuit medical / direzione gara procedures."
+}

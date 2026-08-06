@@ -15,9 +15,16 @@ import {
   TouchableOpacity,
   View,
 } from 'react-native';
+import {
+  NestableDraggableFlatList,
+  NestableScrollContainer,
+  ScaleDecorator,
+} from 'react-native-draggable-flatlist';
+import type { RenderItemParams } from 'react-native-draggable-flatlist';
 import * as ImagePicker from 'expo-image-picker';
 import { useFocusEffect } from '@react-navigation/native';
 import {
+  DEFAULT_PRIORITY,
   getCustomSources,
   getPriorityOrder,
   mergePriorityOrder,
@@ -34,7 +41,13 @@ import {
   requestForegroundLocationPermission,
   setTrackArrivalEnabled,
 } from '../location/trackGeofence';
-import { SOURCES_URL } from '../../constants/api';
+import {
+  apiFetch,
+  PRIVACY_POLICY_URL,
+  SOURCES_URL,
+  TERMS_OF_USE_URL,
+} from '../../constants/api';
+import { safeOpenUrl } from '../utils/safeOpenUrl';
 import type { CustomSource, PriorityOrder, Source } from '../types';
 import { AppLogo } from '../components/AppLogo';
 import { SCREEN_LOGO_SIZE } from '../constants/logoSizing';
@@ -49,7 +62,12 @@ import {
 } from '../storage/avatarFacePhoto';
 import { photoDisplayUri } from '../storage/localPhotoStorage';
 import { useOnboardingReset } from '../context/OnboardingResetContext';
-import { getBikeSetupDaySheet, clearAllBikeSetupData } from '../storage/bikeSetupSheet';
+import {
+  getBikeSetupDaySheet,
+  getSessionHistory,
+  clearAllBikeSetupData,
+} from '../storage/bikeSetupSheet';
+import { clearBikeBalanceState, loadBikeBalanceState } from '../storage/bikeBalance';
 import { clearTrackWalkSessions } from '../storage/trackWalk';
 import { clearBikePhoto } from '../storage/bikePhoto';
 
@@ -104,7 +122,7 @@ export function HeadlinesSettingsScreen() {
 
     let builtin: Source[] = [];
     try {
-      const res = await fetch(SOURCES_URL, { signal: AbortSignal.timeout(5000) });
+      const res = await apiFetch(SOURCES_URL, { signal: AbortSignal.timeout(5000) });
       if (res.ok) {
         const data = await res.json();
         if (Array.isArray(data.sources)) builtin = data.sources;
@@ -112,14 +130,17 @@ export function HeadlinesSettingsScreen() {
     } catch {
       builtin = [];
     }
+    if (builtin.length === 0) {
+      builtin = DEFAULT_PRIORITY.map((id) => ({
+        id,
+        name: id.replace(/_/g, ' '),
+      }));
+    }
     setBuiltinSources(builtin);
 
     const builtinIds = builtin.map((s) => s.id);
     const customIds = custom.map((s) => s.id);
-    const merged =
-      builtinIds.length > 0
-        ? mergePriorityOrder(order, builtinIds, customIds)
-        : order;
+    const merged = mergePriorityOrder(order, builtinIds, customIds);
     setPriorityState(merged);
     if (merged.length > 0 && merged.join(',') !== order.join(',')) {
       await setPriorityOrder(merged);
@@ -297,9 +318,70 @@ export function HeadlinesSettingsScreen() {
     [priority]
   );
 
+  const handlePriorityDragEnd = useCallback(
+    async ({ data }: { data: Array<{ key: string; sourceId: string }> }) => {
+      const next = data.map((item) => item.sourceId);
+      setPriorityState(next);
+      await setPriorityOrder(next);
+    },
+    []
+  );
+
+  const priorityDragData = useMemo(
+    () =>
+      priority.map((sourceId) => ({
+        key: sourceId,
+        sourceId,
+      })),
+    [priority]
+  );
+
+  const renderPriorityItem = useCallback(
+    ({ item, drag, isActive, getIndex }: RenderItemParams<{ key: string; sourceId: string }>) => {
+      const index = getIndex() ?? 0;
+      const source = allSources.find((s) => s.id === item.sourceId);
+      return (
+        <ScaleDecorator>
+          <TouchableOpacity
+            style={[styles.priorityRow, isActive && styles.priorityRowActive]}
+            onPress={() => setPickerSlot(index)}
+            onLongPress={drag}
+            delayLongPress={160}
+            disabled={isActive}
+            activeOpacity={0.9}
+            accessibilityLabel={`${source?.name ?? item.sourceId}, position ${index + 1}`}
+            accessibilityHint="Hold and drag to reorder, or tap to swap source"
+          >
+            <Text style={styles.priorityNum}>{index + 1}</Text>
+            <View style={styles.pickerButton}>
+              <Text style={styles.pickerButtonText} numberOfLines={1}>
+                {source?.name ?? item.sourceId}
+              </Text>
+              <Text style={styles.pickerChevron}>▼</Text>
+            </View>
+            <View style={styles.dragHandleHit}>
+              <Text style={styles.dragHandle}>☰</Text>
+            </View>
+          </TouchableOpacity>
+        </ScaleDecorator>
+      );
+    },
+    [allSources]
+  );
+
   const handleAddCustom = useCallback(async () => {
     const url = addUrl.trim();
     if (!url) return;
+    try {
+      const parsed = new URL(url);
+      if (parsed.protocol !== 'http:' && parsed.protocol !== 'https:') {
+        Alert.alert('Invalid URL', 'Feed URL must start with http:// or https://');
+        return;
+      }
+    } catch {
+      Alert.alert('Invalid URL', 'Please enter a valid feed URL.');
+      return;
+    }
     let name = addName.trim();
     if (!name) {
       try {
@@ -308,10 +390,10 @@ export function HeadlinesSettingsScreen() {
         name = url;
       }
     }
-    if (customSources.length >= 4) {
+    if (customSources.length >= 10) {
       Alert.alert(
         'Custom feed limit',
-        'You can add up to 4 custom news feeds. Remove one before adding another.'
+        'You can add up to 10 custom news feeds. Remove one before adding another.'
       );
       return;
     }
@@ -378,17 +460,22 @@ export function HeadlinesSettingsScreen() {
 
   const handleExportData = useCallback(async () => {
     try {
-      const [onboarding, setupSheet, sources, sourcePriority] = await Promise.all([
-        getOnboardingAnswers(),
-        getBikeSetupDaySheet(),
-        getCustomSources(),
-        getPriorityOrder(),
-      ]);
+      const [onboarding, setupSheet, setupHistory, bikeBalance, sources, sourcePriority] =
+        await Promise.all([
+          getOnboardingAnswers(),
+          getBikeSetupDaySheet(),
+          getSessionHistory(),
+          loadBikeBalanceState(),
+          getCustomSources(),
+          getPriorityOrder(),
+        ]);
       const json = JSON.stringify(
         {
           exportedAt: new Date().toISOString(),
           onboarding,
           setupSheet,
+          setupSessionHistory: setupHistory,
+          bikeBalance,
           customSources: sources,
           newsPriority: sourcePriority,
         },
@@ -405,7 +492,7 @@ export function HeadlinesSettingsScreen() {
     if (!onboardingReset) return;
     Alert.alert(
       'Delete all local data?',
-      'This permanently removes your profile, photos, setup sheet, Track Walk notes, and news preferences from this device, then restarts onboarding.',
+      'This permanently removes your profile, photos, Day Setup Sheet and saved setups, Bike Balance state, Track Walk notes, and news preferences from this device, then restarts onboarding.',
       [
         { text: 'Cancel', style: 'cancel' },
         {
@@ -415,6 +502,7 @@ export function HeadlinesSettingsScreen() {
             try {
               await Promise.all([
                 clearAllBikeSetupData(),
+                clearBikeBalanceState(),
                 clearTrackWalkSessions(),
                 resetHeadlinesSettings(),
                 clearAvatarFacePhoto(),
@@ -474,8 +562,10 @@ export function HeadlinesSettingsScreen() {
     await setTrackArrivalEnabled(value);
   }, []);
 
+  const isFilteringSources = sourceSearch.trim().length > 0;
+
   return (
-    <ScrollView style={styles.container} contentContainerStyle={styles.content}>
+    <NestableScrollContainer style={styles.container} contentContainerStyle={styles.content}>
       <View style={styles.logoRow}>
         <AppLogo size={SCREEN_LOGO_SIZE} />
       </View>
@@ -666,8 +756,10 @@ export function HeadlinesSettingsScreen() {
       </View>
 
       <View style={styles.section}>
-        <Text style={styles.sectionTitle}>Source priority</Text>
-        <Text style={styles.sectionSubtitle}>1 = first on Home / News. Tap to change.</Text>
+        <Text style={styles.sectionTitle}>Source order</Text>
+        <Text style={styles.sectionSubtitle}>
+          Hold and drag ☰ to reorder. 1 = Priority 1 for alerts. Tap a name to swap sources.
+        </Text>
         <TextInput
           style={styles.prioritySearchInput}
           placeholder="Filter sources"
@@ -678,25 +770,38 @@ export function HeadlinesSettingsScreen() {
           autoCorrect={false}
           returnKeyType="search"
         />
-        {visiblePriority.map(({ sourceId, index, source }) => {
-          return (
-            <View key={`${sourceId}-${index}`} style={styles.priorityRow}>
-              <Text style={styles.priorityNum}>{index + 1}</Text>
-              <TouchableOpacity
-                style={styles.pickerButton}
-                onPress={() => setPickerSlot(index)}
-              >
-                <Text style={styles.pickerButtonText} numberOfLines={1}>
-                  {source?.name ?? sourceId}
-                </Text>
-                <Text style={styles.pickerChevron}>▼</Text>
-              </TouchableOpacity>
-            </View>
-          );
-        })}
-        {sourceSearch.trim() && visiblePriority.length === 0 ? (
-          <Text style={styles.priorityEmpty}>No priority sources match your search.</Text>
-        ) : null}
+        {isFilteringSources ? (
+          <>
+            {visiblePriority.map(({ sourceId, index, source }) => (
+              <View key={`${sourceId}-${index}`} style={styles.priorityRow}>
+                <Text style={styles.priorityNum}>{index + 1}</Text>
+                <TouchableOpacity
+                  style={styles.pickerButton}
+                  onPress={() => setPickerSlot(index)}
+                >
+                  <Text style={styles.pickerButtonText} numberOfLines={1}>
+                    {source?.name ?? sourceId}
+                  </Text>
+                  <Text style={styles.pickerChevron}>▼</Text>
+                </TouchableOpacity>
+              </View>
+            ))}
+            {visiblePriority.length === 0 ? (
+              <Text style={styles.priorityEmpty}>No priority sources match your search.</Text>
+            ) : (
+              <Text style={styles.priorityEmpty}>Clear the filter to drag-reorder sources.</Text>
+            )}
+          </>
+        ) : (
+          <NestableDraggableFlatList
+            data={priorityDragData}
+            keyExtractor={(item) => item.key}
+            onDragEnd={handlePriorityDragEnd}
+            renderItem={renderPriorityItem}
+            scrollEnabled={false}
+            activationDistance={8}
+          />
+        )}
       </View>
 
       <View style={styles.section}>
@@ -750,15 +855,24 @@ export function HeadlinesSettingsScreen() {
       <View style={styles.section}>
         <Text style={styles.sectionTitle}>Your data & privacy</Text>
         <Text style={styles.sectionSubtitle}>
-          Your profile, avatar, setup sheet, Track Walk notes, and news preferences are stored
-          locally on this device or browser using AsyncStorage. They are not stored in an online
-          account.
+          Your profile, avatar, Day Setup Sheet, saved bike setups, Bike Balance data, Track Walk
+          notes, and news preferences stay private in local storage on this device or browser. They
+          are not stored in an online account. Sharing a setup as text only happens when you choose
+          Messages or another app.
         </Text>
         <Text style={styles.sectionSubtitle}>
           AI Coach, Bike Setup, and Q&amp;A messages you send, including attachments, are transmitted
           to the RoadRacer API and may be processed by OpenAI. Chat history is not stored on the
           server after the response.
         </Text>
+        <View style={styles.legalLinks}>
+          <TouchableOpacity onPress={() => void safeOpenUrl(PRIVACY_POLICY_URL, 'privacy policy')}>
+            <Text style={styles.legalLinkText}>Privacy Policy</Text>
+          </TouchableOpacity>
+          <TouchableOpacity onPress={() => void safeOpenUrl(TERMS_OF_USE_URL, 'terms of use')}>
+            <Text style={styles.legalLinkText}>Terms of Use</Text>
+          </TouchableOpacity>
+        </View>
         <View style={styles.dataActions}>
           <TouchableOpacity style={styles.dataButton} onPress={handleExportData} activeOpacity={0.85}>
             <Text style={styles.dataButtonText}>Export my data</Text>
@@ -851,7 +965,7 @@ export function HeadlinesSettingsScreen() {
           </View>
         </View>
       </Modal>
-    </ScrollView>
+    </NestableScrollContainer>
   );
 }
 
@@ -976,6 +1090,10 @@ const styles = StyleSheet.create({
   },
   notifyLabel: { fontSize: 16, color: '#e2e8f0', flex: 1 },
   priorityRow: { flexDirection: 'row', alignItems: 'center', marginBottom: 8 },
+  priorityRowActive: {
+    opacity: 0.92,
+    transform: [{ scale: 1.02 }],
+  },
   prioritySearchInput: {
     backgroundColor: '#1e293b',
     borderRadius: 8,
@@ -987,7 +1105,7 @@ const styles = StyleSheet.create({
     color: '#e2e8f0',
     marginBottom: 12,
   },
-  priorityEmpty: { color: '#cbd5e1', fontSize: 13, lineHeight: 19 },
+  priorityEmpty: { color: '#cbd5e1', fontSize: 13, lineHeight: 19, marginTop: 4 },
   priorityNum: { width: 28, fontSize: 16, fontWeight: '600', color: '#f59e0b' },
   pickerButton: {
     flex: 1,
@@ -1001,6 +1119,17 @@ const styles = StyleSheet.create({
   },
   pickerButtonText: { fontSize: 16, color: '#e2e8f0', flex: 1 },
   pickerChevron: { fontSize: 10, color: '#64748b', marginLeft: 8 },
+  dragHandleHit: {
+    marginLeft: 6,
+    paddingHorizontal: 10,
+    paddingVertical: 10,
+    justifyContent: 'center',
+  },
+  dragHandle: {
+    fontSize: 18,
+    color: '#94a3b8',
+    fontWeight: '700',
+  },
   input: {
     backgroundColor: '#1e293b',
     borderRadius: 8,
@@ -1017,6 +1146,18 @@ const styles = StyleSheet.create({
   },
   addButtonDisabled: { opacity: 0.6 },
   addButtonText: { color: '#0f172a', fontWeight: '600', fontSize: 16 },
+  legalLinks: {
+    flexDirection: 'row',
+    flexWrap: 'wrap',
+    gap: 16,
+    marginBottom: 14,
+  },
+  legalLinkText: {
+    color: '#93c5fd',
+    fontSize: 14,
+    fontWeight: '600',
+    textDecorationLine: 'underline',
+  },
   dataActions: { gap: 10 },
   dataButton: {
     alignItems: 'center',

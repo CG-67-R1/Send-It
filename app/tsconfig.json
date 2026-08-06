@@ -8,5 +8,5 @@
       "@/*": ["./*"]
     }
   },
-  "include": ["**/*.ts", "**/*.tsx", "src/data/**/*.json"]
+  "include": ["**/*.ts", "**/*.tsx", "src/data/**/*.json", "src/packs/bundled/**/*.json"]
 }

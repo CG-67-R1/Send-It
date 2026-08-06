@@ -1,0 +1,17 @@
+{
+  "contacts": [
+    {
+      "id": "cn-120",
+      "name": "\u6025\u6551 (Ambulance)",
+      "phone": "120",
+      "nodeId": "cn"
+    },
+    {
+      "id": "cn-110",
+      "name": "\u8b66\u5bdf (Police)",
+      "phone": "110",
+      "nodeId": "cn"
+    }
+  ],
+  "notes": "Follow circuit medical / marshal instructions. 120 ambulance, 110 police."
+}

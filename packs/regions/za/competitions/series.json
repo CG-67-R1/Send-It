@@ -1,0 +1,27 @@
+{
+  "series": [
+    {
+      "id": "superbike-sa",
+      "name": "Superbike SA Championship",
+      "nodeId": "za",
+      "local": true,
+      "website": "https://www.motorsport.co.za",
+      "confidence": "official",
+      "notes": "Premier South African motorcycle road racing championship."
+    },
+    {
+      "id": "endurance-sa",
+      "name": "SA Endurance Championship",
+      "nodeId": "za",
+      "local": true,
+      "confidence": "established-press"
+    },
+    {
+      "id": "club-sa",
+      "name": "MSA club road racing",
+      "nodeId": "za",
+      "local": true,
+      "confidence": "community"
+    }
+  ]
+}

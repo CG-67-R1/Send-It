@@ -1,0 +1,13 @@
+{
+  "items": [
+    {
+      "id": "ffm",
+      "name": "F\u00e9d\u00e9ration Fran\u00e7aise de Motocyclisme (FFM)",
+      "role": "federation",
+      "nodeId": "fr",
+      "website": "https://www.ffmoto.org",
+      "confidence": "official",
+      "notes": "FIM affiliate; national governing body for all motorcycle sport in France including Superbike, Endurance, and circuit racing."
+    }
+  ]
+}

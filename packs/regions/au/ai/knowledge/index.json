@@ -1,0 +1,19 @@
+{
+  "files": [
+    {
+      "path": "docs/gpt-knowledge/track_geometry_australia.json",
+      "role": "track_geometry",
+      "nodeId": "au"
+    },
+    {
+      "path": "docs/gpt-knowledge/TRACK_SPECIFIC_DIAGNOSTIC_AU_v1.json",
+      "role": "track_diagnostic_bias",
+      "nodeId": "au"
+    },
+    {
+      "path": "docs/gpt-knowledge/Track_Knowledge_Base_Australia_v2.md",
+      "role": "track_kb",
+      "nodeId": "au"
+    }
+  ]
+}

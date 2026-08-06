@@ -1,0 +1,22 @@
+{
+  "packId": "my",
+  "nodes": [
+    {
+      "id": "my",
+      "parentId": null,
+      "kind": "region",
+      "displayName": "Malaysia",
+      "locales": [
+        "ms-MY",
+        "en"
+      ],
+      "timezones": [
+        "Asia/Kuala_Lumpur"
+      ],
+      "isoCountries": [
+        "MY"
+      ],
+      "status": "seed"
+    }
+  ]
+}

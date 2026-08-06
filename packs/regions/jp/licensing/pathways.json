@@ -1,0 +1,20 @@
+{
+  "pathways": [
+    {
+      "id": "jp-mfj-competition",
+      "title": "MFJ competition licence pathway",
+      "nodeId": "jp",
+      "steps": [
+        "Join an MFJ-affiliated club (\u30af\u30e9\u30d6\u767b\u9332)",
+        "Obtain MFJ membership",
+        "Apply for the appropriate competition licence (\u666e\u901a\u7af6\u6280 / \u56fd\u5185 / \u56fd\u969b A/B)",
+        "Complete required medical examination",
+        "Pass MFJ licence course or novice orientation at sanctioned event"
+      ],
+      "urls": [
+        "https://www.mfj.or.jp/licence"
+      ],
+      "confidence": "official"
+    }
+  ]
+}

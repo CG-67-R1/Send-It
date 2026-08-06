@@ -1,0 +1,60 @@
+{
+  "items": [
+    {
+      "id": "ma",
+      "name": "Motorcycling Australia",
+      "role": "federation",
+      "nodeId": "au",
+      "website": "https://www.ma.org.au",
+      "confidence": "official"
+    },
+    {
+      "id": "mnsw",
+      "name": "Motorcycling NSW",
+      "role": "state_provincial",
+      "nodeId": "au-nsw",
+      "website": "https://motorcycling.com.au",
+      "confidence": "official"
+    },
+    {
+      "id": "mv",
+      "name": "Motorcycling Victoria",
+      "role": "state_provincial",
+      "nodeId": "au-vic",
+      "website": "https://motorcyclingvic.com.au",
+      "confidence": "official"
+    },
+    {
+      "id": "mq",
+      "name": "Motorcycling Queensland",
+      "role": "state_provincial",
+      "nodeId": "au-qld",
+      "website": "https://mqld.org.au",
+      "confidence": "official"
+    },
+    {
+      "id": "msa",
+      "name": "Motorcycling South Australia",
+      "role": "state_provincial",
+      "nodeId": "au-sa",
+      "website": "https://motorcyclingsa.org.au",
+      "confidence": "official"
+    },
+    {
+      "id": "mwa",
+      "name": "Motorcycling WA",
+      "role": "state_provincial",
+      "nodeId": "au-wa",
+      "website": "https://motorcyclingwa.org.au",
+      "confidence": "official"
+    },
+    {
+      "id": "mtas",
+      "name": "Motorcycling Tasmania",
+      "role": "state_provincial",
+      "nodeId": "au-tas",
+      "website": "https://mtas.org.au",
+      "confidence": "official"
+    }
+  ]
+}

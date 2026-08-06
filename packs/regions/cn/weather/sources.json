@@ -1,0 +1,11 @@
+{
+  "sources": [
+    {
+      "id": "cma-cn",
+      "name": "\u4e2d\u56fd\u6c14\u8c61\u5c40 (China Meteorological Administration)",
+      "url": "https://www.cma.gov.cn",
+      "confidence": "official",
+      "nodeId": "cn"
+    }
+  ]
+}

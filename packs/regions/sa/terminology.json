@@ -1,0 +1,22 @@
+{
+  "terms": [
+    {
+      "id": "moto1000gp",
+      "term": "Moto1000GP",
+      "definition": "Brazilian prototype class (unique local class)",
+      "locale": "pt-BR"
+    },
+    {
+      "id": "cbm",
+      "term": "CBM",
+      "definition": "Confedera\u00e7\u00e3o Brasileira de Motociclismo",
+      "locale": "pt-BR"
+    },
+    {
+      "id": "cam",
+      "term": "CAM",
+      "definition": "Confederaci\u00f3n Argentina de Motociclismo",
+      "locale": "es-AR"
+    }
+  ]
+}

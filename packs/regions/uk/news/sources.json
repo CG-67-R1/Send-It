@@ -1,0 +1,25 @@
+{
+  "sources": [
+    {
+      "id": "mcn-web",
+      "name": "Motor Cycle News",
+      "url": "https://www.motorcyclenews.com",
+      "confidence": "established-press",
+      "nodeId": "uk"
+    },
+    {
+      "id": "bsb-news",
+      "name": "British Superbike",
+      "url": "https://www.britishsuperbike.com",
+      "confidence": "official",
+      "nodeId": "uk"
+    },
+    {
+      "id": "bike-social",
+      "name": "Bennetts BikeSocial",
+      "url": "https://www.bennetts.co.uk/bikesocial",
+      "confidence": "established-press",
+      "nodeId": "uk"
+    }
+  ]
+}

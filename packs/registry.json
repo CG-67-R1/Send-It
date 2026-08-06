@@ -1,0 +1,702 @@
+{
+  "version": 1,
+  "discipline": "road_race",
+  "nodes": [
+    {
+      "id": "au",
+      "parentId": null,
+      "kind": "region",
+      "displayName": "Australia",
+      "regionNumber": null,
+      "packId": "au",
+      "locales": [
+        "en-AU"
+      ],
+      "timezones": [
+        "Australia/Adelaide",
+        "Australia/Sydney",
+        "Australia/Melbourne",
+        "Australia/Brisbane",
+        "Australia/Perth",
+        "Australia/Hobart",
+        "Australia/Darwin"
+      ],
+      "isoCountries": [
+        "AU"
+      ],
+      "adminAreas": [
+        "NSW",
+        "VIC",
+        "QLD",
+        "SA",
+        "WA",
+        "TAS",
+        "ACT",
+        "NT"
+      ],
+      "status": "active"
+    },
+    {
+      "id": "au-nsw",
+      "parentId": "au",
+      "kind": "subdivision",
+      "displayName": "New South Wales",
+      "packId": "au",
+      "locales": [
+        "en-AU"
+      ],
+      "timezones": [
+        "Australia/Sydney"
+      ],
+      "isoCountries": [
+        "AU"
+      ],
+      "adminAreas": [
+        "NSW"
+      ],
+      "status": "active"
+    },
+    {
+      "id": "au-vic",
+      "parentId": "au",
+      "kind": "subdivision",
+      "displayName": "Victoria",
+      "packId": "au",
+      "locales": [
+        "en-AU"
+      ],
+      "timezones": [
+        "Australia/Melbourne"
+      ],
+      "isoCountries": [
+        "AU"
+      ],
+      "adminAreas": [
+        "VIC"
+      ],
+      "status": "active"
+    },
+    {
+      "id": "au-qld",
+      "parentId": "au",
+      "kind": "subdivision",
+      "displayName": "Queensland",
+      "packId": "au",
+      "locales": [
+        "en-AU"
+      ],
+      "timezones": [
+        "Australia/Brisbane"
+      ],
+      "isoCountries": [
+        "AU"
+      ],
+      "adminAreas": [
+        "QLD"
+      ],
+      "status": "active"
+    },
+    {
+      "id": "au-sa",
+      "parentId": "au",
+      "kind": "subdivision",
+      "displayName": "South Australia",
+      "packId": "au",
+      "locales": [
+        "en-AU"
+      ],
+      "timezones": [
+        "Australia/Adelaide"
+      ],
+      "isoCountries": [
+        "AU"
+      ],
+      "adminAreas": [
+        "SA"
+      ],
+      "status": "active"
+    },
+    {
+      "id": "au-wa",
+      "parentId": "au",
+      "kind": "subdivision",
+      "displayName": "Western Australia",
+      "packId": "au",
+      "locales": [
+        "en-AU"
+      ],
+      "timezones": [
+        "Australia/Perth"
+      ],
+      "isoCountries": [
+        "AU"
+      ],
+      "adminAreas": [
+        "WA"
+      ],
+      "status": "active"
+    },
+    {
+      "id": "au-tas",
+      "parentId": "au",
+      "kind": "subdivision",
+      "displayName": "Tasmania",
+      "packId": "au",
+      "locales": [
+        "en-AU"
+      ],
+      "timezones": [
+        "Australia/Hobart"
+      ],
+      "isoCountries": [
+        "AU"
+      ],
+      "adminAreas": [
+        "TAS"
+      ],
+      "status": "active"
+    },
+    {
+      "id": "au-act",
+      "parentId": "au",
+      "kind": "subdivision",
+      "displayName": "Australian Capital Territory",
+      "packId": "au",
+      "locales": [
+        "en-AU"
+      ],
+      "timezones": [
+        "Australia/Sydney"
+      ],
+      "isoCountries": [
+        "AU"
+      ],
+      "adminAreas": [
+        "ACT"
+      ],
+      "status": "active"
+    },
+    {
+      "id": "au-nt",
+      "parentId": "au",
+      "kind": "subdivision",
+      "displayName": "Northern Territory",
+      "packId": "au",
+      "locales": [
+        "en-AU"
+      ],
+      "timezones": [
+        "Australia/Darwin"
+      ],
+      "isoCountries": [
+        "AU"
+      ],
+      "adminAreas": [
+        "NT"
+      ],
+      "status": "active"
+    },
+    {
+      "id": "uk",
+      "parentId": null,
+      "kind": "region",
+      "displayName": "United Kingdom",
+      "regionNumber": 1,
+      "packId": "uk",
+      "locales": [
+        "en-GB"
+      ],
+      "timezones": [
+        "Europe/London"
+      ],
+      "isoCountries": [
+        "GB"
+      ],
+      "adminAreas": [
+        "ENG",
+        "SCT",
+        "WLS",
+        "NIR"
+      ],
+      "status": "seed"
+    },
+    {
+      "id": "uk-england",
+      "parentId": "uk",
+      "kind": "country",
+      "displayName": "England",
+      "packId": "uk",
+      "locales": [
+        "en-GB"
+      ],
+      "timezones": [
+        "Europe/London"
+      ],
+      "isoCountries": [
+        "GB"
+      ],
+      "adminAreas": [
+        "ENG"
+      ],
+      "status": "seed"
+    },
+    {
+      "id": "uk-scotland",
+      "parentId": "uk",
+      "kind": "country",
+      "displayName": "Scotland",
+      "packId": "uk",
+      "locales": [
+        "en-GB"
+      ],
+      "timezones": [
+        "Europe/London"
+      ],
+      "isoCountries": [
+        "GB"
+      ],
+      "adminAreas": [
+        "SCT"
+      ],
+      "status": "seed"
+    },
+    {
+      "id": "uk-wales",
+      "parentId": "uk",
+      "kind": "country",
+      "displayName": "Wales",
+      "packId": "uk",
+      "locales": [
+        "en-GB"
+      ],
+      "timezones": [
+        "Europe/London"
+      ],
+      "isoCountries": [
+        "GB"
+      ],
+      "adminAreas": [
+        "WLS"
+      ],
+      "status": "seed"
+    },
+    {
+      "id": "uk-northern-ireland",
+      "parentId": "uk",
+      "kind": "country",
+      "displayName": "Northern Ireland",
+      "packId": "uk",
+      "locales": [
+        "en-GB"
+      ],
+      "timezones": [
+        "Europe/London"
+      ],
+      "isoCountries": [
+        "GB"
+      ],
+      "adminAreas": [
+        "NIR"
+      ],
+      "status": "seed"
+    },
+    {
+      "id": "es",
+      "parentId": null,
+      "kind": "region",
+      "displayName": "Spain",
+      "regionNumber": 2,
+      "packId": "es",
+      "locales": [
+        "es-ES",
+        "ca-ES",
+        "en"
+      ],
+      "timezones": [
+        "Europe/Madrid",
+        "Atlantic/Canary"
+      ],
+      "isoCountries": [
+        "ES"
+      ],
+      "status": "seed"
+    },
+    {
+      "id": "it",
+      "parentId": null,
+      "kind": "region",
+      "displayName": "Italy",
+      "regionNumber": 3,
+      "packId": "it",
+      "locales": [
+        "it-IT",
+        "en"
+      ],
+      "timezones": [
+        "Europe/Rome"
+      ],
+      "isoCountries": [
+        "IT"
+      ],
+      "status": "seed"
+    },
+    {
+      "id": "na-east",
+      "parentId": null,
+      "kind": "region",
+      "displayName": "North America East",
+      "regionNumber": 4,
+      "packId": "na-east",
+      "locales": [
+        "en-US",
+        "en-CA",
+        "fr-CA"
+      ],
+      "timezones": [
+        "America/New_York",
+        "America/Toronto",
+        "America/Chicago"
+      ],
+      "isoCountries": [
+        "US",
+        "CA"
+      ],
+      "status": "seed",
+      "notes": "Tracks, clubs and organisations predominantly in the eastern half of North America."
+    },
+    {
+      "id": "na-east-northeast-us",
+      "parentId": "na-east",
+      "kind": "coverage_area",
+      "displayName": "Northeast US",
+      "packId": "na-east",
+      "isoCountries": [
+        "US"
+      ],
+      "status": "seed"
+    },
+    {
+      "id": "na-east-southeast-us",
+      "parentId": "na-east",
+      "kind": "coverage_area",
+      "displayName": "Southeast US",
+      "packId": "na-east",
+      "isoCountries": [
+        "US"
+      ],
+      "status": "seed"
+    },
+    {
+      "id": "na-east-eastern-canada",
+      "parentId": "na-east",
+      "kind": "coverage_area",
+      "displayName": "Eastern Canada",
+      "packId": "na-east",
+      "isoCountries": [
+        "CA"
+      ],
+      "status": "seed"
+    },
+    {
+      "id": "na-west",
+      "parentId": null,
+      "kind": "region",
+      "displayName": "North America West",
+      "regionNumber": 5,
+      "packId": "na-west",
+      "locales": [
+        "en-US",
+        "en-CA"
+      ],
+      "timezones": [
+        "America/Los_Angeles",
+        "America/Denver",
+        "America/Vancouver"
+      ],
+      "isoCountries": [
+        "US",
+        "CA"
+      ],
+      "status": "seed",
+      "notes": "Tracks, clubs and organisations predominantly in the western half of North America."
+    },
+    {
+      "id": "na-west-western-us",
+      "parentId": "na-west",
+      "kind": "coverage_area",
+      "displayName": "Western United States",
+      "packId": "na-west",
+      "isoCountries": [
+        "US"
+      ],
+      "status": "seed"
+    },
+    {
+      "id": "na-west-western-canada",
+      "parentId": "na-west",
+      "kind": "coverage_area",
+      "displayName": "Western Canada",
+      "packId": "na-west",
+      "isoCountries": [
+        "CA"
+      ],
+      "status": "seed"
+    },
+    {
+      "id": "jp",
+      "parentId": null,
+      "kind": "region",
+      "displayName": "Japan",
+      "regionNumber": 6,
+      "packId": "jp",
+      "locales": [
+        "ja-JP",
+        "en"
+      ],
+      "timezones": [
+        "Asia/Tokyo"
+      ],
+      "isoCountries": [
+        "JP"
+      ],
+      "status": "seed"
+    },
+    {
+      "id": "id",
+      "parentId": null,
+      "kind": "region",
+      "displayName": "Indonesia",
+      "regionNumber": 7,
+      "packId": "id",
+      "locales": [
+        "id-ID",
+        "en"
+      ],
+      "timezones": [
+        "Asia/Jakarta",
+        "Asia/Makassar",
+        "Asia/Jayapura"
+      ],
+      "isoCountries": [
+        "ID"
+      ],
+      "status": "seed"
+    },
+    {
+      "id": "my",
+      "parentId": null,
+      "kind": "region",
+      "displayName": "Malaysia",
+      "regionNumber": 8,
+      "packId": "my",
+      "locales": [
+        "ms-MY",
+        "en"
+      ],
+      "timezones": [
+        "Asia/Kuala_Lumpur"
+      ],
+      "isoCountries": [
+        "MY"
+      ],
+      "status": "seed"
+    },
+    {
+      "id": "th",
+      "parentId": null,
+      "kind": "region",
+      "displayName": "Thailand",
+      "regionNumber": 9,
+      "packId": "th",
+      "locales": [
+        "th-TH",
+        "en"
+      ],
+      "timezones": [
+        "Asia/Bangkok"
+      ],
+      "isoCountries": [
+        "TH"
+      ],
+      "status": "seed"
+    },
+    {
+      "id": "za",
+      "parentId": null,
+      "kind": "region",
+      "displayName": "South Africa",
+      "regionNumber": 10,
+      "packId": "za",
+      "locales": [
+        "en-ZA",
+        "af-ZA"
+      ],
+      "timezones": [
+        "Africa/Johannesburg"
+      ],
+      "isoCountries": [
+        "ZA"
+      ],
+      "status": "seed"
+    },
+    {
+      "id": "sa",
+      "parentId": null,
+      "kind": "region",
+      "displayName": "South America",
+      "regionNumber": 11,
+      "packId": "sa",
+      "locales": [
+        "pt-BR",
+        "es-419",
+        "en"
+      ],
+      "timezones": [
+        "America/Sao_Paulo",
+        "America/Argentina/Buenos_Aires",
+        "America/Santiago",
+        "America/Bogota",
+        "America/Lima",
+        "America/Montevideo"
+      ],
+      "isoCountries": [
+        "BR",
+        "AR",
+        "CL",
+        "CO",
+        "PE",
+        "UY"
+      ],
+      "status": "seed",
+      "notes": "Initial release: Brazil, Argentina, Chile, Colombia, Peru, Uruguay."
+    },
+    {
+      "id": "sa-br",
+      "parentId": "sa",
+      "kind": "country",
+      "displayName": "Brazil",
+      "packId": "sa",
+      "locales": [
+        "pt-BR",
+        "en"
+      ],
+      "isoCountries": [
+        "BR"
+      ],
+      "status": "seed"
+    },
+    {
+      "id": "sa-ar",
+      "parentId": "sa",
+      "kind": "country",
+      "displayName": "Argentina",
+      "packId": "sa",
+      "locales": [
+        "es-AR",
+        "en"
+      ],
+      "isoCountries": [
+        "AR"
+      ],
+      "status": "seed"
+    },
+    {
+      "id": "sa-cl",
+      "parentId": "sa",
+      "kind": "country",
+      "displayName": "Chile",
+      "packId": "sa",
+      "locales": [
+        "es-CL",
+        "en"
+      ],
+      "isoCountries": [
+        "CL"
+      ],
+      "status": "seed"
+    },
+    {
+      "id": "sa-co",
+      "parentId": "sa",
+      "kind": "country",
+      "displayName": "Colombia",
+      "packId": "sa",
+      "locales": [
+        "es-CO",
+        "en"
+      ],
+      "isoCountries": [
+        "CO"
+      ],
+      "status": "seed"
+    },
+    {
+      "id": "sa-pe",
+      "parentId": "sa",
+      "kind": "country",
+      "displayName": "Peru",
+      "packId": "sa",
+      "locales": [
+        "es-PE",
+        "en"
+      ],
+      "isoCountries": [
+        "PE"
+      ],
+      "status": "seed"
+    },
+    {
+      "id": "sa-uy",
+      "parentId": "sa",
+      "kind": "country",
+      "displayName": "Uruguay",
+      "packId": "sa",
+      "locales": [
+        "es-UY",
+        "en"
+      ],
+      "isoCountries": [
+        "UY"
+      ],
+      "status": "seed"
+    },
+    {
+      "id": "cn",
+      "parentId": null,
+      "kind": "region",
+      "displayName": "China",
+      "regionNumber": 12,
+      "packId": "cn",
+      "locales": [
+        "zh-CN",
+        "en"
+      ],
+      "timezones": [
+        "Asia/Shanghai"
+      ],
+      "isoCountries": [
+        "CN"
+      ],
+      "status": "seed"
+    },
+    {
+      "id": "fr",
+      "parentId": null,
+      "kind": "region",
+      "displayName": "France",
+      "regionNumber": 13,
+      "packId": "fr",
+      "locales": [
+        "fr-FR",
+        "en"
+      ],
+      "timezones": [
+        "Europe/Paris"
+      ],
+      "isoCountries": [
+        "FR"
+      ],
+      "status": "seed"
+    }
+  ]
+}

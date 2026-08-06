@@ -1,0 +1,12 @@
+{
+  "items": [
+    {
+      "id": "rfme",
+      "name": "Real Federación Motociclista Española (RFME)",
+      "role": "federation",
+      "nodeId": "es",
+      "website": "https://www.rfme.com",
+      "confidence": "official"
+    }
+  ]
+}

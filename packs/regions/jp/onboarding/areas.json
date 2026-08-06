@@ -1,0 +1,28 @@
+{
+  "areas": [
+    {
+      "code": "JP",
+      "nodeId": "jp",
+      "name": "Japan",
+      "clubs": [
+        {
+          "name": "MFJ-affiliated road racing clubs",
+          "location": "Japan",
+          "website": "https://www.mfj.or.jp"
+        }
+      ],
+      "classes": [
+        "JSB1000",
+        "J-GP2",
+        "ST1000",
+        "ST600"
+      ],
+      "coaches": [
+        {
+          "name": "Circuit coaching providers",
+          "description": "Suzuka, Motegi, and Autopolis offer circuit riding schools and track days."
+        }
+      ]
+    }
+  ]
+}

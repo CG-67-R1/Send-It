@@ -1,0 +1,16 @@
+{
+  "terms": [
+    {
+      "id": "rfme",
+      "term": "RFME",
+      "definition": "Real Federación Motociclista Española",
+      "locale": "es-ES"
+    },
+    {
+      "id": "esbk",
+      "term": "ESBK",
+      "definition": "Campeonato de España de Superbike",
+      "locale": "es-ES"
+    }
+  ]
+}

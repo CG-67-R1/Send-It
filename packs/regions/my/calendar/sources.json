@@ -1,0 +1,26 @@
+{
+  "meta": {
+    "timezone": "Asia/Kuala_Lumpur",
+    "event_scope": {
+      "discipline": "road_race"
+    }
+  },
+  "sources": [
+    {
+      "id": "mam-calendar",
+      "name": "MAM Event Calendar",
+      "type": "governing_body_calendar",
+      "url": "https://www.mam.org.my",
+      "nodeId": "my",
+      "confidence": "official"
+    },
+    {
+      "id": "sepang-calendar",
+      "name": "Sepang Circuit Events",
+      "type": "venue_calendar",
+      "url": "https://www.sepang-circuit.com",
+      "nodeId": "my",
+      "confidence": "official"
+    }
+  ]
+}

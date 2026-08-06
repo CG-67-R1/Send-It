@@ -1,0 +1,38 @@
+{
+  "items": [
+    {
+      "id": "ama",
+      "name": "American Motorcyclist Association (AMA)",
+      "role": "federation",
+      "nodeId": "na-west",
+      "website": "https://www.americanmotorcyclist.com",
+      "confidence": "official",
+      "notes": "Primary US governing body; sanctions AMA Pro Road Racing and club series."
+    },
+    {
+      "id": "cma",
+      "name": "Canadian Motorcyclist Association (CMA)",
+      "role": "federation",
+      "nodeId": "na-west-western-canada",
+      "website": "https://www.canmoto.ca",
+      "confidence": "official"
+    },
+    {
+      "id": "wmrc",
+      "name": "Western Motorcycle Road Course (WMRC / AFM)",
+      "role": "club_federation",
+      "nodeId": "na-west-western-us",
+      "website": "https://www.afmracing.org",
+      "confidence": "established-press",
+      "notes": "Affiliated Federations of Motorcyclists \u2014 California-based club racing."
+    },
+    {
+      "id": "omrra",
+      "name": "Oregon Motorcycle Road Racing Association (OMRRA)",
+      "role": "club_federation",
+      "nodeId": "na-west-western-us",
+      "website": "https://www.omrra.com",
+      "confidence": "official"
+    }
+  ]
+}

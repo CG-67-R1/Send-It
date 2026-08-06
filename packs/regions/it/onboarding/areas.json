@@ -1,0 +1,27 @@
+{
+  "areas": [
+    {
+      "code": "IT",
+      "nodeId": "it",
+      "name": "Italy",
+      "clubs": [
+        {
+          "name": "FMI Moto Clubs",
+          "location": "Italy",
+          "website": "https://www.federmoto.it"
+        }
+      ],
+      "classes": [
+        "CIV Superbike / Supersport",
+        "Regional velocità",
+        "Track days"
+      ],
+      "coaches": [
+        {
+          "name": "Piste / riding school providers",
+          "description": "Italian circuits commonly host scuole di guida and coach-led sessions."
+        }
+      ]
+    }
+  ]
+}

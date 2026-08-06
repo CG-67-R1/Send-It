@@ -1,0 +1,117 @@
+{
+  "packId": "sa",
+  "nodes": [
+    {
+      "id": "sa",
+      "parentId": null,
+      "kind": "region",
+      "displayName": "South America",
+      "locales": [
+        "pt-BR",
+        "es-419",
+        "en"
+      ],
+      "timezones": [
+        "America/Sao_Paulo",
+        "America/Argentina/Buenos_Aires",
+        "America/Santiago",
+        "America/Bogota",
+        "America/Lima",
+        "America/Montevideo"
+      ],
+      "isoCountries": [
+        "BR",
+        "AR",
+        "CL",
+        "CO",
+        "PE",
+        "UY"
+      ],
+      "status": "seed"
+    },
+    {
+      "id": "sa-br",
+      "parentId": "sa",
+      "kind": "country",
+      "displayName": "Brazil",
+      "locales": [
+        "pt-BR",
+        "en"
+      ],
+      "isoCountries": [
+        "BR"
+      ],
+      "status": "seed"
+    },
+    {
+      "id": "sa-ar",
+      "parentId": "sa",
+      "kind": "country",
+      "displayName": "Argentina",
+      "locales": [
+        "es-AR",
+        "en"
+      ],
+      "isoCountries": [
+        "AR"
+      ],
+      "status": "seed"
+    },
+    {
+      "id": "sa-cl",
+      "parentId": "sa",
+      "kind": "country",
+      "displayName": "Chile",
+      "locales": [
+        "es-CL",
+        "en"
+      ],
+      "isoCountries": [
+        "CL"
+      ],
+      "status": "seed"
+    },
+    {
+      "id": "sa-co",
+      "parentId": "sa",
+      "kind": "country",
+      "displayName": "Colombia",
+      "locales": [
+        "es-CO",
+        "en"
+      ],
+      "isoCountries": [
+        "CO"
+      ],
+      "status": "seed"
+    },
+    {
+      "id": "sa-pe",
+      "parentId": "sa",
+      "kind": "country",
+      "displayName": "Peru",
+      "locales": [
+        "es-PE",
+        "en"
+      ],
+      "isoCountries": [
+        "PE"
+      ],
+      "status": "seed"
+    },
+    {
+      "id": "sa-uy",
+      "parentId": "sa",
+      "kind": "country",
+      "displayName": "Uruguay",
+      "locales": [
+        "es-UY",
+        "en"
+      ],
+      "isoCountries": [
+        "UY"
+      ],
+      "status": "seed"
+    }
+  ]
+}

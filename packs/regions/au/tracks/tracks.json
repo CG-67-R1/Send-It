@@ -1,0 +1,1772 @@
+{
+  "version": 1,
+  "tracks": [
+    {
+      "id": "phillip_island",
+      "name": "Phillip Island Grand Prix Circuit",
+      "layout": "Grand Prix Circuit (4.45 km)",
+      "direction": "anticlockwise",
+      "lengthKm": "4.45 km",
+      "isOther": false,
+      "corners": [
+        {
+          "id": "phillip_island_t1",
+          "number": 1,
+          "label": "Doohan Corner",
+          "shape": "Sweeper",
+          "direction": "left",
+          "approachFrom": "main straight / start-finish"
+        },
+        {
+          "id": "phillip_island_t2",
+          "number": 2,
+          "label": "Southern Loop",
+          "shape": "Hairpin",
+          "direction": "left",
+          "approachFrom": "T1 (Doohan Corner) exit"
+        },
+        {
+          "id": "phillip_island_t3",
+          "number": 3,
+          "label": "Stoner Corner",
+          "shape": "Kink",
+          "direction": "left",
+          "approachFrom": "T2 (Southern Loop) exit"
+        },
+        {
+          "id": "phillip_island_t4",
+          "number": 4,
+          "label": "Miller Corner (formerly Honda Corner)",
+          "shape": "Hairpin",
+          "direction": "right",
+          "approachFrom": "T3 (Stoner Corner) exit"
+        },
+        {
+          "id": "phillip_island_t5",
+          "number": 5,
+          "label": "Siberia",
+          "shape": "Kink",
+          "direction": "left",
+          "approachFrom": "T4 (Miller Corner) exit"
+        },
+        {
+          "id": "phillip_island_t6",
+          "number": 6,
+          "label": "Hayshed",
+          "shape": "Kink",
+          "direction": "right",
+          "approachFrom": "T5 (Siberia) exit"
+        },
+        {
+          "id": "phillip_island_t7",
+          "number": 7,
+          "label": "Lukey Heights entry",
+          "shape": "Corner / complex",
+          "direction": "left",
+          "approachFrom": "T6 (Hayshed) exit"
+        },
+        {
+          "id": "phillip_island_t8",
+          "number": 8,
+          "label": "Lukey Heights proper",
+          "shape": "Corner / complex",
+          "direction": "left",
+          "approachFrom": "T7 (Lukey Heights entry) exit"
+        },
+        {
+          "id": "phillip_island_t9",
+          "number": 9,
+          "label": "MG Hairpin",
+          "shape": "Hairpin",
+          "direction": "right",
+          "approachFrom": "T8 (Lukey Heights proper) exit"
+        },
+        {
+          "id": "phillip_island_t10",
+          "number": 10,
+          "label": "Turn 10",
+          "shape": "Kink",
+          "direction": "left",
+          "approachFrom": "T9 (MG Hairpin) exit"
+        },
+        {
+          "id": "phillip_island_t11",
+          "number": 11,
+          "label": "Turn 11 (Gardner's)",
+          "shape": "Sweeper",
+          "direction": "left",
+          "approachFrom": "T10 (Turn 10) exit"
+        },
+        {
+          "id": "phillip_island_t_finish",
+          "number": null,
+          "label": "T-Finish",
+          "shape": "Straight",
+          "direction": "straight",
+          "approachFrom": "T11 exit onto main straight",
+          "isFinish": true
+        }
+      ],
+      "nodeId": "au",
+      "kind": "road_circuit"
+    },
+    {
+      "id": "mallala",
+      "name": "Mallala Motorsport Park",
+      "layout": "Full circuit",
+      "direction": "clockwise",
+      "lengthKm": "2.6 km",
+      "isOther": false,
+      "corners": [
+        {
+          "id": "mallala_t1",
+          "number": 1,
+          "label": "Turn 1 kink / lead-in to Turn 2",
+          "shape": "Kink / lead-in complex",
+          "direction": "complex",
+          "approachFrom": "main straight / start-finish"
+        },
+        {
+          "id": "mallala_t2",
+          "number": 2,
+          "label": "Turn 2 (tight left)",
+          "shape": "Tight left / hairpin-ish",
+          "direction": "left",
+          "approachFrom": "T1 (Turn 1 kink) exit"
+        },
+        {
+          "id": "mallala_t3",
+          "number": 3,
+          "label": "Turn 3 (top-left hairpin, geographically far-left end of circuit)",
+          "shape": "Hairpin",
+          "direction": "complex",
+          "approachFrom": "T2 (Turn 2) exit"
+        },
+        {
+          "id": "mallala_t4",
+          "number": 4,
+          "label": "Turn 4 (long top section / sweeper)",
+          "shape": "Fast sweeper / long radius",
+          "direction": "complex",
+          "approachFrom": "T3 (Turn 3) exit"
+        },
+        {
+          "id": "mallala_t5",
+          "number": 5,
+          "label": "Turn 5 (top-right bend)",
+          "shape": "Medium-speed bend / direction change",
+          "direction": "complex",
+          "approachFrom": "T4 (Turn 4) exit"
+        },
+        {
+          "id": "mallala_t6",
+          "number": 6,
+          "label": "Turn 6 (left kink / setup for hairpin)",
+          "shape": "Fast kink / setup",
+          "direction": "left",
+          "approachFrom": "T5 (Turn 5) exit"
+        },
+        {
+          "id": "mallala_t7",
+          "number": 7,
+          "label": "Turn 7 (bottom-right hairpin)",
+          "shape": "Tight hairpin / major braking",
+          "direction": "right",
+          "approachFrom": "T6 (Turn 6) exit"
+        },
+        {
+          "id": "mallala_t8",
+          "number": 8,
+          "label": "Turn 8 (bottom-mid kink / connector)",
+          "shape": "Kink / transition",
+          "direction": "complex",
+          "approachFrom": "T7 (Turn 7) exit"
+        },
+        {
+          "id": "mallala_t9",
+          "number": 9,
+          "label": "Turn 9 (final corner onto main straight)",
+          "shape": "Final turn / drive corner",
+          "direction": "complex",
+          "approachFrom": "T8 (Turn 8) exit"
+        },
+        {
+          "id": "mallala_t_finish",
+          "number": null,
+          "label": "T-Finish",
+          "shape": "Straight",
+          "direction": "straight",
+          "approachFrom": "T9 exit onto main straight",
+          "isFinish": true
+        }
+      ],
+      "nodeId": "au",
+      "kind": "road_circuit"
+    },
+    {
+      "id": "mac_park",
+      "name": "McNamara Park Raceway (Mac Park)",
+      "layout": "Main circuit (2.4 km, 12 turns)",
+      "direction": "clockwise",
+      "lengthKm": "2.4 km",
+      "isOther": false,
+      "corners": [
+        {
+          "id": "mac_park_t1",
+          "number": 1,
+          "label": "The Hairpin",
+          "shape": "Hairpin",
+          "direction": "complex",
+          "approachFrom": "main straight / start-finish"
+        },
+        {
+          "id": "mac_park_t2",
+          "number": 2,
+          "label": "Turn 2 (blind crest)",
+          "shape": "Corner / complex",
+          "direction": "left",
+          "approachFrom": "T1 (The Hairpin) exit"
+        },
+        {
+          "id": "mac_park_t3",
+          "number": 3,
+          "label": "Turn 3",
+          "shape": "Kink",
+          "direction": "right",
+          "approachFrom": "T2 (Turn 2) exit"
+        },
+        {
+          "id": "mac_park_t4",
+          "number": 4,
+          "label": "Turn 4 (Left-hander)",
+          "shape": "Corner / complex",
+          "direction": "left",
+          "approachFrom": "T3 (Turn 3) exit"
+        },
+        {
+          "id": "mac_park_t5",
+          "number": 5,
+          "label": "Turn 5 (Right-hand sweeper)",
+          "shape": "Sweeper",
+          "direction": "right",
+          "approachFrom": "T4 (Turn 4) exit"
+        },
+        {
+          "id": "mac_park_t6",
+          "number": 6,
+          "label": "Turn 6 (chicane entry)",
+          "shape": "Kink",
+          "direction": "complex",
+          "approachFrom": "T5 (Turn 5) exit"
+        },
+        {
+          "id": "mac_park_t7",
+          "number": 7,
+          "label": "Turn 7 (fast left sweeper / crest)",
+          "shape": "Sweeper",
+          "direction": "left",
+          "approachFrom": "T6 (Turn 6) exit"
+        },
+        {
+          "id": "mac_park_t8",
+          "number": 8,
+          "label": "Turn 8 (Fast Right)",
+          "shape": "Sweeper",
+          "direction": "right",
+          "approachFrom": "T7 (Turn 7) exit"
+        },
+        {
+          "id": "mac_park_t9",
+          "number": 9,
+          "label": "Turn 9 (Clubhouse Hairpin)",
+          "shape": "Hairpin",
+          "direction": "complex",
+          "approachFrom": "T8 (Turn 8) exit"
+        },
+        {
+          "id": "mac_park_t10",
+          "number": 10,
+          "label": "Turn 10 (esses / blind crest)",
+          "shape": "Esses / S",
+          "direction": "left",
+          "approachFrom": "T9 (Turn 9) exit"
+        },
+        {
+          "id": "mac_park_t11",
+          "number": 11,
+          "label": "Turn 11 (esses right)",
+          "shape": "Esses / S",
+          "direction": "right",
+          "approachFrom": "T10 (Turn 10) exit"
+        },
+        {
+          "id": "mac_park_t12",
+          "number": 12,
+          "label": "Turn 12 (final left onto main straight)",
+          "shape": "Hairpin",
+          "direction": "left",
+          "approachFrom": "T11 (Turn 11) exit"
+        },
+        {
+          "id": "mac_park_t_finish",
+          "number": null,
+          "label": "T-Finish",
+          "shape": "Straight",
+          "direction": "straight",
+          "approachFrom": "T12 exit onto main straight",
+          "isFinish": true
+        }
+      ],
+      "nodeId": "au",
+      "kind": "road_circuit"
+    },
+    {
+      "id": "morgan_park",
+      "name": "Morgan Park Raceway (Circuit K)",
+      "layout": "Circuit K (2.97 km)",
+      "direction": "clockwise",
+      "lengthKm": "2.97 km",
+      "isOther": false,
+      "corners": [
+        {
+          "id": "morgan_park_t1",
+          "number": 1,
+          "label": "Turns 1 & 2 (Right-Left Sweepers)",
+          "shape": "Kink",
+          "direction": "complex",
+          "approachFrom": "main straight / start-finish"
+        },
+        {
+          "id": "morgan_park_t3",
+          "number": 3,
+          "label": "Turn 3 (Blind Left-hander by the Wall)",
+          "shape": "Corner / complex",
+          "direction": "left",
+          "approachFrom": "T1 (Turns 1 & 2) exit"
+        },
+        {
+          "id": "morgan_park_t4",
+          "number": 4,
+          "label": "Turn 4 (Heavy Braking Right-Hairpin)",
+          "shape": "Hairpin",
+          "direction": "right",
+          "approachFrom": "T3 (Turn 3) exit"
+        },
+        {
+          "id": "morgan_park_t5",
+          "number": 5,
+          "label": "Turn 5 (Long Sweeping Left)",
+          "shape": "Sweeper",
+          "direction": "left",
+          "approachFrom": "T4 (Turn 4) exit"
+        },
+        {
+          "id": "morgan_park_t6",
+          "number": 6,
+          "label": "Turn 6 (Right-Hand Flick)",
+          "shape": "Kink",
+          "direction": "right",
+          "approachFrom": "T5 (Turn 5) exit"
+        },
+        {
+          "id": "morgan_park_t7",
+          "number": 7,
+          "label": "Turn 7 (Left-hand tight corner)",
+          "shape": "Hairpin",
+          "direction": "left",
+          "approachFrom": "T6 (Turn 6) exit"
+        },
+        {
+          "id": "morgan_park_t9",
+          "number": 9,
+          "label": "Turns 8 & 9 (Fast Esses)",
+          "shape": "Esses / S",
+          "direction": "complex",
+          "approachFrom": "T7 (Turn 7) exit"
+        },
+        {
+          "id": "morgan_park_t10",
+          "number": 10,
+          "label": "Turn 10 (Fast Banked Right)",
+          "shape": "Sweeper",
+          "direction": "right",
+          "approachFrom": "T8/9 (Fast Esses) exit"
+        },
+        {
+          "id": "morgan_park_t11",
+          "number": 11,
+          "label": "Turns 11 & 12 (Final Chicane onto Main Straight)",
+          "shape": "Chicane",
+          "direction": "complex",
+          "approachFrom": "T10 (Turn 10) exit"
+        },
+        {
+          "id": "morgan_park_t_finish",
+          "number": null,
+          "label": "T-Finish",
+          "shape": "Straight",
+          "direction": "straight",
+          "approachFrom": "T11 exit onto main straight",
+          "isFinish": true
+        }
+      ],
+      "nodeId": "au",
+      "kind": "road_circuit"
+    },
+    {
+      "id": "wakefield_park",
+      "name": "One Raceway (Wakefield Park)",
+      "layout": "Main circuit",
+      "direction": "clockwise",
+      "lengthKm": "2.2 km",
+      "isOther": false,
+      "corners": [
+        {
+          "id": "wakefield_park_t1",
+          "number": 1,
+          "label": "Turn 1 (Left Kink)",
+          "shape": "Kink",
+          "direction": "left",
+          "approachFrom": "main straight / start-finish"
+        },
+        {
+          "id": "wakefield_park_t2",
+          "number": 2,
+          "label": "Turn 2 (Right Hairpin)",
+          "shape": "Hairpin",
+          "direction": "right",
+          "approachFrom": "T1 (Turn 1) exit"
+        },
+        {
+          "id": "wakefield_park_t3",
+          "number": 3,
+          "label": "Turn 3 (Left Bend over Crest)",
+          "shape": "Corner / complex",
+          "direction": "left",
+          "approachFrom": "T2 (Turn 2) exit"
+        },
+        {
+          "id": "wakefield_park_t4",
+          "number": 4,
+          "label": "Turn 4 (Left-hander)",
+          "shape": "Corner / complex",
+          "direction": "left",
+          "approachFrom": "T3 (Turn 3) exit"
+        },
+        {
+          "id": "wakefield_park_t5",
+          "number": 5,
+          "label": "Turn 5 (Right-hander)",
+          "shape": "Corner / complex",
+          "direction": "right",
+          "approachFrom": "T4 (Turn 4) exit"
+        },
+        {
+          "id": "wakefield_park_t6",
+          "number": 6,
+          "label": "Turns 6 & 7 (The Fish Hook)",
+          "shape": "Hairpin",
+          "direction": "complex",
+          "approachFrom": "T5 (Turn 5) exit"
+        },
+        {
+          "id": "wakefield_park_t8",
+          "number": 8,
+          "label": "Turn 8 (Left kink)",
+          "shape": "Kink",
+          "direction": "left",
+          "approachFrom": "T6 (Turns 6 & 7) exit"
+        },
+        {
+          "id": "wakefield_park_t9",
+          "number": 9,
+          "label": "Turn 9 (Fast Right Sweeper)",
+          "shape": "Sweeper",
+          "direction": "right",
+          "approachFrom": "T8 (Turn 8) exit"
+        },
+        {
+          "id": "wakefield_park_t10",
+          "number": 10,
+          "label": "Turn 10 (Final Hairpin, The Sweeper)",
+          "shape": "Hairpin",
+          "direction": "left",
+          "approachFrom": "T9 (Turn 9) exit"
+        },
+        {
+          "id": "wakefield_park_t_finish",
+          "number": null,
+          "label": "T-Finish",
+          "shape": "Straight",
+          "direction": "straight",
+          "approachFrom": "T10 exit onto main straight",
+          "isFinish": true
+        }
+      ],
+      "nodeId": "au",
+      "kind": "road_circuit"
+    },
+    {
+      "id": "wanneroo",
+      "name": "Wanneroo Raceway (Barbagallo)",
+      "layout": "Long course / bike layout",
+      "direction": "clockwise",
+      "lengthKm": "2.41 km",
+      "isOther": false,
+      "corners": [
+        {
+          "id": "wanneroo_t1",
+          "number": 1,
+          "label": "Cat Corner",
+          "shape": "Kink",
+          "direction": "right",
+          "approachFrom": "main straight / start-finish"
+        },
+        {
+          "id": "wanneroo_t2",
+          "number": 2,
+          "label": "Turn 2",
+          "shape": "Kink",
+          "direction": "complex",
+          "approachFrom": "T1 (Cat Corner) exit"
+        },
+        {
+          "id": "wanneroo_t3",
+          "number": 3,
+          "label": "Turn 3",
+          "shape": "Kink",
+          "direction": "left",
+          "approachFrom": "T2 (Turn 2) exit"
+        },
+        {
+          "id": "wanneroo_t4",
+          "number": 4,
+          "label": "Turn 4",
+          "shape": "Hairpin",
+          "direction": "complex",
+          "approachFrom": "T3 (Turn 3) exit"
+        },
+        {
+          "id": "wanneroo_t5",
+          "number": 5,
+          "label": "Turn 5",
+          "shape": "Hairpin",
+          "direction": "right",
+          "approachFrom": "T4 (Turn 4) exit"
+        },
+        {
+          "id": "wanneroo_t6",
+          "number": 6,
+          "label": "Kolb Corner (The Basin)",
+          "shape": "Hairpin",
+          "direction": "complex",
+          "approachFrom": "T5 (Turn 5) exit"
+        },
+        {
+          "id": "wanneroo_t7",
+          "number": 7,
+          "label": "Turn 7",
+          "shape": "Kink",
+          "direction": "left",
+          "approachFrom": "T6 (Kolb Corner) exit"
+        },
+        {
+          "id": "wanneroo_t8",
+          "number": 8,
+          "label": "Final Corner",
+          "shape": "Sweeper",
+          "direction": "right",
+          "approachFrom": "T7 (Turn 7) exit"
+        },
+        {
+          "id": "wanneroo_t_finish",
+          "number": null,
+          "label": "T-Finish",
+          "shape": "Straight",
+          "direction": "straight",
+          "approachFrom": "T8 exit onto main straight",
+          "isFinish": true
+        }
+      ],
+      "nodeId": "au",
+      "kind": "road_circuit"
+    },
+    {
+      "id": "the_bend_international",
+      "name": "The Bend Motorsport Park (International Circuit)",
+      "layout": "International Circuit (4.95 km)",
+      "direction": "clockwise",
+      "lengthKm": "4.95 km",
+      "isOther": false,
+      "corners": [
+        {
+          "id": "the_bend_international_t1",
+          "number": 1,
+          "label": "Turn 1 (Big Stop hairpin)",
+          "shape": "Hairpin",
+          "direction": "right",
+          "approachFrom": "main straight / start-finish"
+        },
+        {
+          "id": "the_bend_international_t2",
+          "number": 2,
+          "label": "Turn 2",
+          "shape": "Kink",
+          "direction": "left",
+          "approachFrom": "T1 exit"
+        },
+        {
+          "id": "the_bend_international_t3",
+          "number": 3,
+          "label": "Turn 3",
+          "shape": "Corner / complex",
+          "direction": "right",
+          "approachFrom": "T2 exit"
+        },
+        {
+          "id": "the_bend_international_t4",
+          "number": 4,
+          "label": "Turn 4 (right kink) + Turn 5 (left sweeper)",
+          "shape": "Sweeper",
+          "direction": "complex",
+          "approachFrom": "T3 exit"
+        },
+        {
+          "id": "the_bend_international_t6",
+          "number": 6,
+          "label": "Turn 6 (long left hairpin, off-camber)",
+          "shape": "Hairpin",
+          "direction": "left",
+          "approachFrom": "T4-5 exit"
+        },
+        {
+          "id": "the_bend_international_t7",
+          "number": 7,
+          "label": "Turns 7-10 (high-speed esses, blind entry)",
+          "shape": "Esses / S",
+          "direction": "complex",
+          "approachFrom": "T6 exit"
+        },
+        {
+          "id": "the_bend_international_t11",
+          "number": 11,
+          "label": "Turn 11 (fast right after crest)",
+          "shape": "Sweeper",
+          "direction": "right",
+          "approachFrom": "T7-10 exit"
+        },
+        {
+          "id": "the_bend_international_t12",
+          "number": 12,
+          "label": "Turn 12 (left, leads to back straight)",
+          "shape": "Corner / complex",
+          "direction": "left",
+          "approachFrom": "T11 exit"
+        },
+        {
+          "id": "the_bend_international_t13",
+          "number": 13,
+          "label": "Turn 13 (hairpin end of back straight)",
+          "shape": "Hairpin",
+          "direction": "right",
+          "approachFrom": "T12 exit / back straight"
+        },
+        {
+          "id": "the_bend_international_t14",
+          "number": 14,
+          "label": "Turn 14 (right hairpin)",
+          "shape": "Hairpin",
+          "direction": "right",
+          "approachFrom": "T13 exit"
+        },
+        {
+          "id": "the_bend_international_t15",
+          "number": 15,
+          "label": "Turns 15-16 (S-bends / medium-speed complex)",
+          "shape": "Esses / S",
+          "direction": "complex",
+          "approachFrom": "T14 exit"
+        },
+        {
+          "id": "the_bend_international_t17",
+          "number": 17,
+          "label": "Turn 17 (right hairpin, heavy braking)",
+          "shape": "Hairpin",
+          "direction": "right",
+          "approachFrom": "T15-16 exit"
+        },
+        {
+          "id": "the_bend_international_t18",
+          "number": 18,
+          "label": "Turn 18 (final left onto main straight)",
+          "shape": "Corner / complex",
+          "direction": "left",
+          "approachFrom": "T17 exit"
+        },
+        {
+          "id": "the_bend_international_t_finish",
+          "number": null,
+          "label": "T-Finish",
+          "shape": "Straight",
+          "direction": "straight",
+          "approachFrom": "T18 exit onto main straight",
+          "isFinish": true
+        }
+      ],
+      "nodeId": "au",
+      "kind": "road_circuit"
+    },
+    {
+      "id": "the_bend_gt",
+      "name": "The Bend Motorsport Park (GT Circuit)",
+      "layout": "GT Circuit (7.77 km)",
+      "direction": "clockwise",
+      "lengthKm": "7.77 km",
+      "isOther": false,
+      "corners": [
+        {
+          "id": "the_bend_gt_t1",
+          "number": 1,
+          "label": "Turn 1 (right sweeper / entry)",
+          "shape": "Sweeper",
+          "direction": "complex",
+          "approachFrom": "main straight / start-finish"
+        },
+        {
+          "id": "the_bend_gt_t2",
+          "number": 2,
+          "label": "Turn 2 (left hairpin)",
+          "shape": "Hairpin",
+          "direction": "complex",
+          "approachFrom": "T1 exit"
+        },
+        {
+          "id": "the_bend_gt_t3",
+          "number": 3,
+          "label": "Turn 3 (right hairpin)",
+          "shape": "Hairpin",
+          "direction": "complex",
+          "approachFrom": "T2 exit"
+        },
+        {
+          "id": "the_bend_gt_t4",
+          "number": 4,
+          "label": "Turn 4 (right sweeper / infield loop)",
+          "shape": "Sweeper",
+          "direction": "complex",
+          "approachFrom": "T3 exit"
+        },
+        {
+          "id": "the_bend_gt_t5",
+          "number": 5,
+          "label": "Turn 5 (left hairpin)",
+          "shape": "Hairpin",
+          "direction": "complex",
+          "approachFrom": "T4 exit"
+        },
+        {
+          "id": "the_bend_gt_t6",
+          "number": 6,
+          "label": "Turn 6 (infield complex / esses)",
+          "shape": "Esses / S",
+          "direction": "complex",
+          "approachFrom": "T5 exit"
+        },
+        {
+          "id": "the_bend_gt_t7",
+          "number": 7,
+          "label": "Turn 7 (right hairpin / back section)",
+          "shape": "Hairpin",
+          "direction": "complex",
+          "approachFrom": "T6 exit"
+        },
+        {
+          "id": "the_bend_gt_t8",
+          "number": 8,
+          "label": "Turn 8 (left hairpin)",
+          "shape": "Hairpin",
+          "direction": "complex",
+          "approachFrom": "T7 exit"
+        },
+        {
+          "id": "the_bend_gt_t9",
+          "number": 9,
+          "label": "Turn 9 (right sweeper)",
+          "shape": "Sweeper",
+          "direction": "complex",
+          "approachFrom": "T8 exit"
+        },
+        {
+          "id": "the_bend_gt_t_finish",
+          "number": null,
+          "label": "T-Finish",
+          "shape": "Straight",
+          "direction": "straight",
+          "approachFrom": "final corner exit onto main straight",
+          "isFinish": true
+        }
+      ],
+      "nodeId": "au",
+      "kind": "road_circuit"
+    },
+    {
+      "id": "smp_gardner",
+      "name": "Sydney Motorsport Park (Gardner GP Circuit)",
+      "layout": "Gardner GP Circuit (4.5 km)",
+      "direction": "anticlockwise",
+      "lengthKm": "4.5 km",
+      "isOther": false,
+      "corners": [
+        {
+          "id": "smp_gardner_t1",
+          "number": 1,
+          "label": "Turn 1",
+          "shape": "Kink",
+          "direction": "left",
+          "approachFrom": "main straight / start-finish"
+        },
+        {
+          "id": "smp_gardner_t2",
+          "number": 2,
+          "label": "Turn 2 (Southern Hairpin)",
+          "shape": "Hairpin",
+          "direction": "left",
+          "approachFrom": "T1 exit"
+        },
+        {
+          "id": "smp_gardner_t3",
+          "number": 3,
+          "label": "Turn 3 (medium-speed right over tunnel)",
+          "shape": "Corner / complex",
+          "direction": "right",
+          "approachFrom": "T2 exit"
+        },
+        {
+          "id": "smp_gardner_t4",
+          "number": 4,
+          "label": "Turn 4 (right-hand sweeper, Corporate Hill entry)",
+          "shape": "Sweeper",
+          "direction": "right",
+          "approachFrom": "T3 exit"
+        },
+        {
+          "id": "smp_gardner_t5",
+          "number": 5,
+          "label": "Turn 5",
+          "shape": "Corner / complex",
+          "direction": "left",
+          "approachFrom": "T4 exit"
+        },
+        {
+          "id": "smp_gardner_t6",
+          "number": 6,
+          "label": "Turn 6 (BMW / MotoRide corner)",
+          "shape": "Kink",
+          "direction": "left",
+          "approachFrom": "T5 exit"
+        },
+        {
+          "id": "smp_gardner_t7",
+          "number": 7,
+          "label": "Turn 7 (Corporate Hill)",
+          "shape": "Corner / complex",
+          "direction": "right",
+          "approachFrom": "T6 exit"
+        },
+        {
+          "id": "smp_gardner_t8",
+          "number": 8,
+          "label": "Turn 8 (right kink / chute to T9)",
+          "shape": "Kink",
+          "direction": "right",
+          "approachFrom": "T7 exit"
+        },
+        {
+          "id": "smp_gardner_t9",
+          "number": 9,
+          "label": "Turn 9 (Hairpin)",
+          "shape": "Hairpin",
+          "direction": "right",
+          "approachFrom": "T8 exit"
+        },
+        {
+          "id": "smp_gardner_t10",
+          "number": 10,
+          "label": "Turn 10",
+          "shape": "Corner / complex",
+          "direction": "left",
+          "approachFrom": "T9 exit"
+        },
+        {
+          "id": "smp_gardner_t11",
+          "number": 11,
+          "label": "Turn 11 (final corner)",
+          "shape": "Hairpin",
+          "direction": "left",
+          "approachFrom": "T10 exit"
+        },
+        {
+          "id": "smp_gardner_t_finish",
+          "number": null,
+          "label": "T-Finish",
+          "shape": "Straight",
+          "direction": "straight",
+          "approachFrom": "T11 exit onto main straight",
+          "isFinish": true
+        }
+      ],
+      "nodeId": "au",
+      "kind": "road_circuit"
+    },
+    {
+      "id": "smp_brabham",
+      "name": "Sydney Motorsport Park (Brabham Circuit)",
+      "layout": "Brabham Circuit",
+      "direction": "anticlockwise",
+      "lengthKm": "~3.0 km",
+      "isOther": false,
+      "corners": [
+        {
+          "id": "smp_brabham_t1",
+          "number": 1,
+          "label": "Turn 1 (entry kink)",
+          "shape": "Kink",
+          "direction": "complex",
+          "approachFrom": "main straight / start-finish"
+        },
+        {
+          "id": "smp_brabham_t2",
+          "number": 2,
+          "label": "Turn 2 (hairpin complex)",
+          "shape": "Hairpin",
+          "direction": "complex",
+          "approachFrom": "T1 exit"
+        },
+        {
+          "id": "smp_brabham_t3",
+          "number": 3,
+          "label": "Turn 3 (right sweeper)",
+          "shape": "Sweeper",
+          "direction": "complex",
+          "approachFrom": "T2 exit"
+        },
+        {
+          "id": "smp_brabham_t4",
+          "number": 4,
+          "label": "Turn 4 (left sweeper)",
+          "shape": "Sweeper",
+          "direction": "complex",
+          "approachFrom": "T3 exit"
+        },
+        {
+          "id": "smp_brabham_t5",
+          "number": 5,
+          "label": "Turn 5 (left hairpin complex)",
+          "shape": "Hairpin",
+          "direction": "complex",
+          "approachFrom": "T4 exit"
+        },
+        {
+          "id": "smp_brabham_t6",
+          "number": 6,
+          "label": "Turn 6 (left hairpin)",
+          "shape": "Hairpin",
+          "direction": "complex",
+          "approachFrom": "T5 exit"
+        },
+        {
+          "id": "smp_brabham_t7",
+          "number": 7,
+          "label": "Turn 7 (right hairpin)",
+          "shape": "Hairpin",
+          "direction": "complex",
+          "approachFrom": "T6 exit"
+        },
+        {
+          "id": "smp_brabham_t8",
+          "number": 8,
+          "label": "Turn 8 (left kink)",
+          "shape": "Kink",
+          "direction": "complex",
+          "approachFrom": "T7 exit"
+        },
+        {
+          "id": "smp_brabham_t9",
+          "number": 9,
+          "label": "Turn 9 (right hairpin)",
+          "shape": "Hairpin",
+          "direction": "complex",
+          "approachFrom": "T8 exit"
+        },
+        {
+          "id": "smp_brabham_t10",
+          "number": 10,
+          "label": "Turn 10 (right kink)",
+          "shape": "Kink",
+          "direction": "complex",
+          "approachFrom": "T9 exit"
+        },
+        {
+          "id": "smp_brabham_t11",
+          "number": 11,
+          "label": "Turn 11 (left hairpin / final)",
+          "shape": "Hairpin",
+          "direction": "complex",
+          "approachFrom": "T10 exit"
+        },
+        {
+          "id": "smp_brabham_t_finish",
+          "number": null,
+          "label": "T-Finish",
+          "shape": "Straight",
+          "direction": "straight",
+          "approachFrom": "T11 exit onto main straight",
+          "isFinish": true
+        }
+      ],
+      "nodeId": "au",
+      "kind": "road_circuit"
+    },
+    {
+      "id": "smp_druitt",
+      "name": "Sydney Motorsport Park (Druitt Circuit)",
+      "layout": "Druitt Circuit",
+      "direction": "anticlockwise",
+      "lengthKm": "~1.9 km",
+      "isOther": false,
+      "corners": [
+        {
+          "id": "smp_druitt_t1",
+          "number": 1,
+          "label": "Turn 1 (entry / right kink)",
+          "shape": "Kink",
+          "direction": "complex",
+          "approachFrom": "main straight / start-finish"
+        },
+        {
+          "id": "smp_druitt_t2",
+          "number": 2,
+          "label": "Turn 2 (right sweeper)",
+          "shape": "Sweeper",
+          "direction": "complex",
+          "approachFrom": "T1 exit"
+        },
+        {
+          "id": "smp_druitt_t3",
+          "number": 3,
+          "label": "Turn 3 (left kink)",
+          "shape": "Kink",
+          "direction": "complex",
+          "approachFrom": "T2 exit"
+        },
+        {
+          "id": "smp_druitt_t4",
+          "number": 4,
+          "label": "Turn 4 (left hairpin)",
+          "shape": "Hairpin",
+          "direction": "complex",
+          "approachFrom": "T3 exit"
+        },
+        {
+          "id": "smp_druitt_t5",
+          "number": 5,
+          "label": "Turn 5 (right sweeper)",
+          "shape": "Sweeper",
+          "direction": "complex",
+          "approachFrom": "T4 exit"
+        },
+        {
+          "id": "smp_druitt_t6",
+          "number": 6,
+          "label": "Turn 6 (left hairpin / final)",
+          "shape": "Hairpin",
+          "direction": "complex",
+          "approachFrom": "T5 exit"
+        },
+        {
+          "id": "smp_druitt_t_finish",
+          "number": null,
+          "label": "T-Finish",
+          "shape": "Straight",
+          "direction": "straight",
+          "approachFrom": "T6 exit onto main straight",
+          "isFinish": true
+        }
+      ],
+      "nodeId": "au",
+      "kind": "road_circuit"
+    },
+    {
+      "id": "queensland_raceway",
+      "name": "Queensland Raceway (National Circuit)",
+      "layout": "National Circuit (3.12 km)",
+      "direction": "clockwise",
+      "lengthKm": "3.12 km",
+      "isOther": false,
+      "corners": [
+        {
+          "id": "queensland_raceway_t1",
+          "number": 1,
+          "label": "Turn 1 (Kitty's Corner)",
+          "shape": "Kink",
+          "direction": "right",
+          "approachFrom": "main straight / start-finish"
+        },
+        {
+          "id": "queensland_raceway_t2",
+          "number": 2,
+          "label": "Turn 2 (left hairpin)",
+          "shape": "Hairpin",
+          "direction": "left",
+          "approachFrom": "T1 exit"
+        },
+        {
+          "id": "queensland_raceway_t3",
+          "number": 3,
+          "label": "Turns 3/4 (The Switchback / esses)",
+          "shape": "Esses / S",
+          "direction": "complex",
+          "approachFrom": "T2 exit"
+        },
+        {
+          "id": "queensland_raceway_t5",
+          "number": 5,
+          "label": "Turn 5 (Spitfire / Thunderbolt hairpin)",
+          "shape": "Hairpin",
+          "direction": "right",
+          "approachFrom": "T3 exit"
+        },
+        {
+          "id": "queensland_raceway_t6",
+          "number": 6,
+          "label": "Turn 6 (final corner onto main straight)",
+          "shape": "Kink",
+          "direction": "right",
+          "approachFrom": "T5 exit"
+        },
+        {
+          "id": "queensland_raceway_t_finish",
+          "number": null,
+          "label": "T-Finish",
+          "shape": "Straight",
+          "direction": "straight",
+          "approachFrom": "T6 exit onto main straight",
+          "isFinish": true
+        }
+      ],
+      "nodeId": "au",
+      "kind": "road_circuit"
+    },
+    {
+      "id": "broadford",
+      "name": "Broadford State Motorcycle Complex",
+      "layout": "Main layout (2.16 km)",
+      "direction": "clockwise",
+      "lengthKm": "2.16 km",
+      "isOther": false,
+      "corners": [
+        {
+          "id": "broadford_t1",
+          "number": 1,
+          "label": "Turns 1 & 2 (Big Left Honda Corner double-apex)",
+          "shape": "Double-apex",
+          "direction": "left",
+          "approachFrom": "main straight / start-finish"
+        },
+        {
+          "id": "broadford_t3",
+          "number": 3,
+          "label": "Turns 3 & 4 (Back Kink and Straight)",
+          "shape": "Kink",
+          "direction": "complex",
+          "approachFrom": "T1 (Turns 1 & 2) exit"
+        },
+        {
+          "id": "broadford_t5",
+          "number": 5,
+          "label": "Turn 5 (Uphill Hairpin)",
+          "shape": "Hairpin",
+          "direction": "right",
+          "approachFrom": "T3 (Turns 3 & 4) exit"
+        },
+        {
+          "id": "broadford_t6",
+          "number": 6,
+          "label": "Turn 6 (The Kink)",
+          "shape": "Kink",
+          "direction": "complex",
+          "approachFrom": "T5 (Turn 5) exit"
+        },
+        {
+          "id": "broadford_t7",
+          "number": 7,
+          "label": "Turns 7/8/9 (Flip-Flop Esses / Motorcross Flip Flop)",
+          "shape": "Chicane",
+          "direction": "complex",
+          "approachFrom": "T6 (Turn 6) exit"
+        },
+        {
+          "id": "broadford_t10",
+          "number": 10,
+          "label": "Turns 10 & 11 (Twin Apex Rights)",
+          "shape": "Double-apex",
+          "direction": "right",
+          "approachFrom": "T7 (Turns 7/8/9) exit"
+        },
+        {
+          "id": "broadford_t12",
+          "number": 12,
+          "label": "Turn 12 (final left onto straight)",
+          "shape": "Corner / complex",
+          "direction": "left",
+          "approachFrom": "T10 (Turns 10 & 11) exit"
+        },
+        {
+          "id": "broadford_t_finish",
+          "number": null,
+          "label": "T-Finish",
+          "shape": "Straight",
+          "direction": "straight",
+          "approachFrom": "T12 exit onto main straight",
+          "isFinish": true
+        }
+      ],
+      "nodeId": "au",
+      "kind": "road_circuit"
+    },
+    {
+      "id": "mount_panorama",
+      "name": "Mount Panorama Circuit (Bathurst)",
+      "layout": "Mountain Circuit (6.213 km)",
+      "direction": "clockwise",
+      "lengthKm": "6.213 km",
+      "isOther": false,
+      "corners": [
+        {
+          "id": "mount_panorama_t1",
+          "number": 1,
+          "label": "Hell Corner",
+          "shape": "Hairpin",
+          "direction": "right",
+          "approachFrom": "main straight / start-finish"
+        },
+        {
+          "id": "mount_panorama_t2",
+          "number": 2,
+          "label": "Murray's Corner",
+          "shape": "Sweeper",
+          "direction": "complex",
+          "approachFrom": "T1 exit"
+        },
+        {
+          "id": "mount_panorama_t3",
+          "number": 3,
+          "label": "McPhillamy Park (left hairpin)",
+          "shape": "Hairpin",
+          "direction": "complex",
+          "approachFrom": "T2 exit"
+        },
+        {
+          "id": "mount_panorama_t4",
+          "number": 4,
+          "label": "Sulman Park / Frog Hollow kinks",
+          "shape": "Kink",
+          "direction": "complex",
+          "approachFrom": "T3 exit"
+        },
+        {
+          "id": "mount_panorama_t5",
+          "number": 5,
+          "label": "Skyline approach kinks",
+          "shape": "Kink",
+          "direction": "complex",
+          "approachFrom": "T4 exit"
+        },
+        {
+          "id": "mount_panorama_t6",
+          "number": 6,
+          "label": "Skyline left-right complex",
+          "shape": "Corner / complex",
+          "direction": "complex",
+          "approachFrom": "T5 exit"
+        },
+        {
+          "id": "mount_panorama_t7",
+          "number": 7,
+          "label": "The Dipper (fast left descent)",
+          "shape": "Sweeper",
+          "direction": "complex",
+          "approachFrom": "T6 exit"
+        },
+        {
+          "id": "mount_panorama_t8",
+          "number": 8,
+          "label": "Forrest's Elbow (right kink / descent)",
+          "shape": "Kink",
+          "direction": "complex",
+          "approachFrom": "T7 exit"
+        },
+        {
+          "id": "mount_panorama_t9",
+          "number": 9,
+          "label": "The Chase (Sweeper left)",
+          "shape": "Sweeper",
+          "direction": "complex",
+          "approachFrom": "T8 exit"
+        },
+        {
+          "id": "mount_panorama_t10",
+          "number": 10,
+          "label": "Murrays Hairpin (bottom of mountain, left hairpin)",
+          "shape": "Hairpin",
+          "direction": "complex",
+          "approachFrom": "T9 exit"
+        },
+        {
+          "id": "mount_panorama_t11",
+          "number": 11,
+          "label": "Reid Park left sweeper",
+          "shape": "Sweeper",
+          "direction": "complex",
+          "approachFrom": "T10 exit"
+        },
+        {
+          "id": "mount_panorama_t12",
+          "number": 12,
+          "label": "Turn 12",
+          "shape": "Hairpin",
+          "direction": "complex",
+          "approachFrom": "T11 exit"
+        },
+        {
+          "id": "mount_panorama_t_finish",
+          "number": null,
+          "label": "T-Finish",
+          "shape": "Straight",
+          "direction": "straight",
+          "approachFrom": "T12 exit onto main straight",
+          "isFinish": true
+        }
+      ],
+      "nodeId": "au",
+      "kind": "road_circuit"
+    },
+    {
+      "id": "sandown",
+      "name": "Sandown Raceway",
+      "layout": "National Circuit (3.1 km)",
+      "direction": "anticlockwise",
+      "lengthKm": "3.1 km",
+      "isOther": false,
+      "corners": [
+        {
+          "id": "sandown_t1",
+          "number": 1,
+          "label": "Turn 1 (first left hairpin complex)",
+          "shape": "Hairpin",
+          "direction": "complex",
+          "approachFrom": "main straight / start-finish"
+        },
+        {
+          "id": "sandown_t2",
+          "number": 2,
+          "label": "Turn 2 (left kink onto back section)",
+          "shape": "Kink",
+          "direction": "complex",
+          "approachFrom": "T1 exit"
+        },
+        {
+          "id": "sandown_t3",
+          "number": 3,
+          "label": "Turn 3 (left sweeper)",
+          "shape": "Sweeper",
+          "direction": "complex",
+          "approachFrom": "T2 exit"
+        },
+        {
+          "id": "sandown_t4",
+          "number": 4,
+          "label": "Turn 4 (left kink / Dandenong Road complex)",
+          "shape": "Kink",
+          "direction": "complex",
+          "approachFrom": "T3 exit"
+        },
+        {
+          "id": "sandown_t5",
+          "number": 5,
+          "label": "Turn 5 (final complex onto main straight)",
+          "shape": "Corner / complex",
+          "direction": "complex",
+          "approachFrom": "T4 exit"
+        },
+        {
+          "id": "sandown_t_finish",
+          "number": null,
+          "label": "T-Finish",
+          "shape": "Straight",
+          "direction": "straight",
+          "approachFrom": "T5 exit onto main straight",
+          "isFinish": true
+        }
+      ],
+      "nodeId": "au",
+      "kind": "road_circuit"
+    },
+    {
+      "id": "winton",
+      "name": "Winton Motor Raceway",
+      "layout": "Main circuit (3.0 km)",
+      "direction": "clockwise",
+      "lengthKm": "3.0 km",
+      "isOther": false,
+      "corners": [
+        {
+          "id": "winton_t1",
+          "number": 1,
+          "label": "Turn 1 (entry complex / left kink)",
+          "shape": "Kink",
+          "direction": "complex",
+          "approachFrom": "main straight / start-finish"
+        },
+        {
+          "id": "winton_t2",
+          "number": 2,
+          "label": "Turn 2 (right sweeper)",
+          "shape": "Sweeper",
+          "direction": "complex",
+          "approachFrom": "T1 exit"
+        },
+        {
+          "id": "winton_t3",
+          "number": 3,
+          "label": "Turn 3 (right sweeper)",
+          "shape": "Sweeper",
+          "direction": "complex",
+          "approachFrom": "T2 exit"
+        },
+        {
+          "id": "winton_t4",
+          "number": 4,
+          "label": "Turn 4 (left sweeper / infield)",
+          "shape": "Sweeper",
+          "direction": "complex",
+          "approachFrom": "T3 exit"
+        },
+        {
+          "id": "winton_t5",
+          "number": 5,
+          "label": "Turn 5 (right hairpin)",
+          "shape": "Hairpin",
+          "direction": "complex",
+          "approachFrom": "T4 exit"
+        },
+        {
+          "id": "winton_t6",
+          "number": 6,
+          "label": "Turn 6 (complex / back section kinks)",
+          "shape": "Corner / complex",
+          "direction": "complex",
+          "approachFrom": "T5 exit"
+        },
+        {
+          "id": "winton_t7",
+          "number": 7,
+          "label": "Turn 7 (left sweeper)",
+          "shape": "Sweeper",
+          "direction": "complex",
+          "approachFrom": "T6 exit"
+        },
+        {
+          "id": "winton_t8",
+          "number": 8,
+          "label": "Turn 8 (right hairpin / final)",
+          "shape": "Hairpin",
+          "direction": "complex",
+          "approachFrom": "T7 exit"
+        },
+        {
+          "id": "winton_t_finish",
+          "number": null,
+          "label": "T-Finish",
+          "shape": "Straight",
+          "direction": "straight",
+          "approachFrom": "T8 exit onto main straight",
+          "isFinish": true
+        }
+      ],
+      "nodeId": "au",
+      "kind": "road_circuit"
+    },
+    {
+      "id": "calder_park",
+      "name": "Calder Park Raceway",
+      "layout": "Main circuit",
+      "direction": "clockwise",
+      "lengthKm": "~2.3 km",
+      "isOther": false,
+      "corners": [
+        {
+          "id": "calder_park_t1",
+          "number": 1,
+          "label": "Turn 1 (right hairpin / main hairpin)",
+          "shape": "Hairpin",
+          "direction": "complex",
+          "approachFrom": "main straight / start-finish"
+        },
+        {
+          "id": "calder_park_t2",
+          "number": 2,
+          "label": "Turn 2 (complex infield section)",
+          "shape": "Corner / complex",
+          "direction": "complex",
+          "approachFrom": "T1 exit"
+        },
+        {
+          "id": "calder_park_t3",
+          "number": 3,
+          "label": "Turn 3 (right hairpin / back section)",
+          "shape": "Hairpin",
+          "direction": "complex",
+          "approachFrom": "T2 exit"
+        },
+        {
+          "id": "calder_park_t_finish",
+          "number": null,
+          "label": "T-Finish",
+          "shape": "Straight",
+          "direction": "straight",
+          "approachFrom": "T3 exit onto main straight",
+          "isFinish": true
+        }
+      ],
+      "nodeId": "au",
+      "kind": "road_circuit"
+    },
+    {
+      "id": "hidden_valley",
+      "name": "Hidden Valley Raceway",
+      "layout": "Full Circuit (2.87 km, 14 turns)",
+      "direction": "anticlockwise",
+      "lengthKm": "2.87 km",
+      "isOther": false,
+      "corners": [
+        {
+          "id": "hidden_valley_t1",
+          "number": 1,
+          "label": "Turn 1",
+          "shape": "Corner / complex",
+          "direction": "complex",
+          "approachFrom": "main straight / start-finish"
+        },
+        {
+          "id": "hidden_valley_t2",
+          "number": 2,
+          "label": "Turn 2",
+          "shape": "Corner / complex",
+          "direction": "complex",
+          "approachFrom": "T1 exit"
+        },
+        {
+          "id": "hidden_valley_t3",
+          "number": 3,
+          "label": "Turn 3",
+          "shape": "Corner / complex",
+          "direction": "complex",
+          "approachFrom": "T2 exit"
+        },
+        {
+          "id": "hidden_valley_t4",
+          "number": 4,
+          "label": "Turn 4",
+          "shape": "Corner / complex",
+          "direction": "complex",
+          "approachFrom": "T3 exit"
+        },
+        {
+          "id": "hidden_valley_t5",
+          "number": 5,
+          "label": "Turn 5",
+          "shape": "Corner / complex",
+          "direction": "complex",
+          "approachFrom": "T4 exit"
+        },
+        {
+          "id": "hidden_valley_t6",
+          "number": 6,
+          "label": "Turn 6",
+          "shape": "Corner / complex",
+          "direction": "complex",
+          "approachFrom": "T5 exit"
+        },
+        {
+          "id": "hidden_valley_t7",
+          "number": 7,
+          "label": "Turn 7",
+          "shape": "Corner / complex",
+          "direction": "complex",
+          "approachFrom": "T6 exit"
+        },
+        {
+          "id": "hidden_valley_t8",
+          "number": 8,
+          "label": "Turn 8",
+          "shape": "Corner / complex",
+          "direction": "complex",
+          "approachFrom": "T7 exit"
+        },
+        {
+          "id": "hidden_valley_t9",
+          "number": 9,
+          "label": "Turn 9",
+          "shape": "Corner / complex",
+          "direction": "complex",
+          "approachFrom": "T8 exit"
+        },
+        {
+          "id": "hidden_valley_t10",
+          "number": 10,
+          "label": "Turn 10",
+          "shape": "Corner / complex",
+          "direction": "complex",
+          "approachFrom": "T9 exit"
+        },
+        {
+          "id": "hidden_valley_t11",
+          "number": 11,
+          "label": "Turn 11",
+          "shape": "Corner / complex",
+          "direction": "complex",
+          "approachFrom": "T10 exit"
+        },
+        {
+          "id": "hidden_valley_t12",
+          "number": 12,
+          "label": "Turn 12",
+          "shape": "Corner / complex",
+          "direction": "complex",
+          "approachFrom": "T11 exit"
+        },
+        {
+          "id": "hidden_valley_t13",
+          "number": 13,
+          "label": "Turn 13",
+          "shape": "Corner / complex",
+          "direction": "complex",
+          "approachFrom": "T12 exit"
+        },
+        {
+          "id": "hidden_valley_t14",
+          "number": 14,
+          "label": "Turn 14",
+          "shape": "Corner / complex",
+          "direction": "complex",
+          "approachFrom": "T13 exit"
+        },
+        {
+          "id": "hidden_valley_t_finish",
+          "number": null,
+          "label": "T-Finish",
+          "shape": "Straight",
+          "direction": "straight",
+          "approachFrom": "T14 exit onto main straight",
+          "isFinish": true
+        }
+      ],
+      "nodeId": "au",
+      "kind": "road_circuit"
+    },
+    {
+      "id": "baskerville",
+      "name": "Baskerville Raceway",
+      "layout": "Full Circuit (2.01 km, 9 turns)",
+      "direction": "anticlockwise",
+      "lengthKm": "2.01 km",
+      "isOther": false,
+      "corners": [
+        {
+          "id": "baskerville_t1",
+          "number": 1,
+          "label": "Turn 1",
+          "shape": "Corner / complex",
+          "direction": "complex",
+          "approachFrom": "main straight / start-finish"
+        },
+        {
+          "id": "baskerville_t2",
+          "number": 2,
+          "label": "Turn 2",
+          "shape": "Corner / complex",
+          "direction": "complex",
+          "approachFrom": "T1 exit"
+        },
+        {
+          "id": "baskerville_t3",
+          "number": 3,
+          "label": "Turn 3",
+          "shape": "Corner / complex",
+          "direction": "complex",
+          "approachFrom": "T2 exit"
+        },
+        {
+          "id": "baskerville_t4",
+          "number": 4,
+          "label": "Turn 4",
+          "shape": "Corner / complex",
+          "direction": "complex",
+          "approachFrom": "T3 exit"
+        },
+        {
+          "id": "baskerville_t5",
+          "number": 5,
+          "label": "Turn 5",
+          "shape": "Corner / complex",
+          "direction": "complex",
+          "approachFrom": "T4 exit"
+        },
+        {
+          "id": "baskerville_t6",
+          "number": 6,
+          "label": "Turn 6",
+          "shape": "Corner / complex",
+          "direction": "complex",
+          "approachFrom": "T5 exit"
+        },
+        {
+          "id": "baskerville_t7",
+          "number": 7,
+          "label": "Turn 7",
+          "shape": "Corner / complex",
+          "direction": "complex",
+          "approachFrom": "T6 exit"
+        },
+        {
+          "id": "baskerville_t8",
+          "number": 8,
+          "label": "Turn 8",
+          "shape": "Corner / complex",
+          "direction": "complex",
+          "approachFrom": "T7 exit"
+        },
+        {
+          "id": "baskerville_t9",
+          "number": 9,
+          "label": "Turn 9",
+          "shape": "Corner / complex",
+          "direction": "complex",
+          "approachFrom": "T8 exit"
+        },
+        {
+          "id": "baskerville_t_finish",
+          "number": null,
+          "label": "T-Finish",
+          "shape": "Straight",
+          "direction": "straight",
+          "approachFrom": "T9 exit onto main straight",
+          "isFinish": true
+        }
+      ],
+      "nodeId": "au",
+      "kind": "road_circuit"
+    }
+  ]
+}

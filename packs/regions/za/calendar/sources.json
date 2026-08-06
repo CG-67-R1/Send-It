@@ -1,0 +1,26 @@
+{
+  "meta": {
+    "timezone": "Africa/Johannesburg",
+    "event_scope": {
+      "discipline": "road_race"
+    }
+  },
+  "sources": [
+    {
+      "id": "msa-calendar",
+      "name": "MSA Race Calendar",
+      "type": "governing_body_calendar",
+      "url": "https://www.motorsport.co.za",
+      "nodeId": "za",
+      "confidence": "official"
+    },
+    {
+      "id": "superbikesa-calendar",
+      "name": "Superbike SA Schedule",
+      "type": "series_calendar",
+      "url": "https://www.superbikesa.co.za",
+      "nodeId": "za",
+      "confidence": "official"
+    }
+  ]
+}

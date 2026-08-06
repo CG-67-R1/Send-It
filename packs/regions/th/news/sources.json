@@ -1,0 +1,32 @@
+{
+  "sources": [
+    {
+      "id": "motorsportth",
+      "name": "Motorsport Thailand",
+      "url": "https://www.motorsportth.com",
+      "confidence": "established-press",
+      "nodeId": "th"
+    },
+    {
+      "id": "changcircuit-news",
+      "name": "Chang International Circuit News",
+      "url": "https://www.chang-international-circuit.com",
+      "confidence": "official",
+      "nodeId": "th"
+    },
+    {
+      "id": "motorsport-th",
+      "name": "Motorsport.com Thailand",
+      "url": "https://th.motorsport.com",
+      "confidence": "established-press",
+      "nodeId": "th"
+    },
+    {
+      "id": "bikethailand",
+      "name": "BikeThailand.net",
+      "url": "https://www.bikethailand.net",
+      "confidence": "community",
+      "nodeId": "th"
+    }
+  ]
+}

@@ -1,0 +1,28 @@
+{
+  "series": [
+    {
+      "id": "bsb",
+      "name": "Bennetts British Superbike Championship",
+      "nodeId": "uk",
+      "local": true,
+      "website": "https://www.britishsuperbike.com",
+      "confidence": "official"
+    },
+    {
+      "id": "uk_club",
+      "name": "UK club road racing",
+      "nodeId": "uk",
+      "local": true,
+      "confidence": "community"
+    },
+    {
+      "id": "isle_of_man_tt",
+      "name": "Isle of Man TT",
+      "nodeId": "uk",
+      "local": true,
+      "website": "https://www.iomtt.com",
+      "confidence": "official",
+      "notes": "Crown Dependency event; often followed by UK riders."
+    }
+  ]
+}

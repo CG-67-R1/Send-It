@@ -1,0 +1,20 @@
+{
+  "pathways": [
+    {
+      "id": "fr-ffm-competition",
+      "title": "FFM licence de comp\u00e9tition pathway",
+      "nodeId": "fr",
+      "steps": [
+        "Rejoindre un club affili\u00e9 \u00e0 la FFM",
+        "Obtenir une licence FFM (comp\u00e9titeur)",
+        "Demander la licence de comp\u00e9tition appropri\u00e9e (nationale ou internationale)",
+        "Visite m\u00e9dicale obligatoire",
+        "Stage de perfectionnement / \u00e9cole de pilotage si requis"
+      ],
+      "urls": [
+        "https://www.ffmoto.org/licence"
+      ],
+      "confidence": "official"
+    }
+  ]
+}

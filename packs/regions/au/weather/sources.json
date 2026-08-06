@@ -1,0 +1,11 @@
+{
+  "sources": [
+    {
+      "id": "bom",
+      "name": "Bureau of Meteorology",
+      "url": "https://www.bom.gov.au",
+      "confidence": "official",
+      "nodeId": "au"
+    }
+  ]
+}

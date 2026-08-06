@@ -1,0 +1,14 @@
+{
+  "locales": {
+    "id-ID": {
+      "localFeed": "Berita motorsport Indonesia",
+      "localCalendar": "Indonesia",
+      "worldFeed": "Dunia"
+    },
+    "en": {
+      "localFeed": "Indonesia headlines",
+      "localCalendar": "Indonesia",
+      "worldFeed": "World"
+    }
+  }
+}

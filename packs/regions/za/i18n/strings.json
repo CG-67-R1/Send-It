@@ -1,0 +1,14 @@
+{
+  "locales": {
+    "en-ZA": {
+      "localFeed": "South Africa headlines",
+      "localCalendar": "South Africa",
+      "worldFeed": "World"
+    },
+    "af-ZA": {
+      "localFeed": "Suid-Afrika nuus",
+      "localCalendar": "Suid-Afrika",
+      "worldFeed": "W\u00eareld"
+    }
+  }
+}

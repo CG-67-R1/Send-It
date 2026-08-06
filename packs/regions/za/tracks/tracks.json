@@ -1,0 +1,65 @@
+{
+  "version": 1,
+  "tracks": [
+    {
+      "id": "kyalami",
+      "name": "Kyalami Grand Prix Circuit",
+      "nodeId": "za",
+      "kind": "road_circuit",
+      "lat": -25.9985,
+      "lng": 28.0733,
+      "corners": [],
+      "isOther": false,
+      "confidence": "official",
+      "notes": "Midrand, Gauteng. 4.522 km; hosts Superbike SA and occasional international events."
+    },
+    {
+      "id": "red-star-raceway",
+      "name": "Red Star Raceway",
+      "nodeId": "za",
+      "kind": "road_circuit",
+      "lat": -25.8748,
+      "lng": 28.4128,
+      "corners": [],
+      "isOther": false,
+      "confidence": "established-press",
+      "notes": "Delmas, Mpumalanga. Short club road racing circuit."
+    },
+    {
+      "id": "phakisa-freeway",
+      "name": "Phakisa Freeway",
+      "nodeId": "za",
+      "kind": "road_circuit",
+      "lat": -27.9952,
+      "lng": 26.6841,
+      "corners": [],
+      "isOther": false,
+      "confidence": "official",
+      "notes": "Welkom, Free State. 4.24 km; used for Superbike SA rounds."
+    },
+    {
+      "id": "zwartkops",
+      "name": "Zwartkops Raceway",
+      "nodeId": "za",
+      "kind": "road_circuit",
+      "lat": -25.7948,
+      "lng": 28.1157,
+      "corners": [],
+      "isOther": false,
+      "confidence": "established-press",
+      "notes": "Pretoria West. Club-level road racing and track days."
+    },
+    {
+      "id": "killarney",
+      "name": "Killarney International Raceway",
+      "nodeId": "za",
+      "kind": "road_circuit",
+      "lat": -33.8594,
+      "lng": 18.5217,
+      "corners": [],
+      "isOther": false,
+      "confidence": "official",
+      "notes": "Cape Town, Western Cape. Iconic South African circuit."
+    }
+  ]
+}

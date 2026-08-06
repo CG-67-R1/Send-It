@@ -1,0 +1,10 @@
+{
+  "governingBody": "Ikatan Motor Indonesia (IMI)",
+  "shortName": "IMI",
+  "edition": null,
+  "urls": {
+    "sourcePage": "https://www.imi.co.id"
+  },
+  "chapters": {},
+  "note": "Seed: link-out to IMI regulations. In-app KB not yet ingested."
+}

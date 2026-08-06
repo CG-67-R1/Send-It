@@ -1,0 +1,25 @@
+{
+  "packId": "es",
+  "nodes": [
+    {
+      "id": "es",
+      "parentId": null,
+      "kind": "region",
+      "displayName": "Spain",
+      "locales": [
+        "es-ES",
+        "ca-ES",
+        "en"
+      ],
+      "timezones": [
+        "Europe/Madrid",
+        "Atlantic/Canary"
+      ],
+      "isoCountries": [
+        "ES"
+      ],
+      "adminAreas": [],
+      "status": "seed"
+    }
+  ]
+}

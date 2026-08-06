@@ -22,9 +22,10 @@
       "adaptiveIcon": {
         "backgroundColor": "#0f172a"
       },
-      "package": "com.roadrace.app"
+      "package": "com.roadrace.app",
+      "enableProguardInReleaseBuilds": true,
+      "enableShrinkResourcesInReleaseBuilds": true
     },
-    "scheme": "roadrace",
     "plugins": [
       "expo-notifications",
       [
@@ -57,7 +58,9 @@
       "sentry-expo"
     ],
     "extra": {
-      "sentryDsn": "${EXPO_PUBLIC_SENTRY_DSN}"
+      "sentryDsn": "${EXPO_PUBLIC_SENTRY_DSN}",
+      "privacyPolicyUrl": "https://github.com/CG-67-R1/Send-It/blob/main/docs/legal/PRIVACY.md",
+      "termsOfUseUrl": "https://github.com/CG-67-R1/Send-It/blob/main/docs/legal/TERMS.md"
     }
   }
 }

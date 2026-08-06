@@ -5,6 +5,11 @@ import type { NativeStackNavigationProp } from '@react-navigation/native-stack';
 import { AppLogo } from '../components/AppLogo';
 import { COMPACT_LOGO_SIZE } from '../constants/logoSizing';
 import type { CoachChatDisplayMessage, CoachChatMessage, CoachMode } from '../utils/coachChat';
+import { safeOpenUrl } from '../utils/safeOpenUrl';
+
+const FEATURE_REQUEST_MAILTO =
+  'mailto:projectapex@outlook.com.au?subject=' +
+  encodeURIComponent('RoadRacer AI – feature request / improvement');
 
 /** Seed payloads may omit `id`; CoachChatScreen assigns stable ids on ingest. */
 type SeedMessage = CoachChatMessage & {
@@ -84,12 +89,23 @@ export function RiderCoachScreen() {
       <View style={styles.sectionDivider} />
 
       <Text style={styles.sectionLabel}>Tools</Text>
+      <Text style={styles.privacyNote}>
+        Setup tools keep your data private on this device. Save snapshots for later comparison, and
+        share a setup as text via Messages only when you choose.
+      </Text>
       <TouchableOpacity
         style={styles.navButton}
         onPress={() => navigation.navigate('BikeSetupSheet')}
         activeOpacity={0.8}
       >
         <Text style={styles.navButtonText}>Day Setup Sheet</Text>
+      </TouchableOpacity>
+      <TouchableOpacity
+        style={styles.navButton}
+        onPress={() => navigation.navigate('BikeBalanceSetup')}
+        activeOpacity={0.8}
+      >
+        <Text style={styles.navButtonText}>Bike Balance Setup</Text>
       </TouchableOpacity>
       <TouchableOpacity
         style={styles.navButton}
@@ -105,12 +121,15 @@ export function RiderCoachScreen() {
       >
         <Text style={styles.navButtonText}>RoadRacer AI FAQs</Text>
       </TouchableOpacity>
+
       <TouchableOpacity
-        style={styles.navButton}
-        onPress={() => navigation.navigate('BikeBalanceSetup')}
-        activeOpacity={0.8}
+        style={styles.featureRequestLink}
+        onPress={() => void safeOpenUrl(FEATURE_REQUEST_MAILTO, 'feature request email')}
+        activeOpacity={0.7}
       >
-        <Text style={styles.navButtonText}>Bike Balance Setup</Text>
+        <Text style={styles.featureRequestText}>
+          Suggest a RoadRacer AI improvement or feature request
+        </Text>
       </TouchableOpacity>
     </ScrollView>
   );
@@ -139,6 +158,12 @@ const styles = StyleSheet.create({
     marginBottom: 10,
     marginTop: 4,
   },
+  privacyNote: {
+    fontSize: 13,
+    color: '#93c5fd',
+    lineHeight: 18,
+    marginBottom: 14,
+  },
   sectionDivider: {
     height: 1,
     backgroundColor: '#334155',
@@ -161,5 +186,17 @@ const styles = StyleSheet.create({
     fontFamily: 'RaceSport',
     fontSize: 17,
     color: '#f8fafc',
+  },
+  featureRequestLink: {
+    marginTop: 8,
+    paddingVertical: 12,
+    alignItems: 'center',
+  },
+  featureRequestText: {
+    color: '#38bdf8',
+    fontSize: 13,
+    fontWeight: '600',
+    textAlign: 'center',
+    textDecorationLine: 'underline',
   },
 });

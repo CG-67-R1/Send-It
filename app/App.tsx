@@ -1,5 +1,6 @@
 import React, { useCallback, useEffect, useState } from 'react';
 import { ActivityIndicator, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
+import { GestureHandlerRootView } from 'react-native-gesture-handler';
 import { StatusBar } from 'expo-status-bar';
 import { useFonts } from 'expo-font';
 import { NavigationContainer } from '@react-navigation/native';
@@ -250,7 +251,12 @@ export default function App() {
   // (e.g. tslib `__extends` / Hermes) during the initial module graph before RN is initialized.
   useEffect(() => {
     const dsn = process.env.EXPO_PUBLIC_SENTRY_DSN;
-    if (!dsn) return;
+    if (!dsn) {
+      if (__DEV__) {
+        console.warn('[Sentry] EXPO_PUBLIC_SENTRY_DSN not set — crash reporting disabled');
+      }
+      return;
+    }
     let cancelled = false;
     void import('sentry-expo')
       .then((Sentry) => {
@@ -275,47 +281,49 @@ export default function App() {
   }, []);
 
   return (
-    <SafeAreaProvider>
-      {!fontsLoaded || onboardingComplete === null ? (
-        <View style={{ flex: 1, backgroundColor: '#0f172a', justifyContent: 'center', alignItems: 'center' }}>
-          <StatusBar style="light" />
-          <ActivityIndicator size="large" color="#f59e0b" />
-        </View>
-      ) : !onboardingComplete ? (
-        <OnboardingResetContext.Provider value={{ resetOnboarding }}>
-          <StatusBar style="light" />
-          <OnboardingScreen onComplete={() => setOnboardingComplete(true)} />
-        </OnboardingResetContext.Provider>
-      ) : (
-        <OnboardingResetContext.Provider value={{ resetOnboarding }}>
-          <View style={{ flex: 1 }}>
-            <NavigationContainer ref={navigationRef}>
-              <TrackArrivalProvider>
-                <StatusBar style="light" />
-                <MainTabs />
-              </TrackArrivalProvider>
-            </NavigationContainer>
-            {__DEV__ && isHermes ? (
-              <View
-                style={{
-                  position: 'absolute',
-                  top: 14,
-                  right: 14,
-                  paddingHorizontal: 10,
-                  paddingVertical: 6,
-                  borderRadius: 999,
-                  backgroundColor: 'rgba(245, 158, 11, 0.92)',
-                  borderWidth: 1,
-                  borderColor: '#0f172a',
-                }}
-                pointerEvents="none"
-              >
-                <Text style={{ color: '#0f172a', fontSize: 12, fontWeight: '700' }}>Hermes active</Text>
-              </View>
-            ) : null}
+    <GestureHandlerRootView style={{ flex: 1 }}>
+      <SafeAreaProvider>
+        {!fontsLoaded || onboardingComplete === null ? (
+          <View style={{ flex: 1, backgroundColor: '#0f172a', justifyContent: 'center', alignItems: 'center' }}>
+            <StatusBar style="light" />
+            <ActivityIndicator size="large" color="#f59e0b" />
           </View>
-        </OnboardingResetContext.Provider>
-      )}
-    </SafeAreaProvider>
+        ) : !onboardingComplete ? (
+          <OnboardingResetContext.Provider value={{ resetOnboarding }}>
+            <StatusBar style="light" />
+            <OnboardingScreen onComplete={() => setOnboardingComplete(true)} />
+          </OnboardingResetContext.Provider>
+        ) : (
+          <OnboardingResetContext.Provider value={{ resetOnboarding }}>
+            <View style={{ flex: 1 }}>
+              <NavigationContainer ref={navigationRef}>
+                <TrackArrivalProvider>
+                  <StatusBar style="light" />
+                  <MainTabs />
+                </TrackArrivalProvider>
+              </NavigationContainer>
+              {__DEV__ && isHermes ? (
+                <View
+                  style={{
+                    position: 'absolute',
+                    top: 14,
+                    right: 14,
+                    paddingHorizontal: 10,
+                    paddingVertical: 6,
+                    borderRadius: 999,
+                    backgroundColor: 'rgba(245, 158, 11, 0.92)',
+                    borderWidth: 1,
+                    borderColor: '#0f172a',
+                  }}
+                  pointerEvents="none"
+                >
+                  <Text style={{ color: '#0f172a', fontSize: 12, fontWeight: '700' }}>Hermes active</Text>
+                </View>
+              ) : null}
+            </View>
+          </OnboardingResetContext.Provider>
+        )}
+      </SafeAreaProvider>
+    </GestureHandlerRootView>
   );
 }

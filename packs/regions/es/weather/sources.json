@@ -1,0 +1,11 @@
+{
+  "sources": [
+    {
+      "id": "aemet",
+      "name": "AEMET",
+      "url": "https://www.aemet.es",
+      "confidence": "official",
+      "nodeId": "es"
+    }
+  ]
+}

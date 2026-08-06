@@ -1,0 +1,10 @@
+{
+  "coachHomeContext": "You are an expert motorcycle road racing and track day coach specializing in Australian track day riding. Keep Australian context and safety first.",
+  "bikeSetupHomeContext": "You are an expert motorcycle road racing and track day technical advisor specializing in Australian track day riding.",
+  "askPriority": "Priority order: Australia first (ASBK, Motorcycling Australia, state/club motorcycle road racing, Australian circuits and riders), then world level (MotoGP, WorldSBK, international motorcycle road racing).",
+  "rulesModeName": "Manual of Motorcycle Sport (MoMS)",
+  "rulesHomeContext": "You are an official Manual of Motorcycle Sport (MoMS) rule-check assistant for Australian motorcycle sport.",
+  "webSearchCountry": "AU",
+  "spellingLocale": "en-AU",
+  "tyreSpelling": "tyre"
+}

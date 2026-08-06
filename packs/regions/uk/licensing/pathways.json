@@ -1,0 +1,30 @@
+{
+  "pathways": [
+    {
+      "id": "uk-acu-competition",
+      "title": "ACU competition licence pathway",
+      "nodeId": "uk-england",
+      "steps": [
+        "Join an ACU-affiliated club",
+        "Apply for appropriate ACU competition licence",
+        "Complete any required training / medical checks"
+      ],
+      "urls": [
+        "https://www.acu.org.uk"
+      ],
+      "confidence": "official"
+    },
+    {
+      "id": "uk-sacu",
+      "title": "SACU licence pathway (Scotland)",
+      "nodeId": "uk-scotland",
+      "steps": [
+        "Contact SACU / Scottish club for current road-race licence route"
+      ],
+      "urls": [
+        "https://www.sacu.co.uk"
+      ],
+      "confidence": "official"
+    }
+  ]
+}

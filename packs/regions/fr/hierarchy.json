@@ -1,0 +1,22 @@
+{
+  "packId": "fr",
+  "nodes": [
+    {
+      "id": "fr",
+      "parentId": null,
+      "kind": "region",
+      "displayName": "France",
+      "locales": [
+        "fr-FR",
+        "en"
+      ],
+      "timezones": [
+        "Europe/Paris"
+      ],
+      "isoCountries": [
+        "FR"
+      ],
+      "status": "seed"
+    }
+  ]
+}

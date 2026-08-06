@@ -1,0 +1,17 @@
+{
+  "contacts": [
+    {
+      "id": "us-911",
+      "name": "Emergency services (US)",
+      "phone": "911",
+      "nodeId": "na-west"
+    },
+    {
+      "id": "ca-911",
+      "name": "Emergency services (Canada)",
+      "phone": "911",
+      "nodeId": "na-west-western-canada"
+    }
+  ],
+  "notes": "Follow circuit medical / marshal instructions. 911 for all emergency services across western US and Canada."
+}

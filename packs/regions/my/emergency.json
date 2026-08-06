@@ -1,0 +1,17 @@
+{
+  "contacts": [
+    {
+      "id": "my-999",
+      "name": "Perkhidmatan Kecemasan (Emergency)",
+      "phone": "999",
+      "nodeId": "my"
+    },
+    {
+      "id": "my-112",
+      "name": "Polis / Emergency (alternate)",
+      "phone": "112",
+      "nodeId": "my"
+    }
+  ],
+  "notes": "Follow circuit medical / marshal instructions. 999 or 112 for emergencies."
+}

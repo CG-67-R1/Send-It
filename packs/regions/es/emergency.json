@@ -1,0 +1,11 @@
+{
+  "contacts": [
+    {
+      "id": "es-112",
+      "name": "Emergency services",
+      "phone": "112",
+      "nodeId": "es"
+    }
+  ],
+  "notes": "Follow circuit medical / race control procedures."
+}

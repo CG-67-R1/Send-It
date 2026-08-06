@@ -12,10 +12,17 @@ import {
 } from 'react-native';
 import { useFocusEffect } from '@react-navigation/native';
 import * as Calendar from 'expo-calendar';
-import { CALENDAR_URL } from '../../constants/api';
+import { apiFetch, CALENDAR_URL } from '../../constants/api';
+import { safeOpenUrl } from '../utils/safeOpenUrl';
 import type { CalendarEvent } from '../types';
 import { AppLogo } from '../components/AppLogo';
 import { SCREEN_LOGO_SIZE } from '../constants/logoSizing';
+import {
+  getI18nString,
+  getLocalCountryNames,
+  getLocalSeriesIds,
+  getLocalUiLabel,
+} from '../packs/loader';
 
 const SERIES_COLORS: Record<string, string> = {
   motogp: '#e11d48',
@@ -26,17 +33,21 @@ const SERIES_COLORS: Record<string, string> = {
   au_national: '#f59e0b',
   australia: '#f59e0b',
   ASBK: '#f59e0b',
+  bsb: '#f59e0b',
+  uk_club: '#f59e0b',
+  esbk: '#f59e0b',
+  civ: '#f59e0b',
 };
 
-type CalendarFilter = 'all' | 'australia' | 'world';
+type CalendarFilter = 'all' | 'local' | 'world';
 
-const AU_SERIES = new Set(['asbk', 'au_club', 'au_national', 'au_track_day', 'australia']);
-
-function isAustraliaEvent(item: CalendarEvent): boolean {
+function isLocalEvent(item: CalendarEvent): boolean {
+  const localSeries = getLocalSeriesIds();
+  const localCountries = getLocalCountryNames();
   return (
-    AU_SERIES.has(item.series) ||
+    localSeries.has(item.series) ||
     item.detailTier === 'full' ||
-    item.country === 'Australia'
+    (!!item.country && localCountries.has(item.country))
   );
 }
 
@@ -53,8 +64,8 @@ function isUpcomingOrOngoing(item: CalendarEvent): boolean {
 
 function filterEvents(events: CalendarEvent[], filter: CalendarFilter): CalendarEvent[] {
   const upcoming = events.filter(isUpcomingOrOngoing);
-  if (filter === 'australia') return upcoming.filter(isAustraliaEvent);
-  if (filter === 'world') return upcoming.filter((e) => !isAustraliaEvent(e));
+  if (filter === 'local') return upcoming.filter(isLocalEvent);
+  if (filter === 'world') return upcoming.filter((e) => !isLocalEvent(e));
   return upcoming;
 }
 
@@ -87,7 +98,7 @@ function eventDates(startDate: string, endDate: string): { start: Date; end: Dat
 
 export function CalendarScreen() {
   const [events, setEvents] = useState<CalendarEvent[]>([]);
-  const [filter, setFilter] = useState<CalendarFilter>('australia');
+  const [filter, setFilter] = useState<CalendarFilter>('local');
   const [loading, setLoading] = useState(true);
   const [refreshing, setRefreshing] = useState(false);
   const [error, setError] = useState<string | null>(null);
@@ -98,7 +109,7 @@ export function CalendarScreen() {
     setError(null);
     try {
       const url = isRefresh ? `${CALENDAR_URL}?refresh=1` : CALENDAR_URL;
-      const res = await fetch(url, {
+      const res = await apiFetch(url, {
         signal: AbortSignal.timeout(15000),
         cache: 'no-store',
       });
@@ -128,7 +139,7 @@ export function CalendarScreen() {
   );
 
   const openLink = (url: string | null) => {
-    if (url) Linking.openURL(url).catch(() => {});
+    if (url) void safeOpenUrl(url);
   };
 
   const addReminder = useCallback(async (item: CalendarEvent) => {
@@ -217,10 +228,10 @@ export function CalendarScreen() {
         <AppLogo size={SCREEN_LOGO_SIZE} />
         <Text style={styles.headerTitle}>Events</Text>
         <Text style={styles.headerSubtitle}>
-          Australian club & state road racing • MotoGP • WorldSBK. Tap to open links.
+          {getLocalUiLabel()} club & state road racing • MotoGP • WorldSBK. Tap to open links.
         </Text>
         <View style={styles.filterRow}>
-          {(['australia', 'world', 'all'] as CalendarFilter[]).map((key) => (
+          {(['local', 'world', 'all'] as CalendarFilter[]).map((key) => (
             <TouchableOpacity
               key={key}
               style={[styles.filterChip, filter === key && styles.filterChipActive]}
@@ -228,7 +239,11 @@ export function CalendarScreen() {
               activeOpacity={0.7}
             >
               <Text style={[styles.filterChipText, filter === key && styles.filterChipTextActive]}>
-                {key === 'all' ? 'All' : key === 'australia' ? 'Aus' : 'World'}
+                {key === 'all'
+                  ? 'All'
+                  : key === 'local'
+                    ? getI18nString('localCalendar', getLocalUiLabel())
+                    : getI18nString('worldFeed', 'World')}
               </Text>
             </TouchableOpacity>
           ))}

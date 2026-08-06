@@ -1,0 +1,19 @@
+{
+  "locales": {
+    "pt-BR": {
+      "localFeed": "Not\u00edcias de motociclismo sul-americano",
+      "localCalendar": "Am\u00e9rica do Sul",
+      "worldFeed": "Mundo"
+    },
+    "es-419": {
+      "localFeed": "Noticias de motociclismo sudamericano",
+      "localCalendar": "Sudam\u00e9rica",
+      "worldFeed": "Mundo"
+    },
+    "en": {
+      "localFeed": "South America headlines",
+      "localCalendar": "South America",
+      "worldFeed": "World"
+    }
+  }
+}

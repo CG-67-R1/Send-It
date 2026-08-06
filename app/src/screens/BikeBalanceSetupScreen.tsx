@@ -13,14 +13,18 @@ import { useNavigation } from '@react-navigation/native';
 import type { NativeStackNavigationProp } from '@react-navigation/native-stack';
 import { BikeBalanceDataGuide } from '../components/bikeBalance/BikeBalanceDataGuide';
 import { BikeBalanceDiagramPanel } from '../components/bikeBalance/BikeBalanceDiagramPanel';
+import { BikeBalanceFieldHelp } from '../components/bikeBalance/BikeBalanceFieldHelp';
 import { BikeBalanceIntroGate } from '../components/bikeBalance/BikeBalanceIntroGate';
 import { BikeBalanceSourcesSheet } from '../components/BikeBalanceSourcesSheet';
 import {
   DEFAULT_BIKE_BALANCE_INPUTS,
+  GEO_FIELD_HELP,
   GEOMETRY_AS_FIXTURE,
+  INPUT_FIELD_HELP,
   POSITION_PRESETS,
   SECTION8_EXT_EXAMPLE,
   SECTION8_LADEN_EXAMPLE,
+  SKILL_MODE_HELP,
   SYMPTOM_GUIDES,
   antiSquatFlagLabel,
   applyPositionPreset,
@@ -37,10 +41,15 @@ import {
   type CogProvenance,
   type SkillMode,
 } from '../calc/bikeBalance';
+import { PrivateSetupBanner } from '../components/PrivateSetupBanner';
 import {
+  createBikeBalanceSavedSetup,
   loadBikeBalanceState,
   saveBikeBalanceState,
+  upsertBikeBalanceSavedSetup,
+  type BikeBalanceSavedSetup,
 } from '../storage/bikeBalance';
+import { shareBikeSetupAsText } from '../utils/shareBikeSetup';
 import type { RiderCoachStackParamList } from './RiderCoachScreen';
 
 type Nav = NativeStackNavigationProp<RiderCoachStackParamList, 'BikeBalanceSetup'>;
@@ -48,45 +57,6 @@ type TabKey = 'inputs' | 'results' | 'compare' | 'guide';
 
 const SKILL_MODES: SkillMode[] = ['rider', 'tuner', 'engineer'];
 const TABS: TabKey[] = ['inputs', 'results', 'compare', 'guide'];
-
-const INPUT_FIELDS: {
-  key: keyof BikeBalanceInputs;
-  label: string;
-  hint: string;
-}[] = [
-  { key: 'rakeDeg', label: 'Rake (°)', hint: 'Steering axis from vertical' },
-  { key: 'trailMm', label: 'Trail (mm)', hint: 'Ground trail' },
-  { key: 'wheelbaseMm', label: 'Wheelbase (mm)', hint: 'Contact patch to contact patch' },
-  { key: 'forkTravelMm', label: 'Fork travel (mm)', hint: 'Along fork axis. Measure at Pos.' },
-  { key: 'shockTravelMm', label: 'Shock travel (mm)', hint: 'Shock shaft. Measure at Pos.' },
-  { key: 'forkRateNPerMm', label: 'Fork rate (N/mm)', hint: 'Combined legs' },
-  { key: 'shockRateNPerMm', label: 'Shock rate (N/mm)', hint: 'At shaft' },
-  { key: 'linkRatio', label: 'Link ratio', hint: 'Instantaneous MR' },
-  { key: 'forkForceN', label: 'Fork force (N)', hint: 'Set by position preset or manual' },
-  { key: 'shockForceN', label: 'Shock force (N)', hint: 'Set by position preset or manual' },
-  { key: 'cogXMm', label: 'CoG X (mm)', hint: 'From front contact' },
-  { key: 'cogYMm', label: 'CoG Y (mm)', hint: 'Height above ground' },
-  { key: 'antiSquatAngleDeg', label: 'Anti-squat angle (°)', hint: 'Manual mode only' },
-];
-
-const GEO_FIELDS: {
-  key: keyof BikeBalanceInputs;
-  label: string;
-  hint: string;
-}[] = [
-  { key: 'rearTyreRadiusMm', label: 'Rear tyre radius (mm)', hint: 'Effective rolling radius' },
-  { key: 'swingarmLengthMm', label: 'Swingarm length (mm)', hint: 'Pivot to rear axle' },
-  {
-    key: 'swingarmAngleDeg',
-    label: 'Swingarm angle (°)',
-    hint: 'Above horizontal; + when pivot above axle',
-  },
-  { key: 'csFromPivotXMm', label: 'CS from pivot X (mm)', hint: '+ rearward (frame convention)' },
-  { key: 'csFromPivotYMm', label: 'CS from pivot Y (mm)', hint: '+ up' },
-  { key: 'frontSprocketTeeth', label: 'Front sprocket teeth', hint: 'for example 15 to 17' },
-  { key: 'rearSprocketTeeth', label: 'Rear sprocket teeth', hint: 'for example 40 to 45' },
-  { key: 'chainPitchMm', label: 'Chain pitch (mm)', hint: '520/525/530 pitch is about 15.875 mm' },
-];
 
 function parseOptionalNumber(text: string): number | null {
   const t = text.trim();
@@ -119,6 +89,7 @@ export function BikeBalanceSetupScreen() {
   const [ready, setReady] = useState(false);
   const [inputs, setInputs] = useState<BikeBalanceInputs>({ ...DEFAULT_BIKE_BALANCE_INPUTS });
   const [refInputs, setRefInputs] = useState<BikeBalanceInputs | null>(null);
+  const [savedSetups, setSavedSetups] = useState<BikeBalanceSavedSetup[]>([]);
   const [skillMode, setSkillMode] = useState<SkillMode>('rider');
   const [tab, setTab] = useState<TabKey>('guide');
   const [sourceResult, setSourceResult] = useState<CalcResult | null>(null);
@@ -128,6 +99,7 @@ export function BikeBalanceSetupScreen() {
   const [introAccepted, setIntroAccepted] = useState(false);
   const [showDataGuide, setShowDataGuide] = useState(true);
   const [highlightFieldKeys, setHighlightFieldKeys] = useState<string[]>([]);
+  const [sharing, setSharing] = useState(false);
 
   useEffect(() => {
     let cancelled = false;
@@ -136,6 +108,7 @@ export function BikeBalanceSetupScreen() {
       if (cancelled) return;
       setInputs(state.inputs);
       setRefInputs(state.refInputs);
+      setSavedSetups(state.savedSetups);
       setSkillMode(state.skillMode);
       setIntroAccepted(state.introAccepted);
       setShowDataGuide(!state.introAccepted);
@@ -154,8 +127,9 @@ export function BikeBalanceSetupScreen() {
       refInputs,
       skillMode,
       introAccepted,
+      savedSetups,
     });
-  }, [inputs, refInputs, skillMode, introAccepted, ready]);
+  }, [inputs, refInputs, skillMode, introAccepted, savedSetups, ready]);
 
   const acceptIntro = useCallback((openGuide: boolean) => {
     setIntroAccepted(true);
@@ -206,6 +180,78 @@ export function BikeBalanceSetupScreen() {
     await Clipboard.setStringAsync(md);
     Alert.alert('Report copied', 'Citable Markdown report is on the clipboard.');
   }, [inputs, refInputs]);
+
+  const shareReport = useCallback(async () => {
+    if (sharing) return;
+    setSharing(true);
+    try {
+      const body = buildCitableReport(inputs, refInputs);
+      const title = inputs.name.trim() || 'Bike Balance Setup';
+      await shareBikeSetupAsText({ title, body });
+    } catch (e) {
+      Alert.alert('Share failed', e instanceof Error ? e.message : 'Could not open share sheet.');
+    } finally {
+      setSharing(false);
+    }
+  }, [inputs, refInputs, sharing]);
+
+  const saveSetupPrivately = useCallback(() => {
+    const snapshot = createBikeBalanceSavedSetup(inputs);
+    setSavedSetups((prev) => upsertBikeBalanceSavedSetup(prev, snapshot));
+    Alert.alert(
+      'Setup saved privately',
+      `"${snapshot.name}" is stored only on this device. Open Compare to load it as Ref or restore it.`
+    );
+    setTab('compare');
+  }, [inputs]);
+
+  const loadSavedSetup = useCallback((setup: BikeBalanceSavedSetup) => {
+    Alert.alert('Load saved setup', `Replace the current proposal with "${setup.name}"?`, [
+      { text: 'Cancel', style: 'cancel' },
+      {
+        text: 'Load',
+        onPress: () => {
+          setInputs({ ...setup.inputs });
+          setPresetNotes([`Loaded private save: ${setup.name}`]);
+          setTab('inputs');
+        },
+      },
+    ]);
+  }, []);
+
+  const useSavedAsRef = useCallback((setup: BikeBalanceSavedSetup) => {
+    setRefInputs({ ...setup.inputs });
+    setPresetNotes([`Ref set from private save: ${setup.name}`]);
+  }, []);
+
+  const deleteSavedSetup = useCallback((setup: BikeBalanceSavedSetup) => {
+    Alert.alert('Delete saved setup', `Remove "${setup.name}" from private local storage?`, [
+      { text: 'Cancel', style: 'cancel' },
+      {
+        text: 'Delete',
+        style: 'destructive',
+        onPress: () => {
+          setSavedSetups((prev) => prev.filter((item) => item.id !== setup.id));
+        },
+      },
+    ]);
+  }, []);
+
+  const shareSavedSetup = useCallback(
+    async (setup: BikeBalanceSavedSetup) => {
+      if (sharing) return;
+      setSharing(true);
+      try {
+        const body = buildCitableReport(setup.inputs, null);
+        await shareBikeSetupAsText({ title: setup.name, body });
+      } catch (e) {
+        Alert.alert('Share failed', e instanceof Error ? e.message : 'Could not open share sheet.');
+      } finally {
+        setSharing(false);
+      }
+    },
+    [sharing]
+  );
 
   if (!ready) {
     return <View style={styles.container} />;
@@ -278,6 +324,7 @@ export function BikeBalanceSetupScreen() {
   return (
     <View style={styles.container}>
       <ScrollView contentContainerStyle={styles.content} keyboardShouldPersistTaps="handled">
+        <PrivateSetupBanner detail="Save named setups privately, keep a Ref for deltas, and share a text report only when you choose." />
         <Text style={styles.disclaimer}>
           Deep technical tool. Same math in every skill mode. Sources in Why this number must be
           published books, journals, or public OEM documentation. Prefer deltas versus Ref.
@@ -374,12 +421,13 @@ export function BikeBalanceSetupScreen() {
                 onPress={() => setSkillMode(mode)}
               >
                 <Text style={[styles.segmentText, active && styles.segmentTextActive]}>
-                  {mode.charAt(0).toUpperCase() + mode.slice(1)}
+                  {SKILL_MODE_HELP[mode].title}
                 </Text>
               </TouchableOpacity>
             );
           })}
         </View>
+        <Text style={styles.modeBlurb}>{SKILL_MODE_HELP[skillMode].blurb}</Text>
 
         <View style={styles.segmentRow}>
           {TABS.map((key) => {
@@ -458,7 +506,7 @@ export function BikeBalanceSetupScreen() {
               </TouchableOpacity>
             ) : null}
 
-            {INPUT_FIELDS.map((field) => {
+            {INPUT_FIELD_HELP.map((field) => {
               if (field.key === 'antiSquatAngleDeg' && inputs.antiSquatAngleMode === 'geometry') {
                 return null;
               }
@@ -466,7 +514,10 @@ export function BikeBalanceSetupScreen() {
               return (
                 <View key={field.key} style={highlighted ? styles.fieldHighlight : undefined}>
                   <Text style={styles.fieldLabel}>{field.label}</Text>
-                  <Text style={styles.hint}>{field.hint}</Text>
+                  <BikeBalanceFieldHelp
+                    help={field}
+                    defaultExpanded={skillMode === 'rider' && highlighted}
+                  />
                   <TextInput
                     style={[styles.input, highlighted && styles.inputHighlight]}
                     keyboardType="decimal-pad"
@@ -482,12 +533,15 @@ export function BikeBalanceSetupScreen() {
             {inputs.antiSquatAngleMode === 'geometry' ? (
               <View>
                 <Text style={styles.sectionLabel}>Drive-side geometry</Text>
-                {GEO_FIELDS.map((field) => {
+                {GEO_FIELD_HELP.map((field) => {
                   const highlighted = highlightFieldKeys.includes(field.key);
                   return (
                     <View key={field.key} style={highlighted ? styles.fieldHighlight : undefined}>
                       <Text style={styles.fieldLabel}>{field.label}</Text>
-                      <Text style={styles.hint}>{field.hint}</Text>
+                      <BikeBalanceFieldHelp
+                        help={field}
+                        defaultExpanded={skillMode === 'rider' && highlighted}
+                      />
                       <TextInput
                         style={[styles.input, highlighted && styles.inputHighlight]}
                         keyboardType="decimal-pad"
@@ -561,15 +615,18 @@ export function BikeBalanceSetupScreen() {
               >
                 <Text style={styles.secondaryBtnText}>Save as Ref</Text>
               </TouchableOpacity>
-              <TouchableOpacity
-                style={styles.secondaryBtnHalf}
-                onPress={() => setShowVerify((v) => !v)}
-              >
-                <Text style={styles.secondaryBtnText}>
-                  {showVerify || skillMode === 'engineer' ? 'Hide verify' : 'Verify'}
-                </Text>
+              <TouchableOpacity style={styles.secondaryBtnHalf} onPress={saveSetupPrivately}>
+                <Text style={styles.secondaryBtnText}>Save privately</Text>
               </TouchableOpacity>
             </View>
+            <TouchableOpacity
+              style={styles.secondaryBtn}
+              onPress={() => setShowVerify((v) => !v)}
+            >
+              <Text style={styles.secondaryBtnText}>
+                {showVerify || skillMode === 'engineer' ? 'Hide verify' : 'Verify'}
+              </Text>
+            </TouchableOpacity>
 
             {(showVerify || skillMode === 'engineer') && (
               <View style={styles.verifyBox}>
@@ -597,6 +654,15 @@ export function BikeBalanceSetupScreen() {
             <TouchableOpacity style={styles.primaryBtn} onPress={sendToAi}>
               <Text style={styles.primaryBtnText}>Send to RR Bike Setup</Text>
             </TouchableOpacity>
+            <TouchableOpacity
+              style={styles.secondaryBtn}
+              onPress={() => void shareReport()}
+              disabled={sharing}
+            >
+              <Text style={styles.secondaryBtnText}>
+                {sharing ? 'Opening share…' : 'Share as text'}
+              </Text>
+            </TouchableOpacity>
             <TouchableOpacity style={styles.secondaryBtn} onPress={() => void exportReport()}>
               <Text style={styles.secondaryBtnText}>Copy citable report</Text>
             </TouchableOpacity>
@@ -605,8 +671,40 @@ export function BikeBalanceSetupScreen() {
 
         {tab === 'compare' ? (
           <View>
+            <Text style={styles.sectionLabel}>Saved setups (private)</Text>
+            <Text style={styles.muted}>
+              Kept only on this device. Load to restore, Use as Ref for deltas, or Share as text via
+              device messaging.
+            </Text>
+            {savedSetups.length === 0 ? (
+              <Text style={styles.muted}>No private saves yet. Use Save privately on Results.</Text>
+            ) : (
+              [...savedSetups].reverse().map((setup) => (
+                <View key={setup.id} style={styles.savedCard}>
+                  <Text style={styles.cardTitle}>{setup.name}</Text>
+                  <Text style={styles.hint}>
+                    Saved {new Date(setup.savedAt).toLocaleString()} · Pos {setup.inputs.position}
+                  </Text>
+                  <View style={styles.savedActions}>
+                    <TouchableOpacity onPress={() => loadSavedSetup(setup)}>
+                      <Text style={styles.linkish}>Load</Text>
+                    </TouchableOpacity>
+                    <TouchableOpacity onPress={() => useSavedAsRef(setup)}>
+                      <Text style={styles.linkish}>Use as Ref</Text>
+                    </TouchableOpacity>
+                    <TouchableOpacity onPress={() => void shareSavedSetup(setup)}>
+                      <Text style={styles.linkish}>Share</Text>
+                    </TouchableOpacity>
+                    <TouchableOpacity onPress={() => deleteSavedSetup(setup)}>
+                      <Text style={styles.deleteLink}>Delete</Text>
+                    </TouchableOpacity>
+                  </View>
+                </View>
+              ))
+            )}
+
             {!refInputs ? (
-              <Text style={styles.muted}>Save a Ref from Results to compare deltas.</Text>
+              <Text style={styles.muted}>Save a Ref from Results (or Use as Ref) to compare deltas.</Text>
             ) : (
               <>
                 <Text style={styles.sectionLabel}>Proposal vs Ref ({refInputs.name})</Text>
@@ -697,6 +795,13 @@ const styles = StyleSheet.create({
   segmentActive: { borderColor: '#f59e0b' },
   segmentText: { color: '#94a3b8', fontSize: 12, fontWeight: '600' },
   segmentTextActive: { color: '#f8fafc' },
+  modeBlurb: {
+    color: '#94a3b8',
+    fontSize: 12,
+    lineHeight: 17,
+    marginTop: -4,
+    marginBottom: 12,
+  },
   fieldLabel: { marginTop: 10, color: '#e2e8f0', fontSize: 13, fontWeight: '600' },
   hint: { color: '#64748b', fontSize: 11, marginBottom: 4, lineHeight: 15 },
   fieldHighlight: {
@@ -802,4 +907,19 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   secondaryBtnText: { color: '#e2e8f0', fontSize: 13, fontWeight: '600' },
+  savedCard: {
+    backgroundColor: '#1e293b',
+    borderRadius: 12,
+    borderWidth: 1,
+    borderColor: '#334155',
+    padding: 14,
+    marginBottom: 10,
+  },
+  savedActions: {
+    flexDirection: 'row',
+    flexWrap: 'wrap',
+    gap: 16,
+    marginTop: 4,
+  },
+  deleteLink: { color: '#f87171', fontSize: 12, marginTop: 10, fontWeight: '600' },
 });

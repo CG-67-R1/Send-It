@@ -1,0 +1,11 @@
+{
+  "contacts": [
+    {
+      "id": "jp-110-119",
+      "name": "\u8b66\u5bdf (Police) / \u6d88\u9632\u30fb\u6551\u6025 (Fire/Ambulance)",
+      "phone": "110 / 119",
+      "nodeId": "jp"
+    }
+  ],
+  "notes": "Follow circuit medical / marshal instructions. 110 police, 119 fire/ambulance."
+}

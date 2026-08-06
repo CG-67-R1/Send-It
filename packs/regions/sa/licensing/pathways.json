@@ -1,0 +1,59 @@
+{
+  "pathways": [
+    {
+      "id": "br-cbm-competition",
+      "title": "CBM competition licence pathway (Brazil)",
+      "nodeId": "sa-br",
+      "steps": [
+        "Join a CBM-affiliated club",
+        "Obtain CBM membership",
+        "Apply for appropriate competition licence",
+        "Complete medical check",
+        "Pass novice rider requirements"
+      ],
+      "urls": [
+        "https://www.cbm.esp.br"
+      ],
+      "confidence": "official"
+    },
+    {
+      "id": "ar-cam-competition",
+      "title": "CAM competition licence pathway (Argentina)",
+      "nodeId": "sa-ar",
+      "steps": [
+        "Join a CAM-affiliated club",
+        "Obtain CAM membership",
+        "Apply for appropriate competition licence",
+        "Complete medical check"
+      ],
+      "urls": [
+        "https://www.motociclismocam.com.ar"
+      ],
+      "confidence": "official"
+    },
+    {
+      "id": "cl-fedemotor-competition",
+      "title": "Federaci\u00f3n de Motociclismo de Chile licence pathway",
+      "nodeId": "sa-cl",
+      "steps": [
+        "Contact FMCH for current licence requirements"
+      ],
+      "urls": [
+        "https://www.fmch.cl"
+      ],
+      "confidence": "established-press"
+    },
+    {
+      "id": "co-fcm-competition",
+      "title": "FCM competition licence pathway (Colombia)",
+      "nodeId": "sa-co",
+      "steps": [
+        "Contact FCM for current licence requirements"
+      ],
+      "urls": [
+        "https://www.fedemotor.com"
+      ],
+      "confidence": "established-press"
+    }
+  ]
+}

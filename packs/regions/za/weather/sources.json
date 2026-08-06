@@ -1,0 +1,11 @@
+{
+  "sources": [
+    {
+      "id": "saws",
+      "name": "South African Weather Service (SAWS)",
+      "url": "https://www.weathersa.co.za",
+      "confidence": "official",
+      "nodeId": "za"
+    }
+  ]
+}

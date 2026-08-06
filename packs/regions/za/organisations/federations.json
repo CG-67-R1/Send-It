@@ -1,0 +1,13 @@
+{
+  "items": [
+    {
+      "id": "msa",
+      "name": "Motorsport South Africa (MSA)",
+      "role": "federation",
+      "nodeId": "za",
+      "website": "https://www.motorsport.co.za",
+      "confidence": "official",
+      "notes": "FIM affiliate; governs all motorcycle and motorsport in South Africa including Superbike SA."
+    }
+  ]
+}

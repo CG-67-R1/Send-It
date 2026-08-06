@@ -1,0 +1,19 @@
+{
+  "classes": [
+    {
+      "id": "superbike",
+      "name": "Superbike",
+      "nodeId": "it"
+    },
+    {
+      "id": "supersport",
+      "name": "Supersport",
+      "nodeId": "it"
+    },
+    {
+      "id": "stock",
+      "name": "Stock / production",
+      "nodeId": "it"
+    }
+  ]
+}

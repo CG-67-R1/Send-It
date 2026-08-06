@@ -17,7 +17,8 @@
 
 ## PHILLIP_S01 — Turn  1  (Doohan  Corner)
 **Shape:** Sweeper
-**Priority / what matters:** Approach in top gear (~300 km/h on a superbike). Braking: drop two gears (from 6th to 4th on a 1000cc) and brake around the 150m marker (big bikes) or ~100m for 600cc. After that, focus on hitting a late apex (inside curb) because the turn opens on exit.
+**Direction:** Right-hander (not Southern Loop — Southern Loop is Turn 2).
+**Priority / what matters:** Fast right-hand sweeper at the end of Gardner Straight. Approach in top gear (~300 km/h on a superbike). Braking: drop two gears (from 6th to 4th on a 1000cc) and brake around the 150m marker (big bikes) or ~100m for 600cc. After that, focus on hitting a late apex (inside curb) because the turn opens on exit.
 **Stable reference points:** Braking: drop two gears (from 6th to 4th on a 1000cc) and brake around the 150m marker (big bikes) or ~100m for 600cc.; There is a bump/jump just after start/finish that unsettles the bike as you approach.; After that, focus on hitting a late apex (inside curb) because the turn opens on exit.
 **Hazards / surface:** Braking: drop two gears (from 6th to 4th on a 1000cc) and brake around the 150m marker (big bikes) or ~100m for 600cc. There is a bump/jump just after start/finish that unsettles the bike as you approach.
 **Bike-class notes:**
@@ -30,6 +31,7 @@
 
 ## PHILLIP_S02 — Turn 2 (Southern Loop)
 **Shape:** Hairpin
+**Direction:** Left-hander (double-apex). Do not confuse with Turn 1 (Doohan Corner).
 **Priority / what matters:** high speed – scrub speed gently or a quick downshift. Enter mid-track, aim straight at the first apex and clip it, then let the bike drift out in the middle of the Loop. As the radius tightens for second apex, bring it back in and apex late on exit.
 **Hazards / surface:** The mid-corner is slightly off-camber and can feel like the bike wants to fall in or run wide alternately – stay relaxed. Traction is important here – keep RPMs up to avoid bogging (gearing such that you don’t drop below 2nd gear).
 **Common mistakes:** Common error: pulling over too far right between the two apexes – it’s not necessary and wastes time.

@@ -1,0 +1,18 @@
+{
+  "pathways": [
+    {
+      "id": "es-rfme",
+      "title": "RFME competition licence pathway",
+      "nodeId": "es",
+      "steps": [
+        "Affiliate with a club recognised by RFME / territorial federation",
+        "Obtain RFME licence appropriate to road racing category",
+        "Meet medical and equipment requirements"
+      ],
+      "urls": [
+        "https://www.rfme.com"
+      ],
+      "confidence": "official"
+    }
+  ]
+}

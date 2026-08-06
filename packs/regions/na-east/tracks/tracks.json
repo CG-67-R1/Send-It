@@ -1,0 +1,149 @@
+{
+  "version": 1,
+  "tracks": [
+    {
+      "id": "road-america",
+      "name": "Road America",
+      "nodeId": "na-east-northeast-us",
+      "kind": "road_circuit",
+      "lat": 43.7954,
+      "lng": -87.9933,
+      "corners": [],
+      "isOther": false,
+      "confidence": "official",
+      "notes": "Elkhart Lake, Wisconsin. 4.048-mile natural terrain circuit."
+    },
+    {
+      "id": "barber-motorsports",
+      "name": "Barber Motorsports Park",
+      "nodeId": "na-east-southeast-us",
+      "kind": "road_circuit",
+      "lat": 33.5518,
+      "lng": -86.7139,
+      "corners": [],
+      "isOther": false,
+      "confidence": "official",
+      "notes": "Leeds, Alabama. 2.38-mile circuit, hosts MotoAmerica."
+    },
+    {
+      "id": "pittsburgh-international-race-complex",
+      "name": "Pittsburgh International Race Complex (PittRace)",
+      "nodeId": "na-east-northeast-us",
+      "kind": "road_circuit",
+      "lat": 40.2836,
+      "lng": -79.9578,
+      "corners": [],
+      "isOther": false,
+      "confidence": "official",
+      "notes": "Wampum, Pennsylvania. Popular WERA/CCS East circuit."
+    },
+    {
+      "id": "njmp-thunderbolt",
+      "name": "New Jersey Motorsports Park — Thunderbolt",
+      "nodeId": "na-east-northeast-us",
+      "kind": "road_circuit",
+      "lat": 39.2896,
+      "lng": -75.0093,
+      "corners": [],
+      "isOther": false,
+      "confidence": "official",
+      "notes": "Millville, New Jersey. 2.25-mile circuit."
+    },
+    {
+      "id": "njmp-lightning",
+      "name": "New Jersey Motorsports Park — Lightning",
+      "nodeId": "na-east-northeast-us",
+      "kind": "road_circuit",
+      "lat": 39.2896,
+      "lng": -75.0093,
+      "corners": [],
+      "isOther": false,
+      "confidence": "official",
+      "notes": "Millville, New Jersey. 1.9-mile circuit."
+    },
+    {
+      "id": "vir",
+      "name": "Virginia International Raceway (VIR)",
+      "nodeId": "na-east-southeast-us",
+      "kind": "road_circuit",
+      "lat": 36.5629,
+      "lng": -79.2059,
+      "corners": [],
+      "isOther": false,
+      "confidence": "official",
+      "notes": "Alton, Virginia. 3.27-mile full course, hosts WERA and MotoAmerica rounds."
+    },
+    {
+      "id": "roebling-road",
+      "name": "Roebling Road Raceway",
+      "nodeId": "na-east-southeast-us",
+      "kind": "road_circuit",
+      "lat": 31.9999,
+      "lng": -81.3474,
+      "corners": [],
+      "isOther": false,
+      "confidence": "established-press",
+      "notes": "Bloomingdale, Georgia. Hosts WERA regional races."
+    },
+    {
+      "id": "summit-point",
+      "name": "Summit Point Motorsports Park",
+      "nodeId": "na-east-northeast-us",
+      "kind": "road_circuit",
+      "lat": 39.2416,
+      "lng": -77.9991,
+      "corners": [],
+      "isOther": false,
+      "confidence": "official",
+      "notes": "Summit Point, West Virginia. Multiple circuit configurations."
+    },
+    {
+      "id": "autobahn-country-club",
+      "name": "Autobahn Country Club",
+      "nodeId": "na-east-northeast-us",
+      "kind": "road_circuit",
+      "lat": 41.5856,
+      "lng": -87.9603,
+      "corners": [],
+      "isOther": false,
+      "confidence": "established-press",
+      "notes": "Joliet, Illinois. Hosts club track days and regional races."
+    },
+    {
+      "id": "calabogie-motorsports-park",
+      "name": "Calabogie Motorsports Park",
+      "nodeId": "na-east-eastern-canada",
+      "kind": "road_circuit",
+      "lat": 45.2927,
+      "lng": -76.7403,
+      "corners": [],
+      "isOther": false,
+      "confidence": "official",
+      "notes": "Calabogie, Ontario. Canada's longest road circuit at 5.05 km."
+    },
+    {
+      "id": "circuit-gilles-villeneuve",
+      "name": "Circuit Gilles Villeneuve",
+      "nodeId": "na-east-eastern-canada",
+      "kind": "road_circuit",
+      "lat": 45.5046,
+      "lng": -73.5255,
+      "corners": [],
+      "isOther": false,
+      "confidence": "official",
+      "notes": "Montreal, Quebec. FIA F1 circuit, occasional motorcycle event venue."
+    },
+    {
+      "id": "circuit-mont-tremblant",
+      "name": "Circuit Mont-Tremblant",
+      "nodeId": "na-east-eastern-canada",
+      "kind": "road_circuit",
+      "lat": 46.2261,
+      "lng": -74.6078,
+      "corners": [],
+      "isOther": false,
+      "confidence": "official",
+      "notes": "Mont-Tremblant, Quebec. Historic 2.65-mile circuit."
+    }
+  ]
+}

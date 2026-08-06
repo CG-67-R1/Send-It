@@ -1,0 +1,29 @@
+{
+  "series": [
+    {
+      "id": "idemitsu-asia-talent",
+      "name": "Idemitsu Asia Talent Cup (IATC)",
+      "nodeId": "id",
+      "local": false,
+      "website": "https://www.idemitsu-asia-talent-cup.com",
+      "confidence": "official",
+      "notes": "Regional FIM talent pipeline; Indonesian riders compete."
+    },
+    {
+      "id": "indonesia-road-racing",
+      "name": "Indonesia Road Racing Championship (IRRC / Nasional)",
+      "nodeId": "id",
+      "local": true,
+      "website": "https://www.imi.co.id",
+      "confidence": "established-press",
+      "notes": "IMI-sanctioned national road racing championship."
+    },
+    {
+      "id": "honda-one-make",
+      "name": "Honda One Make Race Indonesia",
+      "nodeId": "id",
+      "local": true,
+      "confidence": "established-press"
+    }
+  ]
+}

@@ -1,0 +1,13 @@
+{
+  "governingBody": "CBM / CAM / FCM / FPM / FUM (per country)",
+  "shortName": "multi-federation",
+  "edition": null,
+  "urls": {
+    "brazil": "https://www.cbm.esp.br",
+    "argentina": "https://www.motociclismocam.com.ar",
+    "chile": "https://www.fmch.cl",
+    "colombia": "https://www.fedemotor.com"
+  },
+  "chapters": {},
+  "note": "Seed: each country has its own federation rulebook. Link-out only. In-app KB not yet ingested."
+}

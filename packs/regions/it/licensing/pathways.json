@@ -1,0 +1,18 @@
+{
+  "pathways": [
+    {
+      "id": "it-fmi",
+      "title": "FMI competition licence pathway",
+      "nodeId": "it",
+      "steps": [
+        "Join an FMI-affiliated motorcycle club (Moto Club)",
+        "Obtain FMI licence for velocità / road racing category",
+        "Complete medical certificate and equipment checks"
+      ],
+      "urls": [
+        "https://www.federmoto.it"
+      ],
+      "confidence": "official"
+    }
+  ]
+}

@@ -1,0 +1,29 @@
+{
+  "classes": [
+    {
+      "id": "superbike",
+      "name": "Superbike",
+      "nodeId": "au"
+    },
+    {
+      "id": "supersport",
+      "name": "Supersport",
+      "nodeId": "au"
+    },
+    {
+      "id": "ssp300",
+      "name": "Supersport 300",
+      "nodeId": "au"
+    },
+    {
+      "id": "production",
+      "name": "Production / clubman",
+      "nodeId": "au"
+    },
+    {
+      "id": "historic",
+      "name": "Historic road race",
+      "nodeId": "au"
+    }
+  ]
+}

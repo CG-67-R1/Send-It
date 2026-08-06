@@ -1,0 +1,39 @@
+{
+  "classes": [
+    {
+      "id": "superbike",
+      "name": "Superbike",
+      "nodeId": "na-west"
+    },
+    {
+      "id": "supersport",
+      "name": "Supersport",
+      "nodeId": "na-west"
+    },
+    {
+      "id": "stock-1000",
+      "name": "Stock 1000",
+      "nodeId": "na-west"
+    },
+    {
+      "id": "twins-cup",
+      "name": "Twins Cup",
+      "nodeId": "na-west"
+    },
+    {
+      "id": "junior-cup",
+      "name": "Junior Cup",
+      "nodeId": "na-west"
+    },
+    {
+      "id": "mini-cup",
+      "name": "Mini Cup",
+      "nodeId": "na-west"
+    },
+    {
+      "id": "formula-pacific",
+      "name": "Formula Pacific",
+      "nodeId": "na-west-western-canada"
+    }
+  ]
+}

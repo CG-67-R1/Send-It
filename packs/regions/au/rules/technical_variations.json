@@ -1,0 +1,11 @@
+{
+  "variations": [
+    {
+      "id": "au-moms-road-race",
+      "title": "MoMS Chapter 6 Road Race",
+      "nodeId": "au",
+      "confidence": "official",
+      "notes": "Primary in-app rules KB for Australian road racing."
+    }
+  ]
+}

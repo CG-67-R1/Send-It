@@ -1,0 +1,56 @@
+{
+  "areas": [
+    {
+      "code": "W-US",
+      "nodeId": "na-west-western-us",
+      "name": "Western United States",
+      "clubs": [
+        {
+          "name": "AFM \u2014 Affiliated Federations of Motorcyclists",
+          "location": "California",
+          "website": "https://www.afmracing.org"
+        },
+        {
+          "name": "OMRRA",
+          "location": "Oregon",
+          "website": "https://www.omrra.com"
+        }
+      ],
+      "classes": [
+        "MotoAmerica Superbike",
+        "AFM Formula Pacific",
+        "WERA West",
+        "Club classes"
+      ],
+      "coaches": [
+        {
+          "name": "Track day providers at Laguna Seca, PIR, The Ridge, Sonoma",
+          "description": "Multiple track day organisations operate at Western US circuits."
+        }
+      ]
+    },
+    {
+      "code": "W-CA",
+      "nodeId": "na-west-western-canada",
+      "name": "Western Canada",
+      "clubs": [
+        {
+          "name": "CMA-affiliated BC/AB clubs",
+          "location": "British Columbia / Alberta",
+          "website": "https://www.canmoto.ca"
+        }
+      ],
+      "classes": [
+        "CSBK Pro Superbike",
+        "CSBK Supersport",
+        "Amateur / regional classes"
+      ],
+      "coaches": [
+        {
+          "name": "Mission Raceway track day providers",
+          "description": "Track day organisations operate at Mission Raceway Park, BC."
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,41 @@
+{
+  "version": 1,
+  "tracks": [
+    {
+      "id": "chang-international",
+      "name": "Chang International Circuit",
+      "nodeId": "th",
+      "kind": "road_circuit",
+      "lat": 15.0678,
+      "lng": 103.0779,
+      "corners": [],
+      "isOther": false,
+      "confidence": "official",
+      "notes": "Buriram. 4.554 km; hosts MotoGP PTT Thailand Grand Prix and WSBK."
+    },
+    {
+      "id": "bira-circuit",
+      "name": "Bira International Circuit",
+      "nodeId": "th",
+      "kind": "road_circuit",
+      "lat": 12.7483,
+      "lng": 100.9958,
+      "corners": [],
+      "isOther": false,
+      "confidence": "established-press",
+      "notes": "Pattaya, Chonburi. 2.41 km club circuit; popular for regional racing."
+    },
+    {
+      "id": "bangsaen-street",
+      "name": "Bangsaen Street Circuit",
+      "nodeId": "th",
+      "kind": "road_circuit",
+      "lat": 13.284,
+      "lng": 100.9182,
+      "corners": [],
+      "isOther": false,
+      "confidence": "established-press",
+      "notes": "Bangsaen, Chonburi. Street circuit used for ARRC and national events."
+    }
+  ]
+}

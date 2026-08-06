@@ -1,0 +1,16 @@
+{
+  "pathways": [
+    {
+      "id": "au-trackday-to-club",
+      "title": "Track day → club racing → ASBK pathway",
+      "nodeId": "au",
+      "stages": [
+        "Track / ride days",
+        "Club racing",
+        "State titles",
+        "ASBK / national"
+      ],
+      "confidence": "community"
+    }
+  ]
+}

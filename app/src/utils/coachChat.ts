@@ -1,4 +1,4 @@
-import { ROADRACE_CHAT_URL } from '../../constants/api';
+import { apiFetch, ROADRACE_CHAT_URL } from '../../constants/api';
 import type { TrackWalkSession } from '../storage/trackWalk';
 import { formatSessionForExport } from '../storage/trackWalk';
 
@@ -55,7 +55,7 @@ export async function sendCoachChat(
   attachments: CoachAttachmentPayload[] = []
 ): Promise<CoachChatResult> {
   try {
-    const res = await fetch(ROADRACE_CHAT_URL, {
+    const res = await apiFetch(ROADRACE_CHAT_URL, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({

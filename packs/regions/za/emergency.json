@@ -1,0 +1,23 @@
+{
+  "contacts": [
+    {
+      "id": "za-10177",
+      "name": "Ambulance (10177)",
+      "phone": "10177",
+      "nodeId": "za"
+    },
+    {
+      "id": "za-10111",
+      "name": "Suid-Afrikaanse Polisiediens (10111)",
+      "phone": "10111",
+      "nodeId": "za"
+    },
+    {
+      "id": "za-112",
+      "name": "Emergency (cell)",
+      "phone": "112",
+      "nodeId": "za"
+    }
+  ],
+  "notes": "Follow circuit medical / marshal instructions. 10177 ambulance, 10111 police, 112 from mobile."
+}

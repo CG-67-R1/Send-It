@@ -1,0 +1,58 @@
+{
+  "items": [
+    {
+      "id": "cbm",
+      "name": "Confedera\u00e7\u00e3o Brasileira de Motociclismo (CBM)",
+      "role": "federation",
+      "nodeId": "sa-br",
+      "website": "https://www.cbm.esp.br",
+      "confidence": "official",
+      "notes": "FIM affiliate; national governing body for motorcycle sport in Brazil."
+    },
+    {
+      "id": "cam",
+      "name": "Confederaci\u00f3n Argentina de Motociclismo (CAM)",
+      "role": "federation",
+      "nodeId": "sa-ar",
+      "website": "https://www.motociclismocam.com.ar",
+      "confidence": "official",
+      "notes": "FIM affiliate; national governing body for motorcycle sport in Argentina."
+    },
+    {
+      "id": "fedemotor-cl",
+      "name": "Federaci\u00f3n de Motociclismo de Chile",
+      "role": "federation",
+      "nodeId": "sa-cl",
+      "website": "https://www.fmch.cl",
+      "confidence": "official",
+      "notes": "FIM affiliate; national governing body for motorcycle sport in Chile."
+    },
+    {
+      "id": "fedemotor-co",
+      "name": "Federaci\u00f3n Colombiana de Motociclismo (FCM)",
+      "role": "federation",
+      "nodeId": "sa-co",
+      "website": "https://www.fedemotor.com",
+      "confidence": "official",
+      "notes": "FIM affiliate; national governing body for motorcycle sport in Colombia."
+    },
+    {
+      "id": "fedemotor-pe",
+      "name": "Federaci\u00f3n Peruana de Motociclismo",
+      "role": "federation",
+      "nodeId": "sa-pe",
+      "website": "https://www.fpm.pe",
+      "confidence": "established-press",
+      "notes": "National governing body for motorcycle sport in Peru."
+    },
+    {
+      "id": "fum",
+      "name": "Federaci\u00f3n Uruguaya de Motociclismo (FUM)",
+      "role": "federation",
+      "nodeId": "sa-uy",
+      "website": "https://www.fum.org.uy",
+      "confidence": "established-press",
+      "notes": "National governing body for motorcycle sport in Uruguay."
+    }
+  ]
+}

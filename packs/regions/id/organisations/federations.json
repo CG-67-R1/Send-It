@@ -1,0 +1,13 @@
+{
+  "items": [
+    {
+      "id": "imi",
+      "name": "Ikatan Motor Indonesia (IMI)",
+      "role": "federation",
+      "nodeId": "id",
+      "website": "https://www.imi.co.id",
+      "confidence": "official",
+      "notes": "FIM affiliate; national governing body for all motorsport in Indonesia including motorcycle road racing."
+    }
+  ]
+}

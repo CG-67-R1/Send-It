@@ -1,4 +1,4 @@
-import { ROADRACE_ASK_URL } from '../../constants/api';
+import { apiFetch, ROADRACE_ASK_URL } from '../../constants/api';
 
 export type AskSource = {
   title: string;
@@ -62,7 +62,7 @@ export async function sendAskChat(
     const body: { message: string; mode?: AskMode } = { message };
     if (options.mode === 'rules') body.mode = 'rules';
 
-    const res = await fetch(ROADRACE_ASK_URL, {
+    const res = await apiFetch(ROADRACE_ASK_URL, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify(body),

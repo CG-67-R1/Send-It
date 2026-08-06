@@ -1,0 +1,16 @@
+{
+  "terms": [
+    {
+      "id": "imi",
+      "term": "IMI",
+      "definition": "Ikatan Motor Indonesia \u2014 national governing body",
+      "locale": "id-ID"
+    },
+    {
+      "id": "motoprix",
+      "term": "MotoPrix",
+      "definition": "Popular Indonesian national road racing class",
+      "locale": "id-ID"
+    }
+  ]
+}

@@ -1,0 +1,61 @@
+{
+  "id": "na-east",
+  "regionNumber": 4,
+  "displayName": "North America East",
+  "kind": "region",
+  "locales": [
+    "en-US",
+    "en-CA",
+    "fr-CA"
+  ],
+  "timezones": [
+    "America/New_York",
+    "America/Toronto",
+    "America/Chicago",
+    "America/Detroit",
+    "America/Indiana/Indianapolis"
+  ],
+  "isoCountries": [
+    "US",
+    "CA"
+  ],
+  "adminAreas": [
+    "ME", "NH", "VT", "MA", "RI", "CT",
+    "NY", "NJ", "PA", "DE", "MD", "DC",
+    "VA", "WV", "NC", "SC", "GA", "FL",
+    "OH", "IN", "MI", "KY", "TN",
+    "ON", "QC", "NB", "NS", "PEI", "NL"
+  ],
+  "status": "seed",
+  "defaultLocalLabel": "North America East",
+  "spelling": {
+    "tyre": "tire",
+    "dateFormat": "MM/DD/YYYY"
+  },
+  "contentIndex": [
+    "tracks/tracks.json",
+    "tracks/geofences.json",
+    "tracks/turn_verification.json",
+    "calendar/sources.json",
+    "calendar/static.json",
+    "headlines/sources.json",
+    "organisations/federations.json",
+    "organisations/clubs.json",
+    "organisations/coaching.json",
+    "licensing/pathways.json",
+    "competitions/classes.json",
+    "competitions/series.json",
+    "rules/rulebook.json",
+    "rules/technical_variations.json",
+    "news/sources.json",
+    "progression/pathways.json",
+    "terminology.json",
+    "suppliers.json",
+    "services.json",
+    "emergency.json",
+    "weather/sources.json",
+    "ai/prompts.json",
+    "i18n/strings.json",
+    "onboarding/areas.json"
+  ]
+}

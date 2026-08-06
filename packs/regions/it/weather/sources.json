@@ -1,0 +1,11 @@
+{
+  "sources": [
+    {
+      "id": "meteo-it",
+      "name": "Meteo Aeronautica / national forecasts",
+      "url": "https://www.meteoam.it",
+      "confidence": "official",
+      "nodeId": "it"
+    }
+  ]
+}

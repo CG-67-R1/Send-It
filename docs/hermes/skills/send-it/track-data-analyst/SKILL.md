@@ -29,10 +29,11 @@ Standing **track catalog analyst** for RoadRace Track Walk data. You validate `t
 
 1. **Report only** by default — no commits, pushes, or edits unless the user explicitly asks to fix.
 2. **Turn hands are P0.** A wrong left/right is worse than `complex`. Never set `left`/`right` from GPX bearing clustering alone.
-3. Source of truth for allowed hands: [`app/src/data/track_turn_verification.json`](app/src/data/track_turn_verification.json). Run `node scripts/enforce-turn-verification.mjs --write` then `node scripts/validate-track-data.mjs`.
-4. Prefer **official maps / rider confirmation** over KB auto-extract and over GPX.
-5. Hand P0/P1 catalog fixes to **Cursor**.
-6. Compare to prior `docs/reviews/TRACK_GPX_ALIGN_*.md` and the Track data section of the latest `RR_REVIEW_*.md`.
+3. **Never infer turn hand from circuit direction.** `anticlockwise` / `clockwise` does **not** mean Turn 1 (or any corner) is left/right. Phillip Island is anticlockwise and Doohan (T1) is a **right**.
+4. Source of truth for allowed hands: [`app/src/data/track_turn_verification.json`](app/src/data/track_turn_verification.json). Every `left`/`right` must have a `handSources` entry (`rider` | `official_map` | `authoritative_preview`). Run `node scripts/enforce-turn-verification.mjs --write` then `node scripts/validate-track-data.mjs`.
+5. Prefer **official maps / rider confirmation** over KB auto-extract and over GPX. Do not “correct” a rider-locked hand from GPX/KB.
+6. Hand P0/P1 catalog fixes to **Cursor**.
+7. Compare to prior `docs/reviews/TRACK_GPX_ALIGN_*.md` and the Track data section of the latest `RR_REVIEW_*.md`.
 
 ## Canonical paths
 
@@ -103,9 +104,9 @@ For each catalog track with “complete” corners:
 2. No double spaces or unbalanced parentheses in labels.
 3. Track-level `direction` is `clockwise` / `anticlockwise` when known — not wrongly flipped vs official maps.
 4. Cross-check high-traffic tracks against ST `KB_*.md` + official maps:
-   - Phillip Island: anticlockwise; Doohan **left**; Southern Loop **left**; MG Hairpin **right** (common map convention — flag Hermes/GPX bearing errors that invert these).
+   - Phillip Island: circuit **anticlockwise**; Doohan T1 **right**; Southern Loop T2 **left**; Stoner T3 **left**; Miller/Honda T4 **right**. Do not re-lock T1 as left from CCW inference.
    - SMP Gardner: **anticlockwise**.
-5. If Desktop GPX exists, optionally re-run bearing analysis — **treat conflicts with official maps as P1 findings**, not silent “fixes”.
+5. If Desktop GPX exists, optionally re-run bearing analysis — **treat conflicts with official maps / rider locks as P1 findings**, not silent “fixes”. Never write `left`/`right` from bearings.
 
 ## Step 4 — Write findings
 

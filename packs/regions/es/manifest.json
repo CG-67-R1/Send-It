@@ -1,0 +1,52 @@
+{
+  "id": "es",
+  "regionNumber": 2,
+  "displayName": "Spain",
+  "kind": "region",
+  "locales": [
+    "es-ES",
+    "ca-ES",
+    "en"
+  ],
+  "timezones": [
+    "Europe/Madrid",
+    "Atlantic/Canary"
+  ],
+  "isoCountries": [
+    "ES"
+  ],
+  "adminAreas": [],
+  "status": "seed",
+  "defaultLocalLabel": "Spain",
+  "spelling": {
+    "tyre": "tyre",
+    "dateFormat": "DD/MM/YYYY"
+  },
+  "contentIndex": [
+    "tracks/tracks.json",
+    "tracks/geofences.json",
+    "tracks/turn_verification.json",
+    "calendar/sources.json",
+    "calendar/static.json",
+    "headlines/sources.json",
+    "organisations/federations.json",
+    "organisations/clubs.json",
+    "organisations/coaching.json",
+    "licensing/pathways.json",
+    "competitions/classes.json",
+    "competitions/series.json",
+    "rules/rulebook.json",
+    "rules/technical_variations.json",
+    "news/sources.json",
+    "progression/pathways.json",
+    "terminology.json",
+    "suppliers.json",
+    "services.json",
+    "emergency.json",
+    "weather/sources.json",
+    "ai/prompts.json",
+    "ai/knowledge/index.json",
+    "i18n/strings.json",
+    "onboarding/areas.json"
+  ]
+}

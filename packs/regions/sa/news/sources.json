@@ -1,0 +1,39 @@
+{
+  "sources": [
+    {
+      "id": "moto1000gp-news",
+      "name": "Moto1000GP (Brazil)",
+      "url": "https://www.moto1000gp.com.br",
+      "confidence": "established-press",
+      "nodeId": "sa-br"
+    },
+    {
+      "id": "gazzetta-motori-br",
+      "name": "Gazeta Esportiva Motores",
+      "url": "https://www.gazetaesportiva.com/motores",
+      "confidence": "established-press",
+      "nodeId": "sa-br"
+    },
+    {
+      "id": "motorsport-br",
+      "name": "Motorsport.com Brasil",
+      "url": "https://br.motorsport.com",
+      "confidence": "established-press",
+      "nodeId": "sa-br"
+    },
+    {
+      "id": "autoblog-ar",
+      "name": "Infobae Autos & Moto (Argentina)",
+      "url": "https://www.infobae.com/autos",
+      "confidence": "established-press",
+      "nodeId": "sa-ar"
+    },
+    {
+      "id": "motociclismo-co",
+      "name": "Motociclismo Colombia",
+      "url": "https://www.motociclismo.com.co",
+      "confidence": "community",
+      "nodeId": "sa-co"
+    }
+  ]
+}

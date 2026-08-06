@@ -2,7 +2,6 @@ import React, { useCallback, useEffect, useState } from 'react';
 import {
   ActivityIndicator,
   Alert,
-  Linking,
   ScrollView,
   StyleSheet,
   Text,
@@ -13,9 +12,10 @@ import {
   ImageSourcePropType,
 } from 'react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import { QA_TRIVIA_URL } from '../../constants/api';
+import { apiFetch, QA_TRIVIA_URL } from '../../constants/api';
 import { logAnalyticsEvent } from '../utils/analytics';
 import { sendAskChat, type AskSource, type MomsOnlineMeta } from '../utils/askChat';
+import { safeOpenUrl } from '../utils/safeOpenUrl';
 import { AppLogo } from '../components/AppLogo';
 import { SCREEN_LOGO_SIZE } from '../constants/logoSizing';
 import { STORAGE_KEYS } from '../constants/storageKeys';
@@ -39,13 +39,7 @@ const TRACK_RIDER_COMMENT = "You know your apex from your elbow—respect.";
 const TRACK_GURU_COMMENT = "You know how to send it. Seriously.";
 
 function openExternalLink(url: string, label = 'link') {
-  if (!url?.trim()) {
-    Alert.alert('Link unavailable', `This ${label} is not available right now.`);
-    return;
-  }
-  Linking.openURL(url).catch(() => {
-    Alert.alert('Could not open link', 'Try again or open it from your browser.');
-  });
+  void safeOpenUrl(url, label);
 }
 
 function getTriviaResult(correct: number, wrong: number): { title: string; message: string } | null {
@@ -242,7 +236,7 @@ export function QAScreen() {
         }
         params.push(`region=${region}`);
         const url = `${QA_TRIVIA_URL}?${params.join('&')}`;
-        const res = await fetch(url, { signal: AbortSignal.timeout(8000) });
+        const res = await apiFetch(url, { signal: AbortSignal.timeout(8000) });
         const data = await res.json();
         if (!res.ok) {
           throw new Error(typeof data?.error === 'string' ? data.error : 'Could not load trivia');
@@ -441,6 +435,7 @@ export function QAScreen() {
             onChangeText={setQuery}
             onSubmitEditing={onSearch}
             editable={!searchLoading}
+            maxLength={2000}
           />
           <TouchableOpacity
             style={[styles.searchBtn, searchLoading && styles.searchBtnDisabled]}
@@ -513,6 +508,7 @@ export function QAScreen() {
               onChangeText={setRulesQuery}
               onSubmitEditing={onRulesCheck}
               editable={!rulesLoading}
+              maxLength={2000}
             />
             <TouchableOpacity
               style={[styles.searchBtn, rulesLoading && styles.searchBtnDisabled]}

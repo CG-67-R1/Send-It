@@ -9,54 +9,50 @@ import fs from 'fs/promises';
 import path from 'path';
 import dns from 'dns/promises';
 import { fileURLToPath } from 'url';
+import { getAllHeadlineSourceIds } from './packLoader.js';
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const AU_HEADLINES_FILE = path.join(__dirname, 'data', 'au-headlines.json');
 
 /** AMCN racing categories used for AU feed (off-road excluded). */
 export const AMCN_RACING_CATEGORIES = [
-  { slug: 'club', id: 'amcn_club', name: 'AMCN Club', limit: 12 },
   { slug: 'asbk', id: 'amcn_asbk', name: 'AMCN ASBK', limit: 10 },
-  { slug: 'motogp', id: 'amcn_motogp', name: 'AMCN MotoGP', limit: 8 },
-  { slug: 'worldsbk', id: 'amcn_worldsbk', name: 'AMCN WorldSBK', limit: 8 },
-  { slug: 'king-of-the-baggers', id: 'amcn_kotb', name: 'AMCN King of the Baggers', limit: 6 },
-  { slug: 'bsb', id: 'amcn_bsb', name: 'AMCN BSB', limit: 6 },
-  { slug: 'road-racing', id: 'amcn_road_racing', name: 'AMCN Road Racing', limit: 8 },
-  { slug: 'esbk', id: 'amcn_esbk', name: 'AMCN ESBK', limit: 6 },
-  { slug: 'worldwcr', id: 'amcn_worldwcr', name: 'AMCN WorldWCR', limit: 6 },
-  { slug: 'endurance', id: 'amcn_endurance', name: 'AMCN Endurance', limit: 6 },
 ];
 
+/** Default built-in sources (10). Users can add more via custom RSS. */
 export const BUILTIN_SOURCES = [
-  { id: 'ma_roadrace', name: 'Motorcycling Australia (Road Race)' },
-  { id: 'mcnews', name: 'MCNews (AU)' },
-  ...AMCN_RACING_CATEGORIES.map((c) => ({ id: c.id, name: c.name })),
-  { id: 'asbk', name: 'ASBK' },
+  { id: 'gpone', name: 'GPone' },
+  { id: 'worldsbk', name: 'WorldSBK' },
   { id: 'mcn', name: 'MCN' },
+  { id: 'bennetts', name: 'Bennetts BikeSocial' },
   { id: 'motogp', name: 'MotoGP' },
   { id: 'motogpnews', name: 'MotoGP News' },
-  { id: 'gpone', name: 'GPone' },
   { id: 'motor_sport_motogp', name: 'Motor Sport MotoGP' },
-  { id: 'worldsbk', name: 'WorldSBK' },
-  { id: 'bennetts', name: 'Bennetts BikeSocial' },
+  { id: 'ma_roadrace', name: 'Motorcycling Australia (Road Race)' },
+  { id: 'asbk', name: 'ASBK' },
+  { id: 'amcn_asbk', name: 'AMCN ASBK' },
 ];
 
-export const AU_SOURCE_IDS = [
-  'ma_roadrace',
-  'mcnews',
-  'asbk',
-  ...AMCN_RACING_CATEGORIES.map((c) => c.id),
-];
+/** Local headline source IDs from active regional packs (AU default). */
+export function getLocalHeadlineSourceIds() {
+  const fromPack = getAllHeadlineSourceIds();
+  return fromPack.length
+    ? fromPack
+    : ['ma_roadrace', 'asbk', 'amcn_asbk'];
+}
 
-/** Club headlines for 1-in-6 quota on the Aus feed. */
-export const CLUB_SOURCE_IDS = ['amcn_club'];
+/** @deprecated Prefer getLocalHeadlineSourceIds(); kept for existing imports. */
+export const AU_SOURCE_IDS = getLocalHeadlineSourceIds();
+
+/** Club headlines for 1-in-6 quota on the Aus feed (legacy / optional). */
+export const CLUB_SOURCE_IDS = [];
 
 /** Cap MotoGP-family sources so the world feed stays varied. */
 const MOTOGP_FAMILY_IDS = new Set(['motogp', 'motogpnews', 'motor_sport_motogp']);
 const MOTOGP_FAMILY_LIMIT = 8;
 const DEFAULT_SOURCE_LIMIT = 12;
 const MCNEWS_LIMIT = 10;
-const MAX_CUSTOM_SOURCES = 4;
+const MAX_CUSTOM_SOURCES = 10;
 const MAX_CUSTOM_RSS_BYTES = 2 * 1024 * 1024;
 const MAX_CUSTOM_RSS_REDIRECTS = 3;
 
@@ -648,7 +644,6 @@ export async function enrichHeadlineImages(headlines, limit = 15) {
 
 const SCRAPER_REGISTRY = [
   { id: 'ma_roadrace', fn: scrapeMARoadRace },
-  { id: 'mcnews', fn: scrapeMCNews },
   { id: 'amcn_racing', fn: scrapeAMCNRacingCategories },
   { id: 'asbk', fn: scrapeASBK },
   { id: 'mcn', fn: scrapeMCN },
@@ -659,6 +654,17 @@ const SCRAPER_REGISTRY = [
   { id: 'worldsbk', fn: scrapeWorldSBK },
   { id: 'bennetts', fn: scrapeBennetts },
 ];
+
+/** Newest first; undated items sink so they cannot outrank fresher stories. */
+function compareHeadlinesByDate(a, b) {
+  const ta = a?.date ? Date.parse(a.date) : NaN;
+  const tb = b?.date ? Date.parse(b.date) : NaN;
+  const aHas = Number.isFinite(ta);
+  const bHas = Number.isFinite(tb);
+  if (aHas && bHas && ta !== tb) return tb - ta;
+  if (aHas !== bHas) return aHas ? -1 : 1;
+  return String(a?.title || '').localeCompare(String(b?.title || ''));
+}
 
 export const AU_SCRAPERS = SCRAPER_REGISTRY.filter(
   (s) => AU_SOURCE_IDS.includes(s.id) || s.id === 'amcn_racing'
@@ -731,7 +737,7 @@ export async function getAllHeadlines(bypassCache = false) {
   deduped.forEach((i) => {
     if (!i.sourceId) i.sourceId = i.source?.toLowerCase().replace(/\s+/g, '_') || 'unknown';
   });
-  deduped.sort((a, b) => (a.source + a.title).localeCompare(b.source + b.title));
+  deduped.sort(compareHeadlinesByDate);
   const withImages = await enrichHeadlineImages(deduped, 15);
   setCache(withImages);
   return withImages;

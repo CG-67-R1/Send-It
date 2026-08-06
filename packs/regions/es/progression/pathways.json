@@ -1,0 +1,15 @@
+{
+  "pathways": [
+    {
+      "id": "es-track-esbk",
+      "title": "Track day → territorial → ESBK",
+      "nodeId": "es",
+      "stages": [
+        "Track days",
+        "Territorial racing",
+        "ESBK"
+      ],
+      "confidence": "community"
+    }
+  ]
+}

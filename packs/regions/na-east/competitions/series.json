@@ -1,0 +1,48 @@
+{
+  "series": [
+    {
+      "id": "motoamerica",
+      "name": "MotoAmerica — AMA/FIM Road Racing Championship",
+      "nodeId": "na-east",
+      "local": true,
+      "website": "https://www.motoamerica.com",
+      "confidence": "official",
+      "notes": "Premier US professional road racing series sanctioned by AMA/FIM."
+    },
+    {
+      "id": "wera-national",
+      "name": "WERA National Endurance Series",
+      "nodeId": "na-east",
+      "local": true,
+      "website": "https://www.wera.com",
+      "confidence": "official",
+      "notes": "Amateur club road racing; strong East Coast presence."
+    },
+    {
+      "id": "ccs-east",
+      "name": "Club California Sport (CCS) East",
+      "nodeId": "na-east-northeast-us",
+      "local": true,
+      "website": "https://www.ccsracing.us",
+      "confidence": "official"
+    },
+    {
+      "id": "csbk",
+      "name": "Canadian Superbike Championship (CSBK)",
+      "nodeId": "na-east-eastern-canada",
+      "local": true,
+      "website": "https://csbk.ca",
+      "confidence": "official",
+      "notes": "National professional motorcycle racing series in Canada."
+    },
+    {
+      "id": "cmra",
+      "name": "Carolina Motorsports Racing Association (CMRA)",
+      "nodeId": "na-east-southeast-us",
+      "local": true,
+      "website": "https://www.cmra.us",
+      "confidence": "established-press",
+      "notes": "Regional club racing organization covering Southeast US."
+    }
+  ]
+}

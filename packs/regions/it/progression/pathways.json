@@ -1,0 +1,15 @@
+{
+  "pathways": [
+    {
+      "id": "it-track-civ",
+      "title": "Track day → regional → CIV",
+      "nodeId": "it",
+      "stages": [
+        "Track days",
+        "Regional racing",
+        "CIV"
+      ],
+      "confidence": "community"
+    }
+  ]
+}

@@ -1,0 +1,39 @@
+{
+  "sources": [
+    {
+      "id": "moto-journal",
+      "name": "Moto Journal",
+      "url": "https://www.motojournal.fr",
+      "confidence": "established-press",
+      "nodeId": "fr"
+    },
+    {
+      "id": "ffm-news",
+      "name": "FFM Actualit\u00e9s",
+      "url": "https://www.ffmoto.org/actualites",
+      "confidence": "official",
+      "nodeId": "fr"
+    },
+    {
+      "id": "moto-station",
+      "name": "Moto Station",
+      "url": "https://www.moto-station.com",
+      "confidence": "established-press",
+      "nodeId": "fr"
+    },
+    {
+      "id": "motomag",
+      "name": "Motomag",
+      "url": "https://www.motomag.com",
+      "confidence": "established-press",
+      "nodeId": "fr"
+    },
+    {
+      "id": "fsbk-news",
+      "name": "FSBK (French Superbike)",
+      "url": "https://www.ffmoto.org/competition/circuit",
+      "confidence": "official",
+      "nodeId": "fr"
+    }
+  ]
+}

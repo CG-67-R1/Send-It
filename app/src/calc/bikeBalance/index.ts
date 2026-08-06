@@ -52,3 +52,10 @@ export {
   PUBLIC_ENGINEERING,
   PUBLIC_OEM_DOCS,
 } from './citations';
+export {
+  GEO_FIELD_HELP,
+  INPUT_FIELD_HELP,
+  SKILL_MODE_HELP,
+  getFieldHelp,
+  type FieldHelp,
+} from './fieldHelp';

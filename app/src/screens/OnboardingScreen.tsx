@@ -8,10 +8,12 @@ import {
   ScrollView,
   KeyboardAvoidingView,
   Platform,
-  Linking,
   Image,
   Alert,
+  Linking,
 } from 'react-native';
+import { PRIVACY_POLICY_URL, TERMS_OF_USE_URL } from '../../constants/api';
+import { safeOpenUrl } from '../utils/safeOpenUrl';
 import * as ImagePicker from 'expo-image-picker';
 import { getRiderFact, getBikeFact, RACING_STATES, getRacingStateInfo } from '../onboardingContent';
 import {
@@ -52,6 +54,7 @@ export function OnboardingScreen({ onComplete }: OnboardingScreenProps) {
   const [avatarFaceUri, setAvatarFaceUri] = useState<string | null>(null);
   const [riderNickname, setRiderNickname] = useState('');
   const [finishing, setFinishing] = useState(false);
+  const [acceptedLegal, setAcceptedLegal] = useState(false);
   const [faceCameraOpen, setFaceCameraOpen] = useState(false);
   /** Pending photo URI waiting for align modal (library or camera). */
   const [alignImageUri, setAlignImageUri] = useState<string | null>(null);
@@ -141,6 +144,8 @@ export function OnboardingScreen({ onComplete }: OnboardingScreenProps) {
     onComplete();
   };
 
+  const isLastStep = step === totalSteps - 1;
+
   const canNext = () => {
     if (step === 1 || step === 2 || step === 3) return true;
     if (step === 4) return activity !== null;
@@ -156,10 +161,9 @@ export function OnboardingScreen({ onComplete }: OnboardingScreenProps) {
       }
       return true;
     }
+    if (isLastStep) return acceptedLegal;
     return true;
   };
-
-  const isLastStep = step === totalSteps - 1;
 
   const handleNext = async () => {
     if (finishing) return;
@@ -178,10 +182,7 @@ export function OnboardingScreen({ onComplete }: OnboardingScreenProps) {
       const body = encodeURIComponent(bodyLines.join('\n'));
       const mailtoUrl = `mailto:projectapex@outlook.com.au?subject=${subject}&body=${body}`;
       try {
-        const supported = await Linking.canOpenURL(mailtoUrl);
-        if (supported) {
-          await Linking.openURL(mailtoUrl);
-        }
+        await safeOpenUrl(mailtoUrl, 'email');
       } catch {
         // Fail silently if email app cannot be opened.
       }
@@ -684,6 +685,31 @@ export function OnboardingScreen({ onComplete }: OnboardingScreenProps) {
             <Text style={styles.summaryClosing}>
               Whether you race, do track days, or just love bikes — RoadRacer is here for headlines, what’s on, Q&A, and rider coach. Time to send it. 🏁
             </Text>
+            <View style={styles.legalBlock}>
+              <Text style={styles.legalIntro}>
+                Before you continue, please review how RoadRacer handles your data.
+              </Text>
+              <View style={styles.legalLinksRow}>
+                <TouchableOpacity onPress={() => void safeOpenUrl(PRIVACY_POLICY_URL, 'privacy policy')}>
+                  <Text style={styles.legalLink}>Privacy Policy</Text>
+                </TouchableOpacity>
+                <TouchableOpacity onPress={() => void safeOpenUrl(TERMS_OF_USE_URL, 'terms of use')}>
+                  <Text style={styles.legalLink}>Terms of Use</Text>
+                </TouchableOpacity>
+              </View>
+              <TouchableOpacity
+                style={styles.legalCheckRow}
+                onPress={() => setAcceptedLegal((v) => !v)}
+                activeOpacity={0.8}
+              >
+                <View style={[styles.legalCheckbox, acceptedLegal && styles.legalCheckboxChecked]}>
+                  {acceptedLegal ? <Text style={styles.legalCheckMark}>✓</Text> : null}
+                </View>
+                <Text style={styles.legalCheckLabel}>
+                  I have read and agree to the Privacy Policy and Terms of Use.
+                </Text>
+              </TouchableOpacity>
+            </View>
           </View>
         )}
 
@@ -696,10 +722,10 @@ export function OnboardingScreen({ onComplete }: OnboardingScreenProps) {
           <TouchableOpacity
             style={[
               styles.nextButton,
-              (finishing || (!isLastStep && !canNext())) && styles.nextButtonDisabled,
+              (finishing || !canNext()) && styles.nextButtonDisabled,
             ]}
             onPress={handleNext}
-            disabled={finishing || (!isLastStep && !canNext())}
+            disabled={finishing || !canNext()}
             activeOpacity={0.8}
           >
             <Text style={styles.nextButtonLabel}>
@@ -782,6 +808,62 @@ const styles = StyleSheet.create({
     color: '#94a3b8',
     lineHeight: 24,
     marginBottom: 20,
+  },
+  legalBlock: {
+    marginTop: 20,
+    padding: 14,
+    borderRadius: 12,
+    borderWidth: 1,
+    borderColor: '#1e40af',
+    backgroundColor: '#172554',
+  },
+  legalIntro: {
+    fontSize: 13,
+    color: '#bfdbfe',
+    lineHeight: 18,
+    marginBottom: 10,
+  },
+  legalLinksRow: {
+    flexDirection: 'row',
+    flexWrap: 'wrap',
+    gap: 16,
+    marginBottom: 12,
+  },
+  legalLink: {
+    color: '#93c5fd',
+    fontSize: 14,
+    fontWeight: '700',
+    textDecorationLine: 'underline',
+  },
+  legalCheckRow: {
+    flexDirection: 'row',
+    alignItems: 'flex-start',
+    gap: 10,
+  },
+  legalCheckbox: {
+    width: 22,
+    height: 22,
+    borderRadius: 6,
+    borderWidth: 2,
+    borderColor: '#93c5fd',
+    alignItems: 'center',
+    justifyContent: 'center',
+    marginTop: 1,
+  },
+  legalCheckboxChecked: {
+    backgroundColor: '#f59e0b',
+    borderColor: '#f59e0b',
+  },
+  legalCheckMark: {
+    color: '#0f172a',
+    fontSize: 14,
+    fontWeight: '800',
+  },
+  legalCheckLabel: {
+    flex: 1,
+    fontSize: 13,
+    color: '#e2e8f0',
+    lineHeight: 18,
   },
   prompt: {
     fontSize: 18,

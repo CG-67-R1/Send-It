@@ -1,0 +1,23 @@
+{
+  "packId": "it",
+  "nodes": [
+    {
+      "id": "it",
+      "parentId": null,
+      "kind": "region",
+      "displayName": "Italy",
+      "locales": [
+        "it-IT",
+        "en"
+      ],
+      "timezones": [
+        "Europe/Rome"
+      ],
+      "isoCountries": [
+        "IT"
+      ],
+      "adminAreas": [],
+      "status": "seed"
+    }
+  ]
+}

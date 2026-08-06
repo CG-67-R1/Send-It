@@ -1,0 +1,32 @@
+{
+  "sources": [
+    {
+      "id": "csc-news",
+      "name": "China Superbike Championship",
+      "url": "https://www.cams.net.cn",
+      "confidence": "official",
+      "nodeId": "cn"
+    },
+    {
+      "id": "autohome-moto",
+      "name": "Autohome Moto (\u6c7d\u8f66\u4e4b\u5bb6\u6469\u6258)",
+      "url": "https://www.autohome.com.cn/moto",
+      "confidence": "established-press",
+      "nodeId": "cn"
+    },
+    {
+      "id": "pcauto-moto",
+      "name": "\u592a\u5e73\u6d0b\u6c7d\u8f66\u6469\u6258",
+      "url": "https://www.pcauto.com.cn/moto",
+      "confidence": "established-press",
+      "nodeId": "cn"
+    },
+    {
+      "id": "motorsport-cn",
+      "name": "Motorsport.com China",
+      "url": "https://cn.motorsport.com",
+      "confidence": "established-press",
+      "nodeId": "cn"
+    }
+  ]
+}

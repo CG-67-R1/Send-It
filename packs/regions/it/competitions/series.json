@@ -1,0 +1,19 @@
+{
+  "series": [
+    {
+      "id": "civ",
+      "name": "Campionato Italiano Velocità (CIV)",
+      "nodeId": "it",
+      "local": true,
+      "website": "https://www.civ.tv",
+      "confidence": "official"
+    },
+    {
+      "id": "it_club",
+      "name": "Italian club / regional road racing",
+      "nodeId": "it",
+      "local": true,
+      "confidence": "community"
+    }
+  ]
+}

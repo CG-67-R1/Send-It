@@ -1,0 +1,11 @@
+{
+  "sources": [
+    {
+      "id": "meteo-france",
+      "name": "M\u00e9t\u00e9o-France",
+      "url": "https://www.meteofrance.fr",
+      "confidence": "official",
+      "nodeId": "fr"
+    }
+  ]
+}

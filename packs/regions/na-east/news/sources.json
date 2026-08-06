@@ -1,0 +1,39 @@
+{
+  "sources": [
+    {
+      "id": "roadracingworld",
+      "name": "Road Racing World",
+      "url": "https://www.roadracingworld.com",
+      "confidence": "established-press",
+      "nodeId": "na-east"
+    },
+    {
+      "id": "motoamerica-news",
+      "name": "MotoAmerica News",
+      "url": "https://www.motoamerica.com/news",
+      "confidence": "official",
+      "nodeId": "na-east"
+    },
+    {
+      "id": "cycle-news",
+      "name": "Cycle News",
+      "url": "https://www.cyclenews.com",
+      "confidence": "established-press",
+      "nodeId": "na-east"
+    },
+    {
+      "id": "csbk-news",
+      "name": "CSBK News",
+      "url": "https://csbk.ca/news",
+      "confidence": "official",
+      "nodeId": "na-east-eastern-canada"
+    },
+    {
+      "id": "ultimate-motorcycling",
+      "name": "Ultimate Motorcycling",
+      "url": "https://www.ultimatemotorcycling.com",
+      "confidence": "established-press",
+      "nodeId": "na-east"
+    }
+  ]
+}

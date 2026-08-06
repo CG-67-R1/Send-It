@@ -1,0 +1,20 @@
+{
+  "pathways": [
+    {
+      "id": "my-mam-competition",
+      "title": "MAM competition licence pathway",
+      "nodeId": "my",
+      "steps": [
+        "Join a MAM-affiliated club",
+        "Obtain MAM membership",
+        "Apply for appropriate competition licence (Novice / National / International)",
+        "Complete medical check",
+        "Pass rider licence / novice orientation"
+      ],
+      "urls": [
+        "https://www.mam.org.my"
+      ],
+      "confidence": "official"
+    }
+  ]
+}

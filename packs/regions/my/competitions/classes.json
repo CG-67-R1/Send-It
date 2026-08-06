@@ -1,0 +1,24 @@
+{
+  "classes": [
+    {
+      "id": "superbike",
+      "name": "Superbike",
+      "nodeId": "my"
+    },
+    {
+      "id": "supersport",
+      "name": "Supersport",
+      "nodeId": "my"
+    },
+    {
+      "id": "underbone-150",
+      "name": "Underbone 150cc",
+      "nodeId": "my"
+    },
+    {
+      "id": "super-moto2",
+      "name": "Super Moto2 (Asia)",
+      "nodeId": "my"
+    }
+  ]
+}

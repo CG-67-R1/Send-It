@@ -1,0 +1,47 @@
+{
+  "contacts": [
+    {
+      "id": "br-192",
+      "name": "SAMU ambul\u00e2ncia (Brazil)",
+      "phone": "192",
+      "nodeId": "sa-br"
+    },
+    {
+      "id": "br-190",
+      "name": "Pol\u00edcia (Brazil)",
+      "phone": "190",
+      "nodeId": "sa-br"
+    },
+    {
+      "id": "ar-911",
+      "name": "Emergencias (Argentina)",
+      "phone": "911",
+      "nodeId": "sa-ar"
+    },
+    {
+      "id": "cl-131",
+      "name": "Ambulancia (Chile)",
+      "phone": "131",
+      "nodeId": "sa-cl"
+    },
+    {
+      "id": "co-123",
+      "name": "Emergencias (Colombia)",
+      "phone": "123",
+      "nodeId": "sa-co"
+    },
+    {
+      "id": "pe-116",
+      "name": "Polic\u00eda Nacional (Peru)",
+      "phone": "116",
+      "nodeId": "sa-pe"
+    },
+    {
+      "id": "uy-911",
+      "name": "Emergencias (Uruguay)",
+      "phone": "911",
+      "nodeId": "sa-uy"
+    }
+  ],
+  "notes": "Follow circuit medical / marshal instructions. Emergency numbers vary by country."
+}

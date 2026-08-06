@@ -1,0 +1,49 @@
+{
+  "id": "jp",
+  "regionNumber": 6,
+  "displayName": "Japan",
+  "kind": "region",
+  "locales": [
+    "ja-JP",
+    "en"
+  ],
+  "timezones": [
+    "Asia/Tokyo"
+  ],
+  "isoCountries": [
+    "JP"
+  ],
+  "adminAreas": [],
+  "status": "seed",
+  "defaultLocalLabel": "\u65e5\u672c",
+  "spelling": {
+    "tyre": "tyre",
+    "dateFormat": "YYYY/MM/DD"
+  },
+  "contentIndex": [
+    "tracks/tracks.json",
+    "tracks/geofences.json",
+    "tracks/turn_verification.json",
+    "calendar/sources.json",
+    "calendar/static.json",
+    "headlines/sources.json",
+    "organisations/federations.json",
+    "organisations/clubs.json",
+    "organisations/coaching.json",
+    "licensing/pathways.json",
+    "competitions/classes.json",
+    "competitions/series.json",
+    "rules/rulebook.json",
+    "rules/technical_variations.json",
+    "news/sources.json",
+    "progression/pathways.json",
+    "terminology.json",
+    "suppliers.json",
+    "services.json",
+    "emergency.json",
+    "weather/sources.json",
+    "ai/prompts.json",
+    "i18n/strings.json",
+    "onboarding/areas.json"
+  ]
+}

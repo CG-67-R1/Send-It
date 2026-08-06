@@ -1,0 +1,26 @@
+{
+  "meta": {
+    "timezone": "Europe/London",
+    "event_scope": {
+      "discipline": "road_race"
+    }
+  },
+  "sources": [
+    {
+      "id": "bsb_calendar",
+      "name": "BSB Calendar",
+      "type": "series_calendar",
+      "url": "https://www.britishsuperbike.com",
+      "nodeId": "uk",
+      "confidence": "official"
+    },
+    {
+      "id": "acu_events",
+      "name": "ACU Events",
+      "type": "governing_body_calendar",
+      "url": "https://www.acu.org.uk",
+      "nodeId": "uk",
+      "confidence": "official"
+    }
+  ]
+}

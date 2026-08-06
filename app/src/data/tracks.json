@@ -14,7 +14,7 @@
           "number": 1,
           "label": "Doohan Corner",
           "shape": "Sweeper",
-          "direction": "left",
+          "direction": "right",
           "approachFrom": "main straight / start-finish"
         },
         {
@@ -54,7 +54,7 @@
           "number": 6,
           "label": "Hayshed",
           "shape": "Kink",
-          "direction": "right",
+          "direction": "complex",
           "approachFrom": "T5 (Siberia) exit"
         },
         {
@@ -62,7 +62,7 @@
           "number": 7,
           "label": "Lukey Heights entry",
           "shape": "Corner / complex",
-          "direction": "left",
+          "direction": "complex",
           "approachFrom": "T6 (Hayshed) exit"
         },
         {
@@ -70,7 +70,7 @@
           "number": 8,
           "label": "Lukey Heights proper",
           "shape": "Corner / complex",
-          "direction": "left",
+          "direction": "complex",
           "approachFrom": "T7 (Lukey Heights entry) exit"
         },
         {
@@ -86,7 +86,7 @@
           "number": 10,
           "label": "Turn 10",
           "shape": "Kink",
-          "direction": "left",
+          "direction": "complex",
           "approachFrom": "T9 (MG Hairpin) exit"
         },
         {
@@ -94,7 +94,7 @@
           "number": 11,
           "label": "Turn 11 (Gardner's)",
           "shape": "Sweeper",
-          "direction": "left",
+          "direction": "complex",
           "approachFrom": "T10 (Turn 10) exit"
         },
         {

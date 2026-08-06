@@ -1,0 +1,9 @@
+{
+  "locales": {
+    "en-GB": {
+      "localFeed": "UK headlines",
+      "localCalendar": "United Kingdom",
+      "worldFeed": "World"
+    }
+  }
+}

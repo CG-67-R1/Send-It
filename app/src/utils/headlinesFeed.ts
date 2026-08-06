@@ -1,12 +1,18 @@
 import type { Headline } from '../types';
+import { getHeadlineSourceIds } from '../packs/loader';
 
-/** Built-in Australian headline source IDs (must match api/scrapers.js AU_SOURCE_IDS). */
-export const LOCAL_SOURCE_IDS = [
-  'ma_roadrace',
+/** Built-in local headline source IDs from active regional pack(s). */
+export const LOCAL_SOURCE_IDS = (
+  getHeadlineSourceIds().length
+    ? getHeadlineSourceIds()
+    : ['ma_roadrace', 'asbk', 'amcn_asbk']
+) as readonly string[];
+
+/** Legacy ids kept for cached headlines from older builds. */
+const LEGACY_AU_SOURCE_IDS = [
+  'amcn',
   'mcnews',
-  'asbk',
   'amcn_club',
-  'amcn_asbk',
   'amcn_motogp',
   'amcn_worldsbk',
   'amcn_kotb',
@@ -16,9 +22,6 @@ export const LOCAL_SOURCE_IDS = [
   'amcn_worldwcr',
   'amcn_endurance',
 ] as const;
-
-/** Legacy id kept for cached headlines from older builds. */
-const LEGACY_AU_SOURCE_IDS = ['amcn'] as const;
 
 /** Club sources for 1-in-6 quota on the Aus feed. */
 export const CLUB_SOURCE_IDS = ['amcn_club'] as const;
@@ -46,8 +49,38 @@ function sourceLimit(sourceId: string, maxPerSource: number): number {
   return MOTOGP_FAMILY_IDS.has(sourceId) ? Math.min(4, maxPerSource) : maxPerSource;
 }
 
+function headlineTime(date: string | null | undefined): number {
+  if (!date) return NaN;
+  const t = Date.parse(date);
+  return Number.isFinite(t) ? t : NaN;
+}
+
+/**
+ * Newest first. Undated items sink below dated ones so old/unknown stories
+ * cannot sit above fresher headlines.
+ */
+export function sortByDateDesc(
+  headlines: Headline[],
+  priorityOrder: string[] = []
+): Headline[] {
+  const orderMap = new Map(priorityOrder.map((id, i) => [id, i]));
+  return [...headlines].sort((a, b) => {
+    const ta = headlineTime(a.date);
+    const tb = headlineTime(b.date);
+    const aHas = Number.isFinite(ta);
+    const bHas = Number.isFinite(tb);
+    if (aHas && bHas && ta !== tb) return tb - ta;
+    if (aHas !== bHas) return aHas ? -1 : 1;
+    const pa = orderMap.get(a.sourceId) ?? 9999;
+    const pb = orderMap.get(b.sourceId) ?? 9999;
+    if (pa !== pb) return pa - pb;
+    return (a.title || '').localeCompare(b.title || '');
+  });
+}
+
 /**
  * Round-robin across sources so one outlet cannot dominate the feed.
+ * Each source bucket is pre-sorted newest-first.
  */
 export function roundRobinBySource(
   headlines: Headline[],
@@ -59,6 +92,10 @@ export function roundRobinBySource(
     const list = buckets.get(h.sourceId) || [];
     list.push(h);
     buckets.set(h.sourceId, list);
+  }
+
+  for (const [id, list] of buckets) {
+    buckets.set(id, sortByDateDesc(list, options?.sourceOrder));
   }
 
   const orderedIds: string[] = [];
@@ -157,26 +194,21 @@ export function interleaveClubQuota(
   return out;
 }
 
-/** World feed: diversify international sources, then enforce 1-in-4 AU minimum. */
+/** World feed: all non-custom headlines, newest first. */
 export function buildWorldFeed(
   headlines: Headline[],
   priorityOrder: string[],
-  auIds: readonly string[] = LOCAL_SOURCE_IDS
+  _auIds: readonly string[] = LOCAL_SOURCE_IDS
 ): Headline[] {
-  const au = headlines.filter((h) => isAuSource(h.sourceId, auIds));
-  const world = headlines.filter((h) => !isAuSource(h.sourceId, auIds));
-  const diversifiedWorld = roundRobinBySource(world, {
+  // Cap per-source so one outlet cannot flood the list, then sort by date.
+  const diversified = roundRobinBySource(headlines, {
     maxPerSource: 8,
     sourceOrder: priorityOrder,
   });
-  const diversifiedAu = roundRobinBySource(au, {
-    maxPerSource: 6,
-    sourceOrder: priorityOrder,
-  });
-  return interleaveAuQuota([...diversifiedWorld, ...diversifiedAu], auIds, AU_EVERY_N);
+  return sortByDateDesc(diversified, priorityOrder);
 }
 
-/** Aus feed: diversify AU sources and enforce 1 club article per 6 items minimum. */
+/** Aus feed: Australian sources only, newest first. */
 export function buildAuFeed(
   headlines: Headline[],
   priorityOrder: string[],
@@ -187,5 +219,5 @@ export function buildAuFeed(
     maxPerSource: 8,
     sourceOrder: priorityOrder,
   });
-  return interleaveClubQuota(diversified, CLUB_SOURCE_IDS, CLUB_EVERY_N);
+  return sortByDateDesc(diversified, priorityOrder);
 }

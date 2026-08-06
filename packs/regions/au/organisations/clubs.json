@@ -1,0 +1,20 @@
+{
+  "items": [
+    {
+      "id": "st-george",
+      "name": "St George Motorcycle Club",
+      "role": "club",
+      "nodeId": "au-nsw",
+      "website": "https://stgeorgemcc.com",
+      "confidence": "community"
+    },
+    {
+      "id": "preston",
+      "name": "Preston Motorcycle Club",
+      "role": "club",
+      "nodeId": "au-vic",
+      "website": "https://prestonmcc.com.au",
+      "confidence": "community"
+    }
+  ]
+}

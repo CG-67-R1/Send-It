@@ -1,0 +1,16 @@
+{
+  "terms": [
+    {
+      "id": "fms",
+      "term": "FMS",
+      "definition": "Federation of Motor Sports of China / \u4e2d\u56fd\u6c7d\u8f66\u8fd0\u52a8\u8054\u5408\u4f1a",
+      "locale": "zh-CN"
+    },
+    {
+      "id": "csc",
+      "term": "CSC",
+      "definition": "China Superbike Championship \u2014 national superbike series",
+      "locale": "zh-CN"
+    }
+  ]
+}

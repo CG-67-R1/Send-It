@@ -1,0 +1,14 @@
+{
+  "locales": {
+    "fr-FR": {
+      "localFeed": "Actualit\u00e9s moto fran\u00e7aises",
+      "localCalendar": "France",
+      "worldFeed": "Monde"
+    },
+    "en": {
+      "localFeed": "France headlines",
+      "localCalendar": "France",
+      "worldFeed": "World"
+    }
+  }
+}

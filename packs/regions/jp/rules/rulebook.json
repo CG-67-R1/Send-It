@@ -1,0 +1,10 @@
+{
+  "governingBody": "Motorcycle Federation of Japan (MFJ)",
+  "shortName": "MFJ",
+  "edition": null,
+  "urls": {
+    "sourcePage": "https://www.mfj.or.jp/rule"
+  },
+  "chapters": {},
+  "note": "Seed: link-out to MFJ technical regulations. In-app KB not yet ingested."
+}

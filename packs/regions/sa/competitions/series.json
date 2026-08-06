@@ -1,0 +1,42 @@
+{
+  "series": [
+    {
+      "id": "cbm-superbike-br",
+      "name": "CBM Brazilian Superbike Championship",
+      "nodeId": "sa-br",
+      "local": true,
+      "website": "https://www.cbm.esp.br",
+      "confidence": "official"
+    },
+    {
+      "id": "argmoto-ar",
+      "name": "Campeonato Argentino de Velocidad (MOTOVEL)",
+      "nodeId": "sa-ar",
+      "local": true,
+      "website": "https://www.motociclismocam.com.ar",
+      "confidence": "official"
+    },
+    {
+      "id": "campeonato-cl",
+      "name": "Campeonato de Chile de Superbike",
+      "nodeId": "sa-cl",
+      "local": true,
+      "confidence": "established-press"
+    },
+    {
+      "id": "campeonato-co",
+      "name": "Campeonato Nacional de Velocidad (Colombia)",
+      "nodeId": "sa-co",
+      "local": true,
+      "confidence": "established-press"
+    },
+    {
+      "id": "la-sudamericana",
+      "name": "Copa Sudamericana de Motociclismo",
+      "nodeId": "sa",
+      "local": true,
+      "confidence": "community",
+      "notes": "Regional multi-country series; details to be confirmed with FIM Latam."
+    }
+  ]
+}

@@ -1,0 +1,22 @@
+{
+  "packId": "cn",
+  "nodes": [
+    {
+      "id": "cn",
+      "parentId": null,
+      "kind": "region",
+      "displayName": "China",
+      "locales": [
+        "zh-CN",
+        "en"
+      ],
+      "timezones": [
+        "Asia/Shanghai"
+      ],
+      "isoCountries": [
+        "CN"
+      ],
+      "status": "seed"
+    }
+  ]
+}

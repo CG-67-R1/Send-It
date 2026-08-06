@@ -1,0 +1,10 @@
+{
+  "governingBody": "Federation of Motor Sports of China (FMS) / CAMS",
+  "shortName": "FMS",
+  "edition": null,
+  "urls": {
+    "sourcePage": "https://www.cams.net.cn"
+  },
+  "chapters": {},
+  "note": "Seed: link-out to FMS/CAMS regulations. In-app KB not yet ingested."
+}

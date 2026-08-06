@@ -8,8 +8,53 @@ import OpenAI from 'openai';
 import { enrichRulesSources } from './momsOnlineUrls.js';
 import { prepareRulesQueryTokens, retrieveForRules } from './qa.js';
 import { formatFaqsForPrompt, loadRiderAiFaqs } from './riderAiFaqs.js';
+import { getAiPrompts, getPrimaryManifest } from './packLoader.js';
 
-const COACH_SYSTEM = `You are an expert motorcycle road racing and track day coach specializing in Australian track day riding. You give direct, practical motorsport advice.
+function packAi() {
+  return getAiPrompts() || {};
+}
+
+function coachHome() {
+  return (
+    packAi().coachHomeContext ||
+    'You are an expert motorcycle road racing and track day coach specializing in Australian track day riding. Keep Australian context and safety first.'
+  );
+}
+
+function bikeHome() {
+  return (
+    packAi().bikeSetupHomeContext ||
+    'You are an expert motorcycle road racing and track day technical advisor specializing in Australian track day riding.'
+  );
+}
+
+function askPriority() {
+  return (
+    packAi().askPriority ||
+    'Priority order: Australia first (ASBK, Motorcycling Australia, state/club motorcycle road racing, Australian circuits and riders), then world level (MotoGP, WorldSBK, international motorcycle road racing).'
+  );
+}
+
+function webSearchCountry() {
+  return packAi().webSearchCountry || getPrimaryManifest()?.isoCountries?.[0] || 'AU';
+}
+
+function rulesHome() {
+  return (
+    packAi().rulesHomeContext ||
+    'You are an official Manual of Motorcycle Sport (MoMS) rule-check assistant for Australian motorcycle sport.'
+  );
+}
+
+function rulesModeName() {
+  return packAi().rulesModeName || 'Manual of Motorcycle Sport (MoMS)';
+}
+
+function localeContextLabel() {
+  return getPrimaryManifest()?.displayName || 'Australian';
+}
+
+const COACH_SYSTEM = `${coachHome()} You give direct, practical motorsport advice.
 
 Sign off briefly as "RoadRacer AI Coach".
 
@@ -17,9 +62,9 @@ Your guidance is informational only. Setup changes should be made incrementally,
 
 Do not recommend shortening suspension travel, adding internal spacers, changing ride height, or carrying out internal shock/fork work unless the user has provided the motorcycle make/model/year, current suspension components, and clear symptoms. Even when those details are present, explain the uncertainty and state that a qualified technician should verify the proposed change.
 
-**Current mode: RIDER COACH.** Focus on: technique, cornering, braking, body position, lines, race craft, track-specific tips, session feedback, and mental approach. Keep Australian context and safety first. If the user hasn't said their bike or track, ask briefly but stay helpful with reasonable assumptions. Be encouraging and concise.`;
+**Current mode: RIDER COACH.** Focus on: technique, cornering, braking, body position, lines, race craft, track-specific tips, session feedback, and mental approach. Keep regional context and safety first. If the user hasn't said their bike or track, ask briefly but stay helpful with reasonable assumptions. Be encouraging and concise.`;
 
-const BIKESETUP_SYSTEM = `You are an expert motorcycle road racing and track day technical advisor specializing in Australian track day riding. You give direct, practical motorsport advice on bike setup.
+const BIKESETUP_SYSTEM = `${bikeHome()} You give direct, practical motorsport advice on bike setup.
 
 Sign off briefly as "RoadRacer AI Bike Setup".
 
@@ -51,7 +96,7 @@ const ASK_SYSTEM = `You are a knowledgeable motorcycle road racing Q&A assistant
 
 **Search and priority:**
 - Use web search for factual claims. Prefer authoritative motorcycle motorsport sources.
-- Priority order: **Australia first** (ASBK, Motorcycling Australia, state/club motorcycle road racing, Australian circuits and riders), then **world level** (MotoGP, WorldSBK, international motorcycle road racing).
+- ${askPriority()}
 - Stay on motorcycle road racing / motorcycle track motorsport. If the question is off-topic, say briefly and redirect.
 - If search finds nothing reliable, say so clearly. Do not invent dates, results, venues, or rules.
 
@@ -59,10 +104,10 @@ const ASK_SYSTEM = `You are a knowledgeable motorcycle road racing Q&A assistant
 - One clear, concise answer (a few short paragraphs at most). No sign-off joke.
 - Mention key sources briefly when useful.
 - If the user asks for personalized coaching, session feedback, corner-by-corner advice, or detailed bike setup for their bike/session, give a brief general pointer only and tell them to use the **Coach & Bike Setup** tab.
-- Official MoMS rule lookups belong in **Official rule check?** — do not invent clause numbers.
+- Official ${rulesModeName()} lookups belong in **Official rule check?** — do not invent clause numbers.
 - Safety first. Do not encourage reckless riding.`;
 
-const RULES_SYSTEM = `You are an official Manual of Motorcycle Sport (MoMS) rule-check assistant for Australian motorcycle sport.
+const RULES_SYSTEM = `${rulesHome()}
 
 **Current mode: OFFICIAL RULE CHECK.** Answer ONLY from the MoMS excerpts provided in this prompt. Do not use the internet, browsing, or general training knowledge for rule substance. Do not invent clause numbers or requirements.
 
@@ -80,7 +125,7 @@ const RULES_SYSTEM = `You are an official Manual of Motorcycle Sport (MoMS) rule
 
 const SHARED_RULES = `
 
-**Style:** Friendly, practical, safety first. Never make users feel bad about not knowing. Australian context.
+**Style:** Friendly, practical, safety first. Never make users feel bad about not knowing. ${localeContextLabel()} context.
 
 **Limitations:** You cannot physically inspect bikes or guarantee lap times. Recommend professional help for safety-critical or complex changes.
 
@@ -401,7 +446,7 @@ export async function askChat(message, options = {}) {
           type: 'web_search',
           user_location: {
             type: 'approximate',
-            country: 'AU',
+            country: webSearchCountry(),
           },
           search_context_size: 'medium',
           filters: {
@@ -440,7 +485,7 @@ export async function askChat(message, options = {}) {
               type: 'web_search',
               user_location: {
                 type: 'approximate',
-                country: 'AU',
+                country: webSearchCountry(),
               },
             },
           ],
@@ -472,6 +517,15 @@ export async function askChat(message, options = {}) {
   }
 }
 
+const ALLOWED_IMAGE_TYPES = ['image/jpeg', 'image/png', 'image/gif', 'image/webp'];
+const ALLOWED_FILE_TYPES = [
+  'text/plain',
+  'application/json',
+  'text/csv',
+  'text/xml',
+  'application/gpx+xml',
+];
+
 /**
  * @param {Array<{ role: 'user' | 'assistant', content: string }>} messages - conversation history (newest last)
  * @param {'coach' | 'bikesetup'} mode
@@ -485,7 +539,8 @@ function buildUserContent(text, attachments = []) {
   const parts = [{ type: 'text', text: safeText }];
   for (const att of attachments) {
     if (att.type === 'image' && att.data) {
-      const mime = att.mimeType || 'image/jpeg';
+      const rawMime = String(att.mimeType || 'image/jpeg').toLowerCase();
+      const mime = ALLOWED_IMAGE_TYPES.includes(rawMime) ? rawMime : 'image/jpeg';
       parts.push({
         type: 'image_url',
         image_url: { url: `data:${mime};base64,${att.data}` },
@@ -507,17 +562,21 @@ function normalizeAttachments(raw) {
     if (!att || typeof att !== 'object') continue;
     if (att.type === 'image' && typeof att.data === 'string' && att.data.length > 0) {
       if (att.data.length > 6_000_000) continue;
+      const rawMime = String(att.mimeType || 'image/jpeg').slice(0, 80).toLowerCase();
+      const mime = ALLOWED_IMAGE_TYPES.includes(rawMime) ? rawMime : 'image/jpeg';
       out.push({
         type: 'image',
         name: String(att.name || 'photo.jpg').slice(0, 120),
-        mimeType: String(att.mimeType || 'image/jpeg').slice(0, 80),
+        mimeType: mime,
         data: att.data,
       });
     } else if (att.type === 'file' && typeof att.content === 'string' && att.content.trim()) {
+      const rawMime = String(att.mimeType || 'text/plain').slice(0, 80).toLowerCase();
+      const mime = ALLOWED_FILE_TYPES.includes(rawMime) ? rawMime : 'text/plain';
       out.push({
         type: 'file',
         name: String(att.name || 'data.txt').slice(0, 120),
-        mimeType: String(att.mimeType || 'text/plain').slice(0, 80),
+        mimeType: mime,
         content: att.content.slice(0, 24_000),
       });
     }

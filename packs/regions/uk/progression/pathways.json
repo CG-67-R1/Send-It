@@ -1,0 +1,16 @@
+{
+  "pathways": [
+    {
+      "id": "uk-trackday-bsb",
+      "title": "Track day → club → BSB pathway",
+      "nodeId": "uk",
+      "stages": [
+        "Track days",
+        "Club racing",
+        "National / Superstock",
+        "BSB"
+      ],
+      "confidence": "community"
+    }
+  ]
+}

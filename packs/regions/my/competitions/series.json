@@ -1,0 +1,30 @@
+{
+  "series": [
+    {
+      "id": "mrrc",
+      "name": "Malaysian Road Racing Championship (MRRC)",
+      "nodeId": "my",
+      "local": true,
+      "website": "https://www.mam.org.my",
+      "confidence": "official",
+      "notes": "MAM-sanctioned national road racing championship."
+    },
+    {
+      "id": "moto-malaya",
+      "name": "Moto Malaya Series",
+      "nodeId": "my",
+      "local": true,
+      "confidence": "established-press",
+      "notes": "Club-level road race series."
+    },
+    {
+      "id": "arrc",
+      "name": "Asia Road Racing Championship (ARRC)",
+      "nodeId": "my",
+      "local": false,
+      "website": "https://www.arrc.tv",
+      "confidence": "official",
+      "notes": "Regional FIM series; Malaysian riders compete."
+    }
+  ]
+}

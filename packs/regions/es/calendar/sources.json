@@ -1,0 +1,18 @@
+{
+  "meta": {
+    "timezone": "Europe/Madrid",
+    "event_scope": {
+      "discipline": "road_race"
+    }
+  },
+  "sources": [
+    {
+      "id": "rfme_calendar",
+      "name": "RFME calendar",
+      "type": "governing_body_calendar",
+      "url": "https://www.rfme.com",
+      "nodeId": "es",
+      "confidence": "official"
+    }
+  ]
+}

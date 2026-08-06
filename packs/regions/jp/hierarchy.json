@@ -1,0 +1,22 @@
+{
+  "packId": "jp",
+  "nodes": [
+    {
+      "id": "jp",
+      "parentId": null,
+      "kind": "region",
+      "displayName": "Japan",
+      "locales": [
+        "ja-JP",
+        "en"
+      ],
+      "timezones": [
+        "Asia/Tokyo"
+      ],
+      "isoCountries": [
+        "JP"
+      ],
+      "status": "seed"
+    }
+  ]
+}

@@ -1,0 +1,27 @@
+{
+  "areas": [
+    {
+      "code": "MY",
+      "nodeId": "my",
+      "name": "Malaysia",
+      "clubs": [
+        {
+          "name": "MAM-affiliated road racing clubs",
+          "location": "Malaysia",
+          "website": "https://www.mam.org.my"
+        }
+      ],
+      "classes": [
+        "Superbike",
+        "Supersport",
+        "Underbone 150cc"
+      ],
+      "coaches": [
+        {
+          "name": "Sepang circuit coaching / track day providers",
+          "description": "Track day and rider development programmes at Sepang International Circuit."
+        }
+      ]
+    }
+  ]
+}

@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useRef, useState } from 'react';
+import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import {
   ActivityIndicator,
   Alert,
@@ -13,10 +13,14 @@ import {
 } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import type { NativeStackNavigationProp } from '@react-navigation/native-stack';
+import { PrivateSetupBanner } from '../components/PrivateSetupBanner';
 import {
+  bikeSetupSheetShareTitle,
   clearBikeSetupDaySheet,
+  compareBikeSetupSheets,
   deleteSessionFromHistory,
   emptyBikeSetupDaySheet,
+  formatBikeSetupSheetAsText,
   formatBikeSetupSheetForAi,
   getBikeSetupDaySheet,
   getSessionHistory,
@@ -25,6 +29,7 @@ import {
   saveSessionToHistory,
   type BikeSetupDaySheet,
 } from '../storage/bikeSetupSheet';
+import { shareBikeSetupAsText } from '../utils/shareBikeSetup';
 import type { RiderCoachStackParamList } from './RiderCoachScreen';
 
 const SAVE_DEBOUNCE_MS = 400;
@@ -66,10 +71,21 @@ export function BikeSetupSheetScreen() {
   const navigation = useNavigation<Nav>();
   const [sheet, setSheet] = useState<BikeSetupDaySheet>(() => emptyBikeSetupDaySheet());
   const [history, setHistory] = useState<BikeSetupDaySheet[]>([]);
+  const [compareUpdatedAt, setCompareUpdatedAt] = useState<number | null>(null);
+  const [sharing, setSharing] = useState(false);
   const [loading, setLoading] = useState(true);
   const [saving, setSaving] = useState(false);
   const saveTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
   const skipNextSaveRef = useRef(true);
+
+  const compareTarget = useMemo(
+    () => (compareUpdatedAt == null ? null : history.find((item) => item.updatedAt === compareUpdatedAt) ?? null),
+    [compareUpdatedAt, history]
+  );
+  const compareDiffs = useMemo(
+    () => (compareTarget ? compareBikeSetupSheets(sheet, compareTarget) : []),
+    [sheet, compareTarget]
+  );
 
   useEffect(() => {
     let cancelled = false;
@@ -146,13 +162,34 @@ export function BikeSetupSheetScreen() {
     void saveSessionToHistory(sheet)
       .then((next) => {
         setHistory(next);
-        Alert.alert('Session saved', 'A snapshot was added to session history.');
+        Alert.alert(
+          'Setup saved privately',
+          'A snapshot was saved on this device. Use it later to load or compare.'
+        );
       })
       .catch(() => Alert.alert('Save failed', 'The session snapshot could not be saved.'));
   }, [sheet]);
 
+  const onShareSheet = useCallback(
+    async (target: BikeSetupDaySheet) => {
+      if (sharing) return;
+      setSharing(true);
+      try {
+        await shareBikeSetupAsText({
+          title: bikeSetupSheetShareTitle(target),
+          body: formatBikeSetupSheetAsText(target),
+        });
+      } catch (e) {
+        Alert.alert('Share failed', e instanceof Error ? e.message : 'Could not open share sheet.');
+      } finally {
+        setSharing(false);
+      }
+    },
+    [sharing]
+  );
+
   const onLoadSession = useCallback((updatedAt: number) => {
-    Alert.alert('Load session', 'Replace the current sheet with this saved session?', [
+    Alert.alert('Load saved setup', 'Replace the current sheet with this private snapshot?', [
       { text: 'Cancel', style: 'cancel' },
       {
         text: 'Load',
@@ -169,13 +206,16 @@ export function BikeSetupSheetScreen() {
   }, []);
 
   const onDeleteSession = useCallback((updatedAt: number) => {
-    Alert.alert('Delete saved session', 'Remove this snapshot from session history?', [
+    Alert.alert('Delete saved setup', 'Remove this snapshot from private local storage?', [
       { text: 'Cancel', style: 'cancel' },
       {
         text: 'Delete',
         style: 'destructive',
         onPress: () => {
-          void deleteSessionFromHistory(updatedAt).then(setHistory);
+          void deleteSessionFromHistory(updatedAt).then((next) => {
+            setHistory(next);
+            setCompareUpdatedAt((prev) => (prev === updatedAt ? null : prev));
+          });
         },
       },
     ]);
@@ -200,8 +240,10 @@ export function BikeSetupSheetScreen() {
         keyboardShouldPersistTaps="handled"
         showsVerticalScrollIndicator={false}
       >
+        <PrivateSetupBanner detail="Save a session snapshot to keep a private copy for later reference or side-by-side comparison." />
+
         <Text style={styles.hint}>
-          Record start-of-day settings. Changes auto-save.
+          Record start-of-day settings. Changes auto-save on this device.
           {saving ? ' Saving…' : ''}
         </Text>
 
@@ -426,7 +468,17 @@ export function BikeSetupSheetScreen() {
 
         <View style={styles.actions}>
           <TouchableOpacity style={styles.saveSessionButton} onPress={onSaveSession} activeOpacity={0.8}>
-            <Text style={styles.saveSessionButtonText}>Save Session</Text>
+            <Text style={styles.saveSessionButtonText}>Save privately</Text>
+          </TouchableOpacity>
+          <TouchableOpacity
+            style={styles.shareButton}
+            onPress={() => void onShareSheet(sheet)}
+            activeOpacity={0.8}
+            disabled={sharing}
+          >
+            <Text style={styles.shareButtonText}>
+              {sharing ? 'Opening share…' : 'Share as text'}
+            </Text>
           </TouchableOpacity>
           <TouchableOpacity style={styles.clearButton} onPress={onClear} activeOpacity={0.8}>
             <Text style={styles.clearButtonText}>Clear Sheet</Text>
@@ -436,34 +488,84 @@ export function BikeSetupSheetScreen() {
           </TouchableOpacity>
         </View>
 
-        <Text style={styles.sectionTitle}>Session history</Text>
+        <Text style={styles.sectionTitle}>Saved setups (private)</Text>
+        <Text style={styles.historyHint}>
+          Snapshots stay on this device. Load one to restore it, Compare to see what changed, or Share
+          via Messages / WhatsApp / email.
+        </Text>
         {history.length === 0 ? (
-          <Text style={styles.emptyHistory}>No saved sessions yet.</Text>
+          <Text style={styles.emptyHistory}>No saved setups yet. Tap Save privately after a session.</Text>
         ) : (
-          [...history].reverse().map((item) => (
-            <View key={item.updatedAt} style={styles.historyItem}>
-              <TouchableOpacity
-                style={styles.historyLoad}
-                onPress={() => onLoadSession(item.updatedAt)}
-                activeOpacity={0.8}
-              >
-                <Text style={styles.historyTitle}>
-                  {item.dateIso || 'No date'} · {item.trackName || 'No track'}
-                </Text>
-                <Text style={styles.historyMeta}>
-                  Saved {new Date(item.updatedAt).toLocaleString()}
-                </Text>
-              </TouchableOpacity>
-              <TouchableOpacity
-                style={styles.historyDelete}
-                onPress={() => onDeleteSession(item.updatedAt)}
-                accessibilityLabel="Delete saved session"
-              >
-                <Text style={styles.historyDeleteText}>Delete</Text>
-              </TouchableOpacity>
-            </View>
-          ))
+          [...history].reverse().map((item) => {
+            const comparing = compareUpdatedAt === item.updatedAt;
+            return (
+              <View key={item.updatedAt} style={styles.historyItem}>
+                <TouchableOpacity
+                  style={styles.historyLoad}
+                  onPress={() => onLoadSession(item.updatedAt)}
+                  activeOpacity={0.8}
+                >
+                  <Text style={styles.historyTitle}>
+                    {item.dateIso || 'No date'} · {item.trackName || 'No track'}
+                  </Text>
+                  <Text style={styles.historyMeta}>
+                    Saved {new Date(item.updatedAt).toLocaleString()}
+                  </Text>
+                </TouchableOpacity>
+                <View style={styles.historyActions}>
+                  <TouchableOpacity
+                    style={styles.historyAction}
+                    onPress={() =>
+                      setCompareUpdatedAt((prev) => (prev === item.updatedAt ? null : item.updatedAt))
+                    }
+                    accessibilityLabel="Compare with current sheet"
+                  >
+                    <Text style={[styles.historyActionText, comparing && styles.historyActionActive]}>
+                      {comparing ? 'Hide' : 'Compare'}
+                    </Text>
+                  </TouchableOpacity>
+                  <TouchableOpacity
+                    style={styles.historyAction}
+                    onPress={() => void onShareSheet(item)}
+                    accessibilityLabel="Share saved setup as text"
+                  >
+                    <Text style={styles.historyActionText}>Share</Text>
+                  </TouchableOpacity>
+                  <TouchableOpacity
+                    style={styles.historyAction}
+                    onPress={() => onDeleteSession(item.updatedAt)}
+                    accessibilityLabel="Delete saved setup"
+                  >
+                    <Text style={styles.historyDeleteText}>Delete</Text>
+                  </TouchableOpacity>
+                </View>
+              </View>
+            );
+          })
         )}
+
+        {compareTarget ? (
+          <View style={styles.compareBox}>
+            <Text style={styles.compareTitle}>
+              Compare current vs{' '}
+              {compareTarget.trackName.trim() || compareTarget.dateIso || 'saved setup'}
+            </Text>
+            {compareDiffs.length === 0 ? (
+              <Text style={styles.compareSame}>No differences — current sheet matches this save.</Text>
+            ) : (
+              compareDiffs.map((diff) => (
+                <View key={String(diff.key)} style={styles.compareRow}>
+                  <Text style={styles.compareLabel}>{diff.label}</Text>
+                  <Text style={styles.compareValues}>
+                    Now: {diff.current}
+                    {'\n'}
+                    Saved: {diff.saved}
+                  </Text>
+                </View>
+              ))
+            )}
+          </View>
+        ) : null}
       </ScrollView>
     </KeyboardAvoidingView>
   );
@@ -575,6 +677,21 @@ const styles = StyleSheet.create({
     fontWeight: '700',
     color: '#f8fafc',
   },
+  shareButton: {
+    minHeight: 48,
+    borderRadius: 12,
+    backgroundColor: '#1e3a5f',
+    borderWidth: 1,
+    borderColor: '#3b82f6',
+    alignItems: 'center',
+    justifyContent: 'center',
+    paddingHorizontal: 16,
+  },
+  shareButtonText: {
+    fontSize: 16,
+    fontWeight: '700',
+    color: '#93c5fd',
+  },
   clearButton: {
     minHeight: 48,
     borderRadius: 12,
@@ -601,6 +718,12 @@ const styles = StyleSheet.create({
     fontSize: 16,
     fontWeight: '700',
     color: '#0f172a',
+  },
+  historyHint: {
+    color: '#94a3b8',
+    fontSize: 13,
+    lineHeight: 18,
+    marginBottom: 10,
   },
   emptyHistory: {
     color: '#64748b',
@@ -629,13 +752,62 @@ const styles = StyleSheet.create({
     fontSize: 12,
     marginTop: 4,
   },
-  historyDelete: {
-    paddingHorizontal: 14,
-    paddingVertical: 18,
+  historyActions: {
+    paddingRight: 8,
+    gap: 2,
+    alignItems: 'flex-end',
+  },
+  historyAction: {
+    paddingHorizontal: 8,
+    paddingVertical: 6,
+  },
+  historyActionText: {
+    color: '#93c5fd',
+    fontSize: 13,
+    fontWeight: '600',
+  },
+  historyActionActive: {
+    color: '#fbbf24',
   },
   historyDeleteText: {
     color: '#f87171',
     fontSize: 13,
     fontWeight: '600',
+  },
+  compareBox: {
+    marginTop: 8,
+    marginBottom: 12,
+    backgroundColor: '#111827',
+    borderWidth: 1,
+    borderColor: '#334155',
+    borderRadius: 12,
+    padding: 14,
+  },
+  compareTitle: {
+    color: '#f8fafc',
+    fontSize: 15,
+    fontWeight: '700',
+    marginBottom: 10,
+  },
+  compareSame: {
+    color: '#86efac',
+    fontSize: 13,
+  },
+  compareRow: {
+    marginBottom: 10,
+    paddingBottom: 10,
+    borderBottomWidth: StyleSheet.hairlineWidth,
+    borderBottomColor: '#334155',
+  },
+  compareLabel: {
+    color: '#fbbf24',
+    fontSize: 13,
+    fontWeight: '700',
+    marginBottom: 4,
+  },
+  compareValues: {
+    color: '#cbd5e1',
+    fontSize: 13,
+    lineHeight: 18,
   },
 });

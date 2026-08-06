@@ -1,0 +1,71 @@
+{
+  "id": "na-west",
+  "regionNumber": 5,
+  "displayName": "North America West",
+  "kind": "region",
+  "locales": [
+    "en-US",
+    "en-CA"
+  ],
+  "timezones": [
+    "America/Los_Angeles",
+    "America/Denver",
+    "America/Phoenix",
+    "America/Vancouver"
+  ],
+  "isoCountries": [
+    "US",
+    "CA"
+  ],
+  "adminAreas": [
+    "CA",
+    "OR",
+    "WA",
+    "NV",
+    "AZ",
+    "UT",
+    "CO",
+    "NM",
+    "ID",
+    "MT",
+    "WY",
+    "AK",
+    "HI",
+    "BC",
+    "AB",
+    "SK",
+    "MB"
+  ],
+  "status": "seed",
+  "defaultLocalLabel": "North America West",
+  "spelling": {
+    "tyre": "tire",
+    "dateFormat": "MM/DD/YYYY"
+  },
+  "contentIndex": [
+    "tracks/tracks.json",
+    "tracks/geofences.json",
+    "tracks/turn_verification.json",
+    "calendar/sources.json",
+    "calendar/static.json",
+    "headlines/sources.json",
+    "organisations/federations.json",
+    "organisations/clubs.json",
+    "organisations/coaching.json",
+    "licensing/pathways.json",
+    "competitions/classes.json",
+    "competitions/series.json",
+    "rules/rulebook.json",
+    "rules/technical_variations.json",
+    "news/sources.json",
+    "progression/pathways.json",
+    "terminology.json",
+    "suppliers.json",
+    "services.json",
+    "emergency.json",
+    "weather/sources.json",
+    "ai/prompts.json",
+    "i18n/strings.json",
+    "onboarding/areas.json"
+  ]
+}

@@ -1,0 +1,20 @@
+{
+  "pathways": [
+    {
+      "id": "za-msa-competition",
+      "title": "MSA competition licence pathway",
+      "nodeId": "za",
+      "steps": [
+        "Join an MSA-affiliated club",
+        "Obtain MSA membership (CMSA member clubs)",
+        "Apply for appropriate competition licence (Clubman / National / International)",
+        "Complete medical fitness check",
+        "Pass novice orientation / licence course"
+      ],
+      "urls": [
+        "https://www.motorsport.co.za"
+      ],
+      "confidence": "official"
+    }
+  ]
+}

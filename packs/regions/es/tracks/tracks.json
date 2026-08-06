@@ -1,0 +1,71 @@
+{
+  "version": 1,
+  "tracks": [
+    {
+      "id": "jerez",
+      "name": "Circuito de Jerez – Ángel Nieto",
+      "nodeId": "es",
+      "kind": "road_circuit",
+      "lat": 36.7083,
+      "lng": -6.0328,
+      "corners": [],
+      "isOther": false,
+      "confidence": "official"
+    },
+    {
+      "id": "catalunya",
+      "name": "Circuit de Barcelona-Catalunya",
+      "nodeId": "es",
+      "kind": "road_circuit",
+      "lat": 41.57,
+      "lng": 2.2611,
+      "corners": [],
+      "isOther": false,
+      "confidence": "official"
+    },
+    {
+      "id": "valencia-ricardo-tormo",
+      "name": "Circuit Ricardo Tormo (Valencia)",
+      "nodeId": "es",
+      "kind": "road_circuit",
+      "lat": 39.4897,
+      "lng": -0.6283,
+      "corners": [],
+      "isOther": false,
+      "confidence": "official"
+    },
+    {
+      "id": "motorland-aragon",
+      "name": "MotorLand Aragón",
+      "nodeId": "es",
+      "kind": "road_circuit",
+      "lat": 41.0783,
+      "lng": -0.2067,
+      "corners": [],
+      "isOther": false,
+      "confidence": "official"
+    },
+    {
+      "id": "navarra",
+      "name": "Circuito de Navarra",
+      "nodeId": "es",
+      "kind": "road_circuit",
+      "lat": 42.3294,
+      "lng": -1.8708,
+      "corners": [],
+      "isOther": false,
+      "confidence": "official"
+    },
+    {
+      "id": "jarama",
+      "name": "Circuito del Jarama",
+      "nodeId": "es",
+      "kind": "road_circuit",
+      "lat": 40.6172,
+      "lng": -3.5856,
+      "corners": [],
+      "isOther": false,
+      "confidence": "official"
+    }
+  ]
+}

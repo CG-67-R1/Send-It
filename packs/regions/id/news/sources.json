@@ -1,0 +1,32 @@
+{
+  "sources": [
+    {
+      "id": "oto-detik",
+      "name": "detikOto",
+      "url": "https://oto.detik.com",
+      "confidence": "established-press",
+      "nodeId": "id"
+    },
+    {
+      "id": "gridoto",
+      "name": "GridOto",
+      "url": "https://www.gridoto.com",
+      "confidence": "established-press",
+      "nodeId": "id"
+    },
+    {
+      "id": "motorsport-id",
+      "name": "Motorsport.com Indonesia",
+      "url": "https://id.motorsport.com",
+      "confidence": "established-press",
+      "nodeId": "id"
+    },
+    {
+      "id": "imi-news",
+      "name": "IMI News",
+      "url": "https://www.imi.co.id/news",
+      "confidence": "official",
+      "nodeId": "id"
+    }
+  ]
+}

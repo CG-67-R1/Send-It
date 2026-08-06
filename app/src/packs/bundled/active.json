@@ -1,0 +1,6 @@
+{
+  "packs": [
+    "au"
+  ],
+  "notes": "Release bundle selection. Hybrid deployment: only listed packs are loaded by PackLoader."
+}

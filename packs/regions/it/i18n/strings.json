@@ -1,0 +1,14 @@
+{
+  "locales": {
+    "it-IT": {
+      "localFeed": "Notizie Italia",
+      "localCalendar": "Italia",
+      "worldFeed": "Mondo"
+    },
+    "en": {
+      "localFeed": "Italy headlines",
+      "localCalendar": "Italy",
+      "worldFeed": "World"
+    }
+  }
+}

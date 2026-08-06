@@ -1,0 +1,17 @@
+{
+  "contacts": [
+    {
+      "id": "th-1669",
+      "name": "Ambulance / Emergency Medical (1669)",
+      "phone": "1669",
+      "nodeId": "th"
+    },
+    {
+      "id": "th-191",
+      "name": "\u0e15\u0e33\u0e23\u0e27\u0e08 (Police)",
+      "phone": "191",
+      "nodeId": "th"
+    }
+  ],
+  "notes": "Follow circuit medical / marshal instructions. 1669 ambulance, 191 police."
+}

@@ -1,0 +1,34 @@
+{
+  "terms": [
+    {
+      "id": "ffm",
+      "term": "FFM",
+      "definition": "F\u00e9d\u00e9ration Fran\u00e7aise de Motocyclisme",
+      "locale": "fr-FR"
+    },
+    {
+      "id": "fsbk",
+      "term": "FSBK",
+      "definition": "French Superbike Championship \u2014 championnat de France superbike",
+      "locale": "fr-FR"
+    },
+    {
+      "id": "virage",
+      "term": "Virage",
+      "definition": "Corner / turn",
+      "locale": "fr-FR"
+    },
+    {
+      "id": "pneu",
+      "term": "Pneu",
+      "definition": "Tyre / tyre (French term)",
+      "locale": "fr-FR"
+    },
+    {
+      "id": "bol-dor",
+      "term": "Bol d'Or",
+      "definition": "Iconic French 24-hour endurance race at Paul Ricard",
+      "locale": "fr-FR"
+    }
+  ]
+}

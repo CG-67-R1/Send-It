@@ -1,0 +1,27 @@
+{
+  "areas": [
+    {
+      "code": "ES",
+      "nodeId": "es",
+      "name": "Spain",
+      "clubs": [
+        {
+          "name": "RFME-affiliated clubs",
+          "location": "Spain",
+          "website": "https://www.rfme.com"
+        }
+      ],
+      "classes": [
+        "ESBK Superbike / Supersport",
+        "Territorial championships",
+        "Track days"
+      ],
+      "coaches": [
+        {
+          "name": "Circuit rider schools",
+          "description": "Many Spanish GP circuits host escuela / track-day coaching programmes."
+        }
+      ]
+    }
+  ]
+}

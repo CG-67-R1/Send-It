@@ -1,0 +1,18 @@
+{
+  "pathways": [
+    {
+      "id": "au-ma-club",
+      "title": "MA club licence pathway",
+      "nodeId": "au",
+      "steps": [
+        "Join an MA-affiliated club",
+        "Obtain appropriate MA competition licence for road race",
+        "Meet medical and protective equipment requirements (MoMS)"
+      ],
+      "urls": [
+        "https://www.ma.org.au/licences-rules/"
+      ],
+      "confidence": "official"
+    }
+  ]
+}

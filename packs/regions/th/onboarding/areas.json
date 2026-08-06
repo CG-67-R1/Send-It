@@ -1,0 +1,27 @@
+{
+  "areas": [
+    {
+      "code": "TH",
+      "nodeId": "th",
+      "name": "Thailand",
+      "clubs": [
+        {
+          "name": "FMSCT-affiliated road racing clubs",
+          "location": "Thailand",
+          "website": "https://www.fmsct.or.th"
+        }
+      ],
+      "classes": [
+        "Superbike",
+        "Supersport",
+        "Underbone 150cc"
+      ],
+      "coaches": [
+        {
+          "name": "Chang International Circuit coaching",
+          "description": "Track day and rider development programmes at Chang International Circuit, Buriram."
+        }
+      ]
+    }
+  ]
+}

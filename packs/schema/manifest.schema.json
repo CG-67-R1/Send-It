@@ -1,0 +1,52 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://roadracer.ai/schemas/pack-manifest.json",
+  "title": "RegionalPackManifest",
+  "type": "object",
+  "required": ["id", "displayName", "status", "contentIndex"],
+  "additionalProperties": false,
+  "properties": {
+    "id": { "type": "string", "pattern": "^[a-z0-9-]+$" },
+    "regionNumber": { "type": ["integer", "null"] },
+    "displayName": { "type": "string", "minLength": 1 },
+    "kind": {
+      "type": "string",
+      "enum": ["region", "country", "subdivision", "coverage_area"]
+    },
+    "locales": {
+      "type": "array",
+      "items": { "type": "string" }
+    },
+    "timezones": {
+      "type": "array",
+      "items": { "type": "string" }
+    },
+    "isoCountries": {
+      "type": "array",
+      "items": { "type": "string", "pattern": "^[A-Z]{2}$" }
+    },
+    "adminAreas": {
+      "type": "array",
+      "items": { "type": "string" }
+    },
+    "status": {
+      "type": "string",
+      "enum": ["active", "seed", "scaffold"]
+    },
+    "defaultLocalLabel": { "type": "string" },
+    "spelling": {
+      "type": "object",
+      "properties": {
+        "tyre": { "type": "string", "enum": ["tyre", "tire"] },
+        "dateFormat": { "type": "string" }
+      },
+      "additionalProperties": true
+    },
+    "contentIndex": {
+      "type": "array",
+      "items": { "type": "string" },
+      "description": "Relative paths of content files present in this pack"
+    },
+    "notes": { "type": "string" }
+  }
+}

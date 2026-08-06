@@ -1,0 +1,26 @@
+{
+  "meta": {
+    "timezone": "Asia/Jakarta",
+    "event_scope": {
+      "discipline": "road_race"
+    }
+  },
+  "sources": [
+    {
+      "id": "imi-calendar",
+      "name": "IMI Calendar",
+      "type": "governing_body_calendar",
+      "url": "https://www.imi.co.id",
+      "nodeId": "id",
+      "confidence": "official"
+    },
+    {
+      "id": "mandalika-events",
+      "name": "Mandalika Circuit Events",
+      "type": "venue_calendar",
+      "url": "https://www.mxgpmandalika.com",
+      "nodeId": "id",
+      "confidence": "established-press"
+    }
+  ]
+}

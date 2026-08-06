@@ -1,0 +1,11 @@
+{
+  "governingBody": "American Motorcyclist Association / MotoAmerica",
+  "shortName": "AMA",
+  "edition": null,
+  "urls": {
+    "sourcePage": "https://www.americanmotorcyclist.com/racing/road-racing",
+    "motoamerica": "https://www.motoamerica.com/racing/regulations"
+  },
+  "chapters": {},
+  "note": "Seed: link-out to AMA/MotoAmerica technical regulations. In-app KB not yet ingested."
+}

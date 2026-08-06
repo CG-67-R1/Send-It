@@ -1,0 +1,22 @@
+{
+  "items": [
+    {
+      "id": "mfj",
+      "name": "Motorcycle Federation of Japan (MFJ) \u2014 \u65e5\u672c\u30e2\u30fc\u30bf\u30fc\u30b5\u30a4\u30af\u30eb\u30b9\u30dd\u30fc\u30c4\u5354\u4f1a",
+      "role": "federation",
+      "nodeId": "jp",
+      "website": "https://www.mfj.or.jp",
+      "confidence": "official",
+      "notes": "FIM affiliate; governs all motorcycle sport in Japan including road racing (JSB1000, ST1000, J-GP series)."
+    },
+    {
+      "id": "jar",
+      "name": "Japan Auto Racing",
+      "role": "promoter",
+      "nodeId": "jp",
+      "website": "https://www.jar.co.jp",
+      "confidence": "established-press",
+      "notes": "Promotes Suzuka and Motegi domestic events."
+    }
+  ]
+}

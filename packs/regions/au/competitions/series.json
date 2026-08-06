@@ -1,0 +1,36 @@
+{
+  "series": [
+    {
+      "id": "asbk",
+      "name": "mi-bike Australian Superbike Championship",
+      "nodeId": "au",
+      "local": true,
+      "confidence": "official",
+      "website": "https://www.asbk.com.au"
+    },
+    {
+      "id": "au_club",
+      "name": "Australian club road racing",
+      "nodeId": "au",
+      "local": true
+    },
+    {
+      "id": "au_national",
+      "name": "Australian national road racing",
+      "nodeId": "au",
+      "local": true
+    },
+    {
+      "id": "au_track_day",
+      "name": "Australian track / ride days",
+      "nodeId": "au",
+      "local": true
+    },
+    {
+      "id": "australia",
+      "name": "Australia (legacy calendar key)",
+      "nodeId": "au",
+      "local": true
+    }
+  ]
+}

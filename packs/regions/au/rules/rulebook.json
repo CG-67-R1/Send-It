@@ -1,0 +1,83 @@
+{
+  "governingBody": "Motorcycling Australia",
+  "shortName": "MoMS",
+  "edition": "2026",
+  "sourcePage": "https://www.ma.org.au/licences-rules/rules/general-competition-rules/",
+  "fullPdfUrl": "https://drive.google.com/file/d/1Gz-T_HGwlGmNXAv9k3MtjVjAAoAi599i/view?usp=sharing",
+  "verifiedAt": "2026-07-20",
+  "note": "Chapter PDF links from MA GCR page. Re-verify when MA updates MoMS (usually early each year).",
+  "urls": {
+    "fullPdf": "https://drive.google.com/file/d/1Gz-T_HGwlGmNXAv9k3MtjVjAAoAi599i/view?usp=sharing",
+    "sourcePage": "https://www.ma.org.au/licences-rules/rules/general-competition-rules/"
+  },
+  "chapters": {
+    "1": {
+      "title": "Chapter 1 – Jurisdiction",
+      "url": "https://drive.google.com/file/d/19yQv53p7t3IC_xJNMI3OOy4wOdZgAYSa/view?usp=sharing"
+    },
+    "2": {
+      "title": "Chapter 2 – Administration",
+      "url": "https://drive.google.com/file/d/19yQv53p7t3IC_xJNMI3OOy4wOdZgAYSa/view?usp=sharing"
+    },
+    "3": {
+      "title": "Chapter 3 – Events",
+      "url": "https://drive.google.com/file/d/19yQv53p7t3IC_xJNMI3OOy4wOdZgAYSa/view?usp=sharing"
+    },
+    "4": {
+      "title": "Chapter 4 – Alternative Forms of Events",
+      "url": "https://drive.google.com/file/d/19yQv53p7t3IC_xJNMI3OOy4wOdZgAYSa/view?usp=sharing"
+    },
+    "5": {
+      "title": "Chapter 5 – Offenses, Protests and Appeals",
+      "url": "https://drive.google.com/file/d/19yQv53p7t3IC_xJNMI3OOy4wOdZgAYSa/view?usp=sharing"
+    },
+    "6": {
+      "title": "Chapter 6 – Road Race",
+      "url": "https://drive.google.com/file/d/1rETVhSsyYlW0TMh1Rr8fMQfDkn1feZjM/view?usp=sharing"
+    },
+    "7": {
+      "title": "Chapter 7 – Historic Road Race",
+      "url": "https://drive.google.com/file/d/1mSmphwfKy0LI3QRJ0HJqZOoUOc-MIDo8/view?usp=sharing"
+    },
+    "8": {
+      "title": "Chapter 8 – Motocross & Supercross",
+      "url": "https://drive.google.com/file/d/14ZRDWpAayytIGE7dS5aMx7MRYeumuouY/view?usp=sharing"
+    },
+    "9": {
+      "title": "Chapter 9 – Classic Motocross & Classic Dirt Track",
+      "url": "https://drive.google.com/file/d/1WuD_Pej_Mr3huGlZzVNNZg6BsNJTXnmL/view?usp=sharing"
+    },
+    "10": {
+      "title": "Chapter 10 – Enduro & Reliability Trials",
+      "url": "https://drive.google.com/file/d/1Mo_8psckYH25QRrEhxxV3kOkU08pSv4O/view?usp=sharing"
+    },
+    "11": {
+      "title": "Chapter 11 – ATV",
+      "url": "https://drive.google.com/file/d/1sdK6ZpzXiV-I4kmMgHUFN_4jPRNVvaNZ/view?usp=sharing"
+    },
+    "12": {
+      "title": "Chapter 12 – Speedway",
+      "url": "https://drive.google.com/file/d/19iQVmI5H7ucrTEJmxfiwiLf6Z1dDXAVl/view?usp=sharing"
+    },
+    "13": {
+      "title": "Chapter 13 – Dirt Track & Track",
+      "url": "https://drive.google.com/file/d/1eel5yzORRlEOQJrPA_EmI0dzweXu5yZD/view?usp=sharing"
+    },
+    "14": {
+      "title": "Chapter 14 – Supermoto",
+      "url": "https://drive.google.com/file/d/1r629S0o05NjdDQc0qMlgQjpYEFRZGuQg/view?usp=sharing"
+    },
+    "15": {
+      "title": "Chapter 15 – Trial",
+      "url": "https://drive.google.com/file/d/1AjuY6bcj7A6Nxx3c5zqqcCIRKczR2CbK/view?usp=sharing"
+    },
+    "16": {
+      "title": "Chapter 16 – Minikhana",
+      "url": "https://drive.google.com/file/d/1FHw5wWqR8YmVlwA8UYc178jWty605pjW/view?usp=sharing"
+    },
+    "17": {
+      "title": "Chapter 17 – Appendix A B C",
+      "url": "https://drive.google.com/file/d/1Psr26lxIR9MWV7nmLgm75R0j-7HgYf7v/view?usp=sharing"
+    }
+  }
+}

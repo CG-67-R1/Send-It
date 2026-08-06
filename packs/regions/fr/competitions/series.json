@@ -1,0 +1,47 @@
+{
+  "series": [
+    {
+      "id": "fim-ewr",
+      "name": "FIM Endurance World Championship (EWR)",
+      "nodeId": "fr",
+      "local": false,
+      "website": "https://www.fimewc.com",
+      "confidence": "official",
+      "notes": "France is the historic heartland of FIM endurance racing; 24 Heures Motos at Le Mans and Bol d'Or at Paul Ricard."
+    },
+    {
+      "id": "bol-dor",
+      "name": "Bol d'Or (FIM EWR)",
+      "nodeId": "fr",
+      "local": false,
+      "website": "https://www.boldor.com",
+      "confidence": "official"
+    },
+    {
+      "id": "24h-motos",
+      "name": "24 Heures Motos (FIM EWR)",
+      "nodeId": "fr",
+      "local": false,
+      "website": "https://www.24h-moto.com",
+      "confidence": "official"
+    },
+    {
+      "id": "ffm-superbike",
+      "name": "Championnat de France Superbike (FSBK)",
+      "nodeId": "fr",
+      "local": true,
+      "website": "https://www.ffmoto.org",
+      "confidence": "official",
+      "notes": "Premier French domestic superbike championship."
+    },
+    {
+      "id": "ffm-prelude",
+      "name": "Pr\u00e9lude de France Moto (Club National)",
+      "nodeId": "fr",
+      "local": true,
+      "website": "https://www.ffmoto.org",
+      "confidence": "official",
+      "notes": "FFM national club road racing series."
+    }
+  ]
+}

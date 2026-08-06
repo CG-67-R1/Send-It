@@ -1,0 +1,49 @@
+{
+  "id": "th",
+  "regionNumber": 9,
+  "displayName": "Thailand",
+  "kind": "region",
+  "locales": [
+    "th-TH",
+    "en"
+  ],
+  "timezones": [
+    "Asia/Bangkok"
+  ],
+  "isoCountries": [
+    "TH"
+  ],
+  "adminAreas": [],
+  "status": "seed",
+  "defaultLocalLabel": "\u0e1b\u0e23\u0e30\u0e40\u0e17\u0e28\u0e44\u0e17\u0e22",
+  "spelling": {
+    "tyre": "tyre",
+    "dateFormat": "DD/MM/YYYY"
+  },
+  "contentIndex": [
+    "tracks/tracks.json",
+    "tracks/geofences.json",
+    "tracks/turn_verification.json",
+    "calendar/sources.json",
+    "calendar/static.json",
+    "headlines/sources.json",
+    "organisations/federations.json",
+    "organisations/clubs.json",
+    "organisations/coaching.json",
+    "licensing/pathways.json",
+    "competitions/classes.json",
+    "competitions/series.json",
+    "rules/rulebook.json",
+    "rules/technical_variations.json",
+    "news/sources.json",
+    "progression/pathways.json",
+    "terminology.json",
+    "suppliers.json",
+    "services.json",
+    "emergency.json",
+    "weather/sources.json",
+    "ai/prompts.json",
+    "i18n/strings.json",
+    "onboarding/areas.json"
+  ]
+}

@@ -1,0 +1,38 @@
+{
+  "items": [
+    {
+      "id": "acu",
+      "name": "Auto-Cycle Union (ACU)",
+      "role": "federation",
+      "nodeId": "uk-england",
+      "website": "https://www.acu.org.uk",
+      "confidence": "official",
+      "notes": "Primary GB governing body for many motorcycle disciplines including road race."
+    },
+    {
+      "id": "sacu",
+      "name": "Scottish Auto-Cycle Union (SACU)",
+      "role": "federation",
+      "nodeId": "uk-scotland",
+      "website": "https://www.sacu.co.uk",
+      "confidence": "official"
+    },
+    {
+      "id": "mcui",
+      "name": "Motor Cycle Union of Ireland (MCUI)",
+      "role": "federation",
+      "nodeId": "uk-northern-ireland",
+      "website": "https://www.mcui-uc.org.uk",
+      "confidence": "official",
+      "notes": "Covers Northern Ireland road racing context; verify current affiliation pathways."
+    },
+    {
+      "id": "acu-wales",
+      "name": "ACU Cymru / Wales centres",
+      "role": "state_provincial",
+      "nodeId": "uk-wales",
+      "website": "https://www.acu.org.uk",
+      "confidence": "community"
+    }
+  ]
+}

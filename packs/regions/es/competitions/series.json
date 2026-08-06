@@ -1,0 +1,19 @@
+{
+  "series": [
+    {
+      "id": "esbk",
+      "name": "Campeonato de España de Superbike (ESBK)",
+      "nodeId": "es",
+      "local": true,
+      "website": "https://www.rfme.com",
+      "confidence": "official"
+    },
+    {
+      "id": "es_club",
+      "name": "Spanish club / territorial road racing",
+      "nodeId": "es",
+      "local": true,
+      "confidence": "community"
+    }
+  ]
+}

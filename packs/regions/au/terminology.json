@@ -1,0 +1,22 @@
+{
+  "terms": [
+    {
+      "id": "moms",
+      "term": "MoMS",
+      "definition": "Manual of Motorcycle Sport (MA rule book)",
+      "locale": "en-AU"
+    },
+    {
+      "id": "asbk",
+      "term": "ASBK",
+      "definition": "Australian Superbike Championship",
+      "locale": "en-AU"
+    },
+    {
+      "id": "ride-day",
+      "term": "ride day",
+      "definition": "Organised track day / practice day",
+      "locale": "en-AU"
+    }
+  ]
+}

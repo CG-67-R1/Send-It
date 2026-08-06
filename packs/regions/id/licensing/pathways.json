@@ -1,0 +1,20 @@
+{
+  "pathways": [
+    {
+      "id": "id-imi-competition",
+      "title": "IMI competition licence pathway",
+      "nodeId": "id",
+      "steps": [
+        "Register with an IMI-affiliated club",
+        "Obtain IMI membership",
+        "Apply for the appropriate competition licence (Pemula / Nasional / Internasional)",
+        "Complete medical check requirements",
+        "Pass rider licence course"
+      ],
+      "urls": [
+        "https://www.imi.co.id"
+      ],
+      "confidence": "official"
+    }
+  ]
+}

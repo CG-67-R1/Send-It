@@ -1,0 +1,19 @@
+{
+  "locales": {
+    "en-US": {
+      "localFeed": "North America East headlines",
+      "localCalendar": "Eastern North America",
+      "worldFeed": "World"
+    },
+    "en-CA": {
+      "localFeed": "Eastern Canada headlines",
+      "localCalendar": "Eastern Canada",
+      "worldFeed": "World"
+    },
+    "fr-CA": {
+      "localFeed": "Actualités moto Est Canada",
+      "localCalendar": "Est du Canada",
+      "worldFeed": "Monde"
+    }
+  }
+}

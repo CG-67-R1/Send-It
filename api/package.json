@@ -15,7 +15,12 @@
     "refresh-au-calendar": "node scripts/refreshAuCalendar.js",
     "health-check": "node ../scripts/health-check.mjs",
     "test-moms-rules": "node scripts/testMomsRulesRetrieval.mjs",
-    "build-rider-ai-knowledge": "node ../scripts/build-rider-ai-knowledge.mjs"
+    "build-rider-ai-knowledge": "node ../scripts/build-rider-ai-knowledge.mjs",
+    "validate-packs": "node ../scripts/validate-packs.mjs",
+    "bootstrap-packs": "node ../scripts/bootstrap-region-packs.mjs",
+    "migrate-au-pack": "node ../scripts/migrate-au-pack.mjs",
+    "seed-pilot-packs": "node ../scripts/seed-pilot-packs.mjs",
+    "sync-app-packs": "node ../scripts/sync-app-packs.mjs"
   },
   "dependencies": {
     "cheerio": "^1.0.0",
@@ -23,6 +28,7 @@
     "dotenv": "^17.4.2",
     "express": "^4.21.0",
     "express-rate-limit": "^8.5.2",
+    "helmet": "^8.3.0",
     "node-fetch": "^3.3.2",
     "openai": "^6.24.0",
     "pdf-parse": "^1.1.1",

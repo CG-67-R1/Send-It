@@ -1,0 +1,18 @@
+{
+  "sources": [
+    {
+      "id": "amcn",
+      "name": "AMCN",
+      "url": "https://amcn.com.au",
+      "confidence": "established-press",
+      "nodeId": "au"
+    },
+    {
+      "id": "asbk-news",
+      "name": "ASBK News",
+      "url": "https://www.asbk.com.au",
+      "confidence": "official",
+      "nodeId": "au"
+    }
+  ]
+}

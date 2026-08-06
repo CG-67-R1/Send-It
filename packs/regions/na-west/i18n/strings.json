@@ -1,0 +1,14 @@
+{
+  "locales": {
+    "en-US": {
+      "localFeed": "North America West headlines",
+      "localCalendar": "Western North America",
+      "worldFeed": "World"
+    },
+    "en-CA": {
+      "localFeed": "Western Canada headlines",
+      "localCalendar": "Western Canada",
+      "worldFeed": "World"
+    }
+  }
+}

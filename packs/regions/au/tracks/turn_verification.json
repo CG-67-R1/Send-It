@@ -1,0 +1,120 @@
+{
+  "version": 1,
+  "policy": "left|right only when rider- or official-map-verified. GPX bearing alone must never set turn hand. Prefer complex over a wrong hand.",
+  "updated": "2026-07-19",
+  "forceAllComplex": [
+    "the_bend_gt",
+    "smp_brabham",
+    "smp_druitt",
+    "sandown",
+    "winton",
+    "calder_park",
+    "hidden_valley",
+    "baskerville"
+  ],
+  "trackDirection": {
+    "smp_gardner": "anticlockwise",
+    "smp_brabham": "anticlockwise",
+    "smp_druitt": "anticlockwise"
+  },
+  "lengthKm": {
+    "the_bend_gt": "7.77 km",
+    "the_bend_international": "4.95 km"
+  },
+  "verifiedHands": {
+    "phillip_island": {
+      "1": "left",
+      "2": "left",
+      "3": "left",
+      "4": "right",
+      "5": "left",
+      "6": "right",
+      "7": "left",
+      "8": "left",
+      "9": "right",
+      "10": "left",
+      "11": "left"
+    },
+    "mallala": {
+      "2": "left",
+      "6": "left",
+      "7": "right"
+    },
+    "mac_park": {
+      "2": "left",
+      "3": "right",
+      "4": "left",
+      "5": "right",
+      "7": "left",
+      "8": "right",
+      "10": "left",
+      "11": "right",
+      "12": "left"
+    },
+    "morgan_park": {
+      "3": "left",
+      "4": "right",
+      "5": "left",
+      "6": "right",
+      "7": "left",
+      "10": "right"
+    },
+    "wakefield_park": {
+      "1": "left",
+      "2": "right",
+      "3": "left",
+      "4": "left",
+      "5": "right",
+      "8": "left",
+      "9": "right",
+      "10": "left"
+    },
+    "wanneroo": {
+      "1": "right",
+      "3": "left",
+      "5": "right",
+      "7": "left",
+      "8": "right"
+    },
+    "the_bend_international": {
+      "1": "right",
+      "2": "left",
+      "3": "right",
+      "6": "left",
+      "11": "right",
+      "12": "left",
+      "13": "right",
+      "14": "right",
+      "17": "right",
+      "18": "left"
+    },
+    "smp_gardner": {
+      "1": "left",
+      "2": "left",
+      "3": "right",
+      "4": "right",
+      "5": "left",
+      "6": "left",
+      "7": "right",
+      "8": "right",
+      "9": "right",
+      "10": "left",
+      "11": "left"
+    },
+    "queensland_raceway": {
+      "1": "right",
+      "2": "left",
+      "5": "right",
+      "6": "right"
+    },
+    "broadford": {
+      "1": "left",
+      "5": "right",
+      "10": "right",
+      "12": "left"
+    },
+    "mount_panorama": {
+      "1": "right"
+    }
+  }
+}

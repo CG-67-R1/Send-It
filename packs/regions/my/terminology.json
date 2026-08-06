@@ -1,0 +1,16 @@
+{
+  "terms": [
+    {
+      "id": "mam",
+      "term": "MAM",
+      "definition": "Motorsports Association of Malaysia",
+      "locale": "ms-MY"
+    },
+    {
+      "id": "mrrc",
+      "term": "MRRC",
+      "definition": "Malaysian Road Racing Championship",
+      "locale": "ms-MY"
+    }
+  ]
+}

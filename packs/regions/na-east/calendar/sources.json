@@ -1,0 +1,32 @@
+{
+  "meta": {
+    "timezone": "America/New_York",
+    "event_scope": { "discipline": "road_race" }
+  },
+  "sources": [
+    {
+      "id": "motoamerica-calendar",
+      "name": "MotoAmerica Schedule",
+      "type": "series_calendar",
+      "url": "https://www.motoamerica.com/schedule",
+      "nodeId": "na-east",
+      "confidence": "official"
+    },
+    {
+      "id": "csbk-calendar",
+      "name": "CSBK Schedule",
+      "type": "series_calendar",
+      "url": "https://csbk.ca/schedule",
+      "nodeId": "na-east-eastern-canada",
+      "confidence": "official"
+    },
+    {
+      "id": "wera-calendar",
+      "name": "WERA Event Calendar",
+      "type": "series_calendar",
+      "url": "https://www.wera.com/calendar",
+      "nodeId": "na-east",
+      "confidence": "official"
+    }
+  ]
+}

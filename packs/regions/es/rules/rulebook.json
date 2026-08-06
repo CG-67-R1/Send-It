@@ -1,0 +1,9 @@
+{
+  "governingBody": "RFME",
+  "shortName": "RFME",
+  "urls": {
+    "sourcePage": "https://www.rfme.com"
+  },
+  "chapters": {},
+  "note": "Seed: link-out; in-app rules KB not ingested."
+}

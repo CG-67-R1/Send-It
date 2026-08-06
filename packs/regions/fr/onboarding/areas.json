@@ -1,0 +1,27 @@
+{
+  "areas": [
+    {
+      "code": "FR",
+      "nodeId": "fr",
+      "name": "France",
+      "clubs": [
+        {
+          "name": "Clubs affili\u00e9s FFM",
+          "location": "France",
+          "website": "https://www.ffmoto.org"
+        }
+      ],
+      "classes": [
+        "FSBK Superbike",
+        "Supersport",
+        "Endurance EWR"
+      ],
+      "coaches": [
+        {
+          "name": "\u00c9coles de pilotage / track day providers",
+          "description": "Le Mans, Magny-Cours, Paul Ricard, et L\u00e9denon proposent des stages et track days encadr\u00e9s."
+        }
+      ]
+    }
+  ]
+}

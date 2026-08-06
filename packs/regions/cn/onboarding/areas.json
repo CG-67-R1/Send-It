@@ -1,0 +1,27 @@
+{
+  "areas": [
+    {
+      "code": "CN",
+      "nodeId": "cn",
+      "name": "China",
+      "clubs": [
+        {
+          "name": "FMS/CAMS-affiliated road racing clubs",
+          "location": "China",
+          "website": "https://www.cams.net.cn"
+        }
+      ],
+      "classes": [
+        "China Superbike (CSC)",
+        "Supersport",
+        "Superstock 1000"
+      ],
+      "coaches": [
+        {
+          "name": "Chengdu / Shanghai / Zhuhai track day providers",
+          "description": "Major circuits offer track day and coaching programmes."
+        }
+      ]
+    }
+  ]
+}

@@ -1,7 +1,19 @@
 {
-  "version": 1,
-  "policy": "left|right only when rider- or official-map-verified. GPX bearing alone must never set turn hand. Prefer complex over a wrong hand.",
-  "updated": "2026-07-19",
+  "version": 2,
+  "policy": "left|right only with handSources evidence. Prefer complex over a wrong hand. Never set turn hand from GPX bearings or from circuit clockwise/anticlockwise alone.",
+  "updated": "2026-08-06",
+  "allowedSourceMethods": [
+    "rider",
+    "official_map",
+    "authoritative_preview",
+    "legacy_lock"
+  ],
+  "bannedSourceMethods": [
+    "gpx_bearing",
+    "ccw_inference",
+    "clockwise_inference",
+    "kb_extract_alone"
+  ],
   "forceAllComplex": [
     "the_bend_gt",
     "smp_brabham",
@@ -13,6 +25,7 @@
     "baskerville"
   ],
   "trackDirection": {
+    "phillip_island": "anticlockwise",
     "smp_gardner": "anticlockwise",
     "smp_brabham": "anticlockwise",
     "smp_druitt": "anticlockwise"
@@ -23,17 +36,12 @@
   },
   "verifiedHands": {
     "phillip_island": {
-      "1": "left",
+      "1": "right",
       "2": "left",
       "3": "left",
       "4": "right",
       "5": "left",
-      "6": "right",
-      "7": "left",
-      "8": "left",
-      "9": "right",
-      "10": "left",
-      "11": "left"
+      "9": "right"
     },
     "mallala": {
       "2": "left",
@@ -115,6 +123,121 @@
     },
     "mount_panorama": {
       "1": "right"
+    }
+  },
+  "handSources": {
+    "phillip_island": {
+      "1": {
+        "hand": "right",
+        "method": "authoritative_preview",
+        "note": "Doohan Corner — MotoGP/Honda previews + rider report 2026-08. Must never be left from anticlockwise inference. Southern Loop is T2, not T1."
+      },
+      "2": {
+        "hand": "left",
+        "method": "authoritative_preview",
+        "note": "Southern Loop — first major left after Doohan."
+      },
+      "3": {
+        "hand": "left",
+        "method": "authoritative_preview",
+        "note": "Stoner Corner — sweeping left before Miller."
+      },
+      "4": {
+        "hand": "right",
+        "method": "authoritative_preview",
+        "note": "Miller / Honda hairpin — right-hander."
+      },
+      "5": {
+        "hand": "left",
+        "method": "authoritative_preview",
+        "note": "Siberia — left-hander."
+      },
+      "9": {
+        "hand": "right",
+        "method": "authoritative_preview",
+        "note": "MG Hairpin — downhill right. T6–T8/T10–T11 left complex until rider lock."
+      }
+    },
+    "mallala": {
+      "2": { "hand": "left", "method": "legacy_lock" },
+      "6": { "hand": "left", "method": "legacy_lock" },
+      "7": { "hand": "right", "method": "legacy_lock" }
+    },
+    "mac_park": {
+      "2": { "hand": "left", "method": "legacy_lock" },
+      "3": { "hand": "right", "method": "legacy_lock" },
+      "4": { "hand": "left", "method": "legacy_lock" },
+      "5": { "hand": "right", "method": "legacy_lock" },
+      "7": { "hand": "left", "method": "legacy_lock" },
+      "8": { "hand": "right", "method": "legacy_lock" },
+      "10": { "hand": "left", "method": "legacy_lock" },
+      "11": { "hand": "right", "method": "legacy_lock" },
+      "12": { "hand": "left", "method": "legacy_lock" }
+    },
+    "morgan_park": {
+      "3": { "hand": "left", "method": "legacy_lock" },
+      "4": { "hand": "right", "method": "legacy_lock" },
+      "5": { "hand": "left", "method": "legacy_lock" },
+      "6": { "hand": "right", "method": "legacy_lock" },
+      "7": { "hand": "left", "method": "legacy_lock" },
+      "10": { "hand": "right", "method": "legacy_lock" }
+    },
+    "wakefield_park": {
+      "1": { "hand": "left", "method": "legacy_lock" },
+      "2": { "hand": "right", "method": "legacy_lock" },
+      "3": { "hand": "left", "method": "legacy_lock" },
+      "4": { "hand": "left", "method": "legacy_lock" },
+      "5": { "hand": "right", "method": "legacy_lock" },
+      "8": { "hand": "left", "method": "legacy_lock" },
+      "9": { "hand": "right", "method": "legacy_lock" },
+      "10": { "hand": "left", "method": "legacy_lock" }
+    },
+    "wanneroo": {
+      "1": { "hand": "right", "method": "legacy_lock" },
+      "3": { "hand": "left", "method": "legacy_lock" },
+      "5": { "hand": "right", "method": "legacy_lock" },
+      "7": { "hand": "left", "method": "legacy_lock" },
+      "8": { "hand": "right", "method": "legacy_lock" }
+    },
+    "the_bend_international": {
+      "1": { "hand": "right", "method": "legacy_lock" },
+      "2": { "hand": "left", "method": "legacy_lock" },
+      "3": { "hand": "right", "method": "legacy_lock" },
+      "6": { "hand": "left", "method": "legacy_lock" },
+      "11": { "hand": "right", "method": "legacy_lock" },
+      "12": { "hand": "left", "method": "legacy_lock" },
+      "13": { "hand": "right", "method": "legacy_lock" },
+      "14": { "hand": "right", "method": "legacy_lock" },
+      "17": { "hand": "right", "method": "legacy_lock" },
+      "18": { "hand": "left", "method": "legacy_lock" }
+    },
+    "smp_gardner": {
+      "1": { "hand": "left", "method": "legacy_lock" },
+      "2": { "hand": "left", "method": "legacy_lock" },
+      "3": { "hand": "right", "method": "legacy_lock" },
+      "4": { "hand": "right", "method": "legacy_lock" },
+      "5": { "hand": "left", "method": "legacy_lock" },
+      "6": { "hand": "left", "method": "legacy_lock" },
+      "7": { "hand": "right", "method": "legacy_lock" },
+      "8": { "hand": "right", "method": "legacy_lock" },
+      "9": { "hand": "right", "method": "legacy_lock" },
+      "10": { "hand": "left", "method": "legacy_lock" },
+      "11": { "hand": "left", "method": "legacy_lock" }
+    },
+    "queensland_raceway": {
+      "1": { "hand": "right", "method": "legacy_lock" },
+      "2": { "hand": "left", "method": "legacy_lock" },
+      "5": { "hand": "right", "method": "legacy_lock" },
+      "6": { "hand": "right", "method": "legacy_lock" }
+    },
+    "broadford": {
+      "1": { "hand": "left", "method": "legacy_lock" },
+      "5": { "hand": "right", "method": "legacy_lock" },
+      "10": { "hand": "right", "method": "legacy_lock" },
+      "12": { "hand": "left", "method": "legacy_lock" }
+    },
+    "mount_panorama": {
+      "1": { "hand": "right", "method": "legacy_lock", "note": "Hell Corner" }
     }
   }
 }

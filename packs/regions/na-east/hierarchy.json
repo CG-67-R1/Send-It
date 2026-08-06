@@ -1,0 +1,76 @@
+{
+  "packId": "na-east",
+  "nodes": [
+    {
+      "id": "na-east",
+      "parentId": null,
+      "kind": "region",
+      "displayName": "North America East",
+      "locales": [
+        "en-US",
+        "en-CA",
+        "fr-CA"
+      ],
+      "timezones": [
+        "America/New_York",
+        "America/Toronto",
+        "America/Chicago"
+      ],
+      "isoCountries": [
+        "US",
+        "CA"
+      ],
+      "status": "seed"
+    },
+    {
+      "id": "na-east-northeast-us",
+      "parentId": "na-east",
+      "kind": "coverage_area",
+      "displayName": "Northeast United States",
+      "locales": [
+        "en-US"
+      ],
+      "timezones": [
+        "America/New_York"
+      ],
+      "isoCountries": [
+        "US"
+      ],
+      "status": "seed"
+    },
+    {
+      "id": "na-east-southeast-us",
+      "parentId": "na-east",
+      "kind": "coverage_area",
+      "displayName": "Southeast United States",
+      "locales": [
+        "en-US"
+      ],
+      "timezones": [
+        "America/New_York",
+        "America/Chicago"
+      ],
+      "isoCountries": [
+        "US"
+      ],
+      "status": "seed"
+    },
+    {
+      "id": "na-east-eastern-canada",
+      "parentId": "na-east",
+      "kind": "coverage_area",
+      "displayName": "Eastern Canada",
+      "locales": [
+        "en-CA",
+        "fr-CA"
+      ],
+      "timezones": [
+        "America/Toronto"
+      ],
+      "isoCountries": [
+        "CA"
+      ],
+      "status": "seed"
+    }
+  ]
+}

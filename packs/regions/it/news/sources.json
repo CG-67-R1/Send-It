@@ -1,0 +1,25 @@
+{
+  "sources": [
+    {
+      "id": "fmi-news",
+      "name": "FMI",
+      "url": "https://www.federmoto.it",
+      "confidence": "official",
+      "nodeId": "it"
+    },
+    {
+      "id": "gpone-web",
+      "name": "GPone",
+      "url": "https://www.gpone.com",
+      "confidence": "established-press",
+      "nodeId": "it"
+    },
+    {
+      "id": "civ-news",
+      "name": "CIV",
+      "url": "https://www.civ.tv",
+      "confidence": "official",
+      "nodeId": "it"
+    }
+  ]
+}

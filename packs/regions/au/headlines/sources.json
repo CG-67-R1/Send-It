@@ -1,0 +1,30 @@
+{
+  "sourceIds": [
+    "ma_roadrace",
+    "asbk",
+    "amcn_asbk"
+  ],
+  "sources": [
+    {
+      "id": "ma_roadrace",
+      "name": "Motorcycling Australia (Road Race)",
+      "type": "scraper",
+      "confidence": "official",
+      "nodeId": "au"
+    },
+    {
+      "id": "asbk",
+      "name": "ASBK",
+      "type": "scraper",
+      "confidence": "official",
+      "nodeId": "au"
+    },
+    {
+      "id": "amcn_asbk",
+      "name": "AMCN ASBK",
+      "type": "scraper",
+      "confidence": "established-press",
+      "nodeId": "au"
+    }
+  ]
+}

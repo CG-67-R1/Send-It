@@ -1,0 +1,29 @@
+{
+  "classes": [
+    {
+      "id": "superbike",
+      "name": "Superbike",
+      "nodeId": "fr"
+    },
+    {
+      "id": "supersport",
+      "name": "Supersport",
+      "nodeId": "fr"
+    },
+    {
+      "id": "superstock-1000",
+      "name": "Superstock 1000",
+      "nodeId": "fr"
+    },
+    {
+      "id": "600-cup",
+      "name": "600 Cup / Supersport 600",
+      "nodeId": "fr"
+    },
+    {
+      "id": "endurance",
+      "name": "Endurance (EWR spec)",
+      "nodeId": "fr"
+    }
+  ]
+}

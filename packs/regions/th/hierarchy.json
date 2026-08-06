@@ -1,0 +1,22 @@
+{
+  "packId": "th",
+  "nodes": [
+    {
+      "id": "th",
+      "parentId": null,
+      "kind": "region",
+      "displayName": "Thailand",
+      "locales": [
+        "th-TH",
+        "en"
+      ],
+      "timezones": [
+        "Asia/Bangkok"
+      ],
+      "isoCountries": [
+        "TH"
+      ],
+      "status": "seed"
+    }
+  ]
+}

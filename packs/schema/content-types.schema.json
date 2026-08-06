@@ -1,0 +1,68 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://roadracer.ai/schemas/pack-content-types.json",
+  "title": "RegionalPackContentTypes",
+  "description": "Documented shapes for pack content files. Validated lightly by validate-packs.",
+  "definitions": {
+    "confidence": {
+      "type": "string",
+      "enum": ["official", "established-press", "community", "unverified"]
+    },
+    "organisation": {
+      "type": "object",
+      "required": ["id", "name", "role"],
+      "properties": {
+        "id": { "type": "string" },
+        "name": { "type": "string" },
+        "role": {
+          "type": "string",
+          "enum": [
+            "federation",
+            "state_provincial",
+            "club",
+            "coaching",
+            "series_organiser",
+            "other"
+          ]
+        },
+        "nodeId": { "type": "string" },
+        "website": { "type": "string" },
+        "email": { "type": "string" },
+        "confidence": { "$ref": "#/definitions/confidence" },
+        "notes": { "type": "string" }
+      }
+    },
+    "track": {
+      "type": "object",
+      "required": ["id", "name"],
+      "properties": {
+        "id": { "type": "string" },
+        "name": { "type": "string" },
+        "nodeId": { "type": "string" },
+        "kind": {
+          "type": "string",
+          "enum": ["road_circuit", "kart_circuit", "other"]
+        },
+        "lat": { "type": "number" },
+        "lng": { "type": "number" },
+        "layouts": { "type": "array" },
+        "corners": { "type": "array" },
+        "direction": { "type": "string" },
+        "lengthKm": { "type": ["string", "number"] },
+        "confidence": { "$ref": "#/definitions/confidence" }
+      }
+    },
+    "source": {
+      "type": "object",
+      "required": ["id", "name", "type"],
+      "properties": {
+        "id": { "type": "string" },
+        "name": { "type": "string" },
+        "type": { "type": "string" },
+        "url": { "type": "string" },
+        "nodeId": { "type": "string" },
+        "confidence": { "$ref": "#/definitions/confidence" }
+      }
+    }
+  }
+}

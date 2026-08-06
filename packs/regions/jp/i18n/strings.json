@@ -1,0 +1,14 @@
+{
+  "locales": {
+    "ja-JP": {
+      "localFeed": "\u65e5\u672c\u306e\u30e2\u30fc\u30bf\u30fc\u30b5\u30a4\u30af\u30eb\u30cb\u30e5\u30fc\u30b9",
+      "localCalendar": "\u65e5\u672c",
+      "worldFeed": "\u4e16\u754c"
+    },
+    "en": {
+      "localFeed": "Japan headlines",
+      "localCalendar": "Japan",
+      "worldFeed": "World"
+    }
+  }
+}

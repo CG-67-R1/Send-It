@@ -1,0 +1,16 @@
+{
+  "terms": [
+    {
+      "id": "jsb1000",
+      "term": "JSB1000",
+      "definition": "Japan Superbike 1000 \u2014 premier domestic class",
+      "locale": "ja-JP"
+    },
+    {
+      "id": "mfj",
+      "term": "MFJ",
+      "definition": "Motorcycle Federation of Japan / \u65e5\u672c\u30e2\u30fc\u30bf\u30fc\u30b5\u30a4\u30af\u30eb\u30b9\u30dd\u30fc\u30c4\u5354\u4f1a",
+      "locale": "ja-JP"
+    }
+  ]
+}

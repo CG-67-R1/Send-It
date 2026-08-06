@@ -1,0 +1,11 @@
+{
+  "sources": [
+    {
+      "id": "jma",
+      "name": "Japan Meteorological Agency (\u6c17\u8c61\u5e81)",
+      "url": "https://www.jma.go.jp",
+      "confidence": "official",
+      "nodeId": "jp"
+    }
+  ]
+}

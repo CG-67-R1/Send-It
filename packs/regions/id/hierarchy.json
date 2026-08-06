@@ -1,0 +1,22 @@
+{
+  "packId": "id",
+  "nodes": [
+    {
+      "id": "id",
+      "parentId": null,
+      "kind": "region",
+      "displayName": "Indonesia",
+      "locales": [
+        "id-ID",
+        "en"
+      ],
+      "timezones": [
+        "Asia/Jakarta"
+      ],
+      "isoCountries": [
+        "ID"
+      ],
+      "status": "seed"
+    }
+  ]
+}

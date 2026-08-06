@@ -1,0 +1,14 @@
+{
+  "locales": {
+    "es-ES": {
+      "localFeed": "Noticias España",
+      "localCalendar": "España",
+      "worldFeed": "Mundo"
+    },
+    "en": {
+      "localFeed": "Spain headlines",
+      "localCalendar": "Spain",
+      "worldFeed": "World"
+    }
+  }
+}

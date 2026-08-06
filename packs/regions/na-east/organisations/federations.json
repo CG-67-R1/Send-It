@@ -1,0 +1,40 @@
+{
+  "items": [
+    {
+      "id": "ama",
+      "name": "American Motorcyclist Association (AMA)",
+      "role": "federation",
+      "nodeId": "na-east",
+      "website": "https://www.americanmotorcyclist.com",
+      "confidence": "official",
+      "notes": "Primary US governing body for amateur and professional motorcycle road racing, sanctions AMA Pro Road Racing."
+    },
+    {
+      "id": "cma",
+      "name": "Canadian Motorcyclist Association (CMA)",
+      "role": "federation",
+      "nodeId": "na-east-eastern-canada",
+      "website": "https://www.canmoto.ca",
+      "confidence": "official",
+      "notes": "National governing body for motorcycle sport in Canada; FIM affiliate."
+    },
+    {
+      "id": "fcar",
+      "name": "FCAR — Fédération de cyclomoteurs et d'automobiles du Québec",
+      "role": "federation",
+      "nodeId": "na-east-eastern-canada",
+      "website": "https://www.fcaq.qc.ca",
+      "confidence": "official",
+      "notes": "Quebec provincial authority for motorsport including motorcycle road racing."
+    },
+    {
+      "id": "msa-ontario",
+      "name": "Motorcycle Sport Association of Ontario",
+      "role": "club_federation",
+      "nodeId": "na-east-eastern-canada",
+      "website": "https://www.msao.ca",
+      "confidence": "established-press",
+      "notes": "Sanctions club-level road races in Ontario."
+    }
+  ]
+}

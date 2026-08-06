@@ -1,0 +1,14 @@
+{
+  "locales": {
+    "zh-CN": {
+      "localFeed": "\u4e2d\u56fd\u6469\u6258\u8f66\u8d5b\u4e8b\u65b0\u95fb",
+      "localCalendar": "\u4e2d\u56fd",
+      "worldFeed": "\u4e16\u754c"
+    },
+    "en": {
+      "localFeed": "China headlines",
+      "localCalendar": "China",
+      "worldFeed": "World"
+    }
+  }
+}

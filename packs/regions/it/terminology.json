@@ -1,0 +1,16 @@
+{
+  "terms": [
+    {
+      "id": "fmi",
+      "term": "FMI",
+      "definition": "Federazione Motociclistica Italiana",
+      "locale": "it-IT"
+    },
+    {
+      "id": "civ",
+      "term": "CIV",
+      "definition": "Campionato Italiano Velocità",
+      "locale": "it-IT"
+    }
+  ]
+}

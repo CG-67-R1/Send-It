@@ -1,0 +1,29 @@
+{
+  "classes": [
+    {
+      "id": "superbike",
+      "name": "Superbike",
+      "nodeId": "sa"
+    },
+    {
+      "id": "supersport",
+      "name": "Supersport",
+      "nodeId": "sa"
+    },
+    {
+      "id": "moto1000gp-br",
+      "name": "Moto1000GP (Brazil-specific class)",
+      "nodeId": "sa-br"
+    },
+    {
+      "id": "supersport-300",
+      "name": "Supersport 300",
+      "nodeId": "sa"
+    },
+    {
+      "id": "motoverde",
+      "name": "MotoVerde (entry class)",
+      "nodeId": "sa-br"
+    }
+  ]
+}

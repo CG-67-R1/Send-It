@@ -1,0 +1,46 @@
+{
+  "series": [
+    {
+      "id": "jsb1000",
+      "name": "MFJ Superbike (JSB1000)",
+      "nodeId": "jp",
+      "local": true,
+      "website": "https://www.mfj.or.jp",
+      "confidence": "official",
+      "notes": "Premier Japanese domestic superbike championship."
+    },
+    {
+      "id": "j-gp2",
+      "name": "J-GP2",
+      "nodeId": "jp",
+      "local": true,
+      "website": "https://www.mfj.or.jp",
+      "confidence": "official"
+    },
+    {
+      "id": "j-gp3",
+      "name": "J-GP3",
+      "nodeId": "jp",
+      "local": true,
+      "website": "https://www.mfj.or.jp",
+      "confidence": "official"
+    },
+    {
+      "id": "st1000",
+      "name": "ST1000",
+      "nodeId": "jp",
+      "local": true,
+      "website": "https://www.mfj.or.jp",
+      "confidence": "official"
+    },
+    {
+      "id": "suzuka-8h",
+      "name": "Suzuka 8 Hours",
+      "nodeId": "jp",
+      "local": true,
+      "website": "https://www.suzuka-8h.com",
+      "confidence": "official",
+      "notes": "FIM Endurance World Championship round; internationally renowned."
+    }
+  ]
+}

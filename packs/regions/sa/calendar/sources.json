@@ -1,0 +1,26 @@
+{
+  "meta": {
+    "timezone": "America/Sao_Paulo",
+    "event_scope": {
+      "discipline": "road_race"
+    }
+  },
+  "sources": [
+    {
+      "id": "cbm-calendar",
+      "name": "CBM Calendar (Brazil)",
+      "type": "governing_body_calendar",
+      "url": "https://www.cbm.esp.br",
+      "nodeId": "sa-br",
+      "confidence": "official"
+    },
+    {
+      "id": "cam-calendar",
+      "name": "CAM Calendar (Argentina)",
+      "type": "governing_body_calendar",
+      "url": "https://www.motociclismocam.com.ar",
+      "nodeId": "sa-ar",
+      "confidence": "official"
+    }
+  ]
+}

@@ -1,0 +1,34 @@
+{
+  "meta": {
+    "timezone": "Europe/Paris",
+    "event_scope": {
+      "discipline": "road_race"
+    }
+  },
+  "sources": [
+    {
+      "id": "ffm-calendar",
+      "name": "FFM Calendrier",
+      "type": "governing_body_calendar",
+      "url": "https://www.ffmoto.org/calendrier",
+      "nodeId": "fr",
+      "confidence": "official"
+    },
+    {
+      "id": "fsbk-calendar",
+      "name": "FSBK Calendar",
+      "type": "series_calendar",
+      "url": "https://www.ffmoto.org/competition/circuit",
+      "nodeId": "fr",
+      "confidence": "official"
+    },
+    {
+      "id": "ewr-calendar",
+      "name": "FIM EWR Calendar",
+      "type": "series_calendar",
+      "url": "https://www.fimewc.com/calendar",
+      "nodeId": "fr",
+      "confidence": "official"
+    }
+  ]
+}

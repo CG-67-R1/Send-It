@@ -1,0 +1,32 @@
+{
+  "sources": [
+    {
+      "id": "motomalaya-news",
+      "name": "MotoMalaya",
+      "url": "https://www.motomalaya.net",
+      "confidence": "established-press",
+      "nodeId": "my"
+    },
+    {
+      "id": "sepang-news",
+      "name": "Sepang International Circuit News",
+      "url": "https://www.sepang-circuit.com/news",
+      "confidence": "official",
+      "nodeId": "my"
+    },
+    {
+      "id": "motorsport-my",
+      "name": "Motorsport.com Malaysia",
+      "url": "https://my.motorsport.com",
+      "confidence": "established-press",
+      "nodeId": "my"
+    },
+    {
+      "id": "bikesrepublic",
+      "name": "BikesRepublic",
+      "url": "https://www.bikesrepublic.com",
+      "confidence": "established-press",
+      "nodeId": "my"
+    }
+  ]
+}

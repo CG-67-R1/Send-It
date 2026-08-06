@@ -1,0 +1,16 @@
+{
+  "terms": [
+    {
+      "id": "fmsct",
+      "term": "FMSCT",
+      "definition": "Federation of Motor Sports of Thailand",
+      "locale": "th-TH"
+    },
+    {
+      "id": "chang",
+      "term": "Chang International Circuit",
+      "definition": "Premier motorcycle racing circuit in Buriram, Thailand",
+      "locale": "th-TH"
+    }
+  ]
+}

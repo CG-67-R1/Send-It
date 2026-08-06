@@ -45,3 +45,22 @@ export const ROADRACE_AI_BASE_URL = `${API_BASE_URL}/roadrace-ai`;
 export const ROADRACE_CHAT_URL = `${API_BASE_URL}/roadrace-ai/chat`;
 export const ROADRACE_ASK_URL = `${API_BASE_URL}/roadrace-ai/ask`;
 export const ROADRACE_FAQS_URL = `${API_BASE_URL}/roadrace-ai/faqs`;
+
+/** Public legal docs (GitHub). Update if you host HTML pages elsewhere. */
+export const PRIVACY_POLICY_URL =
+  'https://github.com/CG-67-R1/Send-It/blob/main/docs/legal/PRIVACY.md';
+export const TERMS_OF_USE_URL =
+  'https://github.com/CG-67-R1/Send-It/blob/main/docs/legal/TERMS.md';
+
+/**
+ * fetch() for RoadRacer API routes. Injects x-app-secret when
+ * EXPO_PUBLIC_APP_API_SECRET is set (must match server APP_API_SECRET).
+ */
+export async function apiFetch(url: string, init: RequestInit = {}): Promise<Response> {
+  const headers = new Headers(init.headers);
+  const secret = process.env.EXPO_PUBLIC_APP_API_SECRET?.trim();
+  if (secret) {
+    headers.set('x-app-secret', secret);
+  }
+  return fetch(url, { ...init, headers });
+}

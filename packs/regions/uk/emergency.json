@@ -1,0 +1,11 @@
+{
+  "contacts": [
+    {
+      "id": "uk-999",
+      "name": "Emergency services",
+      "phone": "999",
+      "nodeId": "uk"
+    }
+  ],
+  "notes": "Follow circuit control / marshals. European emergency 112 also works in UK."
+}

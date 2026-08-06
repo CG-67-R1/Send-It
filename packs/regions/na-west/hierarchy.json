@@ -1,0 +1,58 @@
+{
+  "packId": "na-west",
+  "nodes": [
+    {
+      "id": "na-west",
+      "parentId": null,
+      "kind": "region",
+      "displayName": "North America West",
+      "locales": [
+        "en-US",
+        "en-CA"
+      ],
+      "timezones": [
+        "America/Los_Angeles",
+        "America/Denver",
+        "America/Vancouver"
+      ],
+      "isoCountries": [
+        "US",
+        "CA"
+      ],
+      "status": "seed"
+    },
+    {
+      "id": "na-west-western-us",
+      "parentId": "na-west",
+      "kind": "coverage_area",
+      "displayName": "Western United States",
+      "locales": [
+        "en-US"
+      ],
+      "timezones": [
+        "America/Los_Angeles",
+        "America/Denver"
+      ],
+      "isoCountries": [
+        "US"
+      ],
+      "status": "seed"
+    },
+    {
+      "id": "na-west-western-canada",
+      "parentId": "na-west",
+      "kind": "coverage_area",
+      "displayName": "Western Canada",
+      "locales": [
+        "en-CA"
+      ],
+      "timezones": [
+        "America/Vancouver"
+      ],
+      "isoCountries": [
+        "CA"
+      ],
+      "status": "seed"
+    }
+  ]
+}

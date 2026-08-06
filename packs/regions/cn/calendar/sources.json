@@ -1,0 +1,26 @@
+{
+  "meta": {
+    "timezone": "Asia/Shanghai",
+    "event_scope": {
+      "discipline": "road_race"
+    }
+  },
+  "sources": [
+    {
+      "id": "cams-calendar",
+      "name": "CAMS/FMS Calendar",
+      "type": "governing_body_calendar",
+      "url": "https://www.cams.net.cn",
+      "nodeId": "cn",
+      "confidence": "official"
+    },
+    {
+      "id": "chengdu-calendar",
+      "name": "Chengdu Tianfu Circuit Events",
+      "type": "venue_calendar",
+      "url": "https://www.chengdugrandprix.com",
+      "nodeId": "cn",
+      "confidence": "established-press"
+    }
+  ]
+}

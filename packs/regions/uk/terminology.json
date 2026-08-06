@@ -1,0 +1,16 @@
+{
+  "terms": [
+    {
+      "id": "bsb",
+      "term": "BSB",
+      "definition": "British Superbike Championship",
+      "locale": "en-GB"
+    },
+    {
+      "id": "acu",
+      "term": "ACU",
+      "definition": "Auto-Cycle Union",
+      "locale": "en-GB"
+    }
+  ]
+}

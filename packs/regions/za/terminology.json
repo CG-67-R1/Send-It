@@ -1,0 +1,16 @@
+{
+  "terms": [
+    {
+      "id": "msa",
+      "term": "MSA",
+      "definition": "Motorsport South Africa \u2014 national governing body",
+      "locale": "en-ZA"
+    },
+    {
+      "id": "gcr",
+      "term": "GCR",
+      "definition": "General Competition Rules (MSA rulebook)",
+      "locale": "en-ZA"
+    }
+  ]
+}

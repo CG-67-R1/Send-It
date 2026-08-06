@@ -1,0 +1,26 @@
+{
+  "meta": {
+    "timezone": "Europe/Rome",
+    "event_scope": {
+      "discipline": "road_race"
+    }
+  },
+  "sources": [
+    {
+      "id": "civ_calendar",
+      "name": "CIV Calendar",
+      "type": "series_calendar",
+      "url": "https://www.civ.tv",
+      "nodeId": "it",
+      "confidence": "official"
+    },
+    {
+      "id": "fmi_calendar",
+      "name": "FMI events",
+      "type": "governing_body_calendar",
+      "url": "https://www.federmoto.it",
+      "nodeId": "it",
+      "confidence": "official"
+    }
+  ]
+}

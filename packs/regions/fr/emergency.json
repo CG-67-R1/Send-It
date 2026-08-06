@@ -1,0 +1,23 @@
+{
+  "contacts": [
+    {
+      "id": "fr-15",
+      "name": "SAMU (ambulance)",
+      "phone": "15",
+      "nodeId": "fr"
+    },
+    {
+      "id": "fr-17",
+      "name": "Police",
+      "phone": "17",
+      "nodeId": "fr"
+    },
+    {
+      "id": "fr-112",
+      "name": "Num\u00e9ro europ\u00e9en d'urgence",
+      "phone": "112",
+      "nodeId": "fr"
+    }
+  ],
+  "notes": "Suivre les instructions m\u00e9dicales / commissaires du circuit. 15 SAMU, 17 Police, 112 num\u00e9ro europ\u00e9en."
+}

@@ -1,0 +1,29 @@
+{
+  "version": 1,
+  "tracks": [
+    {
+      "id": "mandalika",
+      "name": "Pertamina Mandalika International Street Circuit",
+      "nodeId": "id",
+      "kind": "road_circuit",
+      "lat": -8.8938,
+      "lng": 116.2988,
+      "corners": [],
+      "isOther": false,
+      "confidence": "official",
+      "notes": "Lombok, NTB. 4.31 km; hosts MotoGP Indonesia Grand Prix and WSBK."
+    },
+    {
+      "id": "sentul",
+      "name": "Sirkuit Sentul",
+      "nodeId": "id",
+      "kind": "road_circuit",
+      "lat": -6.5597,
+      "lng": 106.8574,
+      "corners": [],
+      "isOther": false,
+      "confidence": "official",
+      "notes": "Sentul, West Java. 4.152 km; historic Indonesian circuit."
+    }
+  ]
+}

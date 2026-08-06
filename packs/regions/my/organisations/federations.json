@@ -1,0 +1,13 @@
+{
+  "items": [
+    {
+      "id": "mam",
+      "name": "Motorsports Association of Malaysia (MAM)",
+      "role": "federation",
+      "nodeId": "my",
+      "website": "https://www.mam.org.my",
+      "confidence": "official",
+      "notes": "FIM affiliate; national governing body for all motorsport in Malaysia including motorcycle road racing."
+    }
+  ]
+}

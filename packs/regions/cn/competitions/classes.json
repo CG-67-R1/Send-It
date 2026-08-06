@@ -1,0 +1,24 @@
+{
+  "classes": [
+    {
+      "id": "superbike",
+      "name": "Superbike",
+      "nodeId": "cn"
+    },
+    {
+      "id": "supersport",
+      "name": "Supersport",
+      "nodeId": "cn"
+    },
+    {
+      "id": "superstock-1000",
+      "name": "Superstock 1000",
+      "nodeId": "cn"
+    },
+    {
+      "id": "amateur-300",
+      "name": "Amateur 300cc",
+      "nodeId": "cn"
+    }
+  ]
+}

@@ -1,0 +1,11 @@
+{
+  "sources": [
+    {
+      "id": "met-malaysia",
+      "name": "Malaysian Meteorological Department (MetMalaysia)",
+      "url": "https://www.met.gov.my",
+      "confidence": "official",
+      "nodeId": "my"
+    }
+  ]
+}

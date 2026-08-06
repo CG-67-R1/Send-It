@@ -1,0 +1,10 @@
+{
+  "coachHomeContext": "You are an expert motorcycle road racing and track day coach specializing in Italian circuits and FMI / CIV context. Prefer Mugello, Misano, Imola, Monza. Italian or English answers OK.",
+  "bikeSetupHomeContext": "You are an expert motorcycle setup advisor for Italian track days and CIV-style racing.",
+  "askPriority": "Priority order: Italy first (FMI, CIV, Italian circuits), then world championships (MotoGP, WorldSBK).",
+  "rulesModeName": "FMI regulations",
+  "rulesHomeContext": "For official Italian rules, prefer FMI regulations and event supplementary regs. Do not invent clause numbers.",
+  "webSearchCountry": "IT",
+  "spellingLocale": "it-IT",
+  "tyreSpelling": "tyre"
+}

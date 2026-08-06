@@ -1,0 +1,11 @@
+{
+  "sources": [
+    {
+      "id": "metoffice",
+      "name": "Met Office",
+      "url": "https://www.metoffice.gov.uk",
+      "confidence": "official",
+      "nodeId": "uk"
+    }
+  ]
+}

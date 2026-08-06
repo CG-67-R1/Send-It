@@ -1,0 +1,11 @@
+{
+  "contacts": [
+    {
+      "id": "id-112",
+      "name": "Layanan Darurat (Emergency)",
+      "phone": "112",
+      "nodeId": "id"
+    }
+  ],
+  "notes": "Follow circuit medical / marshal instructions. 112 national emergency number."
+}

@@ -1,10 +1,8 @@
 import React, { useCallback, useMemo, useState } from 'react';
 import {
   ActivityIndicator,
-  Alert,
   FlatList,
   Image,
-  Linking,
   RefreshControl,
   StyleSheet,
   Text,
@@ -12,10 +10,14 @@ import {
   View,
 } from 'react-native';
 import { useFocusEffect } from '@react-navigation/native';
-import { HEADLINES_URL, HEADLINES_CUSTOM_URL } from '../../constants/api';
+import { apiFetch, HEADLINES_URL, HEADLINES_CUSTOM_URL } from '../../constants/api';
+import { safeOpenUrl } from '../utils/safeOpenUrl';
 import {
+  DEFAULT_PRIORITY,
   getCustomSources,
   getPriorityOrder,
+  mergePriorityOrder,
+  setPriorityOrder as persistPriorityOrder,
   getNotifyPriority1,
   getLastSeenPriority1Urls,
   setLastSeenPriority1Urls,
@@ -24,7 +26,8 @@ import { notifyNewPriority1Headlines } from '../notifications/priority1Notificat
 import type { Headline } from '../types';
 import { AppLogo } from '../components/AppLogo';
 import { SCREEN_LOGO_SIZE } from '../constants/logoSizing';
-import { buildAuFeed, buildWorldFeed } from '../utils/headlinesFeed';
+import { buildAuFeed, buildWorldFeed, sortByDateDesc } from '../utils/headlinesFeed';
+import { getI18nString, getLocalUiLabel } from '../packs/loader';
 
 function HeadlineThumbnail({ uri }: { uri: string }) {
   const [failed, setFailed] = useState(false);
@@ -37,16 +40,6 @@ function HeadlineThumbnail({ uri }: { uri: string }) {
       onError={() => setFailed(true)}
     />
   );
-}
-
-function sortByPriority(headlines: Headline[], priorityOrder: string[]): Headline[] {
-  const orderMap = new Map(priorityOrder.map((id, i) => [id, i]));
-  return [...headlines].sort((a, b) => {
-    const pa = orderMap.get(a.sourceId) ?? 9999;
-    const pb = orderMap.get(b.sourceId) ?? 9999;
-    if (pa !== pb) return pa - pb;
-    return (a.title || '').localeCompare(b.title || '');
-  });
 }
 
 export function HeadlinesListScreen() {
@@ -65,17 +58,27 @@ export function HeadlinesListScreen() {
     setError(null);
     setCustomFeedWarning(null);
     try {
-      const [priorityOrder, customSources] = await Promise.all([
+      const [savedPriority, customSources] = await Promise.all([
         getPriorityOrder(),
         getCustomSources(),
       ]);
+
+      // Drop retired built-ins from older installs; keep custom feeds.
+      const priorityOrder = mergePriorityOrder(
+        savedPriority,
+        [...DEFAULT_PRIORITY],
+        customSources.map((s) => s.id)
+      );
+      if (priorityOrder.join(',') !== savedPriority.join(',')) {
+        await persistPriorityOrder(priorityOrder);
+      }
 
       setCustomSourceIds(customSources.map((s) => s.id));
       setPriorityOrder(priorityOrder);
 
       const url = isRefresh ? `${HEADLINES_URL}?refresh=1` : HEADLINES_URL;
       const timeoutMs = isRefresh ? 90000 : 45000;
-      const res = await fetch(url, { signal: AbortSignal.timeout(timeoutMs) });
+      const res = await apiFetch(url, { signal: AbortSignal.timeout(timeoutMs) });
       if (!res.ok) {
         throw new Error(`Headlines API returned ${res.status}`);
       }
@@ -85,7 +88,7 @@ export function HeadlinesListScreen() {
 
       if (customSources.length > 0) {
         try {
-          const customRes = await fetch(HEADLINES_CUSTOM_URL, {
+          const customRes = await apiFetch(HEADLINES_CUSTOM_URL, {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({
@@ -104,7 +107,7 @@ export function HeadlinesListScreen() {
         }
       }
 
-      const sorted = sortByPriority(list, priorityOrder);
+      const sorted = sortByDateDesc(list, priorityOrder);
       setHeadlines(sorted);
 
       const notifyEnabled = await getNotifyPriority1();
@@ -138,13 +141,7 @@ export function HeadlinesListScreen() {
   );
 
   const openLink = (url: string) => {
-    if (!url?.trim()) {
-      Alert.alert('Link unavailable', 'This headline has no article URL.');
-      return;
-    }
-    Linking.openURL(url).catch(() => {
-      Alert.alert('Could not open link', 'Try again or open the article from your browser.');
-    });
+    void safeOpenUrl(url, 'headline');
   };
 
   const renderItem = ({ item, index }: { item: Headline; index: number }) => (
@@ -236,7 +233,7 @@ export function HeadlinesListScreen() {
                   viewMode === 'local' && styles.modeButtonTextActive,
                 ]}
               >
-                Aus
+                {getI18nString('localFeed', getLocalUiLabel())}
               </Text>
             </TouchableOpacity>
             <TouchableOpacity
@@ -253,7 +250,7 @@ export function HeadlinesListScreen() {
                   viewMode === 'world' && styles.modeButtonTextActive,
                 ]}
               >
-                World
+                {getI18nString('worldFeed', 'World')}
               </Text>
             </TouchableOpacity>
             <TouchableOpacity
@@ -287,7 +284,7 @@ export function HeadlinesListScreen() {
               {viewMode === 'custom'
                 ? 'Add up to 4 custom feeds in News settings.'
                 : viewMode === 'local'
-                ? 'No recent Australian headlines were found. Try World view.'
+                ? `No recent ${getLocalUiLabel()} headlines were found. Try World view.`
                 : 'No headlines available right now. Pull down to refresh.'}
             </Text>
           </View>

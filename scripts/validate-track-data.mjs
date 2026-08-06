@@ -217,17 +217,66 @@ for (const id of ['the_bend_east', 'the_bend_west', 'smp_amaroo', 'collingrove_h
 }
 
 // Turn-hand integrity: left|right only if listed in track_turn_verification.json
+// with an allowed handSources method (never GPX / CW-CCW inference alone).
 if (turnPolicy) {
   const forceAll = new Set(turnPolicy.forceAllComplex || []);
   const verifiedHands = turnPolicy.verifiedHands || {};
+  const handSources = turnPolicy.handSources || {};
   const trackDir = turnPolicy.trackDirection || {};
+  const allowedMethods = new Set(
+    turnPolicy.allowedSourceMethods || ['rider', 'official_map', 'authoritative_preview', 'legacy_lock']
+  );
+  const bannedMethods = new Set(
+    turnPolicy.bannedSourceMethods || [
+      'gpx_bearing',
+      'ccw_inference',
+      'clockwise_inference',
+      'kb_extract_alone',
+    ]
+  );
   let unverifiedLR = 0;
   let verifiedOk = 0;
+  let sourceGaps = 0;
 
   for (const [id, dir] of Object.entries(trackDir)) {
     const t = tracks.find((x) => x.id === id);
     if (t && t.direction !== dir) {
       fail(`${id}: track direction "${t.direction}" must be "${dir}" per verification policy`);
+    }
+  }
+
+  // Hard lock: known bad inference that shipped before (PI T1 left from CCW).
+  const pi = tracks.find((x) => x.id === 'phillip_island');
+  if (pi) {
+    const t1 = (pi.corners || []).find((c) => c.number === 1);
+    if (t1 && t1.direction === 'left') {
+      fail(
+        'phillip_island T1: Doohan Corner must not be "left" (anticlockwise does not imply T1 left; verified hand is right)'
+      );
+    }
+  }
+
+  for (const [trackId, hands] of Object.entries(verifiedHands)) {
+    const sourcesForTrack = handSources[trackId] || {};
+    for (const [num, wantHand] of Object.entries(hands)) {
+      const src = sourcesForTrack[num];
+      if (!src) {
+        fail(`${trackId} T${num}: verifiedHands entry missing handSources — add evidence or demote to complex`);
+        sourceGaps += 1;
+        continue;
+      }
+      if (src.hand && src.hand !== wantHand) {
+        fail(`${trackId} T${num}: handSources.hand "${src.hand}" != verifiedHands "${wantHand}"`);
+        sourceGaps += 1;
+      }
+      const method = src.method || '';
+      if (bannedMethods.has(method)) {
+        fail(`${trackId} T${num}: banned source method "${method}" (never lock from GPX/CW-CCW/KB-alone)`);
+        sourceGaps += 1;
+      } else if (!allowedMethods.has(method)) {
+        fail(`${trackId} T${num}: unknown source method "${method}"`);
+        sourceGaps += 1;
+      }
     }
   }
 
@@ -256,8 +305,8 @@ if (turnPolicy) {
       }
     }
   }
-  if (unverifiedLR === 0) {
-    pass(`turn-hand policy: ${verifiedOk} verified left|right, 0 unverified`);
+  if (unverifiedLR === 0 && sourceGaps === 0) {
+    pass(`turn-hand policy: ${verifiedOk} verified left|right with sources, 0 unverified`);
   }
 }
 

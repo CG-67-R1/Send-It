@@ -1,0 +1,26 @@
+{
+  "meta": {
+    "timezone": "Asia/Bangkok",
+    "event_scope": {
+      "discipline": "road_race"
+    }
+  },
+  "sources": [
+    {
+      "id": "fmsct-calendar",
+      "name": "FMSCT Event Calendar",
+      "type": "governing_body_calendar",
+      "url": "https://www.fmsct.or.th",
+      "nodeId": "th",
+      "confidence": "official"
+    },
+    {
+      "id": "chang-calendar",
+      "name": "Chang Circuit Events",
+      "type": "venue_calendar",
+      "url": "https://www.chang-international-circuit.com",
+      "nodeId": "th",
+      "confidence": "official"
+    }
+  ]
+}

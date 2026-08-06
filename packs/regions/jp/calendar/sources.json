@@ -1,0 +1,26 @@
+{
+  "meta": {
+    "timezone": "Asia/Tokyo",
+    "event_scope": {
+      "discipline": "road_race"
+    }
+  },
+  "sources": [
+    {
+      "id": "mfj-calendar",
+      "name": "MFJ Race Calendar",
+      "type": "governing_body_calendar",
+      "url": "https://www.mfj.or.jp/race_calendar",
+      "nodeId": "jp",
+      "confidence": "official"
+    },
+    {
+      "id": "suzuka-8h-calendar",
+      "name": "Suzuka 8 Hours",
+      "type": "series_calendar",
+      "url": "https://www.suzuka-8h.com",
+      "nodeId": "jp",
+      "confidence": "official"
+    }
+  ]
+}

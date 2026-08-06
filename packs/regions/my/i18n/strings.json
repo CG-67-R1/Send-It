@@ -1,0 +1,14 @@
+{
+  "locales": {
+    "ms-MY": {
+      "localFeed": "Berita motorsikal Malaysia",
+      "localCalendar": "Malaysia",
+      "worldFeed": "Dunia"
+    },
+    "en": {
+      "localFeed": "Malaysia headlines",
+      "localCalendar": "Malaysia",
+      "worldFeed": "World"
+    }
+  }
+}

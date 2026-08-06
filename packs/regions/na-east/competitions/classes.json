@@ -1,0 +1,12 @@
+{
+  "classes": [
+    { "id": "superbike", "name": "Superbike", "nodeId": "na-east" },
+    { "id": "supersport", "name": "Supersport", "nodeId": "na-east" },
+    { "id": "stock-1000", "name": "Stock 1000", "nodeId": "na-east" },
+    { "id": "twins-cup", "name": "Twins Cup", "nodeId": "na-east" },
+    { "id": "junior-cup", "name": "Junior Cup", "nodeId": "na-east" },
+    { "id": "mini-cup", "name": "Mini Cup", "nodeId": "na-east" },
+    { "id": "lightweight", "name": "Lightweight", "nodeId": "na-east" },
+    { "id": "heavyweight-superstreet", "name": "Heavyweight Superstreet Bike", "nodeId": "na-east" }
+  ]
+}

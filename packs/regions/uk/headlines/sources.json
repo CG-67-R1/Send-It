@@ -1,0 +1,22 @@
+{
+  "sourceIds": [
+    "mcn",
+    "bennetts"
+  ],
+  "sources": [
+    {
+      "id": "mcn",
+      "name": "MCN",
+      "type": "scraper",
+      "confidence": "established-press",
+      "nodeId": "uk"
+    },
+    {
+      "id": "bennetts",
+      "name": "Bennetts BikeSocial",
+      "type": "scraper",
+      "confidence": "established-press",
+      "nodeId": "uk"
+    }
+  ]
+}

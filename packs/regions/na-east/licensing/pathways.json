@@ -1,0 +1,35 @@
+{
+  "pathways": [
+    {
+      "id": "us-ama-competition",
+      "title": "AMA competition licence pathway (US)",
+      "nodeId": "na-east",
+      "steps": [
+        "Join an AMA-affiliated club",
+        "Obtain AMA membership",
+        "Apply for appropriate competition licence (regional or national)",
+        "Complete mandatory novice orientation/school at sanctioned event",
+        "Satisfy medical/age requirements per AMA rulebook"
+      ],
+      "urls": [
+        "https://www.americanmotorcyclist.com/racing/road-racing"
+      ],
+      "confidence": "official"
+    },
+    {
+      "id": "ca-cma-competition",
+      "title": "CMA competition licence pathway (Canada)",
+      "nodeId": "na-east-eastern-canada",
+      "steps": [
+        "Join a CMA-affiliated provincial club",
+        "Obtain CMA membership",
+        "Apply for Regional or National competition licence",
+        "Complete novice school / licence requirements"
+      ],
+      "urls": [
+        "https://www.canmoto.ca"
+      ],
+      "confidence": "official"
+    }
+  ]
+}

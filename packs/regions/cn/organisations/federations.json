@@ -1,0 +1,22 @@
+{
+  "items": [
+    {
+      "id": "cams",
+      "name": "China Automobile Motorsport Federation (CAMS) \u2014 \u4e2d\u56fd\u6c7d\u8f66\u8fd0\u52a8\u8054\u5408\u4f1a",
+      "role": "federation",
+      "nodeId": "cn",
+      "website": "https://www.cams.net.cn",
+      "confidence": "official",
+      "notes": "Governs all motorsport in China including motorcycle road racing. FIM affiliate for motorcycle disciplines."
+    },
+    {
+      "id": "fms-cn",
+      "name": "Federation of Motor Sports of China (FMS)",
+      "role": "federation",
+      "nodeId": "cn",
+      "website": "https://www.cams.net.cn",
+      "confidence": "official",
+      "notes": "FIM-affiliated motorcycle body under CAMS. Sanctions Superbike and road racing in China."
+    }
+  ]
+}

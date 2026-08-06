@@ -1,0 +1,29 @@
+{
+  "version": 1,
+  "tracks": [
+    {
+      "id": "sepang",
+      "name": "Sepang International Circuit",
+      "nodeId": "my",
+      "kind": "road_circuit",
+      "lat": 2.7606,
+      "lng": 101.7381,
+      "corners": [],
+      "isOther": false,
+      "confidence": "official",
+      "notes": "Sepang, Selangor. 5.543 km; hosts MotoGP Malaysian Grand Prix and WSBK."
+    },
+    {
+      "id": "johor-circuit",
+      "name": "Johor Circuit",
+      "nodeId": "my",
+      "kind": "road_circuit",
+      "lat": 1.5426,
+      "lng": 103.7558,
+      "corners": [],
+      "isOther": false,
+      "confidence": "established-press",
+      "notes": "Pasir Gudang, Johor. Club-level road racing circuit."
+    }
+  ]
+}

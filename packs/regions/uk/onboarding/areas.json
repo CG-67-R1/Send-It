@@ -1,0 +1,74 @@
+{
+  "areas": [
+    {
+      "code": "ENG",
+      "nodeId": "uk-england",
+      "name": "England",
+      "clubs": [
+        {
+          "name": "ACU-affiliated road race clubs",
+          "location": "England",
+          "website": "https://www.acu.org.uk"
+        }
+      ],
+      "classes": [
+        "British Superbike support classes",
+        "Clubman / national classes"
+      ],
+      "coaches": [
+        {
+          "name": "Circuit / school coaching providers",
+          "description": "Many UK circuits offer coach-led track days — check venue programmes."
+        }
+      ]
+    },
+    {
+      "code": "SCT",
+      "nodeId": "uk-scotland",
+      "name": "Scotland",
+      "clubs": [
+        {
+          "name": "SACU-affiliated clubs",
+          "location": "Scotland",
+          "website": "https://www.sacu.co.uk"
+        }
+      ],
+      "classes": [
+        "Scottish championship / club road race classes"
+      ],
+      "coaches": []
+    },
+    {
+      "code": "WLS",
+      "nodeId": "uk-wales",
+      "name": "Wales",
+      "clubs": [
+        {
+          "name": "Welsh / ACU centre clubs",
+          "location": "Wales",
+          "website": "https://www.acu.org.uk"
+        }
+      ],
+      "classes": [
+        "Club and national classes"
+      ],
+      "coaches": []
+    },
+    {
+      "code": "NIR",
+      "nodeId": "uk-northern-ireland",
+      "name": "Northern Ireland",
+      "clubs": [
+        {
+          "name": "MCUI / local road race clubs",
+          "location": "Northern Ireland",
+          "website": "https://www.mcui-uc.org.uk"
+        }
+      ],
+      "classes": [
+        "Irish road racing / short circuit classes"
+      ],
+      "coaches": []
+    }
+  ]
+}

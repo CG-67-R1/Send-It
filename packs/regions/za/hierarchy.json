@@ -1,0 +1,22 @@
+{
+  "packId": "za",
+  "nodes": [
+    {
+      "id": "za",
+      "parentId": null,
+      "kind": "region",
+      "displayName": "South Africa",
+      "locales": [
+        "en-ZA",
+        "af-ZA"
+      ],
+      "timezones": [
+        "Africa/Johannesburg"
+      ],
+      "isoCountries": [
+        "ZA"
+      ],
+      "status": "seed"
+    }
+  ]
+}

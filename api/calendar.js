@@ -8,6 +8,11 @@ import { readFileSync } from 'fs';
 import { fileURLToPath } from 'url';
 import { dirname, join } from 'path';
 import { dedupeEvents } from './calendarScrapers.js';
+import {
+  getCalendarStatic,
+  getLocalSeriesIds,
+  getPrimaryManifest,
+} from './packLoader.js';
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
 const STATIC_PATH = join(__dirname, 'data', 'calendar-static.json');
@@ -18,11 +23,17 @@ const CACHE_TTL_MS = 60 * 60 * 1000; // 1 hour
 
 // Lower number = higher prominence in the app.
 const SERIES_PRIORITY = {
-  // Australian national + club/state road racing + track days
+  // Local national + club/state road racing + track days (pack-driven ids also get priority 1)
   asbk: 1,
   au_club: 1,
   au_national: 1,
   au_track_day: 1,
+  bsb: 1,
+  uk_club: 1,
+  esbk: 1,
+  es_club: 1,
+  civ: 1,
+  it_club: 1,
 
   // World championships
   motogp: 2,
@@ -36,14 +47,28 @@ const SERIES_PRIORITY = {
   junior_gp_suzuka: 7,
 };
 
+function localCountryLabel() {
+  return getPrimaryManifest()?.displayName || 'Australia';
+}
+
 let cache = { data: null, ts: 0 };
 
 function getSeriesPriority(series) {
-  return SERIES_PRIORITY[series] ?? 999;
+  if (SERIES_PRIORITY[series] != null) return SERIES_PRIORITY[series];
+  if (getLocalSeriesIds().has(series)) return 1;
+  return 999;
 }
 
 function loadStatic() {
   try {
+    const fromPack = getCalendarStatic();
+    if (fromPack) {
+      return {
+        motogp: fromPack.motogp || [],
+        australia: fromPack.national || fromPack.australia || [],
+        australia_club: fromPack.club || fromPack.australia_club || [],
+      };
+    }
     const raw = readFileSync(STATIC_PATH, 'utf8');
     return JSON.parse(raw);
   } catch (e) {
@@ -53,7 +78,9 @@ function loadStatic() {
 }
 
 function normalizeStaticEvent(series, ev) {
-  const isAu = ['asbk', 'au_club', 'au_national', 'australia'].includes(series);
+  const isLocal =
+    getLocalSeriesIds().has(series) ||
+    ['asbk', 'au_club', 'au_national', 'australia'].includes(series);
   return {
     series,
     title: ev.title,
@@ -66,7 +93,7 @@ function normalizeStaticEvent(series, ev) {
     state: ev.state || null,
     organiser: ev.organiser || null,
     notes: ev.notes || null,
-    detailTier: isAu ? 'full' : 'summary',
+    detailTier: isLocal ? 'full' : 'summary',
   };
 }
 
@@ -104,7 +131,7 @@ function loadAuEvents() {
           seriesLabel: isASBK ? 'ASBK' : isTrackDay ? 'Track Day' : organiser || 'AU Road Race',
           title: name,
           venue: ev.venue || null,
-          country: 'Australia',
+          country: localCountryLabel(),
           startDate: ev.start_date,
           endDate: ev.end_date || ev.start_date,
           url: ev.entry_url || ev.source_url || null,

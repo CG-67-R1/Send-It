@@ -1,0 +1,103 @@
+{
+  "packId": "uk",
+  "nodes": [
+    {
+      "id": "uk",
+      "parentId": null,
+      "kind": "region",
+      "displayName": "United Kingdom",
+      "locales": [
+        "en-GB"
+      ],
+      "timezones": [
+        "Europe/London"
+      ],
+      "isoCountries": [
+        "GB"
+      ],
+      "adminAreas": [
+        "ENG",
+        "SCT",
+        "WLS",
+        "NIR"
+      ],
+      "status": "seed"
+    },
+    {
+      "id": "uk-england",
+      "parentId": "uk",
+      "kind": "country",
+      "displayName": "England",
+      "locales": [
+        "en-GB"
+      ],
+      "timezones": [
+        "Europe/London"
+      ],
+      "isoCountries": [
+        "GB"
+      ],
+      "adminAreas": [
+        "ENG"
+      ],
+      "status": "seed"
+    },
+    {
+      "id": "uk-scotland",
+      "parentId": "uk",
+      "kind": "country",
+      "displayName": "Scotland",
+      "locales": [
+        "en-GB"
+      ],
+      "timezones": [
+        "Europe/London"
+      ],
+      "isoCountries": [
+        "GB"
+      ],
+      "adminAreas": [
+        "SCT"
+      ],
+      "status": "seed"
+    },
+    {
+      "id": "uk-wales",
+      "parentId": "uk",
+      "kind": "country",
+      "displayName": "Wales",
+      "locales": [
+        "en-GB"
+      ],
+      "timezones": [
+        "Europe/London"
+      ],
+      "isoCountries": [
+        "GB"
+      ],
+      "adminAreas": [
+        "WLS"
+      ],
+      "status": "seed"
+    },
+    {
+      "id": "uk-northern-ireland",
+      "parentId": "uk",
+      "kind": "country",
+      "displayName": "Northern Ireland",
+      "locales": [
+        "en-GB"
+      ],
+      "timezones": [
+        "Europe/London"
+      ],
+      "isoCountries": [
+        "GB"
+      ],
+      "adminAreas": [
+        "NIR"
+      ],
+      "status": "seed"
+    }
+  ]
+}

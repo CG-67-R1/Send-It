@@ -1,0 +1,32 @@
+{
+  "sources": [
+    {
+      "id": "motorsport-za",
+      "name": "Motorsport.co.za (MSA news)",
+      "url": "https://www.motorsport.co.za",
+      "confidence": "official",
+      "nodeId": "za"
+    },
+    {
+      "id": "mcsa-news",
+      "name": "Motorcycle South Africa",
+      "url": "https://www.mcsa.org.za",
+      "confidence": "established-press",
+      "nodeId": "za"
+    },
+    {
+      "id": "bikeza",
+      "name": "BikeZA",
+      "url": "https://www.bikeza.co.za",
+      "confidence": "established-press",
+      "nodeId": "za"
+    },
+    {
+      "id": "za-superbike",
+      "name": "Superbike SA official",
+      "url": "https://www.superbikesa.co.za",
+      "confidence": "official",
+      "nodeId": "za"
+    }
+  ]
+}

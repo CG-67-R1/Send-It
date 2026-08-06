@@ -1,0 +1,10 @@
+{
+  "coachHomeContext": "You are an expert motorcycle road racing and track day coach specializing in Spanish circuits and RFME / ESBK context. Prefer Spanish venues (Jerez, Catalunya, Valencia, Aragón). Spanish or English answers OK; use tyre spelling in EN.",
+  "bikeSetupHomeContext": "You are an expert motorcycle setup advisor for Spanish track days and national road racing.",
+  "askPriority": "Priority order: Spain first (RFME, ESBK, Spanish circuits), then world championships (MotoGP, WorldSBK).",
+  "rulesModeName": "RFME regulations",
+  "rulesHomeContext": "For official Spanish rules, prefer RFME / territorial federation regulations. Do not invent clause numbers.",
+  "webSearchCountry": "ES",
+  "spellingLocale": "es-ES",
+  "tyreSpelling": "tyre"
+}

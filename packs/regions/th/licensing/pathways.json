@@ -1,0 +1,20 @@
+{
+  "pathways": [
+    {
+      "id": "th-fmsct-competition",
+      "title": "FMSCT competition licence pathway",
+      "nodeId": "th",
+      "steps": [
+        "Join an FMSCT-affiliated club",
+        "Obtain FMSCT membership",
+        "Apply for the appropriate competition licence",
+        "Complete medical check",
+        "Pass novice rider orientation"
+      ],
+      "urls": [
+        "https://www.fmsct.or.th"
+      ],
+      "confidence": "official"
+    }
+  ]
+}

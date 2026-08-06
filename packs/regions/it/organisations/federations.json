@@ -1,0 +1,12 @@
+{
+  "items": [
+    {
+      "id": "fmi",
+      "name": "Federazione Motociclistica Italiana (FMI)",
+      "role": "federation",
+      "nodeId": "it",
+      "website": "https://www.federmoto.it",
+      "confidence": "official"
+    }
+  ]
+}

@@ -1,6 +1,7 @@
 import 'dotenv/config';
 import express from 'express';
 import cors from 'cors';
+import helmet from 'helmet';
 import rateLimit from 'express-rate-limit';
 import { getAllHeadlines, fetchCustomHeadlines, BUILTIN_SOURCES } from './scrapers.js';
 import { search, getTriviaQuestion } from './qa.js';
@@ -10,9 +11,47 @@ import { loadRiderAiFaqs } from './riderAiFaqs.js';
 
 const app = express();
 const PORT = process.env.PORT || 3001;
+const APP_SECRET = process.env.APP_API_SECRET;
+const MAX_AI_MESSAGE_CHARS = 4000;
 
-app.use(cors());
-app.use(express.json({ limit: '8mb' }));
+function logError(label, err) {
+  console.error(`[${label}]`, err?.message ?? err);
+}
+
+/** Shared secret: when APP_API_SECRET is set, require matching x-app-secret header. */
+function requireAppSecret(req, res, next) {
+  if (!APP_SECRET) return next();
+  const h = req.headers['x-app-secret'];
+  if (!h || h !== APP_SECRET) {
+    return res.status(401).json({ error: 'Unauthorized' });
+  }
+  next();
+}
+
+app.use(
+  helmet({
+    contentSecurityPolicy: false,
+  })
+);
+
+app.use(
+  cors({
+    origin: [
+      'https://send-it-ke7r.onrender.com',
+      /\.expo\.dev$/,
+      /localhost/,
+      /^http:\/\/192\.168\./,
+      /^http:\/\/10\./,
+    ],
+    methods: ['GET', 'POST'],
+  })
+);
+
+// Small default body limit; chat allows 8mb for base64 image attachments.
+app.use((req, res, next) => {
+  const isChatUpload = req.method === 'POST' && req.path === '/roadrace-ai/chat';
+  return express.json({ limit: isChatUpload ? '8mb' : '64kb' })(req, res, next);
+});
 
 const roadraceAiLimiter = rateLimit({
   windowMs: 15 * 60 * 1000,
@@ -22,7 +61,8 @@ const roadraceAiLimiter = rateLimit({
   message: { error: 'Too many AI requests — try again in a few minutes.' },
 });
 
-app.use('/roadrace-ai', roadraceAiLimiter);
+app.use('/roadrace-ai', requireAppSecret, roadraceAiLimiter);
+app.use('/headlines/custom', requireAppSecret);
 
 app.get('/health', (_, res) => {
   res.json({
@@ -35,7 +75,16 @@ app.get('/', (_, res) => {
   res.json({
     name: 'RoadRacer API',
     health: '/health',
-    endpoints: ['/headlines', '/sources', '/qa/search', '/qa/trivia', '/calendar', '/roadrace-ai/chat', '/roadrace-ai/ask', '/roadrace-ai/faqs'],
+    endpoints: [
+      '/headlines',
+      '/sources',
+      '/qa/search',
+      '/qa/trivia',
+      '/calendar',
+      '/roadrace-ai/chat',
+      '/roadrace-ai/ask',
+      '/roadrace-ai/faqs',
+    ],
   });
 });
 
@@ -45,11 +94,19 @@ app.get('/sources', (_, res) => {
 
 app.get('/headlines', async (req, res) => {
   const bypassCache = req.query.refresh === '1';
+  if (bypassCache) {
+    if (APP_SECRET) {
+      const h = req.headers['x-app-secret'];
+      if (!h || h !== APP_SECRET) {
+        return res.status(401).json({ error: 'Unauthorized' });
+      }
+    }
+  }
   try {
     const headlines = await getAllHeadlines(bypassCache);
     res.json({ headlines, count: headlines.length });
   } catch (e) {
-    console.error(e);
+    logError('headlines', e);
     res.status(500).json({ error: 'Failed to fetch headlines', headlines: [] });
   }
 });
@@ -73,7 +130,7 @@ app.post('/headlines/custom', async (req, res) => {
     const headlines = await fetchCustomHeadlines(customSources);
     res.json({ headlines, count: headlines.length });
   } catch (e) {
-    console.error(e);
+    logError('headlines/custom', e);
     res.status(500).json({ error: 'Failed to fetch custom headlines', headlines: [] });
   }
 });
@@ -84,7 +141,7 @@ app.get('/qa/search', async (req, res) => {
     const { results } = await search(q);
     res.json({ results });
   } catch (e) {
-    console.error(e);
+    logError('qa/search', e);
     res.status(500).json({ error: 'Search failed', results: [] });
   }
 });
@@ -105,7 +162,7 @@ app.get('/qa/trivia', async (req, res) => {
     }
     res.json(payload);
   } catch (e) {
-    console.error(e);
+    logError('qa/trivia', e);
     res.status(500).json({ error: 'Trivia failed' });
   }
 });
@@ -116,7 +173,7 @@ app.get('/calendar', async (req, res) => {
     const events = await getCalendarEvents(bypassCache);
     res.json({ events });
   } catch (e) {
-    console.error(e);
+    logError('calendar', e);
     res.status(500).json({ error: 'Failed to load calendar', events: [] });
   }
 });
@@ -126,7 +183,7 @@ app.get('/roadrace-ai/faqs', async (_, res) => {
     const faqs = await loadRiderAiFaqs(true);
     res.json(faqs);
   } catch (e) {
-    console.error(e);
+    logError('roadrace-ai/faqs', e);
     res.status(500).json({ error: 'Failed to load FAQs', coach: [], bikesetup: [] });
   }
 });
@@ -136,6 +193,11 @@ app.post('/roadrace-ai/ask', async (req, res) => {
   const text = typeof message === 'string' ? message.trim() : '';
   if (!text) {
     return res.status(400).json({ error: 'message is required' });
+  }
+  if (text.length > MAX_AI_MESSAGE_CHARS) {
+    return res.status(400).json({
+      error: `Message too long (max ${MAX_AI_MESSAGE_CHARS} chars)`,
+    });
   }
   const askMode = mode === 'rules' ? 'rules' : 'ask';
   try {
@@ -155,7 +217,7 @@ app.post('/roadrace-ai/ask', async (req, res) => {
       ...(result.momsOnline ? { momsOnline: result.momsOnline } : {}),
     });
   } catch (e) {
-    console.error(e);
+    logError('roadrace-ai/ask', e);
     res.status(500).json({ error: 'AI request failed', reply: '', sources: [], fromKb: false });
   }
 });
@@ -167,10 +229,20 @@ app.post('/roadrace-ai/chat', async (req, res) => {
   if (!text && !hasAttachments) {
     return res.status(400).json({ error: 'message or attachments required' });
   }
+  if (text.length > MAX_AI_MESSAGE_CHARS) {
+    return res.status(400).json({
+      error: `Message too long (max ${MAX_AI_MESSAGE_CHARS} chars)`,
+    });
+  }
   const validMode = mode === 'bikesetup' ? 'bikesetup' : 'coach';
   const messages = Array.isArray(history)
     ? history
-        .filter((m) => m && (m.role === 'user' || m.role === 'assistant') && typeof m.content === 'string')
+        .filter(
+          (m) =>
+            m &&
+            (m.role === 'user' || m.role === 'assistant') &&
+            typeof m.content === 'string'
+        )
         .slice(-20)
         .map((m) => ({ role: m.role, content: m.content.trim() }))
     : [];
@@ -186,7 +258,7 @@ app.post('/roadrace-ai/chat', async (req, res) => {
     }
     res.json(payload);
   } catch (e) {
-    console.error(e);
+    logError('roadrace-ai/chat', e);
     res.status(500).json({ error: 'AI request failed', reply: '' });
   }
 });

@@ -1,0 +1,25 @@
+{
+  "sources": [
+    {
+      "id": "rfme-news",
+      "name": "RFME",
+      "url": "https://www.rfme.com",
+      "confidence": "official",
+      "nodeId": "es"
+    },
+    {
+      "id": "motociclismo",
+      "name": "Motociclismo",
+      "url": "https://www.motociclismo.es",
+      "confidence": "established-press",
+      "nodeId": "es"
+    },
+    {
+      "id": "solo-moto",
+      "name": "Solo Moto",
+      "url": "https://www.solomoto.es",
+      "confidence": "established-press",
+      "nodeId": "es"
+    }
+  ]
+}

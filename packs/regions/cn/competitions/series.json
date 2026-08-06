@@ -1,0 +1,29 @@
+{
+  "series": [
+    {
+      "id": "csc-superbike",
+      "name": "China Superbike Championship (CSC)",
+      "nodeId": "cn",
+      "local": true,
+      "website": "https://www.cams.net.cn",
+      "confidence": "official",
+      "notes": "FMS-sanctioned national superbike championship."
+    },
+    {
+      "id": "cbrc",
+      "name": "China Bicycle / Motorcycle Road Race Championship",
+      "nodeId": "cn",
+      "local": true,
+      "confidence": "established-press"
+    },
+    {
+      "id": "arrc",
+      "name": "Asia Road Racing Championship (ARRC)",
+      "nodeId": "cn",
+      "local": false,
+      "website": "https://www.arrc.tv",
+      "confidence": "official",
+      "notes": "Regional FIM series with rounds in China."
+    }
+  ]
+}

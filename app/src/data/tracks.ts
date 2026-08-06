@@ -1,4 +1,5 @@
 import catalog from './tracks.json';
+import { getBundledTracksCatalog } from '../packs/loader';
 
 export type CornerDirection = 'left' | 'right' | 'straight' | 'complex';
 
@@ -67,7 +68,12 @@ export const OTHER_TRACK: TrackDefinition = {
   corners: buildOtherCorners(),
 };
 
-const CATALOG_TRACKS: TrackDefinition[] = (catalog as { tracks: TrackDefinition[] }).tracks;
+const bundled = getBundledTracksCatalog();
+const CATALOG_TRACKS: TrackDefinition[] = (
+  (bundled.tracks?.length
+    ? bundled
+    : (catalog as { tracks: TrackDefinition[] })) as { tracks: TrackDefinition[] }
+).tracks;
 
 export function getCatalogTracks(): TrackDefinition[] {
   return CATALOG_TRACKS;

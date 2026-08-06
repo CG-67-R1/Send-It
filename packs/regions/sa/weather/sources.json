@@ -1,0 +1,25 @@
+{
+  "sources": [
+    {
+      "id": "inmet-br",
+      "name": "INMET (Brazil)",
+      "url": "https://www.inmet.gov.br",
+      "confidence": "official",
+      "nodeId": "sa-br"
+    },
+    {
+      "id": "smn-ar",
+      "name": "Servicio Meteorol\u00f3gico Nacional (Argentina)",
+      "url": "https://www.smn.gob.ar",
+      "confidence": "official",
+      "nodeId": "sa-ar"
+    },
+    {
+      "id": "dmc-cl",
+      "name": "Direcci\u00f3n Meteorol\u00f3gica de Chile",
+      "url": "https://www.meteochile.gob.cl",
+      "confidence": "official",
+      "nodeId": "sa-cl"
+    }
+  ]
+}

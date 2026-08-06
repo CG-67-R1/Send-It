@@ -1,0 +1,46 @@
+{
+  "series": [
+    {
+      "id": "motoamerica",
+      "name": "MotoAmerica \u2014 AMA/FIM Road Racing Championship",
+      "nodeId": "na-west",
+      "local": true,
+      "website": "https://www.motoamerica.com",
+      "confidence": "official",
+      "notes": "Laguna Seca and COTA rounds on west coast."
+    },
+    {
+      "id": "afm",
+      "name": "Affiliated Federations of Motorcyclists (AFM)",
+      "nodeId": "na-west-western-us",
+      "local": true,
+      "website": "https://www.afmracing.org",
+      "confidence": "official",
+      "notes": "California-based club road racing series."
+    },
+    {
+      "id": "omrra",
+      "name": "Oregon Motorcycle Road Racing Association (OMRRA)",
+      "nodeId": "na-west-western-us",
+      "local": true,
+      "website": "https://www.omrra.com",
+      "confidence": "official"
+    },
+    {
+      "id": "csbk",
+      "name": "Canadian Superbike Championship (CSBK)",
+      "nodeId": "na-west-western-canada",
+      "local": true,
+      "website": "https://csbk.ca",
+      "confidence": "official"
+    },
+    {
+      "id": "wera-west",
+      "name": "WERA West",
+      "nodeId": "na-west-western-us",
+      "local": true,
+      "website": "https://www.wera.com",
+      "confidence": "official"
+    }
+  ]
+}

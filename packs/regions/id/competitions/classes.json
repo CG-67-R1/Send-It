@@ -1,0 +1,25 @@
+{
+  "classes": [
+    {
+      "id": "superbike",
+      "name": "Superbike",
+      "nodeId": "id"
+    },
+    {
+      "id": "supersport",
+      "name": "Supersport",
+      "nodeId": "id"
+    },
+    {
+      "id": "motoprix",
+      "name": "MotoPrix (national class)",
+      "nodeId": "id"
+    },
+    {
+      "id": "underbone-150",
+      "name": "Underbone 150cc",
+      "nodeId": "id",
+      "notes": "Highly popular in Indonesia/SE Asia"
+    }
+  ]
+}

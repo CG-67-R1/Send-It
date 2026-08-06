@@ -1,0 +1,18 @@
+{
+  "sources": [
+    {
+      "id": "nws",
+      "name": "National Weather Service (US)",
+      "url": "https://www.weather.gov",
+      "confidence": "official",
+      "nodeId": "na-east"
+    },
+    {
+      "id": "ec-canada",
+      "name": "Environment and Climate Change Canada",
+      "url": "https://weather.gc.ca",
+      "confidence": "official",
+      "nodeId": "na-east-eastern-canada"
+    }
+  ]
+}

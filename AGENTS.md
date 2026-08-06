@@ -6,6 +6,7 @@ Mobile app for motorcycle and racing headlines, plus Q&A, calendar, track walk, 
 
 - `app/` — Expo (React Native) client; TypeScript; main entry `App.tsx`
 - `api/` — Node.js / Express headlines + Q&A API; ESM (`"type": "module"`)
+- `packs/` — data-driven regional packs (AU + Regions 01–13); see `packs/README.md`
 - `Q&A/` — PDF knowledge base; scrape via `cd api && npm run scrape-pdfs`
 - `docs/gpt-knowledge/` — Custom GPT / TrackRider knowledge pack (reference for Coach & Bike Setup integration)
 
@@ -58,6 +59,7 @@ cd ../app && npx tsc --noEmit
 - `ENVIRONMENT.md` — GitHub, Render, and Vercel URLs, branch policy, health checks
 - `docs/hermes/CRON_SETUP.md` — Hermes RR app expert cron setup
 - `docs/gpt-knowledge/README.md` — Custom GPT knowledge pack + Coach/Bike Setup integration map
+- `packs/README.md` — regional pack layout, `active.json` hybrid bundling, validate/sync commands
 - `PROJECT_STATUS_AND_PRE_PRODUCTION.md` — health checks and pre-prod work
 - `POC_HOSTING_GUIDE.md` — Render / Vercel hosting notes
 - `SCREEN_BRIEF_FOR_VISUALS.md` — screen UX intent
