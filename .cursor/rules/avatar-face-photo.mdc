@@ -16,8 +16,8 @@ Full write-up: `app/src/avatar/FACE_PHOTO.md`
 
 - Keep the CameraView **hole-centered** and sized from the hole (`hole / CAPTURE_PREVIEW_SCALE`).
 - Save the **center fraction** of that photo (`captureCenterHoleCrop`) — same region shown through the hole.
-- Keep face-hole layout in **artwork space** (1024×1536); map with `contain` via `computeFaceHole` (same as `<Image resizeMode="contain" />`).
-- Skip Align modal after **camera** capture; Align is for **library** picks only.
+- Keep face-hole layout in **artwork space** (1024×1536); map with `contain` via `computeFaceHole` (same as `<Image resizeMode="contain" />`). The leathers cut-out is a **pixel circle** — re-measure with `python3 scripts/measure-face-holes.py` after art changes.
+- Skip Align modal after **camera** capture; Align is for **library** picks only (hole-aspect crop, not forced square).
 - Process the capture (do **not** use `skipProcessing` on Android) so front-camera `mirror` is baked in before crop/flip.
 
 ## Do not
