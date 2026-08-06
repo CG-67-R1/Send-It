@@ -4,6 +4,7 @@ import {
   Alert,
   Image,
   Modal,
+  Platform,
   StyleSheet,
   Text,
   TouchableOpacity,
@@ -39,6 +40,31 @@ type Props = {
   avatarSource: ImageSourcePropType;
   layout?: FaceHoleLayout;
 };
+
+/**
+ * True pixel size of a captured URI. On web, expo-camera often reports MediaTrackSettings
+ * width/height which can disagree with the actual canvas/data-URI frame (esp. iOS Safari) —
+ * cropping with those values shifts the face into a corner of the hole.
+ */
+function resolveCaptureSize(
+  uri: string,
+  reportedW: number,
+  reportedH: number
+): Promise<{ width: number; height: number }> {
+  return new Promise((resolve) => {
+    Image.getSize(
+      uri,
+      (w, h) => {
+        if (w > 0 && h > 0) {
+          resolve({ width: w, height: h });
+          return;
+        }
+        resolve({ width: reportedW, height: reportedH });
+      },
+      () => resolve({ width: reportedW, height: reportedH })
+    );
+  });
+}
 
 /**
  * Front camera under the rider avatar. The PNG transparent hole is the only aim guide
@@ -86,8 +112,10 @@ export function AvatarFaceCameraModal({
         return;
       }
 
-      const iw = photo.width ?? 0;
-      const ih = photo.height ?? 0;
+      const reportedW = photo.width ?? 0;
+      const reportedH = photo.height ?? 0;
+      // Prefer decoded image size — web track settings are often wrong for crop math.
+      const { width: iw, height: ih } = await resolveCaptureSize(photo.uri, reportedW, reportedH);
       let outputUri = photo.uri;
 
       try {
@@ -103,13 +131,18 @@ export function AvatarFaceCameraModal({
             },
           });
         }
-        // Preview is mirrored; flip so the home avatar is true left/right.
-        actions.push({ flip: ImageManipulator.FlipType.Horizontal });
-        const manipulated = await ImageManipulator.manipulateAsync(photo.uri, actions, {
-          compress: 0.88,
-          format: ImageManipulator.SaveFormat.JPEG,
-        });
-        outputUri = manipulated.uri;
+        // Native `mirror` bakes a mirrored JPEG — flip back to true left/right.
+        // Web only CSS-mirrors the <video>; the captured canvas is already un-mirrored.
+        if (Platform.OS !== 'web') {
+          actions.push({ flip: ImageManipulator.FlipType.Horizontal });
+        }
+        if (actions.length > 0) {
+          const manipulated = await ImageManipulator.manipulateAsync(photo.uri, actions, {
+            compress: 0.88,
+            format: ImageManipulator.SaveFormat.JPEG,
+          });
+          outputUri = manipulated.uri;
+        }
       } catch (manipErr) {
         console.warn('[AvatarFaceCamera] crop/flip fallback', manipErr);
       }

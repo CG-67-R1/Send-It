@@ -19,6 +19,7 @@ Full write-up: `app/src/avatar/FACE_PHOTO.md`
 - Keep face-hole layout in **artwork space** (1024×1536); map with `contain` via `computeFaceHole` (same as `<Image resizeMode="contain" />`). The leathers cut-out is a **pixel circle** — re-measure with `python3 scripts/measure-face-holes.py` after art changes.
 - Skip Align modal after **camera** capture; Align is for **library** picks only (hole-aspect crop, not forced square).
 - Process the capture (do **not** use `skipProcessing` on Android) so front-camera `mirror` is baked in before crop/flip.
+- On **web**, resolve crop size with `Image.getSize` (track settings lie) and **do not** flip after capture (preview mirror is CSS-only).
 
 ## Do not
 

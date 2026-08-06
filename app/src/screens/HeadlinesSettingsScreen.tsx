@@ -53,6 +53,7 @@ import { AppLogo } from '../components/AppLogo';
 import { SCREEN_LOGO_SIZE } from '../constants/logoSizing';
 import { AvatarFaceAlignModal } from '../components/AvatarFaceAlignModal';
 import { AvatarFaceCameraModal } from '../components/AvatarFaceCameraModal';
+import { AvatarFaceEllipse } from '../components/AvatarFaceEllipse';
 import { AVATAR_PRESETS, DEFAULT_FACE_HOLE_LAYOUT, getAvatarPreset, getAvatarSource, getFaceHoleLayout } from '../avatar/presets';
 import { getOnboardingAnswers, updateOnboardingAnswers } from '../storage/onboarding';
 import {
@@ -674,7 +675,21 @@ export function HeadlinesSettingsScreen() {
             Take a photo or pick from your library, then align your face on the rider so it sits in the hole.
           </Text>
           <View style={styles.riderFaceRow}>
-            {facePreviewUri ? (
+            {facePreviewUri &&
+            riderPreset?.hasFaceHole &&
+            getAvatarSource(avatarId) &&
+            getFaceHoleLayout(avatarId) ? (
+              <View style={styles.riderFacePreviewComposite}>
+                <AvatarFaceEllipse
+                  key={facePreviewUri}
+                  badgeSize={72}
+                  avatarSource={getAvatarSource(avatarId)!}
+                  faceUri={facePreviewUri}
+                  layout={getFaceHoleLayout(avatarId)!}
+                  faceBehindAvatar={Boolean(riderPreset.compositeFaceBehindAvatar)}
+                />
+              </View>
+            ) : facePreviewUri ? (
               <Image
                 key={facePreviewUri}
                 source={{ uri: photoDisplayUri(facePreviewUri) }}
@@ -1042,6 +1057,15 @@ const styles = StyleSheet.create({
     width: 72,
     height: 72,
     borderRadius: 36,
+    borderWidth: 1,
+    borderColor: 'rgba(245, 158, 11, 0.45)',
+    backgroundColor: '#1e293b',
+  },
+  riderFacePreviewComposite: {
+    width: 72,
+    height: 72,
+    borderRadius: 12,
+    overflow: 'hidden',
     borderWidth: 1,
     borderColor: 'rgba(245, 158, 11, 0.45)',
     backgroundColor: '#1e293b',
