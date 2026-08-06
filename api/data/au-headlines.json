@@ -1,5 +1,5 @@
 {
-  "updatedAt": "2026-08-05T21:04:00.679Z",
+  "updatedAt": "2026-08-06T02:05:20.129Z",
   "sourceIds": [
     "ma_roadrace",
     "mcnews",
@@ -170,6 +170,14 @@
       "imageUrl": null
     },
     {
+      "title": "Last chance to score an extra $500 with TeamMoto’s Trade-Up Bonus",
+      "url": "https://www.mcnews.com.au/teammoto-500-trade-up-bonus-august-2026-2/",
+      "source": "MCNews (AU)",
+      "sourceId": "mcnews",
+      "date": null,
+      "imageUrl": null
+    },
+    {
       "title": "Givi Canyon GRT721B adventure luggage review – Rackless and ready",
       "url": "https://www.mcnews.com.au/givi-canyon-grt721b-rackless-luggage-review/",
       "source": "MCNews (AU)",
@@ -191,7 +199,7 @@
       "source": "MCNews (AU)",
       "sourceId": "mcnews",
       "date": null,
-      "imageUrl": null
+      "imageUrl": "https://www.mcnews.com.au/wp-content/uploads/2026/08/2026-idemitsu-Moto4-Asia-Cup-Rnd2-Sepang-Judd-Plaisted-750x422.jpg"
     },
     {
       "title": "Qayyim Razin sweeps Sepang as Judd Plaisted charges to sixth",
@@ -199,19 +207,11 @@
       "source": "MCNews (AU)",
       "sourceId": "mcnews",
       "date": null,
-      "imageUrl": null
+      "imageUrl": "https://www.mcnews.com.au/wp-content/uploads/2026/08/2026-idemitsu-Moto4-Asia-Cup-Rnd2-Sepang-Judd-Plaisted-750x422.jpg"
     },
     {
       "title": "EV Electromobility News",
       "url": "https://www.mcnews.com.au/motorcycle-news/e-bike/",
-      "source": "MCNews (AU)",
-      "sourceId": "mcnews",
-      "date": null,
-      "imageUrl": "https://www.mcnews.com.au/wp-content/uploads/2026/08/2026-Beachman-Special-Vehicles-CB500-7-750x422.jpg"
-    },
-    {
-      "title": "Beachman rebuilds dead Honda CB500 as 14.4 kWh electric café racer",
-      "url": "https://www.mcnews.com.au/beachman-rebuilds-dead-honda-cb500-as-14-4-kwh-electric-cafe-racer/",
       "source": "MCNews (AU)",
       "sourceId": "mcnews",
       "date": null,
