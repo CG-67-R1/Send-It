@@ -38,7 +38,7 @@ type NaturalSize = { width: number; height: number };
 
 /**
  * After library pick: pan/zoom the photo under the leathers so the face sits in the hole,
- * then bake a square crop for AvatarFaceEllipse. Camera capture crops in-camera and skips this.
+ * then bake a hole-aspect crop for AvatarFaceEllipse. Camera capture crops in-camera and skips this.
  */
 export function AvatarFaceAlignModal({
   visible,
@@ -146,23 +146,30 @@ export function AvatarFaceAlignModal({
       const left = hole.cx - dw / 2 + px;
       const top = hole.cy - dh / 2 + py;
 
-      // Map hole bounding box → source image pixels
+      // Map hole bounding box → source image pixels (same aspect as the face hole).
       const sx0 = ((hole.left - left) / dw) * natural.width;
       const sy0 = ((hole.top - top) / dh) * natural.height;
       const sx1 = ((hole.left + hole.ew - left) / dw) * natural.width;
       const sy1 = ((hole.top + hole.eh - top) / dh) * natural.height;
 
+      let originX = Math.min(sx0, sx1);
+      let originY = Math.min(sy0, sy1);
       let cropW = Math.abs(sx1 - sx0);
       let cropH = Math.abs(sy1 - sy0);
-      const side = Math.max(cropW, cropH);
-      let originX = Math.min(sx0, sx1) - (side - cropW) / 2;
-      let originY = Math.min(sy0, sy1) - (side - cropH) / 2;
 
-      // Clamp to image bounds
-      originX = Math.max(0, Math.min(natural.width - 1, originX));
-      originY = Math.max(0, Math.min(natural.height - 1, originY));
-      const maxSide = Math.min(natural.width - originX, natural.height - originY);
-      const finalSide = Math.max(1, Math.floor(Math.min(side, maxSide)));
+      // Clamp to image bounds while preserving hole aspect.
+      if (originX < 0) {
+        cropW += originX;
+        originX = 0;
+      }
+      if (originY < 0) {
+        cropH += originY;
+        originY = 0;
+      }
+      cropW = Math.min(cropW, natural.width - originX);
+      cropH = Math.min(cropH, natural.height - originY);
+      const finalW = Math.max(1, Math.floor(cropW));
+      const finalH = Math.max(1, Math.floor(cropH));
 
       const manipulated = await ImageManipulator.manipulateAsync(
         imageUri,
@@ -171,8 +178,8 @@ export function AvatarFaceAlignModal({
             crop: {
               originX: Math.floor(originX),
               originY: Math.floor(originY),
-              width: finalSide,
-              height: finalSide,
+              width: finalW,
+              height: finalH,
             },
           },
         ],

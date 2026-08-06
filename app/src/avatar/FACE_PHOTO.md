@@ -27,8 +27,8 @@ Several bugs stacked: Android `skipProcessing` skipped mirror bake; Align always
 ## Rules for future edits
 
 1. **Camera = hole framing.** Keep hole-centered CameraView + `captureCenterHoleCrop`. Do not restore full-screen cover mapping / CSS-scale crop math. Do **not** draw a separate math-ellipse aim mask — the PNG transparent hole is the guide.
-2. **Hole layout is artwork-relative.** Fractions are of the PNG; `computeFaceHole` maps through the same `contain` fit as the Image. If you change PNG size, aspect, or the transparent cut-out, re-measure and update `DEFAULT_FACE_HOLE_LAYOUT`.
-3. **Camera vs library.** Camera skips Align and writes a hole-ready crop. Library still uses `AvatarFaceAlignModal`.
+2. **Hole layout is artwork-relative.** Fractions are of the PNG; `computeFaceHole` maps through the same `contain` fit as the Image. The leathers cut-out is a **pixel circle** in art space (`widthPct * 1024 ≈ heightPct * 1536`). If you change PNG size, aspect, or the transparent cut-out, re-measure (`python3 scripts/measure-face-holes.py`) and update `DEFAULT_FACE_HOLE_LAYOUT`.
+3. **Camera vs library.** Camera skips Align and writes a hole-ready crop. Library still uses `AvatarFaceAlignModal` (pan/zoom), which bakes a **hole-aspect** crop — not a forced square.
 4. **Mirror.** Use CameraView `mirror` and process the frame (no Android `skipProcessing`). Flip after center crop if the saved face must be true left/right.
 5. **Display.** `AvatarFaceEllipse` clips to the same hole geometry; keep face fill consistent with the captured hole aspect.
 6. **Crop.** `captureCenterHoleCrop` cover-fits to hole aspect first, then keeps the center `CAPTURE_PREVIEW_SCALE` fraction (handles full-sensor frames).

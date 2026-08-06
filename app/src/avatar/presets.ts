@@ -142,19 +142,19 @@ export type FaceHoleLayout = {
 };
 
 /**
- * Oval hole in the leathers art — averaged from per-row alpha aperture scans across all
- * face-hole PNGs (1024×1536). Values are fractions of the artwork, then placed with
- * `contain` in the square badge (same as the Image).
+ * Circular hole in the leathers art — least-squares circle fit to the face aperture
+ * across all face-hole PNGs (1024×1536). Values are fractions of the artwork, then
+ * placed with `contain` in the square badge (same as the Image).
  *
- * Re-measure and update if PNG size/aspect or the transparent cut-out changes.
- * See `./FACE_PHOTO.md` for capture ↔ home invariants.
+ * Re-measure with `python3 scripts/measure-face-holes.py` if PNG
+ * size/aspect or the transparent cut-out changes. See `./FACE_PHOTO.md`.
  */
 export const DEFAULT_FACE_HOLE_LAYOUT: FaceHoleLayout = {
-  // p02–p98 of transparent face aperture across all leathers PNGs (art space).
-  leftPct: 0.317,
-  topPct: 0.158,
-  widthPct: 0.342,
-  heightPct: 0.229,
+  // Mean circle fit (cx≈497, cy≈408, r≈189) across all leathers PNGs in art space.
+  leftPct: 0.301,
+  topPct: 0.143,
+  widthPct: 0.369,
+  heightPct: 0.246,
 };
 
 /** Per-frame overrides (optional). Keys match `AvatarPreset.id`. Art-space fractions. */
