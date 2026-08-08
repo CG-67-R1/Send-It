@@ -3,6 +3,7 @@ import {
   ActivityIndicator,
   FlatList,
   Image,
+  Platform,
   RefreshControl,
   StyleSheet,
   Text,
@@ -190,7 +191,11 @@ export function HeadlinesListScreen() {
     return (
       <View style={styles.centered}>
         <Text style={styles.errorText}>{error}</Text>
-        <Text style={styles.hint}>Start the API server (in /api run: npm start)</Text>
+        <Text style={styles.hint}>
+          {Platform.OS === 'web'
+            ? 'Could not reach the API. Check your connection and try again.'
+            : 'Start the API server (in /api run: npm start)'}
+        </Text>
         <TouchableOpacity style={styles.retryButton} onPress={() => fetchHeadlines(false)}>
           <Text style={styles.retryText}>Retry</Text>
         </TouchableOpacity>

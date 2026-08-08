@@ -4,6 +4,7 @@ import {
   Alert,
   FlatList,
   Linking,
+  Platform,
   RefreshControl,
   StyleSheet,
   Text,
@@ -267,7 +268,11 @@ export function CalendarScreen() {
     return (
       <View style={styles.centered}>
         <Text style={styles.errorText}>{error}</Text>
-        <Text style={styles.hint}>Start the API server (in /api run: npm start)</Text>
+        <Text style={styles.hint}>
+          {Platform.OS === 'web'
+            ? 'Could not reach the API. Check your connection and try again.'
+            : 'Start the API server (in /api run: npm start)'}
+        </Text>
         <TouchableOpacity style={styles.retryButton} onPress={() => fetchCalendar(false)}>
           <Text style={styles.retryText}>Retry</Text>
         </TouchableOpacity>

@@ -28,20 +28,39 @@ function requireAppSecret(req, res, next) {
   next();
 }
 
+/** Cache-bypass refresh (?refresh=1) can trigger outbound scrapes — gate like other privileged routes. */
+function requireAppSecretForRefresh(req, res) {
+  if (req.query.refresh !== '1' || !APP_SECRET) return true;
+  const h = req.headers['x-app-secret'];
+  if (!h || h !== APP_SECRET) {
+    res.status(401).json({ error: 'Unauthorized' });
+    return false;
+  }
+  return true;
+}
+
 app.use(
   helmet({
     contentSecurityPolicy: false,
   })
 );
 
+/** Extra origins from env (comma-separated), e.g. custom Vercel production domain. */
+const extraCorsOrigins = (process.env.CORS_EXTRA_ORIGINS || '')
+  .split(',')
+  .map((s) => s.trim())
+  .filter(Boolean);
+
 app.use(
   cors({
     origin: [
       'https://send-it-ke7r.onrender.com',
       /\.expo\.dev$/,
+      /\.vercel\.app$/,
       /localhost/,
       /^http:\/\/192\.168\./,
       /^http:\/\/10\./,
+      ...extraCorsOrigins,
     ],
     methods: ['GET', 'POST'],
   })
@@ -93,15 +112,8 @@ app.get('/sources', (_, res) => {
 });
 
 app.get('/headlines', async (req, res) => {
+  if (!requireAppSecretForRefresh(req, res)) return;
   const bypassCache = req.query.refresh === '1';
-  if (bypassCache) {
-    if (APP_SECRET) {
-      const h = req.headers['x-app-secret'];
-      if (!h || h !== APP_SECRET) {
-        return res.status(401).json({ error: 'Unauthorized' });
-      }
-    }
-  }
   try {
     const headlines = await getAllHeadlines(bypassCache);
     res.json({ headlines, count: headlines.length });
@@ -168,6 +180,7 @@ app.get('/qa/trivia', async (req, res) => {
 });
 
 app.get('/calendar', async (req, res) => {
+  if (!requireAppSecretForRefresh(req, res)) return;
   const bypassCache = req.query.refresh === '1';
   try {
     const events = await getCalendarEvents(bypassCache);
@@ -244,7 +257,10 @@ app.post('/roadrace-ai/chat', async (req, res) => {
             typeof m.content === 'string'
         )
         .slice(-20)
-        .map((m) => ({ role: m.role, content: m.content.trim() }))
+        .map((m) => ({
+          role: m.role,
+          content: m.content.trim().slice(0, MAX_AI_MESSAGE_CHARS),
+        }))
     : [];
   messages.push({ role: 'user', content: text || 'Please review the attached file(s).' });
   try {
@@ -265,4 +281,9 @@ app.post('/roadrace-ai/chat', async (req, res) => {
 
 app.listen(PORT, () => {
   console.log(`RoadRace Headlines API on http://localhost:${PORT}`);
+  if (process.env.OPENAI_API_KEY && !APP_SECRET) {
+    console.warn(
+      '[security] OPENAI_API_KEY is set but APP_API_SECRET is not — AI and refresh routes are open to the internet. Set APP_API_SECRET in production.'
+    );
+  }
 });
