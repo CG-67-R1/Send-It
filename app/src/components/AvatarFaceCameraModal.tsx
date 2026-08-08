@@ -4,7 +4,6 @@ import {
   Alert,
   Image,
   Modal,
-  Platform,
   StyleSheet,
   Text,
   TouchableOpacity,
@@ -13,7 +12,6 @@ import {
   type ImageSourcePropType,
 } from 'react-native';
 import { CameraView, useCameraPermissions } from 'expo-camera';
-import * as ImageManipulator from 'expo-image-manipulator';
 import { StatusBar } from 'expo-status-bar';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import Svg, { Defs, Mask, Rect } from 'react-native-svg';
@@ -27,7 +25,7 @@ type Props = {
   visible: boolean;
   onClose: () => void;
   /**
-   * Called with a full-frame JPEG (native: un-mirrored). Callers should open
+   * Called with a full-frame JPEG (not mirrored). Callers should open
    * AvatarFaceAlignModal next — automatic hole crop is not reliable on phones.
    */
   onCapture: (uri: string) => void;
@@ -81,23 +79,8 @@ export function AvatarFaceCameraModal({
         return;
       }
 
-      let outputUri = photo.uri;
-      // Native front-camera `mirror` bakes into the JPEG — flip so Align matches true L/R.
-      // Web only CSS-mirrors the <video>; the canvas capture is already un-mirrored.
-      if (Platform.OS !== 'web') {
-        try {
-          const flipped = await ImageManipulator.manipulateAsync(
-            photo.uri,
-            [{ flip: ImageManipulator.FlipType.Horizontal }],
-            { compress: 0.92, format: ImageManipulator.SaveFormat.JPEG }
-          );
-          outputUri = flipped.uri;
-        } catch (flipErr) {
-          console.warn('[AvatarFaceCamera] flip fallback', flipErr);
-        }
-      }
-
-      onCapture(outputUri);
+      // No mirror on CameraView — JPEG is true left/right (same as library photos).
+      onCapture(photo.uri);
       onClose();
     } catch (e) {
       console.warn('[AvatarFaceCamera]', e);
@@ -137,7 +120,7 @@ export function AvatarFaceCameraModal({
                   height: cameraLayout.camHeight,
                 }}
                 facing="front"
-                mirror
+                mirror={false}
                 mode="picture"
                 onCameraReady={() => setReady(true)}
               />

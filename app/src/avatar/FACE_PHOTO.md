@@ -31,7 +31,7 @@ Several bugs stacked: Android `skipProcessing` skipped mirror bake; hole math tr
 1. **Camera = aim + full frame.** Keep hole-centered CameraView for aiming. Do **not** auto-crop the JPEG to the hole and skip Align — that path fails on phones. Do **not** draw a separate math-ellipse aim mask — the PNG transparent hole is the guide.
 2. **Hole layout is artwork-relative.** Fractions are of the PNG; `computeFaceHole` maps through the same `contain` fit as the Image. The leathers cut-out is a **pixel circle** in art space (`widthPct * 1024 ≈ heightPct * 1536`). If you change PNG size, aspect, or the transparent cut-out, re-measure (`python3 scripts/measure-face-holes.py`) and update `DEFAULT_FACE_HOLE_LAYOUT`.
 3. **Camera and library both use Align.** Align bakes a **hole-aspect** crop — not a forced square.
-4. **Mirror.** Native: CameraView `mirror` bakes into the JPEG — flip **before** Align so pan/zoom matches true left/right. Web: preview is CSS-mirrored only — do **not** flip the capture (canvas is already un-mirrored).
+4. **Mirror.** Keep CameraView `mirror={false}` so preview and capture are true left/right (not selfie-mirrored). Do not flip after capture.
 5. **Display.** `AvatarFaceEllipse` clips to the same hole geometry; keep face fill consistent with the Align bake.
 
 ## Manual QA (when any of the above changes)
