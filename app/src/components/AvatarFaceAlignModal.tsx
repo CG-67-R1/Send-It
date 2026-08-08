@@ -37,8 +37,8 @@ type Props = {
 type NaturalSize = { width: number; height: number };
 
 /**
- * After library pick: pan/zoom the photo under the leathers so the face sits in the hole,
- * then bake a hole-aspect crop for AvatarFaceEllipse. Camera capture crops in-camera and skips this.
+ * Pan/zoom (and optional flip) the photo under the leathers so the face sits in the hole,
+ * then bake a hole-aspect crop for AvatarFaceEllipse. Used after camera and library picks.
  */
 export function AvatarFaceAlignModal({
   visible,
@@ -51,6 +51,7 @@ export function AvatarFaceAlignModal({
 }: Props) {
   const { width: screenW, height: screenH } = useWindowDimensions();
   const insets = useSafeAreaInsets();
+  const [workingUri, setWorkingUri] = useState(imageUri);
   const [natural, setNatural] = useState<NaturalSize | null>(null);
   const [panX, setPanX] = useState(0);
   const [panY, setPanY] = useState(0);
@@ -67,6 +68,7 @@ export function AvatarFaceAlignModal({
 
   useEffect(() => {
     if (!visible || !imageUri) return;
+    setWorkingUri(imageUri);
     setNatural(null);
     setPanX(0);
     setPanY(0);
@@ -74,12 +76,16 @@ export function AvatarFaceAlignModal({
     panXRef.current = 0;
     panYRef.current = 0;
     scaleRef.current = 1;
+  }, [visible, imageUri]);
+
+  useEffect(() => {
+    if (!visible || !workingUri) return;
     Image.getSize(
-      imageUri,
+      workingUri,
       (w, h) => setNatural({ width: w, height: h }),
       () => setNatural({ width: 1024, height: 1024 })
     );
-  }, [visible, imageUri]);
+  }, [visible, workingUri]);
 
   /** Cover the hole ellipse with the photo at scale=1 (centered on hole). */
   const baseCover = useMemo(() => {
@@ -134,6 +140,25 @@ export function AvatarFaceAlignModal({
     });
   }, []);
 
+  /** Bake a horizontal flip into the working photo so preview and crop stay WYSIWYG. */
+  const handleFlip = useCallback(async () => {
+    if (!workingUri || busy) return;
+    setBusy(true);
+    try {
+      const flipped = await ImageManipulator.manipulateAsync(
+        workingUri,
+        [{ flip: ImageManipulator.FlipType.Horizontal }],
+        { compress: 0.92, format: ImageManipulator.SaveFormat.JPEG }
+      );
+      setWorkingUri(flipped.uri);
+    } catch (error) {
+      console.warn('[AvatarFaceAlign] flip', error);
+      Alert.alert('Could not flip', error instanceof Error ? error.message : 'Try again.');
+    } finally {
+      setBusy(false);
+    }
+  }, [workingUri, busy]);
+
   const handleConfirm = useCallback(async () => {
     if (!natural || busy) return;
     setBusy(true);
@@ -172,7 +197,7 @@ export function AvatarFaceAlignModal({
       const finalH = Math.max(1, Math.floor(cropH));
 
       const manipulated = await ImageManipulator.manipulateAsync(
-        imageUri,
+        workingUri,
         [
           {
             crop: {
@@ -193,7 +218,7 @@ export function AvatarFaceAlignModal({
     } finally {
       setBusy(false);
     }
-  }, [natural, busy, baseCover.width, baseCover.height, hole, imageUri, onConfirm, onClose]);
+  }, [natural, busy, baseCover.width, baseCover.height, hole, workingUri, onConfirm, onClose]);
 
   const maskId = 'align-face-mask';
 
@@ -202,14 +227,16 @@ export function AvatarFaceAlignModal({
       <StatusBar style="light" />
       <View style={styles.root}>
         <Text style={[styles.title, { marginTop: 20 + insets.top }]}>Align your face</Text>
-        <Text style={styles.hint}>Drag to move · Zoom to fit your face in the hole on your rider.</Text>
+        <Text style={styles.hint}>
+          Drag to move · Zoom to fit · Flip if the photo looks mirrored.
+        </Text>
 
         <View style={styles.previewWrap} {...panResponder.panHandlers}>
           <View style={{ width: badgeSize, height: badgeSize }}>
             {faceBehindAvatar ? (
               <>
                 <Image
-                  source={{ uri: imageUri }}
+                  source={{ uri: workingUri }}
                   style={{
                     position: 'absolute',
                     left: imgLeft,
@@ -249,7 +276,7 @@ export function AvatarFaceAlignModal({
                   pointerEvents="none"
                 >
                   <Image
-                    source={{ uri: imageUri }}
+                    source={{ uri: workingUri }}
                     style={{
                       position: 'absolute',
                       left: imgLeft,
@@ -289,6 +316,13 @@ export function AvatarFaceAlignModal({
           <Text style={styles.zoomLabel}>{Math.round(scale * 100)}%</Text>
           <TouchableOpacity style={styles.zoomBtn} onPress={() => zoomBy(ZOOM_STEP)} disabled={busy}>
             <Text style={styles.zoomBtnText}>+</Text>
+          </TouchableOpacity>
+          <TouchableOpacity
+            style={[styles.flipBtn, busy && styles.primaryBtnDisabled]}
+            onPress={handleFlip}
+            disabled={busy || !workingUri}
+          >
+            <Text style={styles.flipBtnText}>Flip</Text>
           </TouchableOpacity>
         </View>
 
@@ -366,6 +400,22 @@ const styles = StyleSheet.create({
     fontWeight: '600',
     minWidth: 48,
     textAlign: 'center',
+  },
+  flipBtn: {
+    marginLeft: 8,
+    height: 48,
+    paddingHorizontal: 18,
+    borderRadius: 12,
+    backgroundColor: '#1e293b',
+    alignItems: 'center',
+    justifyContent: 'center',
+    borderWidth: 1,
+    borderColor: '#334155',
+  },
+  flipBtnText: {
+    color: '#f8fafc',
+    fontSize: 16,
+    fontWeight: '700',
   },
   controls: {
     position: 'absolute',

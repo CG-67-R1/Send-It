@@ -15,7 +15,8 @@ Full write-up: `app/src/avatar/FACE_PHOTO.md`
 ## Do
 
 - Keep the CameraView **hole-centered** for aiming (`hole / CAPTURE_PREVIEW_SCALE`).
-- After camera capture, open **Align** with the **full-frame** JPEG. Keep CameraView `mirror={false}` (no selfie-mirror on preview or capture). Library picks use the same Align path.
+- After camera capture, open **Align** with the **full-frame** JPEG. Keep CameraView `mirror={false}`. Library picks use the same Align path.
+- Align must offer a **Flip** control that bakes a horizontal flip into the working photo (preview + crop stay WYSIWYG).
 - Keep face-hole layout in **artwork space** (1024×1536); map with `contain` via `computeFaceHole`. Re-measure with `python3 scripts/measure-face-holes.py` after art changes.
 - Align bakes a hole-aspect crop; `AvatarFaceEllipse` displays with the same geometry.
 
