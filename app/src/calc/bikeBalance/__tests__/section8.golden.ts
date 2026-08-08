@@ -54,7 +54,7 @@ for (const id of requiredIds) {
 
 // Geometry AS self-consistency
 {
-  const g = {
+  const geometryInputs = {
     wheelbaseMm: GEOMETRY_AS_FIXTURE.wheelbaseMm!,
     rearTyreRadiusMm: GEOMETRY_AS_FIXTURE.rearTyreRadiusMm!,
     swingarmLengthMm: GEOMETRY_AS_FIXTURE.swingarmLengthMm!,
@@ -65,7 +65,7 @@ for (const id of requiredIds) {
     rearSprocketTeeth: GEOMETRY_AS_FIXTURE.rearSprocketTeeth!,
     chainPitchMm: GEOMETRY_AS_FIXTURE.chainPitchMm!,
   };
-  const direct = computeAntiSquatFromGeometry(g);
+  const direct = computeAntiSquatFromGeometry(geometryInputs);
   const viaEngine = computeBikeBalance(GEOMETRY_AS_FIXTURE).find((r) => r.equationId === 'EQ-AS-GEO-01');
   if (!viaEngine?.value || Math.abs(viaEngine.value - direct.antiSquatAngleDeg) > 1e-9) {
     console.log('FAIL  geometry AS engine != direct');
@@ -105,8 +105,8 @@ for (const id of requiredIds) {
 
 // Export
 {
-  const md = buildCitableReport(SECTION8_LADEN_EXAMPLE, null);
-  if (!md.includes('EQ-AS-PCT-01') || !md.includes('citable report')) {
+  const reportMarkdown = buildCitableReport(SECTION8_LADEN_EXAMPLE, null);
+  if (!reportMarkdown.includes('EQ-AS-PCT-01') || !reportMarkdown.includes('citable report')) {
     console.log('FAIL  citable report missing expected content');
     failed += 1;
   } else {

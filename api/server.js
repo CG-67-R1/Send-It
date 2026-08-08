@@ -21,8 +21,8 @@ function logError(label, err) {
 /** Shared secret: when APP_API_SECRET is set, require matching x-app-secret header. */
 function requireAppSecret(req, res, next) {
   if (!APP_SECRET) return next();
-  const h = req.headers['x-app-secret'];
-  if (!h || h !== APP_SECRET) {
+  const appSecretHeader = req.headers['x-app-secret'];
+  if (!appSecretHeader || appSecretHeader !== APP_SECRET) {
     return res.status(401).json({ error: 'Unauthorized' });
   }
   next();

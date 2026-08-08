@@ -185,10 +185,10 @@ function toMomsBlocks(chapterNumber, shortTitle, content) {
   const blocks = [];
   const lines = String(content || '').split(/\n/);
   let currentLoc = `Chapter ${chapterNumber}: ${shortTitle}`;
-  let buf = [];
+  let paragraphLines = [];
 
   const flush = () => {
-    const text = buf.join('\n').trim();
+    const text = paragraphLines.join('\n').trim();
     if (!text) return;
     const clauseMatch = String(currentLoc).match(/\b(\d+\.\d+(?:\.\d+){0,3})\b/);
     blocks.push({
@@ -198,7 +198,7 @@ function toMomsBlocks(chapterNumber, shortTitle, content) {
       chapter: chapterNumber,
       text,
     });
-    buf = [];
+    paragraphLines = [];
   };
 
   const clauseRe = new RegExp(
@@ -216,13 +216,13 @@ function toMomsBlocks(chapterNumber, shortTitle, content) {
       flush();
       const rest = (clause[2] || '').trim();
       currentLoc = rest ? `${clause[1]} ${rest}`.slice(0, 140) : clause[1];
-      buf.push(line);
+      paragraphLines.push(line);
     } else if (section) {
       flush();
       currentLoc = section.replace(/[\uFFFD�]+/g, ' ').replace(/\s+/g, ' ').trim().slice(0, 140);
-      buf.push(line);
+      paragraphLines.push(line);
     } else {
-      buf.push(line);
+      paragraphLines.push(line);
     }
   }
   flush();

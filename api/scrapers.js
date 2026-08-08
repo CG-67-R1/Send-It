@@ -273,12 +273,12 @@ function urlFromRssItem(item) {
   if (item.link) return item.link;
   const guid = typeof item.guid === 'string' ? item.guid : '';
   if (guid.startsWith('http')) return guid;
-  const enc = item.enclosure?.url || '';
-  if (enc.includes('buzzsprout.com/episodes/')) {
-    return enc.replace(/\.mp3(\?.*)?$/i, '');
+  const enclosureUrl = item.enclosure?.url || '';
+  if (enclosureUrl.includes('buzzsprout.com/episodes/')) {
+    return enclosureUrl.replace(/\.mp3(\?.*)?$/i, '');
   }
   const buzzId = guid.match(/^Buzzsprout-(\d+)$/);
-  const showId = enc.match(/buzzsprout\.com\/(\d+)\/episodes\//);
+  const showId = enclosureUrl.match(/buzzsprout\.com\/(\d+)\/episodes\//);
   if (buzzId && showId) {
     return `https://www.buzzsprout.com/${showId[1]}/episodes/${buzzId[1]}`;
   }
@@ -712,12 +712,15 @@ export async function getAllHeadlines(bypassCache = false) {
   const live = [];
   for (let i = 0; i < results.length; i++) {
     const { id } = SCRAPER_REGISTRY[i];
-    const r = results[i];
-    if (r.status === 'fulfilled' && Array.isArray(r.value)) {
-      if (r.value.length === 0) console.warn(`[headlines] ${id} returned 0 items`);
-      live.push(...r.value);
+    const settledResult = results[i];
+    if (settledResult.status === 'fulfilled' && Array.isArray(settledResult.value)) {
+      if (settledResult.value.length === 0) console.warn(`[headlines] ${id} returned 0 items`);
+      live.push(...settledResult.value);
     } else {
-      console.warn(`[headlines] ${id} failed:`, r.reason?.message || r.reason || 'unknown error');
+      console.warn(
+        `[headlines] ${id} failed:`,
+        settledResult.reason?.message || settledResult.reason || 'unknown error'
+      );
     }
   }
 

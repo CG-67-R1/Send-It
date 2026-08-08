@@ -66,9 +66,9 @@ export function HeadlinesScreen() {
     setBikePhotoUriState(uri);
     setNickname(answers?.riderNickname?.trim() || answers?.favouriteRider?.trim() || 'Rider');
     setFavouriteBike(answers?.favouriteBike?.trim() || '');
-    const aid = answers?.avatarId ?? null;
-    setAvatarId(aid);
-    setAvatarSource(getAvatarSource(aid));
+    const nextAvatarId = answers?.avatarId ?? null;
+    setAvatarId(nextAvatarId);
+    setAvatarSource(getAvatarSource(nextAvatarId));
     setAvatarFaceUri(faceUri);
   }, []);
 

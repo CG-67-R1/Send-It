@@ -59,7 +59,7 @@ export function AvatarFaceCameraModal({
 
   const guide = computeCaptureGuide(width, height, layout);
   const { badgeSize, badgeLeft, badgeTop, left, top, ew, eh, cx, cy } = guide;
-  const cam = computeCaptureCameraLayout({ cx, cy, ew, eh });
+  const cameraLayout = computeCaptureCameraLayout({ cx, cy, ew, eh });
 
   React.useEffect(() => {
     if (!visible) return;
@@ -131,10 +131,10 @@ export function AvatarFaceCameraModal({
                 ref={cameraRef}
                 style={{
                   position: 'absolute',
-                  left: cam.camLeft - left,
-                  top: cam.camTop - top,
-                  width: cam.camWidth,
-                  height: cam.camHeight,
+                  left: cameraLayout.camLeft - left,
+                  top: cameraLayout.camTop - top,
+                  width: cameraLayout.camWidth,
+                  height: cameraLayout.camHeight,
                 }}
                 facing="front"
                 mirror

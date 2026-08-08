@@ -31,8 +31,8 @@ function geometryInputOrNull(inputs: BikeBalanceInputs) {
     'rearSprocketTeeth',
     'chainPitchMm',
   ] as const;
-  for (const k of needKeys) {
-    if (typeof inputs[k] !== 'number' || Number.isNaN(inputs[k] as number)) return null;
+  for (const fieldKey of needKeys) {
+    if (typeof inputs[fieldKey] !== 'number' || Number.isNaN(inputs[fieldKey] as number)) return null;
   }
   return {
     wheelbaseMm: inputs.wheelbaseMm!,
@@ -55,8 +55,8 @@ export function resolveAntiSquatAngle(inputs: BikeBalanceInputs): {
   assumptions?: string[];
 } {
   if (inputs.antiSquatAngleMode === 'geometry') {
-    const g = geometryInputOrNull(inputs);
-    if (!g) {
+    const geometryInputs = geometryInputOrNull(inputs);
+    if (!geometryInputs) {
       return {
         angleDeg: null,
         fromGeometry: true,
@@ -64,17 +64,17 @@ export function resolveAntiSquatAngle(inputs: BikeBalanceInputs): {
       };
     }
     try {
-      const as = computeAntiSquatFromGeometry(g);
+      const antiSquatGeometry = computeAntiSquatFromGeometry(geometryInputs);
       return {
-        angleDeg: as.antiSquatAngleDeg,
+        angleDeg: antiSquatGeometry.antiSquatAngleDeg,
         fromGeometry: true,
-        assumptions: as.assumptions,
+        assumptions: antiSquatGeometry.assumptions,
       };
-    } catch (e) {
+    } catch (error) {
       return {
         angleDeg: null,
         fromGeometry: true,
-        geometryError: e instanceof Error ? e.message : String(e),
+        geometryError: error instanceof Error ? error.message : String(error),
       };
     }
   }
@@ -91,11 +91,11 @@ function need(
   const values: Record<string, number> = {};
   const missing: string[] = [];
   for (const key of keys) {
-    const v = inputs[key];
-    if (typeof v !== 'number' || Number.isNaN(v)) {
+    const fieldValue = inputs[key];
+    if (typeof fieldValue !== 'number' || Number.isNaN(fieldValue)) {
       missing.push(String(key));
     } else {
-      values[String(key)] = v;
+      values[String(key)] = fieldValue;
     }
   }
   if (missing.length) {
@@ -264,7 +264,7 @@ export function computeBikeBalance(inputs: BikeBalanceInputs): CalcResult[] {
   }
 
   let fwRate: number | null = null;
-  const fwRateResult = results.find((r) => r.equationId === 'EQ-FW-RATE-01');
+  const fwRateResult = results.find((result) => result.equationId === 'EQ-FW-RATE-01');
   if (fwRateResult?.value != null) fwRate = fwRateResult.value;
 
   // EQ-REAR-NTRAIL-01
@@ -542,8 +542,8 @@ export function computeBikeBalance(inputs: BikeBalanceInputs): CalcResult[] {
       'SFC = Rw_force / (Fw_force + Rw_force) x WB',
       [PUBLIC_ENGINEERING.springForceCentre]
     );
-    const fwForce = results.find((r) => r.equationId === 'EQ-FW-FORCE-01')?.value ?? null;
-    const rwForce = results.find((r) => r.equationId === 'EQ-RW-FORCE-01')?.value ?? null;
+    const fwForce = results.find((result) => result.equationId === 'EQ-FW-FORCE-01')?.value ?? null;
+    const rwForce = results.find((result) => result.equationId === 'EQ-RW-FORCE-01')?.value ?? null;
     if (fwForce == null || rwForce == null || inputs.wheelbaseMm == null) {
       results.push({
         ...meta,
@@ -571,7 +571,7 @@ export function computeBikeBalance(inputs: BikeBalanceInputs): CalcResult[] {
 
   // Lean context note (not a formula change without leaned geometry inputs)
   if (inputs.leanDeg !== 0) {
-    const trail = results.find((r) => r.equationId === 'EQ-REAR-NTRAIL-01');
+    const trail = results.find((result) => result.equationId === 'EQ-REAR-NTRAIL-01');
     if (trail && trail.value != null) {
       trail.warning =
         (trail.warning ? `${trail.warning} ` : '') +
@@ -619,18 +619,18 @@ export function formatBikeBalanceForAi(inputs: BikeBalanceInputs, results: CalcR
     ['rearSprocketTeeth', inputs.rearSprocketTeeth],
     ['chainPitchMm', inputs.chainPitchMm],
   ];
-  for (const [k, v] of inputEntries) {
-    if (v != null) lines.push(`- ${k}: ${v}`);
+  for (const [fieldKey, fieldValue] of inputEntries) {
+    if (fieldValue != null) lines.push(`- ${fieldKey}: ${fieldValue}`);
   }
   lines.push('', 'Results:');
-  for (const r of results) {
-    if (r.value == null) {
-      lines.push(`- ${r.equationId} ${r.name}: unavailable (${r.unavailableReason ?? 'n/a'})`);
-    } else if (r.equationId === 'EQ-AS-FLAG-01') {
-      lines.push(`- ${r.equationId} ${r.name}: ${antiSquatFlagLabel(r.value)}`);
+  for (const result of results) {
+    if (result.value == null) {
+      lines.push(`- ${result.equationId} ${result.name}: unavailable (${result.unavailableReason ?? 'n/a'})`);
+    } else if (result.equationId === 'EQ-AS-FLAG-01') {
+      lines.push(`- ${result.equationId} ${result.name}: ${antiSquatFlagLabel(result.value)}`);
     } else {
       lines.push(
-        `- ${r.equationId} ${r.name}: ${r.value.toFixed(3)} ${r.unit}${r.warning ? ` [${r.warning}]` : ''}`
+        `- ${result.equationId} ${result.name}: ${result.value.toFixed(3)} ${result.unit}${result.warning ? ` [${result.warning}]` : ''}`
       );
     }
   }

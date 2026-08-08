@@ -8,10 +8,10 @@ import { runCrossChecks } from './crossChecks';
 import { antiSquatFlagLabel } from './kinematics';
 import type { BikeBalanceInputs, CalcResult } from './types';
 
-function fmt(r: CalcResult): string {
-  if (r.value == null) return `unavailable (${r.unavailableReason ?? 'n/a'})`;
-  if (r.equationId === 'EQ-AS-FLAG-01') return antiSquatFlagLabel(r.value);
-  return `${r.value.toFixed(3)} ${r.unit}`.trim();
+function formatCalcResult(result: CalcResult): string {
+  if (result.value == null) return `unavailable (${result.unavailableReason ?? 'n/a'})`;
+  if (result.equationId === 'EQ-AS-FLAG-01') return antiSquatFlagLabel(result.value);
+  return `${result.value.toFixed(3)} ${result.unit}`.trim();
 }
 
 export function buildCitableReport(
@@ -20,7 +20,7 @@ export function buildCitableReport(
 ): string {
   const results = computeBikeBalance(inputs);
   const refResults = refInputs ? computeBikeBalance(refInputs) : null;
-  const refMap = new Map((refResults ?? []).map((r) => [r.equationId, r]));
+  const refMap = new Map((refResults ?? []).map((result) => [result.equationId, result]));
   const checks = runCrossChecks(inputs);
 
   const lines: string[] = [
@@ -41,25 +41,25 @@ export function buildCitableReport(
     '|----|------|------:|---------:|',
   ];
 
-  for (const r of results) {
-    const ref = refMap.get(r.equationId);
+  for (const result of results) {
+    const ref = refMap.get(result.equationId);
     let delta = '-';
-    if (r.value != null && ref?.value != null && r.equationId !== 'EQ-AS-FLAG-01') {
-      const d = r.value - ref.value;
-      delta = `${d >= 0 ? '+' : ''}${d.toFixed(3)}`;
+    if (result.value != null && ref?.value != null && result.equationId !== 'EQ-AS-FLAG-01') {
+      const deltaValue = result.value - ref.value;
+      delta = `${deltaValue >= 0 ? '+' : ''}${deltaValue.toFixed(3)}`;
     }
-    lines.push(`| ${r.equationId} | ${r.name} | ${fmt(r)} | ${delta} |`);
+    lines.push(`| ${result.equationId} | ${result.name} | ${formatCalcResult(result)} | ${delta} |`);
   }
 
   lines.push('', '## Equations and sources', '');
-  for (const r of results) {
-    lines.push(`### ${r.equationId}: ${r.name}`);
-    lines.push(`- Formula: \`${r.formula}\``);
-    lines.push(`- Value: ${fmt(r)}`);
-    if (r.warning) lines.push(`- Warning: ${r.warning}`);
-    for (const ref of r.publicRefs) lines.push(`- Ref: ${ref}`);
-    const used = Object.entries(r.inputsUsed)
-      .map(([k, v]) => `${k}=${v}`)
+  for (const result of results) {
+    lines.push(`### ${result.equationId}: ${result.name}`);
+    lines.push(`- Formula: \`${result.formula}\``);
+    lines.push(`- Value: ${formatCalcResult(result)}`);
+    if (result.warning) lines.push(`- Warning: ${result.warning}`);
+    for (const ref of result.publicRefs) lines.push(`- Ref: ${ref}`);
+    const used = Object.entries(result.inputsUsed)
+      .map(([fieldKey, fieldValue]) => `${fieldKey}=${fieldValue}`)
       .join(', ');
     if (used) lines.push(`- Inputs used: ${used}`);
     lines.push('');
@@ -68,19 +68,19 @@ export function buildCitableReport(
   if (inputs.antiSquatAngleMode === 'geometry') {
     lines.push('## Anti-squat geometry', '');
     try {
-      const g = requireGeometry(inputs);
-      if (g) {
-        const as = computeAntiSquatFromGeometry(g);
-        lines.push(`- Computed AS angle: ${as.antiSquatAngleDeg.toFixed(3)} deg`);
-        lines.push(`- IFC: (${as.ifc.x.toFixed(2)}, ${as.ifc.y.toFixed(2)}) mm`);
-        lines.push(`- Pivot: (${as.pivot.x.toFixed(2)}, ${as.pivot.y.toFixed(2)}) mm`);
+      const geometryInputs = requireGeometry(inputs);
+      if (geometryInputs) {
+        const antiSquatGeometry = computeAntiSquatFromGeometry(geometryInputs);
+        lines.push(`- Computed AS angle: ${antiSquatGeometry.antiSquatAngleDeg.toFixed(3)} deg`);
+        lines.push(`- IFC: (${antiSquatGeometry.ifc.x.toFixed(2)}, ${antiSquatGeometry.ifc.y.toFixed(2)}) mm`);
+        lines.push(`- Pivot: (${antiSquatGeometry.pivot.x.toFixed(2)}, ${antiSquatGeometry.pivot.y.toFixed(2)}) mm`);
         lines.push('- Assumptions:');
-        for (const a of as.assumptions) lines.push(`  - ${a}`);
+        for (const assumption of antiSquatGeometry.assumptions) lines.push(`  - ${assumption}`);
       } else {
         lines.push('- Geometry inputs incomplete.');
       }
-    } catch (e) {
-      lines.push(`- Geometry error: ${e instanceof Error ? e.message : String(e)}`);
+    } catch (error) {
+      lines.push(`- Geometry error: ${error instanceof Error ? error.message : String(error)}`);
     }
     lines.push('');
   }
@@ -89,9 +89,9 @@ export function buildCitableReport(
   if (!checks.length) {
     lines.push('- None runnable with current inputs.');
   } else {
-    for (const c of checks) {
+    for (const check of checks) {
       lines.push(
-        `- ${c.pass ? 'PASS' : 'FAIL'} ${c.id}: ${c.label} (actual ${c.actual.toFixed(3)}, expected ${c.expected.toFixed(3)}, tol ${c.tol})`
+        `- ${check.pass ? 'PASS' : 'FAIL'} ${check.id}: ${check.label} (actual ${check.actual.toFixed(3)}, expected ${check.expected.toFixed(3)}, tol ${check.tol})`
       );
     }
   }
@@ -114,9 +114,9 @@ function requireGeometry(inputs: BikeBalanceInputs) {
     'rearSprocketTeeth',
     'chainPitchMm',
   ] as const;
-  for (const k of keys) {
-    const v = inputs[k];
-    if (typeof v !== 'number' || Number.isNaN(v)) return null;
+  for (const fieldKey of keys) {
+    const fieldValue = inputs[fieldKey];
+    if (typeof fieldValue !== 'number' || Number.isNaN(fieldValue)) return null;
   }
   return {
     wheelbaseMm: inputs.wheelbaseMm!,

@@ -40,8 +40,8 @@ export function TrackArrivalOverlay() {
       setArrival(result);
       setWeather(null);
       setWeatherLoading(true);
-      const w = await fetchTrackWeather(result.userLat, result.userLng);
-      setWeather(w);
+      const weatherSummary = await fetchTrackWeather(result.userLat, result.userLng);
+      setWeather(weatherSummary);
     } catch {
       // GPS or permission failure — skip silently
     } finally {
@@ -72,12 +72,12 @@ export function TrackArrivalOverlay() {
     if (!arrival || openingCoach) return;
     setOpeningCoach(true);
     try {
-      let w = weather;
-      if (!w && !weatherLoading) {
-        w = await fetchTrackWeather(arrival.userLat, arrival.userLng);
-        setWeather(w);
+      let weatherSummary = weather;
+      if (!weatherSummary && !weatherLoading) {
+        weatherSummary = await fetchTrackWeather(arrival.userLat, arrival.userLng);
+        setWeather(weatherSummary);
       }
-      const draft = buildArrivalCoachDraft(arrival.match.name, w);
+      const draft = buildArrivalCoachDraft(arrival.match.name, weatherSummary);
       await markRemindedForTrack(arrival.match.trackId);
       dismissedSessionRef.current = arrival.match.trackId;
       setArrival(null);

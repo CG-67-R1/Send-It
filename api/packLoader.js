@@ -107,13 +107,13 @@ export function getPacksRoot() {
 }
 
 export function listActivePacks() {
-  const c = loadCache();
-  return c.activePacks.slice();
+  const cache = loadCache();
+  return cache.activePacks.slice();
 }
 
 export function listActiveManifests() {
-  const c = loadCache();
-  return c.activePacks.map((id) => c.manifests.get(id)).filter(Boolean);
+  const cache = loadCache();
+  return cache.activePacks.map((id) => cache.manifests.get(id)).filter(Boolean);
 }
 
 export function getPrimaryPackId() {
@@ -122,8 +122,8 @@ export function getPrimaryPackId() {
 }
 
 export function getPrimaryManifest() {
-  const c = loadCache();
-  return c.manifests.get(getPrimaryPackId()) || null;
+  const cache = loadCache();
+  return cache.manifests.get(getPrimaryPackId()) || null;
 }
 
 export function getNode(id) {
@@ -131,14 +131,14 @@ export function getNode(id) {
 }
 
 export function getAncestorChain(nodeId) {
-  const c = loadCache();
+  const cache = loadCache();
   const chain = [];
-  let cur = c.nodes.get(nodeId);
+  let cur = cache.nodes.get(nodeId);
   const guard = new Set();
   while (cur && !guard.has(cur.id)) {
     chain.unshift(cur);
     guard.add(cur.id);
-    cur = cur.parentId ? c.nodes.get(cur.parentId) : null;
+    cur = cur.parentId ? cache.nodes.get(cur.parentId) : null;
   }
   return chain;
 }
@@ -158,9 +158,9 @@ export function readPackFile(packId, relativePath) {
  * For node-scoped arrays (items with nodeId), filter/merge along ancestor chain when nodeId set.
  */
 export function resolveContent(relativePath, nodeId = null) {
-  const c = loadCache();
+  const cache = loadCache();
   let merged = null;
-  for (const packId of c.activePacks) {
+  for (const packId of cache.activePacks) {
     const data = readPackFile(packId, relativePath);
     if (data == null) continue;
     merged = merged == null ? structuredClone(data) : deepMerge(merged, data);
@@ -262,7 +262,7 @@ export function getLocalCountryNames() {
   const names = new Set();
   for (const m of listActiveManifests()) {
     if (m.displayName) names.add(m.displayName);
-    for (const c of m.isoCountries || []) {
+    for (const countryCode of m.isoCountries || []) {
       // Human labels for common ISO used by static calendar
       const map = {
         AU: 'Australia',
@@ -270,7 +270,7 @@ export function getLocalCountryNames() {
         ES: 'Spain',
         IT: 'Italy',
       };
-      if (map[c]) names.add(map[c]);
+      if (map[countryCode]) names.add(map[countryCode]);
     }
   }
   return names;
@@ -281,6 +281,6 @@ export function getDefaultLocalFilterKey() {
 }
 
 export function getLocalUiLabel() {
-  const m = getPrimaryManifest();
-  return m?.defaultLocalLabel || m?.displayName || 'Local';
+  const manifest = getPrimaryManifest();
+  return manifest?.defaultLocalLabel || manifest?.displayName || 'Local';
 }

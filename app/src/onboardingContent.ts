@@ -41,8 +41,8 @@ function normalize(s: string): string {
 }
 
 function bestBlurb(input: string, entries: OnboardingFactEntry[]): string | null {
-  const n = normalize(input);
-  if (!n) return null;
+  const normalizedInput = normalize(input);
+  if (!normalizedInput) return null;
 
   let bestScore = -1;
   let bestBlurbText: string | null = null;
@@ -50,17 +50,24 @@ function bestBlurb(input: string, entries: OnboardingFactEntry[]): string | null
   for (const entry of entries) {
     if (entry.active === false) continue;
     for (const alias of entry.aliases) {
-      const a = normalize(alias);
-      if (!a) continue;
+      const normalizedAlias = normalize(alias);
+      if (!normalizedAlias) continue;
 
       let score = -1;
-      if (n === a) {
-        score = 1000 + a.length;
-      } else if (a.length >= MIN_SUBSTRING_ALIAS_LEN && n.includes(a)) {
-        score = 500 + a.length * 10;
-      } else if (a.length >= MIN_SUBSTRING_ALIAS_LEN && n.length >= 4 && a.includes(n)) {
-        score = 200 + n.length * 10;
-      } else if (a.length < MIN_SUBSTRING_ALIAS_LEN) {
+      if (normalizedInput === normalizedAlias) {
+        score = 1000 + normalizedAlias.length;
+      } else if (
+        normalizedAlias.length >= MIN_SUBSTRING_ALIAS_LEN &&
+        normalizedInput.includes(normalizedAlias)
+      ) {
+        score = 500 + normalizedAlias.length * 10;
+      } else if (
+        normalizedAlias.length >= MIN_SUBSTRING_ALIAS_LEN &&
+        normalizedInput.length >= 4 &&
+        normalizedAlias.includes(normalizedInput)
+      ) {
+        score = 200 + normalizedInput.length * 10;
+      } else if (normalizedAlias.length < MIN_SUBSTRING_ALIAS_LEN) {
         // short alias: exact only (handled above)
         continue;
       }

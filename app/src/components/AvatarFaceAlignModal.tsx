@@ -83,17 +83,17 @@ export function AvatarFaceAlignModal({
 
   /** Cover the hole ellipse with the photo at scale=1 (centered on hole). */
   const baseCover = useMemo(() => {
-    if (!natural) return { w: badgeSize, h: badgeSize };
+    if (!natural) return { width: badgeSize, height: badgeSize };
     const target = Math.max(hole.ew, hole.eh) * 1.35;
     const aspect = natural.width / Math.max(natural.height, 1);
     if (aspect >= 1) {
-      return { w: target * aspect, h: target };
+      return { width: target * aspect, height: target };
     }
-    return { w: target, h: target / aspect };
+    return { width: target, height: target / aspect };
   }, [natural, hole.ew, hole.eh, badgeSize]);
 
-  const displayW = baseCover.w * scale;
-  const displayH = baseCover.h * scale;
+  const displayW = baseCover.width * scale;
+  const displayH = baseCover.height * scale;
   const imgLeft = hole.cx - displayW / 2 + panX;
   const imgTop = hole.cy - displayH / 2 + panY;
 
@@ -127,8 +127,8 @@ export function AvatarFaceAlignModal({
   );
 
   const zoomBy = useCallback((delta: number) => {
-    setScale((s) => {
-      const next = Math.min(MAX_SCALE, Math.max(MIN_SCALE, s + delta));
+    setScale((currentScale) => {
+      const next = Math.min(MAX_SCALE, Math.max(MIN_SCALE, currentScale + delta));
       scaleRef.current = next;
       return next;
     });
@@ -138,24 +138,24 @@ export function AvatarFaceAlignModal({
     if (!natural || busy) return;
     setBusy(true);
     try {
-      const s = scaleRef.current;
-      const px = panXRef.current;
-      const py = panYRef.current;
-      const dw = baseCover.w * s;
-      const dh = baseCover.h * s;
-      const left = hole.cx - dw / 2 + px;
-      const top = hole.cy - dh / 2 + py;
+      const currentScale = scaleRef.current;
+      const panOffsetX = panXRef.current;
+      const panOffsetY = panYRef.current;
+      const displayWidth = baseCover.width * currentScale;
+      const displayHeight = baseCover.height * currentScale;
+      const left = hole.cx - displayWidth / 2 + panOffsetX;
+      const top = hole.cy - displayHeight / 2 + panOffsetY;
 
       // Map hole bounding box → source image pixels (same aspect as the face hole).
-      const sx0 = ((hole.left - left) / dw) * natural.width;
-      const sy0 = ((hole.top - top) / dh) * natural.height;
-      const sx1 = ((hole.left + hole.ew - left) / dw) * natural.width;
-      const sy1 = ((hole.top + hole.eh - top) / dh) * natural.height;
+      const srcLeft = ((hole.left - left) / displayWidth) * natural.width;
+      const srcTop = ((hole.top - top) / displayHeight) * natural.height;
+      const srcRight = ((hole.left + hole.ew - left) / displayWidth) * natural.width;
+      const srcBottom = ((hole.top + hole.eh - top) / displayHeight) * natural.height;
 
-      let originX = Math.min(sx0, sx1);
-      let originY = Math.min(sy0, sy1);
-      let cropW = Math.abs(sx1 - sx0);
-      let cropH = Math.abs(sy1 - sy0);
+      let originX = Math.min(srcLeft, srcRight);
+      let originY = Math.min(srcTop, srcBottom);
+      let cropW = Math.abs(srcRight - srcLeft);
+      let cropH = Math.abs(srcBottom - srcTop);
 
       // Clamp to image bounds while preserving hole aspect.
       if (originX < 0) {
@@ -187,13 +187,13 @@ export function AvatarFaceAlignModal({
       );
       onConfirm(manipulated.uri);
       onClose();
-    } catch (e) {
-      console.warn('[AvatarFaceAlign]', e);
-      Alert.alert('Could not crop', e instanceof Error ? e.message : 'Try again with another photo.');
+    } catch (error) {
+      console.warn('[AvatarFaceAlign]', error);
+      Alert.alert('Could not crop', error instanceof Error ? error.message : 'Try again with another photo.');
     } finally {
       setBusy(false);
     }
-  }, [natural, busy, baseCover.w, baseCover.h, hole, imageUri, onConfirm, onClose]);
+  }, [natural, busy, baseCover.width, baseCover.height, hole, imageUri, onConfirm, onClose]);
 
   const maskId = 'align-face-mask';
 

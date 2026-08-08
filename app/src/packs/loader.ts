@@ -82,8 +82,8 @@ export function getPrimaryManifest(): Manifest | null {
 }
 
 export function getLocalUiLabel(): string {
-  const m = getPrimaryManifest();
-  return m?.defaultLocalLabel || m?.displayName || 'Local';
+  const manifest = getPrimaryManifest();
+  return manifest?.defaultLocalLabel || manifest?.displayName || 'Local';
 }
 
 export function getLocalSeriesIds(): Set<string> {
@@ -101,11 +101,11 @@ export function getLocalCountryNames(): Set<string> {
   for (const packId of listActivePacks()) {
     const m = MANIFESTS[packId];
     if (m?.displayName) names.add(m.displayName);
-    for (const c of m?.isoCountries || []) {
-      if (c === 'AU') names.add('Australia');
-      if (c === 'GB') names.add('United Kingdom');
-      if (c === 'ES') names.add('Spain');
-      if (c === 'IT') names.add('Italy');
+    for (const countryCode of m?.isoCountries || []) {
+      if (countryCode === 'AU') names.add('Australia');
+      if (countryCode === 'GB') names.add('United Kingdom');
+      if (countryCode === 'ES') names.add('Spain');
+      if (countryCode === 'IT') names.add('Italy');
     }
   }
   return names;
@@ -132,14 +132,14 @@ export function getBundledTracksCatalog(): { version: number; tracks: unknown[] 
   const seen = new Set<string>();
   let version = 1;
   for (const packId of listActivePacks()) {
-    const cat = TRACKS[packId];
-    if (!cat) continue;
-    version = cat.version || version;
-    for (const t of cat.tracks || []) {
-      const id = (t as { id?: string }).id;
+    const trackCatalog = TRACKS[packId];
+    if (!trackCatalog) continue;
+    version = trackCatalog.version || version;
+    for (const track of trackCatalog.tracks || []) {
+      const id = (track as { id?: string }).id;
       if (!id || seen.has(id)) continue;
       seen.add(id);
-      tracks.push(t);
+      tracks.push(track);
     }
   }
   return { version, tracks };

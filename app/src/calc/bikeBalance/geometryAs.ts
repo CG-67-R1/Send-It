@@ -80,14 +80,14 @@ export function upperExternalTangent(
 ): { p1: Point; p2: Point } {
   const dx = c2.x - c1.x;
   const dy = c2.y - c1.y;
-  const d = Math.hypot(dx, dy);
-  if (d <= Math.abs(r1 - r2) + 1e-9) {
+  const centerDistance = Math.hypot(dx, dy);
+  if (centerDistance <= Math.abs(r1 - r2) + 1e-9) {
     throw new Error('Sprocket circles nested or touching. Check radii / layout');
   }
-  const a = Math.atan2(dy, dx);
-  const phi = Math.asin(Math.max(-1, Math.min(1, (r1 - r2) / d)));
+  const angleBetweenCenters = Math.atan2(dy, dx);
+  const phi = Math.asin(Math.max(-1, Math.min(1, (r1 - r2) / centerDistance)));
 
-  const candidates = [a + phi, a - phi].map((tangentDir) => {
+  const candidates = [angleBetweenCenters + phi, angleBetweenCenters - phi].map((tangentDir) => {
     // Normal pointing "left" of tangent direction
     const nx = Math.cos(tangentDir + Math.PI / 2);
     const ny = Math.sin(tangentDir + Math.PI / 2);
@@ -96,7 +96,7 @@ export function upperExternalTangent(
     return { p1, p2, midY: (p1.y + p2.y) / 2 };
   });
 
-  candidates.sort((u, v) => v.midY - u.midY);
+  candidates.sort((candidateA, candidateB) => candidateB.midY - candidateA.midY);
   return { p1: candidates[0].p1, p2: candidates[0].p2 };
 }
 
@@ -108,11 +108,11 @@ export function pivotAndAxleFromSwingarm(
 ): { rearContact: Point; rearAxle: Point; pivot: Point } {
   const rearContact = { x: wheelbaseMm, y: 0 };
   const rearAxle = { x: wheelbaseMm, y: rearTyreRadiusMm };
-  const th = degToRad(swingarmAngleDeg);
+  const swingarmAngleRad = degToRad(swingarmAngleDeg);
   // Pivot forward of axle by L·cosθ, above axle by L·sinθ (θ≥0 ⇒ pivot above)
   const pivot = {
-    x: rearAxle.x - swingarmLengthMm * Math.cos(th),
-    y: rearAxle.y + swingarmLengthMm * Math.sin(th),
+    x: rearAxle.x - swingarmLengthMm * Math.cos(swingarmAngleRad),
+    y: rearAxle.y + swingarmLengthMm * Math.sin(swingarmAngleRad),
   };
   return { rearContact, rearAxle, pivot };
 }

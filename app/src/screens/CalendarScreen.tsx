@@ -71,16 +71,17 @@ function filterEvents(events: CalendarEvent[], filter: CalendarFilter): Calendar
 
 function formatDateRange(start: string, end: string): string {
   if (!start) return '';
-  const s = new Date(start);
-  const e = new Date(end);
+  const startDate = new Date(start);
+  const endDate = new Date(end);
   if (start === end) {
-    return s.toLocaleDateString('en-AU', { day: 'numeric', month: 'short', year: 'numeric' });
+    return startDate.toLocaleDateString('en-AU', { day: 'numeric', month: 'short', year: 'numeric' });
   }
-  const sameMonth = s.getMonth() === e.getMonth() && s.getFullYear() === e.getFullYear();
+  const sameMonth =
+    startDate.getMonth() === endDate.getMonth() && startDate.getFullYear() === endDate.getFullYear();
   if (sameMonth) {
-    return `${s.getDate()}–${e.getDate()} ${s.toLocaleDateString('en-AU', { month: 'short', year: 'numeric' })}`;
+    return `${startDate.getDate()}–${endDate.getDate()} ${startDate.toLocaleDateString('en-AU', { month: 'short', year: 'numeric' })}`;
   }
-  return `${s.toLocaleDateString('en-AU', { day: 'numeric', month: 'short' })} – ${e.toLocaleDateString('en-AU', { day: 'numeric', month: 'short', year: 'numeric' })}`;
+  return `${startDate.toLocaleDateString('en-AU', { day: 'numeric', month: 'short' })} – ${endDate.toLocaleDateString('en-AU', { day: 'numeric', month: 'short', year: 'numeric' })}`;
 }
 
 function getSeriesColor(series: string): string {

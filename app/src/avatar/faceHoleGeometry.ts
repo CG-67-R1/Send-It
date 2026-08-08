@@ -143,35 +143,35 @@ export function captureHoleFromCoverPreview(
   holeW: number,
   holeH: number
 ): { originX: number; originY: number; width: number; height: number } {
-  const s = Math.max(camW / Math.max(imageW, 1), camH / Math.max(imageH, 1));
-  const dispW = imageW * s;
-  const dispH = imageH * s;
+  const coverScale = Math.max(camW / Math.max(imageW, 1), camH / Math.max(imageH, 1));
+  const dispW = imageW * coverScale;
+  const dispH = imageH * coverScale;
   const offX = (camW - dispW) / 2;
   const offY = (camH - dispH) / 2;
   const holeLeft = (camW - holeW) / 2;
   const holeTop = (camH - holeH) / 2;
 
-  const map = (sx: number, sy: number) => ({
-    x: (sx - offX) / s,
-    y: (sy - offY) / s,
+  const map = (screenX: number, screenY: number) => ({
+    x: (screenX - offX) / coverScale,
+    y: (screenY - offY) / coverScale,
   });
 
-  const tl = map(holeLeft, holeTop);
-  const br = map(holeLeft + holeW, holeTop + holeH);
-  let x0 = Math.min(tl.x, br.x);
-  let y0 = Math.min(tl.y, br.y);
-  let x1 = Math.max(tl.x, br.x);
-  let y1 = Math.max(tl.y, br.y);
+  const topLeft = map(holeLeft, holeTop);
+  const bottomRight = map(holeLeft + holeW, holeTop + holeH);
+  let minX = Math.min(topLeft.x, bottomRight.x);
+  let minY = Math.min(topLeft.y, bottomRight.y);
+  let maxX = Math.max(topLeft.x, bottomRight.x);
+  let maxY = Math.max(topLeft.y, bottomRight.y);
 
-  x0 = Math.max(0, Math.min(imageW, x0));
-  y0 = Math.max(0, Math.min(imageH, y0));
-  x1 = Math.max(0, Math.min(imageW, x1));
-  y1 = Math.max(0, Math.min(imageH, y1));
+  minX = Math.max(0, Math.min(imageW, minX));
+  minY = Math.max(0, Math.min(imageH, minY));
+  maxX = Math.max(0, Math.min(imageW, maxX));
+  maxY = Math.max(0, Math.min(imageH, maxY));
 
-  const originX = Math.floor(x0);
-  const originY = Math.floor(y0);
-  const width = Math.max(1, Math.min(Math.floor(x1 - x0), imageW - originX));
-  const height = Math.max(1, Math.min(Math.floor(y1 - y0), imageH - originY));
+  const originX = Math.floor(minX);
+  const originY = Math.floor(minY);
+  const width = Math.max(1, Math.min(Math.floor(maxX - minX), imageW - originX));
+  const height = Math.max(1, Math.min(Math.floor(maxY - minY), imageH - originY));
   return { originX, originY, width, height };
 }
 
@@ -188,26 +188,26 @@ export function captureCenterHoleCrop(
   const scale = Math.max(0.05, Math.min(1, previewScale));
   const aspect = Math.max(0.05, holeAspect);
 
-  let x0 = 0;
-  let y0 = 0;
-  let cw = imageW;
-  let ch = imageH;
+  let minX = 0;
+  let minY = 0;
+  let cropWidth = imageW;
+  let cropHeight = imageH;
   const imgAspect = imageW / Math.max(imageH, 1);
   if (imgAspect > aspect) {
-    cw = Math.max(1, Math.floor(imageH * aspect));
-    x0 = Math.max(0, Math.floor((imageW - cw) / 2));
+    cropWidth = Math.max(1, Math.floor(imageH * aspect));
+    minX = Math.max(0, Math.floor((imageW - cropWidth) / 2));
   } else if (imgAspect < aspect) {
-    ch = Math.max(1, Math.floor(imageW / aspect));
-    y0 = Math.max(0, Math.floor((imageH - ch) / 2));
+    cropHeight = Math.max(1, Math.floor(imageW / aspect));
+    minY = Math.max(0, Math.floor((imageH - cropHeight) / 2));
   }
 
-  const width = Math.max(1, Math.floor(cw * scale));
-  const height = Math.max(1, Math.floor(ch * scale));
+  const width = Math.max(1, Math.floor(cropWidth * scale));
+  const height = Math.max(1, Math.floor(cropHeight * scale));
   return {
-    originX: x0 + Math.max(0, Math.floor((cw - width) / 2)),
-    originY: y0 + Math.max(0, Math.floor((ch - height) / 2)),
-    width: Math.min(width, imageW - x0),
-    height: Math.min(height, imageH - y0),
+    originX: minX + Math.max(0, Math.floor((cropWidth - width) / 2)),
+    originY: minY + Math.max(0, Math.floor((cropHeight - height) / 2)),
+    width: Math.min(width, imageW - minX),
+    height: Math.min(height, imageH - minY),
   };
 }
 

@@ -13,8 +13,8 @@ export function frontWheelTravelMm(forkTravelMm: number, rakeDeg: number): numbe
 }
 
 export function frontWheelRateNPerMm(forkRateNPerMm: number, rakeDeg: number): number {
-  const c = Math.cos(degToRad(rakeDeg));
-  return forkRateNPerMm / (c * c);
+  const cosRake = Math.cos(degToRad(rakeDeg));
+  return forkRateNPerMm / (cosRake * cosRake);
 }
 
 export function frontWheelForceN(forkForceN: number, rakeDeg: number): number {
@@ -42,11 +42,11 @@ export function loadTransferAngleDeg(cogYMm: number, wheelbaseMm: number): numbe
 }
 
 export function antiSquatPercent(asAngleDeg: number, ltAngleDeg: number): number {
-  const tLt = Math.tan(degToRad(ltAngleDeg));
-  if (Math.abs(tLt) < 1e-12) {
+  const tanLoadTransfer = Math.tan(degToRad(ltAngleDeg));
+  if (Math.abs(tanLoadTransfer) < 1e-12) {
     throw new Error('Load-transfer angle too near zero for anti-squat %');
   }
-  return (Math.tan(degToRad(asAngleDeg)) / tLt) * 100;
+  return (Math.tan(degToRad(asAngleDeg)) / tanLoadTransfer) * 100;
 }
 
 export function weightSplitPct(cogXMm: number, wheelbaseMm: number): { frontPct: number; rearPct: number } {

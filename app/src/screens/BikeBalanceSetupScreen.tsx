@@ -61,29 +61,29 @@ const SKILL_MODES: SkillMode[] = ['rider', 'tuner', 'engineer'];
 const TABS: TabKey[] = ['inputs', 'results', 'compare', 'guide'];
 
 function parseOptionalNumber(text: string): number | null {
-  const t = text.trim();
-  if (!t) return null;
-  const n = Number(t);
-  return Number.isFinite(n) ? n : null;
+  const trimmed = text.trim();
+  if (!trimmed) return null;
+  const parsed = Number(trimmed);
+  return Number.isFinite(parsed) ? parsed : null;
 }
 
-function formatValue(v: number | null | undefined): string {
-  if (v == null || Number.isNaN(v)) return '';
-  return String(v);
+function formatValue(value: number | null | undefined): string {
+  if (value == null || Number.isNaN(value)) return '';
+  return String(value);
 }
 
-function formatResultValue(r: CalcResult): string {
-  if (r.value == null) return '-';
-  if (r.equationId === 'EQ-AS-FLAG-01') return antiSquatFlagLabel(r.value);
-  const digits = Math.abs(r.value) >= 100 ? 1 : 2;
-  return `${r.value.toFixed(digits)}${r.unit ? ` ${r.unit}` : ''}`;
+function formatResultValue(result: CalcResult): string {
+  if (result.value == null) return '-';
+  if (result.equationId === 'EQ-AS-FLAG-01') return antiSquatFlagLabel(result.value);
+  const digits = Math.abs(result.value) >= 100 ? 1 : 2;
+  return `${result.value.toFixed(digits)}${result.unit ? ` ${result.unit}` : ''}`;
 }
 
 function resultDelta(current: number | null, ref: number | null): string | null {
   if (current == null || ref == null) return null;
-  const d = current - ref;
-  const sign = d > 0 ? '+' : '';
-  return `${sign}${d.toFixed(2)}`;
+  const delta = current - ref;
+  const sign = delta > 0 ? '+' : '';
+  return `${sign}${delta.toFixed(2)}`;
 }
 
 export function BikeBalanceSetupScreen() {

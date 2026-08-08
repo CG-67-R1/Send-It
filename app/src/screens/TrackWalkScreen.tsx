@@ -63,10 +63,10 @@ let speechRecognition: SpeechRecognitionModule | null | undefined;
 function getSpeechRecognition(): SpeechRecognitionModule | null {
   if (speechRecognition !== undefined) return speechRecognition;
   try {
-    const mod = require('expo-speech-recognition') as {
+    const speechModule = require('expo-speech-recognition') as {
       ExpoSpeechRecognitionModule?: SpeechRecognitionModule;
     };
-    speechRecognition = mod.ExpoSpeechRecognitionModule ?? null;
+    speechRecognition = speechModule.ExpoSpeechRecognitionModule ?? null;
   } catch {
     speechRecognition = null;
   }
@@ -246,14 +246,15 @@ export function TrackWalkScreen() {
         resultSub = ExpoSpeechRecognitionModule.addListener(
           'result',
           (event: { results?: { transcript?: string }[]; isFinal?: boolean }) => {
-            const t = (event.results?.[0] as { transcript?: string } | undefined)?.transcript ?? '';
+            const transcript =
+              (event.results?.[0] as { transcript?: string } | undefined)?.transcript ?? '';
             if (event.isFinal) {
-              setDraftText((prev) => (prev ? `${prev} ${t}` : t));
+              setDraftText((prev) => (prev ? `${prev} ${transcript}` : transcript));
               interimRef.current = '';
               setInterimTranscript('');
             } else {
-              interimRef.current = t;
-              setInterimTranscript(t);
+              interimRef.current = transcript;
+              setInterimTranscript(transcript);
             }
           }
         );

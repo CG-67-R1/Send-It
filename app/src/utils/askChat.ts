@@ -26,31 +26,31 @@ export type AskChatResult =
   | { ok: true; reply: string; sources: AskSource[]; fromKb: boolean; momsOnline?: MomsOnlineMeta }
   | { ok: false; error: string };
 
-function asAskSource(s: unknown): AskSource | null {
-  if (typeof s !== 'object' || s === null) return null;
-  const o = s as Record<string, unknown>;
-  if (typeof o.title !== 'string') return null;
-  const source: AskSource = { title: o.title };
-  if (typeof o.origin === 'string') source.origin = o.origin;
-  if (typeof o.location === 'string') source.location = o.location;
-  if (typeof o.clauseId === 'string') source.clauseId = o.clauseId;
-  if (typeof o.edition === 'string') source.edition = o.edition;
-  if (typeof o.effectiveDate === 'string') source.effectiveDate = o.effectiveDate;
-  if (typeof o.page === 'number') source.page = o.page;
-  if (typeof o.summary === 'string') source.summary = o.summary;
-  if (typeof o.chapterNumber === 'number') source.chapterNumber = o.chapterNumber;
-  if (typeof o.chapterTitle === 'string') source.chapterTitle = o.chapterTitle;
-  if (typeof o.onlineUrl === 'string') source.onlineUrl = o.onlineUrl;
+function asAskSource(value: unknown): AskSource | null {
+  if (typeof value !== 'object' || value === null) return null;
+  const record = value as Record<string, unknown>;
+  if (typeof record.title !== 'string') return null;
+  const source: AskSource = { title: record.title };
+  if (typeof record.origin === 'string') source.origin = record.origin;
+  if (typeof record.location === 'string') source.location = record.location;
+  if (typeof record.clauseId === 'string') source.clauseId = record.clauseId;
+  if (typeof record.edition === 'string') source.edition = record.edition;
+  if (typeof record.effectiveDate === 'string') source.effectiveDate = record.effectiveDate;
+  if (typeof record.page === 'number') source.page = record.page;
+  if (typeof record.summary === 'string') source.summary = record.summary;
+  if (typeof record.chapterNumber === 'number') source.chapterNumber = record.chapterNumber;
+  if (typeof record.chapterTitle === 'string') source.chapterTitle = record.chapterTitle;
+  if (typeof record.onlineUrl === 'string') source.onlineUrl = record.onlineUrl;
   return source;
 }
 
-function asMomsOnlineMeta(o: unknown): MomsOnlineMeta | undefined {
-  if (typeof o !== 'object' || o === null) return undefined;
-  const m = o as Record<string, unknown>;
-  if (typeof m.sourcePage !== 'string') return undefined;
-  const meta: MomsOnlineMeta = { sourcePage: m.sourcePage };
-  if (typeof m.fullPdfUrl === 'string') meta.fullPdfUrl = m.fullPdfUrl;
-  if (typeof m.edition === 'string') meta.edition = m.edition;
+function asMomsOnlineMeta(value: unknown): MomsOnlineMeta | undefined {
+  if (typeof value !== 'object' || value === null) return undefined;
+  const metaRecord = value as Record<string, unknown>;
+  if (typeof metaRecord.sourcePage !== 'string') return undefined;
+  const meta: MomsOnlineMeta = { sourcePage: metaRecord.sourcePage };
+  if (typeof metaRecord.fullPdfUrl === 'string') meta.fullPdfUrl = metaRecord.fullPdfUrl;
+  if (typeof metaRecord.edition === 'string') meta.edition = metaRecord.edition;
   return meta;
 }
 

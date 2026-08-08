@@ -192,15 +192,15 @@ export function BikeBalanceDiagramPanel() {
       <Text style={styles.heading}>How to read it</Text>
       <View style={styles.chips}>
         {DIAGRAMS.map((d) => {
-          const on = d.id === active;
+          const isActive = d.id === active;
           return (
             <TouchableOpacity
               key={d.id}
-              style={[styles.chip, on && styles.chipOn]}
+              style={[styles.chip, isActive && styles.chipOn]}
               onPress={() => setActive(d.id)}
               activeOpacity={0.85}
             >
-              <Text style={[styles.chipText, on && styles.chipTextOn]}>{d.title}</Text>
+              <Text style={[styles.chipText, isActive && styles.chipTextOn]}>{d.title}</Text>
             </TouchableOpacity>
           );
         })}

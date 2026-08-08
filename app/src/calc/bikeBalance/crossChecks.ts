@@ -26,7 +26,7 @@ function near(actual: number, expected: number, tol: number): boolean {
 /** Run §8-style identities against current inputs + engine outputs. */
 export function runCrossChecks(inputs: BikeBalanceInputs): CrossCheckItem[] {
   const results = computeBikeBalance(inputs);
-  const byId = Object.fromEntries(results.map((r) => [r.equationId, r]));
+  const byId = Object.fromEntries(results.map((result) => [result.equationId, result]));
   const checks: CrossCheckItem[] = [];
 
   if (inputs.forkTravelMm != null && inputs.rakeDeg != null) {
@@ -144,8 +144,8 @@ export function runCrossChecks(inputs: BikeBalanceInputs): CrossCheckItem[] {
   {
     const asAngle = byId['EQ-AS-GEO-01']?.value;
     if (asAngle != null && inputs.cogYMm != null && inputs.wheelbaseMm != null) {
-      const lt = loadTransferAngleDeg(inputs.cogYMm, inputs.wheelbaseMm);
-      const expected = antiSquatPercent(asAngle, lt);
+      const loadTransferAngle = loadTransferAngleDeg(inputs.cogYMm, inputs.wheelbaseMm);
+      const expected = antiSquatPercent(asAngle, loadTransferAngle);
       const actual = byId['EQ-AS-PCT-01']?.value;
       if (actual != null) {
         checks.push({
@@ -184,9 +184,9 @@ export function runCrossChecks(inputs: BikeBalanceInputs): CrossCheckItem[] {
     inputs.linkRatio != null &&
     inputs.wheelbaseMm != null
   ) {
-    const fw = frontWheelRateNPerMm(inputs.forkRateNPerMm, inputs.rakeDeg);
-    const rw = rearWheelRateNPerMm(inputs.shockRateNPerMm, inputs.linkRatio);
-    const expected = springRateCentreMm(fw, rw, inputs.wheelbaseMm);
+    const frontWheelRate = frontWheelRateNPerMm(inputs.forkRateNPerMm, inputs.rakeDeg);
+    const rearWheelRate = rearWheelRateNPerMm(inputs.shockRateNPerMm, inputs.linkRatio);
+    const expected = springRateCentreMm(frontWheelRate, rearWheelRate, inputs.wheelbaseMm);
     const actual = byId['EQ-SRC-01']?.value;
     if (actual != null) {
       checks.push({
@@ -206,66 +206,66 @@ export function runCrossChecks(inputs: BikeBalanceInputs): CrossCheckItem[] {
 
 /** Golden assertions vs published §8 numbers (laden example). */
 export function section8GoldenAssertions(): { name: string; pass: boolean; detail: string }[] {
-  const i = SECTION8_LADEN_EXAMPLE;
+  const ladenExample = SECTION8_LADEN_EXAMPLE;
   const out: { name: string; pass: boolean; detail: string }[] = [];
 
-  const fwTravel = frontWheelTravelMm(i.forkTravelMm!, i.rakeDeg!);
+  const fwTravel = frontWheelTravelMm(ladenExample.forkTravelMm!, ladenExample.rakeDeg!);
   out.push({
     name: 'Fw travel ≈ 51.6',
     pass: near(fwTravel, 51.6, 0.2),
     detail: `${fwTravel.toFixed(3)}`,
   });
 
-  const fwRate = frontWheelRateNPerMm(i.forkRateNPerMm!, i.rakeDeg!);
+  const fwRate = frontWheelRateNPerMm(ladenExample.forkRateNPerMm!, ladenExample.rakeDeg!);
   out.push({
     name: 'Fw rate ≈ 28',
     pass: near(fwRate, 28.0, 0.2),
     detail: `${fwRate.toFixed(3)}`,
   });
 
-  const fwForce = frontWheelForceN(i.forkForceN!, i.rakeDeg!);
+  const fwForce = frontWheelForceN(ladenExample.forkForceN!, ladenExample.rakeDeg!);
   out.push({
     name: 'Fw force ≈ 1692',
     pass: near(fwForce, 1692, 5),
     detail: `${fwForce.toFixed(2)}`,
   });
 
-  const rwForce = rearWheelForceN(i.shockForceN!, i.linkRatio!);
+  const rwForce = rearWheelForceN(ladenExample.shockForceN!, ladenExample.linkRatio!);
   out.push({
     name: 'Rw force ≈ 1798',
     pass: near(rwForce, 1798, 3),
     detail: `${rwForce.toFixed(2)}`,
   });
 
-  const rwRate = rearWheelRateNPerMm(i.shockRateNPerMm!, i.linkRatio!);
+  const rwRate = rearWheelRateNPerMm(ladenExample.shockRateNPerMm!, ladenExample.linkRatio!);
   out.push({
     name: 'Rw rate (instantaneous MR) ≈ 24.63',
     pass: near(rwRate, 24.63, 0.15),
     detail: `${rwRate.toFixed(3)}`,
   });
 
-  const ntrail = rearNormalTrailMm(i.wheelbaseMm!, i.trailMm!, i.rakeDeg!);
+  const rearNormalTrail = rearNormalTrailMm(ladenExample.wheelbaseMm!, ladenExample.trailMm!, ladenExample.rakeDeg!);
   out.push({
     name: 'Rear normal trail ≈ 1401.5',
-    pass: near(ntrail, 1401.5, 0.5),
-    detail: `${ntrail.toFixed(2)}`,
+    pass: near(rearNormalTrail, 1401.5, 0.5),
+    detail: `${rearNormalTrail.toFixed(2)}`,
   });
 
-  const lt = loadTransferAngleDeg(i.cogYMm!, i.wheelbaseMm!);
+  const loadTransferAngle = loadTransferAngleDeg(ladenExample.cogYMm!, ladenExample.wheelbaseMm!);
   out.push({
     name: 'LT angle ≈ 25.2°',
-    pass: near(lt, 25.2, 0.05),
-    detail: `${lt.toFixed(3)}`,
+    pass: near(loadTransferAngle, 25.2, 0.05),
+    detail: `${loadTransferAngle.toFixed(3)}`,
   });
 
-  const asPct = antiSquatPercent(i.antiSquatAngleDeg!, lt);
+  const asPct = antiSquatPercent(ladenExample.antiSquatAngleDeg!, loadTransferAngle);
   out.push({
     name: 'AS% ≈ 98.4',
     pass: near(asPct, 98.4, 0.3),
     detail: `${asPct.toFixed(3)}`,
   });
 
-  const split = weightSplitPct(i.cogXMm!, i.wheelbaseMm!);
+  const split = weightSplitPct(ladenExample.cogXMm!, ladenExample.wheelbaseMm!);
   out.push({
     name: 'R% ≈ 49.01',
     pass: near(split.rearPct, 49.01, 0.02),
@@ -273,14 +273,14 @@ export function section8GoldenAssertions(): { name: string; pass: boolean; detai
   });
 
   // SRC using guide's displayed wheel rates 28 / 26
-  const srcGuide = springRateCentreMm(28, 26, i.wheelbaseMm!);
+  const srcGuide = springRateCentreMm(28, 26, ladenExample.wheelbaseMm!);
   out.push({
     name: 'SRC (guide rates 28/26) ≈ 686.8',
     pass: near(srcGuide, 686.8, 0.5),
     detail: `${srcGuide.toFixed(2)}`,
   });
 
-  const sfcGuide = springForceCentreMm(1692.3, 1798.4, i.wheelbaseMm!);
+  const sfcGuide = springForceCentreMm(1692.3, 1798.4, ladenExample.wheelbaseMm!);
   out.push({
     name: 'SFC from guide Fw/Rw forces',
     pass: near(sfcGuide, (1798.4 / (1692.3 + 1798.4)) * 1426, 0.5),
@@ -288,20 +288,20 @@ export function section8GoldenAssertions(): { name: string; pass: boolean; detai
   });
 
   // Ext dataset identities
-  const e = SECTION8_EXT_EXAMPLE;
-  const ltExt = loadTransferAngleDeg(e.cogYMm!, e.wheelbaseMm!);
+  const extExample = SECTION8_EXT_EXAMPLE;
+  const ltExt = loadTransferAngleDeg(extExample.cogYMm!, extExample.wheelbaseMm!);
   out.push({
     name: 'Ext LT angle ≈ 26.7°',
     pass: near(ltExt, 26.7, 0.1),
     detail: `${ltExt.toFixed(3)}`,
   });
-  const asExt = antiSquatPercent(e.antiSquatAngleDeg!, ltExt);
+  const asExt = antiSquatPercent(extExample.antiSquatAngleDeg!, ltExt);
   out.push({
     name: 'Ext AS% ≈ 117.4',
     pass: near(asExt, 117.4, 0.3),
     detail: `${asExt.toFixed(3)}`,
   });
-  const ntrailExt = rearNormalTrailMm(e.wheelbaseMm!, e.trailMm!, e.rakeDeg!);
+  const ntrailExt = rearNormalTrailMm(extExample.wheelbaseMm!, extExample.trailMm!, extExample.rakeDeg!);
   out.push({
     name: 'Ext rear normal trail ≈ 1398.9',
     pass: near(ntrailExt, 1398.9, 0.5),

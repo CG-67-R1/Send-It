@@ -129,8 +129,8 @@ export function QAScreen() {
     (async () => {
       try {
         const raw = await AsyncStorage.getItem(TRIVIA_BEST_SCORE_KEY);
-        const n = raw != null ? parseInt(raw, 10) : 0;
-        if (!cancelled && !isNaN(n)) setTriviaBestScore(n);
+        const bestScore = raw != null ? parseInt(raw, 10) : 0;
+        if (!cancelled && !isNaN(bestScore)) setTriviaBestScore(bestScore);
       } catch (_) {}
     })();
     return () => { cancelled = true; };
@@ -153,15 +153,15 @@ export function QAScreen() {
   }, []);
 
   const onSearch = useCallback(async () => {
-    const q = query.trim();
-    if (!q) return;
+    const trimmedQuery = query.trim();
+    if (!trimmedQuery) return;
     setSearchLoading(true);
     setSearchError(null);
     setAskReply(null);
     setAskSources([]);
     setAskFromKb(false);
     try {
-      const result = await sendAskChat(q);
+      const result = await sendAskChat(trimmedQuery);
       if (!result.ok) {
         setSearchError(result.error);
         return;
@@ -177,8 +177,8 @@ export function QAScreen() {
   }, [query]);
 
   const onRulesCheck = useCallback(async () => {
-    const q = rulesQuery.trim();
-    if (!q) return;
+    const trimmedQuery = rulesQuery.trim();
+    if (!trimmedQuery) return;
     setRulesLoading(true);
     setRulesError(null);
     setRulesReply(null);
@@ -186,7 +186,7 @@ export function QAScreen() {
     setRulesMomsOnline(undefined);
     setRulesFromKb(false);
     try {
-      const result = await sendAskChat(q, { mode: 'rules' });
+      const result = await sendAskChat(trimmedQuery, { mode: 'rules' });
       if (!result.ok) {
         setRulesError(result.error);
         return;
