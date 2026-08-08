@@ -109,9 +109,9 @@ export function OnboardingScreen({ onComplete }: OnboardingScreenProps) {
     setFaceCameraOpen(true);
   }, []);
 
-  /** Camera already crops to the face hole — skip Align (library picks still use it). */
+  /** Camera returns a full frame; Align bakes the hole crop (same as library). */
   const onAvatarFaceCaptured = useCallback((uri: string) => {
-    setAvatarFaceUri(uri);
+    setAlignImageUri(uri);
   }, []);
 
   const onAvatarFaceAligned = useCallback((uri: string) => {

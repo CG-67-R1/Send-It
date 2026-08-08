@@ -10,23 +10,22 @@ Full write-up: `app/src/avatar/FACE_PHOTO.md`
 
 ## Invariant
 
-**What is visible through the face hole at capture must be what fills the hole on the home avatar** (optional un-mirror after crop is OK; framing must not change).
+**What is visible through the face hole after Align must fill the hole on the home avatar** (framing must not change between Align and display).
 
 ## Do
 
-- Keep the CameraView **hole-centered** and sized from the hole (`hole / CAPTURE_PREVIEW_SCALE`).
-- Crop with **`captureHoleFromCoverPreview`** (frame → cover into CameraView → centered hole). On web, `takePicture` is the **full video frame**, not the clipped preview — naive center-fraction crops will mis-frame.
+- Keep the CameraView **hole-centered** for aiming (`hole / CAPTURE_PREVIEW_SCALE`).
+- After camera capture, open **Align** with the **full-frame** JPEG (native: flip first so L/R matches; web: do not flip). Library picks use the same Align path.
 - Keep face-hole layout in **artwork space** (1024×1536); map with `contain` via `computeFaceHole`. Re-measure with `python3 scripts/measure-face-holes.py` after art changes.
-- Skip Align modal after **camera** capture; Align is for **library** picks only.
-- Native: process capture + flip after crop. Web: `Image.getSize` for dimensions; **do not** flip (CSS mirror only).
+- Align bakes a hole-aspect crop; `AvatarFaceEllipse` displays with the same geometry.
 
 ## Do not
 
+- Auto-crop the camera JPEG to the hole and skip Align — preview ≠ saved frame on phones / mobile Safari.
 - Assume the JPEG equals the CameraView contents (false on web).
-- Use `captureCenterHoleCrop` / “center 42% of the JPEG” as the primary path.
 - Apply hole `%` as if the badge were filled without `contain` letterboxing.
 - Change leathers PNG hole without re-measuring `DEFAULT_FACE_HOLE_LAYOUT`.
 
 ## Manual check after changes
 
-Take photo with full face in hole → home avatar shows the same full face (not a zoomed corner / offset crop).
+Take photo on a **phone** → Align until hole looks right → home avatar matches Align (not a zoomed corner / offset crop). Spot-check desktop too.

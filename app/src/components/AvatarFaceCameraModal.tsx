@@ -17,11 +17,7 @@ import * as ImageManipulator from 'expo-image-manipulator';
 import { StatusBar } from 'expo-status-bar';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import Svg, { Defs, Mask, Rect } from 'react-native-svg';
-import {
-  captureHoleFromCoverPreview,
-  computeCaptureCameraLayout,
-  computeCaptureGuide,
-} from '../avatar/faceHoleGeometry';
+import { computeCaptureCameraLayout, computeCaptureGuide } from '../avatar/faceHoleGeometry';
 import { DEFAULT_FACE_HOLE_LAYOUT, type FaceHoleLayout } from '../avatar/presets';
 
 /** Solid around the rider badge (matches app chrome). */
@@ -31,8 +27,8 @@ type Props = {
   visible: boolean;
   onClose: () => void;
   /**
-   * Called with a JPEG URI of exactly what was visible in the face hole (un-mirrored),
-   * ready for AvatarFaceEllipse — callers should not open Align after camera capture.
+   * Called with a full-frame JPEG (native: un-mirrored). Callers should open
+   * AvatarFaceAlignModal next — automatic hole crop is not reliable on phones.
    */
   onCapture: (uri: string) => void;
   /** Leathers PNG shown over the camera; face shows through the transparent hole. */
@@ -41,35 +37,10 @@ type Props = {
 };
 
 /**
- * True pixel size of a captured URI. On web, expo-camera often reports MediaTrackSettings
- * width/height which can disagree with the actual canvas/data-URI frame (esp. iOS Safari) —
- * cropping with those values shifts the face into a corner of the hole.
- */
-function resolveCaptureSize(
-  uri: string,
-  reportedW: number,
-  reportedH: number
-): Promise<{ width: number; height: number }> {
-  return new Promise((resolve) => {
-    Image.getSize(
-      uri,
-      (w, h) => {
-        if (w > 0 && h > 0) {
-          resolve({ width: w, height: h });
-          return;
-        }
-        resolve({ width: reportedW, height: reportedH });
-      },
-      () => resolve({ width: reportedW, height: reportedH })
-    );
-  });
-}
-
-/**
- * Front camera under the rider avatar. The PNG transparent hole is the only aim guide
- * (no separate math-ellipse mask). Camera is hole-centered; capture keeps the center
- * fraction shown through that hole.
- * See `../avatar/FACE_PHOTO.md` before changing crop, mirror, or camera layout.
+ * Front camera under the rider avatar for aiming. Capture returns a full frame; callers
+ * open AvatarFaceAlignModal to bake the hole crop (phone cameras do not match desktop
+ * web auto-crop — preview ≠ JPEG on mobile Safari / native).
+ * See `../avatar/FACE_PHOTO.md`.
  */
 export function AvatarFaceCameraModal({
   visible,
@@ -110,48 +81,20 @@ export function AvatarFaceCameraModal({
         return;
       }
 
-      const reportedW = photo.width ?? 0;
-      const reportedH = photo.height ?? 0;
-      // Prefer decoded image size — web track settings are often wrong for crop math.
-      const { width: iw, height: ih } = await resolveCaptureSize(photo.uri, reportedW, reportedH);
       let outputUri = photo.uri;
-
-      try {
-        const actions: ImageManipulator.Action[] = [];
-        if (iw > 0 && ih > 0) {
-          // Map hole through the same object-fit:cover preview as CameraView (required on web:
-          // JPEG is the full video frame, not the clipped preview).
-          const crop = captureHoleFromCoverPreview(
-            iw,
-            ih,
-            cam.camWidth,
-            cam.camHeight,
-            ew,
-            eh
+      // Native front-camera `mirror` bakes into the JPEG — flip so Align matches true L/R.
+      // Web only CSS-mirrors the <video>; the canvas capture is already un-mirrored.
+      if (Platform.OS !== 'web') {
+        try {
+          const flipped = await ImageManipulator.manipulateAsync(
+            photo.uri,
+            [{ flip: ImageManipulator.FlipType.Horizontal }],
+            { compress: 0.92, format: ImageManipulator.SaveFormat.JPEG }
           );
-          actions.push({
-            crop: {
-              originX: crop.originX,
-              originY: crop.originY,
-              width: crop.width,
-              height: crop.height,
-            },
-          });
+          outputUri = flipped.uri;
+        } catch (flipErr) {
+          console.warn('[AvatarFaceCamera] flip fallback', flipErr);
         }
-        // Native `mirror` bakes a mirrored JPEG — flip back to true left/right.
-        // Web only CSS-mirrors the <video>; the captured canvas is already un-mirrored.
-        if (Platform.OS !== 'web') {
-          actions.push({ flip: ImageManipulator.FlipType.Horizontal });
-        }
-        if (actions.length > 0) {
-          const manipulated = await ImageManipulator.manipulateAsync(photo.uri, actions, {
-            compress: 0.88,
-            format: ImageManipulator.SaveFormat.JPEG,
-          });
-          outputUri = manipulated.uri;
-        }
-      } catch (manipErr) {
-        console.warn('[AvatarFaceCamera] crop/flip fallback', manipErr);
       }
 
       onCapture(outputUri);
@@ -162,7 +105,7 @@ export function AvatarFaceCameraModal({
     } finally {
       setBusy(false);
     }
-  }, [busy, cam.camHeight, cam.camWidth, eh, ew, onCapture, onClose, ready]);
+  }, [busy, onCapture, onClose, ready]);
 
   return (
     <Modal visible={visible} animationType="slide" onRequestClose={onClose}>
@@ -171,8 +114,8 @@ export function AvatarFaceCameraModal({
         {permission?.granted ? (
           <>
             {/*
-              Clip to the face-hole box; CameraView is larger (zoom-out) and centered so the
-              PNG hole shows the center fraction — that same center fraction is what we save.
+              Clip to the face-hole box for aiming; CameraView is larger (zoom-out) and
+              centered. Capture still returns the full frame — Align bakes the final crop.
             */}
             <View
               style={{
@@ -242,7 +185,7 @@ export function AvatarFaceCameraModal({
 
             <View style={styles.hintWrap} pointerEvents="none">
               <Text style={styles.hint}>
-                Put your face in the hole on your rider, then capture.
+                Roughly frame your face in the hole, then capture — next you can nudge it to fit.
               </Text>
             </View>
 

@@ -281,14 +281,9 @@ export function HeadlinesSettingsScreen() {
     setFaceCameraOpen(true);
   }, []);
 
-  /** Camera already crops to the face hole — skip Align (library picks still use it). */
-  const onRiderFaceCaptured = useCallback(async (uri: string) => {
-    try {
-      const saved = await setAvatarFacePhotoUri(uri);
-      setFacePreviewUri(saved);
-    } catch (e) {
-      Alert.alert('Error', e instanceof Error ? e.message : 'Could not save photo');
-    }
+  /** Camera returns a full frame; Align bakes the hole crop (same as library). */
+  const onRiderFaceCaptured = useCallback((uri: string) => {
+    setAlignImageUri(uri);
   }, []);
 
   const onRiderFaceAligned = useCallback(async (uri: string) => {
