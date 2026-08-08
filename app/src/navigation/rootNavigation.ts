@@ -6,10 +6,9 @@ export type RootTabParamList = {
   HeadlinesTab: undefined;
   CalendarTab: undefined;
   'Q&A': undefined;
-  TrackWalkTab: undefined;
   RiderCoachTab:
     | {
-        screen: 'CoachChat' | 'RiderCoach';
+        screen: 'CoachChat' | 'RiderCoach' | 'TrackWalk';
         params?: {
           mode?: CoachSeedTab;
           seedDraftMessage?: string;

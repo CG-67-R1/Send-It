@@ -29,6 +29,7 @@ export type RiderCoachStackParamList = {
     seedDraftMessage?: string;
   };
   ImportTrackNotes: undefined;
+  TrackWalk: undefined;
   BikeSetupBasics: undefined;
   BikeSetupSheet: undefined;
   RoadRacerAiFaqs: undefined;
@@ -113,6 +114,13 @@ export function RiderCoachScreen() {
         activeOpacity={0.8}
       >
         <Text style={styles.navButtonText}>Bike Setup Basics</Text>
+      </TouchableOpacity>
+      <TouchableOpacity
+        style={styles.navButton}
+        onPress={() => navigation.navigate('TrackWalk')}
+        activeOpacity={0.8}
+      >
+        <Text style={styles.navButtonText}>Track Walk / Track Notes</Text>
       </TouchableOpacity>
       <TouchableOpacity
         style={styles.navButton}

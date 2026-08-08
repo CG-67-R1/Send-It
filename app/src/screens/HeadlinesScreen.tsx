@@ -131,7 +131,6 @@ export function HeadlinesScreen() {
   const goToHeadlines = () => navigation.navigate('HeadlinesList');
   const goToCalendar = () => tabNav?.navigate('CalendarTab' as never);
   const goToQA = () => tabNav?.navigate('Q&A' as never);
-  const goToTrackWalk = () => tabNav?.navigate('TrackWalkTab' as never);
   const goToRiderCoach = () => tabNav?.navigate('RiderCoachTab' as never);
   const goToSettings = () => navigation.navigate('HeadlinesSettings');
 
@@ -278,9 +277,6 @@ export function HeadlinesScreen() {
         </TouchableOpacity>
         <TouchableOpacity style={styles.navButton} onPress={goToQA} activeOpacity={0.8}>
           <Text style={styles.navButtonText}>Q & A</Text>
-        </TouchableOpacity>
-        <TouchableOpacity style={styles.navButton} onPress={goToTrackWalk} activeOpacity={0.8}>
-          <Text style={styles.navButtonText}>Track Walk / Track Notes</Text>
         </TouchableOpacity>
         <TouchableOpacity style={styles.settingsButton} onPress={goToSettings} activeOpacity={0.8}>
           <Text style={styles.settingsButtonText}>Profile & settings</Text>

@@ -444,17 +444,11 @@ export function TrackWalkScreen() {
         return;
       }
       resetWalk();
-      const tabNav = navigation.getParent() as
-        | { navigate: (name: string, params?: object) => void }
-        | undefined;
-      tabNav?.navigate('RiderCoachTab', {
-        screen: 'RiderCoach',
-        params: {
-          seedMessages: [
-            { role: 'user', content: coachMessage },
-            { role: 'assistant', content: result.reply },
-          ],
-        },
+      (navigation as { navigate: (name: string, params?: object) => void }).navigate('RiderCoach', {
+        seedMessages: [
+          { role: 'user', content: coachMessage },
+          { role: 'assistant', content: result.reply },
+        ],
       });
     } finally {
       setSendingCoach(false);
@@ -484,6 +478,12 @@ export function TrackWalkScreen() {
         <View style={styles.logoRow}>
           <AppLogo size={COMPACT_LOGO_SIZE} />
         </View>
+
+        <Text style={styles.purposeBlurb}>
+          Use Track Walk to capture corner and general notes while walking the circuit or
+          reviewing a session. Notes stay private on this device; finish a walk to save,
+          export a file, or ask RR AI Coach for feedback.
+        </Text>
 
         <TrackPicker selectedTrackId={trackId} onSelect={handleSelectTrack} />
 
@@ -784,6 +784,12 @@ const styles = StyleSheet.create({
   container: { flex: 1, backgroundColor: '#0f172a' },
   scrollContent: { paddingHorizontal: 20, paddingBottom: 40 },
   logoRow: { alignItems: 'center', marginTop: 8, marginBottom: 16 },
+  purposeBlurb: {
+    fontSize: 14,
+    color: '#93c5fd',
+    lineHeight: 20,
+    marginBottom: 16,
+  },
   label: { fontSize: 14, fontWeight: '600', color: '#94a3b8', marginBottom: 8 },
   entryCard: {
     backgroundColor: '#1e293b',

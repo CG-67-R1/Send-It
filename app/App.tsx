@@ -174,18 +174,6 @@ function RiderCoachStack() {
         options={{ title: 'Bike Balance Setup' }}
       />
       <Stack.Screen
-        name="ImportTrackNotes"
-        component={ImportTrackNotesScreen}
-        options={{ title: 'Import track notes' }}
-      />
-    </Stack.Navigator>
-  );
-}
-
-function TrackWalkStack() {
-  return (
-    <Stack.Navigator screenOptions={headerOptions}>
-      <Stack.Screen
         name="TrackWalk"
         component={TrackWalkScreen}
         options={{ title: 'Track Walk' }}
@@ -213,11 +201,6 @@ function MainTabs() {
       <Tab.Screen name="HeadlinesTab" component={HeadlinesStack} options={{ title: 'Home' }} />
       <Tab.Screen name="CalendarTab" component={CalendarScreen} options={{ title: 'Events' }} />
       <Tab.Screen name="Q&A" component={QAScreen} options={{ title: 'Q & A' }} />
-      <Tab.Screen
-        name="TrackWalkTab"
-        component={TrackWalkStack}
-        options={{ title: 'Track' }}
-      />
       <Tab.Screen
         name="RiderCoachTab"
         component={RiderCoachStack}
