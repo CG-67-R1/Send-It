@@ -91,7 +91,7 @@ export function HeadlinesSettingsScreen() {
   const [addName, setAddName] = useState('');
   const [adding, setAdding] = useState(false);
   const [notifyPriority1, setNotifyPriority1State] = useState(false);
-  const [trackArrivalReminders, setTrackArrivalRemindersState] = useState(false);
+  const [trackArrivalReminders, setTrackArrivalRemindersState] = useState(true);
 
   const allSources: Source[] = [
     ...builtinSources,

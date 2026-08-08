@@ -45,7 +45,7 @@ const headlines = await getJson('/headlines', 'Headlines', '/headlines');
 if (headlines?.headlines?.length >= 20) {
   pass('Headlines', `${headlines.headlines.length} headlines`);
   const au = headlines.headlines.filter((h) =>
-    ['ma_roadrace', 'mcnews', 'asbk', 'amcn_club', 'amcn_asbk'].includes(h.sourceId)
+    ['ma_roadrace', 'asbk', 'amcn_asbk'].includes(h.sourceId)
   );
   if (au.length >= 1) pass('Headlines', `${au.length} AU items in feed`);
   else fail('Headlines', 'no AU headlines in response');

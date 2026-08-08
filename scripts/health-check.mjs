@@ -39,13 +39,8 @@ function run(cmd, args, cwd, label) {
 }
 
 function checkInterleaveLogic() {
-  const LOCAL = [
-    'ma_roadrace',
-    'mcnews',
-    'asbk',
-    'amcn_club',
-    'amcn_asbk',
-  ];
+  // Active AU pack local sources (packs/regions/au/headlines/sources.json)
+  const LOCAL = ['ma_roadrace', 'asbk', 'amcn_asbk'];
   const interleave = (headlines, auIds, everyN = 4) => {
     const au = headlines.filter((h) => auIds.includes(h.sourceId));
     const rest = headlines.filter((h) => !auIds.includes(h.sourceId));
@@ -67,14 +62,14 @@ function checkInterleaveLogic() {
     { sourceId: 'motogp' },
     { sourceId: 'motogp' },
     { sourceId: 'motogp' },
-    { sourceId: 'mcnews' },
-    { sourceId: 'gpone' },
     { sourceId: 'asbk' },
+    { sourceId: 'gpone' },
+    { sourceId: 'ma_roadrace' },
   ];
   const mixed = interleave(sample, LOCAL, 4);
   const auCount = mixed.filter((h) => LOCAL.includes(h.sourceId)).length;
   const ratio = auCount / mixed.length;
-  if (mixed[3]?.sourceId === 'mcnews' && ratio >= 0.25) {
+  if (mixed[3]?.sourceId === 'asbk' && ratio >= 0.25) {
     pass('AU interleave logic (1-in-4 pattern)');
   } else {
     fail(`AU interleave logic (got ratio ${ratio.toFixed(2)}, expected >= 0.25)`);
@@ -89,19 +84,18 @@ async function checkScrapers() {
     'gpone',
     'motor_sport_motogp',
     'ma_roadrace',
-    'mcnews',
-    'amcn_club',
     'asbk',
+    'amcn_asbk',
   ];
   const ids = BUILTIN_SOURCES.map((s) => s.id);
   for (const id of required) {
     if (!ids.includes(id)) fail(`BUILTIN_SOURCES missing ${id}`);
     else pass(`source registered: ${id}`);
   }
-  for (const id of ['bikereview', 'transmoto']) {
+  for (const id of ['bikereview', 'transmoto', 'mcnews', 'amcn_club']) {
     if (ids.includes(id)) fail(`removed source still present: ${id}`);
   }
-  const auKeys = ['ma_roadrace', 'mcnews', 'asbk', 'amcn_club', 'amcn_asbk'];
+  const auKeys = ['ma_roadrace', 'asbk', 'amcn_asbk'];
   if (!auKeys.every((id) => AU_SOURCE_IDS.includes(id))) {
     fail(`AU_SOURCE_IDS missing expected keys (got ${AU_SOURCE_IDS.join(', ')})`);
   } else {

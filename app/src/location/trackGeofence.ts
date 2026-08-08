@@ -40,9 +40,10 @@ async function writeState(state: TrackArrivalState): Promise<void> {
 export async function isTrackArrivalEnabled(): Promise<boolean> {
   try {
     const raw = await AsyncStorage.getItem(KEY_ENABLED);
-    return raw === '1';
+    // Default on when unset; only an explicit '0' disables.
+    return raw !== '0';
   } catch {
-    return false;
+    return true;
   }
 }
 
