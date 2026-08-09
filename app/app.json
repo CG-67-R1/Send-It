@@ -3,7 +3,6 @@
     "name": "RoadRacer",
     "slug": "roadracer",
     "version": "1.0.0",
-    "jsEngine": "hermes",
     "orientation": "portrait",
     "userInterfaceStyle": "automatic",
     "splash": {
@@ -22,9 +21,7 @@
       "adaptiveIcon": {
         "backgroundColor": "#0f172a"
       },
-      "package": "com.roadrace.app",
-      "enableProguardInReleaseBuilds": true,
-      "enableShrinkResourcesInReleaseBuilds": true
+      "package": "com.roadrace.app"
     },
     "plugins": [
       "expo-notifications",
@@ -55,7 +52,17 @@
           "locationWhenInUsePermission": "RoadRacer uses your location at the circuit to greet you when you arrive and suggest chatting with your coach."
         }
       ],
-      "sentry-expo"
+      "@sentry/react-native/expo",
+      "expo-asset",
+      [
+        "expo-build-properties",
+        {
+          "android": {
+            "enableProguardInReleaseBuilds": true,
+            "enableShrinkResourcesInReleaseBuilds": true
+          }
+        }
+      ]
     ],
     "extra": {
       "sentryDsn": "${EXPO_PUBLIC_SENTRY_DSN}",

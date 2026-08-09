@@ -230,8 +230,8 @@ export default function App() {
     console.log(`[Runtime] JavaScript engine: ${isHermes ? 'Hermes' : 'non-Hermes'}`);
   }, []);
 
-  // Load Sentry after the native runtime is ready. Eager `import 'sentry-expo'` can throw
-  // (e.g. tslib `__extends` / Hermes) during the initial module graph before RN is initialized.
+  // Load Sentry after the native runtime is ready. Eager import can throw during the
+  // initial module graph before RN is initialized (seen previously with Hermes).
   useEffect(() => {
     const dsn = process.env.EXPO_PUBLIC_SENTRY_DSN;
     if (!dsn) {
@@ -241,13 +241,13 @@ export default function App() {
       return;
     }
     let cancelled = false;
-    void import('sentry-expo')
+    void import('@sentry/react-native')
       .then((Sentry) => {
         if (cancelled) return;
         Sentry.init({
           dsn,
-          enableInExpoDevelopment: true,
           debug: __DEV__,
+          enabled: true,
         });
       })
       .catch((e) => {
