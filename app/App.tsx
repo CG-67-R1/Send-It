@@ -80,7 +80,7 @@ const homeHeaderStyles = StyleSheet.create({
     paddingHorizontal: 16,
   },
   logoCenter: {
-    ...StyleSheet.absoluteFillObject,
+    ...StyleSheet.absoluteFill,
     alignItems: 'center',
     justifyContent: 'center',
   },
