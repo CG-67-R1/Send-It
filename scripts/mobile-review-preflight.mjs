@@ -89,6 +89,81 @@ if (trackVal.status === 0) {
   fail('validate-track-data.mjs (see FAIL lines above)');
 }
 
+section('Dependency security (npm audit)');
+// High/critical FAIL unless they are only the known-unpatched Metro/image-size
+// tooling chain (advisory covers all published image-size versions; npm often
+// suggests absurd Expo/RN downgrades). That chain is WARN so Hermes can pass.
+const METRO_IMAGE_SIZE_TOOLING = new Set([
+  'image-size',
+  'metro',
+  'metro-config',
+  'metro-transform-worker',
+  '@expo/metro',
+  '@expo/metro-config',
+  '@expo/cli',
+  '@expo/config',
+  '@expo/config-plugins',
+  '@expo/prebuild-config',
+  '@expo/inline-modules',
+  '@expo/local-build-cache-provider',
+  'expo',
+  'react-native',
+  '@react-native/community-cli-plugin',
+]);
+
+function isMetroImageSizeTooling(name, vuln) {
+  if (!METRO_IMAGE_SIZE_TOOLING.has(name)) return false;
+  const via = vuln.via || [];
+  if (via.length === 0) return name === 'image-size';
+  return via.every((entry) => {
+    if (typeof entry === 'string') return METRO_IMAGE_SIZE_TOOLING.has(entry);
+    return entry?.name === 'image-size' || METRO_IMAGE_SIZE_TOOLING.has(entry?.name);
+  });
+}
+
+function runAudit(cwd, label) {
+  const r = spawnSync('npm', ['audit', '--json'], {
+    cwd,
+    encoding: 'utf8',
+    shell: process.platform === 'win32',
+  });
+  let parsed;
+  try {
+    parsed = JSON.parse(r.stdout);
+  } catch {
+    parsed = null;
+  }
+  if (parsed && parsed.metadata) {
+    const { critical = 0, high = 0, moderate = 0, low = 0, info = 0 } =
+      parsed.metadata.vulnerabilities || {};
+    const total = critical + high + moderate + low + info;
+    const summary = `critical:${critical} high:${high} moderate:${moderate} low:${low} info:${info}`;
+    const blocking = Object.entries(parsed.vulnerabilities || {}).filter(
+      ([name, v]) =>
+        (v.severity === 'high' || v.severity === 'critical') &&
+        !isMetroImageSizeTooling(name, v)
+    );
+    if (blocking.length > 0) {
+      fail(
+        `${label} — ${summary} (${blocking.map(([n]) => n).slice(0, 5).join(', ')})`
+      );
+    } else if (critical > 0 || high > 0) {
+      console.log(
+        `  WARN  ${label} — ${summary} (Metro/image-size tooling; no published image-size fix)`
+      );
+    } else if (total > 0) {
+      console.log(`  WARN  ${label} — ${summary} (no high/critical)`);
+    } else {
+      pass(`${label} — no vulnerabilities`);
+    }
+  } else {
+    const err = (r.stderr || r.stdout || '').trim().slice(0, 300);
+    console.log(`  WARN  ${label} — could not parse audit output (node_modules installed?): ${err}`);
+  }
+}
+runAudit(APP_DIR, 'npm audit (app)');
+runAudit(API_DIR, 'npm audit (api)');
+
 section('Repo health check');
 const healthScript = path.join(ROOT, 'scripts', 'health-check.mjs');
 const health = spawnSync('node', [healthScript], {

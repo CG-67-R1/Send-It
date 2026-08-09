@@ -39,7 +39,7 @@ export function AvatarFaceEllipse({
   const faceFileUri = photoDisplayUri(faceUri);
 
   const faceSvg = (
-    <Svg width={W} height={H} style={StyleSheet.absoluteFillObject} pointerEvents="none">
+    <Svg width={W} height={H} style={StyleSheet.absoluteFill} pointerEvents="none">
       <Defs>
         <ClipPath id={clipId}>
           <Ellipse cx={cx} cy={cy} rx={rx} ry={ry} />

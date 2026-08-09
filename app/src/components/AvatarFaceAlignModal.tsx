@@ -248,7 +248,7 @@ export function AvatarFaceAlignModal({
                 />
                 <Image
                   source={avatarSource}
-                  style={StyleSheet.absoluteFillObject}
+                  style={StyleSheet.absoluteFill}
                   resizeMode="contain"
                 />
               </>
@@ -256,10 +256,10 @@ export function AvatarFaceAlignModal({
               <>
                 <Image
                   source={avatarSource}
-                  style={StyleSheet.absoluteFillObject}
+                  style={StyleSheet.absoluteFill}
                   resizeMode="contain"
                 />
-                <Svg width={badgeSize} height={badgeSize} style={StyleSheet.absoluteFillObject}>
+                <Svg width={badgeSize} height={badgeSize} style={StyleSheet.absoluteFill}>
                   <Defs>
                     <Mask id={maskId}>
                       <Rect width={badgeSize} height={badgeSize} fill="#000" />
@@ -270,7 +270,7 @@ export function AvatarFaceAlignModal({
                 </Svg>
                 <View
                   style={[
-                    StyleSheet.absoluteFillObject,
+                    StyleSheet.absoluteFill,
                     { overflow: 'hidden' },
                   ]}
                   pointerEvents="none"
@@ -293,7 +293,7 @@ export function AvatarFaceAlignModal({
             <Svg
               width={badgeSize}
               height={badgeSize}
-              style={StyleSheet.absoluteFillObject}
+              style={StyleSheet.absoluteFill}
               pointerEvents="none"
             >
               <Ellipse
