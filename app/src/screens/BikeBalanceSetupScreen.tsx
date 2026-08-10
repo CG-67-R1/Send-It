@@ -53,6 +53,7 @@ import {
 } from '../storage/bikeBalance';
 import { shareBikeSetupAsText } from '../utils/shareBikeSetup';
 import type { RiderCoachStackParamList } from './RiderCoachScreen';
+import { navigateToFaqs } from '../navigation/rootNavigation';
 
 type Nav = NativeStackNavigationProp<RiderCoachStackParamList, 'BikeBalanceSetup'>;
 type TabKey = 'inputs' | 'results' | 'compare' | 'guide';
@@ -266,7 +267,7 @@ export function BikeBalanceSetupScreen() {
         onOpenDataGuide={() => acceptIntro(true)}
         onGoDaySetup={() => navigation.navigate('BikeSetupSheet')}
         onGoBasics={() => navigation.navigate('BikeSetupBasics')}
-        onGoFaqs={() => navigation.navigate('RoadRacerAiFaqs')}
+        onGoFaqs={() => navigateToFaqs()}
       />
     );
   }

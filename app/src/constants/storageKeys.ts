@@ -20,6 +20,7 @@ export const STORAGE_KEYS = {
   TRACK_ARRIVAL_ENABLED: '@roadrace_track_arrival_enabled',
   TRACK_ARRIVAL_STATE: '@roadrace_track_arrival_state',
   TRIVIA_BEST_SCORE: '@roadrace_trivia_best',
+  TRACK_MEMORY_BEST_LAP: '@roadrace_track_memory_best_lap',
 } as const;
 
 /** Pre-prefix trivia best-score key — migrate once then delete. */

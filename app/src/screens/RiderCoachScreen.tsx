@@ -34,9 +34,9 @@ export type RiderCoachStackParamList = {
     initialTrackName?: string;
   };
   TrackWalk: undefined;
+  TrackMemory: undefined;
   BikeSetupBasics: undefined;
   BikeSetupSheet: undefined;
-  RoadRacerAiFaqs: undefined;
   BikeBalanceSetup: undefined;
 };
 
@@ -128,10 +128,10 @@ export function RiderCoachScreen() {
       </TouchableOpacity>
       <TouchableOpacity
         style={styles.navButton}
-        onPress={() => navigation.navigate('RoadRacerAiFaqs')}
+        onPress={() => navigation.navigate('TrackMemory')}
         activeOpacity={0.8}
       >
-        <Text style={styles.navButtonText}>RoadRacer AI FAQs</Text>
+        <Text style={styles.navButtonText}>Track Memory</Text>
       </TouchableOpacity>
 
       <TouchableOpacity

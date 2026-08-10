@@ -21,6 +21,7 @@ import { BikeSetupSheetScreen } from './src/screens/BikeSetupSheetScreen';
 import { RoadRacerAiFaqsScreen } from './src/screens/RoadRacerAiFaqsScreen';
 import { BikeBalanceSetupScreen } from './src/screens/BikeBalanceSetupScreen';
 import { TrackWalkScreen } from './src/screens/TrackWalkScreen';
+import { TrackMemoryScreen } from './src/screens/TrackMemoryScreen';
 import { OnboardingScreen } from './src/screens/OnboardingScreen';
 import { getOnboardingDone, resetOnboardingForRetest } from './src/storage/onboarding';
 import { OnboardingResetContext } from './src/context/OnboardingResetContext';
@@ -164,11 +165,6 @@ function RiderCoachStack() {
         options={{ title: 'Day Setup Sheet' }}
       />
       <Stack.Screen
-        name="RoadRacerAiFaqs"
-        component={RoadRacerAiFaqsScreen}
-        options={{ title: 'RoadRacer AI FAQs' }}
-      />
-      <Stack.Screen
         name="BikeBalanceSetup"
         component={BikeBalanceSetupScreen}
         options={{ title: 'Bike Balance Setup' }}
@@ -179,9 +175,26 @@ function RiderCoachStack() {
         options={{ title: 'Track Walk' }}
       />
       <Stack.Screen
+        name="TrackMemory"
+        component={TrackMemoryScreen}
+        options={{ title: 'Track Memory' }}
+      />
+      <Stack.Screen
         name="ImportTrackNotes"
         component={ImportTrackNotesScreen}
         options={{ title: 'Import track notes' }}
+      />
+    </Stack.Navigator>
+  );
+}
+
+function FaqsStack() {
+  return (
+    <Stack.Navigator screenOptions={headerOptions}>
+      <Stack.Screen
+        name="RoadRacerAiFaqs"
+        component={RoadRacerAiFaqsScreen}
+        options={{ title: 'FAQs' }}
       />
     </Stack.Navigator>
   );
@@ -206,6 +219,7 @@ function MainTabs() {
         component={RiderCoachStack}
         options={{ title: 'Coach' }}
       />
+      <Tab.Screen name="FaqsTab" component={FaqsStack} options={{ title: 'FAQs' }} />
     </Tab.Navigator>
   );
 }

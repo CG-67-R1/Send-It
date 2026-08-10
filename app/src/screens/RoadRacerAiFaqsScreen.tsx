@@ -1,22 +1,10 @@
 import React, { useCallback, useMemo, useState } from 'react';
 import { ScrollView, StyleSheet, Text, TextInput, View } from 'react-native';
-import { useNavigation } from '@react-navigation/native';
-import type { NativeStackNavigationProp } from '@react-navigation/native-stack';
 import { CoachFaqSection } from '../components/CoachFaqSection';
 import { faqsForMode } from '../data/riderAiFaqs';
-
-type RiderCoachStackParams = {
-  CoachChat: {
-    mode: 'coach' | 'bikesetup';
-    seedDraftMessage?: string;
-  };
-  RoadRacerAiFaqs: undefined;
-};
-
-type Nav = NativeStackNavigationProp<RiderCoachStackParams, 'RoadRacerAiFaqs'>;
+import { navigateToCoachChat } from '../navigation/rootNavigation';
 
 export function RoadRacerAiFaqsScreen() {
-  const navigation = useNavigation<Nav>();
   const coachFaqs = faqsForMode('coach');
   const bikeFaqs = faqsForMode('bikesetup');
   const [search, setSearch] = useState('');
@@ -33,25 +21,13 @@ export function RoadRacerAiFaqsScreen() {
   const filteredCoachFaqs = useMemo(() => filterFaqs(coachFaqs), [coachFaqs, filterFaqs]);
   const filteredBikeFaqs = useMemo(() => filterFaqs(bikeFaqs), [bikeFaqs, filterFaqs]);
 
-  const askCoach = useCallback(
-    (question: string) => {
-      navigation.navigate('CoachChat', {
-        mode: 'coach',
-        seedDraftMessage: question,
-      });
-    },
-    [navigation]
-  );
+  const askCoach = useCallback((question: string) => {
+    navigateToCoachChat({ mode: 'coach', seedDraftMessage: question });
+  }, []);
 
-  const askBikeSetup = useCallback(
-    (question: string) => {
-      navigation.navigate('CoachChat', {
-        mode: 'bikesetup',
-        seedDraftMessage: question,
-      });
-    },
-    [navigation]
-  );
+  const askBikeSetup = useCallback((question: string) => {
+    navigateToCoachChat({ mode: 'bikesetup', seedDraftMessage: question });
+  }, []);
 
   return (
     <View style={styles.container}>

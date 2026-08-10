@@ -8,7 +8,7 @@ export type RootTabParamList = {
   'Q&A': undefined;
   RiderCoachTab:
     | {
-        screen: 'CoachChat' | 'RiderCoach' | 'TrackWalk';
+        screen: 'CoachChat' | 'RiderCoach' | 'TrackWalk' | 'TrackMemory';
         params?: {
           mode?: CoachSeedTab;
           seedDraftMessage?: string;
@@ -17,6 +17,7 @@ export type RootTabParamList = {
         };
       }
     | undefined;
+  FaqsTab: undefined;
 };
 
 export const navigationRef = createNavigationContainerRef<RootTabParamList>();
@@ -46,4 +47,9 @@ export function navigateToCoachWithDraft(draft: string, seedTab: CoachSeedTab = 
 
 export function navigateToBikeSetupWithDraft(draft: string): void {
   navigateToCoachWithDraft(draft, 'bikesetup');
+}
+
+export function navigateToFaqs(): void {
+  if (!navigationRef.isReady()) return;
+  navigationRef.navigate('FaqsTab');
 }
