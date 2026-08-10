@@ -119,7 +119,14 @@ export function TrackMemoryScreen() {
         <View style={styles.placeholder} />
       )}
 
-      <TrackMemoryCockpit width={size.w || 320} height={size.h || 640} lean={state.lean} />
+      <TrackMemoryCockpit
+        width={size.w || 320}
+        height={size.h || 640}
+        lean={state.lean}
+        speedMps={state.speed}
+        lap={Math.min(state.lap, TOTAL_LAPS)}
+        totalLaps={TOTAL_LAPS}
+      />
 
       <View style={styles.hudTop} pointerEvents="box-none">
         <View style={styles.hudLeft}>
