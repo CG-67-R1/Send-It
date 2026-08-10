@@ -1,5 +1,6 @@
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { STORAGE_KEYS } from '../constants/storageKeys';
+import { logStorageError } from './logStorageError';
 
 const KEY_DAY_SHEET = STORAGE_KEYS.BIKE_SETUP_DAY_SHEET;
 export const KEY_SESSION_HISTORY = STORAGE_KEYS.BIKE_SETUP_SESSION_HISTORY;
@@ -124,13 +125,20 @@ export async function getBikeSetupDaySheet(): Promise<BikeSetupDaySheet> {
       const parsed = JSON.parse(raw) as Record<string, unknown>;
       if (parsed && typeof parsed === 'object') return normalizeSheet(parsed);
     }
-  } catch {}
+  } catch (e) {
+    logStorageError('getBikeSetupDaySheet', e);
+  }
   return emptyBikeSetupDaySheet();
 }
 
 export async function saveBikeSetupDaySheet(sheet: BikeSetupDaySheet): Promise<void> {
   const next: BikeSetupDaySheet = { ...sheet, updatedAt: Date.now() };
-  await AsyncStorage.setItem(KEY_DAY_SHEET, JSON.stringify(next));
+  try {
+    await AsyncStorage.setItem(KEY_DAY_SHEET, JSON.stringify(next));
+  } catch (e) {
+    logStorageError('saveBikeSetupDaySheet', e);
+    throw e;
+  }
 }
 
 export async function clearBikeSetupDaySheet(): Promise<BikeSetupDaySheet> {
@@ -153,7 +161,8 @@ export async function getSessionHistory(): Promise<BikeSetupDaySheet[]> {
     return parsed
       .filter((item): item is Record<string, unknown> => Boolean(item) && typeof item === 'object')
       .map(normalizeSheet);
-  } catch {
+  } catch (e) {
+    logStorageError('getSessionHistory', e);
     return [];
   }
 }
@@ -161,11 +170,16 @@ export async function getSessionHistory(): Promise<BikeSetupDaySheet[]> {
 export async function saveSessionToHistory(
   sheet: BikeSetupDaySheet
 ): Promise<BikeSetupDaySheet[]> {
-  const history = await getSessionHistory();
-  const snapshot = normalizeSheet({ ...sheet, updatedAt: Date.now() });
-  const next = [...history, snapshot].slice(-30);
-  await AsyncStorage.setItem(KEY_SESSION_HISTORY, JSON.stringify(next));
-  return next;
+  try {
+    const history = await getSessionHistory();
+    const snapshot = normalizeSheet({ ...sheet, updatedAt: Date.now() });
+    const next = [...history, snapshot].slice(-30);
+    await AsyncStorage.setItem(KEY_SESSION_HISTORY, JSON.stringify(next));
+    return next;
+  } catch (e) {
+    logStorageError('saveSessionToHistory', e);
+    throw e;
+  }
 }
 
 function historyIndex(history: BikeSetupDaySheet[], updatedAtOrIndex: number): number {

@@ -16,29 +16,26 @@ import {
 import * as Clipboard from 'expo-clipboard';
 import * as ImagePicker from 'expo-image-picker';
 import { useNavigation, useRoute, type RouteProp } from '@react-navigation/native';
+import type { NativeStackNavigationProp } from '@react-navigation/native-stack';
 import { AppLogo } from '../components/AppLogo';
 import { COMPACT_LOGO_SIZE } from '../constants/logoSizing';
 import { OtherTrackContextForm } from '../components/OtherTrackContextForm';
 import { TrackPicker } from '../components/TrackPicker';
 import type { OtherTrackContext, TrackDefinition } from '../data/tracks';
 import { getTrackById } from '../data/tracks';
+import { navigateToCoachChat } from '../navigation/rootNavigation';
+import type { RiderCoachStackParamList } from './RiderCoachScreen';
 import { sessionReadyForCoach } from '../storage/trackWalk';
 import { formatTrackNotesForCoach, sendCoachChat } from '../utils/coachChat';
 import { photoUrisToCoachPayloads } from '../utils/coachAttachments';
 
-type ImportRouteParams = {
-  ImportTrackNotes: {
-    initialNotes?: string;
-    initialTrackId?: string;
-    initialTrackName?: string;
-  };
-};
+type ImportNav = NativeStackNavigationProp<RiderCoachStackParamList, 'ImportTrackNotes'>;
 
 const DEFAULT_OTHER: OtherTrackContext = { customName: '', direction: 'unknown' };
 
 export function ImportTrackNotesScreen() {
-  const navigation = useNavigation();
-  const route = useRoute<RouteProp<ImportRouteParams, 'ImportTrackNotes'>>();
+  const navigation = useNavigation<ImportNav>();
+  const route = useRoute<RouteProp<RiderCoachStackParamList, 'ImportTrackNotes'>>();
   const [notes, setNotes] = useState('');
   const [trackId, setTrackId] = useState<string | null>(null);
   const [otherContext, setOtherContext] = useState<OtherTrackContext>(DEFAULT_OTHER);
@@ -165,31 +162,12 @@ export function ImportTrackNotesScreen() {
           { role: 'assistant' as const, content: result.reply },
         ],
       };
+      // Prefer same-stack CoachChat; fall back to typed root helper if stack route missing.
       const stackRoutes = navigation.getState()?.routeNames ?? [];
-      let navigated = false;
       if (stackRoutes.includes('CoachChat')) {
-        (navigation as { navigate: (name: string, params?: object) => void }).navigate(
-          'CoachChat',
-          seedParams
-        );
-        navigated = true;
+        navigation.navigate('CoachChat', seedParams);
       } else {
-        const tabNav = navigation.getParent() as
-          | { navigate: (name: string, params?: object) => void }
-          | undefined;
-        if (tabNav) {
-          tabNav.navigate('RiderCoachTab', {
-            screen: 'CoachChat',
-            params: seedParams,
-          });
-          navigated = true;
-        }
-      }
-      if (!navigated) {
-        Alert.alert(
-          'Sent to coach',
-          'Your notes were sent. Open the Rider Coach tab to continue the conversation.'
-        );
+        navigateToCoachChat(seedParams);
       }
     } finally {
       setSending(false);

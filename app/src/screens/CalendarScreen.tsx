@@ -33,7 +33,6 @@ const SERIES_COLORS: Record<string, string> = {
   au_track_day: '#f59e0b',
   au_national: '#f59e0b',
   australia: '#f59e0b',
-  ASBK: '#f59e0b',
   bsb: '#f59e0b',
   uk_club: '#f59e0b',
   esbk: '#f59e0b',
@@ -86,7 +85,7 @@ function formatDateRange(start: string, end: string): string {
 }
 
 function getSeriesColor(series: string): string {
-  return SERIES_COLORS[series] ?? '#64748b';
+  return SERIES_COLORS[series.toLowerCase()] ?? '#64748b';
 }
 
 /** Build start/end Date for an all-day event (local midnight). */

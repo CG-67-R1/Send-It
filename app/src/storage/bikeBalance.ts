@@ -1,5 +1,6 @@
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { STORAGE_KEYS } from '../constants/storageKeys';
+import { logStorageError } from './logStorageError';
 import {
   DEFAULT_BIKE_BALANCE_INPUTS,
   type BikeBalanceInputs,
@@ -80,7 +81,8 @@ export async function loadBikeBalanceState(): Promise<BikeBalancePersistedState>
       introAccepted: Boolean(parsed.introAccepted),
       savedSetups,
     };
-  } catch {
+  } catch (e) {
+    logStorageError('loadBikeBalanceState', e);
     return emptyState();
   }
 }
@@ -90,7 +92,12 @@ export async function saveBikeBalanceState(state: BikeBalancePersistedState): Pr
     ...state,
     savedSetups: state.savedSetups.slice(-MAX_SAVED_SETUPS),
   };
-  await AsyncStorage.setItem(KEY_STATE, JSON.stringify(next));
+  try {
+    await AsyncStorage.setItem(KEY_STATE, JSON.stringify(next));
+  } catch (e) {
+    logStorageError('saveBikeBalanceState', e);
+    throw e;
+  }
 }
 
 export async function clearBikeBalanceState(): Promise<void> {

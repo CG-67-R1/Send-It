@@ -19,7 +19,10 @@ export const STORAGE_KEYS = {
   AVATAR_FACE_REV: '@roadrace_avatar_face_photo_rev',
   TRACK_ARRIVAL_ENABLED: '@roadrace_track_arrival_enabled',
   TRACK_ARRIVAL_STATE: '@roadrace_track_arrival_state',
-  TRIVIA_BEST_SCORE: 'ROADRACER_TRIVIA_BEST',
+  TRIVIA_BEST_SCORE: '@roadrace_trivia_best',
 } as const;
+
+/** Pre-prefix trivia best-score key — migrate once then delete. */
+export const LEGACY_TRIVIA_BEST_SCORE_KEY = 'ROADRACER_TRIVIA_BEST';
 
 export type StorageKey = (typeof STORAGE_KEYS)[keyof typeof STORAGE_KEYS];

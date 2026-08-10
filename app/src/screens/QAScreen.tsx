@@ -18,9 +18,28 @@ import { sendAskChat, type AskSource, type MomsOnlineMeta } from '../utils/askCh
 import { safeOpenUrl } from '../utils/safeOpenUrl';
 import { AppLogo } from '../components/AppLogo';
 import { SCREEN_LOGO_SIZE } from '../constants/logoSizing';
-import { STORAGE_KEYS } from '../constants/storageKeys';
+import { LEGACY_TRIVIA_BEST_SCORE_KEY, STORAGE_KEYS } from '../constants/storageKeys';
 
 const TRIVIA_BEST_SCORE_KEY = STORAGE_KEYS.TRIVIA_BEST_SCORE;
+
+async function readTriviaBestScore(): Promise<number> {
+  const raw = await AsyncStorage.getItem(TRIVIA_BEST_SCORE_KEY);
+  if (raw != null) {
+    const n = parseInt(raw, 10);
+    return Number.isNaN(n) ? 0 : n;
+  }
+  // One-time migrate from pre-prefix key so existing best scores survive.
+  const legacyRaw = await AsyncStorage.getItem(LEGACY_TRIVIA_BEST_SCORE_KEY);
+  if (legacyRaw == null) return 0;
+  const legacy = parseInt(legacyRaw, 10);
+  if (Number.isNaN(legacy)) {
+    await AsyncStorage.removeItem(LEGACY_TRIVIA_BEST_SCORE_KEY);
+    return 0;
+  }
+  await AsyncStorage.setItem(TRIVIA_BEST_SCORE_KEY, String(legacy));
+  await AsyncStorage.removeItem(LEGACY_TRIVIA_BEST_SCORE_KEY);
+  return legacy;
+}
 /** Gamification overlay only — not a user profile / onboarding avatar. */
 const THE_GOAT_SOURCE: ImageSourcePropType = require('../../avatar/the_goat.png');
 
@@ -128,9 +147,8 @@ export function QAScreen() {
     let cancelled = false;
     (async () => {
       try {
-        const raw = await AsyncStorage.getItem(TRIVIA_BEST_SCORE_KEY);
-        const bestScore = raw != null ? parseInt(raw, 10) : 0;
-        if (!cancelled && !isNaN(bestScore)) setTriviaBestScore(bestScore);
+        const bestScore = await readTriviaBestScore();
+        if (!cancelled) setTriviaBestScore(bestScore);
       } catch (_) {}
     })();
     return () => { cancelled = true; };
@@ -138,9 +156,8 @@ export function QAScreen() {
 
   const saveTriviaBestIfBetter = useCallback(async (correctCount: number) => {
     try {
-      const raw = await AsyncStorage.getItem(TRIVIA_BEST_SCORE_KEY);
-      const best = raw != null ? parseInt(raw, 10) : 0;
-      if (isNaN(best) || correctCount <= best) return;
+      const best = await readTriviaBestScore();
+      if (correctCount <= best) return;
       await AsyncStorage.setItem(TRIVIA_BEST_SCORE_KEY, String(correctCount));
       setTriviaBestScore(correctCount);
       setTriviaNewBest(true);

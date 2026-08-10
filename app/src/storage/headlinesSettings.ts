@@ -1,5 +1,6 @@
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { STORAGE_KEYS } from '../constants/storageKeys';
+import { logStorageError } from './logStorageError';
 import type { CustomSource, PriorityOrder } from '../types';
 
 const KEY_PRIORITY = STORAGE_KEYS.HEADLINES_PRIORITY;
@@ -51,7 +52,9 @@ export async function getPriorityOrder(): Promise<PriorityOrder> {
       const parsed = JSON.parse(raw);
       if (Array.isArray(parsed)) return parsed;
     }
-  } catch {}
+  } catch (e) {
+    logStorageError('getPriorityOrder', e);
+  }
   return [...DEFAULT_PRIORITY];
 }
 
@@ -66,7 +69,9 @@ export async function getCustomSources(): Promise<CustomSource[]> {
       const parsed = JSON.parse(raw);
       if (Array.isArray(parsed)) return parsed;
     }
-  } catch {}
+  } catch (e) {
+    logStorageError('getCustomSources', e);
+  }
   return [];
 }
 
@@ -91,7 +96,9 @@ export async function getNotifyPriority1(): Promise<boolean> {
   try {
     const raw = await AsyncStorage.getItem(KEY_NOTIFY_PRIORITY_1);
     return raw === 'true';
-  } catch {}
+  } catch (e) {
+    logStorageError('getNotifyPriority1', e);
+  }
   return false;
 }
 
@@ -106,7 +113,9 @@ export async function getLastSeenPriority1Urls(): Promise<string[]> {
       const parsed = JSON.parse(raw);
       if (Array.isArray(parsed)) return parsed;
     }
-  } catch {}
+  } catch (e) {
+    logStorageError('getLastSeenPriority1Urls', e);
+  }
   return [];
 }
 

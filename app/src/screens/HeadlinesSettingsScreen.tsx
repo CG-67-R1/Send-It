@@ -21,7 +21,6 @@ import {
   ScaleDecorator,
 } from 'react-native-draggable-flatlist';
 import type { RenderItemParams } from 'react-native-draggable-flatlist';
-import * as ImagePicker from 'expo-image-picker';
 import { useFocusEffect } from '@react-navigation/native';
 import {
   DEFAULT_PRIORITY,
@@ -63,6 +62,7 @@ import {
 } from '../storage/avatarFacePhoto';
 import { photoDisplayUri } from '../storage/localPhotoStorage';
 import { useOnboardingReset } from '../context/OnboardingResetContext';
+import { useAvatarFacePicker } from '../hooks/useAvatarFacePicker';
 import {
   getBikeSetupDaySheet,
   getSessionHistory,
@@ -79,9 +79,6 @@ export function HeadlinesSettingsScreen() {
   const [favouriteBike, setFavouriteBike] = useState('');
   const [profileBusy, setProfileBusy] = useState(false);
   const [facePreviewUri, setFacePreviewUri] = useState<string | null>(null);
-  const [faceCameraOpen, setFaceCameraOpen] = useState(false);
-  const [faceBusy, setFaceBusy] = useState(false);
-  const [alignImageUri, setAlignImageUri] = useState<string | null>(null);
   const [builtinSources, setBuiltinSources] = useState<Source[]>([]);
   const [customSources, setCustomSourcesState] = useState<CustomSource[]>([]);
   const [priority, setPriorityState] = useState<PriorityOrder>([]);
@@ -250,51 +247,30 @@ export function HeadlinesSettingsScreen() {
   const riderPreset = avatarId ? getAvatarPreset(avatarId) : undefined;
   const showRiderPhotoControls = Boolean(riderPreset?.hasFaceHole);
 
-  const pickRiderFaceFromLibrary = useCallback(async () => {
-    if (faceBusy) return;
-    setFaceBusy(true);
-    try {
-      const { status } = await ImagePicker.requestMediaLibraryPermissionsAsync();
-      if (status !== 'granted') {
-        Alert.alert('Photos', 'Allow access to choose a photo for your rider avatar.', [
-          { text: 'OK' },
-          { text: 'Settings', onPress: () => Linking.openSettings() },
-        ]);
-        return;
-      }
-      const result = await ImagePicker.launchImageLibraryAsync({
-        mediaTypes: ['images'],
-        allowsEditing: false,
-        quality: 0.9,
-      });
-      if (!result.canceled && result.assets[0]) {
-        setAlignImageUri(result.assets[0].uri);
-      }
-    } catch (e) {
-      Alert.alert('Error', e instanceof Error ? e.message : 'Could not pick image');
-    } finally {
-      setFaceBusy(false);
-    }
-  }, [faceBusy]);
-
-  const openRiderFaceCamera = useCallback(() => {
-    setFaceCameraOpen(true);
-  }, []);
-
-  /** Camera returns a full frame; Align bakes the hole crop (same as library). */
-  const onRiderFaceCaptured = useCallback((uri: string) => {
-    setAlignImageUri(uri);
-  }, []);
-
-  const onRiderFaceAligned = useCallback(async (uri: string) => {
+  const persistAlignedFace = useCallback(async (uri: string) => {
     try {
       const saved = await setAvatarFacePhotoUri(uri);
       setFacePreviewUri(saved);
-      setAlignImageUri(null);
     } catch (e) {
       Alert.alert('Error', e instanceof Error ? e.message : 'Could not save photo');
+      throw e;
     }
   }, []);
+
+  const {
+    faceCameraOpen,
+    setFaceCameraOpen,
+    alignImageUri,
+    setAlignImageUri,
+    busy: faceBusy,
+    pickFromLibrary: pickRiderFaceFromLibrary,
+    openCamera: openRiderFaceCamera,
+    onCaptured: onRiderFaceCaptured,
+    confirmAligned: onRiderFaceAligned,
+  } = useAvatarFacePicker({
+    onAligned: persistAlignedFace,
+    guardBusy: true,
+  });
 
   const handleSelectSource = useCallback(
     async (slotIndex: number, sourceId: string) => {

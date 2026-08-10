@@ -1,6 +1,7 @@
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { STORAGE_KEYS } from '../constants/storageKeys';
 import { clearAvatarFacePhoto } from './avatarFacePhoto';
+import { logStorageError } from './logStorageError';
 
 const KEY_ONBOARDING_DONE = STORAGE_KEYS.ONBOARDING_DONE;
 const KEY_ONBOARDING_ANSWERS = STORAGE_KEYS.ONBOARDING_ANSWERS;
@@ -29,13 +30,19 @@ export async function getOnboardingDone(): Promise<boolean> {
   try {
     const raw = await AsyncStorage.getItem(KEY_ONBOARDING_DONE);
     return raw === 'true';
-  } catch {
+  } catch (e) {
+    logStorageError('getOnboardingDone', e);
     return false;
   }
 }
 
 export async function setOnboardingDone(): Promise<void> {
-  await AsyncStorage.setItem(KEY_ONBOARDING_DONE, 'true');
+  try {
+    await AsyncStorage.setItem(KEY_ONBOARDING_DONE, 'true');
+  } catch (e) {
+    logStorageError('setOnboardingDone', e);
+    throw e;
+  }
 }
 
 export async function getOnboardingAnswers(): Promise<OnboardingAnswers | null> {
@@ -45,12 +52,19 @@ export async function getOnboardingAnswers(): Promise<OnboardingAnswers | null> 
       const parsed = JSON.parse(raw);
       if (parsed && typeof parsed.favouriteBike === 'string') return parsed as OnboardingAnswers;
     }
-  } catch {}
+  } catch (e) {
+    logStorageError('getOnboardingAnswers', e);
+  }
   return null;
 }
 
 export async function setOnboardingAnswers(answers: OnboardingAnswers): Promise<void> {
-  await AsyncStorage.setItem(KEY_ONBOARDING_ANSWERS, JSON.stringify(answers));
+  try {
+    await AsyncStorage.setItem(KEY_ONBOARDING_ANSWERS, JSON.stringify(answers));
+  } catch (e) {
+    logStorageError('setOnboardingAnswers', e);
+    throw e;
+  }
 }
 
 /** Merge partial updates into saved onboarding answers (profile edits after setup). */

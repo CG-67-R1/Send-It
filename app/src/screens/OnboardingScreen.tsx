@@ -14,7 +14,6 @@ import {
 } from 'react-native';
 import { PRIVACY_POLICY_URL, TERMS_OF_USE_URL } from '../../constants/api';
 import { safeOpenUrl } from '../utils/safeOpenUrl';
-import * as ImagePicker from 'expo-image-picker';
 import { getRiderFact, getBikeFact, RACING_STATES, getRacingStateInfo } from '../onboardingContent';
 import {
   setOnboardingDone,
@@ -26,8 +25,21 @@ import { setAvatarFacePhotoUri, clearAvatarFacePhoto } from '../storage/avatarFa
 import { AvatarFaceAlignModal } from '../components/AvatarFaceAlignModal';
 import { AvatarFaceCameraModal } from '../components/AvatarFaceCameraModal';
 import { AvatarFaceEllipse } from '../components/AvatarFaceEllipse';
+import { useAvatarFacePicker } from '../hooks/useAvatarFacePicker';
 
 type Activity = 'race' | 'track_days' | 'just_love_bikes' | 'race_one_day';
+
+/** Keep in sync with step UI below — progress dots derive from this list. */
+const ONBOARDING_STEPS = [
+  'welcome',
+  'bike',
+  'rider',
+  'taste_bridge',
+  'activity',
+  'future_racer',
+  'nickname_avatar',
+  'summary',
+] as const;
 
 const ACTIVITY_OPTIONS: { value: Activity; label: string }[] = [
   { value: 'race', label: 'I race 🏁' },
@@ -55,20 +67,31 @@ export function OnboardingScreen({ onComplete }: OnboardingScreenProps) {
   const [riderNickname, setRiderNickname] = useState('');
   const [finishing, setFinishing] = useState(false);
   const [acceptedLegal, setAcceptedLegal] = useState(false);
-  const [faceCameraOpen, setFaceCameraOpen] = useState(false);
-  /** Pending photo URI waiting for align modal (library or camera). */
-  const [alignImageUri, setAlignImageUri] = useState<string | null>(null);
   /** Set when user skips avatar pick — stable random mascot for summary + finish. */
   const [assignedRandomAvatarId, setAssignedRandomAvatarId] = useState<string | null>(null);
   const avatarScrollRef = useRef<ScrollView>(null);
   const avatarScrollX = useRef(0);
 
-  // welcome, bike, rider, taste bridge, activity, future racer, nickname+avatar, summary
-  const totalSteps = 8;
+  const totalSteps = ONBOARDING_STEPS.length;
 
   const selectedAvatarPreset = avatarId ? getAvatarPreset(avatarId) : undefined;
   const effectiveAvatarId = avatarId ?? assignedRandomAvatarId;
   const effectiveAvatarPreset = effectiveAvatarId ? getAvatarPreset(effectiveAvatarId) : undefined;
+
+  const {
+    faceCameraOpen,
+    setFaceCameraOpen,
+    alignImageUri,
+    setAlignImageUri,
+    pickFromLibrary: pickAvatarFaceFromLibrary,
+    openCamera: openAvatarFaceCamera,
+    onCaptured: onAvatarFaceCaptured,
+    confirmAligned: onAvatarFaceAligned,
+  } = useAvatarFacePicker({
+    onAligned: (uri) => {
+      setAvatarFaceUri(uri);
+    },
+  });
 
   useEffect(() => {
     if (step === 7 && !avatarId && !assignedRandomAvatarId) {
@@ -81,43 +104,6 @@ export function OnboardingScreen({ onComplete }: OnboardingScreenProps) {
       setAvatarFaceUri(null);
     }
   }, [avatarId, selectedAvatarPreset?.hasFaceHole]);
-
-  const pickAvatarFaceFromLibrary = useCallback(async () => {
-    try {
-      const { status } = await ImagePicker.requestMediaLibraryPermissionsAsync();
-      if (status !== 'granted') {
-        Alert.alert('Photos', 'Allow access to choose a photo for your rider avatar.', [
-          { text: 'OK' },
-          { text: 'Settings', onPress: () => Linking.openSettings() },
-        ]);
-        return;
-      }
-      const result = await ImagePicker.launchImageLibraryAsync({
-        mediaTypes: ['images'],
-        allowsEditing: false,
-        quality: 0.9,
-      });
-      if (!result.canceled && result.assets[0]) {
-        setAlignImageUri(result.assets[0].uri);
-      }
-    } catch (e) {
-      Alert.alert('Error', e instanceof Error ? e.message : 'Could not pick image');
-    }
-  }, []);
-
-  const openAvatarFaceCamera = useCallback(() => {
-    setFaceCameraOpen(true);
-  }, []);
-
-  /** Camera returns a full frame; Align bakes the hole crop (same as library). */
-  const onAvatarFaceCaptured = useCallback((uri: string) => {
-    setAlignImageUri(uri);
-  }, []);
-
-  const onAvatarFaceAligned = useCallback((uri: string) => {
-    setAvatarFaceUri(uri);
-    setAlignImageUri(null);
-  }, []);
 
   const handleFinish = async () => {
     const resolvedAvatarId = avatarId ?? assignedRandomAvatarId ?? pickRandomNoPhotoAvatar();

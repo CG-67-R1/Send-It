@@ -28,7 +28,11 @@ export type RiderCoachStackParamList = {
     seedMessages?: SeedMessage[];
     seedDraftMessage?: string;
   };
-  ImportTrackNotes: undefined;
+  ImportTrackNotes: {
+    initialNotes?: string;
+    initialTrackId?: string;
+    initialTrackName?: string;
+  };
   TrackWalk: undefined;
   BikeSetupBasics: undefined;
   BikeSetupSheet: undefined;

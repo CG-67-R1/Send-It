@@ -182,31 +182,39 @@ export function TrackWalkScreen() {
     authorExperience,
   ]);
 
-  const requestVoice = useCallback(async () => {
+  const requestVoice = useCallback(async (): Promise<'ok' | 'denied' | 'unavailable'> => {
     try {
       const ExpoSpeechRecognitionModule = getSpeechRecognition();
       if (!ExpoSpeechRecognitionModule) {
         setVoiceAvailable(false);
-        return false;
+        return 'unavailable';
       }
       const result = await ExpoSpeechRecognitionModule.requestPermissionsAsync();
       if (!result.granted) {
         Alert.alert('Microphone', 'Allow microphone access to use voice notes.');
-        return false;
+        return 'denied';
       }
       setVoiceAvailable(true);
-      return true;
-    } catch {
+      return 'ok';
+    } catch (e) {
+      if (__DEV__) console.warn('[TrackWalk] speech permission', e);
       setVoiceAvailable(false);
-      return false;
+      return 'unavailable';
     }
   }, []);
 
   const startRecording = useCallback(async () => {
-    if (voiceAvailable === false) return;
+    if (voiceAvailable === false) {
+      Alert.alert('Voice', 'Voice input is not available on this device.');
+      return;
+    }
     if (voiceAvailable === null) {
-      const ok = await requestVoice();
-      if (!ok) return;
+      const status = await requestVoice();
+      if (status === 'denied') return;
+      if (status !== 'ok') {
+        Alert.alert('Voice', 'Voice input is not available on this device.');
+        return;
+      }
     }
     try {
       const ExpoSpeechRecognitionModule = getSpeechRecognition();
@@ -219,7 +227,8 @@ export function TrackWalkScreen() {
       interimRef.current = '';
       ExpoSpeechRecognitionModule.start({ lang: 'en-AU', interimResults: true, continuous: true });
       setRecording(true);
-    } catch {
+    } catch (e) {
+      if (__DEV__) console.warn('[TrackWalk] speech start', e);
       setVoiceAvailable(false);
       Alert.alert('Voice', 'Voice input is not available on this device.');
     }
@@ -228,7 +237,9 @@ export function TrackWalkScreen() {
   const stopRecording = useCallback(() => {
     try {
       getSpeechRecognition()?.stop();
-    } catch {}
+    } catch (e) {
+      if (__DEV__) console.warn('[TrackWalk] speech stop', e);
+    }
     setRecording(false);
     const pending = interimRef.current.trim();
     if (pending) {
@@ -259,7 +270,9 @@ export function TrackWalkScreen() {
           }
         );
       }
-    } catch {}
+    } catch (e) {
+      if (__DEV__) console.warn('[TrackWalk] speech listener', e);
+    }
     return () => resultSub?.remove?.();
   }, []);
 

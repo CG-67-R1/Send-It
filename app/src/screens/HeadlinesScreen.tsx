@@ -15,7 +15,7 @@ import {
 } from 'react-native';
 import { LinearGradient } from 'expo-linear-gradient';
 import * as ImagePicker from 'expo-image-picker';
-import { useFocusEffect, useNavigation } from '@react-navigation/native';
+import { useFocusEffect, useNavigation, type NavigationProp } from '@react-navigation/native';
 import type { NativeStackNavigationProp } from '@react-navigation/native-stack';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { getBikePhotoUri, setBikePhotoUri, clearBikePhoto } from '../storage/bikePhoto';
@@ -26,6 +26,7 @@ import { getOnboardingAnswers } from '../storage/onboarding';
 import { HERO_AVATAR_BADGE_SIZE } from '../avatar/heroBadgeSizing';
 import { getAvatarPreset, getAvatarSource, getFaceHoleLayout } from '../avatar/presets';
 import { AvatarFaceEllipse } from '../components/AvatarFaceEllipse';
+import type { RootTabParamList } from '../navigation/rootNavigation';
 
 type HeadlinesStackParamList = {
   Headlines: undefined;
@@ -127,11 +128,11 @@ export function HeadlinesScreen() {
     );
   }, []);
 
-  const tabNav = navigation.getParent();
+  const tabNav = navigation.getParent<NavigationProp<RootTabParamList>>();
   const goToHeadlines = () => navigation.navigate('HeadlinesList');
-  const goToCalendar = () => tabNav?.navigate('CalendarTab' as never);
-  const goToQA = () => tabNav?.navigate('Q&A' as never);
-  const goToRiderCoach = () => tabNav?.navigate('RiderCoachTab' as never);
+  const goToCalendar = () => tabNav?.navigate('CalendarTab');
+  const goToQA = () => tabNav?.navigate('Q&A');
+  const goToRiderCoach = () => tabNav?.navigate('RiderCoachTab');
   const goToSettings = () => navigation.navigate('HeadlinesSettings');
 
   const displayName = nickname.toUpperCase();

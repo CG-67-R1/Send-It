@@ -78,49 +78,114 @@ Use this brief to generate mockups, illustrations, or theme variations in GPT (o
 
 ## 5. Q & A
 
-**Purpose:** Two modes—**Ask** (search knowledge base) and **Trivia** (quiz). Same screen, tab switch at top.
+**Purpose:** **Ask** (live web Q&A), **Official rule check** (MoMS), and **Trivia** (quiz). Same screen; Ask | Trivia tab switch at top; Rules sits under Ask.
 
 **Layout:**
 - **Tab bar:** Two segments: “Ask” | “Trivia”. Active = amber fill, dark text; inactive = dark, gray text.
-- **Ask tab:** “Ask a question” title + “Search the knowledge base.” Search input + “Search” button (amber). Results: cards with left amber bar; each has title (amber) and content (headings + paragraphs).
-- **Trivia tab:** “Trivia quiz” + rules (3 wrong = fail; 5 right = track rider; 8+ = Track Guru). “Start trivia quiz” (outline/amber border). While playing: score “✓ N  ✗ N”, question text, 4 option buttons (dark). End states: “Quiz over” (fail, red tone) or result (e.g. “Track Guru!”, “Scooter rider”) + message + “Try again” / “Play again” (amber).
+- **Ask tab:** “Got a question?” + live-search subtitle. Search input + “Ask” (amber). Results: dark card with reply + source links. Hint to use Coach for coaching/setup.
+- **Official rule check (under Ask):** Separate “Official rule check?” block for MoMS clause lookup. Input + “Check”. Reply card cites edition / clause locations when available.
+- **Trivia tab:** Quiz rules (3 wrong = fail; 5 right = track rider; 8+ = Track Guru). “Start trivia quiz”. While playing: score “✓ N  ✗ N”, question, 4 options. End states: fail (red) or tier result + “Play again”. Best score persisted; goat celebration on strong wins.
 
-**Visual/theming ideas:** Quiz could have podium or rider tiers; playful “Scooter rider” vs “Track Guru” badges; search could have magnifying glass or helmet icon.
-
----
-
-## 6. Rider Coach
-
-**Purpose:** AI coach (technique, race craft) and Bike Setup (suspension, gearing). Placeholder until backend connected.
-
-**Layout:**
-- **Header:** “Rider Coach & Tech” with “Import notes” (amber) top-right.
-- **Tab bar:** “Coach” | “Bike Setup” (same style as Q&A).
-- **Coach panel:** “Rider Coach” title + “Your Road racing AI coach. Tips, technique, and race craft—ready when you are.” Placeholder card: “RoadRace AI” label + short text about coach chat connecting when configured.
-- **Bike Setup panel:** “Bike Setup” title + “Technical assistant for suspension, gearing, and bike setup.” Placeholder card: “Technical Assistant” + text about technical Q&A connecting.
-
-**Visual/theming ideas:** Coach = helmet/earpiece; Bike Setup = wrench/gears; “coming soon” or connection status; pit-board or clipboard motif.
+**Visual/theming ideas:** Quiz podium / rider tiers; “Scooter rider” vs “Track Guru” badges; rule-book / clipboard motif for MoMS.
 
 ---
 
-## 7. Import Track Notes
+## 6. Rider Coach (hub)
 
-**Purpose:** Paste track notes (e.g. from Messages/WhatsApp) to send to coach for summarising and track log.
+**Purpose:** Entry hub for AI dialog and setup tools — not an in-screen Coach | Bike Setup tab bar.
 
 **Layout:**
-- **Title:** “Import track notes”.
-- **Subtitle:** Paste notes shared by another rider; coach can summarise and add to your log.
-- **Primary action:** “Paste from clipboard” (dark button, amber text).
-- **Fields:** “Track name (optional)” single line; “Notes” multiline (tall).
-- **CTA:** “Send to coach” (amber, full-width style). Disabled when notes empty; shows loading when sending.
+- Compact logo at top.
+- **AI dialog:** Two full-width nav buttons — “RR AI Coach” and “RR Bike Setup” → open `CoachChat` with the matching mode.
+- **Tools:** Short privacy note (data stays on device). Buttons for Day Setup Sheet, Bike Balance Setup, Bike Setup Basics, Track Walk / Track Notes, RoadRacer AI FAQs.
+- Feature-request mailto link at bottom.
 
-**Visual/theming ideas:** Clipboard or “shared notes” icon; track map or corner numbers as background; “From the pits” or “Crew chief” vibe.
+**Visual/theming ideas:** Pit-board hub; helmet for Coach; wrench for Bike Setup; tool-row icons for sheet / balance / walk.
+
+---
+
+## 7. Coach Chat
+
+**Purpose:** Full-screen chat for **coach** (technique / race craft) or **bikesetup** (suspension, gearing). Seeded from hub, Track Walk, Import notes, or track-arrival draft.
+
+**Layout:**
+- Mode from route params (`coach` | `bikesetup`). Message list + composer; long LLM timeout acceptable.
+- Seed handoff: `seedDraftMessage` and/or `seedMessages` (user + assistant) pre-populate once.
+
+**Visual/theming ideas:** Chat bubbles on dark slate; amber send; distinct Coach vs Bike Setup header accent.
+
+---
+
+## 8. Import Track Notes
+
+**Purpose:** Paste track notes (e.g. from Messages/WhatsApp), attach photos, pick a catalog track (or Other), send to coach.
+
+**Layout:**
+- Title “Import track notes”; “Paste from clipboard”.
+- Track picker + Other-track context form; multiline notes; optional photos.
+- CTA “Send to coach” → navigates to CoachChat with seeded conversation.
+
+**Visual/theming ideas:** Clipboard / shared-notes icon; corner numbers; crew-chief vibe.
+
+---
+
+## 9. Track Walk / Track Notes
+
+**Purpose:** Build corner-by-corner session notes (typed or voice), photos, then send to Coach or open Import.
+
+**Layout:**
+- Track picker, session metadata, corner list + note drafts.
+- Optional speech recognition when the native module exists; clear alert if unavailable.
+- Actions: save session, send to coach, import notes.
+
+**Visual/theming ideas:** Circuit map / corner chips; mic affordance for voice.
+
+---
+
+## 10. Day Setup Sheet
+
+**Purpose:** On-device day sheet for pressures, sag, clicks, notes; history snapshots; share as text.
+
+**Layout:** Form sections for tyres / suspension / notes; save / clear / history; share sheet.
+
+**Visual/theming ideas:** Clipboard / setup-sheet motif; numeric fields in pit-lane style.
+
+---
+
+## 11. Bike Balance Setup
+
+**Purpose:** Measurement-driven balance calculator (rider + bike inputs) with exportable report text.
+
+**Layout:** Guided inputs, results / guide progress, save setups locally.
+
+**Visual/theming ideas:** Scale / balance graphic; measurement callouts.
+
+---
+
+## 12. Bike Setup Basics
+
+**Purpose:** Interactive suspension diagram with hotspots; tap a point for road vs track guidance.
+
+**Layout:** Full-width bike diagram; red hotspot dots; bottom sheet / detail for selected part.
+
+**Visual/theming ideas:** Annotated bike silhouette; measure vs adjust hotspot colours.
+
+---
+
+## 13. RoadRacer AI FAQs
+
+**Purpose:** Static FAQ list about RoadRacer AI features and limits.
+
+**Layout:** Scrollable Q&A sections on dark background; back via stack header.
+
+**Visual/theming ideas:** Simple list; optional “?” / helmet icon — keep sparse.
 
 ---
 
 ## Navigation & Chrome
 
-- **Bottom tabs (4):** Headlines | What’s On | Q & A | Rider Coach. Dark bar, amber active, gray inactive. No icons described in code—could add (newspaper, calendar, chat/?, helmet).
+- **Bottom tabs (4):** Home (Headlines) | Events (Calendar) | Q & A | Coach. Dark bar, amber active, gray inactive.
+- **Coach stack:** Hub → CoachChat, Track Walk, Import notes, setup tools, FAQs.
 - **Stack headers:** Dark background, light title, amber for right-side actions (Settings, Import notes).
 - **Loading/splash:** Dark screen, amber spinner, before onboarding or before main app.
 

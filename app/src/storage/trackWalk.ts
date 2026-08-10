@@ -2,6 +2,7 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 import { STORAGE_KEYS } from '../constants/storageKeys';
 import type { CornerDirection, OtherTrackContext } from '../data/tracks';
 import { formatCornerHeading, getTrackById, isOtherTrackComplete } from '../data/tracks';
+import { logStorageError } from './logStorageError';
 
 const KEY_SESSIONS = STORAGE_KEYS.TRACK_WALK_SESSIONS;
 
@@ -87,7 +88,9 @@ export async function getTrackWalkSessions(): Promise<TrackWalkSession[]> {
       const parsed = JSON.parse(raw);
       if (Array.isArray(parsed)) return parsed.map((s) => normalizeSession(s as Record<string, unknown>));
     }
-  } catch {}
+  } catch (e) {
+    logStorageError('getTrackWalkSessions', e);
+  }
   return [];
 }
 
@@ -99,10 +102,15 @@ export async function saveTrackWalkSession(
     id: `tw_${Date.now()}_${Math.random().toString(36).slice(2, 9)}`,
     createdAt: Date.now(),
   };
-  const list = await getTrackWalkSessions();
-  list.unshift(full);
-  await AsyncStorage.setItem(KEY_SESSIONS, JSON.stringify(list));
-  return full;
+  try {
+    const list = await getTrackWalkSessions();
+    list.unshift(full);
+    await AsyncStorage.setItem(KEY_SESSIONS, JSON.stringify(list));
+    return full;
+  } catch (e) {
+    logStorageError('saveTrackWalkSession', e);
+    throw e;
+  }
 }
 
 function formatEntryLine(entry: TrackWalkEntry, trackId: string): string {
@@ -188,9 +196,14 @@ export function sessionReadyForCoach(session: Pick<TrackWalkSession, 'trackId' |
 }
 
 export async function deleteTrackWalkSession(id: string): Promise<void> {
-  const list = await getTrackWalkSessions();
-  const next = list.filter((s) => s.id !== id);
-  await AsyncStorage.setItem(KEY_SESSIONS, JSON.stringify(next));
+  try {
+    const list = await getTrackWalkSessions();
+    const next = list.filter((s) => s.id !== id);
+    await AsyncStorage.setItem(KEY_SESSIONS, JSON.stringify(next));
+  } catch (e) {
+    logStorageError('deleteTrackWalkSession', e);
+    throw e;
+  }
 }
 
 /** Clears all Track Walk sessions and notes stored on this device. */

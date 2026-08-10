@@ -34,6 +34,13 @@ type RiderCoachStackParams = {
 
 type Nav = NativeStackNavigationProp<RiderCoachStackParams, 'BikeSetupBasics'>;
 
+/** RN Web hover/title props not on core TouchableOpacity typings. */
+type WebHoverTouchProps = React.ComponentProps<typeof TouchableOpacity> & {
+  title?: string;
+  onMouseEnter?: () => void;
+  onMouseLeave?: () => void;
+};
+
 export function BikeSetupBasicsScreen() {
   const navigation = useNavigation<Nav>();
   const [selected, setSelected] = useState<BikeSetupHotspot | null>(null);
@@ -97,26 +104,24 @@ export function BikeSetupBasicsScreen() {
                 const left = (h.xPct / 100) * diagramSize.width - HOTSPOT_HIT / 2;
                 const top = (h.yPct / 100) * diagramSize.height - HOTSPOT_HIT / 2;
                 const isAdjust = h.kind === 'adjust';
-                const webHoverProps =
-                  Platform.OS === 'web'
-                    ? ({
+                const hotspotProps: WebHoverTouchProps = {
+                  style: [styles.hotspot, { left, top }],
+                  onPress: () => selectHotspot(h),
+                  activeOpacity: 0.7,
+                  accessibilityLabel: h.title,
+                  accessibilityHint: `Open ${h.title} road and track setup guidance`,
+                  accessibilityRole: 'button',
+                  hitSlop: { top: 6, bottom: 6, left: 6, right: 6 },
+                  ...(Platform.OS === 'web'
+                    ? {
                         title: h.title,
                         onMouseEnter: () => setHoveredHotspotId(h.id),
                         onMouseLeave: () => setHoveredHotspotId(null),
-                      } as any)
-                    : {};
+                      }
+                    : {}),
+                };
                 return (
-                  <TouchableOpacity
-                    key={h.id}
-                    style={[styles.hotspot, { left, top }]}
-                    onPress={() => selectHotspot(h)}
-                    activeOpacity={0.7}
-                    accessibilityLabel={h.title}
-                    accessibilityHint={`Open ${h.title} road and track setup guidance`}
-                    accessibilityRole="button"
-                    hitSlop={{ top: 6, bottom: 6, left: 6, right: 6 }}
-                    {...webHoverProps}
-                  >
+                  <TouchableOpacity key={h.id} {...hotspotProps}>
                     <View
                       style={[
                         styles.hotspotInner,
