@@ -118,7 +118,7 @@ export function TrackMemoryControls({ lean, held, onHold, onReset }: Props) {
         <View style={styles.cluster}>
           <HoldPad
             label="LEAN L"
-            sub="← / A"
+            sub="Tip left"
             holdKey="left"
             onHold={onHold}
             active={held.left}
@@ -127,7 +127,7 @@ export function TrackMemoryControls({ lean, held, onHold, onReset }: Props) {
           />
           <HoldPad
             label="LEAN R"
-            sub="→ / D"
+            sub="Tip right"
             holdKey="right"
             onHold={onHold}
             active={held.right}
@@ -142,13 +142,13 @@ export function TrackMemoryControls({ lean, held, onHold, onReset }: Props) {
           onResponderGrant={onReset}
         >
           <Text style={styles.resetText}>RESET</Text>
-          <Text style={styles.resetSub}>R key</Text>
+          <Text style={styles.resetSub}>Start / finish</Text>
         </View>
 
         <View style={styles.cluster}>
           <HoldPad
             label="BRAKE"
-            sub="↓ / S"
+            sub="Hold"
             holdKey="brake"
             onHold={onHold}
             active={held.brake}
@@ -157,7 +157,7 @@ export function TrackMemoryControls({ lean, held, onHold, onReset }: Props) {
           />
           <HoldPad
             label="ACCEL"
-            sub="↑ / W"
+            sub="Throttle"
             holdKey="accel"
             onHold={onHold}
             active={held.accel}

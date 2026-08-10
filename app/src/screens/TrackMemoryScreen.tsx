@@ -208,9 +208,7 @@ export function TrackMemoryScreen() {
       {state.phase === 'ready' ? (
         <View style={styles.banner} pointerEvents="none">
           <Text style={styles.bannerTitle}>Track Memory</Text>
-          <Text style={styles.bannerBody}>
-            Hold Accel or ↑ to start · ← → lean · ↓ brake · R reset · 3 laps
-          </Text>
+          <Text style={styles.bannerBody}>Hold Accel to start · 3 laps · memorise the turns</Text>
         </View>
       ) : null}
 

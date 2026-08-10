@@ -3,8 +3,11 @@ import type { ControlState, GameState, TrackMemoryLayout, TrackMemoryPoint } fro
 export const TOTAL_LAPS = 3;
 const MAX_SPEED = 62; // m/s ~220 km/h arcade
 const ACCEL = 28;
-const BRAKE = 48;
-const DRAG = 6;
+const BRAKE = 42;
+/** Light always-on drag (aero). Coasting uses this only — no hard cut. */
+const AERO_DRAG = 1.35;
+/** Extra drag only while braking is held (on top of BRAKE). */
+const BRAKE_DRAG = 2;
 /** Base turn rate; scaled further by |lean| for progressive cornering. */
 const STEER_RATE = 3.2;
 const LATERAL_LIMIT = 5.8;
@@ -12,6 +15,10 @@ const ROAD_HALF_WIDTH = 5.5;
 const FLASH_MS = 1600;
 /** Lean response — higher = snappier tip-in. */
 const LEAN_RESPONSE = 6.5;
+/** How strongly assist tips lean into upcoming corners (0–1). */
+const CORNER_ASSIST = 0.42;
+/** Look-ahead for corner assist (metres). */
+const ASSIST_LOOK_M = 38;
 
 export function createInitialState(bestLapMs: number | null = null): GameState {
   return {
@@ -56,6 +63,22 @@ export function samplePath(
   return { pos, tangent: { x: tx, y: ty }, heading: Math.atan2(tx, ty) };
 }
 
+/** Signed upcoming bend: negative = left, positive = right, ~0 = straight. */
+export function upcomingBend(
+  layout: TrackMemoryLayout,
+  s: number,
+  lookM: number = ASSIST_LOOK_M
+): number {
+  const a = samplePath(layout.points, layout.lengthM, s);
+  const b = samplePath(layout.points, layout.lengthM, s + lookM);
+  // 2D cross of tangents → turn direction in travel frame
+  const cross = a.tangent.x * b.tangent.y - a.tangent.y * b.tangent.x;
+  const dot = a.tangent.x * b.tangent.x + a.tangent.y * b.tangent.y;
+  const angle = Math.atan2(cross, dot);
+  // Normalise roughly into [-1, 1]
+  return Math.max(-1, Math.min(1, angle / 0.55));
+}
+
 export function stepGame(
   prev: GameState,
   layout: TrackMemoryLayout,
@@ -89,31 +112,55 @@ export function stepGame(
   }
 
   const dt = Math.min(0.05, Math.max(0, dtSec));
+  const bend = upcomingBend(layout, s);
 
+  // Throttle / brake — coast is gradual (aero only)
   if (controls.accel) speed += ACCEL * dt;
-  if (controls.brake) speed -= BRAKE * dt;
-  speed -= DRAG * dt;
-  if (!controls.accel && !controls.brake) speed -= 4 * dt;
+  if (controls.brake) {
+    speed -= BRAKE * dt;
+    speed -= BRAKE_DRAG * dt;
+  } else {
+    speed -= AERO_DRAG * dt;
+    // Mild speed-squared coast so high speed bleeds off naturally without a hard cut
+    speed -= speed * speed * 0.00035 * dt;
+  }
   speed = Math.max(0, Math.min(MAX_SPEED, speed));
 
   let steer = 0;
   if (controls.left) steer -= 1;
   if (controls.right) steer += 1;
 
-  // Speed-weighted tip-in target in [-1, 1]
-  const leanTarget = steer * (0.45 + 0.55 * Math.min(1, speed / 22));
+  // Corner assist: nudge lean toward the upcoming bend (player input still wins)
+  const assistLean = -bend * CORNER_ASSIST; // left bend (neg) → lean left (neg)
+  const playerLean = steer * (0.45 + 0.55 * Math.min(1, speed / 22));
+  const leanTarget =
+    steer !== 0
+      ? playerLean * 0.78 + assistLean * 0.22
+      : assistLean * (0.55 + 0.45 * Math.min(1, Math.abs(bend)));
+
   lean += (leanTarget - lean) * Math.min(1, dt * LEAN_RESPONSE);
   lean = Math.max(-1, Math.min(1, lean));
 
   // Move with lean: left lean (negative) → left on track (positive lateral along left-normal).
-  // Progressive: deeper lean turns harder.
   const turnPower = STEER_RATE * (4.5 + speed * 0.28) * (0.25 + Math.abs(lean) * 1.35);
   lateral -= lean * turnPower * dt;
+
+  // Soft racing-line assist: ease toward inside of the bend
+  if (Math.abs(bend) > 0.12) {
+    const lineTarget = -bend * 1.8; // left bend → positive lateral (left side)
+    lateral += (lineTarget - lateral) * Math.min(0.35, dt * 1.4 * Math.abs(bend));
+  }
+
   lateral = Math.max(-LATERAL_LIMIT, Math.min(LATERAL_LIMIT, lateral));
 
-  // Soft pull toward centre when upright / not steering
-  if (steer === 0 && Math.abs(lean) < 0.12) {
-    lateral *= 1 - Math.min(0.55, dt * 1.1);
+  // Soft pull toward centre on straights when upright
+  if (steer === 0 && Math.abs(lean) < 0.12 && Math.abs(bend) < 0.1) {
+    lateral *= 1 - Math.min(0.45, dt * 0.9);
+  }
+
+  // Gentle entry assist: bleed a little speed into sharp bends if carrying too much
+  if (Math.abs(bend) > 0.45 && speed > 28 && !controls.accel) {
+    speed -= Math.abs(bend) * 6 * dt;
   }
 
   const prevS = s;

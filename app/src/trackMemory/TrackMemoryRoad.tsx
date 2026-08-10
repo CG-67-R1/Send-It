@@ -1,8 +1,8 @@
 import React, { useMemo } from 'react';
 import { StyleSheet, View } from 'react-native';
-import Svg, { Defs, LinearGradient, Path, Polygon, Rect, Stop } from 'react-native-svg';
+import Svg, { Defs, LinearGradient, Path, Polygon, Rect, Stop, Text as SvgText } from 'react-native-svg';
 import type { TrackMemoryLayout } from './types';
-import { projectRoad } from './projectRoad';
+import { centerDashPoly, projectRoad, seamPoly } from './projectRoad';
 
 type Props = {
   layout: TrackMemoryLayout;
@@ -69,14 +69,27 @@ export function TrackMemoryRoad({ layout, s, lateral, lean, width, height }: Pro
           height={height - frame.horizonY}
           fill="url(#grass)"
         />
-        {/* Draw far to near */}
         {[...frame.quads].reverse().map((q, idx) => {
-          const shade = Math.round(40 + q.shade * 50);
-          const fill = `rgb(${shade},${shade},${shade + 4})`;
+          const shade = Math.round(38 + q.shade * 52);
+          const fill = q.grain
+            ? `rgb(${shade + 6},${shade + 5},${shade + 8})`
+            : `rgb(${shade},${shade},${shade + 4})`;
           const curbOn = q.curbLeft || q.curbRight;
           return (
             <React.Fragment key={`q-${idx}`}>
               <Polygon points={quadToPoints(q.points)} fill={fill} />
+              {q.seam ? (
+                <>
+                  <Polygon points={seamPoly(q.points, 0.28)} fill="#2a2a2e" opacity={0.28} />
+                  <Polygon points={seamPoly(q.points, 0.72)} fill="#2a2a2e" opacity={0.28} />
+                </>
+              ) : null}
+              {q.grain ? (
+                <Polygon points={seamPoly(q.points, 0.5, 0.22)} fill="#1a1a1d" opacity={0.12} />
+              ) : null}
+              {q.centerDash && !curbOn ? (
+                <Polygon points={centerDashPoly(q.points)} fill="#e8e8ea" opacity={0.85} />
+              ) : null}
               {curbOn ? (
                 <>
                   <Polygon
@@ -92,21 +105,43 @@ export function TrackMemoryRoad({ layout, s, lateral, lean, width, height }: Pro
                 <>
                   <Path
                     d={`M ${q.points[0][0]} ${q.points[0][1]} L ${q.points[3][0]} ${q.points[3][1]}`}
-                    stroke="#e2e8f0"
-                    strokeWidth={1.2}
-                    opacity={0.35}
+                    stroke="#d4d4d8"
+                    strokeWidth={1.4}
+                    opacity={0.45}
                   />
                   <Path
                     d={`M ${q.points[1][0]} ${q.points[1][1]} L ${q.points[2][0]} ${q.points[2][1]}`}
-                    stroke="#e2e8f0"
-                    strokeWidth={1.2}
-                    opacity={0.35}
+                    stroke="#d4d4d8"
+                    strokeWidth={1.4}
+                    opacity={0.45}
                   />
                 </>
               )}
             </React.Fragment>
           );
         })}
+
+        {/* 150 / 100 / 50 m boards — white with black numbers */}
+        {frame.markers.map((m, i) => (
+          <React.Fragment key={`mk-${m.metres}-${i}`}>
+            <Polygon
+              points={quadToPoints(m.points)}
+              fill="#f8fafc"
+              stroke="#111827"
+              strokeWidth={1.2}
+            />
+            <SvgText
+              x={m.labelX}
+              y={m.labelY + m.fontSize * 0.35}
+              fill="#0f172a"
+              fontSize={m.fontSize}
+              fontWeight="800"
+              textAnchor="middle"
+            >
+              {String(m.metres)}
+            </SvgText>
+          </React.Fragment>
+        ))}
       </Svg>
     </View>
   );
