@@ -10,6 +10,14 @@ app/web-build/
 .env
 .env.local
 *.local
+apple-credentials.env
+
+# Apple / signing secrets (never commit)
+AuthKey_*.p8
+*.p8
+*.p12
+*.mobileprovision
+docs/ios/apple-setup-status.json
 
 # Vercel local link (project id is in ENVIRONMENT.md)
 app/.vercel/
@@ -24,6 +32,10 @@ app/.vercel/
 .DS_Store
 Thumbs.db
 
-# Logs
+# Logs / scratch
 *.log
 npm-debug.log*
+tmp/
+
+# Marketing build tooling (installed locally; see marketing/promo/.gitignore)
+marketing/promo/tools/

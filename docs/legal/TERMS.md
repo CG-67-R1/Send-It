@@ -6,7 +6,7 @@ By using RoadRacer (“the app”), you agree to these terms.
 
 ## Licence to use
 
-We grant you a personal, non-exclusive, non-transferable licence to use RoadRacer for your own non-commercial enjoyment of motorcycle road racing information, coaching tips, and related tools. The software, branding, and content remain our property (see the repository LICENSE).
+We grant you a personal, non-exclusive, non-transferable licence to use RoadRacer for your own non-commercial enjoyment of motorcycle road racing information, coaching tips, and related tools. The software, branding, and original content remain our property (see the [Copyright Policy](COPYRIGHT.md)).
 
 ## Not professional advice
 

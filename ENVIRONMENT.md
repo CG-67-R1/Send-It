@@ -103,6 +103,28 @@ cd app && npx tsc --noEmit
 
 PoC details and troubleshooting: [`POC_HOSTING_GUIDE.md`](POC_HOSTING_GUIDE.md).
 
+## iOS / App Store (RoadRacer)
+
+| Item | Value |
+|------|--------|
+| App name | RoadRacer - Motorsport_Is_Life |
+| Bundle ID | `com.milroadracer.app` |
+| Apple Team ID | `UAWP5NV4NQ` |
+| Enrollment | Individual (public App Store seller name = your legal name) |
+| Expo account | [motorsport-is-life](https://expo.dev/accounts/motorsport-is-life) |
+| EAS project | `@motorsport-is-life/roadracer` (`c3447188-53ab-4806-96af-6eb1b5417de3`) |
+| EAS config | [`app/eas.json`](app/eas.json) (`credentialsSource: remote`) |
+| Setup guide | [`docs/ios/APPLE_DEVELOPER_SETUP.md`](docs/ios/APPLE_DEVELOPER_SETUP.md) |
+
+Register Identifier + App Store Connect app (requires ASC API key env):
+
+```powershell
+node scripts/register-apple-app.mjs
+node scripts/setup-eas-ios-credentials.mjs
+```
+
+Seller/developer name = Program membership entity (not a Development profile nickname). Prefer **Organization** if the public store name should be a company/brand.
+
 ## Hermes (RR app expert)
 
 Hermes runs scheduled app reviews and coding-improvement audits. Setup: [`docs/hermes/CRON_SETUP.md`](docs/hermes/CRON_SETUP.md). Reports: `docs/reviews/`.

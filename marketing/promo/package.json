@@ -1,0 +1,16 @@
+{
+  "name": "roadracer-promo",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "voice": "node generate-voice.mjs",
+    "sfx": "node generate-sfx.mjs",
+    "music": "node fetch-music.mjs",
+    "build": "node build.mjs",
+    "all": "node generate-voice.mjs && node generate-sfx.mjs && node fetch-music.mjs && node build.mjs"
+  },
+  "dependencies": {
+    "ffmpeg-static": "^5.3.0",
+    "ffprobe-static": "^3.1.0"
+  }
+}

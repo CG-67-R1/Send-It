@@ -1,7 +1,8 @@
 {
   "expo": {
-    "name": "RoadRacer",
+    "name": "RoadRacer - Motorsport_Is_Life",
     "slug": "roadracer",
+    "owner": "motorsport-is-life",
     "version": "1.0.0",
     "orientation": "portrait",
     "userInterfaceStyle": "automatic",
@@ -11,13 +12,16 @@
     "web": {},
     "ios": {
       "supportsTablet": true,
-      "bundleIdentifier": "com.roadrace.app"
+      "bundleIdentifier": "com.milroadracer.app",
+      "infoPlist": {
+        "ITSAppUsesNonExemptEncryption": false
+      }
     },
     "android": {
       "adaptiveIcon": {
         "backgroundColor": "#0f172a"
       },
-      "package": "com.roadrace.app"
+      "package": "com.milroadracer.app"
     },
     "plugins": [
       "expo-notifications",
@@ -53,6 +57,9 @@
       [
         "expo-build-properties",
         {
+          "ios": {
+            "deploymentTarget": "16.4"
+          },
           "android": {
             "enableProguardInReleaseBuilds": true,
             "enableShrinkResourcesInReleaseBuilds": true
@@ -71,7 +78,10 @@
     "extra": {
       "sentryDsn": "${EXPO_PUBLIC_SENTRY_DSN}",
       "privacyPolicyUrl": "https://github.com/CG-67-R1/Send-It/blob/main/docs/legal/PRIVACY.md",
-      "termsOfUseUrl": "https://github.com/CG-67-R1/Send-It/blob/main/docs/legal/TERMS.md"
+      "termsOfUseUrl": "https://github.com/CG-67-R1/Send-It/blob/main/docs/legal/TERMS.md",
+      "eas": {
+        "projectId": "c3447188-53ab-4806-96af-6eb1b5417de3"
+      }
     }
   }
 }

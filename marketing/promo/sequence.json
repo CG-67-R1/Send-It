@@ -1,0 +1,56 @@
+{
+  "durationSec": 13.5,
+  "fps": 30,
+  "clipSec": 1.85,
+  "fadeSec": 0.25,
+  "outro": {
+    "file": "bike-outro.mp4",
+    "sec": 4.0,
+    "fadeSec": 0.55,
+    "startSec": 0.0,
+    "pan": "right"
+  },
+  "clips": [
+    {
+      "file": "rr3.png",
+      "beat": "Dial-in / ultimate lap",
+      "zoom": { "from": 1.0, "to": 1.06 },
+      "pan": "left"
+    },
+    {
+      "file": "rr1.png",
+      "beat": "News & Events",
+      "zoom": { "from": 1.0, "to": 1.06 },
+      "pan": "right"
+    },
+    {
+      "file": "rr2.png",
+      "beat": "AU track coaching",
+      "zoom": { "from": 1.0, "to": 1.06 },
+      "pan": "right"
+    },
+    {
+      "file": "rr5.png",
+      "beat": "Track day tools",
+      "zoom": { "from": 1.0, "to": 1.06 },
+      "pan": "right"
+    },
+    {
+      "file": "rr6.png",
+      "beat": "Data upload",
+      "zoom": { "from": 1.0, "to": 1.06 },
+      "pan": "right"
+    },
+    {
+      "file": "rr4.png",
+      "beat": "Tyre wear analysis",
+      "zoom": { "from": 1.0, "to": 1.06 },
+      "pan": "right"
+    }
+  ],
+  "sfxCutsSec": [0.0, 1.85, 3.7, 5.55, 7.4, 9.25],
+  "aspects": {
+    "landscape": { "width": 1920, "height": 1080, "out": "roadracer-promo-16x9.mp4" },
+    "portrait": { "width": 1080, "height": 1920, "out": "roadracer-promo-9x16.mp4" }
+  }
+}

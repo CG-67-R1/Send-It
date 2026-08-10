@@ -1,0 +1,5 @@
+{
+  "whoosh": "whoosh.wav",
+  "chime": "ui-chime.wav",
+  "note": "Synthesized with FFmpeg lavfi (pink noise + sine). Royalty-free."
+}
