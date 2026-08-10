@@ -5,10 +5,13 @@ const MAX_SPEED = 62; // m/s ~220 km/h arcade
 const ACCEL = 28;
 const BRAKE = 48;
 const DRAG = 6;
-const STEER_RATE = 2.4;
-const LATERAL_LIMIT = 5.2;
+/** Base turn rate; scaled further by |lean| for progressive cornering. */
+const STEER_RATE = 3.2;
+const LATERAL_LIMIT = 5.8;
 const ROAD_HALF_WIDTH = 5.5;
 const FLASH_MS = 1600;
+/** Lean response — higher = snappier tip-in. */
+const LEAN_RESPONSE = 6.5;
 
 export function createInitialState(bestLapMs: number | null = null): GameState {
   return {
@@ -97,14 +100,21 @@ export function stepGame(
   if (controls.left) steer -= 1;
   if (controls.right) steer += 1;
 
-  const steerEff = steer * (0.35 + 0.65 * Math.min(1, speed / 25));
-  lateral += steerEff * STEER_RATE * (6 + speed * 0.15) * dt;
+  // Speed-weighted tip-in target in [-1, 1]
+  const leanTarget = steer * (0.45 + 0.55 * Math.min(1, speed / 22));
+  lean += (leanTarget - lean) * Math.min(1, dt * LEAN_RESPONSE);
+  lean = Math.max(-1, Math.min(1, lean));
+
+  // Move with lean: left lean (negative) → left on track (positive lateral along left-normal).
+  // Progressive: deeper lean turns harder.
+  const turnPower = STEER_RATE * (4.5 + speed * 0.28) * (0.25 + Math.abs(lean) * 1.35);
+  lateral -= lean * turnPower * dt;
   lateral = Math.max(-LATERAL_LIMIT, Math.min(LATERAL_LIMIT, lateral));
 
-  // Soft pull toward centre when not steering
-  if (steer === 0) lateral *= 1 - Math.min(0.6, dt * 1.2);
-
-  lean += (steerEff - lean) * Math.min(1, dt * 8);
+  // Soft pull toward centre when upright / not steering
+  if (steer === 0 && Math.abs(lean) < 0.12) {
+    lateral *= 1 - Math.min(0.55, dt * 1.1);
+  }
 
   const prevS = s;
   s += speed * dt;

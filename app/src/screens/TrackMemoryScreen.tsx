@@ -1,6 +1,7 @@
 import React, { useCallback, useEffect, useRef, useState } from 'react';
 import {
   LayoutChangeEvent,
+  Platform,
   StyleSheet,
   Text,
   View,
@@ -30,9 +31,31 @@ const EMPTY_CONTROLS: ControlState = {
   brake: false,
 };
 
+function keyToControl(code: string): keyof ControlState | 'reset' | null {
+  switch (code) {
+    case 'ArrowLeft':
+    case 'KeyA':
+      return 'left';
+    case 'ArrowRight':
+    case 'KeyD':
+      return 'right';
+    case 'ArrowUp':
+    case 'KeyW':
+      return 'accel';
+    case 'ArrowDown':
+    case 'KeyS':
+      return 'brake';
+    case 'KeyR':
+      return 'reset';
+    default:
+      return null;
+  }
+}
+
 export function TrackMemoryScreen() {
   const [size, setSize] = useState({ w: 0, h: 0 });
   const [state, setState] = useState<GameState>(() => createInitialState(null));
+  const [held, setHeld] = useState<ControlState>({ ...EMPTY_CONTROLS });
   const stateRef = useRef(state);
   const controlsRef = useRef<ControlState>({ ...EMPTY_CONTROLS });
   const rafRef = useRef<number | null>(null);
@@ -73,29 +96,64 @@ export function TrackMemoryScreen() {
     rafRef.current = requestAnimationFrame(tick);
   }, []);
 
+  const applyControl = useCallback((key: keyof ControlState, down: boolean) => {
+    controlsRef.current = { ...controlsRef.current, [key]: down };
+    setHeld((prev) => (prev[key] === down ? prev : { ...prev, [key]: down }));
+  }, []);
+
+  const onReset = useCallback(() => {
+    controlsRef.current = { ...EMPTY_CONTROLS };
+    setHeld({ ...EMPTY_CONTROLS });
+    const next = resetGame(savedBestRef.current ?? stateRef.current.bestLapMs);
+    stateRef.current = next;
+    setState(next);
+  }, []);
+
   useFocusEffect(
     useCallback(() => {
       lastTsRef.current = null;
       rafRef.current = requestAnimationFrame(tick);
+
+      const onKey = (e: KeyboardEvent, down: boolean) => {
+        const mapped = keyToControl(e.code);
+        if (!mapped) return;
+        e.preventDefault();
+        if (mapped === 'reset') {
+          if (down && !e.repeat) onReset();
+          return;
+        }
+        if (e.repeat && down) return;
+        applyControl(mapped, down);
+      };
+
+      const onDown = (e: Event) => onKey(e as KeyboardEvent, true);
+      const onUp = (e: Event) => onKey(e as KeyboardEvent, false);
+
+      if (Platform.OS === 'web' && typeof window !== 'undefined') {
+        window.addEventListener('keydown', onDown);
+        window.addEventListener('keyup', onUp);
+      }
+
       return () => {
         if (rafRef.current != null) cancelAnimationFrame(rafRef.current);
         rafRef.current = null;
         lastTsRef.current = null;
         controlsRef.current = { ...EMPTY_CONTROLS };
+        setHeld({ ...EMPTY_CONTROLS });
+        if (Platform.OS === 'web' && typeof window !== 'undefined') {
+          window.removeEventListener('keydown', onDown);
+          window.removeEventListener('keyup', onUp);
+        }
       };
-    }, [tick])
+    }, [tick, applyControl, onReset])
   );
 
-  const onHold = useCallback((key: keyof ControlState, down: boolean) => {
-    controlsRef.current = { ...controlsRef.current, [key]: down };
-  }, []);
-
-  const onReset = useCallback(() => {
-    controlsRef.current = { ...EMPTY_CONTROLS };
-    const next = resetGame(savedBestRef.current ?? stateRef.current.bestLapMs);
-    stateRef.current = next;
-    setState(next);
-  }, []);
+  const onHold = useCallback(
+    (key: keyof ControlState, down: boolean) => {
+      applyControl(key, down);
+    },
+    [applyControl]
+  );
 
   const onLayout = (e: LayoutChangeEvent) => {
     const { width, height } = e.nativeEvent.layout;
@@ -150,7 +208,9 @@ export function TrackMemoryScreen() {
       {state.phase === 'ready' ? (
         <View style={styles.banner} pointerEvents="none">
           <Text style={styles.bannerTitle}>Track Memory</Text>
-          <Text style={styles.bannerBody}>Hold Accel to start · 3 laps · memorise the turns</Text>
+          <Text style={styles.bannerBody}>
+            Hold Accel or ↑ to start · ← → lean · ↓ brake · R reset · 3 laps
+          </Text>
         </View>
       ) : null}
 
@@ -167,7 +227,7 @@ export function TrackMemoryScreen() {
         </View>
       ) : null}
 
-      <TrackMemoryControls onHold={onHold} onReset={onReset} />
+      <TrackMemoryControls lean={state.lean} held={held} onHold={onHold} onReset={onReset} />
     </View>
   );
 }

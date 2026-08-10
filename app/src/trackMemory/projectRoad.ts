@@ -86,7 +86,7 @@ export function projectRoad(
   const horizonY = height * HORIZON_FRAC;
   const fov = width * 0.62;
   const roadHalf = 5.8;
-  const leanDeg = lean * 14;
+  const leanDeg = lean * 28;
   const leanRad = (leanDeg * Math.PI) / 180;
   const cosL = Math.cos(leanRad);
   const sinL = Math.sin(leanRad);
