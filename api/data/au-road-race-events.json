@@ -1,7 +1,7 @@
 {
-  "updatedAt": "2026-08-03T09:39:25.173Z",
+  "updatedAt": "2026-08-10T07:27:28.571Z",
   "sourceCount": 26,
-  "eventCount": 31,
+  "eventCount": 30,
   "errors": [],
   "events": [
     {
@@ -170,20 +170,6 @@
       "entry_url": "https://www.computime.com.au/calendar/calendar",
       "discipline": "road_race",
       "notes": null,
-      "confidence": "high"
-    },
-    {
-      "name": "MotoMini Australia: Round 3",
-      "start_date": "2026-08-07",
-      "end_date": "2026-08-09",
-      "state": null,
-      "venue": "Monarto Go-Kart Circuit",
-      "organiser": "Motorcycling Australia (MA) - National Calendar",
-      "source_id": "gov_ma_national_calendar",
-      "source_url": "https://www.ma.org.au/ma-calendar/",
-      "entry_url": "https://calendar.time.ly/lom2ukea/event/78263654/20260807000000",
-      "discipline": "road_race",
-      "notes": "Timely: Road Race",
       "confidence": "high"
     },
     {
