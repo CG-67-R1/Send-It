@@ -7,10 +7,10 @@ import {
   Text,
   View,
 } from 'react-native';
-import { useFocusEffect, useNavigation } from '@react-navigation/native';
+import { useFocusEffect, useNavigation, useRoute, type RouteProp } from '@react-navigation/native';
 import type { NativeStackNavigationProp } from '@react-navigation/native-stack';
 import * as ScreenOrientation from 'expo-screen-orientation';
-import { getDefaultTrackMemoryLayout } from '../trackMemory/layouts';
+import { getDefaultTrackMemoryLayout, getTrackMemoryLayout } from '../trackMemory/layouts';
 import {
   createInitialState,
   resetGame,
@@ -23,9 +23,7 @@ import { TrackMemoryRoad } from '../trackMemory/TrackMemoryRoad';
 import { TrackMemoryMinimap } from '../trackMemory/TrackMemoryMinimap';
 import { TrackMemoryCockpit } from '../trackMemory/TrackMemoryCockpit';
 import { TrackMemoryControls } from '../trackMemory/TrackMemoryControls';
-import { useTiltLean } from '../trackMemory/useTiltLean';
-
-const layout = getDefaultTrackMemoryLayout();
+import type { RiderCoachStackParamList } from './RiderCoachScreen';
 
 const EMPTY_CONTROLS: ControlState = {
   left: false,
@@ -34,14 +32,8 @@ const EMPTY_CONTROLS: ControlState = {
   brake: false,
 };
 
-function keyToControl(code: string): keyof ControlState | 'reset' | null {
+function keyToControl(code: string): 'accel' | 'brake' | 'reset' | null {
   switch (code) {
-    case 'ArrowLeft':
-    case 'KeyA':
-      return 'left';
-    case 'ArrowRight':
-    case 'KeyD':
-      return 'right';
     case 'ArrowUp':
     case 'KeyW':
       return 'accel';
@@ -56,18 +48,23 @@ function keyToControl(code: string): keyof ControlState | 'reset' | null {
 }
 
 export function TrackMemoryScreen() {
-  const navigation = useNavigation<NativeStackNavigationProp<Record<string, undefined>>>();
+  const navigation = useNavigation<NativeStackNavigationProp<RiderCoachStackParamList>>();
+  const route = useRoute<RouteProp<RiderCoachStackParamList, 'TrackMemory'>>();
+  const layout =
+    (route.params?.initialTrackId
+      ? getTrackMemoryLayout(route.params.initialTrackId)
+      : undefined) ?? getDefaultTrackMemoryLayout();
+  const layoutRef = useRef(layout);
+  layoutRef.current = layout;
+
   const [size, setSize] = useState({ w: 0, h: 0 });
   const [state, setState] = useState<GameState>(() => createInitialState(null));
   const [held, setHeld] = useState<ControlState>({ ...EMPTY_CONTROLS });
   const stateRef = useRef(state);
   const controlsRef = useRef<ControlState>({ ...EMPTY_CONTROLS });
-  const tiltLeanRef = useRef(0);
   const rafRef = useRef<number | null>(null);
   const lastTsRef = useRef<number | null>(null);
   const savedBestRef = useRef<number | null>(null);
-
-  useTiltLean(true, tiltLeanRef);
 
   useEffect(() => {
     stateRef.current = state;
@@ -83,27 +80,20 @@ export function TrackMemoryScreen() {
     return () => {
       cancelled = true;
     };
-  }, []);
+  }, [layout.trackId]);
 
   useEffect(() => {
     if (state.phase !== 'finished' || state.sessionBestLapMs == null) return;
     void writeBestLapMs(layout.trackId, state.sessionBestLapMs).then(() => {
       savedBestRef.current = state.bestLapMs;
     });
-  }, [state.phase, state.sessionBestLapMs, state.bestLapMs]);
+  }, [state.phase, state.sessionBestLapMs, state.bestLapMs, layout.trackId]);
 
   const tick = useCallback((ts: number) => {
     const last = lastTsRef.current ?? ts;
     lastTsRef.current = ts;
     const dt = Math.min(0.05, Math.max(0, (ts - last) / 1000));
-    const next = stepGame(
-      stateRef.current,
-      layout,
-      controlsRef.current,
-      dt,
-      Date.now(),
-      tiltLeanRef.current
-    );
+    const next = stepGame(stateRef.current, layoutRef.current, controlsRef.current, dt, Date.now());
     stateRef.current = next;
     setState(next);
     rafRef.current = requestAnimationFrame(tick);
@@ -203,6 +193,7 @@ export function TrackMemoryScreen() {
   };
 
   const flashVisible = Boolean(state.flash);
+  const flashDanger = state.flash?.tone === 'danger';
 
   return (
     <View style={styles.root} onLayout={onLayout}>
@@ -252,7 +243,7 @@ export function TrackMemoryScreen() {
 
       {flashVisible && state.flash ? (
         <View style={styles.flashWrap} pointerEvents="none">
-          <Text style={styles.flashText}>{state.flash.text}</Text>
+          <Text style={[styles.flashText, flashDanger && styles.flashDanger]}>{state.flash.text}</Text>
         </View>
       ) : null}
 
@@ -260,7 +251,7 @@ export function TrackMemoryScreen() {
         <View style={styles.banner} pointerEvents="none">
           <Text style={styles.bannerTitle}>Track Memory</Text>
           <Text style={styles.bannerBody}>
-            Tilt to lean · ↑ accel · ↓ brake · Stop exits · R resets
+            Auto-steers the line · ↑ accel · ↓ brake at boards · miss a brake and you crash
           </Text>
         </View>
       ) : null}
@@ -370,6 +361,11 @@ const styles = StyleSheet.create({
     paddingVertical: 8,
     overflow: 'hidden',
     borderRadius: 8,
+  },
+  flashDanger: {
+    color: '#ef4444',
+    fontSize: 28,
+    backgroundColor: 'rgba(0,0,0,0.55)',
   },
   banner: {
     position: 'absolute',

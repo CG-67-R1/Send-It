@@ -32,7 +32,7 @@ export function TrackMemoryCockpit({
   lap = 1,
   totalLaps = 3,
 }: Props) {
-  const leanDeg = lean * 26;
+  const leanDeg = lean * 40;
   const cockpitH = Math.min(Math.round(height * 0.36), 200);
   const top = height - cockpitH;
   const kmh = Math.round(speedMps * 3.6);
