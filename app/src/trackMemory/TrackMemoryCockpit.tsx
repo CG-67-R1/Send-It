@@ -25,7 +25,7 @@ export function TrackMemoryCockpit({
   totalLaps = 3,
 }: Props) {
   // Physics lean sign is opposite screen tip-in; negate so bike tips toward the inside.
-  const leanDeg = -lean * 26;
+  const leanDeg = -lean * 40;
   // Tall enough to show arms + bag; asphalt shows through transparent areas
   const cockpitH = Math.min(Math.round(height * 0.58), Math.round(width * 0.72));
   const top = height - cockpitH;

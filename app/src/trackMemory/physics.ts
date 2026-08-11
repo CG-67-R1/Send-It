@@ -15,9 +15,9 @@ const LATERAL_LIMIT = ROAD_HALF_M * 0.75;
 const FLASH_MS = 1600;
 const BRAKE_NOW_MS = 1000;
 /** Tip-in rate — lower = smoother, less twitchy lean. */
-const LEAN_RESPONSE = 0.72;
+const LEAN_RESPONSE = 1.15;
 /** Extra low-pass on lean after target chase (lower = softer). */
-const LEAN_LP = 3.0;
+const LEAN_LP = 3.8;
 /** Extra low-pass on lateral after line follow (lower = softer). */
 const LATERAL_LP = 3.4;
 /** Low-pass rate for camera heading (keeps the world from twitching). */
@@ -167,15 +167,17 @@ function smoothBend(layout: TrackMemoryLayout, s: number): number {
   const near = upcomingBend(layout, s, ASSIST_LOOK_NEAR_M);
   const mid = upcomingBend(layout, s, ASSIST_LOOK_MID_M);
   const far = upcomingBend(layout, s, ASSIST_LOOK_FAR_M);
-  return near * 0.28 + mid * 0.34 + far * 0.38;
+  // Bias near so tight corners tip in harder without far-look washing them out
+  return near * 0.42 + mid * 0.33 + far * 0.25;
 }
 
 /** Progressive auto lean in [-1, 1]. Negative lean = tip left (matches left bend). */
 function autoLeanTarget(bend: number, speed: number): number {
-  const mag = Math.min(1, Math.abs(bend) * 1.2);
-  const progressive = Math.pow(mag, 0.72);
-  const speedScale = 0.32 + 0.68 * Math.min(1, speed / 20);
-  if (progressive < 0.03) return 0;
+  const mag = Math.min(1, Math.abs(bend) * 1.65);
+  // Lower exponent → more lean at mid/tight bends
+  const progressive = Math.pow(mag, 0.52);
+  const speedScale = 0.45 + 0.55 * Math.min(1, speed / 16);
+  if (progressive < 0.025) return 0;
   // Left bend (neg) → lean left (neg); right bend → lean right
   return Math.sign(bend) * progressive * speedScale;
 }

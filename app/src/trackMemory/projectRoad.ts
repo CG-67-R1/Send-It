@@ -47,6 +47,10 @@ const MARKER_DISTANCES = [150, 100, 50] as const;
 const BOARD_HALF_W = 0.55;
 const BOARD_HEIGHT = 1.15;
 const BOARD_OFFSET = 7.4; // metres from centreline (outside asphalt)
+/** |signed path curvature| above this gets inside rumble (per metre of path). */
+const CURB_CURV_THRESH = 0.028;
+/** Half-window (m) around catalog corner apex for kerb paint. */
+const CURB_CORNER_HALF_M = 32;
 
 function project(
   x: number,
@@ -62,6 +66,44 @@ function project(
   return { sx, sy, scale };
 }
 
+type RoadSample = {
+  x: number;
+  z: number;
+  /** Signed path bend: neg ≈ left, pos ≈ right (matches upcomingBend). */
+  signedCurv: number;
+  dist: number;
+};
+
+function wrapDist(s: number, lengthM: number): number {
+  return ((s % lengthM) + lengthM) % lengthM;
+}
+
+/** Ahead distance from rider s to markerS along the lap (0..lengthM). */
+function aheadDist(riderS: number, markerS: number, lengthM: number): number {
+  return wrapDist(markerS - riderS, lengthM);
+}
+
+function nearestAlongTrack(a: number, b: number, lengthM: number): number {
+  return Math.min(wrapDist(a - b, lengthM), wrapDist(b - a, lengthM));
+}
+
+/** Catalog corner kerbs — hands from tracks.json only. */
+function catalogCurbAt(
+  layout: TrackMemoryLayout,
+  dist: number
+): { left: boolean; right: boolean } {
+  let left = false;
+  let right = false;
+  for (const corner of layout.corners) {
+    if (corner.number == null) continue;
+    const cornerS = corner.sNorm * layout.lengthM;
+    if (nearestAlongTrack(dist, cornerS, layout.lengthM) > CURB_CORNER_HALF_M) continue;
+    if (corner.direction === 'left') left = true;
+    if (corner.direction === 'right') right = true;
+  }
+  return { left, right };
+}
+
 function localSamples(
   layout: TrackMemoryLayout,
   s: number,
@@ -69,8 +111,8 @@ function localSamples(
   count: number,
   step: number,
   camHeading: number
-): { x: number; z: number; curvature: number; dist: number }[] {
-  const out: { x: number; z: number; curvature: number; dist: number }[] = [];
+): RoadSample[] {
+  const out: RoadSample[] = [];
   const here = samplePath(layout.points, layout.lengthM, s);
   // Smoothed camera frame (matches samplePath atan2(tx, ty) convention)
   const tx = Math.sin(camHeading);
@@ -80,7 +122,7 @@ function localSamples(
   const riderX = here.pos.x + nx * lateral;
   const riderY = here.pos.y + ny * lateral;
 
-  let prevLocalX = 0;
+  let prevTan = here.tangent;
   for (let i = 1; i <= count; i++) {
     const ds = i * step;
     const sample = samplePath(layout.points, layout.lengthM, s + ds);
@@ -88,9 +130,10 @@ function localSamples(
     const dy = sample.pos.y - riderY;
     const localZ = dx * tx + dy * ty;
     const localX = dx * ty - dy * tx;
-    const curvature = Math.abs(localX - prevLocalX);
-    prevLocalX = localX;
-    if (localZ > 0.55) out.push({ x: localX, z: localZ, curvature, dist: s + ds });
+    const cross = prevTan.x * sample.tangent.y - prevTan.y * sample.tangent.x;
+    const signedCurv = cross / Math.max(0.5, step);
+    prevTan = sample.tangent;
+    if (localZ > 0.55) out.push({ x: localX, z: localZ, signedCurv, dist: s + ds });
   }
 
   // Near rings continue the nearest path lateral (do not snap x→0 — that kinks edges inward)
@@ -105,7 +148,7 @@ function localSamples(
     for (let i = nearZs.length - 1; i >= 0; i--) {
       const z = nearZs[i];
       if (z >= a.z) continue;
-      out.unshift({ x: xAt(z), z, curvature: 0, dist: s + z });
+      out.unshift({ x: xAt(z), z, signedCurv: a.signedCurv, dist: s + z });
     }
   }
   return out;
@@ -128,15 +171,6 @@ function projectHeight(
   const sx = width / 2 + x * scale;
   const sy = horizonY + (CAM_HEIGHT_M - worldY) * scale;
   return { sx, sy, scale };
-}
-
-function wrapDist(s: number, lengthM: number): number {
-  return ((s % lengthM) + lengthM) % lengthM;
-}
-
-/** Ahead distance from rider s to markerS along the lap (0..lengthM). */
-function aheadDist(riderS: number, markerS: number, lengthM: number): number {
-  return wrapDist(markerS - riderS, lengthM);
 }
 
 /** Irregular streak strip inset on a road quad (frac = lateral 0..1). */
@@ -247,18 +281,33 @@ export function projectRoad(
     const roadPts: [number, number][] = [tl, tr, br, bl];
 
     const midDist = (a.dist + b.dist) * 0.5;
-    const curb = a.curvature > 1.8 || b.curvature > 1.8;
+    // Smooth curvature across neighbours so kerb bands don't flicker each metre
+    const prev = samples[Math.max(0, i - 1)];
+    const next = samples[Math.min(samples.length - 1, i + 1)];
+    const signedCurv = (prev.signedCurv + a.signedCurv + b.signedCurv + next.signedCurv) * 0.25;
+    const catalog = catalogCurbAt(layout, midDist);
+    // Inside kerb only: left bend → left edge, right bend → right edge
+    const curbLeft = catalog.left || signedCurv < -CURB_CURV_THRESH;
+    const curbRight = catalog.right || signedCurv > CURB_CURV_THRESH;
     const grain = Math.floor(midDist / GRAIN_PERIOD_M) % 2 === 0;
 
     const band = 0.5 + 0.5 * Math.sin(midDist * 0.55);
     quads.push({
       points: roadPts,
-      curbLeft: curb,
-      curbRight: curb,
+      curbLeft,
+      curbRight,
       shade: 0.28 + 0.42 * (1 - i / samples.length) + band * 0.14,
       grain,
       rubber: rubberForSegment(midDist, roadPts),
     });
+  }
+
+  // Dilate inside-kerb flags by one segment so bands stay continuous through kinks
+  const leftFlags = quads.map((q) => q.curbLeft);
+  const rightFlags = quads.map((q) => q.curbRight);
+  for (let i = 0; i < quads.length; i++) {
+    if (leftFlags[i - 1] || leftFlags[i + 1]) quads[i].curbLeft = true;
+    if (rightFlags[i - 1] || rightFlags[i + 1]) quads[i].curbRight = true;
   }
 
   // 150 / 100 / 50 m boards before each corner (outside of the bend)

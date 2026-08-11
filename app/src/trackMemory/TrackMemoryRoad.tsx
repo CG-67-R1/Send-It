@@ -141,8 +141,9 @@ export function TrackMemoryRoad({ layout, s, lateral, heading, width, height }: 
         />
         <Rect x={0} y={frame.horizonY} width={width} height={grassBand} fill="#5f7d4a" />
         {[...frame.quads].reverse().map((q, idx) => {
-          const curbOn = q.curbLeft || q.curbRight;
           const depthShade = Math.min(0.35, idx / (frame.quads.length * 2.2));
+          // Stable red/white along distance (not draw-order idx)
+          const stripeA = Math.floor(idx * 0.55) % 2 === 0;
           return (
             <React.Fragment key={`q-${idx}`}>
               <Polygon points={quadToPoints(q.points)} fill="#2c2c30" />
@@ -163,32 +164,31 @@ export function TrackMemoryRoad({ layout, s, lateral, heading, width, height }: 
                   opacity={r.opacity}
                 />
               ))}
-              {curbOn ? (
-                <>
-                  <Polygon
-                    points={curbStrip(q.points, 'left', 0.08)}
-                    fill={idx % 2 === 0 ? '#dc2626' : '#f8fafc'}
-                  />
-                  <Polygon
-                    points={curbStrip(q.points, 'right', 0.08)}
-                    fill={idx % 2 === 0 ? '#f8fafc' : '#dc2626'}
-                  />
-                </>
+              {q.curbLeft ? (
+                <Polygon
+                  points={curbStrip(q.points, 'left', 0.09)}
+                  fill={stripeA ? '#dc2626' : '#f8fafc'}
+                />
               ) : (
-                <>
-                  <Path
-                    d={`M ${q.points[0][0]} ${q.points[0][1]} L ${q.points[3][0]} ${q.points[3][1]}`}
-                    stroke="#f4f4f5"
-                    strokeWidth={2.2}
-                    opacity={0.8}
-                  />
-                  <Path
-                    d={`M ${q.points[1][0]} ${q.points[1][1]} L ${q.points[2][0]} ${q.points[2][1]}`}
-                    stroke="#f4f4f5"
-                    strokeWidth={2.2}
-                    opacity={0.8}
-                  />
-                </>
+                <Path
+                  d={`M ${q.points[0][0]} ${q.points[0][1]} L ${q.points[3][0]} ${q.points[3][1]}`}
+                  stroke="#f4f4f5"
+                  strokeWidth={2.2}
+                  opacity={0.8}
+                />
+              )}
+              {q.curbRight ? (
+                <Polygon
+                  points={curbStrip(q.points, 'right', 0.09)}
+                  fill={stripeA ? '#f8fafc' : '#dc2626'}
+                />
+              ) : (
+                <Path
+                  d={`M ${q.points[1][0]} ${q.points[1][1]} L ${q.points[2][0]} ${q.points[2][1]}`}
+                  stroke="#f4f4f5"
+                  strokeWidth={2.2}
+                  opacity={0.8}
+                />
               )}
             </React.Fragment>
           );
