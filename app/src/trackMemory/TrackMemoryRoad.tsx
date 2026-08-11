@@ -92,15 +92,15 @@ export function TrackMemoryRoad({ layout, s, lateral, lean, width, height }: Pro
           </Pattern>
         </Defs>
         <Rect x={0} y={0} width={width} height={frame.horizonY} fill="url(#sky)" />
-        <Rect x={0} y={frame.horizonY} width={width} height={grassBand} fill="#5f7d4a" />
-        {/* Near asphalt apron uses the same bitumen tile */}
+        {/* Grass / run-off outside the track — no bitumen beyond the white lines */}
         <Rect
           x={0}
-          y={frame.horizonY + grassBand * 0.55}
+          y={frame.horizonY}
           width={width}
-          height={height - frame.horizonY - grassBand * 0.55}
-          fill="url(#bitumen)"
+          height={height - frame.horizonY}
+          fill="#4a6b3a"
         />
+        <Rect x={0} y={frame.horizonY} width={width} height={grassBand} fill="#5f7d4a" />
         {[...frame.quads].reverse().map((q, idx) => {
           const curbOn = q.curbLeft || q.curbRight;
           const depthShade = Math.min(0.35, idx / (frame.quads.length * 2.2));

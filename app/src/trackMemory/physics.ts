@@ -1,27 +1,32 @@
 import type { ControlState, GameState, TrackMemoryLayout, TrackMemoryPoint } from './types';
 
 export const TOTAL_LAPS = 3;
-const MAX_SPEED = 62; // m/s ~220 km/h arcade
-const ACCEL = 28;
+const MAX_SPEED = 49.6; // m/s ~178 km/h arcade (−20%)
+const ACCEL = 22.4;
 const BRAKE = 42;
 /** Light always-on drag (aero). Coasting uses this only — no hard cut. */
 const AERO_DRAG = 1.35;
 /** Extra drag only while braking is held (on top of BRAKE). */
 const BRAKE_DRAG = 2;
-/** Base auto-steer lateral rate; scaled by lean. */
-const STEER_RATE = 2.8;
-const LATERAL_LIMIT = 4.2;
+/** Base auto-steer lateral rate. */
+const STEER_RATE = 2.2;
+/** Half-width of asphalt (metres); match projectRoad roadHalf. */
+const ROAD_HALF_M = 5.8;
+/** Stay in the middle 75% of the track (±37.5% of full width from centre). */
+const LATERAL_LIMIT = ROAD_HALF_M * 0.75;
 const FLASH_MS = 1600;
 const BRAKE_NOW_MS = 1000;
 /** Slow tip-in / tip-out for smooth corner transitions. */
-const LEAN_RESPONSE = 1.55;
+const LEAN_RESPONSE = 1.8;
 /** Near / far look-ahead blended for smoother bend onset. */
 const ASSIST_LOOK_NEAR_M = 22;
 const ASSIST_LOOK_FAR_M = 58;
 /** Distance before corner for Brake Now! cue. */
 const BRAKE_MARK_M = 100;
-/** Soft racing-line follow strength. */
-const LINE_FOLLOW = 1.15;
+/** How strongly we ease toward the inside curb through a bend. */
+const LINE_FOLLOW = 1.8;
+/** Peak inside offset as a fraction of ROAD_HALF_M (still inside the 75% band). */
+const INSIDE_LINE_FRAC = 0.62;
 
 export function createInitialState(bestLapMs: number | null = null): GameState {
   return {
@@ -96,13 +101,14 @@ function smoothBend(layout: TrackMemoryLayout, s: number): number {
   return near * 0.42 + far * 0.58;
 }
 
-/** Progressive auto lean in [-1, 1] — mild early, deep in hard corners. */
+/** Progressive auto lean in [-1, 1]. Negative lean = tip left (matches left bend). */
 function autoLeanTarget(bend: number, speed: number): number {
   const mag = Math.min(1, Math.abs(bend) * 1.2);
   const progressive = Math.pow(mag, 0.72);
   const speedScale = 0.32 + 0.68 * Math.min(1, speed / 20);
   if (progressive < 0.03) return 0;
-  return -Math.sign(bend) * progressive * speedScale;
+  // Left bend (neg) → lean left (neg); right bend → lean right
+  return Math.sign(bend) * progressive * speedScale;
 }
 
 export function stepGame(
@@ -151,21 +157,26 @@ export function stepGame(
   }
   speed = Math.max(0, Math.min(MAX_SPEED, speed));
 
-  // Smooth auto lean into / out of corners
+  // Smooth auto lean into / out of corners (visual + slight lateral assist)
   const leanTarget = autoLeanTarget(bend, speed);
   lean += (leanTarget - lean) * Math.min(1, dt * LEAN_RESPONSE);
   lean = Math.max(-1, Math.min(1, lean));
 
-  // Auto-steer: soft racing line, stays on asphalt (no crash / slide-off)
-  const turnPower = STEER_RATE * (3.8 + speed * 0.22) * (0.2 + Math.abs(lean) * 1.25);
-  lateral -= lean * turnPower * dt;
+  // Racing line: drift toward inside ripple strip through the bend, then back to centre.
+  // Left bend (neg) → positive lateral (left / inside). Right bend → negative lateral.
+  const bendMag = Math.min(1, Math.abs(bend) * 1.35);
+  const insideSign = bend === 0 ? 0 : -Math.sign(bend);
+  const lineTarget = insideSign * ROAD_HALF_M * INSIDE_LINE_FRAC * bendMag;
 
-  if (Math.abs(bend) > 0.08) {
-    const lineTarget = -bend * 1.65;
-    lateral += (lineTarget - lateral) * Math.min(0.28, dt * LINE_FOLLOW * (0.35 + Math.abs(bend)));
-  } else if (Math.abs(lean) < 0.12) {
-    lateral *= 1 - Math.min(0.4, dt * 0.85);
-  }
+  const follow =
+    Math.abs(bend) > 0.06
+      ? Math.min(0.45, dt * LINE_FOLLOW * (0.4 + bendMag))
+      : Math.min(0.35, dt * 0.9);
+  lateral += (lineTarget - lateral) * follow;
+
+  // Mild lean-linked nudge so tip-in and line stay in sync (does not fight inside bias)
+  // Negative lean (left) → increase lateral (left of centre)
+  lateral -= lean * STEER_RATE * 0.35 * dt;
 
   lateral = Math.max(-LATERAL_LIMIT, Math.min(LATERAL_LIMIT, lateral));
 
