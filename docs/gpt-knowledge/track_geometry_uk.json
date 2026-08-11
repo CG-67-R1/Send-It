@@ -1,0 +1,122 @@
+{
+  "version": "1.0",
+  "last_updated": "2026-08-11",
+  "purpose": "authoritative_track_geometry_uk",
+  "instruction": "For turn count, lap direction, length_km, and approx_direction, prefer this file over prose KB. Coaching bias lives in TRACK_SPECIFIC_DIAGNOSTIC_UK_v1.json. Rider-facing corner names must use turn number + rider-view left/right. Prefer complex / null over a wrong hand.",
+  "tracks": {
+    "brands_hatch": {
+      "venue": "Brands Hatch",
+      "location": "Kent, England",
+      "layout_id": "gp",
+      "length_km": 3.916,
+      "turn_count": 9,
+      "direction": "clockwise",
+      "aliases": ["brands-hatch", "brands"],
+      "turns": [
+        { "number": 1, "label": "Paddock Hill Bend", "approx_direction": "right" },
+        { "number": 2, "label": "Druids", "approx_direction": "right" },
+        { "number": 3, "label": "Graham Hill Bend", "approx_direction": "left" },
+        { "number": 4, "label": "Surtees", "approx_direction": "right" },
+        { "number": 5, "label": "Hawthorn Bend", "approx_direction": "right" },
+        { "number": 6, "label": "Westfield Bend", "approx_direction": "right" },
+        { "number": 7, "label": "Sheene Curve", "approx_direction": "left" },
+        { "number": 8, "label": "Stirling's", "approx_direction": "left" },
+        { "number": 9, "label": "Clark Curve", "approx_direction": "right" }
+      ],
+      "notes": "Confirm Indy vs GP with rider. Indy omits GP woodland section."
+    },
+    "donington": {
+      "venue": "Donington Park",
+      "location": "Leicestershire, England",
+      "layout_id": "national",
+      "length_km": 3.19,
+      "turn_count": 9,
+      "direction": "clockwise",
+      "aliases": ["donington-park"],
+      "turns": [
+        { "number": 1, "label": "Redgate", "approx_direction": "right" },
+        { "number": 2, "label": "Hollywood", "approx_direction": "right" },
+        { "number": 3, "label": "Craner Curves", "approx_direction": "left" },
+        { "number": 4, "label": "Old Hairpin", "approx_direction": "right" },
+        { "number": 5, "label": "Starkey's Bridge", "approx_direction": "left" },
+        { "number": 6, "label": "Schwantz Curve", "approx_direction": "left" },
+        { "number": 7, "label": "McLean's", "approx_direction": "right" },
+        { "number": 8, "label": "Coppice", "approx_direction": "right" },
+        { "number": 9, "label": "Roberts", "approx_direction": null, "note": "chicane — complex" }
+      ],
+      "notes": "GP layout adds Fogarty Esses, Melbourne Hairpin, Goddards instead of Roberts."
+    },
+    "silverstone": {
+      "venue": "Silverstone Circuit",
+      "location": "Northamptonshire, England",
+      "layout_id": "national",
+      "length_km": 2.64,
+      "turn_count": 6,
+      "direction": "clockwise",
+      "turns": [
+        { "number": 1, "label": "Copse", "approx_direction": "right" },
+        { "number": 2, "label": "Maggotts", "approx_direction": "left" },
+        { "number": 3, "label": "Becketts", "approx_direction": null, "note": "complex" },
+        { "number": 4, "label": "Brooklands", "approx_direction": "left" },
+        { "number": 5, "label": "Luffield", "approx_direction": "right" },
+        { "number": 6, "label": "Woodcote", "approx_direction": "right" }
+      ]
+    },
+    "snetterton": {
+      "venue": "Snetterton Circuit",
+      "location": "Norfolk, England",
+      "layout_id": "300",
+      "length_km": 4.78,
+      "turn_count": 12,
+      "direction": "clockwise",
+      "turns": [
+        { "number": 1, "label": "Riches", "approx_direction": "right" },
+        { "number": 2, "label": "Montreal", "approx_direction": "right" },
+        { "number": 3, "label": "Palmer", "approx_direction": "right" },
+        { "number": 4, "label": "Agostini", "approx_direction": "left" },
+        { "number": 5, "label": "Hamilton", "approx_direction": "left" },
+        { "number": 6, "label": "Oggies", "approx_direction": "right" },
+        { "number": 7, "label": "Williams", "approx_direction": "right" },
+        { "number": 8, "label": "Brundle", "approx_direction": "right" },
+        { "number": 9, "label": "Nelson", "approx_direction": "left" },
+        { "number": 10, "label": "Bomb Hole", "approx_direction": "right" },
+        { "number": 11, "label": "Coram", "approx_direction": "right" },
+        { "number": 12, "label": "Murrays", "approx_direction": "left" }
+      ]
+    },
+    "cadwell_park": {
+      "venue": "Cadwell Park",
+      "location": "Lincolnshire, England",
+      "layout_id": "full_bike",
+      "length_km": 3.52,
+      "direction": "clockwise",
+      "aliases": ["cadwell-park", "cadwell"],
+      "turns": [],
+      "notes": "Mountain + Charlies are signature hazards. Prefer complex until layout-confirmed turn list is locked. Ask rider for layout (Full/Club/Woodlands)."
+    },
+    "oulton_park": {
+      "venue": "Oulton Park",
+      "location": "Cheshire, England",
+      "direction": "clockwise",
+      "aliases": ["oulton-park", "oulton"],
+      "turns": [],
+      "notes": "Elevation and trees; Knickerbrook historically critical. Confirm layout with rider."
+    },
+    "thruxton": {
+      "venue": "Thruxton Circuit",
+      "location": "Hampshire, England",
+      "direction": "clockwise",
+      "length_km": 3.79,
+      "turns": [],
+      "notes": "Very high average speed; Club chicane is a major braking event."
+    },
+    "knockhill": {
+      "venue": "Knockhill Racing Circuit",
+      "location": "Fife, Scotland",
+      "direction": "clockwise",
+      "length_km": 2.09,
+      "turns": [],
+      "notes": "Compact, undulating; SACU context for Scottish events."
+    }
+  }
+}

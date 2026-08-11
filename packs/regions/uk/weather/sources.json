@@ -1,11 +1,37 @@
 {
   "sources": [
     {
-      "id": "metoffice",
+      "id": "met-office",
       "name": "Met Office",
       "url": "https://www.metoffice.gov.uk",
+      "nodeId": "uk",
       "confidence": "official",
-      "nodeId": "uk"
+      "notes": "UK national meteorological service. Hourly forecasts and rain radar. Preferred for circuit-local forecasts on race/track-day mornings."
+    },
+    {
+      "id": "bbc-weather",
+      "name": "BBC Weather",
+      "url": "https://www.bbc.co.uk/weather",
+      "nodeId": "uk",
+      "confidence": "established-press",
+      "notes": "Uses Met Office data; accessible consumer interface. Good for quick circuit-postcode lookups."
+    },
+    {
+      "id": "windguru",
+      "name": "Windguru",
+      "url": "https://www.windguru.cz",
+      "nodeId": "uk",
+      "confidence": "established-press",
+      "notes": "Popular with track day riders for wind strength and gusts; useful at exposed circuits like Thruxton, Anglesey (coastal) and Knockhill."
+    },
+    {
+      "id": "xcweather",
+      "name": "XCWeather",
+      "url": "https://www.xcweather.co.uk",
+      "nodeId": "uk",
+      "confidence": "community",
+      "notes": "UK-specific hourly wind and rain forecast; popular with riders for circuit planning."
     }
-  ]
+  ],
+  "notes": "UK weather changes rapidly — check forecast morning of event, not day before. Anglesey (coastal) and Knockhill (exposed hillside) particularly susceptible to unexpected wind and rain. Track surface temperature matters: cold Tarmac (<10°C) requires extended warm-up; slick tyres unsuitable below ~20°C ambient."
 }

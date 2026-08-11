@@ -1,22 +1,39 @@
 {
-  "sourceIds": [
-    "mcn",
-    "bennetts"
-  ],
+  "sourceIds": ["mcn", "bennetts", "visordown", "crash-net"],
   "sources": [
     {
       "id": "mcn",
       "name": "MCN",
       "type": "scraper",
       "confidence": "established-press",
-      "nodeId": "uk"
+      "nodeId": "uk",
+      "url": "https://www.motorcyclenews.com/news/"
     },
     {
       "id": "bennetts",
       "name": "Bennetts BikeSocial",
       "type": "scraper",
       "confidence": "established-press",
-      "nodeId": "uk"
+      "nodeId": "uk",
+      "url": "https://www.bennetts.co.uk/bikesocial/news-and-views"
+    },
+    {
+      "id": "visordown",
+      "name": "Visordown",
+      "type": "scraper",
+      "confidence": "established-press",
+      "nodeId": "uk",
+      "url": "https://www.visordown.com/news",
+      "notes": "Pending scraper implementation; strong UK racing and BSB news."
+    },
+    {
+      "id": "crash-net",
+      "name": "Crash.net",
+      "type": "scraper",
+      "confidence": "established-press",
+      "nodeId": "uk",
+      "url": "https://www.crash.net/news",
+      "notes": "Pending scraper implementation; strong BSB and WorldSBK coverage."
     }
   ]
 }

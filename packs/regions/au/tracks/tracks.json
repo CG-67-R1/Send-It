@@ -137,15 +137,15 @@
         {
           "id": "mallala_t3",
           "number": 3,
-          "label": "Turn 3 (top-left hairpin, geographically far-left end of circuit)",
+          "label": "Turn 3 (right hairpin)",
           "shape": "Hairpin",
-          "direction": "complex",
+          "direction": "right",
           "approachFrom": "T2 (Turn 2) exit"
         },
         {
           "id": "mallala_t4",
           "number": 4,
-          "label": "Turn 4 (long top section / sweeper)",
+          "label": "Turn 4 (long sweeper)",
           "shape": "Fast sweeper / long radius",
           "direction": "complex",
           "approachFrom": "T3 (Turn 3) exit"
@@ -153,7 +153,7 @@
         {
           "id": "mallala_t5",
           "number": 5,
-          "label": "Turn 5 (top-right bend)",
+          "label": "Turn 5 (medium bend)",
           "shape": "Medium-speed bend / direction change",
           "direction": "complex",
           "approachFrom": "T4 (Turn 4) exit"
@@ -169,7 +169,7 @@
         {
           "id": "mallala_t7",
           "number": 7,
-          "label": "Turn 7 (bottom-right hairpin)",
+          "label": "Turn 7 (right hairpin)",
           "shape": "Tight hairpin / major braking",
           "direction": "right",
           "approachFrom": "T6 (Turn 6) exit"
@@ -177,7 +177,7 @@
         {
           "id": "mallala_t8",
           "number": 8,
-          "label": "Turn 8 (bottom-mid kink / connector)",
+          "label": "Turn 8 (kink / connector)",
           "shape": "Kink / transition",
           "direction": "complex",
           "approachFrom": "T7 (Turn 7) exit"

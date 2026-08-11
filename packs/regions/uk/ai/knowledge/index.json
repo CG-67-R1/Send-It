@@ -1,3 +1,20 @@
 {
-  "files": []
+  "files": [
+    {
+      "id": "uk-track-kb",
+      "path": "docs/gpt-knowledge/Track_Knowledge_Base_UK_v2.md",
+      "role": "coaching_bias"
+    },
+    {
+      "id": "uk-geometry",
+      "path": "docs/gpt-knowledge/track_geometry_uk.json",
+      "role": "geometry"
+    },
+    {
+      "id": "uk-diagnostic",
+      "path": "docs/gpt-knowledge/TRACK_SPECIFIC_DIAGNOSTIC_UK_v1.json",
+      "role": "diagnostic_bias"
+    }
+  ],
+  "notes": "UK Custom GPT Knowledge replica; diagnostic engine shared with AU upload set."
 }

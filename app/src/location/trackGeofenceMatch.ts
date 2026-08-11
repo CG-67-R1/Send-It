@@ -64,3 +64,13 @@ export function findTrackByLocation(lat: number, lng: number): TrackGeofenceMatc
 export function getCatalogGeofenceFeatures(): GeofenceFeature[] {
   return FEATURES;
 }
+
+/** Resolve catalog track centre from geofence Point (GeoJSON [lng, lat]). */
+export function getTrackCoords(trackId: string | null | undefined): { lat: number; lng: number } | null {
+  if (!trackId || trackId === 'other') return null;
+  const feature = FEATURES.find((f) => f.properties.trackId === trackId);
+  if (!feature) return null;
+  const [lng, lat] = feature.geometry.coordinates;
+  if (typeof lat !== 'number' || typeof lng !== 'number') return null;
+  return { lat, lng };
+}

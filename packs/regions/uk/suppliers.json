@@ -1,3 +1,77 @@
 {
-  "items": []
+  "items": [
+    {
+      "id": "pirelli-bsb",
+      "name": "Pirelli",
+      "category": "tyres",
+      "nodeId": "uk",
+      "confidence": "official",
+      "notes": "Confirmed BSB control tyre supplier (2025 season). Pirelli Diablo Superbike compound spec set by MCRCB per year. Also widely used on UK track days — SC1/SC2/SC3 compounds popular. Never invent pressures; cite rider/manufacturer datasheet."
+    },
+    {
+      "id": "bridgestone-trackday",
+      "name": "Bridgestone",
+      "category": "tyres",
+      "nodeId": "uk",
+      "confidence": "established-press",
+      "notes": "Battlax RS11 and V02 compounds common on UK track days. Refer to manufacturer datasheet for pressures."
+    },
+    {
+      "id": "dunlop-trackday",
+      "name": "Dunlop",
+      "category": "tyres",
+      "nodeId": "uk",
+      "confidence": "established-press",
+      "notes": "KR108/Sportmax Alpha compound range used on UK track days and club racing. Popular in Clubman classes."
+    },
+    {
+      "id": "michelin-trackday",
+      "name": "Michelin",
+      "category": "tyres",
+      "nodeId": "uk",
+      "confidence": "established-press",
+      "notes": "Power Cup / Power Slick range used on UK track days. Michelin MotoGP supplier globally. Check manufacturer datasheet for pressures."
+    },
+    {
+      "id": "alpinestars-uk",
+      "name": "Alpinestars (UK distributor)",
+      "category": "safety_equipment",
+      "nodeId": "uk",
+      "confidence": "established-press",
+      "notes": "Leading UK/BSB leathers and boot supplier. Nomex undergarment requirements vary by event — check supplementary regs."
+    },
+    {
+      "id": "arai-uk",
+      "name": "Arai Helmets",
+      "category": "safety_equipment",
+      "nodeId": "uk",
+      "confidence": "established-press",
+      "notes": "BSB competitor popular choice. ACU requires ECE 22.06 or FIM approved helmet for race events."
+    },
+    {
+      "id": "shoei-uk",
+      "name": "Shoei Helmets",
+      "category": "safety_equipment",
+      "nodeId": "uk",
+      "confidence": "established-press",
+      "notes": "BSB competitor popular choice. ECE 22.06 standard required for ACU events."
+    },
+    {
+      "id": "datatag-uk",
+      "name": "Datatag (bike registration)",
+      "category": "services",
+      "nodeId": "uk",
+      "confidence": "official",
+      "notes": "ACU-endorsed security marking system for race bikes."
+    },
+    {
+      "id": "twotyres-uk",
+      "name": "TwoTyres (tyre fitting / supply)",
+      "category": "tyres",
+      "nodeId": "uk",
+      "website": "https://twotyres.co.uk",
+      "confidence": "established-press",
+      "notes": "UK track day tyre supplier attending many circuit events for fitting; guide at twotyres.co.uk/motorcycle-trackday-tyres-guide."
+    }
+  ]
 }

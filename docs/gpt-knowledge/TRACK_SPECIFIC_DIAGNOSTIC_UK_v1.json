@@ -1,0 +1,107 @@
+{
+  "version": "1.0",
+  "purpose": "track_specific_diagnostic_layer_uk",
+  "last_updated": "2026-08-11",
+  "geometry_note": "Coaching bias only (surface, risks, advice). Do NOT infer turn direction or turn count from this file. Use track_geometry_uk.json for geometry.",
+  "tracks": {
+    "brands_hatch": {
+      "surface_characteristics": [
+        "elevation_changes",
+        "camber_changes",
+        "high_commitment_entry"
+      ],
+      "known_issues": [
+        "paddock_hill_unload",
+        "druids_late_apex_loss",
+        "sheene_blind_apex"
+      ],
+      "bias_rules": {
+        "front_issues": "often_elevation_and_camber",
+        "setup_priority": ["stability_over_aggression"]
+      },
+      "sections": {
+        "BRANDS_PADDOCK": {
+          "type": "sweeper_downhill",
+          "risk": "front_unload_on_entry",
+          "advice_bias": ["smooth_brake_release", "commit_early_line"]
+        },
+        "BRANDS_DRUIDS": {
+          "type": "hairpin",
+          "risk": "rear_spin_on_exit",
+          "advice_bias": ["patient_throttle", "late_apex"]
+        }
+      }
+    },
+    "donington": {
+      "surface_characteristics": [
+        "elevation",
+        "fast_left_commitment",
+        "mixed_grip_offline"
+      ],
+      "known_issues": [
+        "craner_lift_off_oversteer",
+        "old_hairpin_entry_positioning",
+        "mcleans_off_camber_apex"
+      ],
+      "bias_rules": {
+        "traction_issues": "often_elevation_transfer",
+        "setup_priority": ["stability_and_confidence"]
+      },
+      "sections": {
+        "DONINGTON_CRANER": {
+          "type": "fast_left_downhill",
+          "risk": "lift_off_spin_or_push",
+          "advice_bias": ["smooth_throttle", "build_speed_gradually"]
+        }
+      }
+    },
+    "silverstone": {
+      "surface_characteristics": [
+        "high_speed",
+        "long_sweepers",
+        "wind_exposure"
+      ],
+      "known_issues": [
+        "edge_grip_on_sweepers",
+        "becketts_combined_load",
+        "tyre_heat_management"
+      ],
+      "bias_rules": {
+        "tyre_wear": "critical_on_long_sessions",
+        "setup_priority": ["edge_support_and_stability"]
+      }
+    },
+    "snetterton": {
+      "surface_characteristics": [
+        "long_straights",
+        "heavy_braking_zones",
+        "fast_final_sector"
+      ],
+      "known_issues": [
+        "riches_over_brake",
+        "coram_murrays_exit_drive",
+        "rear_spin_on_drive_out"
+      ],
+      "bias_rules": {
+        "braking_issues": "often_entry_speed_management",
+        "setup_priority": ["stable_braking_and_drive"]
+      }
+    },
+    "cadwell_park": {
+      "surface_characteristics": [
+        "narrow",
+        "blind_crests",
+        "elevation_extreme"
+      ],
+      "known_issues": [
+        "mountain_wheelie_crest",
+        "charlies_commitment",
+        "armco_proximity"
+      ],
+      "bias_rules": {
+        "setup_priority": ["confidence_and_stability"],
+        "front_issues": "often_blind_crest_related"
+      }
+    }
+  }
+}

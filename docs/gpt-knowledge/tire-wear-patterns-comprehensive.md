@@ -2,10 +2,14 @@
 
 Complete guide to **motorcycle** tyre wear patterns, causes, and fixes for track day and racing.
 
-**Version**: 0.2  
-**Companion file**: `tire-pressure-weather-troubleshooting-guide.md` (pressure, weather, brand anchors, wet/drying logic).  
-**Sources**: Dave Moss Tuning (via tyre wear notes), Life at Lean, Cornering Forum, Suspension Secrets, Tyreman M/C, forum consensus, manufacturer-aligned pressure/wear logic.  
-**Last Updated**: 2026-04-13
+**Version**: 0.3  
+**Companion files**:
+- `tire-pressure-weather-troubleshooting-guide.md` — pressure, weather, brand anchors, wet/drying logic
+- `tyre-wear-photo-recognition.md` — **user-photo interpretation** (spatial descriptors, decision tree; text only, no reference images)
+**Sources**: Manufacturer-aligned pressure/wear logic, track-paddock diagnostic consensus, suspension/geometry wear heuristics.  
+**Last Updated**: 2026-08-11
+
+**Photo uploads:** Run `tyre-wear-photo-recognition.md` protocol first (zone → band geometry → morphology). Do **not** map “shredded” → cold tear by default. No third-party tyre photos in Knowledge.
 
 ---
 
@@ -14,7 +18,8 @@ Complete guide to **motorcycle** tyre wear patterns, causes, and fixes for track
 1. **Hot pressure reading immediately after pit-in** (don’t wait).  
 2. **Pressure and compound/window before suspension** for most wear problems.  
 3. If chasing tears for hours: likely **wrong compound** for surface temperature + pace.  
-4. **Numeric targets:** use brand tables in `tire-pressure-weather-troubleshooting-guide.md` — do not guess pressures.
+4. **Numeric targets:** use brand tables in `tire-pressure-weather-troubleshooting-guide.md` — do not guess pressures.  
+5. **From a photo:** classify with `tyre-wear-photo-recognition.md`, then return here for fix order.
 
 ---
 
@@ -34,7 +39,8 @@ Complete guide to **motorcycle** tyre wear patterns, causes, and fixes for track
 
 **What it looks like:**
 
-- Rough, torn “shredded” surface on the drive edge; deep tears; fingernail-shaped tears; uneven lines across a segment.  
+- Loaded drive/shoulder band with **deep undercut** flaps; fingernail-shaped lips; sharp contrast vs smoother adjacent rubber.  
+- Photo: prefer **depth + undercut** over the word “shredded” (see photo atlas).  
 - **Key test:** Can you get a fingernail **under** the tears? (Often **yes** on classic cold tear.)
 
 **Severity:** Mild → shallow clustered rips; moderate → wider band; severe → chunks, continuous undercut damage.
@@ -61,7 +67,7 @@ Complete guide to **motorcycle** tyre wear patterns, causes, and fixes for track
 
 **What it looks like:**
 
-- Smeared, “melted then torn” texture; shallow tears; may **arc toward centre**; hard to get fingernail deep under.  
+- Smeared, “melted then torn” texture; **shallow** tears; often **wider/diffuse**; may **arc toward centre**; hard to get fingernail deep under.  
 - **Key test:** Shallow, smeared, arcing → think **hot tear / overheating**.
 
 **Common causes** (ranked):
@@ -166,7 +172,7 @@ Complete guide to **motorcycle** tyre wear patterns, causes, and fixes for track
 
 ### 11. Suspension-related wear
 
-**What it looks like:** Non-uniform tear width, intermittent damage around circumference; raised tread edges (leading vs trailing hints at rebound).
+**What it looks like:** Non-uniform tear width **or** intermittent torn→clean→torn around circumference; raised tread/groove edges (leading vs trailing hints at rebound). Texture alone is not enough — need a circumference view.
 
 **Fix order:** Spring suitability; rebound; compression; small steps.
 
@@ -174,11 +180,11 @@ Complete guide to **motorcycle** tyre wear patterns, causes, and fixes for track
 
 ### 12. Geometry-related wear
 
-**Not enough weight on front:** Narrow band of damage, uniform; front cold or dragging.
+**Not enough weight on front:** Front tyre; **narrow ~5–10 mm** continuous mid-shoulder band (not outer third).
 
-**Too much weight on front:** Outer third wear, large uniform band.
+**Too much weight on front:** Front tyre; **outer third** wear, large band, inner edge of damage follows circumference.
 
-**Fix:** Ride height, fork offset, spring/balance — after ruling out pressure/compound.
+**Fix:** Ride height, fork offset, spring/balance — after ruling out pressure/compound. Photo atlas §§4–5.
 
 ---
 
@@ -269,4 +275,4 @@ Even “beach tide” wear — smooth, predictable. Racers may still trade life 
 
 ---
 
-**Last Updated**: 2026-04-13
+**Last Updated**: 2026-08-11

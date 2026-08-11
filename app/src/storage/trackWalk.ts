@@ -3,6 +3,7 @@ import { STORAGE_KEYS } from '../constants/storageKeys';
 import type { CornerDirection, OtherTrackContext } from '../data/tracks';
 import { formatCornerHeading, getTrackById, isOtherTrackComplete } from '../data/tracks';
 import { logStorageError } from './logStorageError';
+import { getPrimaryLocale } from '../packs/loader';
 
 const KEY_SESSIONS = STORAGE_KEYS.TRACK_WALK_SESSIONS;
 
@@ -137,7 +138,7 @@ function formatEntryLine(entry: TrackWalkEntry, trackId: string): string {
 }
 
 export function formatSessionForExport(session: TrackWalkSession): string {
-  const date = new Date(session.dateIso).toLocaleDateString('en-AU', {
+  const date = new Date(session.dateIso).toLocaleDateString(getPrimaryLocale(), {
     day: 'numeric',
     month: 'short',
     year: 'numeric',

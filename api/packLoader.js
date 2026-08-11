@@ -236,8 +236,19 @@ export function getTracksCatalog(packId = null) {
 }
 
 export function getOnboardingAreas(packId = null) {
-  const id = packId || getPrimaryPackId();
-  return readPackFile(id, 'onboarding/areas.json');
+  if (packId) return readPackFile(packId, 'onboarding/areas.json');
+  const areas = [];
+  const seen = new Set();
+  for (const id of listActivePacks()) {
+    const data = readPackFile(id, 'onboarding/areas.json');
+    for (const area of data?.areas || []) {
+      const key = area.nodeId || area.code || area.name;
+      if (seen.has(key)) continue;
+      seen.add(key);
+      areas.push(area);
+    }
+  }
+  return { areas };
 }
 
 export function getLocalSeriesIds() {
@@ -251,6 +262,11 @@ export function getLocalSeriesIds() {
     // Compatibility aliases used by existing AU calendar
     if (packId === 'au') {
       for (const a of ['asbk', 'au_club', 'au_national', 'au_track_day', 'australia']) {
+        ids.add(a);
+      }
+    }
+    if (packId === 'uk') {
+      for (const a of ['bsb', 'uk_club', 'uk_national', 'uk_track_day', 'united_kingdom', 'gb']) {
         ids.add(a);
       }
     }

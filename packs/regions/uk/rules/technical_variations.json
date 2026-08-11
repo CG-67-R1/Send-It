@@ -1,3 +1,52 @@
 {
-  "variations": []
+  "items": [
+    {
+      "id": "acu-standing-regs",
+      "title": "ACU Road Racing Standing Regulations — annual updates",
+      "nodeId": "uk",
+      "notes": "Licence grades, upgrade signature counts, class capacity limits and medical requirements change year to year. Always check the current ACU Standing Regulations PDF from acu.org.uk. The Novice Intermediate grade was discontinued in 2026.",
+      "url": "https://www.acu.org.uk/sport/standing-regulations.aspx",
+      "confidence": "official"
+    },
+    {
+      "id": "bsb-technical",
+      "title": "BSB / MCRCB technical regulations",
+      "nodeId": "uk",
+      "notes": "Superbike and support-class technical regs are separate from club Standing Regulations. Published annually by MCRCB. Pirelli confirmed control tyre supplier (2025). BMW, Ducati, Honda, Kawasaki, Aprilia, Yamaha all eligible.",
+      "url": "https://www.britishsuperbike.com",
+      "confidence": "official"
+    },
+    {
+      "id": "iom-road-race-regs",
+      "title": "Isle of Man TT / Manx GP supplementary regulations",
+      "nodeId": "uk-isle-of-man",
+      "notes": "Public-road event; entirely separate regulatory framework to short-circuit ACU regs. Safety equipment, licence grade, qualification lap and medical requirements are significantly more stringent.",
+      "url": "https://www.iomtt.com",
+      "confidence": "official"
+    },
+    {
+      "id": "nw200-regs",
+      "title": "North West 200 supplementary regulations",
+      "nodeId": "uk-northern-ireland",
+      "notes": "Public-road event under MCUI / event organisers. Separate regulations and licence requirements from ACU short-circuit events.",
+      "url": "https://northwest200.co.uk",
+      "confidence": "official"
+    },
+    {
+      "id": "sacu-regs",
+      "title": "SACU Standing Regulations (Scotland)",
+      "nodeId": "uk-scotland",
+      "notes": "SACU publishes its own standing regulations for events in Scotland. Cross-checks with ACU for inter-association competitors.",
+      "url": "https://www.sacu.co.uk",
+      "confidence": "official"
+    },
+    {
+      "id": "mcui-regs",
+      "title": "MCUI Ulster Centre regulations (Northern Ireland short circuits)",
+      "nodeId": "uk-northern-ireland",
+      "notes": "Governing framework for MCUI short-circuit events at Bishopscourt and Kirkistown; separate from public-road event regs.",
+      "url": "https://www.mcui-uc.org.uk",
+      "confidence": "official"
+    }
+  ]
 }

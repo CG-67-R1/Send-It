@@ -5,6 +5,7 @@ Comprehensive guide for motorcycle **track and road-race** tyre pressure, weathe
 **Version**: 0.2  
 **Source**: Brand-grounded rules from Dunlop, Pirelli, Bridgestone, Michelin, Metzeler (official tables where cited); generic Bridgestone-style wet deltas where no brand table applies. Bridgestone **race** fitment/compound: `bridgestone-race-tyre-data-extract.md`.  
 **Companion file**: `tire-wear-patterns-comprehensive.md` (wear visuals and fix order).  
+**Photo class**: `tyre-wear-photo-recognition.md` (user uploads — spatial descriptors only).  
 **Last Updated**: 2026-04-13 (Bridgestone race KB cross-link)
 
 ---

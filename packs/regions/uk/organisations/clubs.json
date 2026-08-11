@@ -1,3 +1,112 @@
 {
-  "items": []
+  "items": [
+    {
+      "id": "bmcrc-bemsee",
+      "name": "British Motorcycle Racing Club (BMCRC / Bemsee)",
+      "role": "club",
+      "nodeId": "uk-england",
+      "website": "https://www.bemsee.net",
+      "confidence": "official",
+      "notes": "World's oldest motorcycle racing club (est. 1909). Runs club championship rounds at Brands Hatch Indy, Cadwell Park, Snetterton, Silverstone National, Oulton Park and Mallory Park. Classes include Formula 400, Clubman Superstock, Thunderbike, Open 500 and junior pathways."
+    },
+    {
+      "id": "no-limits-racing",
+      "name": "No Limits Racing",
+      "role": "club",
+      "nodeId": "uk-england",
+      "website": "https://www.nolimitstrackdays.com",
+      "confidence": "official",
+      "notes": "Sprint and endurance club racing arm of No Limits Trackdays; multi-circuit calendar."
+    },
+    {
+      "id": "thundersport-gb",
+      "name": "Thundersport GB",
+      "role": "club",
+      "nodeId": "uk-england",
+      "website": "https://www.thundersportgb.com",
+      "confidence": "official",
+      "notes": "Large national club series primarily based at Mallory Park; Superstock, Supertwins, Thunderbike and endurance classes."
+    },
+    {
+      "id": "ng-road-racing",
+      "name": "NG Road Racing",
+      "role": "club",
+      "nodeId": "uk-england",
+      "website": "https://www.ngroadracing.org",
+      "confidence": "official",
+      "notes": "Club racing focused on budget-friendly Naked and Superstock classes; 2025 new championships aimed at cost-effective naked racing."
+    },
+    {
+      "id": "crmc",
+      "name": "Classic Racing Motorcycle Club (CRMC)",
+      "role": "club",
+      "nodeId": "uk-england",
+      "website": "https://www.crmc.co.uk",
+      "confidence": "official",
+      "notes": "Premier UK classic / historic motorcycle racing club; pre-1978 machinery; events at Brands Hatch, Cadwell, Mallory, Oulton, Snetterton and Donington."
+    },
+    {
+      "id": "emra",
+      "name": "Eastern Motorcycle Racing Association (EMRA)",
+      "role": "club",
+      "nodeId": "uk-england",
+      "website": "https://www.emra.co.uk",
+      "confidence": "official",
+      "notes": "ACU-affiliated club running rounds primarily at Snetterton. Good entry-level club with variety of production and Superstock classes."
+    },
+    {
+      "id": "fsra",
+      "name": "Formula Sidecar Racing Association (FSRA)",
+      "role": "club",
+      "nodeId": "uk",
+      "website": "https://www.fsra.co.uk",
+      "confidence": "community",
+      "notes": "UK sidecar club racing; Formula 2 and LCR sidecars; runs with ACU-affiliated events nationwide."
+    },
+    {
+      "id": "pdmcc",
+      "name": "Preston & District Motorcycle Club (PDMCC)",
+      "role": "club",
+      "nodeId": "uk-england",
+      "website": "https://pdmcc.racing",
+      "confidence": "official",
+      "notes": "Operates a well-regarded ACU race school at Three Sisters Circuit, Wigan; one-day CTC/BRA combined licence course."
+    },
+    {
+      "id": "manx-mc",
+      "name": "Manx Motor Cycle Club",
+      "role": "club",
+      "nodeId": "uk-isle-of-man",
+      "website": "https://www.manxgp.org",
+      "confidence": "official",
+      "notes": "Organises the Manx Grand Prix (amateur road racing on the TT Mountain Course) each August/September."
+    },
+    {
+      "id": "ucrc",
+      "name": "Ulster Centre Road Racing Clubs",
+      "role": "club",
+      "nodeId": "uk-northern-ireland",
+      "website": "https://www.mcui-uc.org.uk",
+      "confidence": "official",
+      "notes": "Umbrella for NI short-circuit clubs running at Bishopscourt and Kirkistown under MCUI Ulster Centre."
+    },
+    {
+      "id": "scarborough-ac",
+      "name": "Scarborough & District Motorcycle Club",
+      "role": "club",
+      "nodeId": "uk-england",
+      "website": "https://www.scarboroughmc.co.uk",
+      "confidence": "official",
+      "notes": "Organises motorcycle road racing meetings at Oliver's Mount, Scarborough — the only purpose-built road race circuit in England."
+    },
+    {
+      "id": "sacu-clubs",
+      "name": "SACU-affiliated clubs (Scotland)",
+      "role": "club",
+      "nodeId": "uk-scotland",
+      "website": "https://www.sacu.co.uk",
+      "confidence": "official",
+      "notes": "Multiple SACU-affiliated clubs run rounds at Knockhill and East Fortune under Scottish championship banners."
+    }
+  ]
 }

@@ -1,14 +1,53 @@
 {
   "pathways": [
     {
-      "id": "uk-trackday-bsb",
-      "title": "Track day → club → BSB pathway",
+      "id": "uk-trackday-to-bsb",
+      "title": "Track day → club racing → national → BSB",
       "nodeId": "uk",
       "stages": [
-        "Track days",
-        "Club racing",
-        "National / Superstock",
-        "BSB"
+        "Track days — operator group riding at MSV, No Limits, circuit-run events. Build pace and circuit familiarity without a race licence",
+        "ACU CTC theory + BRA practical → Novice race licence. First races in Clubman Superstock or Formula 400 at club events (Bemsee, EMRA, NG, No Limits Racing)",
+        "Novice signatures → Clubman upgrade. Broader class entry; race in more competitive fields",
+        "Clubman → National licence. Enter national-level events; eligible for Superstock, Supersport supports",
+        "National → BSB support classes (National Sportbike, BMW Cup, Superstock 1000, Supersport). Compete on BSB weekend bills",
+        "BSB support → British Talent Cup shortlist or factory consideration → BSB main class or WorldSBK / MotoGP pathway"
+      ],
+      "confidence": "community"
+    },
+    {
+      "id": "uk-road-race-public",
+      "title": "Short circuit → public-road events (Oliver's Mount / Manx GP / TT / NW200)",
+      "nodeId": "uk",
+      "stages": [
+        "Established club racing career with National or higher ACU licence",
+        "Oliver's Mount (Scarborough) — ACU-permitted road race circuit; good introduction to road race regulations",
+        "Manx Grand Prix — entry-level IOM Mountain Course event; no prior TT experience required; strict safety training and qualification laps",
+        "North West 200 — NI public-road race; MCUI licence; organisers review race history",
+        "Isle of Man TT — requires prior Manx GP or equivalent road racing experience; qualification laps; significant risk acceptance"
+      ],
+      "confidence": "community"
+    },
+    {
+      "id": "uk-classic-pathway",
+      "title": "Classic / historic pathway",
+      "nodeId": "uk",
+      "stages": [
+        "Classic track days and CRMC open days",
+        "CRMC club membership and racing — pre-1978 machine classes",
+        "National classic championships at Brands Hatch, Cadwell, Mallory, Snetterton, Donington, Oulton Park",
+        "International classic events (Goodwood Revival etc.) via specific invitation"
+      ],
+      "confidence": "community"
+    },
+    {
+      "id": "uk-scotland-pathway",
+      "title": "Scottish pathway (SACU → Knockhill → national)",
+      "nodeId": "uk-scotland",
+      "stages": [
+        "SACU-affiliated club racing at Knockhill and East Fortune",
+        "Scottish Championship rounds",
+        "Inter-association permission for ACU England/Wales events",
+        "ACU National licence for BSB support class entry"
       ],
       "confidence": "community"
     }

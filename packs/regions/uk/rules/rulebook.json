@@ -1,10 +1,22 @@
 {
   "governingBody": "Auto-Cycle Union",
   "shortName": "ACU",
-  "edition": null,
+  "edition": "Standing Regulations (current year — verify at acu.org.uk)",
   "urls": {
-    "sourcePage": "https://www.acu.org.uk"
+    "sourcePage": "https://www.acu.org.uk",
+    "roadRacing": "https://www.acu.org.uk/get-involved/road-racing.aspx",
+    "handbook": "https://www.acu.org.uk/sport/standing-regulations.aspx",
+    "bsbTechRegs": "https://www.britishsuperbike.com",
+    "mcrcb": "https://www.mcrcb.co.uk",
+    "fim": "https://www.fim-moto.com/en/regulations"
   },
-  "chapters": {},
-  "note": "Seed: link-out to ACU standing regs; in-app KB not yet ingested."
+  "chapters": {
+    "note": "Do not invent clause numbers. ACU publishes annual Standing Regulations PDF. Key sections typically include: General Regulations, Road Racing Specific, Technical Regulations by class, Licence Grades and Upgrade Criteria. Download current PDF from acu.org.uk."
+  },
+  "regionalVariations": {
+    "scotland": "SACU applies own standing regulations under FIM/ACU framework — see sacu.co.uk",
+    "northernIreland": "MCUI Ulster Centre regulations apply for NI events — see mcui-uc.org.uk",
+    "publicRoadEvents": "Separate supplementary regulations for IOM TT, Manx GP, NW200, Oliver's Mount. Not covered by standard ACU short-circuit regulations."
+  },
+  "note": "Prefer ACU National Sporting Code + Road Racing Standing Regulations and event supplementary regulations. BSB / MCRCB technical regulations are separate from club Standing Regulations. SACU applies for Scotland; MCUI for Northern Ireland. Do not invent clause numbers. Link out when in-app KB is incomplete."
 }

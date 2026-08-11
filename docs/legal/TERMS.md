@@ -44,3 +44,7 @@ We may suspend access to API-backed features if use violates these terms or thre
 ## Governing law
 
 These terms are governed by the laws of South Australia, Australia, unless mandatory local consumer law provides otherwise.
+
+### United Kingdom users
+
+If you access the app from the United Kingdom, nothing in these terms limits your mandatory rights under UK consumer law. For UK privacy expectations see the Privacy Policy (UK / GDPR note). Rules references may cite ACU / SACU / MCUI publications; they are informational only.

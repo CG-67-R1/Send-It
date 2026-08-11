@@ -1,3 +1,112 @@
 {
-  "items": []
+  "items": [
+    {
+      "id": "msv",
+      "name": "MotorSport Vision (MSV)",
+      "category": "circuit_operator",
+      "website": "https://www.msv.com",
+      "nodeId": "uk-england",
+      "confidence": "official",
+      "notes": "Largest UK circuit group. Operates Brands Hatch, Donington Park, Cadwell Park, Snetterton and Oulton Park. Also runs MSV Bike Trackdays (bike.msvtrackdays.com)."
+    },
+    {
+      "id": "msvr",
+      "name": "MSVR (MotorSport Vision Racing)",
+      "category": "series_promoter",
+      "website": "https://www.britishsuperbike.com",
+      "nodeId": "uk",
+      "confidence": "official",
+      "notes": "Promotes BSB and support championships. Works under MCRCB governance."
+    },
+    {
+      "id": "knockhill-circuit",
+      "name": "Knockhill Racing Circuit",
+      "category": "circuit_operator",
+      "website": "https://www.knockhill.com",
+      "nodeId": "uk-scotland",
+      "confidence": "official",
+      "notes": "Scotland's only motorsport complex; hosts BSB rounds and SACU club events. Track days and coaching available."
+    },
+    {
+      "id": "anglesey-circuit",
+      "name": "Anglesey Circuit (Trac Môn)",
+      "category": "circuit_operator",
+      "website": "https://www.angleseycircuit.com",
+      "nodeId": "uk-wales",
+      "confidence": "official",
+      "notes": "North Wales circuit with International and Coastal layouts. Popular for club racing and track days."
+    },
+    {
+      "id": "castle-combe-circuit",
+      "name": "Castle Combe Circuit",
+      "category": "circuit_operator",
+      "website": "https://castlecombecircuit.co.uk",
+      "nodeId": "uk-england",
+      "confidence": "official",
+      "notes": "Historic Wiltshire circuit; motorcycle track days (experienced riders) and club racing. Not an MSV venue."
+    },
+    {
+      "id": "pembrey-circuit",
+      "name": "Pembrey Circuit",
+      "category": "circuit_operator",
+      "website": "https://www.whilton-mill.co.uk",
+      "nodeId": "uk-wales",
+      "confidence": "official",
+      "notes": "Welsh circuit near Llanelli; 5 layout variants; club racing and track days."
+    },
+    {
+      "id": "thruxton-circuit",
+      "name": "Thruxton Motorsport Centre",
+      "category": "circuit_operator",
+      "website": "https://thruxtonracing.co.uk",
+      "nodeId": "uk-england",
+      "confidence": "official",
+      "notes": "UK's fastest circuit; Hampshire. BSB venue; also track days and club racing."
+    },
+    {
+      "id": "goodwood-circuit",
+      "name": "Goodwood Motor Circuit",
+      "category": "circuit_operator",
+      "website": "https://www.goodwood.com",
+      "nodeId": "uk-england",
+      "confidence": "official",
+      "notes": "Historic West Sussex circuit; primarily used for Goodwood Revival (classic cars) and motorcycle events."
+    },
+    {
+      "id": "scarborough-ac",
+      "name": "Scarborough & District MC — Oliver's Mount",
+      "category": "circuit_operator",
+      "website": "https://www.scarboroughmc.co.uk",
+      "nodeId": "uk-england",
+      "confidence": "official",
+      "notes": "Organises road race meetings at Oliver's Mount, Scarborough — England's only purpose-built road race circuit."
+    },
+    {
+      "id": "iom-tt-organisation",
+      "name": "Isle of Man TT Races",
+      "category": "event_organiser",
+      "website": "https://www.iomtt.com",
+      "nodeId": "uk-isle-of-man",
+      "confidence": "official",
+      "notes": "Organises IOM TT and Classic TT. Under IOM Government / ACM oversight."
+    },
+    {
+      "id": "nw200-org",
+      "name": "North West 200 Organisation",
+      "category": "event_organiser",
+      "website": "https://northwest200.co.uk",
+      "nodeId": "uk-northern-ireland",
+      "confidence": "official",
+      "notes": "Annual May public-road event near Portstewart/Portrush/Coleraine."
+    },
+    {
+      "id": "acu-sport80",
+      "name": "ACU / Sport80 online licensing",
+      "category": "licensing_service",
+      "website": "https://sport80.com",
+      "nodeId": "uk",
+      "confidence": "official",
+      "notes": "Online portal for ACU membership, competition licence applications and upgrade submissions."
+    }
+  ]
 }

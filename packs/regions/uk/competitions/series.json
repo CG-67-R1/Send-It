@@ -2,27 +2,174 @@
   "series": [
     {
       "id": "bsb",
-      "name": "Bennetts British Superbike Championship",
+      "name": "ZYN British Superbike Championship (BSB)",
       "nodeId": "uk",
       "local": true,
       "website": "https://www.britishsuperbike.com",
-      "confidence": "official"
+      "confidence": "official",
+      "notes": "Premier UK road race series, 38th season in 2025. Kyle Ryde champion 2024 & 2025. 10 rounds at Brands Hatch, Donington, Thruxton, Knockhill, Cadwell, Snetterton, Oulton Park and Silverstone GP. From 2026 sponsored by ZYN. Pirelli control tyre (confirmed). Promoted by MSVR; governed by MCRCB under ACU delegation."
     },
     {
-      "id": "uk_club",
-      "name": "UK club road racing",
+      "id": "bss",
+      "name": "British Supersport Championship",
       "nodeId": "uk",
       "local": true,
-      "confidence": "community"
+      "website": "https://www.britishsuperbike.com",
+      "confidence": "official",
+      "notes": "BSB support series; 600cc production-based. Adopted Supersport Next Generation regulations for 2025 onwards."
+    },
+    {
+      "id": "bss-ng",
+      "name": "Supersport Next Generation",
+      "nodeId": "uk",
+      "local": true,
+      "website": "https://www.britishsuperbike.com",
+      "confidence": "official",
+      "notes": "Next-gen Supersport technical format integrated into British Supersport from 2025."
+    },
+    {
+      "id": "nss1000",
+      "name": "National Superstock 1000",
+      "nodeId": "uk",
+      "local": true,
+      "website": "https://www.britishsuperbike.com",
+      "confidence": "official",
+      "notes": "BSB support class; stock-based 1000cc machines. Traditional stepping stone to BSB."
+    },
+    {
+      "id": "btc",
+      "name": "British Talent Cup",
+      "nodeId": "uk",
+      "local": true,
+      "website": "https://www.britishsuperbike.com",
+      "confidence": "official",
+      "notes": "Junior development series supporting BSB; pathway from club racing / Superteen to national level."
+    },
+    {
+      "id": "bmw-cup",
+      "name": "BMW Motorrad Cup",
+      "nodeId": "uk",
+      "local": true,
+      "website": "https://www.britishsuperbike.com",
+      "confidence": "official",
+      "notes": "BSB support class; one-make BMW S1000RR series."
+    },
+    {
+      "id": "national-sportbike",
+      "name": "National Sportbike Championship",
+      "nodeId": "uk",
+      "local": true,
+      "website": "https://www.britishsuperbike.com",
+      "confidence": "official",
+      "notes": "BSB support class; production sportbike entry-level national."
+    },
+    {
+      "id": "superteen",
+      "name": "Kawasaki British Superteen Championship",
+      "nodeId": "uk",
+      "local": true,
+      "website": "https://www.britishsuperbike.com",
+      "confidence": "official",
+      "notes": "BSB support junior series for young riders on Kawasaki Ninja 400."
+    },
+    {
+      "id": "uk_club_bemsee",
+      "name": "BMCRC (Bemsee) Club Championship",
+      "nodeId": "uk-england",
+      "local": true,
+      "website": "https://www.bemsee.net",
+      "confidence": "official",
+      "notes": "Multi-class club championship at Brands Indy, Cadwell, Snetterton, Silverstone National, Oulton, Mallory. Classes: Formula 400, Clubman Superstock, Thunderbike, Open 500, Sidecar and junior classes."
+    },
+    {
+      "id": "thundersport_gb",
+      "name": "Thundersport GB Club Championship",
+      "nodeId": "uk-england",
+      "local": true,
+      "website": "https://www.thundersportgb.com",
+      "confidence": "official",
+      "notes": "Large national club series primarily at Mallory Park; Superstock 600/1000, Supertwins, Thunderbike, endurance."
+    },
+    {
+      "id": "crmc",
+      "name": "Classic Racing Motorcycle Club (CRMC) Championship",
+      "nodeId": "uk",
+      "local": true,
+      "website": "https://www.crmc.co.uk",
+      "confidence": "official",
+      "notes": "Pre-1978 classics at major UK circuits. Annual Cadwell Park Gold Cup a highlight."
     },
     {
       "id": "isle_of_man_tt",
       "name": "Isle of Man TT",
-      "nodeId": "uk",
+      "nodeId": "uk-isle-of-man",
       "local": true,
       "website": "https://www.iomtt.com",
       "confidence": "official",
-      "notes": "Crown Dependency event; often followed by UK riders."
+      "notes": "World's most famous road race; Mountain Course 60.72 km; annual late May/early June. Classes: Superbike, Supersport, Superstock, Senior TT, TT Zero (EV), Sidecars. Separate ACU / IOM licence required."
+    },
+    {
+      "id": "manx_gp",
+      "name": "Manx Grand Prix",
+      "nodeId": "uk-isle-of-man",
+      "local": true,
+      "website": "https://www.manxgp.org",
+      "confidence": "official",
+      "notes": "Amateur road race on the TT Mountain Course; annual August/September. Entry-level TT-style event for riders without TT experience."
+    },
+    {
+      "id": "nw200",
+      "name": "North West 200",
+      "nodeId": "uk-northern-ireland",
+      "local": true,
+      "website": "https://northwest200.co.uk",
+      "confidence": "official",
+      "notes": "Ireland's largest outdoor sporting event; public-road course near Portstewart/Portrush/Coleraine; annual May. 150,000+ spectators. Classes: Superbike, Supersport, Superstock, Supertwin."
+    },
+    {
+      "id": "ulster_gp",
+      "name": "Ulster Grand Prix (historic / revival status)",
+      "nodeId": "uk-northern-ireland",
+      "local": true,
+      "website": "https://en.wikipedia.org/wiki/Ulster_Grand_Prix",
+      "confidence": "community",
+      "notes": "Dundrod circuit (7.4 mi); currently defunct as a regular event. Historically 'world's fastest road race'. Revival discussions ongoing — verify current status."
+    },
+    {
+      "id": "olivers_mount",
+      "name": "Oliver's Mount Road Races (Scarborough)",
+      "nodeId": "uk-england",
+      "local": true,
+      "website": "https://www.scarboroughmc.co.uk",
+      "confidence": "official",
+      "notes": "England's only purpose-built road race circuit; hillside course at Scarborough, North Yorkshire. Spring and Gold Cup autumn meetings. Classes mirror ACU club road race grades. 2.41 mi (3.88 km) course."
+    },
+    {
+      "id": "ng_road_racing",
+      "name": "NG Road Racing Club Championship",
+      "nodeId": "uk-england",
+      "local": true,
+      "website": "https://www.ngroadracing.org",
+      "confidence": "official",
+      "notes": "2025: launched two new budget-friendly Naked championships alongside existing Superstock classes."
+    },
+    {
+      "id": "emra_championship",
+      "name": "EMRA Championship",
+      "nodeId": "uk-england",
+      "local": true,
+      "website": "https://www.emra.co.uk",
+      "confidence": "official",
+      "notes": "ACU-affiliated club championship primarily at Snetterton; production and Superstock classes."
+    },
+    {
+      "id": "scottish_championship",
+      "name": "Scottish Motorcycle Racing Championships",
+      "nodeId": "uk-scotland",
+      "local": true,
+      "website": "https://www.sacu.co.uk",
+      "confidence": "official",
+      "notes": "SACU-organised national championship held at Knockhill Racing Circuit."
     }
   ]
 }

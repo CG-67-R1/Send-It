@@ -7,7 +7,7 @@
       "nodeId": "uk-england",
       "website": "https://www.acu.org.uk",
       "confidence": "official",
-      "notes": "Primary GB governing body for many motorcycle disciplines including road race."
+      "notes": "Primary GB governing body for motorcycle sport including road race, trials, motocross and enduro. England and Wales centres. FIM affiliate."
     },
     {
       "id": "sacu",
@@ -15,7 +15,8 @@
       "role": "federation",
       "nodeId": "uk-scotland",
       "website": "https://www.sacu.co.uk",
-      "confidence": "official"
+      "confidence": "official",
+      "notes": "Governing body for motorcycle sport in Scotland. FIM affiliate via ACU."
     },
     {
       "id": "mcui",
@@ -24,15 +25,43 @@
       "nodeId": "uk-northern-ireland",
       "website": "https://www.mcui-uc.org.uk",
       "confidence": "official",
-      "notes": "Covers Northern Ireland road racing context; verify current affiliation pathways."
+      "notes": "Ulster Centre covers Northern Ireland road racing (short circuits and public-road events). Separate road-race regulations apply for public-road events."
     },
     {
       "id": "acu-wales",
-      "name": "ACU Cymru / Wales centres",
+      "name": "ACU Cymru — Wales Centres",
       "role": "state_provincial",
       "nodeId": "uk-wales",
       "website": "https://www.acu.org.uk",
-      "confidence": "community"
+      "confidence": "official",
+      "notes": "Welsh ACU centres administer club racing under ACU Standing Regulations; Anglesey Circuit is primary Welsh road-race venue."
+    },
+    {
+      "id": "mcrcb",
+      "name": "Motor Cycle Road Racing Control Board (MCRCB)",
+      "role": "series_governing_body",
+      "nodeId": "uk",
+      "website": "https://www.mcrcb.co.uk",
+      "confidence": "official",
+      "notes": "Governs the British Superbike Championship and support classes under delegation from the ACU. Sets technical and sporting regulations for BSB."
+    },
+    {
+      "id": "fim",
+      "name": "Fédération Internationale de Motocyclisme (FIM)",
+      "role": "international_federation",
+      "nodeId": "uk",
+      "website": "https://www.fim-moto.com",
+      "confidence": "official",
+      "notes": "World governing body; ACU is the FIM affiliate for Great Britain. FIM licence required for international events."
+    },
+    {
+      "id": "iomtt-acm",
+      "name": "ACM — Auto-Cycle Club of the Isle of Man",
+      "role": "federation",
+      "nodeId": "uk-isle-of-man",
+      "website": "https://www.iomtt.com",
+      "confidence": "official",
+      "notes": "Organises the Isle of Man TT and Manx Grand Prix under IOM Government / ACU oversight."
     }
   ]
 }

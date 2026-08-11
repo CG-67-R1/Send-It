@@ -1,3 +1,60 @@
 {
-  "items": []
+  "items": [
+    {
+      "id": "msv-bike-trackdays",
+      "name": "MSV Bike Trackdays",
+      "nodeId": "uk-england",
+      "description": "Operator track days at Brands Hatch, Donington Park, Cadwell Park, Snetterton, Oulton Park and Bedford. Open-pit-lane format; groups novice/intermediate/advanced. ACU CTC/BRA assessment dates available.",
+      "website": "https://bike.msvtrackdays.com",
+      "confidence": "official"
+    },
+    {
+      "id": "no-limits-trackdays",
+      "name": "No Limits Trackdays",
+      "nodeId": "uk-england",
+      "description": "Novice-to-advanced bike track days and race schools across UK circuits including Brands, Donington and Cadwell. Strong progression bridge into club racing.",
+      "website": "https://www.nolimitstrackdays.com",
+      "confidence": "official"
+    },
+    {
+      "id": "pdmcc-race-school",
+      "name": "PDMCC Race School (Three Sisters)",
+      "nodeId": "uk-england",
+      "description": "One-day ACU race licence course (CTC theory + BRA on-track) at Three Sisters Circuit, Wigan. Cost approximately £155 (2024 figure). Widely recommended for first race licence.",
+      "website": "https://pdmcc.racing/race-school",
+      "confidence": "official"
+    },
+    {
+      "id": "castle-combe-coaching",
+      "name": "Castle Combe Circuit — motorcycle track days",
+      "nodeId": "uk-england",
+      "description": "Experienced-rider track days at Castle Combe (Wiltshire); 9am–5pm format with 15-minute sessions. Also hosts club racing. Circuit phone 01249 782417.",
+      "website": "https://castlecombecircuit.co.uk/motorcycle-track-days/",
+      "confidence": "official"
+    },
+    {
+      "id": "knockhill-rider-days",
+      "name": "Knockhill Racing Circuit — rider days and coaching",
+      "nodeId": "uk-scotland",
+      "description": "Track days and coach-led rider improvement days at Knockhill; Scotland's only motorsport complex. Group and 1:1 coaching available.",
+      "website": "https://www.knockhill.com",
+      "confidence": "official"
+    },
+    {
+      "id": "anglesey-trackdays",
+      "name": "Anglesey Circuit (Trac Môn) — track days",
+      "nodeId": "uk-wales",
+      "description": "Coastal and International layouts popular for motorcycle track days; scenic North Wales venue. Coaching sessions available through independent providers.",
+      "website": "https://www.angleseycircuit.com",
+      "confidence": "official"
+    },
+    {
+      "id": "phoenix-motorcycle-training",
+      "name": "Phoenix Motorcycle Training",
+      "nodeId": "uk",
+      "description": "UK-wide motorcycle training school; track day and coaching programme as stepping stone from road to circuit.",
+      "website": "https://phoenixmotorcycletraining.co.uk",
+      "confidence": "established-press"
+    }
+  ]
 }

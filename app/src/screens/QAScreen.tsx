@@ -19,6 +19,7 @@ import { safeOpenUrl } from '../utils/safeOpenUrl';
 import { AppLogo } from '../components/AppLogo';
 import { SCREEN_LOGO_SIZE } from '../constants/logoSizing';
 import { LEGACY_TRIVIA_BEST_SCORE_KEY, STORAGE_KEYS } from '../constants/storageKeys';
+import { getLocalUiLabel } from '../packs/loader';
 
 const TRIVIA_BEST_SCORE_KEY = STORAGE_KEYS.TRIVIA_BEST_SCORE;
 
@@ -441,7 +442,7 @@ export function QAScreen() {
       <View style={styles.section}>
         <Text style={styles.sectionTitle}>Got a question?</Text>
         <Text style={styles.sectionSubtitle}>
-          Motorcycle road racing Q&A with live web search — Australia first, then world. History, series, terminology, and bike tech (not car racing). For coaching or bike setup, use Coach & Bike Setup. For MoMS clauses, use Official rule check below.
+          Motorcycle road racing Q&A with live web search — {getLocalUiLabel()} first (active regional packs), then world. History, series, terminology, and bike tech (not car racing). For coaching or bike setup, use Coach & Bike Setup. For official rules, use Official rule check below.
         </Text>
         <View style={styles.searchRow}>
           <TextInput

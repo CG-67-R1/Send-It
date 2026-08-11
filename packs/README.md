@@ -31,3 +31,5 @@ npm run sync-app-packs       # copy active pack slices into app/src/packs/bundle
 ## Hybrid releases
 
 Edit `active.json` (or set `PACK_ACTIVE=au,uk`) then run `sync-app-packs` before building the app.
+
+Current default hybrid for UK scale launch: `["au","uk"]` (Australia home + United Kingdom). See `docs/uk-launch/`.

@@ -1,4 +1,23 @@
 {
-  "national": [],
-  "club": []
+  "national": [
+    {
+      "id": "bsb-placeholder-season",
+      "title": "Bennetts British Superbike Championship (check official calendar)",
+      "seriesId": "bsb",
+      "url": "https://www.britishsuperbike.com",
+      "nodeId": "uk",
+      "confidence": "community",
+      "notes": "Populate concrete round dates from britishsuperbike.com each season; do not invent venues/dates."
+    }
+  ],
+  "club": [
+    {
+      "id": "uk-club-racing-hub",
+      "title": "UK club road racing (Bemsee / No Limits / Thundersport / NG)",
+      "url": "https://www.acu.org.uk",
+      "nodeId": "uk-england",
+      "confidence": "community",
+      "notes": "Point riders to club calendars; static placeholders avoid inventing meeting dates."
+    }
+  ]
 }

@@ -1,11 +1,11 @@
 import type { Headline } from '../types';
 import { getHeadlineSourceIds } from '../packs/loader';
 
-/** Built-in local headline source IDs from active regional pack(s). */
+/** Built-in local headline source IDs from active regional pack(s) (AU + UK hybrid, etc.). */
 export const LOCAL_SOURCE_IDS = (
   getHeadlineSourceIds().length
     ? getHeadlineSourceIds()
-    : ['ma_roadrace', 'asbk', 'amcn_asbk']
+    : ['ma_roadrace', 'asbk', 'amcn_asbk', 'mcn', 'bennetts']
 ) as readonly string[];
 
 /** Legacy ids kept for cached headlines from older builds. */
@@ -23,13 +23,13 @@ const LEGACY_AU_SOURCE_IDS = [
   'amcn_endurance',
 ] as const;
 
-/** Club sources for 1-in-6 quota on the Aus feed. */
+/** Club sources for 1-in-6 quota on the local feed. */
 export const CLUB_SOURCE_IDS = ['amcn_club'] as const;
 
-/** Minimum AU share in World feed: 1 AU item per this many total items. */
+/** Minimum local-pack share in World feed: 1 local item per this many total items. */
 export const AU_EVERY_N = 4;
 
-/** Minimum club share in Aus feed: 1 club item per this many total items. */
+/** Minimum club share in local feed: 1 club item per this many total items. */
 export const CLUB_EVERY_N = 6;
 
 const MOTOGP_FAMILY_IDS = new Set(['motogp', 'motogpnews', 'motor_sport_motogp']);

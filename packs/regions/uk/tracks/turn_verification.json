@@ -1,3 +1,84 @@
 {
-  "tracks": {}
+  "version": 1,
+  "policy": "left|right only when rider- or official-map-verified. GPX bearing alone must never set turn hand. Prefer complex over a wrong hand.",
+  "updated": "2026-08-11",
+  "forceAllComplex": [
+    "cadwell-park",
+    "oulton-park",
+    "thruxton",
+    "knockhill",
+    "anglesey",
+    "mallory-park"
+  ],
+  "trackDirection": {
+    "brands-hatch": "clockwise",
+    "donington": "clockwise",
+    "silverstone": "clockwise",
+    "snetterton": "clockwise",
+    "cadwell-park": "clockwise",
+    "oulton-park": "clockwise",
+    "thruxton": "clockwise",
+    "knockhill": "clockwise",
+    "mallory-park": "clockwise"
+  },
+  "lengthKm": {
+    "brands-hatch": "3.916 km",
+    "donington": "3.19 km",
+    "silverstone": "2.64 km",
+    "snetterton": "4.78 km",
+    "cadwell-park": "3.52 km",
+    "oulton-park": "4.33 km",
+    "thruxton": "3.79 km",
+    "knockhill": "2.09 km",
+    "mallory-park": "2.18 km"
+  },
+  "verifiedHands": {
+    "brands-hatch": {
+      "1": "right",
+      "2": "right",
+      "3": "left",
+      "4": "right",
+      "5": "right",
+      "6": "right",
+      "7": "left",
+      "8": "left",
+      "9": "right"
+    },
+    "donington": {
+      "1": "right",
+      "2": "right",
+      "3": "left",
+      "4": "right",
+      "5": "left",
+      "6": "left",
+      "7": "right",
+      "8": "right"
+    },
+    "snetterton": {
+      "1": "right",
+      "2": "right",
+      "3": "right",
+      "4": "left",
+      "5": "left",
+      "6": "right",
+      "7": "right",
+      "8": "right",
+      "9": "left",
+      "10": "right",
+      "11": "right",
+      "12": "left"
+    },
+    "silverstone": {
+      "1": "right",
+      "2": "left",
+      "4": "left",
+      "5": "right",
+      "6": "right"
+    }
+  },
+  "notes": {
+    "donington": "National layout verified for named corners 1–8; Roberts (9) left as complex (chicane).",
+    "silverstone": "National layout; Becketts (3) complex (Maggotts–Becketts–Chapel sequence shortened on National).",
+    "brands-hatch": "GP layout; Indy omits GP section after Surtees — confirm layout with rider before coaching."
+  }
 }

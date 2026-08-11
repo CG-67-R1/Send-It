@@ -7,7 +7,7 @@ Quick reference guide organized by rider improvement goals.
 ### Vision & Reference Points
 - Better planning, earlier turn-in
 - Sources: Keith Code (CSS)
-- Track-Specific: Reference points in Track_Riding_KB_AllTracks_v1.md
+- Track-Specific: Reference points in Track_Riding_KB_AllTracks_v1.md (not in pack — do not invent)
 
 ### Throttle Control & Drive
 - Smooth roll-on, better exit drive
@@ -21,15 +21,15 @@ Quick reference guide organized by rider improvement goals.
 ### Body Position
 - Better stability, reduced bar weight
 - Sources: Keith Code (CSS), Simon Crafar (MotoVudu)
-- Extracted: body-position.md
+- Stub in: riding-techniques-combined.md (full extract not yet in pack)
 
 ## Improves: Consistency
 
 ### Braking & Trail Braking
 - Consistent entry speeds, repeatable braking zones
 - Sources: Keith Code (CSS), Nick Ienatsch (ChampSchool), Ken Hill
-- Track-Specific: Brake markers in Track_Riding_KB_AllTracks_v1.md
-- Extracted: braking-techniques.md
+- Track-Specific: Brake markers in Track_Riding_KB_AllTracks_v1.md (not in pack — do not invent)
+- Stub in: riding-techniques-combined.md (full extract not yet in pack)
 
 ### Vision & Reference Points
 - Repeatable reference points, consistent lines
@@ -63,7 +63,7 @@ Quick reference guide organized by rider improvement goals.
 - Markers, brake pressure control, release timing
 - Sources: Keith Code (CSS), Ken Hill, Nick Ienatsch
 - Track-Specific: Brake markers by bike class
-- Extracted: braking-techniques.md
+- Stub in: riding-techniques-combined.md (full extract not yet in pack)
 
 ### Vision & Reference Points
 - Better entry planning, earlier decisions
@@ -78,7 +78,7 @@ Quick reference guide organized by rider improvement goals.
 ### Body Position
 - Better stability for drive, reduced bar weight
 - Sources: Keith Code (CSS), Simon Crafar (MotoVudu)
-- Extracted: body-position.md
+- Stub in: riding-techniques-combined.md (full extract not yet in pack)
 
 ## Improves: Learning & Progress
 
@@ -95,7 +95,7 @@ Quick reference guide organized by rider improvement goals.
 ### Body Position
 - Reducing unwanted input, bar weight, timing
 - Sources: Keith Code (CSS), Simon Crafar (MotoVudu)
-- Extracted: body-position.md
+- Stub in: riding-techniques-combined.md (full extract not yet in pack)
 
 ### Throttle Control
 - Neutral/maintenance throttle, stability at turn-in

@@ -2,24 +2,120 @@
   "meta": {
     "timezone": "Europe/London",
     "event_scope": {
-      "discipline": "road_race"
+      "discipline": "road_race",
+      "include_keywords": [
+        "Road Race", "Road Racing", "BSB", "Superbike", "Supersport",
+        "Superstock", "Clubman", "Championship", "Race Meeting", "Track Day",
+        "TT", "Sidecar", "Manx GP", "Oliver's Mount", "North West 200",
+        "British Talent Cup", "Thundersport", "Bemsee", "BMCRC", "CRMC",
+        "EMRA", "NG Road Racing", "Knockhill", "Anglesey"
+      ],
+      "exclude_keywords": [
+        "Motocross", "MX", "Enduro", "Trials", "Trial",
+        "Dirt Track", "Speedway", "Supermoto", "Flat Track"
+      ]
     }
   },
   "sources": [
     {
       "id": "bsb_calendar",
-      "name": "BSB Calendar",
+      "name": "ZYN British Superbike Championship",
       "type": "series_calendar",
       "url": "https://www.britishsuperbike.com",
+      "nodeId": "uk",
+      "confidence": "official",
+      "notes": "10 rounds per season; Brands Hatch, Donington, Thruxton, Knockhill, Cadwell, Snetterton, Oulton, Silverstone GP. Check site for current-year dates."
+    },
+    {
+      "id": "acu_events",
+      "name": "ACU Events / Road Racing",
+      "type": "governing_body_calendar",
+      "url": "https://www.acu.org.uk/get-involved/road-racing.aspx",
       "nodeId": "uk",
       "confidence": "official"
     },
     {
-      "id": "acu_events",
-      "name": "ACU Events",
-      "type": "governing_body_calendar",
-      "url": "https://www.acu.org.uk",
+      "id": "msv_bike_trackdays",
+      "name": "MSV Bike Trackdays",
+      "type": "track_day_operator",
+      "url": "https://bike.msvtrackdays.com",
+      "nodeId": "uk-england",
+      "confidence": "official"
+    },
+    {
+      "id": "no_limits_trackdays",
+      "name": "No Limits Trackdays",
+      "type": "track_day_operator",
+      "url": "https://www.nolimitstrackdays.com",
+      "nodeId": "uk-england",
+      "confidence": "official"
+    },
+    {
+      "id": "bemsee_calendar",
+      "name": "BMCRC (Bemsee) Race Calendar",
+      "type": "club_calendar",
+      "url": "https://www.bemsee.net/event-calendar",
+      "nodeId": "uk-england",
+      "confidence": "official"
+    },
+    {
+      "id": "thundersport_calendar",
+      "name": "Thundersport GB Calendar",
+      "type": "club_calendar",
+      "url": "https://www.thundersportgb.com",
+      "nodeId": "uk-england",
+      "confidence": "official"
+    },
+    {
+      "id": "crmc_calendar",
+      "name": "CRMC Classic Racing Calendar",
+      "type": "club_calendar",
+      "url": "https://www.crmc.co.uk",
       "nodeId": "uk",
+      "confidence": "official"
+    },
+    {
+      "id": "iom_tt",
+      "name": "Isle of Man TT",
+      "type": "series_calendar",
+      "url": "https://www.iomtt.com",
+      "nodeId": "uk-isle-of-man",
+      "confidence": "official",
+      "notes": "Annual late May / early June. Crown Dependency event; ACU/IOM separate licence required."
+    },
+    {
+      "id": "manx_gp",
+      "name": "Manx Grand Prix",
+      "type": "series_calendar",
+      "url": "https://www.manxgp.org",
+      "nodeId": "uk-isle-of-man",
+      "confidence": "official",
+      "notes": "Annual August/September; amateur TT Mountain Course racing."
+    },
+    {
+      "id": "nw200_calendar",
+      "name": "North West 200",
+      "type": "series_calendar",
+      "url": "https://northwest200.co.uk",
+      "nodeId": "uk-northern-ireland",
+      "confidence": "official",
+      "notes": "Annual May; Portstewart/Portrush/Coleraine public-road course."
+    },
+    {
+      "id": "olivers_mount_calendar",
+      "name": "Oliver's Mount Scarborough — Race Meetings",
+      "type": "club_calendar",
+      "url": "https://www.scarboroughmc.co.uk",
+      "nodeId": "uk-england",
+      "confidence": "official",
+      "notes": "Spring Gold Cup and autumn Gold Cup meetings at England's only purpose-built road race circuit."
+    },
+    {
+      "id": "emra_calendar",
+      "name": "EMRA Calendar",
+      "type": "club_calendar",
+      "url": "https://www.emra.co.uk",
+      "nodeId": "uk-england",
       "confidence": "official"
     }
   ]

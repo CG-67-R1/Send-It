@@ -1,0 +1,113 @@
+{
+  "areas": [
+    {
+      "code": "ENG",
+      "nodeId": "uk-england",
+      "name": "England",
+      "clubs": [
+        {
+          "name": "British Motorcycle Racing Club (Bemsee)",
+          "location": "Brands Hatch, Cadwell, Snetterton, Silverstone and others",
+          "website": "https://www.bemsee.net"
+        },
+        {
+          "name": "No Limits Racing",
+          "location": "England (multi-circuit)",
+          "website": "https://www.nolimitstrackdays.com"
+        },
+        {
+          "name": "Thundersport GB",
+          "location": "Mallory Park base; multi-circuit calendar",
+          "website": "https://www.thundersportgb.com"
+        },
+        {
+          "name": "NG Road Racing",
+          "location": "England",
+          "website": "https://www.ngroadracing.org"
+        }
+      ],
+      "classes": [
+        "British Superbike and support classes (BSB weekend)",
+        "Clubman / Stocksport 600 & 1000",
+        "Superteen / Junior pathways",
+        "Thunderbike / twin / cup classes",
+        "Classic / historic (CRMC)"
+      ],
+      "coaches": [
+        {
+          "name": "MSV Bike Trackdays",
+          "description": "Open pit-lane and coach-supported days at MSV circuits; ACU assessment dates.",
+          "website": "https://bike.msvtrackdays.com"
+        },
+        {
+          "name": "No Limits Trackdays",
+          "description": "Group and school sessions aimed at track-day progression into club racing.",
+          "website": "https://www.nolimitstrackdays.com"
+        }
+      ]
+    },
+    {
+      "code": "SCT",
+      "nodeId": "uk-scotland",
+      "name": "Scotland",
+      "clubs": [
+        {
+          "name": "SACU-affiliated clubs",
+          "location": "Knockhill and Scottish venues",
+          "website": "https://www.sacu.co.uk"
+        }
+      ],
+      "classes": [
+        "Scottish championship / club road race classes",
+        "Knockhill club and national support classes"
+      ],
+      "coaches": [
+        {
+          "name": "Knockhill rider schools / track days",
+          "description": "Circuit-based coaching and track days at Knockhill.",
+          "website": "https://www.knockhill.com"
+        }
+      ]
+    },
+    {
+      "code": "WLS",
+      "nodeId": "uk-wales",
+      "name": "Wales",
+      "clubs": [
+        {
+          "name": "ACU Cymru / Welsh centre clubs",
+          "location": "Anglesey and Welsh centres",
+          "website": "https://www.acu.org.uk"
+        }
+      ],
+      "classes": [
+        "Club and national classes at Anglesey",
+        "Cross-border English club meetings"
+      ],
+      "coaches": [
+        {
+          "name": "Anglesey Circuit track days",
+          "description": "Coastal layouts popular for coaching and intermediate track days.",
+          "website": "https://www.angleseycircuit.com"
+        }
+      ]
+    },
+    {
+      "code": "NIR",
+      "nodeId": "uk-northern-ireland",
+      "name": "Northern Ireland",
+      "clubs": [
+        {
+          "name": "MCUI / local road race clubs",
+          "location": "Northern Ireland short circuits",
+          "website": "https://www.mcui-uc.org.uk"
+        }
+      ],
+      "classes": [
+        "Irish short-circuit classes",
+        "Public-road racing events (separate licences / regs)"
+      ],
+      "coaches": []
+    }
+  ]
+}

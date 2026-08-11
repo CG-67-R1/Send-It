@@ -123,10 +123,12 @@
       "category": "tyre_wear",
       "subtype": "cold_tear",
       "detect_if": [
-        "fingernail tears",
-        "rough shredded surface",
-        "tearing on drive edge"
+        "deep undercut fingernail flaps",
+        "sharp contrast tear band on loaded shoulder",
+        "fingernail lifts rubber",
+        "not merely rough or shredded surface"
       ],
+      "photo_atlas": "tyre-wear-photo-recognition.md",
       "primary_causes_ranked": [
         "pressure_too_high",
         "insufficient_carcass_temp",

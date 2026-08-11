@@ -2,14 +2,32 @@
   "sources": [
     {
       "id": "mcn-web",
-      "name": "Motor Cycle News",
+      "name": "Motor Cycle News (MCN)",
       "url": "https://www.motorcyclenews.com",
+      "rss": "https://www.motorcyclenews.com/rss",
       "confidence": "established-press",
-      "nodeId": "uk"
+      "nodeId": "uk",
+      "notes": "UK's highest-circulation motorcycle weekly; strong BSB and UK race coverage."
+    },
+    {
+      "id": "visordown",
+      "name": "Visordown",
+      "url": "https://www.visordown.com",
+      "confidence": "established-press",
+      "nodeId": "uk",
+      "notes": "UK-focused moto news; good BSB, club racing and track day coverage."
+    },
+    {
+      "id": "crash-net",
+      "name": "Crash.net",
+      "url": "https://www.crash.net",
+      "confidence": "established-press",
+      "nodeId": "uk",
+      "notes": "International motorcycle racing coverage; strong BSB, WorldSBK and MotoGP. UK-based editorial."
     },
     {
       "id": "bsb-news",
-      "name": "British Superbike",
+      "name": "British Superbike (official)",
       "url": "https://www.britishsuperbike.com",
       "confidence": "official",
       "nodeId": "uk"
@@ -18,8 +36,32 @@
       "id": "bike-social",
       "name": "Bennetts BikeSocial",
       "url": "https://www.bennetts.co.uk/bikesocial",
+      "rss": "https://www.bennetts.co.uk/bikesocial/news-and-views",
       "confidence": "established-press",
-      "nodeId": "uk"
+      "nodeId": "uk",
+      "notes": "Bennetts insurance-backed editorial; strong track day and new-rider content."
+    },
+    {
+      "id": "road-racing-news",
+      "name": "Road Racing News",
+      "url": "https://roadracingnews.co.uk",
+      "confidence": "established-press",
+      "nodeId": "uk",
+      "notes": "Specialist UK road racing publication; Oliver's Mount, TT, NW200, Ulster GP and Irish road racing coverage."
+    },
+    {
+      "id": "iomtt-news",
+      "name": "IOM TT Official News",
+      "url": "https://www.iomtt.com/news",
+      "confidence": "official",
+      "nodeId": "uk-isle-of-man"
+    },
+    {
+      "id": "nw200-news",
+      "name": "North West 200 Official News",
+      "url": "https://northwest200.co.uk",
+      "confidence": "official",
+      "nodeId": "uk-northern-ireland"
     }
   ]
 }

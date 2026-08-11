@@ -1,8 +1,8 @@
 {
   "version": "1.1",
   "purpose": "track_specific_diagnostic_layer_au",
-  "last_updated": "2026-04-13",
-  "geometry_note": "This file is coaching bias only (surface, risks, advice). Do NOT infer turn direction, turn count, or layout from it. Use track_geometry_australia.json for geometry.",
+  "last_updated": "2026-08-11",
+  "geometry_note": "This file is coaching bias only (surface, risks, advice). Do NOT infer turn direction, turn count, or layout from it. Use track_geometry_australia.json for geometry. Key smsp = Sydney Motorsport Park (layouts live under sydney_motorsport_park in geometry JSON).",
   "tracks": {
     "mallala": {
       "surface_characteristics": [
@@ -18,42 +18,43 @@
       "bias_rules": {
         "traction_issues": "often_surface_and_drive_related",
         "front_issues": "often_bump_induced",
-        "setup_priority": ["stability_over_aggression"]
+        "setup_priority": [
+          "stability_over_aggression"
+        ]
       },
       "sections": {
         "MALLALA_S01": {
           "type": "kink_setup",
           "risk": "unsettled_front",
-          "advice_bias": ["stability_first", "avoid_aggressive_turn_in"]
+          "advice_bias": [
+            "stability_first",
+            "avoid_aggressive_turn_in"
+          ]
         },
         "MALLALA_S07": {
           "type": "hairpin",
           "risk": "rear_spin_on_exit",
-          "advice_bias": ["late_apex", "controlled_throttle"]
+          "advice_bias": [
+            "late_apex",
+            "controlled_throttle"
+          ]
         },
         "MALLALA_S09": {
           "type": "final_corner",
           "risk": "rear_spin_and_exit_instability",
-          "advice_bias": ["prioritise_drive", "smooth_pickup"]
+          "advice_bias": [
+            "prioritise_drive",
+            "smooth_pickup"
+          ]
         }
       }
     },
-    "smspr": {
-      "name": "sydney_motorsport_park",
-      "surface_characteristics": ["good_grip", "high_speed", "flowing_layout"],
-      "known_issues": [
-        "overconfidence_front",
-        "high_speed_instability",
-        "exit_drive_errors"
-      ],
-      "bias_rules": {
-        "traction_issues": "often_rider_input",
-        "front_issues": "often_entry_speed_related",
-        "setup_priority": ["precision_over_stability"]
-      }
-    },
     "phillip_island": {
-      "surface_characteristics": ["high_speed", "long_corners", "wind_exposure"],
+      "surface_characteristics": [
+        "high_speed",
+        "long_corners",
+        "wind_exposure"
+      ],
       "known_issues": [
         "edge_grip_overload",
         "tyre_wear_on_edge",
@@ -62,11 +63,17 @@
       "bias_rules": {
         "traction_issues": "edge_grip_management",
         "tyre_wear": "critical_factor",
-        "setup_priority": ["stability_and_edge_support"]
+        "setup_priority": [
+          "stability_and_edge_support"
+        ]
       }
     },
     "broadford": {
-      "surface_characteristics": ["tight", "off_camber", "elevation_changes"],
+      "surface_characteristics": [
+        "tight",
+        "off_camber",
+        "elevation_changes"
+      ],
       "known_issues": [
         "rear_spin_off_camber",
         "front_push_downhill",
@@ -75,7 +82,9 @@
       "bias_rules": {
         "traction_issues": "often_throttle_timing",
         "risk_level": "high_if_aggressive",
-        "setup_priority": ["smoothness_and_control"]
+        "setup_priority": [
+          "smoothness_and_control"
+        ]
       }
     },
     "mac_park": {
@@ -91,22 +100,61 @@
       ],
       "bias_rules": {
         "traction_issues": "often_transition_related",
-        "setup_priority": ["compliance_and_stability"]
+        "setup_priority": [
+          "compliance_and_stability"
+        ]
+      }
+    },
+    "smsp": {
+      "name": "sydney_motorsport_park",
+      "surface_characteristics": [
+        "good_grip",
+        "high_speed",
+        "flowing_layout"
+      ],
+      "known_issues": [
+        "overconfidence_front",
+        "high_speed_instability",
+        "exit_drive_errors"
+      ],
+      "bias_rules": {
+        "traction_issues": "often_rider_input",
+        "front_issues": "often_entry_speed_related",
+        "setup_priority": [
+          "precision_over_stability"
+        ]
       }
     }
   },
   "track_modifiers": {
     "bumpy_surface": {
-      "effects": ["reduced_front_confidence", "inconsistent_contact_patch"],
-      "setup_bias": ["reduce_compression", "increase_rebound_slightly"]
+      "effects": [
+        "reduced_front_confidence",
+        "inconsistent_contact_patch"
+      ],
+      "setup_bias": [
+        "reduce_compression",
+        "increase_rebound_slightly"
+      ]
     },
     "off_camber": {
-      "effects": ["reduced_grip", "higher_slide_risk"],
-      "rider_bias": ["smooth_throttle", "delayed_pickup"]
+      "effects": [
+        "reduced_grip",
+        "higher_slide_risk"
+      ],
+      "rider_bias": [
+        "smooth_throttle",
+        "delayed_pickup"
+      ]
     },
     "high_speed_track": {
-      "effects": ["stability_critical", "small_errors_magnified"],
-      "setup_bias": ["stability_over_agility"]
+      "effects": [
+        "stability_critical",
+        "small_errors_magnified"
+      ],
+      "setup_bias": [
+        "stability_over_agility"
+      ]
     }
   },
   "integration_rules": {

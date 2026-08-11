@@ -1,4 +1,4 @@
-import React, { useCallback, useMemo, useRef, useState } from 'react';
+import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import {
   ActivityIndicator,
   Alert,
@@ -15,7 +15,8 @@ import {
   View,
 } from 'react-native';
 import * as ImagePicker from 'expo-image-picker';
-import { useFocusEffect, useNavigation } from '@react-navigation/native';
+import { useFocusEffect, useNavigation, useRoute, type RouteProp } from '@react-navigation/native';
+import type { NativeStackNavigationProp } from '@react-navigation/native-stack';
 import { useTrackArrivalRecheck } from '../context/TrackArrivalContext';
 import { isTrackArrivalEnabled } from '../location/trackGeofence';
 import { AppLogo } from '../components/AppLogo';
@@ -37,6 +38,8 @@ import {
 import { exportTrackWalkSession } from '../utils/exportTrackWalk';
 import { formatTrackNotesForCoach, sendCoachChat } from '../utils/coachChat';
 import { photoUrisToCoachPayloads } from '../utils/coachAttachments';
+import { getPrimaryLocale } from '../packs/loader';
+import type { RiderCoachStackParamList } from './RiderCoachScreen';
 
 type AddingMode = 'corner' | 'note' | null;
 type SessionVisibility = TrackWalkSession['visibility'];
@@ -99,10 +102,13 @@ function entryHeading(entry: TrackWalkEntry, trackId: string): string {
 }
 
 export function TrackWalkScreen() {
-  const navigation = useNavigation();
+  const navigation = useNavigation<NativeStackNavigationProp<RiderCoachStackParamList>>();
+  const route = useRoute<RouteProp<RiderCoachStackParamList, 'TrackWalk'>>();
   const recheckArrival = useTrackArrivalRecheck();
-  const [trackId, setTrackId] = useState<string | null>(null);
-  const [otherContext, setOtherContext] = useState<OtherTrackContext>(DEFAULT_OTHER_CONTEXT);
+  const [trackId, setTrackId] = useState<string | null>(route.params?.initialTrackId ?? null);
+  const [otherContext, setOtherContext] = useState<OtherTrackContext>(
+    route.params?.otherContext ?? DEFAULT_OTHER_CONTEXT
+  );
   const [entries, setEntries] = useState<TrackWalkEntry[]>([]);
   const [addingMode, setAddingMode] = useState<AddingMode>(null);
   const [draftText, setDraftText] = useState('');
@@ -123,6 +129,13 @@ export function TrackWalkScreen() {
   const [recording, setRecording] = useState(false);
   const [interimTranscript, setInterimTranscript] = useState('');
   const interimRef = useRef('');
+
+  useEffect(() => {
+    const id = route.params?.initialTrackId;
+    if (!id) return;
+    setTrackId(id);
+    if (route.params?.otherContext) setOtherContext(route.params.otherContext);
+  }, [route.params?.initialTrackId, route.params?.otherContext]);
 
   const selectedTrack = useMemo<TrackDefinition | null>(() => {
     if (!trackId) return null;
@@ -225,7 +238,7 @@ export function TrackWalkScreen() {
       }
       setInterimTranscript('');
       interimRef.current = '';
-      ExpoSpeechRecognitionModule.start({ lang: 'en-AU', interimResults: true, continuous: true });
+      ExpoSpeechRecognitionModule.start({ lang: getPrimaryLocale(), interimResults: true, continuous: true });
       setRecording(true);
     } catch (e) {
       if (__DEV__) console.warn('[TrackWalk] speech start', e);
@@ -703,7 +716,7 @@ export function TrackWalkScreen() {
             <Text style={styles.modalTitle}>Finish track walk</Text>
             <Text style={styles.modalSubtitle}>
               {selectedTrack?.name ?? 'Track'} ·{' '}
-              {new Date().toLocaleDateString('en-AU', { day: 'numeric', month: 'short', year: 'numeric' })}
+              {new Date().toLocaleDateString(getPrimaryLocale(), { day: 'numeric', month: 'short', year: 'numeric' })}
             </Text>
             <Text style={styles.modalPrompt}>Save on device, export a file, or ask your coach?</Text>
             <Text style={styles.visibilityLabel}>Note visibility</Text>

@@ -2,10 +2,20 @@
   "contacts": [
     {
       "id": "uk-999",
-      "name": "Emergency services",
+      "name": "UK Emergency Services",
       "phone": "999",
-      "nodeId": "uk"
+      "nodeId": "uk",
+      "notes": "Police, Ambulance, Fire. Works from mobile — even with no signal strength shown in some networks."
+    },
+    {
+      "id": "uk-112",
+      "name": "European Emergency Number",
+      "phone": "112",
+      "nodeId": "uk",
+      "notes": "Also works in UK and throughout Europe; routes to 999 in GB."
     }
   ],
-  "notes": "Follow circuit control / marshals. European emergency 112 also works in UK."
+  "circuitProtocol": "At any UK race or track day event, follow circuit control and marshals immediately. Wave red flag = stop immediately and return to pits at reduced speed. Yellow flag = slow down, no overtaking. Incident reporting: inform circuit control / clerk of course; complete any ACU incident forms required.",
+  "raceEventEmergency": "BSB and ACU events have dedicated circuit medical teams and FIM Grade medical centre requirements. At club and track day events, first aid is always present — location confirmed at rider briefing.",
+  "notes": "999 (or 112) for off-circuit emergencies. At public-road events (IOM TT, NW200, Oliver's Mount) follow event marshals and control procedures; road closures and re-opening schedules are strictly managed by organisers and local authorities."
 }

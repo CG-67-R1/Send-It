@@ -3,22 +3,109 @@
     {
       "id": "bsb-superbike",
       "name": "British Superbike",
-      "nodeId": "uk"
+      "nodeId": "uk",
+      "seriesId": "bsb",
+      "notes": "1000cc production-based superbike; control tyre Pirelli (confirmed 2025). 6 constructors: Aprilia, BMW, Ducati, Honda, Kawasaki, Yamaha."
     },
     {
-      "id": "supersport",
-      "name": "Supersport",
-      "nodeId": "uk"
+      "id": "bss-supersport",
+      "name": "British Supersport (Next Generation)",
+      "nodeId": "uk",
+      "seriesId": "bss",
+      "notes": "600cc production-based; Next Generation regulations adopted 2025 onward."
     },
     {
-      "id": "superstock",
-      "name": "Superstock",
-      "nodeId": "uk"
+      "id": "nss1000",
+      "name": "National Superstock 1000",
+      "nodeId": "uk",
+      "seriesId": "nss1000",
+      "notes": "1000cc near-stock superbike; traditional BSB feeder class."
     },
     {
-      "id": "clubman",
-      "name": "Clubman / national",
-      "nodeId": "uk"
+      "id": "british-talent-cup",
+      "name": "British Talent Cup",
+      "nodeId": "uk",
+      "seriesId": "btc",
+      "notes": "Junior pathway; 300-400cc machines; riders must meet age/experience criteria."
+    },
+    {
+      "id": "bmw-motorrad-cup",
+      "name": "BMW Motorrad Cup",
+      "nodeId": "uk",
+      "seriesId": "bmw-cup",
+      "notes": "One-make BMW S1000RR; spec machine and tyre package."
+    },
+    {
+      "id": "national-sportbike",
+      "name": "National Sportbike",
+      "nodeId": "uk",
+      "seriesId": "national-sportbike",
+      "notes": "Entry-level national production sportbike class on BSB support bill."
+    },
+    {
+      "id": "kawasaki-superteen",
+      "name": "Kawasaki British Superteen",
+      "nodeId": "uk",
+      "seriesId": "superteen",
+      "notes": "Junior class; Kawasaki Ninja 400; age-gated pathway for young riders."
+    },
+    {
+      "id": "clubman-superstock",
+      "name": "Clubman Superstock 600 / 1000",
+      "nodeId": "uk",
+      "notes": "Core ACU club race class; production sportbike with limited modifications. Gateway to National licence."
+    },
+    {
+      "id": "formula-400",
+      "name": "Formula 400",
+      "nodeId": "uk-england",
+      "notes": "BMCRC class; 400cc four-cylinder production machines; popular budget class."
+    },
+    {
+      "id": "thunderbike",
+      "name": "Thunderbike",
+      "nodeId": "uk",
+      "notes": "Club class; typically large-capacity V-twin / roadster machines; growing UK popularity."
+    },
+    {
+      "id": "supertwins",
+      "name": "Supertwins / Super Twins",
+      "nodeId": "uk",
+      "notes": "650cc twin-cylinder class; popular in Irish road racing (NW200, TT) and UK club events."
+    },
+    {
+      "id": "classic-pre78",
+      "name": "Classic / Historic (pre-1978)",
+      "nodeId": "uk",
+      "seriesId": "crmc",
+      "notes": "CRMC-governed; pre-1978 machines in multiple vintage formula classes."
+    },
+    {
+      "id": "sidecar",
+      "name": "Sidecar / Formula 2 Sidecar",
+      "nodeId": "uk",
+      "notes": "UK sidecar racing under FSRA / ACU; Formula 2 and LCR classes."
+    },
+    {
+      "id": "tt-superbike",
+      "name": "TT / IOM — Superbike",
+      "nodeId": "uk-isle-of-man",
+      "seriesId": "isle_of_man_tt",
+      "notes": "Senior TT blue riband class; 1000cc production-based. Separate ACU IOM licence and qualification required."
+    },
+    {
+      "id": "tt-supertwin",
+      "name": "TT / IOM — Supertwin",
+      "nodeId": "uk-isle-of-man",
+      "seriesId": "isle_of_man_tt",
+      "notes": "650cc parallel-twin class; Kawasaki ER-6 and similar spec machines."
+    },
+    {
+      "id": "tt-zero",
+      "name": "TT Zero (Electric)",
+      "nodeId": "uk-isle-of-man",
+      "seriesId": "isle_of_man_tt",
+      "notes": "Electric motorcycle class at the Isle of Man TT; lap of the Mountain Course."
     }
   ]
 }

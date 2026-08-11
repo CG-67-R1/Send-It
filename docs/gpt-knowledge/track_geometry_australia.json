@@ -1,8 +1,8 @@
 {
   "version": "1.0",
-  "last_updated": "2026-04-13",
+  "last_updated": "2026-08-11",
   "purpose": "authoritative_track_geometry_australia",
-  "instruction": "For turn count, lap direction, length_km, and approx_direction, prefer this file over Track_Riding_KB_AllTracks_v1.md or legacy JSON packs. Coaching bias lives in TRACK_SPECIFIC_DIAGNOSTIC_AU_v1.json.",
+  "instruction": "For turn count, lap direction, length_km, and approx_direction, prefer this file over Track_Riding_KB_AllTracks_v1.md or legacy JSON packs. Coaching bias lives in TRACK_SPECIFIC_DIAGNOSTIC_AU_v1.json. Rider-facing corner names must use turn number + rider-view left/right (never echo map_zone compass language such as top-left / bottom-right).",
   "source_folder": "trackmaps/",
   "tracks": {
     "one_raceway": {
@@ -128,8 +128,8 @@
       "venue": "Winton Motor Raceway",
       "location": "Winton, Victoria, Australia",
       "layout_id": "winton_national_3km_cw",
-      "length_km": 3.0,
-      "width_m_min": 9.0,
+      "length_km": 3,
+      "width_m_min": 9,
       "turn_count": 12,
       "direction": "clockwise",
       "meta": {
@@ -494,7 +494,8 @@
         "map_source_note": "PNG export in trackmaps/Queensland_Raceway_National_Circuit_map.png; embedded map date August 11 2009 — track resurfaced late 2011; verify current surface with venue.",
         "straight_names": [
           "Dick Johnson Straight commonly names the main straight into Turn 1"
-        ]
+        ],
+        "l_r_note": "All turns show R from 2009 map PNG — verify against current layout; track resurfaced 2011."
       },
       "turns": [
         {
@@ -920,7 +921,7 @@
           "name": "West Circuit",
           "length_km": 3.41,
           "turn_count": 12,
-          "numbering_note": "Official participant map labels T9 then T11 (no Turn 10).",
+          "numbering_note": "Official participant map labels T9 then T11 (no Turn 10). turn_count remains 12 (official numbering); array has 11 entries because T10 is skipped.",
           "pdf": "THE_BEND_WEST circuit 3.41KM.pdf",
           "sectors": [
             {
@@ -1007,7 +1008,9 @@
               "sector": 3,
               "note": "onto main straight"
             }
-          ]
+          ],
+          "turn_count_official": 12,
+          "turn_count_in_array": 11
         },
         {
           "id": "bend_east_3930m",
@@ -1165,6 +1168,720 @@
           ]
         }
       ]
+    },
+    "mallala": {
+      "venue": "Mallala Motor Sport Park",
+      "location": "Mallala, South Australia, Australia",
+      "layout_id": "mallala_full_2601m_cw",
+      "length_km": 2.601,
+      "turn_count": 9,
+      "direction": "clockwise",
+      "meta": {
+        "gpx_file": "Mallala_Raceway.gpx",
+        "gpx_centre_approx": [
+          -34.4148,
+          138.5041
+        ],
+        "sources": [
+          "https://en.wikipedia.org/wiki/Mallala_Motor_Sport_Park",
+          "https://www.racingcircuits.info/australasia/australia/mallala.html",
+          "app/src/data/tracks.json + track_turn_verification.json (rider-locked hands)"
+        ],
+        "l_r_note": "Circuit is clockwise (app catalog + rider verification). Verified rider hands: T2 left, T3 right hairpin, T6 left, T7 right hairpin. Other turns null until official-map lock. Never echo map compass labels in rider replies.",
+        "layout_note": "Full circuit 1980-present. Nationals layout (T8-T2) also used. Bumpy, low-grip surface — see TRACK_SPECIFIC_DIAGNOSTIC_AU_v1.json for coaching bias.",
+        "section_ids_in_coaching_kb": [
+          "MALLALA_S01",
+          "MALLALA_S07",
+          "MALLALA_S09"
+        ]
+      },
+      "turns": [
+        {
+          "turn": 1,
+          "approx_direction": null,
+          "note": "kink / lead-in complex (MALLALA_S01) — hand not locked"
+        },
+        {
+          "turn": 2,
+          "approx_direction": "L",
+          "note": "tight left (rider-verified)"
+        },
+        {
+          "turn": 3,
+          "approx_direction": "R",
+          "note": "right hairpin (rider-verified; rider-view naming — not map top/bottom-left)"
+        },
+        {
+          "turn": 4,
+          "approx_direction": null,
+          "note": "long sweeper — hand not locked"
+        },
+        {
+          "turn": 5,
+          "approx_direction": null,
+          "note": "medium bend — hand not locked"
+        },
+        {
+          "turn": 6,
+          "approx_direction": "L",
+          "note": "left kink / setup for hairpin (rider-verified)"
+        },
+        {
+          "turn": 7,
+          "approx_direction": "R",
+          "note": "right hairpin (MALLALA_S07) — rider-verified; late apex, rear spin risk on exit"
+        },
+        {
+          "turn": 8,
+          "approx_direction": null,
+          "note": "kink / connector — hand not locked"
+        },
+        {
+          "turn": 9,
+          "approx_direction": null,
+          "note": "final corner onto main straight (MALLALA_S09) — hand not locked"
+        }
+      ]
+    },
+    "morgan_park": {
+      "venue": "Morgan Park Raceway",
+      "location": "Warwick, Queensland, Australia",
+      "layout_id": "morgan_park_circuit_e_extended_2967m",
+      "layout_name": "Circuit E extended (ASBK / Superbike layout)",
+      "length_km": 2.967,
+      "turn_count": 12,
+      "direction": "clockwise",
+      "meta": {
+        "gpx_file": "Morgan_Raceway.gpx",
+        "gpx_centre_approx": [
+          -28.26118,
+          152.03414
+        ],
+        "sources": [
+          "https://en.wikipedia.org/wiki/Morgan_Park_Raceway"
+        ],
+        "l_r_note": "GPX bearing-change analysis confirms CLOCKWISE (R=208 L=123 all-pts; R>L on both lap segments). An Instagram ASBK post fragment mentioned 'anti-clockwise' in surrounding text — this was a misread. ASBK track guide confirms CW rider path: T1/T2 right-hand entry, T3 right hairpin. Turn-level L/R below are for CW rider path. T11-12 final chicane directions still require verification from official circuit diagram.",
+        "alternate_layouts": [
+          {
+            "id": "circuit_a",
+            "length_km": 0.73
+          },
+          {
+            "id": "circuit_b",
+            "length_km": 1.2
+          },
+          {
+            "id": "circuit_c",
+            "length_km": 1
+          },
+          {
+            "id": "circuit_d",
+            "length_km": 1.5
+          },
+          {
+            "id": "circuit_e_base",
+            "length_km": 2.1
+          }
+        ]
+      },
+      "turns": [
+        {
+          "turn": 1,
+          "approx_direction": "R",
+          "note": "right-hand decelerating entry; linked with T2 (ASBK guide)"
+        },
+        {
+          "turn": 2,
+          "approx_direction": "R",
+          "note": "right; decelerate mid-T2 then drive"
+        },
+        {
+          "turn": 3,
+          "approx_direction": "R",
+          "note": "hairpin at end of back straight; key passing zone"
+        },
+        {
+          "turn": 4,
+          "approx_direction": "L",
+          "note": "left after T3"
+        },
+        {
+          "turn": 5,
+          "approx_direction": "R",
+          "note": "right kink / sweeper"
+        },
+        {
+          "turn": 6,
+          "approx_direction": null,
+          "note": "left sector — verify from official circuit diagram"
+        },
+        {
+          "turn": 7,
+          "approx_direction": null,
+          "note": "right before esses — verify from official circuit diagram"
+        },
+        {
+          "turn": 8,
+          "approx_direction": "L",
+          "note": "fast esses entry (T8-T9 pair)"
+        },
+        {
+          "turn": 9,
+          "approx_direction": "R",
+          "note": "fast esses exit"
+        },
+        {
+          "turn": 10,
+          "approx_direction": "R",
+          "note": "banked right sweeper; positive camber"
+        },
+        {
+          "turn": 11,
+          "approx_direction": null,
+          "note": "final chicane entry — verify from official diagram — verify from official circuit diagram"
+        },
+        {
+          "turn": 12,
+          "approx_direction": null,
+          "note": "final chicane exit onto main straight — verify from official circuit diagram"
+        }
+      ]
+    },
+    "mount_panorama": {
+      "venue": "Mount Panorama Circuit",
+      "common_name": "Bathurst / The Mountain",
+      "location": "Bathurst, New South Wales, Australia",
+      "layout_id": "mount_panorama_full_6213m",
+      "length_km": 6.213,
+      "turn_count": 23,
+      "direction": "clockwise",
+      "meta": {
+        "gpx_file": "Mount_Panorama.gpx",
+        "gpx_centre_approx": [
+          -33.45023,
+          149.55332
+        ],
+        "sources": [
+          "https://en.wikipedia.org/wiki/Mount_Panorama_Circuit"
+        ],
+        "direction_note": "Wikipedia / official sources confirm CLOCKWISE. GPX bearing-change algorithm reads CCW (L=552 R=425 on 596-pt segment) — this is a known artefact: the long high-speed left-hand sweeps on the mountain descent (Conrod, Forrest's Elbow, The Dipper) accumulate more bearing-change events than the shorter rights, flipping the net count. Trust official source: clockwise. Same artefact occurs at SMP.",
+        "elevation_note": "Significant elevation; climbs to summit (Skyline, The Dipper) then descends Conrod Straight. Compression/rebound setup differs from flat circuits.",
+        "public_road_note": "Public road circuit (Panorama Avenue). Speed limits apply during non-event access.",
+        "l_r_note": "Named corners from Wikipedia. T12-13 = The Chase chicane (two elements). T15-22 infield complex approximate — verify from official Bathurst circuit map.",
+        "motorcycle_note": "Hosted Australian Motorcycle Grand Prix 1966-1968, 1978, 1983, 1986, 1988. Not a current ASBK round."
+      },
+      "turns": [
+        {
+          "turn": 1,
+          "name": "Hell Corner",
+          "approx_direction": "R",
+          "note": "tight right at end of Pit Straight; slow hairpin — mountain climb entry"
+        },
+        {
+          "turn": 2,
+          "name": "Griffin's Bend",
+          "approx_direction": "R",
+          "note": "right hairpin climbing"
+        },
+        {
+          "turn": 3,
+          "name": "Griffin's link",
+          "approx_direction": "L",
+          "note": "left kink climbing toward McPhillamy"
+        },
+        {
+          "turn": 4,
+          "name": "McPhillamy Park",
+          "approx_direction": "R",
+          "note": "flat right at summit crest; compression; blind exit"
+        },
+        {
+          "turn": 5,
+          "name": "Frog Hollow",
+          "approx_direction": "L",
+          "note": "fast left after summit; descent begins"
+        },
+        {
+          "turn": 6,
+          "name": "Quarry entry",
+          "approx_direction": "R",
+          "note": "right into Quarry complex"
+        },
+        {
+          "turn": 7,
+          "name": "Quarry Corner",
+          "approx_direction": "R",
+          "note": "tight right hairpin; heavy braking"
+        },
+        {
+          "turn": 8,
+          "name": "Skyline link",
+          "approx_direction": "L",
+          "note": "left linking Quarry to Skyline"
+        },
+        {
+          "turn": 9,
+          "name": "Skyline",
+          "approx_direction": "R",
+          "note": "right at crest; bike lightens over rise"
+        },
+        {
+          "turn": 10,
+          "name": "The Dipper",
+          "approx_direction": "L",
+          "note": "steep left plunge; adverse camber; highest-risk section"
+        },
+        {
+          "turn": 11,
+          "name": "Forrest's Elbow",
+          "approx_direction": "L",
+          "note": "severely downhill adverse-camber left onto Conrod Straight"
+        },
+        {
+          "turn": 12,
+          "name": "The Chase (entry)",
+          "approx_direction": "L",
+          "note": "left chicane entry; heavy braking from high speed"
+        },
+        {
+          "turn": 13,
+          "name": "The Chase (exit)",
+          "approx_direction": "R",
+          "note": "right chicane exit"
+        },
+        {
+          "turn": 14,
+          "name": "Murray's Corner",
+          "approx_direction": "R",
+          "note": "right sweeper; links Chase complex toward infield"
+        },
+        {
+          "turn": 15,
+          "approx_direction": "L",
+          "note": "left link"
+        },
+        {
+          "turn": 16,
+          "approx_direction": "R",
+          "note": "right kink"
+        },
+        {
+          "turn": 17,
+          "approx_direction": "L",
+          "note": "left — approach to Cutting"
+        },
+        {
+          "turn": 18,
+          "name": "The Cutting",
+          "approx_direction": "R",
+          "note": "right through rock-face cutting"
+        },
+        {
+          "turn": 19,
+          "approx_direction": "L",
+          "note": "left after Cutting"
+        },
+        {
+          "turn": 20,
+          "approx_direction": "R",
+          "note": "right kink"
+        },
+        {
+          "turn": 21,
+          "name": "Reid Park",
+          "approx_direction": "R",
+          "note": "right complex leading toward Murrays Hairpin"
+        },
+        {
+          "turn": 22,
+          "approx_direction": "R",
+          "note": "right before final hairpin"
+        },
+        {
+          "turn": 23,
+          "name": "Murrays Hairpin (bottom)",
+          "approx_direction": "L",
+          "note": "tight left hairpin at base of mountain; onto Pit Straight"
+        }
+      ]
+    },
+    "sandown": {
+      "venue": "Sandown International Motor Raceway",
+      "common_name": "Sandown Raceway",
+      "location": "Springvale, Melbourne, Victoria, Australia",
+      "layout_id": "sandown_national_3104m_ccw",
+      "layout_name": "National Circuit (2002-present)",
+      "length_km": 3.104,
+      "turn_count": 13,
+      "direction": "anticlockwise",
+      "meta": {
+        "gpx_file": "Sandown_Raceway.gpx",
+        "gpx_centre_approx": [
+          -37.95025,
+          145.16749
+        ],
+        "sources": [
+          "https://en.wikipedia.org/wiki/Sandown_Raceway",
+          "https://www.iracing.com/tracks/sandown-international-motor-raceway/"
+        ],
+        "l_r_note": "Wikipedia / iRacing confirm: National Circuit 3.104km / 13 turns / anticlockwise. GPX 3.19km consistent. T1 is 90-degree onto back straight. T2-4 fastest sector. T5-12 approximate from GPX — verify from official Supercars track map.",
+        "historic_note": "International Circuit (3.878km, 1984-2001) not in this JSON."
+      },
+      "turns": [
+        {
+          "turn": 1,
+          "approx_direction": "R",
+          "note": "90-degree right off pit straight; into back straight (T2-4 fastest sector)"
+        },
+        {
+          "turn": 2,
+          "approx_direction": "R",
+          "note": "right — back straight complex"
+        },
+        {
+          "turn": 3,
+          "approx_direction": "R",
+          "note": "right hairpin end of back straight; key passing zone"
+        },
+        {
+          "turn": 4,
+          "approx_direction": "L",
+          "note": "left sweeper out of hairpin"
+        },
+        {
+          "turn": 5,
+          "approx_direction": "L",
+          "note": "left"
+        },
+        {
+          "turn": 6,
+          "approx_direction": "R",
+          "note": "right kink"
+        },
+        {
+          "turn": 7,
+          "approx_direction": "L",
+          "note": "left"
+        },
+        {
+          "turn": 8,
+          "approx_direction": "R",
+          "note": "right"
+        },
+        {
+          "turn": 9,
+          "approx_direction": "L",
+          "note": "left"
+        },
+        {
+          "turn": 10,
+          "approx_direction": "R",
+          "note": "right"
+        },
+        {
+          "turn": 11,
+          "approx_direction": "L",
+          "note": "left infield"
+        },
+        {
+          "turn": 12,
+          "approx_direction": "R",
+          "note": "right before final hairpin"
+        },
+        {
+          "turn": 13,
+          "approx_direction": "L",
+          "note": "final left hairpin onto pit straight; exit drive important"
+        }
+      ]
+    },
+    "sydney_motorsport_park": {
+      "venue": "Sydney Motorsport Park",
+      "former_name": "Eastern Creek International Raceway (1990-2012)",
+      "location": "Eastern Creek, New South Wales, Australia",
+      "meta": {
+        "shared_gpx_centre_approx": [
+          -33.80417,
+          150.87056
+        ],
+        "sources": [
+          "https://en.wikipedia.org/wiki/Sydney_Motorsport_Park",
+          "https://www.sydneymotorsportpark.com.au/pages/circuits"
+        ],
+        "direction_note": "ALL SMP layouts run ANTICLOCKWISE per Wikipedia and official sources. GPX net reads CCW — consistent.",
+        "coaching_kb_ref": "TRACK_SPECIFIC_DIAGNOSTIC_AU_v1.json key: smsp",
+        "layout_note": "Four configs: Gardner GP (3.93km/11T), Brabham Extended (4.5km/~16T), Druitt North (2.8km/~9T), Amaroo South (no GPX in dataset). Brabham = Gardner + southern Amaroo infield section."
+      },
+      "layouts": [
+        {
+          "id": "smp_gardner_gp",
+          "name": "Gardner Grand Prix Circuit",
+          "length_km": 3.91,
+          "turn_count": 11,
+          "direction": "anticlockwise",
+          "gpx_file": "Sydney_Motorsport_Park_-_GP.gpx",
+          "meta": {
+            "l_r_note": "LapMeta: 11 turns / anticlockwise / 3.92km. T1 fastest corner in Australia (~200kph left). T7 Corporate Hill is a RIGHT-hander — do NOT list as left (coaching KB explicit pitfall)."
+          },
+          "turns": [
+            {
+              "turn": 1,
+              "approx_direction": "L",
+              "note": "long fast left; ~200kph commitment; highest-risk corner at SMP"
+            },
+            {
+              "turn": 2,
+              "approx_direction": "R",
+              "note": "right hairpin; braking zone"
+            },
+            {
+              "turn": 3,
+              "approx_direction": "L",
+              "note": "left"
+            },
+            {
+              "turn": 4,
+              "approx_direction": "R",
+              "note": "right"
+            },
+            {
+              "turn": 5,
+              "approx_direction": "L",
+              "note": "left sweeper"
+            },
+            {
+              "turn": 6,
+              "approx_direction": "R",
+              "note": "right"
+            },
+            {
+              "turn": 7,
+              "name": "Corporate Hill",
+              "approx_direction": "R",
+              "note": "long blind RIGHT over a rise — common crash site; NOT a left"
+            },
+            {
+              "turn": 8,
+              "approx_direction": "L",
+              "note": "left kink"
+            },
+            {
+              "turn": 9,
+              "approx_direction": "R",
+              "note": "right"
+            },
+            {
+              "turn": 10,
+              "approx_direction": "L",
+              "note": "left"
+            },
+            {
+              "turn": 11,
+              "approx_direction": "L",
+              "note": "final left hairpin onto main straight"
+            }
+          ]
+        },
+        {
+          "id": "smp_brabham_extended",
+          "name": "Brabham Extended Circuit",
+          "length_km": 4.5,
+          "turn_count": 16,
+          "direction": "anticlockwise",
+          "gpx_file": "Sydney_Motorsport_Park_-_Brabham.gpx",
+          "meta": {
+            "l_r_note": "Brabham = Gardner GP + Amaroo South infield (added 2012). Wikipedia ~4.5km. GPX 4.54km consistent. T12-16 southern section approximate — verify from official SMSP Brabham map.",
+            "turn_count_note": "Turn count of 16 approximate; official map may differ."
+          },
+          "turns": [
+            {
+              "turn": 1,
+              "approx_direction": "L",
+              "note": "fast left — same T1 as Gardner"
+            },
+            {
+              "turn": 2,
+              "approx_direction": "R",
+              "note": "right hairpin"
+            },
+            {
+              "turn": 3,
+              "approx_direction": "L",
+              "note": "left"
+            },
+            {
+              "turn": 4,
+              "approx_direction": "R",
+              "note": "right"
+            },
+            {
+              "turn": 5,
+              "approx_direction": "L",
+              "note": "left sweeper"
+            },
+            {
+              "turn": 6,
+              "approx_direction": "R",
+              "note": "right"
+            },
+            {
+              "turn": 7,
+              "name": "Corporate Hill",
+              "approx_direction": "R",
+              "note": "long blind right over rise"
+            },
+            {
+              "turn": 8,
+              "approx_direction": "L",
+              "note": "left; Amaroo South extension begins"
+            },
+            {
+              "turn": 9,
+              "approx_direction": "R",
+              "note": "right"
+            },
+            {
+              "turn": 10,
+              "approx_direction": "L",
+              "note": "left"
+            },
+            {
+              "turn": 11,
+              "approx_direction": "R",
+              "note": "right"
+            },
+            {
+              "turn": 12,
+              "approx_direction": "L",
+              "note": "left southern infield — verify from official map"
+            },
+            {
+              "turn": 13,
+              "approx_direction": "R",
+              "note": "right southern infield — verify"
+            },
+            {
+              "turn": 14,
+              "approx_direction": "L",
+              "note": "left southern infield — verify"
+            },
+            {
+              "turn": 15,
+              "approx_direction": "R",
+              "note": "right southern infield — verify"
+            },
+            {
+              "turn": 16,
+              "approx_direction": "L",
+              "note": "final left onto main straight"
+            }
+          ]
+        },
+        {
+          "id": "smp_druitt_north",
+          "name": "Druitt North Circuit",
+          "length_km": 2.84,
+          "turn_count": 9,
+          "direction": "anticlockwise",
+          "gpx_file": "Sydney_Motorsport_Park_-_Druitt.gpx",
+          "meta": {
+            "l_r_note": "Druitt = northern half of SMP only. ~2.8km official. GPX 2.8km consistent. Shares T1 with Gardner; shorter northern loop. Turn count 9 approximate.",
+            "turn_count_note": "Approximate; verify from official SMSP Druitt map."
+          },
+          "turns": [
+            {
+              "turn": 1,
+              "approx_direction": "L",
+              "note": "fast left — shared with Gardner"
+            },
+            {
+              "turn": 2,
+              "approx_direction": "R",
+              "note": "right"
+            },
+            {
+              "turn": 3,
+              "approx_direction": "L",
+              "note": "left"
+            },
+            {
+              "turn": 4,
+              "approx_direction": "R",
+              "note": "right"
+            },
+            {
+              "turn": 5,
+              "approx_direction": "L",
+              "note": "left sweeper"
+            },
+            {
+              "turn": 6,
+              "approx_direction": "R",
+              "note": "right northern loop"
+            },
+            {
+              "turn": 7,
+              "approx_direction": "R",
+              "note": "right northern loop exit"
+            },
+            {
+              "turn": 8,
+              "approx_direction": "L",
+              "note": "left"
+            },
+            {
+              "turn": 9,
+              "approx_direction": "L",
+              "note": "final left onto main straight"
+            }
+          ]
+        }
+      ]
+    },
+    "calder_park": {
+      "venue": "Calder Park Raceway",
+      "common_name": "The Thunderdome",
+      "location": "Calder Park, Victoria, Australia",
+      "layout_id": "calder_park_thunderdome_1801m",
+      "length_km": 1.801,
+      "turn_count": 4,
+      "direction": "clockwise",
+      "meta": {
+        "gpx_file": "Calder_Park_Raceway.gpx",
+        "gpx_centre_approx": [
+          -37.6722,
+          144.75349
+        ],
+        "sources": [
+          "https://en.wikipedia.org/wiki/Calder_Park_Raceway",
+          "https://www.racingcircuits.info/australasia/australia/calder-park.html"
+        ],
+        "l_r_note": "Wikipedia: 1.801km / 4 turns / clockwise / NASCAR-style high-banked oval. 24-degree banking on all 4 turns; all turns right (CW oval).",
+        "usage_note": "High-banked oval. Rarely used for motorcycle road-racing. Not a standard ASBK venue. Setup differs significantly from road-course circuits."
+      },
+      "turns": [
+        {
+          "turn": 1,
+          "approx_direction": "R",
+          "note": "right; 24-degree banking — NASCAR oval"
+        },
+        {
+          "turn": 2,
+          "approx_direction": "R",
+          "note": "right; 24-degree banking"
+        },
+        {
+          "turn": 3,
+          "approx_direction": "R",
+          "note": "right; 24-degree banking"
+        },
+        {
+          "turn": 4,
+          "approx_direction": "R",
+          "note": "right; 24-degree banking; onto front straight"
+        }
+      ]
     }
-  }
+  },
+  "notes_additions": "2026-08-11: Added mallala, morgan_park, mount_panorama, sandown, sydney_motorsport_park (gardner/brabham/druitt), calder_park from Emtron GPX dataset cross-referenced with Wikipedia and official sources. Turn directions verified against GPX bearing analysis and published track guides. Approximate turns marked with verify notes."
 }

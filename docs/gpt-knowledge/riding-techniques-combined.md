@@ -1,5 +1,8 @@
 # Combined Riding Techniques
 
+Content stubs only. GPT must not fill gaps from general knowledge.
+State "full technique guides not in this pack" for any detail request beyond what is written here.
+
 This file combines riding technique guides.
 
 ---
@@ -37,7 +40,7 @@ Body position is critical for track day riding. Focus on:
 
 # Cornering Techniques
 
-Extracted from track coaching guides. See Track_Riding_KB_AllTracks_v1.md for detailed track-specific techniques.
+Extracted from track coaching guides. See Track_Riding_KB_AllTracks_v1.md for detailed track-specific techniques (not in pack — do not invent).
 
 
 ---

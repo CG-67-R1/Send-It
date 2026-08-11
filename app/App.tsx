@@ -22,6 +22,9 @@ import { RoadRacerAiFaqsScreen } from './src/screens/RoadRacerAiFaqsScreen';
 import { BikeBalanceSetupScreen } from './src/screens/BikeBalanceSetupScreen';
 import { TrackWalkScreen } from './src/screens/TrackWalkScreen';
 import { TrackMemoryScreen } from './src/screens/TrackMemoryScreen';
+import { TrackPrepHubScreen } from './src/screens/TrackPrepHubScreen';
+import { TrackdayPrepScreen } from './src/screens/TrackdayPrepScreen';
+import { TrackdayPrepReportScreen } from './src/screens/TrackdayPrepReportScreen';
 import { OnboardingScreen } from './src/screens/OnboardingScreen';
 import { getOnboardingDone, resetOnboardingForRetest } from './src/storage/onboarding';
 import { OnboardingResetContext } from './src/context/OnboardingResetContext';
@@ -170,9 +173,24 @@ function RiderCoachStack() {
         options={{ title: 'Bike Balance Setup' }}
       />
       <Stack.Screen
+        name="TrackPrep"
+        component={TrackPrepHubScreen}
+        options={{ title: 'Track Prep' }}
+      />
+      <Stack.Screen
+        name="TrackdayPrep"
+        component={TrackdayPrepScreen}
+        options={{ title: 'Trackday Prep' }}
+      />
+      <Stack.Screen
+        name="TrackdayPrepReport"
+        component={TrackdayPrepReportScreen}
+        options={{ title: 'Prep Briefing' }}
+      />
+      <Stack.Screen
         name="TrackWalk"
         component={TrackWalkScreen}
-        options={{ title: 'Track Walk' }}
+        options={{ title: 'Track Walk Notes' }}
       />
       <Stack.Screen
         name="TrackMemory"

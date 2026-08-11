@@ -1143,21 +1143,21 @@
     {
       "id": "mallala_t3",
       "number": 3,
-      "label": "Turn 3 (top-left hairpin, geographically far-left end of circuit)",
-      "direction": "complex",
+      "label": "Turn 3 (right hairpin)",
+      "direction": "right",
       "sNorm": 0.3214
     },
     {
       "id": "mallala_t4",
       "number": 4,
-      "label": "Turn 4 (long top section / sweeper)",
+      "label": "Turn 4 (long sweeper)",
       "direction": "complex",
       "sNorm": 0.4929
     },
     {
       "id": "mallala_t5",
       "number": 5,
-      "label": "Turn 5 (top-right bend)",
+      "label": "Turn 5 (medium bend)",
       "direction": "complex",
       "sNorm": 0.6429
     },
@@ -1171,14 +1171,14 @@
     {
       "id": "mallala_t7",
       "number": 7,
-      "label": "Turn 7 (bottom-right hairpin)",
+      "label": "Turn 7 (right hairpin)",
       "direction": "right",
       "sNorm": 0.7571
     },
     {
       "id": "mallala_t8",
       "number": 8,
-      "label": "Turn 8 (bottom-mid kink / connector)",
+      "label": "Turn 8 (kink / connector)",
       "direction": "complex",
       "sNorm": 0.875
     },

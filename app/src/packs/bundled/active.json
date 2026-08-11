@@ -1,6 +1,7 @@
 {
   "packs": [
-    "au"
+    "au",
+    "uk"
   ],
-  "notes": "Release bundle selection. Hybrid deployment: only listed packs are loaded by PackLoader."
+  "notes": "Hybrid release: Australia home + United Kingdom scale launch. PackLoader loads listed packs only; run sync-app-packs after edits."
 }

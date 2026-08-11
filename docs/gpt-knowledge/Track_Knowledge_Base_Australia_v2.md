@@ -117,7 +117,7 @@
 
 - Surface: High grip, flowing
 - Core risk: Rider-induced errors (entry + throttle)
-- **Geometry:** Official venue states main circuits run **anticlockwise only** — see `track_geometry_australia.json` when SMSP layouts are added; do not use clockwise for Gardner GP.
+- **Geometry:** Official venue states main circuits run **anticlockwise only** — layouts are in `track_geometry_australia.json` under `sydney_motorsport_park` (Gardner / Brabham / Druitt). Coaching bias key: `smsp`. Do not use clockwise for Gardner GP.
 
 ## Common mistakes
 

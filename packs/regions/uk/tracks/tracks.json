@@ -2,15 +2,89 @@
   "version": 1,
   "tracks": [
     {
-      "id": "silverstone",
-      "name": "Silverstone Circuit",
+      "id": "brands-hatch",
+      "name": "Brands Hatch",
       "nodeId": "uk-england",
       "kind": "road_circuit",
-      "lat": 52.0733,
-      "lng": -1.0147,
-      "layout": "GP",
+      "lat": 51.3567,
+      "lng": 0.2617,
+      "layout": "Grand Prix Circuit (3.916 km)",
       "direction": "clockwise",
-      "corners": [],
+      "lengthKm": "3.916 km",
+      "corners": [
+        {
+          "id": "brands-hatch_t1",
+          "number": 1,
+          "label": "Paddock Hill Bend",
+          "shape": "Sweeper",
+          "direction": "right",
+          "approachFrom": "Brabham Straight / start-finish"
+        },
+        {
+          "id": "brands-hatch_t2",
+          "number": 2,
+          "label": "Druids",
+          "shape": "Hairpin",
+          "direction": "right",
+          "approachFrom": "Hailwood Hill"
+        },
+        {
+          "id": "brands-hatch_t3",
+          "number": 3,
+          "label": "Graham Hill Bend",
+          "shape": "Corner",
+          "direction": "left",
+          "approachFrom": "Druids exit downhill"
+        },
+        {
+          "id": "brands-hatch_t4",
+          "number": 4,
+          "label": "Surtees",
+          "shape": "Corner",
+          "direction": "right",
+          "approachFrom": "Cooper Straight"
+        },
+        {
+          "id": "brands-hatch_t5",
+          "number": 5,
+          "label": "Hawthorn Bend",
+          "shape": "Sweeper",
+          "direction": "right",
+          "approachFrom": "Pilgrim's Drop / Hawthorn Hill"
+        },
+        {
+          "id": "brands-hatch_t6",
+          "number": 6,
+          "label": "Westfield Bend",
+          "shape": "Corner",
+          "direction": "right",
+          "approachFrom": "Hawthorn exit"
+        },
+        {
+          "id": "brands-hatch_t7",
+          "number": 7,
+          "label": "Sheene Curve",
+          "shape": "Corner",
+          "direction": "left",
+          "approachFrom": "Dingle Dell"
+        },
+        {
+          "id": "brands-hatch_t8",
+          "number": 8,
+          "label": "Stirling's",
+          "shape": "Corner",
+          "direction": "left",
+          "approachFrom": "Sheene Curve exit"
+        },
+        {
+          "id": "brands-hatch_t9",
+          "number": 9,
+          "label": "Clark Curve",
+          "shape": "Corner",
+          "direction": "right",
+          "approachFrom": "Clearways approach"
+        }
+      ],
       "isOther": false,
       "confidence": "official"
     },
@@ -21,40 +95,146 @@
       "kind": "road_circuit",
       "lat": 52.8305,
       "lng": -1.375,
-      "corners": [],
+      "layout": "National Circuit (~3.19 km)",
+      "direction": "clockwise",
+      "lengthKm": "3.19 km",
+      "corners": [
+        {
+          "id": "donington_t1",
+          "number": 1,
+          "label": "Redgate",
+          "shape": "Corner",
+          "direction": "right",
+          "approachFrom": "start-finish / pit straight"
+        },
+        {
+          "id": "donington_t2",
+          "number": 2,
+          "label": "Hollywood",
+          "shape": "Kink",
+          "direction": "right",
+          "approachFrom": "Redgate exit"
+        },
+        {
+          "id": "donington_t3",
+          "number": 3,
+          "label": "Craner Curves",
+          "shape": "Sweeper",
+          "direction": "left",
+          "approachFrom": "Hollywood downhill"
+        },
+        {
+          "id": "donington_t4",
+          "number": 4,
+          "label": "Old Hairpin",
+          "shape": "Hairpin",
+          "direction": "right",
+          "approachFrom": "Craner Curves exit"
+        },
+        {
+          "id": "donington_t5",
+          "number": 5,
+          "label": "Starkey's Bridge",
+          "shape": "Kink",
+          "direction": "left",
+          "approachFrom": "Old Hairpin exit"
+        },
+        {
+          "id": "donington_t6",
+          "number": 6,
+          "label": "Schwantz Curve",
+          "shape": "Corner",
+          "direction": "left",
+          "approachFrom": "Starkey's Bridge"
+        },
+        {
+          "id": "donington_t7",
+          "number": 7,
+          "label": "McLean's",
+          "shape": "Corner",
+          "direction": "right",
+          "approachFrom": "Schwantz braking zone"
+        },
+        {
+          "id": "donington_t8",
+          "number": 8,
+          "label": "Coppice",
+          "shape": "Corner",
+          "direction": "right",
+          "approachFrom": "McLean's exit"
+        },
+        {
+          "id": "donington_t9",
+          "number": 9,
+          "label": "Roberts",
+          "shape": "Chicane",
+          "direction": "complex",
+          "approachFrom": "Coppice / back straight"
+        }
+      ],
       "isOther": false,
       "confidence": "official"
     },
     {
-      "id": "brands-hatch",
-      "name": "Brands Hatch",
+      "id": "silverstone",
+      "name": "Silverstone Circuit",
       "nodeId": "uk-england",
       "kind": "road_circuit",
-      "lat": 51.3567,
-      "lng": 0.2617,
-      "corners": [],
-      "isOther": false,
-      "confidence": "official"
-    },
-    {
-      "id": "oulton-park",
-      "name": "Oulton Park",
-      "nodeId": "uk-england",
-      "kind": "road_circuit",
-      "lat": 53.1803,
-      "lng": -2.6139,
-      "corners": [],
-      "isOther": false,
-      "confidence": "official"
-    },
-    {
-      "id": "snetterton",
-      "name": "Snetterton Circuit",
-      "nodeId": "uk-england",
-      "kind": "road_circuit",
-      "lat": 52.4636,
-      "lng": 0.9517,
-      "corners": [],
+      "lat": 52.0733,
+      "lng": -1.0147,
+      "layout": "National Circuit (2.64 km)",
+      "direction": "clockwise",
+      "lengthKm": "2.64 km",
+      "corners": [
+        {
+          "id": "silverstone_t1",
+          "number": 1,
+          "label": "Copse",
+          "shape": "Sweeper",
+          "direction": "right",
+          "approachFrom": "National Pit Straight"
+        },
+        {
+          "id": "silverstone_t2",
+          "number": 2,
+          "label": "Maggotts",
+          "shape": "Kink",
+          "direction": "left",
+          "approachFrom": "Copse exit"
+        },
+        {
+          "id": "silverstone_t3",
+          "number": 3,
+          "label": "Becketts",
+          "shape": "Complex",
+          "direction": "complex",
+          "approachFrom": "Maggotts"
+        },
+        {
+          "id": "silverstone_t4",
+          "number": 4,
+          "label": "Brooklands",
+          "shape": "Corner",
+          "direction": "left",
+          "approachFrom": "Wellington Straight"
+        },
+        {
+          "id": "silverstone_t5",
+          "number": 5,
+          "label": "Luffield",
+          "shape": "Corner",
+          "direction": "right",
+          "approachFrom": "Brooklands"
+        },
+        {
+          "id": "silverstone_t6",
+          "number": 6,
+          "label": "Woodcote",
+          "shape": "Corner",
+          "direction": "right",
+          "approachFrom": "Luffield exit"
+        }
+      ],
       "isOther": false,
       "confidence": "official"
     },
@@ -65,7 +245,368 @@
       "kind": "road_circuit",
       "lat": 53.3106,
       "lng": -0.0633,
-      "corners": [],
+      "layout": "Full / Bike Circuit (~3.52 km)",
+      "direction": "clockwise",
+      "lengthKm": "3.52 km",
+      "corners": [
+        {
+          "id": "cadwell-park_t1",
+          "number": 1,
+          "label": "Copice",
+          "shape": "Corner",
+          "direction": "complex",
+          "approachFrom": "Hall Bends / start area"
+        },
+        {
+          "id": "cadwell-park_t2",
+          "number": 2,
+          "label": "Charlies",
+          "shape": "Double apex",
+          "direction": "complex",
+          "approachFrom": "Copice"
+        },
+        {
+          "id": "cadwell-park_t3",
+          "number": 3,
+          "label": "Park Corner",
+          "shape": "Corner",
+          "direction": "complex",
+          "approachFrom": "Park Straight crest"
+        },
+        {
+          "id": "cadwell-park_t4",
+          "number": 4,
+          "label": "Gooseneck",
+          "shape": "Corner",
+          "direction": "complex",
+          "approachFrom": "Park Corner exit"
+        },
+        {
+          "id": "cadwell-park_t5",
+          "number": 5,
+          "label": "Mansfield",
+          "shape": "Corner",
+          "direction": "complex",
+          "approachFrom": "Gooseneck"
+        },
+        {
+          "id": "cadwell-park_t6",
+          "number": 6,
+          "label": "The Mountain",
+          "shape": "Complex",
+          "direction": "complex",
+          "approachFrom": "chicane / Mansfield"
+        },
+        {
+          "id": "cadwell-park_t7",
+          "number": 7,
+          "label": "Hall Bends",
+          "shape": "Complex",
+          "direction": "complex",
+          "approachFrom": "Mountain crest"
+        },
+        {
+          "id": "cadwell-park_t8",
+          "number": 8,
+          "label": "Barn",
+          "shape": "Corner",
+          "direction": "complex",
+          "approachFrom": "Hairpin area"
+        },
+        {
+          "id": "cadwell-park_t9",
+          "number": 9,
+          "label": "Hairpin",
+          "shape": "Hairpin",
+          "direction": "complex",
+          "approachFrom": "Barn approach"
+        }
+      ],
+      "isOther": false,
+      "confidence": "official"
+    },
+    {
+      "id": "snetterton",
+      "name": "Snetterton Circuit",
+      "nodeId": "uk-england",
+      "kind": "road_circuit",
+      "lat": 52.4649,
+      "lng": 0.94713,
+      "layout": "300 Circuit",
+      "direction": "clockwise",
+      "lengthKm": "4.78 km",
+      "corners": [
+        {
+          "id": "snetterton_t1",
+          "number": 1,
+          "label": "Riches",
+          "shape": "Corner",
+          "direction": "right",
+          "approachFrom": "Senna Straight / start-finish"
+        },
+        {
+          "id": "snetterton_t2",
+          "number": 2,
+          "label": "Montreal",
+          "shape": "Hairpin",
+          "direction": "right",
+          "approachFrom": "Riches exit"
+        },
+        {
+          "id": "snetterton_t3",
+          "number": 3,
+          "label": "Palmer",
+          "shape": "Corner",
+          "direction": "right",
+          "approachFrom": "Montreal exit"
+        },
+        {
+          "id": "snetterton_t4",
+          "number": 4,
+          "label": "Agostini",
+          "shape": "Corner",
+          "direction": "left",
+          "approachFrom": "Palmer"
+        },
+        {
+          "id": "snetterton_t5",
+          "number": 5,
+          "label": "Hamilton",
+          "shape": "Corner",
+          "direction": "left",
+          "approachFrom": "Agostini"
+        },
+        {
+          "id": "snetterton_t6",
+          "number": 6,
+          "label": "Oggies",
+          "shape": "Corner",
+          "direction": "right",
+          "approachFrom": "Hamilton"
+        },
+        {
+          "id": "snetterton_t7",
+          "number": 7,
+          "label": "Williams",
+          "shape": "Corner",
+          "direction": "right",
+          "approachFrom": "Oggies"
+        },
+        {
+          "id": "snetterton_t8",
+          "number": 8,
+          "label": "Brundle",
+          "shape": "Corner",
+          "direction": "right",
+          "approachFrom": "Bentley Straight"
+        },
+        {
+          "id": "snetterton_t9",
+          "number": 9,
+          "label": "Nelson",
+          "shape": "Corner",
+          "direction": "left",
+          "approachFrom": "Brundle"
+        },
+        {
+          "id": "snetterton_t10",
+          "number": 10,
+          "label": "Bomb Hole",
+          "shape": "Corner",
+          "direction": "right",
+          "approachFrom": "Nelson"
+        },
+        {
+          "id": "snetterton_t11",
+          "number": 11,
+          "label": "Coram",
+          "shape": "Sweeper",
+          "direction": "right",
+          "approachFrom": "Bomb Hole"
+        },
+        {
+          "id": "snetterton_t12",
+          "number": 12,
+          "label": "Murrays",
+          "shape": "Corner",
+          "direction": "left",
+          "approachFrom": "Coram exit"
+        }
+      ],
+      "isOther": false,
+      "confidence": "official"
+    },
+    {
+      "id": "oulton-park",
+      "name": "Oulton Park",
+      "nodeId": "uk-england",
+      "kind": "road_circuit",
+      "lat": 53.17661,
+      "lng": -2.61606,
+      "layout": "International",
+      "direction": "clockwise",
+      "lengthKm": "4.33 km",
+      "corners": [
+        {
+          "id": "oulton-park_t1",
+          "number": 1,
+          "label": "Old Hall",
+          "shape": "Corner",
+          "direction": "complex",
+          "approachFrom": "start-finish"
+        },
+        {
+          "id": "oulton-park_t2",
+          "number": 2,
+          "label": "Cascades",
+          "shape": "Corner",
+          "direction": "complex",
+          "approachFrom": "Old Hall"
+        },
+        {
+          "id": "oulton-park_t3",
+          "number": 3,
+          "label": "Island Bend",
+          "shape": "Corner",
+          "direction": "complex",
+          "approachFrom": "Cascades"
+        },
+        {
+          "id": "oulton-park_t4",
+          "number": 4,
+          "label": "Shell Oils",
+          "shape": "Corner",
+          "direction": "complex",
+          "approachFrom": "Island"
+        },
+        {
+          "id": "oulton-park_t5",
+          "number": 5,
+          "label": "Denton's",
+          "shape": "Corner",
+          "direction": "complex",
+          "approachFrom": "Shell Oils"
+        },
+        {
+          "id": "oulton-park_t6",
+          "number": 6,
+          "label": "Knickerbrook",
+          "shape": "Complex",
+          "direction": "complex",
+          "approachFrom": "Denton's"
+        },
+        {
+          "id": "oulton-park_t7",
+          "number": 7,
+          "label": "Clay Hill",
+          "shape": "Corner",
+          "direction": "complex",
+          "approachFrom": "Knickerbrook"
+        },
+        {
+          "id": "oulton-park_t8",
+          "number": 8,
+          "label": "Druids",
+          "shape": "Corner",
+          "direction": "complex",
+          "approachFrom": "Clay Hill"
+        },
+        {
+          "id": "oulton-park_t9",
+          "number": 9,
+          "label": "Lodge",
+          "shape": "Corner",
+          "direction": "complex",
+          "approachFrom": "Druids"
+        }
+      ],
+      "isOther": false,
+      "confidence": "official"
+    },
+    {
+      "id": "thruxton",
+      "name": "Thruxton Circuit",
+      "nodeId": "uk-england",
+      "kind": "road_circuit",
+      "lat": 51.2103,
+      "lng": -1.6006,
+      "layout": "Full Circuit",
+      "direction": "clockwise",
+      "lengthKm": "3.79 km",
+      "corners": [
+        {
+          "id": "thruxton_t1",
+          "number": 1,
+          "label": "Allard",
+          "shape": "Corner",
+          "direction": "complex",
+          "approachFrom": "start-finish"
+        },
+        {
+          "id": "thruxton_t2",
+          "number": 2,
+          "label": "Campbell",
+          "shape": "Corner",
+          "direction": "complex",
+          "approachFrom": "Allard"
+        },
+        {
+          "id": "thruxton_t3",
+          "number": 3,
+          "label": "Cobb",
+          "shape": "Corner",
+          "direction": "complex",
+          "approachFrom": "Campbell"
+        },
+        {
+          "id": "thruxton_t4",
+          "number": 4,
+          "label": "Segrave",
+          "shape": "Corner",
+          "direction": "complex",
+          "approachFrom": "Cobb"
+        },
+        {
+          "id": "thruxton_t5",
+          "number": 5,
+          "label": "Noble",
+          "shape": "Corner",
+          "direction": "complex",
+          "approachFrom": "Segrave"
+        },
+        {
+          "id": "thruxton_t6",
+          "number": 6,
+          "label": "Goodwood",
+          "shape": "Corner",
+          "direction": "complex",
+          "approachFrom": "Noble"
+        },
+        {
+          "id": "thruxton_t7",
+          "number": 7,
+          "label": "Village",
+          "shape": "Corner",
+          "direction": "complex",
+          "approachFrom": "Goodwood"
+        },
+        {
+          "id": "thruxton_t8",
+          "number": 8,
+          "label": "Church",
+          "shape": "Corner",
+          "direction": "complex",
+          "approachFrom": "Village"
+        },
+        {
+          "id": "thruxton_t9",
+          "number": 9,
+          "label": "Club",
+          "shape": "Chicane",
+          "direction": "complex",
+          "approachFrom": "Church / back straight"
+        }
+      ],
       "isOther": false,
       "confidence": "official"
     },
@@ -76,7 +617,75 @@
       "kind": "road_circuit",
       "lat": 56.1292,
       "lng": -3.5036,
-      "corners": [],
+      "layout": "International",
+      "direction": "clockwise",
+      "lengthKm": "2.09 km",
+      "corners": [
+        {
+          "id": "knockhill_t1",
+          "number": 1,
+          "label": "Duffus Dip",
+          "shape": "Corner",
+          "direction": "complex",
+          "approachFrom": "start-finish"
+        },
+        {
+          "id": "knockhill_t2",
+          "number": 2,
+          "label": "Leslie's",
+          "shape": "Corner",
+          "direction": "complex",
+          "approachFrom": "Duffus"
+        },
+        {
+          "id": "knockhill_t3",
+          "number": 3,
+          "label": "McIntyre's",
+          "shape": "Corner",
+          "direction": "complex",
+          "approachFrom": "Leslie's"
+        },
+        {
+          "id": "knockhill_t4",
+          "number": 4,
+          "label": "Clark's",
+          "shape": "Corner",
+          "direction": "complex",
+          "approachFrom": "McIntyre's"
+        },
+        {
+          "id": "knockhill_t5",
+          "number": 5,
+          "label": "Hairpin",
+          "shape": "Hairpin",
+          "direction": "complex",
+          "approachFrom": "Clark's"
+        },
+        {
+          "id": "knockhill_t6",
+          "number": 6,
+          "label": "Taylor's",
+          "shape": "Corner",
+          "direction": "complex",
+          "approachFrom": "Hairpin"
+        },
+        {
+          "id": "knockhill_t7",
+          "number": 7,
+          "label": "Butts",
+          "shape": "Corner",
+          "direction": "complex",
+          "approachFrom": "Taylor's"
+        },
+        {
+          "id": "knockhill_t8",
+          "number": 8,
+          "label": "Hican",
+          "shape": "Chicane",
+          "direction": "complex",
+          "approachFrom": "Butts"
+        }
+      ],
       "isOther": false,
       "confidence": "official"
     },
@@ -85,11 +694,259 @@
       "name": "Anglesey Circuit (Trac Môn)",
       "nodeId": "uk-wales",
       "kind": "road_circuit",
-      "lat": 53.1917,
-      "lng": -4.5083,
+      "lat": 53.1901221,
+      "lng": -4.4980526,
+      "layout": "International / Coastal",
+      "direction": "clockwise",
       "corners": [],
       "isOther": false,
       "confidence": "official"
+    },
+    {
+      "id": "mallory-park",
+      "name": "Mallory Park Circuit",
+      "nodeId": "uk-england",
+      "kind": "road_circuit",
+      "lat": 52.5984682,
+      "lng": -1.3376695,
+      "layout": "Full Circuit",
+      "direction": "clockwise",
+      "lengthKm": "2.18 km",
+      "corners": [
+        {
+          "id": "mallory-park_t1",
+          "number": 1,
+          "label": "Gerards",
+          "shape": "Sweeper",
+          "direction": "complex",
+          "approachFrom": "start-finish"
+        },
+        {
+          "id": "mallory-park_t2",
+          "number": 2,
+          "label": "Edwina's",
+          "shape": "Corner",
+          "direction": "complex",
+          "approachFrom": "Gerards"
+        },
+        {
+          "id": "mallory-park_t3",
+          "number": 3,
+          "label": "Shaw's",
+          "shape": "Hairpin",
+          "direction": "complex",
+          "approachFrom": "Edwina's"
+        },
+        {
+          "id": "mallory-park_t4",
+          "number": 4,
+          "label": "Devil's Elbow",
+          "shape": "Corner",
+          "direction": "complex",
+          "approachFrom": "Shaw's"
+        },
+        {
+          "id": "mallory-park_t5",
+          "number": 5,
+          "label": "Pit / John Cooper Straight return",
+          "shape": "Complex",
+          "direction": "complex",
+          "approachFrom": "Devil's Elbow"
+        }
+      ],
+      "isOther": false,
+      "confidence": "official"
+    },
+    {
+      "id": "goodwood",
+      "name": "Goodwood Motor Circuit",
+      "nodeId": "uk-england",
+      "kind": "road_circuit",
+      "lat": 50.85923,
+      "lng": -0.75984,
+      "layout": "Full Circuit (3.86 km)",
+      "direction": "clockwise",
+      "lengthKm": "3.86 km",
+      "corners": [],
+      "isOther": false,
+      "confidence": "official"
+    },
+    {
+      "id": "pembrey",
+      "name": "Pembrey Circuit",
+      "nodeId": "uk-wales",
+      "kind": "road_circuit",
+      "lat": 51.7056,
+      "lng": -4.32052,
+      "layout": "Full Circuit",
+      "direction": "clockwise",
+      "lengthKm": "3.54 km",
+      "corners": [],
+      "isOther": false,
+      "confidence": "official"
+    },
+    {
+      "id": "lydden-hill",
+      "name": "Lydden Hill Race Circuit",
+      "nodeId": "uk-england",
+      "kind": "road_circuit",
+      "lat": 51.17823,
+      "lng": 1.19828,
+      "layout": "Full Circuit",
+      "direction": "clockwise",
+      "corners": [],
+      "isOther": false,
+      "confidence": "official"
+    },
+    {
+      "id": "llandow",
+      "name": "Llandow Circuit",
+      "nodeId": "uk-wales",
+      "kind": "road_circuit",
+      "lat": 51.43157,
+      "lng": -3.49786,
+      "layout": "Full Circuit",
+      "direction": "clockwise",
+      "corners": [],
+      "isOther": false,
+      "confidence": "official"
+    },
+    {
+      "id": "east-fortune",
+      "name": "East Fortune Race Circuit",
+      "nodeId": "uk-scotland",
+      "kind": "road_circuit",
+      "lat": 56.00007,
+      "lng": -2.70861,
+      "layout": "Full Circuit",
+      "direction": "clockwise",
+      "corners": [],
+      "isOther": false,
+      "confidence": "official"
+    },
+    {
+      "id": "teesside-autodrome",
+      "name": "Teesside Autodrome",
+      "nodeId": "uk-england",
+      "kind": "road_circuit",
+      "lat": 54.57759,
+      "lng": -1.18959,
+      "layout": "Long Circuit",
+      "direction": "clockwise",
+      "corners": [],
+      "isOther": false,
+      "confidence": "official"
+    },
+    {
+      "id": "kirkistown",
+      "name": "Kirkistown Racing Circuit",
+      "nodeId": "uk-northern-ireland",
+      "kind": "road_circuit",
+      "lat": 54.45715,
+      "lng": -5.46912,
+      "layout": "Full Circuit",
+      "direction": "clockwise",
+      "corners": [],
+      "isOther": false,
+      "confidence": "official"
+    },
+    {
+      "id": "bishopscourt",
+      "name": "Bishopscourt Racing Circuit",
+      "nodeId": "uk-northern-ireland",
+      "kind": "road_circuit",
+      "lat": 54.30679,
+      "lng": -5.58126,
+      "layout": "National Circuit",
+      "direction": "clockwise",
+      "corners": [],
+      "isOther": false,
+      "confidence": "official"
+    },
+    {
+      "id": "armoy",
+      "name": "Armoy Road Races",
+      "nodeId": "uk-northern-ireland",
+      "kind": "street_circuit",
+      "lat": 55.13943,
+      "lng": -6.31754,
+      "layout": "Full Course",
+      "direction": "clockwise",
+      "corners": [],
+      "isOther": false,
+      "confidence": "official"
+    },
+    {
+      "id": "cookstown-100",
+      "name": "Cookstown 100 Circuit",
+      "nodeId": "uk-northern-ireland",
+      "kind": "street_circuit",
+      "lat": 54.65376,
+      "lng": -6.8001,
+      "layout": "Full Course",
+      "direction": "clockwise",
+      "corners": [],
+      "isOther": false,
+      "confidence": "official"
+    },
+    {
+      "id": "isle-of-man-tt",
+      "name": "Isle of Man TT Course",
+      "nodeId": "uk-isle-of-man",
+      "kind": "street_circuit",
+      "lat": 54.23942,
+      "lng": -4.50476,
+      "layout": "Mountain Course (60.72 km)",
+      "direction": "clockwise",
+      "lengthKm": "60.72 km",
+      "corners": [],
+      "isOther": false,
+      "confidence": "official"
+    },
+    {
+      "id": "olivers-mount",
+      "name": "Oliver's Mount",
+      "nodeId": "uk-england",
+      "kind": "street_circuit",
+      "lat": 54.263,
+      "lng": -0.405,
+      "layout": "Full Road Race Circuit (3.88 km)",
+      "direction": "clockwise",
+      "lengthKm": "3.88 km",
+      "corners": [],
+      "isOther": false,
+      "confidence": "official",
+      "notes": "England's only purpose-built road race circuit; hillside course overlooking Scarborough, North Yorkshire. Opened 1946. Spring and Gold Cup autumn meetings run by Scarborough & District MC."
+    },
+    {
+      "id": "castle-combe",
+      "name": "Castle Combe Circuit",
+      "nodeId": "uk-england",
+      "kind": "road_circuit",
+      "lat": 51.4902,
+      "lng": -2.2176,
+      "layout": "Full Circuit (2.98 km)",
+      "direction": "clockwise",
+      "lengthKm": "2.98 km",
+      "corners": [],
+      "isOther": false,
+      "confidence": "official",
+      "notes": "Historic Wiltshire circuit; motorcycle track days and club racing. Not an MSV venue."
+    },
+    {
+      "id": "three-sisters",
+      "name": "Three Sisters Circuit",
+      "nodeId": "uk-england",
+      "kind": "road_circuit",
+      "lat": 53.519,
+      "lng": -2.584,
+      "layout": "Full Circuit (1.80 km)",
+      "direction": "clockwise",
+      "lengthKm": "1.80 km",
+      "corners": [],
+      "isOther": false,
+      "confidence": "official",
+      "notes": "Wigan, Lancashire. Venue for PDMCC ACU race school (CTC+BRA combined day). Club racing and track days."
     }
   ]
 }

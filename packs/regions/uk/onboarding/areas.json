@@ -6,19 +6,71 @@
       "name": "England",
       "clubs": [
         {
-          "name": "ACU-affiliated road race clubs",
+          "name": "British Motorcycle Racing Club (BMCRC / Bemsee)",
+          "location": "Brands Hatch Indy, Cadwell Park, Snetterton, Silverstone National, Oulton Park, Mallory Park",
+          "website": "https://www.bemsee.net"
+        },
+        {
+          "name": "No Limits Racing",
+          "location": "England (multi-circuit)",
+          "website": "https://www.nolimitstrackdays.com"
+        },
+        {
+          "name": "Thundersport GB",
+          "location": "Mallory Park base; multi-circuit calendar",
+          "website": "https://www.thundersportgb.com"
+        },
+        {
+          "name": "NG Road Racing",
           "location": "England",
-          "website": "https://www.acu.org.uk"
+          "website": "https://www.ngroadracing.org"
+        },
+        {
+          "name": "EMRA (Eastern Motorcycle Racing Association)",
+          "location": "Snetterton, Norfolk",
+          "website": "https://www.emra.co.uk"
+        },
+        {
+          "name": "Classic Racing Motorcycle Club (CRMC)",
+          "location": "National — Brands Hatch, Cadwell, Mallory, Oulton, Snetterton, Donington",
+          "website": "https://www.crmc.co.uk"
+        },
+        {
+          "name": "Scarborough & District MC — Oliver's Mount",
+          "location": "Oliver's Mount, Scarborough (England's only road race circuit)",
+          "website": "https://www.scarboroughmc.co.uk"
         }
       ],
       "classes": [
-        "British Superbike support classes",
-        "Clubman / national classes"
+        "British Superbike and all support classes (BSB weekend at multiple circuits)",
+        "Clubman Superstock 600 and 1000",
+        "Formula 400 (BMCRC)",
+        "Thunderbike / Supertwins",
+        "Kawasaki British Superteen (junior)",
+        "British Talent Cup (national junior pathway)",
+        "Classic / historic (CRMC — pre-1978)",
+        "Sidecar / Formula 2 (FSRA)"
       ],
       "coaches": [
         {
-          "name": "Circuit / school coaching providers",
-          "description": "Many UK circuits offer coach-led track days — check venue programmes."
+          "name": "MSV Bike Trackdays",
+          "description": "Open pit-lane and coach-supported days at MSV circuits (Brands, Donington, Cadwell, Snetterton, Oulton); ACU CTC/BRA assessment dates available.",
+          "website": "https://bike.msvtrackdays.com"
+        },
+        {
+          "name": "No Limits Trackdays",
+          "description": "Group and school sessions; strong progression bridge from track day into club racing.",
+          "website": "https://www.nolimitstrackdays.com"
+        },
+        {
+          "name": "PDMCC Race School (Three Sisters, Wigan)",
+          "description": "One-day ACU CTC + BRA combined race licence course. Approximately £155. Popular first-licence route.",
+          "website": "https://pdmcc.racing/race-school"
+        },
+        {
+          "name": "Castle Combe Circuit track days",
+          "description": "Experienced-rider motorcycle track days at historic Wiltshire circuit.",
+          "website": "https://castlecombecircuit.co.uk/motorcycle-track-days/"
         }
       ]
     },
@@ -29,14 +81,27 @@
       "clubs": [
         {
           "name": "SACU-affiliated clubs",
-          "location": "Scotland",
+          "location": "Knockhill and Scottish venues",
+          "website": "https://www.sacu.co.uk"
+        },
+        {
+          "name": "East Fortune Race Circuit clubs",
+          "location": "East Fortune Airfield, East Lothian",
           "website": "https://www.sacu.co.uk"
         }
       ],
       "classes": [
-        "Scottish championship / club road race classes"
+        "Scottish Motorcycle Racing Championships (SACU)",
+        "Knockhill club and national support classes",
+        "East Fortune club racing"
       ],
-      "coaches": []
+      "coaches": [
+        {
+          "name": "Knockhill rider days and coaching",
+          "description": "Circuit-based coaching and track days at Scotland's only motorsport complex.",
+          "website": "https://www.knockhill.com"
+        }
+      ]
     },
     {
       "code": "WLS",
@@ -44,15 +109,33 @@
       "name": "Wales",
       "clubs": [
         {
-          "name": "Welsh / ACU centre clubs",
-          "location": "Wales",
+          "name": "ACU Cymru / Welsh centre clubs",
+          "location": "Anglesey Circuit (Trac Môn) and Welsh centres",
           "website": "https://www.acu.org.uk"
+        },
+        {
+          "name": "Pembrey Circuit club racing",
+          "location": "Pembrey, near Llanelli",
+          "website": "https://www.pembrey-circuit.co.uk"
+        },
+        {
+          "name": "Llandow Circuit clubs",
+          "location": "Llandow, Vale of Glamorgan",
+          "website": "https://llandow.com"
         }
       ],
       "classes": [
-        "Club and national classes"
+        "Club and national classes at Anglesey International and Coastal layouts",
+        "Pembrey club racing (multiple layout variants)",
+        "Cross-border English club meetings"
       ],
-      "coaches": []
+      "coaches": [
+        {
+          "name": "Anglesey Circuit (Trac Môn) track days",
+          "description": "Coastal and International layouts; popular for coaching and intermediate track days in North Wales.",
+          "website": "https://www.angleseycircuit.com"
+        }
+      ]
     },
     {
       "code": "NIR",
@@ -60,15 +143,52 @@
       "name": "Northern Ireland",
       "clubs": [
         {
-          "name": "MCUI / local road race clubs",
-          "location": "Northern Ireland",
+          "name": "MCUI Ulster Centre affiliated clubs",
+          "location": "Bishopscourt Racing Circuit and Kirkistown Racing Circuit",
           "website": "https://www.mcui-uc.org.uk"
+        },
+        {
+          "name": "North West 200 Organisation",
+          "location": "Portstewart / Portrush / Coleraine public-road course",
+          "website": "https://northwest200.co.uk"
         }
       ],
       "classes": [
-        "Irish road racing / short circuit classes"
+        "Irish short-circuit classes at Bishopscourt and Kirkistown",
+        "Superbike, Supersport, Superstock, Supertwin at North West 200",
+        "Public-road racing events (separate licences and regulations)"
       ],
-      "coaches": []
+      "coaches": [
+        {
+          "name": "Bishopscourt and Kirkistown track days",
+          "description": "Circuit-based coaching and track days at NI's two short-circuit venues.",
+          "website": "https://www.mcui-uc.org.uk"
+        }
+      ]
+    },
+    {
+      "code": "IOM",
+      "nodeId": "uk-isle-of-man",
+      "name": "Isle of Man",
+      "clubs": [
+        {
+          "name": "Manx Motor Cycle Club",
+          "location": "Isle of Man — TT Mountain Course",
+          "website": "https://www.manxgp.org"
+        }
+      ],
+      "classes": [
+        "Isle of Man TT: Superbike, Supersport, Superstock, Senior TT, TT Zero, Sidecars",
+        "Manx Grand Prix: Lightweight, Junior, Senior, Classic (amateur entry)"
+      ],
+      "coaches": [
+        {
+          "name": "IOM TT / Manx GP — course car laps and briefings",
+          "description": "Organisers provide course familiarisation sessions (car laps) and mandatory safety briefings before TT and Manx GP. No substitute coaching providers — course knowledge must be self-built over multiple years.",
+          "website": "https://www.iomtt.com"
+        }
+      ],
+      "notes": "Crown Dependency; separate jurisdiction. Public-road events require specific licence grades and significant prior road-race experience. Mandatory qualification laps apply."
     }
   ]
 }

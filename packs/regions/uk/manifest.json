@@ -3,26 +3,19 @@
   "regionNumber": 1,
   "displayName": "United Kingdom",
   "kind": "region",
-  "locales": [
-    "en-GB"
-  ],
-  "timezones": [
-    "Europe/London"
-  ],
-  "isoCountries": [
-    "GB"
-  ],
-  "adminAreas": [
-    "ENG",
-    "SCT",
-    "WLS",
-    "NIR"
-  ],
+  "locales": ["en-GB"],
+  "timezones": ["Europe/London"],
+  "isoCountries": ["GB", "IM"],
+  "adminAreas": ["ENG", "SCT", "WLS", "NIR", "IOM"],
   "status": "seed",
   "defaultLocalLabel": "United Kingdom",
+  "launchNotes": "2026-08-11 deep fill: 24 tracks (from ztracks + research), 7 federations, 12 clubs, 7 coaching providers, 19 series, 16 classes, 7 licensing pathways, 26 terminology terms, 8 news sources, 9 suppliers, 12 services. Hierarchy now includes Isle of Man node. Promote to active only after hybrid validate + scraper smoke test.",
   "spelling": {
     "tyre": "tyre",
-    "dateFormat": "DD/MM/YYYY"
+    "dateFormat": "DD/MM/YYYY",
+    "colour": "colour",
+    "kerb": "kerb",
+    "favour": "favour"
   },
   "contentIndex": [
     "tracks/tracks.json",

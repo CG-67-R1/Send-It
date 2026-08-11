@@ -4,8 +4,10 @@ import { useNavigation, useRoute, type RouteProp } from '@react-navigation/nativ
 import type { NativeStackNavigationProp } from '@react-navigation/native-stack';
 import { AppLogo } from '../components/AppLogo';
 import { COMPACT_LOGO_SIZE } from '../constants/logoSizing';
+import type { OtherTrackContext } from '../data/tracks';
 import type { CoachChatDisplayMessage, CoachChatMessage, CoachMode } from '../utils/coachChat';
 import { safeOpenUrl } from '../utils/safeOpenUrl';
+import type { TrackdayPrepDraft } from '../storage/trackdayPrep';
 
 const FEATURE_REQUEST_MAILTO =
   'mailto:projectapex@outlook.com.au?subject=' +
@@ -33,10 +35,24 @@ export type RiderCoachStackParamList = {
     initialTrackId?: string;
     initialTrackName?: string;
   };
-  TrackWalk: undefined;
+  TrackPrep: undefined;
+  TrackdayPrep: {
+    trackId: string;
+    trackName: string;
+    otherContext?: OtherTrackContext;
+  };
+  TrackdayPrepReport: {
+    draft: TrackdayPrepDraft;
+    reportText: string;
+  };
+  TrackWalk: {
+    initialTrackId?: string;
+    initialTrackName?: string;
+    otherContext?: OtherTrackContext;
+  };
   TrackMemory: {
     initialTrackId?: string;
-  } | undefined;
+  };
   BikeSetupBasics: undefined;
   BikeSetupSheet: undefined;
   BikeBalanceSetup: undefined;
@@ -95,6 +111,20 @@ export function RiderCoachScreen() {
 
       <View style={styles.sectionDivider} />
 
+      <Text style={styles.sectionLabel}>Track Prep</Text>
+      <Text style={styles.privacyNote}>
+        Pick a track, then prep with a briefing, walk notes, or the layout memory game.
+      </Text>
+      <TouchableOpacity
+        style={styles.navButton}
+        onPress={() => navigation.navigate('TrackPrep')}
+        activeOpacity={0.8}
+      >
+        <Text style={styles.navButtonText}>Track Prep</Text>
+      </TouchableOpacity>
+
+      <View style={styles.sectionDivider} />
+
       <Text style={styles.sectionLabel}>Tools</Text>
       <Text style={styles.privacyNote}>
         Setup tools keep your data private on this device. Save snapshots for later comparison, and
@@ -120,20 +150,6 @@ export function RiderCoachScreen() {
         activeOpacity={0.8}
       >
         <Text style={styles.navButtonText}>Bike Setup Basics</Text>
-      </TouchableOpacity>
-      <TouchableOpacity
-        style={styles.navButton}
-        onPress={() => navigation.navigate('TrackWalk')}
-        activeOpacity={0.8}
-      >
-        <Text style={styles.navButtonText}>Track Walk / Track Notes</Text>
-      </TouchableOpacity>
-      <TouchableOpacity
-        style={styles.navButton}
-        onPress={() => navigation.navigate('TrackMemory')}
-        activeOpacity={0.8}
-      >
-        <Text style={styles.navButtonText}>Track Memory</Text>
       </TouchableOpacity>
 
       <TouchableOpacity

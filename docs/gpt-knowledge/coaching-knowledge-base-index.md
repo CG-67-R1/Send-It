@@ -2,7 +2,7 @@
 
 **Version**: 0.2  
 **Created**: 2025-12-22  
-**Last Updated**: 2026-07-19 (Send-It `docs/gpt-knowledge` reference pack)
+**Last Updated**: 2026-08-11 (Send-It `docs/gpt-knowledge` reference pack)
 
 Complete index of coaching resources organized by technique and what it improves for the rider.
 
@@ -22,6 +22,8 @@ Prefer these filenames (kebab-case where repaired):
 | `Track_Knowledge_Base_Australia_v2.md` | AU track coaching prose |
 | `tire-pressure-weather-troubleshooting-guide.md` | Pressure / weather / brand anchors |
 | `tire-wear-patterns-comprehensive.md` | Wear patterns + fix order |
+| `tyre-wear-photo-recognition.md` | User-photo wear class (text atlas; no third-party images) |
+| `race-setup-and-tyre-kb.md` | **Combined upload** — race suspension (Öhlins/WP/Nitron/Bitubo/Andreani/YSS) + tyre pressures all brands + rain tyres + photo wear diagnosis. 38 KB. Monthly updated. |
 | `bridgestone-race-tyre-data-extract.md` | Bridgestone race fitment extract |
 | `bike-category-reference.md` | Class bias only — **no numeric fallbacks** |
 | `geometry-calculations.md` | Chassis geometry maths (illustrative) |
@@ -39,7 +41,29 @@ These are referenced historically but **not** present under `docs/gpt-knowledge/
 - `TRACK_PROBLEM_INTERACTION_AU_v1.json`
 - `Track_Riding_KB_AllTracks_v1.md`
 - `braking-techniques.md`, `cornering-techniques.md`, `body-position.md` (full extracts)
+- `overtaking-techniques.md` (stub header only in riding-techniques-combined.md; full extract not in pack)
 - Bridgestone `_TEMP_…` operating-range transcription / PNG
+
+## Track coverage (geometry vs coaching bias)
+
+If a track has geometry but no coaching bias (or the reverse), say so and use general coaching + geometry facts only — do not invent track-specific bias.
+
+| Track | Geometry (`track_geometry_australia.json`) | Coaching bias (`TRACK_SPECIFIC…` / Track KB) |
+|-------|--------------------------------------------|-----------------------------------------------|
+| Broadford | yes | yes |
+| Phillip Island | yes | yes |
+| Mallala | yes | yes |
+| SMSP (`smsp` / `sydney_motorsport_park`) | yes | yes |
+| Mac Park | no | yes |
+| Winton | yes | no |
+| Hidden Valley | yes | no |
+| Queensland Raceway | yes | no |
+| The Bend | yes | no |
+| One Raceway | yes | no |
+| Morgan Park | yes | no |
+| Mount Panorama | yes | no |
+| Sandown | yes | no |
+| Calder Park | yes | no |
 
 ## Quick Reference by Improvement Area
 
@@ -126,7 +150,8 @@ These are referenced historically but **not** present under `docs/gpt-knowledge/
 
 **Tyre pressure, weather, compound bias:** `tire-pressure-weather-troubleshooting-guide.md`
 
-**Tyre wear patterns and fixes:** `tire-wear-patterns-comprehensive.md`
+**Tyre wear patterns and fixes:** `tire-wear-patterns-comprehensive.md`  
+**User tyre photo class:** `tyre-wear-photo-recognition.md`
 
 **Bridgestone race line:** `bridgestone-race-tyre-data-extract.md`
 

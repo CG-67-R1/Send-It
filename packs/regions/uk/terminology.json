@@ -1,16 +1,30 @@
 {
   "terms": [
-    {
-      "id": "bsb",
-      "term": "BSB",
-      "definition": "British Superbike Championship",
-      "locale": "en-GB"
-    },
-    {
-      "id": "acu",
-      "term": "ACU",
-      "definition": "Auto-Cycle Union",
-      "locale": "en-GB"
-    }
+    { "id": "bsb", "term": "BSB", "definition": "British Superbike Championship (from 2026 ZYN British Superbike Championship)", "locale": "en-GB" },
+    { "id": "acu", "term": "ACU", "definition": "Auto-Cycle Union — governing body for motorcycle sport in England and Wales", "locale": "en-GB" },
+    { "id": "sacu", "term": "SACU", "definition": "Scottish Auto-Cycle Union — governing body for motorcycle sport in Scotland", "locale": "en-GB" },
+    { "id": "mcui", "term": "MCUI", "definition": "Motor Cycle Union of Ireland — Ulster Centre covers Northern Ireland", "locale": "en-GB" },
+    { "id": "mcrcb", "term": "MCRCB", "definition": "Motor Cycle Road Racing Control Board — governs BSB and support series under ACU delegation", "locale": "en-GB" },
+    { "id": "ctc", "term": "CTC", "definition": "ACU Competitor Training Course — theory component of race licence", "locale": "en-GB" },
+    { "id": "bra", "term": "BRA", "definition": "ACU Basic Rider Assessment — on-circuit practical licence assessment", "locale": "en-GB" },
+    { "id": "clubman", "term": "Clubman", "definition": "ACU licence grade above Novice; allows unrestricted club racing entry", "locale": "en-GB" },
+    { "id": "novice", "term": "Novice", "definition": "Entry-level ACU race licence grade; identified by orange bib on-track", "locale": "en-GB" },
+    { "id": "msv", "term": "MSV", "definition": "MotorSport Vision — circuit operator group (Brands Hatch, Donington, Cadwell, Snetterton, Oulton)", "locale": "en-GB" },
+    { "id": "msvr", "term": "MSVR", "definition": "MotorSport Vision Racing — promoter of the BSB and support championships", "locale": "en-GB" },
+    { "id": "bemsee", "term": "Bemsee", "definition": "Informal name for the British Motorcycle Racing Club (BMCRC)", "locale": "en-GB" },
+    { "id": "bmcrc", "term": "BMCRC", "definition": "British Motorcycle Racing Club — world's oldest motorcycle racing club (est. 1909)", "locale": "en-GB" },
+    { "id": "tt", "term": "TT", "definition": "Tourist Trophy — Isle of Man TT road race on the Mountain Course; 60.72 km", "locale": "en-GB" },
+    { "id": "manx-gp", "term": "Manx GP", "definition": "Manx Grand Prix — amateur TT Mountain Course road race each August/September", "locale": "en-GB" },
+    { "id": "nw200", "term": "NW200", "definition": "North West 200 — public-road race near Portstewart/Portrush/Coleraine, Northern Ireland", "locale": "en-GB" },
+    { "id": "olivers-mount", "term": "Oliver's Mount", "definition": "Road race circuit at Scarborough, North Yorkshire — England's only purpose-built road race venue", "locale": "en-GB" },
+    { "id": "tyre", "term": "tyre", "definition": "UK spelling of tire; always use 'tyre' in UK context", "locale": "en-GB" },
+    { "id": "kerb", "term": "kerb", "definition": "UK spelling of curb; circuit kerb stones at track edge", "locale": "en-GB" },
+    { "id": "superstock", "term": "Superstock", "definition": "Near-standard production class with limited modifications; Superstock 1000 is a BSB feeder", "locale": "en-GB" },
+    { "id": "supertwins", "term": "Supertwins", "definition": "650cc twin-cylinder class; prominent in Irish road racing and UK club events", "locale": "en-GB" },
+    { "id": "supertwin", "term": "Supertwin", "definition": "Same as Supertwins — 650cc parallel twin class", "locale": "en-GB" },
+    { "id": "crmc", "term": "CRMC", "definition": "Classic Racing Motorcycle Club — pre-1978 historic motorcycle racing", "locale": "en-GB" },
+    { "id": "emra", "term": "EMRA", "definition": "Eastern Motorcycle Racing Association — ACU club based at Snetterton", "locale": "en-GB" },
+    { "id": "pdmcc", "term": "PDMCC", "definition": "Preston & District Motorcycle Club — runs popular ACU race school at Three Sisters", "locale": "en-GB" },
+    { "id": "sport80", "term": "Sport80", "definition": "Online portal for ACU membership and licence management", "locale": "en-GB" }
   ]
 }

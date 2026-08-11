@@ -96,6 +96,38 @@ motorcycle,racing,motogp,superbike,track day,bike setup,coach,calendar
 News, calendar, track walk, and AI coach for motorcycle road racing — setups stay on your device.
 ```
 
+## Version 1.0 — United Kingdom localization (English / en-GB)
+
+**Primary App Store locale remains English (Australia).** Add a UK localization in ASC for App Store UK storefront.
+
+### Description (UK)
+
+```
+RoadRacer is your motorcycle road-racing companion — news, calendar, track notes, and AI coaching in one place.
+
+Follow MotoGP, WorldSBK, BSB, and UK headlines you can prioritise. Check the race calendar, walk Brands Hatch, Donington, Cadwell and more with notes and photos, and keep Day Setup Sheets and bike balance tools on your device.
+
+Ask the Rider Coach or Bike Setup AI for practical guidance for UK track days and club racing, or use Q&A and trivia to sharpen your knowledge. Your profile, avatar, setups, and track notes stay private on your device. AI chats you send go to the RoadRacer API and may be processed by OpenAI; chat history is not kept on our server after the reply.
+
+Built for UK track-day riders and club racers who live motorsport.
+```
+
+### Keywords (UK — max 100 characters)
+
+```
+motorcycle,racing,BSB,superbike,track day,bike setup,coach,calendar
+```
+
+(Character count: 74 — uses BSB instead of motogp to fit UK search intent; keep trademarks accurate.)
+
+### Promotional Text (UK, optional, 170 chars)
+
+```
+News, BSB calendar, UK track walk, and AI coach for motorcycle road racing — setups stay on your device.
+```
+
+UK review contact: same as AU (`projectapex@outlook.com.au`; phone may remain +61).
+
 ## Contact Information (App Review)
 
 Use a real person Apple can reach:
@@ -137,3 +169,33 @@ Upload **at least 3** screenshots for iPhone 6.5" Display. Ready files (all **12
 | 4 | [`docs/ios/screenshots/iphone-6.5/asc-iphone65-04-tyre.png`](screenshots/iphone-6.5/asc-iphone65-04-tyre.png) | Tyre Wear Analysis |
 
 In ASC: **App Store** → version → **iPhone 6.5" Display** → upload 1–4 (minimum three). Do not upload arbitrary promo sizes without resizing.
+
+## Screenshots (iPad 12.9" / 13")
+
+Accepted sizes: **2064 × 2752**, **2752 × 2064**, **2048 × 2732**, or **2732 × 2048**.
+
+Ready files (portrait **2064 × 2752**):
+
+| Order | File | Screen |
+|-------|------|--------|
+| 1 | [`docs/ios/screenshots/ipad-13/asc-ipad13-01-news.png`](screenshots/ipad-13/asc-ipad13-01-news.png) | News & Events |
+| 2 | [`docs/ios/screenshots/ipad-13/asc-ipad13-02-track.png`](screenshots/ipad-13/asc-ipad13-02-track.png) | Track walk / Bend |
+| 3 | [`docs/ios/screenshots/ipad-13/asc-ipad13-03-setup.png`](screenshots/ipad-13/asc-ipad13-03-setup.png) | Bike Setup |
+| 4 | [`docs/ios/screenshots/ipad-13/asc-ipad13-04-tyre.png`](screenshots/ipad-13/asc-ipad13-04-tyre.png) | Tyre Wear Analysis |
+
+In ASC: **App Store** → version → **iPad 12.9" / 13" Display** → upload at least three.
+
+## Screenshots (Apple Watch)
+
+Accepted sizes include Ultra 3 **422 × 514** or **410 × 502**, Series 11 **416 × 496**, Series 9 **396 × 484**, Series 6 **368 × 448**, Series 3 **312 × 390**.
+
+Ready files (Ultra 3 portrait **422 × 514**):
+
+| Order | File | Screen |
+|-------|------|--------|
+| 1 | [`docs/ios/screenshots/apple-watch-ultra3/asc-watch-01-news.png`](screenshots/apple-watch-ultra3/asc-watch-01-news.png) | News |
+| 2 | [`docs/ios/screenshots/apple-watch-ultra3/asc-watch-02-calendar.png`](screenshots/apple-watch-ultra3/asc-watch-02-calendar.png) | Calendar / next event |
+| 3 | [`docs/ios/screenshots/apple-watch-ultra3/asc-watch-03-coach.png`](screenshots/apple-watch-ultra3/asc-watch-03-coach.png) | Corner coach tip |
+| 4 | [`docs/ios/screenshots/apple-watch-ultra3/asc-watch-04-tyre.png`](screenshots/apple-watch-ultra3/asc-watch-04-tyre.png) | Tyre wear |
+
+Only upload these if ASC shows an Apple Watch screenshot slot (Watch companion target). RoadRacer iOS alone usually does **not** require Watch screenshots.

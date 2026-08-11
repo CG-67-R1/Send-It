@@ -47,6 +47,10 @@ RoadRacer is not directed at children under 13. Do not use the app if you are un
 
 Questions about privacy: **projectapex@outlook.com.au**
 
+## United Kingdom / GDPR note
+
+For users in the United Kingdom: we do not operate a RoadRacer account system. Local profile, setup, and Track Walk data stay on your device unless you export or share them. AI requests you send are processed to produce a reply and are not retained on our server as chat history after the response. You may contact us at the email above to ask privacy questions. Where UK GDPR / UK Data Protection Act rights apply to personal data we control, we will respond in line with those obligations.
+
 ## Changes
 
 We may update this policy. The “Last updated” date at the top will change when we do. Continued use of the app after an update means you accept the revised policy.

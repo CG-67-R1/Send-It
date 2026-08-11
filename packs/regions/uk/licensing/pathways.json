@@ -1,17 +1,70 @@
 {
   "pathways": [
     {
-      "id": "uk-acu-competition",
-      "title": "ACU competition licence pathway",
-      "nodeId": "uk-england",
+      "id": "uk-track-day",
+      "title": "UK track day — no race licence required",
+      "nodeId": "uk",
       "steps": [
-        "Join an ACU-affiliated club",
-        "Apply for appropriate ACU competition licence",
-        "Complete any required training / medical checks"
+        "Hold a valid full motorcycle road licence appropriate for the machine",
+        "Book with a recognised operator (MSV Bike Trackdays, No Limits, circuit-run days, etc.)",
+        "Bring required kit: helmet (ECE 22.06 or equivalent), leathers (1-piece or 2-piece with zip), boots, gloves. Operator kit lists vary — check before attending",
+        "Arrive early; attend compulsory rider briefing",
+        "Groups are usually novice / intermediate / advanced; declare your experience honestly"
       ],
       "urls": [
-        "https://www.acu.org.uk"
+        "https://bike.msvtrackdays.com",
+        "https://www.nolimitstrackdays.com"
       ],
+      "confidence": "official",
+      "notes": "No ACU competition licence needed for track days. Many riders use track days to build pace before pursuing a race licence."
+    },
+    {
+      "id": "uk-acu-novice",
+      "title": "ACU road race competition licence — Novice entry (England & Wales)",
+      "nodeId": "uk-england",
+      "steps": [
+        "Create an account on Sport80 (ACU's online portal) at sport80.com",
+        "Join an ACU-affiliated road race club (Bemsee, EMRA, No Limits Racing, NG Road Racing, etc.)",
+        "Complete the ACU Competitor Training Course (CTC) — online or in-person theory; covers regulations, flag signals and safety",
+        "Pass the Basic Rider Assessment (BRA) — on-circuit practical assessment; PDMCC Race School at Three Sisters offers combined CTC+BRA in one day (~£155)",
+        "Receive Novice (orange bib) licence and competitor number",
+        "Start racing; accumulate upgrade signatures across multiple circuits and meetings"
+      ],
+      "urls": [
+        "https://www.acu.org.uk/get-involved/road-racing.aspx",
+        "https://pdmcc.racing/race-school",
+        "https://sport80.com"
+      ],
+      "confidence": "official",
+      "notes": "Novice intermediate grade was discontinued as of 2026 per ACU standing regulations update."
+    },
+    {
+      "id": "uk-acu-upgrade",
+      "title": "ACU licence upgrade — Novice to Clubman",
+      "nodeId": "uk-england",
+      "steps": [
+        "Compete as a Novice at ACU-permitted meetings and collect upgrade signatures from Clerk of Course",
+        "Signatures required at a minimum of 3 different circuits (verify current count in ACU Standing Regulations — requirements change year to year)",
+        "After required signatures, apply for Clubman grade via Sport80",
+        "Clubman licence removes orange novice bib restriction and opens more class entries"
+      ],
+      "urls": [
+        "https://www.acu.org.uk",
+        "https://trackdayaddicts.com/racing-blogs/acu-licence-structure-explained/"
+      ],
+      "confidence": "official",
+      "notes": "Upgrade signature counts and requirements are set annually in the ACU Standing Regulations. Always check the current-year handbook PDF from acu.org.uk."
+    },
+    {
+      "id": "uk-acu-national",
+      "title": "ACU licence upgrade — Clubman to National",
+      "nodeId": "uk-england",
+      "steps": [
+        "Race as Clubman and collect National upgrade signatures across permitted events",
+        "Apply for National licence via Sport80; medical declaration required",
+        "National licence allows entry to national championships including BSB support classes where eligible"
+      ],
+      "urls": ["https://www.acu.org.uk"],
       "confidence": "official"
     },
     {
@@ -19,12 +72,45 @@
       "title": "SACU licence pathway (Scotland)",
       "nodeId": "uk-scotland",
       "steps": [
-        "Contact SACU / Scottish club for current road-race licence route"
+        "Contact SACU or a SACU-affiliated club; main short-circuit venue is Knockhill",
+        "Complete SACU training and any medical requirements",
+        "Arrange start permission (inter-association) when competing at ACU England/Wales events"
+      ],
+      "urls": ["https://www.sacu.co.uk"],
+      "confidence": "official"
+    },
+    {
+      "id": "uk-mcui",
+      "title": "MCUI pathway (Northern Ireland — short circuit)",
+      "nodeId": "uk-northern-ireland",
+      "steps": [
+        "Contact MCUI Ulster Centre or a local affiliated club",
+        "Complete MCUI licence and medical requirements",
+        "Primary venues: Bishopscourt Racing Circuit and Kirkistown Racing Circuit",
+        "Arrange inter-association permission for ACU (GB) events"
+      ],
+      "urls": ["https://www.mcui-uc.org.uk"],
+      "confidence": "official"
+    },
+    {
+      "id": "uk-iom-road-race",
+      "title": "Isle of Man / public-road event licence (TT / Manx GP / NW200)",
+      "nodeId": "uk-isle-of-man",
+      "steps": [
+        "Hold an ACU National or International licence (or equivalent FIM-affiliate licence)",
+        "Submit entry to ACM / event organisers well before closing date — events are heavily oversubscribed",
+        "For Manx Grand Prix (entry level): no prior TT experience required; qualification lap requirements apply",
+        "For Isle of Man TT: prior Manx GP or equivalent road-race experience required; qualification laps mandatory",
+        "For North West 200: MCUI or ACU licence plus race history submitted to organisers",
+        "Specialist public-road insurance and supplementary regulations apply — these are separate from short-circuit events"
       ],
       "urls": [
-        "https://www.sacu.co.uk"
+        "https://www.iomtt.com",
+        "https://www.manxgp.org",
+        "https://northwest200.co.uk"
       ],
-      "confidence": "official"
+      "confidence": "official",
+      "notes": "Public-road events carry significantly higher risk. Competitors must understand and accept full supplementary regulations. Separate medical and safety briefings mandatory."
     }
   ]
 }

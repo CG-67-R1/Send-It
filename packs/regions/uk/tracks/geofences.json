@@ -1,5 +1,128 @@
 {
   "type": "FeatureCollection",
-  "features": [],
-  "metadata": {}
+  "features": [
+    {
+      "type": "Feature",
+      "properties": { "trackId": "brands-hatch", "name": "Brands Hatch", "radiusM": 900 },
+      "geometry": { "type": "Point", "coordinates": [0.2617, 51.3567] }
+    },
+    {
+      "type": "Feature",
+      "properties": { "trackId": "donington", "name": "Donington Park", "radiusM": 1000 },
+      "geometry": { "type": "Point", "coordinates": [-1.375, 52.8305] }
+    },
+    {
+      "type": "Feature",
+      "properties": { "trackId": "silverstone", "name": "Silverstone Circuit", "radiusM": 1500 },
+      "geometry": { "type": "Point", "coordinates": [-1.0147, 52.0733] }
+    },
+    {
+      "type": "Feature",
+      "properties": { "trackId": "cadwell-park", "name": "Cadwell Park", "radiusM": 800 },
+      "geometry": { "type": "Point", "coordinates": [-0.0633, 53.3106] }
+    },
+    {
+      "type": "Feature",
+      "properties": { "trackId": "snetterton", "name": "Snetterton Circuit", "radiusM": 1100 },
+      "geometry": { "type": "Point", "coordinates": [0.94713, 52.46490] }
+    },
+    {
+      "type": "Feature",
+      "properties": { "trackId": "oulton-park", "name": "Oulton Park", "radiusM": 1000 },
+      "geometry": { "type": "Point", "coordinates": [-2.61606, 53.17661] }
+    },
+    {
+      "type": "Feature",
+      "properties": { "trackId": "thruxton", "name": "Thruxton Circuit", "radiusM": 900 },
+      "geometry": { "type": "Point", "coordinates": [-1.6006, 51.2103] }
+    },
+    {
+      "type": "Feature",
+      "properties": { "trackId": "knockhill", "name": "Knockhill Racing Circuit", "radiusM": 700 },
+      "geometry": { "type": "Point", "coordinates": [-3.5036, 56.1292] }
+    },
+    {
+      "type": "Feature",
+      "properties": { "trackId": "anglesey", "name": "Anglesey Circuit", "radiusM": 800 },
+      "geometry": { "type": "Point", "coordinates": [-4.4980526, 53.1901221] }
+    },
+    {
+      "type": "Feature",
+      "properties": { "trackId": "mallory-park", "name": "Mallory Park Circuit", "radiusM": 700 },
+      "geometry": { "type": "Point", "coordinates": [-1.3376695, 52.5984682] }
+    },
+    {
+      "type": "Feature",
+      "properties": { "trackId": "goodwood", "name": "Goodwood Motor Circuit", "radiusM": 900 },
+      "geometry": { "type": "Point", "coordinates": [-0.75984, 50.85923] }
+    },
+    {
+      "type": "Feature",
+      "properties": { "trackId": "pembrey", "name": "Pembrey Circuit", "radiusM": 900 },
+      "geometry": { "type": "Point", "coordinates": [-4.32052, 51.70560] }
+    },
+    {
+      "type": "Feature",
+      "properties": { "trackId": "lydden-hill", "name": "Lydden Hill Race Circuit", "radiusM": 600 },
+      "geometry": { "type": "Point", "coordinates": [1.19828, 51.17823] }
+    },
+    {
+      "type": "Feature",
+      "properties": { "trackId": "llandow", "name": "Llandow Circuit", "radiusM": 700 },
+      "geometry": { "type": "Point", "coordinates": [-3.49786, 51.43157] }
+    },
+    {
+      "type": "Feature",
+      "properties": { "trackId": "east-fortune", "name": "East Fortune Race Circuit", "radiusM": 800 },
+      "geometry": { "type": "Point", "coordinates": [-2.70861, 56.00007] }
+    },
+    {
+      "type": "Feature",
+      "properties": { "trackId": "teesside-autodrome", "name": "Teesside Autodrome", "radiusM": 800 },
+      "geometry": { "type": "Point", "coordinates": [-1.18959, 54.57759] }
+    },
+    {
+      "type": "Feature",
+      "properties": { "trackId": "kirkistown", "name": "Kirkistown Racing Circuit", "radiusM": 700 },
+      "geometry": { "type": "Point", "coordinates": [-5.46912, 54.45715] }
+    },
+    {
+      "type": "Feature",
+      "properties": { "trackId": "bishopscourt", "name": "Bishopscourt Racing Circuit", "radiusM": 800 },
+      "geometry": { "type": "Point", "coordinates": [-5.58126, 54.30679] }
+    },
+    {
+      "type": "Feature",
+      "properties": { "trackId": "armoy", "name": "Armoy Road Races", "radiusM": 1500 },
+      "geometry": { "type": "Point", "coordinates": [-6.31754, 55.13943] }
+    },
+    {
+      "type": "Feature",
+      "properties": { "trackId": "cookstown-100", "name": "Cookstown 100 Circuit", "radiusM": 1500 },
+      "geometry": { "type": "Point", "coordinates": [-6.80010, 54.65376] }
+    },
+    {
+      "type": "Feature",
+      "properties": { "trackId": "isle-of-man-tt", "name": "Isle of Man TT Course", "radiusM": 5000 },
+      "geometry": { "type": "Point", "coordinates": [-4.50476, 54.23942] }
+    },
+    {
+      "type": "Feature",
+      "properties": { "trackId": "olivers-mount", "name": "Oliver's Mount", "radiusM": 600 },
+      "geometry": { "type": "Point", "coordinates": [-0.405, 54.263] }
+    },
+    {
+      "type": "Feature",
+      "properties": { "trackId": "castle-combe", "name": "Castle Combe Circuit", "radiusM": 700 },
+      "geometry": { "type": "Point", "coordinates": [-2.2176, 51.4902] }
+    },
+    {
+      "type": "Feature",
+      "properties": { "trackId": "three-sisters", "name": "Three Sisters Circuit", "radiusM": 500 },
+      "geometry": { "type": "Point", "coordinates": [-2.584, 53.519] }
+    }
+  ],
+  "metadata": {
+    "note": "Approximate venue centroids for arrival / Track Walk geofence seeding. Refine polygons from official maps before production geofencing."
+  }
 }

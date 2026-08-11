@@ -6,21 +6,10 @@
       "parentId": null,
       "kind": "region",
       "displayName": "United Kingdom",
-      "locales": [
-        "en-GB"
-      ],
-      "timezones": [
-        "Europe/London"
-      ],
-      "isoCountries": [
-        "GB"
-      ],
-      "adminAreas": [
-        "ENG",
-        "SCT",
-        "WLS",
-        "NIR"
-      ],
+      "locales": ["en-GB"],
+      "timezones": ["Europe/London"],
+      "isoCountries": ["GB"],
+      "adminAreas": ["ENG", "SCT", "WLS", "NIR"],
       "status": "seed"
     },
     {
@@ -28,18 +17,10 @@
       "parentId": "uk",
       "kind": "country",
       "displayName": "England",
-      "locales": [
-        "en-GB"
-      ],
-      "timezones": [
-        "Europe/London"
-      ],
-      "isoCountries": [
-        "GB"
-      ],
-      "adminAreas": [
-        "ENG"
-      ],
+      "locales": ["en-GB"],
+      "timezones": ["Europe/London"],
+      "isoCountries": ["GB"],
+      "adminAreas": ["ENG"],
       "status": "seed"
     },
     {
@@ -47,18 +28,10 @@
       "parentId": "uk",
       "kind": "country",
       "displayName": "Scotland",
-      "locales": [
-        "en-GB"
-      ],
-      "timezones": [
-        "Europe/London"
-      ],
-      "isoCountries": [
-        "GB"
-      ],
-      "adminAreas": [
-        "SCT"
-      ],
+      "locales": ["en-GB"],
+      "timezones": ["Europe/London"],
+      "isoCountries": ["GB"],
+      "adminAreas": ["SCT"],
       "status": "seed"
     },
     {
@@ -66,18 +39,10 @@
       "parentId": "uk",
       "kind": "country",
       "displayName": "Wales",
-      "locales": [
-        "en-GB"
-      ],
-      "timezones": [
-        "Europe/London"
-      ],
-      "isoCountries": [
-        "GB"
-      ],
-      "adminAreas": [
-        "WLS"
-      ],
+      "locales": ["en-GB"],
+      "timezones": ["Europe/London"],
+      "isoCountries": ["GB"],
+      "adminAreas": ["WLS"],
       "status": "seed"
     },
     {
@@ -85,19 +50,23 @@
       "parentId": "uk",
       "kind": "country",
       "displayName": "Northern Ireland",
-      "locales": [
-        "en-GB"
-      ],
-      "timezones": [
-        "Europe/London"
-      ],
-      "isoCountries": [
-        "GB"
-      ],
-      "adminAreas": [
-        "NIR"
-      ],
+      "locales": ["en-GB"],
+      "timezones": ["Europe/London"],
+      "isoCountries": ["GB"],
+      "adminAreas": ["NIR"],
       "status": "seed"
+    },
+    {
+      "id": "uk-isle-of-man",
+      "parentId": "uk",
+      "kind": "territory",
+      "displayName": "Isle of Man",
+      "locales": ["en-GB"],
+      "timezones": ["Europe/London"],
+      "isoCountries": ["IM"],
+      "adminAreas": ["IOM"],
+      "status": "seed",
+      "notes": "Crown Dependency; separate jurisdiction from GB but TT heavily followed by UK riders."
     }
   ]
 }

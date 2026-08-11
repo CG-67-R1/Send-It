@@ -23,6 +23,7 @@ import {
   getLocalCountryNames,
   getLocalSeriesIds,
   getLocalUiLabel,
+  getPrimaryLocale,
 } from '../packs/loader';
 
 const SERIES_COLORS: Record<string, string> = {
@@ -71,17 +72,18 @@ function filterEvents(events: CalendarEvent[], filter: CalendarFilter): Calendar
 
 function formatDateRange(start: string, end: string): string {
   if (!start) return '';
+  const locale = getPrimaryLocale();
   const startDate = new Date(start);
   const endDate = new Date(end);
   if (start === end) {
-    return startDate.toLocaleDateString('en-AU', { day: 'numeric', month: 'short', year: 'numeric' });
+    return startDate.toLocaleDateString(locale, { day: 'numeric', month: 'short', year: 'numeric' });
   }
   const sameMonth =
     startDate.getMonth() === endDate.getMonth() && startDate.getFullYear() === endDate.getFullYear();
   if (sameMonth) {
-    return `${startDate.getDate()}–${endDate.getDate()} ${startDate.toLocaleDateString('en-AU', { month: 'short', year: 'numeric' })}`;
+    return `${startDate.getDate()}–${endDate.getDate()} ${startDate.toLocaleDateString(locale, { month: 'short', year: 'numeric' })}`;
   }
-  return `${startDate.toLocaleDateString('en-AU', { day: 'numeric', month: 'short' })} – ${endDate.toLocaleDateString('en-AU', { day: 'numeric', month: 'short', year: 'numeric' })}`;
+  return `${startDate.toLocaleDateString(locale, { day: 'numeric', month: 'short' })} – ${endDate.toLocaleDateString(locale, { day: 'numeric', month: 'short', year: 'numeric' })}`;
 }
 
 function getSeriesColor(series: string): string {

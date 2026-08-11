@@ -1,7 +1,7 @@
 {
   "version": 2,
   "policy": "left|right only with handSources evidence. Prefer complex over a wrong hand. Never set turn hand from GPX bearings or from circuit clockwise/anticlockwise alone.",
-  "updated": "2026-08-06",
+  "updated": "2026-08-11",
   "allowedSourceMethods": [
     "rider",
     "official_map",
@@ -45,6 +45,7 @@
     },
     "mallala": {
       "2": "left",
+      "3": "right",
       "6": "left",
       "7": "right"
     },
@@ -159,85 +160,274 @@
       }
     },
     "mallala": {
-      "2": { "hand": "left", "method": "legacy_lock" },
-      "6": { "hand": "left", "method": "legacy_lock" },
-      "7": { "hand": "right", "method": "legacy_lock" }
+      "2": {
+        "hand": "left",
+        "method": "legacy_lock"
+      },
+      "3": {
+        "hand": "right",
+        "method": "rider",
+        "note": "Rider-view: right hairpin (not map top/bottom-left)."
+      },
+      "6": {
+        "hand": "left",
+        "method": "legacy_lock"
+      },
+      "7": {
+        "hand": "right",
+        "method": "legacy_lock"
+      }
     },
     "mac_park": {
-      "2": { "hand": "left", "method": "legacy_lock" },
-      "3": { "hand": "right", "method": "legacy_lock" },
-      "4": { "hand": "left", "method": "legacy_lock" },
-      "5": { "hand": "right", "method": "legacy_lock" },
-      "7": { "hand": "left", "method": "legacy_lock" },
-      "8": { "hand": "right", "method": "legacy_lock" },
-      "10": { "hand": "left", "method": "legacy_lock" },
-      "11": { "hand": "right", "method": "legacy_lock" },
-      "12": { "hand": "left", "method": "legacy_lock" }
+      "2": {
+        "hand": "left",
+        "method": "legacy_lock"
+      },
+      "3": {
+        "hand": "right",
+        "method": "legacy_lock"
+      },
+      "4": {
+        "hand": "left",
+        "method": "legacy_lock"
+      },
+      "5": {
+        "hand": "right",
+        "method": "legacy_lock"
+      },
+      "7": {
+        "hand": "left",
+        "method": "legacy_lock"
+      },
+      "8": {
+        "hand": "right",
+        "method": "legacy_lock"
+      },
+      "10": {
+        "hand": "left",
+        "method": "legacy_lock"
+      },
+      "11": {
+        "hand": "right",
+        "method": "legacy_lock"
+      },
+      "12": {
+        "hand": "left",
+        "method": "legacy_lock"
+      }
     },
     "morgan_park": {
-      "3": { "hand": "left", "method": "legacy_lock" },
-      "4": { "hand": "right", "method": "legacy_lock" },
-      "5": { "hand": "left", "method": "legacy_lock" },
-      "6": { "hand": "right", "method": "legacy_lock" },
-      "7": { "hand": "left", "method": "legacy_lock" },
-      "10": { "hand": "right", "method": "legacy_lock" }
+      "3": {
+        "hand": "left",
+        "method": "legacy_lock"
+      },
+      "4": {
+        "hand": "right",
+        "method": "legacy_lock"
+      },
+      "5": {
+        "hand": "left",
+        "method": "legacy_lock"
+      },
+      "6": {
+        "hand": "right",
+        "method": "legacy_lock"
+      },
+      "7": {
+        "hand": "left",
+        "method": "legacy_lock"
+      },
+      "10": {
+        "hand": "right",
+        "method": "legacy_lock"
+      }
     },
     "wakefield_park": {
-      "1": { "hand": "left", "method": "legacy_lock" },
-      "2": { "hand": "right", "method": "legacy_lock" },
-      "3": { "hand": "left", "method": "legacy_lock" },
-      "4": { "hand": "left", "method": "legacy_lock" },
-      "5": { "hand": "right", "method": "legacy_lock" },
-      "8": { "hand": "left", "method": "legacy_lock" },
-      "9": { "hand": "right", "method": "legacy_lock" },
-      "10": { "hand": "left", "method": "legacy_lock" }
+      "1": {
+        "hand": "left",
+        "method": "legacy_lock"
+      },
+      "2": {
+        "hand": "right",
+        "method": "legacy_lock"
+      },
+      "3": {
+        "hand": "left",
+        "method": "legacy_lock"
+      },
+      "4": {
+        "hand": "left",
+        "method": "legacy_lock"
+      },
+      "5": {
+        "hand": "right",
+        "method": "legacy_lock"
+      },
+      "8": {
+        "hand": "left",
+        "method": "legacy_lock"
+      },
+      "9": {
+        "hand": "right",
+        "method": "legacy_lock"
+      },
+      "10": {
+        "hand": "left",
+        "method": "legacy_lock"
+      }
     },
     "wanneroo": {
-      "1": { "hand": "right", "method": "legacy_lock" },
-      "3": { "hand": "left", "method": "legacy_lock" },
-      "5": { "hand": "right", "method": "legacy_lock" },
-      "7": { "hand": "left", "method": "legacy_lock" },
-      "8": { "hand": "right", "method": "legacy_lock" }
+      "1": {
+        "hand": "right",
+        "method": "legacy_lock"
+      },
+      "3": {
+        "hand": "left",
+        "method": "legacy_lock"
+      },
+      "5": {
+        "hand": "right",
+        "method": "legacy_lock"
+      },
+      "7": {
+        "hand": "left",
+        "method": "legacy_lock"
+      },
+      "8": {
+        "hand": "right",
+        "method": "legacy_lock"
+      }
     },
     "the_bend_international": {
-      "1": { "hand": "right", "method": "legacy_lock" },
-      "2": { "hand": "left", "method": "legacy_lock" },
-      "3": { "hand": "right", "method": "legacy_lock" },
-      "6": { "hand": "left", "method": "legacy_lock" },
-      "11": { "hand": "right", "method": "legacy_lock" },
-      "12": { "hand": "left", "method": "legacy_lock" },
-      "13": { "hand": "right", "method": "legacy_lock" },
-      "14": { "hand": "right", "method": "legacy_lock" },
-      "17": { "hand": "right", "method": "legacy_lock" },
-      "18": { "hand": "left", "method": "legacy_lock" }
+      "1": {
+        "hand": "right",
+        "method": "legacy_lock"
+      },
+      "2": {
+        "hand": "left",
+        "method": "legacy_lock"
+      },
+      "3": {
+        "hand": "right",
+        "method": "legacy_lock"
+      },
+      "6": {
+        "hand": "left",
+        "method": "legacy_lock"
+      },
+      "11": {
+        "hand": "right",
+        "method": "legacy_lock"
+      },
+      "12": {
+        "hand": "left",
+        "method": "legacy_lock"
+      },
+      "13": {
+        "hand": "right",
+        "method": "legacy_lock"
+      },
+      "14": {
+        "hand": "right",
+        "method": "legacy_lock"
+      },
+      "17": {
+        "hand": "right",
+        "method": "legacy_lock"
+      },
+      "18": {
+        "hand": "left",
+        "method": "legacy_lock"
+      }
     },
     "smp_gardner": {
-      "1": { "hand": "left", "method": "legacy_lock" },
-      "2": { "hand": "left", "method": "legacy_lock" },
-      "3": { "hand": "right", "method": "legacy_lock" },
-      "4": { "hand": "right", "method": "legacy_lock" },
-      "5": { "hand": "left", "method": "legacy_lock" },
-      "6": { "hand": "left", "method": "legacy_lock" },
-      "7": { "hand": "right", "method": "legacy_lock" },
-      "8": { "hand": "right", "method": "legacy_lock" },
-      "9": { "hand": "right", "method": "legacy_lock" },
-      "10": { "hand": "left", "method": "legacy_lock" },
-      "11": { "hand": "left", "method": "legacy_lock" }
+      "1": {
+        "hand": "left",
+        "method": "legacy_lock"
+      },
+      "2": {
+        "hand": "left",
+        "method": "legacy_lock"
+      },
+      "3": {
+        "hand": "right",
+        "method": "legacy_lock"
+      },
+      "4": {
+        "hand": "right",
+        "method": "legacy_lock"
+      },
+      "5": {
+        "hand": "left",
+        "method": "legacy_lock"
+      },
+      "6": {
+        "hand": "left",
+        "method": "legacy_lock"
+      },
+      "7": {
+        "hand": "right",
+        "method": "legacy_lock"
+      },
+      "8": {
+        "hand": "right",
+        "method": "legacy_lock"
+      },
+      "9": {
+        "hand": "right",
+        "method": "legacy_lock"
+      },
+      "10": {
+        "hand": "left",
+        "method": "legacy_lock"
+      },
+      "11": {
+        "hand": "left",
+        "method": "legacy_lock"
+      }
     },
     "queensland_raceway": {
-      "1": { "hand": "right", "method": "legacy_lock" },
-      "2": { "hand": "left", "method": "legacy_lock" },
-      "5": { "hand": "right", "method": "legacy_lock" },
-      "6": { "hand": "right", "method": "legacy_lock" }
+      "1": {
+        "hand": "right",
+        "method": "legacy_lock"
+      },
+      "2": {
+        "hand": "left",
+        "method": "legacy_lock"
+      },
+      "5": {
+        "hand": "right",
+        "method": "legacy_lock"
+      },
+      "6": {
+        "hand": "right",
+        "method": "legacy_lock"
+      }
     },
     "broadford": {
-      "1": { "hand": "left", "method": "legacy_lock" },
-      "5": { "hand": "right", "method": "legacy_lock" },
-      "10": { "hand": "right", "method": "legacy_lock" },
-      "12": { "hand": "left", "method": "legacy_lock" }
+      "1": {
+        "hand": "left",
+        "method": "legacy_lock"
+      },
+      "5": {
+        "hand": "right",
+        "method": "legacy_lock"
+      },
+      "10": {
+        "hand": "right",
+        "method": "legacy_lock"
+      },
+      "12": {
+        "hand": "left",
+        "method": "legacy_lock"
+      }
     },
     "mount_panorama": {
-      "1": { "hand": "right", "method": "legacy_lock", "note": "Hell Corner" }
+      "1": {
+        "hand": "right",
+        "method": "legacy_lock",
+        "note": "Hell Corner"
+      }
     }
   }
 }

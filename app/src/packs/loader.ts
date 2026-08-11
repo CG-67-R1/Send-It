@@ -10,6 +10,12 @@ import auHeadlines from './bundled/au/headlines/sources.json';
 import auOnboarding from './bundled/au/onboarding/areas.json';
 import auTracks from './bundled/au/tracks/tracks.json';
 import auI18n from './bundled/au/i18n/strings.json';
+import ukManifest from './bundled/uk/manifest.json';
+import ukSeries from './bundled/uk/competitions/series.json';
+import ukHeadlines from './bundled/uk/headlines/sources.json';
+import ukOnboarding from './bundled/uk/onboarding/areas.json';
+import ukTracks from './bundled/uk/tracks/tracks.json';
+import ukI18n from './bundled/uk/i18n/strings.json';
 
 type Manifest = {
   id: string;
@@ -24,26 +30,32 @@ type SeriesEntry = { id: string; name?: string; local?: boolean };
 
 const MANIFESTS: Record<string, Manifest> = {
   au: auManifest as Manifest,
+  uk: ukManifest as Manifest,
 };
 
 const SERIES: Record<string, { series: SeriesEntry[] }> = {
   au: auSeries as { series: SeriesEntry[] },
+  uk: ukSeries as { series: SeriesEntry[] },
 };
 
 const HEADLINES: Record<string, { sourceIds: string[] }> = {
   au: auHeadlines as { sourceIds: string[] },
+  uk: ukHeadlines as { sourceIds: string[] },
 };
 
 const ONBOARDING: Record<string, { areas: RacingArea[] }> = {
   au: auOnboarding as { areas: RacingArea[] },
+  uk: ukOnboarding as { areas: RacingArea[] },
 };
 
 const TRACKS: Record<string, { version?: number; tracks: unknown[] }> = {
   au: auTracks as { version?: number; tracks: unknown[] },
+  uk: ukTracks as { version?: number; tracks: unknown[] },
 };
 
 const I18N: Record<string, { locales: Record<string, Record<string, string>> }> = {
   au: auI18n as { locales: Record<string, Record<string, string>> },
+  uk: ukI18n as { locales: Record<string, Record<string, string>> },
 };
 
 export interface RacingClub {
@@ -79,6 +91,11 @@ export function getPrimaryPackId(): string {
 
 export function getPrimaryManifest(): Manifest | null {
   return MANIFESTS[getPrimaryPackId()] || null;
+}
+
+/** BCP-47 locale from primary pack (e.g. en-AU, en-GB). */
+export function getPrimaryLocale(): string {
+  return getPrimaryManifest()?.locales?.[0] || 'en-AU';
 }
 
 export function getLocalUiLabel(): string {
