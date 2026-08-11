@@ -22,13 +22,17 @@ import {
   emptyBikeSetupDaySheet,
   formatBikeSetupSheetAsText,
   formatBikeSetupSheetForAi,
+  formatFavouriteBikeFromSheet,
   getBikeSetupDaySheet,
   getSessionHistory,
   loadSessionFromHistory,
+  parseFavouriteBike,
   saveBikeSetupDaySheet,
   saveSessionToHistory,
+  sheetHasBikeIdentity,
   type BikeSetupDaySheet,
 } from '../storage/bikeSetupSheet';
+import { getOnboardingAnswers, updateOnboardingAnswers } from '../storage/onboarding';
 import { shareBikeSetupAsText } from '../utils/shareBikeSetup';
 import type { RiderCoachStackParamList } from './RiderCoachScreen';
 
@@ -90,15 +94,30 @@ export function BikeSetupSheetScreen() {
   useEffect(() => {
     let cancelled = false;
     (async () => {
-      const [loaded, savedHistory] = await Promise.all([
+      const [loaded, savedHistory, onboarding] = await Promise.all([
         getBikeSetupDaySheet(),
         getSessionHistory(),
+        getOnboardingAnswers(),
       ]);
       if (cancelled) return;
+
+      let next = loaded;
+      if (!sheetHasBikeIdentity(loaded)) {
+        const favourite = onboarding?.favouriteBike?.trim();
+        if (favourite && favourite.toLowerCase() !== 'my bike') {
+          next = { ...loaded, ...parseFavouriteBike(favourite) };
+        }
+      }
+
       skipNextSaveRef.current = true;
-      setSheet(loaded);
+      setSheet(next);
       setHistory(savedHistory);
       setLoading(false);
+
+      // Persist prefilled bike identity so the next open keeps it without re-parsing.
+      if (next !== loaded) {
+        void saveBikeSetupDaySheet(next);
+      }
     })();
     return () => {
       cancelled = true;
@@ -114,7 +133,17 @@ export function BikeSetupSheetScreen() {
     if (saveTimerRef.current) clearTimeout(saveTimerRef.current);
     saveTimerRef.current = setTimeout(() => {
       setSaving(true);
-      void saveBikeSetupDaySheet(sheet).finally(() => setSaving(false));
+      void (async () => {
+        try {
+          await saveBikeSetupDaySheet(sheet);
+          const favouriteBike = formatFavouriteBikeFromSheet(sheet);
+          if (favouriteBike) {
+            await updateOnboardingAnswers({ favouriteBike });
+          }
+        } finally {
+          setSaving(false);
+        }
+      })();
     }, SAVE_DEBOUNCE_MS);
     return () => {
       if (saveTimerRef.current) clearTimeout(saveTimerRef.current);
@@ -126,20 +155,24 @@ export function BikeSetupSheetScreen() {
   }, []);
 
   const onClear = useCallback(() => {
-    Alert.alert('Clear Sheet', 'Clear all day setup values? This cannot be undone.', [
-      { text: 'Cancel', style: 'cancel' },
-      {
-        text: 'Clear',
-        style: 'destructive',
-        onPress: () => {
-          void (async () => {
-            const empty = await clearBikeSetupDaySheet();
-            skipNextSaveRef.current = true;
-            setSheet(empty);
-          })();
+    Alert.alert(
+      'Clear Sheet',
+      'Clear session values? Bike year, make, and model are kept for next time.',
+      [
+        { text: 'Cancel', style: 'cancel' },
+        {
+          text: 'Clear',
+          style: 'destructive',
+          onPress: () => {
+            void (async () => {
+              const empty = await clearBikeSetupDaySheet();
+              skipNextSaveRef.current = true;
+              setSheet(empty);
+            })();
+          },
         },
-      },
-    ]);
+      ]
+    );
   }, []);
 
   const onImport = useCallback(() => {
@@ -246,6 +279,32 @@ export function BikeSetupSheetScreen() {
           Record start-of-day settings. Changes auto-save on this device.
           {saving ? ' Saving…' : ''}
         </Text>
+
+        <Text style={styles.sectionTitle}>Bike</Text>
+        <View style={styles.row}>
+          <View style={styles.yearCol}>
+            <Field
+              label="Year"
+              value={sheet.bikeYear}
+              onChangeText={(t) => setField('bikeYear', t)}
+              placeholder="e.g. 2020"
+            />
+          </View>
+          <View style={styles.half}>
+            <Field
+              label="Make"
+              value={sheet.bikeMake}
+              onChangeText={(t) => setField('bikeMake', t)}
+              placeholder="e.g. Yamaha"
+            />
+          </View>
+        </View>
+        <Field
+          label="Model"
+          value={sheet.bikeModel}
+          onChangeText={(t) => setField('bikeModel', t)}
+          placeholder="e.g. YZF-R6"
+        />
 
         <Text style={styles.sectionTitle}>Session</Text>
         <Field
@@ -632,6 +691,9 @@ const styles = StyleSheet.create({
   row: {
     flexDirection: 'row',
     gap: 12,
+  },
+  yearCol: {
+    width: 110,
   },
   half: {
     flex: 1,

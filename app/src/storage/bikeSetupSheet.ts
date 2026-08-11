@@ -10,6 +10,10 @@ export type BikeSetupDaySheet = {
   trackName: string;
   sessionNumber?: string;
   sessionNotes: string;
+  /** Bike identity — survives Clear Sheet so the next session keeps year/make/model. */
+  bikeYear: string;
+  bikeMake: string;
+  bikeModel: string;
   goalsForToday: string;
   pressureUnit: 'psi' | 'kPa';
   tyreFrontPressure: string;
@@ -45,6 +49,9 @@ export function emptyBikeSetupDaySheet(dateIso?: string): BikeSetupDaySheet {
     trackName: '',
     sessionNumber: '',
     sessionNotes: '',
+    bikeYear: '',
+    bikeMake: '',
+    bikeModel: '',
     goalsForToday: '',
     pressureUnit: 'psi',
     tyreFrontPressure: '',
@@ -75,6 +82,36 @@ export function emptyBikeSetupDaySheet(dateIso?: string): BikeSetupDaySheet {
   };
 }
 
+/** Best-effort split of onboarding favourite bike text into year / make / model. */
+export function parseFavouriteBike(favouriteBike: string): {
+  bikeYear: string;
+  bikeMake: string;
+  bikeModel: string;
+} {
+  const trimmed = favouriteBike.trim();
+  if (!trimmed) return { bikeYear: '', bikeMake: '', bikeModel: '' };
+
+  const yearMatch = trimmed.match(/^(\d{4})\s+(.+)$/);
+  const rest = yearMatch ? yearMatch[2].trim() : trimmed;
+  const bikeYear = yearMatch ? yearMatch[1] : '';
+  const parts = rest.split(/\s+/).filter(Boolean);
+  if (parts.length === 0) return { bikeYear, bikeMake: '', bikeModel: '' };
+  if (parts.length === 1) return { bikeYear, bikeMake: parts[0], bikeModel: '' };
+  return { bikeYear, bikeMake: parts[0], bikeModel: parts.slice(1).join(' ') };
+}
+
+/** Compose a single favourite-bike string from sheet identity fields. */
+export function formatFavouriteBikeFromSheet(sheet: Pick<BikeSetupDaySheet, 'bikeYear' | 'bikeMake' | 'bikeModel'>): string {
+  return [sheet.bikeYear, sheet.bikeMake, sheet.bikeModel]
+    .map((part) => part.trim())
+    .filter(Boolean)
+    .join(' ');
+}
+
+export function sheetHasBikeIdentity(sheet: Pick<BikeSetupDaySheet, 'bikeYear' | 'bikeMake' | 'bikeModel'>): boolean {
+  return Boolean(sheet.bikeYear.trim() || sheet.bikeMake.trim() || sheet.bikeModel.trim());
+}
+
 function asString(value: unknown): string {
   return typeof value === 'string' ? value : '';
 }
@@ -88,6 +125,9 @@ function normalizeSheet(raw: Record<string, unknown>): BikeSetupDaySheet {
     trackName: asString(raw.trackName),
     sessionNumber: asString(raw.sessionNumber),
     sessionNotes: asString(raw.sessionNotes),
+    bikeYear: asString(raw.bikeYear),
+    bikeMake: asString(raw.bikeMake),
+    bikeModel: asString(raw.bikeModel),
     goalsForToday: asString(raw.goalsForToday),
     pressureUnit: raw.pressureUnit === 'kPa' ? 'kPa' : 'psi',
     tyreFrontPressure,
@@ -141,10 +181,23 @@ export async function saveBikeSetupDaySheet(sheet: BikeSetupDaySheet): Promise<v
   }
 }
 
+/** Clears session fields but keeps bike year / make / model for the next day. */
 export async function clearBikeSetupDaySheet(): Promise<BikeSetupDaySheet> {
+  const current = await getBikeSetupDaySheet();
   const empty = emptyBikeSetupDaySheet();
-  await AsyncStorage.removeItem(KEY_DAY_SHEET);
-  return empty;
+  const next: BikeSetupDaySheet = {
+    ...empty,
+    bikeYear: current.bikeYear,
+    bikeMake: current.bikeMake,
+    bikeModel: current.bikeModel,
+  };
+  try {
+    await AsyncStorage.setItem(KEY_DAY_SHEET, JSON.stringify(next));
+  } catch (e) {
+    logStorageError('clearBikeSetupDaySheet', e);
+    throw e;
+  }
+  return next;
 }
 
 /** Clears the current setup sheet and all locally saved session snapshots. */
@@ -222,6 +275,9 @@ const COMPARE_FIELDS: { key: keyof BikeSetupDaySheet; label: string }[] = [
   { key: 'trackName', label: 'Track' },
   { key: 'sessionNumber', label: 'Session number' },
   { key: 'sessionNotes', label: 'Session notes' },
+  { key: 'bikeYear', label: 'Bike year' },
+  { key: 'bikeMake', label: 'Bike make' },
+  { key: 'bikeModel', label: 'Bike model' },
   { key: 'goalsForToday', label: 'Goals' },
   { key: 'tyreBrandCompound', label: 'Tyre brand / compound' },
   { key: 'tyreFrontPressureCold', label: 'Front cold pressure' },
@@ -291,6 +347,9 @@ function sheetSections(sheet: BikeSetupDaySheet): string[] {
     line('Track', sheet.trackName),
     line('Session number', sheet.sessionNumber ?? ''),
     line('Session notes', sheet.sessionNotes),
+    line('Bike year', sheet.bikeYear),
+    line('Bike make', sheet.bikeMake),
+    line('Bike model', sheet.bikeModel),
     line('Goals for today', sheet.goalsForToday),
   ].filter(Boolean) as string[];
 
@@ -389,5 +448,5 @@ export const COACH_GOALS_PROMPT_BASE =
 export function buildCoachGoalsPrompt(goalsForToday?: string): string {
   const goals = goalsForToday?.trim();
   if (!goals) return COACH_GOALS_PROMPT_BASE;
-  return `${COACH_GOALS_PROMPT_BASE}\n\nI see you already noted goals on your Day Setup Sheet:\n"${goals}"\n\nWant to refine those, or shall we dig into the first one?`;
+  return `${COACH_GOALS_PROMPT_BASE}\n\nI see you already noted goals on your Bike Setup Sheet:\n"${goals}"\n\nWant to refine those, or shall we dig into the first one?`;
 }

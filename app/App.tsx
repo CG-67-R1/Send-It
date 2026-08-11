@@ -165,7 +165,7 @@ function RiderCoachStack() {
       <Stack.Screen
         name="BikeSetupSheet"
         component={BikeSetupSheetScreen}
-        options={{ title: 'Day Setup Sheet' }}
+        options={{ title: 'Bike Setup Sheet' }}
       />
       <Stack.Screen
         name="BikeBalanceSetup"

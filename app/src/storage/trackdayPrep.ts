@@ -230,7 +230,7 @@ export function formatTrackdayPrepForAi(draft: TrackdayPrepDraft): string {
     '6. Closing section titled exactly: "How to get the best from RoadRacer tools today"',
     '   In that closing section you MUST cover:',
     '   - Rider Coach — what to ask, what notes/photos to bring',
-    '   - Bike Setup / Day Setup Sheet — when to switch and what to log',
+    '   - Bike Setup / Bike Setup Sheet — when to switch and what to log',
     `   - Track Memory game — recommend playing it for ${draft.trackName || 'this circuit'} before the day to lock in corner order, left/right flow, and layout`,
     '',
     `Rider level for framing: ${level}. Tyres: ${tyreType}, ${tyreCond}.`,

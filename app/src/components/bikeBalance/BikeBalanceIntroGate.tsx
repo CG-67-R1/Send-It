@@ -34,7 +34,7 @@ export function BikeBalanceIntroGate({
 
       <Text style={styles.section}>Better fits for most sessions</Text>
       <TouchableOpacity style={styles.altBtn} onPress={onGoDaySetup} activeOpacity={0.85}>
-        <Text style={styles.altTitle}>Day Setup Sheet</Text>
+        <Text style={styles.altTitle}>Bike Setup Sheet</Text>
         <Text style={styles.altSub}>Log today settings, temps, and notes</Text>
       </TouchableOpacity>
       <TouchableOpacity style={styles.altBtn} onPress={onGoBasics} activeOpacity={0.85}>

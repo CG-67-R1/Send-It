@@ -135,7 +135,7 @@ export function RiderCoachScreen() {
         onPress={() => navigation.navigate('BikeSetupSheet')}
         activeOpacity={0.8}
       >
-        <Text style={styles.navButtonText}>Day Setup Sheet</Text>
+        <Text style={styles.navButtonText}>Bike Setup Sheet</Text>
       </TouchableOpacity>
       <TouchableOpacity
         style={styles.navButton}

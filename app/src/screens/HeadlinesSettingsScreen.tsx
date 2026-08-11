@@ -464,7 +464,7 @@ export function HeadlinesSettingsScreen() {
     if (!onboardingReset) return;
     Alert.alert(
       'Delete all local data?',
-      'This permanently removes your profile, photos, Day Setup Sheet and saved setups, Bike Balance state, Track Walk notes, and news preferences from this device, then restarts onboarding.',
+      'This permanently removes your profile, photos, Bike Setup Sheet and saved setups, Bike Balance state, Track Walk notes, and news preferences from this device, then restarts onboarding.',
       [
         { text: 'Cancel', style: 'cancel' },
         {
@@ -841,7 +841,7 @@ export function HeadlinesSettingsScreen() {
       <View style={styles.section}>
         <Text style={styles.sectionTitle}>Your data & privacy</Text>
         <Text style={styles.sectionSubtitle}>
-          Your profile, avatar, Day Setup Sheet, saved bike setups, Bike Balance data, Track Walk
+          Your profile, avatar, Bike Setup Sheet, saved bike setups, Bike Balance data, Track Walk
           notes, and news preferences stay private in local storage on this device or browser. They
           are not stored in an online account. Sharing a setup as text only happens when you choose
           Messages or another app.
