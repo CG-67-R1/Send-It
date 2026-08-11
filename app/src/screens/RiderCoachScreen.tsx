@@ -34,7 +34,9 @@ export type RiderCoachStackParamList = {
     initialTrackName?: string;
   };
   TrackWalk: undefined;
-  TrackMemory: undefined;
+  TrackMemory: {
+    initialTrackId?: string;
+  } | undefined;
   BikeSetupBasics: undefined;
   BikeSetupSheet: undefined;
   BikeBalanceSetup: undefined;
