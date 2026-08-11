@@ -84,7 +84,9 @@ export function stepGame(
   layout: TrackMemoryLayout,
   controls: ControlState,
   dtSec: number,
-  nowMs: number
+  nowMs: number,
+  /** Device tilt lean in [-1, 1]; used when no keyboard/pad steer. */
+  tiltLean: number = 0
 ): GameState {
   if (prev.phase === 'finished') return prev;
 
@@ -132,10 +134,14 @@ export function stepGame(
 
   // Corner assist: nudge lean toward the upcoming bend (player input still wins)
   const assistLean = -bend * CORNER_ASSIST; // left bend (neg) → lean left (neg)
-  const playerLean = steer * (0.45 + 0.55 * Math.min(1, speed / 22));
-  const leanTarget =
+  const tilt = Math.max(-1, Math.min(1, tiltLean));
+  const playerLean =
     steer !== 0
-      ? playerLean * 0.78 + assistLean * 0.22
+      ? steer * (0.45 + 0.55 * Math.min(1, speed / 22))
+      : tilt * (0.5 + 0.5 * Math.min(1, speed / 22));
+  const leanTarget =
+    steer !== 0 || Math.abs(tilt) > 0.05
+      ? playerLean * 0.82 + assistLean * 0.18
       : assistLean * (0.55 + 0.45 * Math.min(1, Math.abs(bend)));
 
   lean += (leanTarget - lean) * Math.min(1, dt * LEAN_RESPONSE);
@@ -154,7 +160,7 @@ export function stepGame(
   lateral = Math.max(-LATERAL_LIMIT, Math.min(LATERAL_LIMIT, lateral));
 
   // Soft pull toward centre on straights when upright
-  if (steer === 0 && Math.abs(lean) < 0.12 && Math.abs(bend) < 0.1) {
+  if (steer === 0 && Math.abs(tilt) < 0.05 && Math.abs(lean) < 0.12 && Math.abs(bend) < 0.1) {
     lateral *= 1 - Math.min(0.45, dt * 0.9);
   }
 

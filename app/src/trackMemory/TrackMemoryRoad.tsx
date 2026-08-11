@@ -2,7 +2,7 @@ import React, { useMemo } from 'react';
 import { StyleSheet, View } from 'react-native';
 import Svg, { Defs, LinearGradient, Path, Polygon, Rect, Stop, Text as SvgText } from 'react-native-svg';
 import type { TrackMemoryLayout } from './types';
-import { centerDashPoly, projectRoad, seamPoly } from './projectRoad';
+import { projectRoad, seamPoly } from './projectRoad';
 
 type Props = {
   layout: TrackMemoryLayout;
@@ -78,18 +78,17 @@ export function TrackMemoryRoad({ layout, s, lateral, lean, width, height }: Pro
           return (
             <React.Fragment key={`q-${idx}`}>
               <Polygon points={quadToPoints(q.points)} fill={fill} />
-              {q.seam ? (
-                <>
-                  <Polygon points={seamPoly(q.points, 0.28)} fill="#2a2a2e" opacity={0.28} />
-                  <Polygon points={seamPoly(q.points, 0.72)} fill="#2a2a2e" opacity={0.28} />
-                </>
-              ) : null}
               {q.grain ? (
-                <Polygon points={seamPoly(q.points, 0.5, 0.22)} fill="#1a1a1d" opacity={0.12} />
+                <Polygon points={seamPoly(q.points, 0.5, 0.22)} fill="#1a1a1d" opacity={0.1} />
               ) : null}
-              {q.centerDash && !curbOn ? (
-                <Polygon points={centerDashPoly(q.points)} fill="#e8e8ea" opacity={0.85} />
-              ) : null}
+              {q.rubber.map((r, ri) => (
+                <Polygon
+                  key={`rub-${idx}-${ri}`}
+                  points={quadToPoints(r.points)}
+                  fill="#141416"
+                  opacity={r.opacity}
+                />
+              ))}
               {curbOn ? (
                 <>
                   <Polygon
@@ -105,15 +104,15 @@ export function TrackMemoryRoad({ layout, s, lateral, lean, width, height }: Pro
                 <>
                   <Path
                     d={`M ${q.points[0][0]} ${q.points[0][1]} L ${q.points[3][0]} ${q.points[3][1]}`}
-                    stroke="#d4d4d8"
-                    strokeWidth={1.4}
-                    opacity={0.45}
+                    stroke="#f4f4f5"
+                    strokeWidth={2}
+                    opacity={0.75}
                   />
                   <Path
                     d={`M ${q.points[1][0]} ${q.points[1][1]} L ${q.points[2][0]} ${q.points[2][1]}`}
-                    stroke="#d4d4d8"
-                    strokeWidth={1.4}
-                    opacity={0.45}
+                    stroke="#f4f4f5"
+                    strokeWidth={2}
+                    opacity={0.75}
                   />
                 </>
               )}
@@ -121,7 +120,6 @@ export function TrackMemoryRoad({ layout, s, lateral, lean, width, height }: Pro
           );
         })}
 
-        {/* 150 / 100 / 50 m boards — white with black numbers */}
         {frame.markers.map((m, i) => (
           <React.Fragment key={`mk-${m.metres}-${i}`}>
             <Polygon

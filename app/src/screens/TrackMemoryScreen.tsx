@@ -2,15 +2,17 @@ import React, { useCallback, useEffect, useRef, useState } from 'react';
 import {
   LayoutChangeEvent,
   Platform,
+  Pressable,
   StyleSheet,
   Text,
   View,
 } from 'react-native';
-import { useFocusEffect } from '@react-navigation/native';
+import { useFocusEffect, useNavigation } from '@react-navigation/native';
+import type { NativeStackNavigationProp } from '@react-navigation/native-stack';
+import * as ScreenOrientation from 'expo-screen-orientation';
 import { getDefaultTrackMemoryLayout } from '../trackMemory/layouts';
 import {
   createInitialState,
-  kmhFromSpeed,
   resetGame,
   stepGame,
   TOTAL_LAPS,
@@ -21,6 +23,7 @@ import { TrackMemoryRoad } from '../trackMemory/TrackMemoryRoad';
 import { TrackMemoryMinimap } from '../trackMemory/TrackMemoryMinimap';
 import { TrackMemoryCockpit } from '../trackMemory/TrackMemoryCockpit';
 import { TrackMemoryControls } from '../trackMemory/TrackMemoryControls';
+import { useTiltLean } from '../trackMemory/useTiltLean';
 
 const layout = getDefaultTrackMemoryLayout();
 
@@ -53,14 +56,18 @@ function keyToControl(code: string): keyof ControlState | 'reset' | null {
 }
 
 export function TrackMemoryScreen() {
+  const navigation = useNavigation<NativeStackNavigationProp<Record<string, undefined>>>();
   const [size, setSize] = useState({ w: 0, h: 0 });
   const [state, setState] = useState<GameState>(() => createInitialState(null));
   const [held, setHeld] = useState<ControlState>({ ...EMPTY_CONTROLS });
   const stateRef = useRef(state);
   const controlsRef = useRef<ControlState>({ ...EMPTY_CONTROLS });
+  const tiltLeanRef = useRef(0);
   const rafRef = useRef<number | null>(null);
   const lastTsRef = useRef<number | null>(null);
   const savedBestRef = useRef<number | null>(null);
+
+  useTiltLean(true, tiltLeanRef);
 
   useEffect(() => {
     stateRef.current = state;
@@ -78,7 +85,6 @@ export function TrackMemoryScreen() {
     };
   }, []);
 
-  // Persist when session finishes with a new best
   useEffect(() => {
     if (state.phase !== 'finished' || state.sessionBestLapMs == null) return;
     void writeBestLapMs(layout.trackId, state.sessionBestLapMs).then(() => {
@@ -90,7 +96,14 @@ export function TrackMemoryScreen() {
     const last = lastTsRef.current ?? ts;
     lastTsRef.current = ts;
     const dt = Math.min(0.05, Math.max(0, (ts - last) / 1000));
-    const next = stepGame(stateRef.current, layout, controlsRef.current, dt, Date.now());
+    const next = stepGame(
+      stateRef.current,
+      layout,
+      controlsRef.current,
+      dt,
+      Date.now(),
+      tiltLeanRef.current
+    );
     stateRef.current = next;
     setState(next);
     rafRef.current = requestAnimationFrame(tick);
@@ -109,10 +122,29 @@ export function TrackMemoryScreen() {
     setState(next);
   }, []);
 
+  const onStop = useCallback(() => {
+    navigation.goBack();
+  }, [navigation]);
+
   useFocusEffect(
     useCallback(() => {
       lastTsRef.current = null;
       rafRef.current = requestAnimationFrame(tick);
+
+      // Immersive: hide stack header + parent tab bar while in-game
+      navigation.setOptions({ headerShown: false });
+      const parent = navigation.getParent();
+      parent?.setOptions({
+        tabBarStyle: { display: 'none' },
+      });
+
+      void (async () => {
+        try {
+          await ScreenOrientation.lockAsync(ScreenOrientation.OrientationLock.LANDSCAPE);
+        } catch {
+          // Web / unsupported — user rotates manually
+        }
+      })();
 
       const onKey = (e: KeyboardEvent, down: boolean) => {
         const mapped = keyToControl(e.code);
@@ -144,12 +176,22 @@ export function TrackMemoryScreen() {
           window.removeEventListener('keydown', onDown);
           window.removeEventListener('keyup', onUp);
         }
+        parent?.setOptions({
+          tabBarStyle: { backgroundColor: '#0f172a', borderTopColor: '#1e293b' },
+        });
+        void (async () => {
+          try {
+            await ScreenOrientation.lockAsync(ScreenOrientation.OrientationLock.PORTRAIT_UP);
+          } catch {
+            // ignore
+          }
+        })();
       };
-    }, [tick, applyControl, onReset])
+    }, [tick, applyControl, onReset, navigation])
   );
 
   const onHold = useCallback(
-    (key: keyof ControlState, down: boolean) => {
+    (key: 'accel' | 'brake', down: boolean) => {
       applyControl(key, down);
     },
     [applyControl]
@@ -186,17 +228,26 @@ export function TrackMemoryScreen() {
         totalLaps={TOTAL_LAPS}
       />
 
-      <View style={styles.hudTop} pointerEvents="box-none">
-        <View style={styles.hudLeft}>
-          <Text style={styles.hudLabel}>{layout.name}</Text>
-          <Text style={styles.hudMeta}>
-            Lap {Math.min(state.lap, TOTAL_LAPS)}/{TOTAL_LAPS}
+      <View style={styles.chrome} pointerEvents="box-none">
+        <Pressable
+          style={styles.stopBtn}
+          onPress={onStop}
+          accessibilityRole="button"
+          accessibilityLabel="Stop and exit Track Memory"
+        >
+          <View style={styles.stopInner}>
+            <View style={styles.stopSquare} />
+          </View>
+        </Pressable>
+
+        <View style={styles.hudCenter} pointerEvents="none">
+          <Text style={styles.hudLine}>
+            Lap {Math.min(state.lap, TOTAL_LAPS)}/{TOTAL_LAPS} · {formatLapTime(state.lapTimeMs)}
           </Text>
-          <Text style={styles.hudMeta}>Time {formatLapTime(state.lapTimeMs)}</Text>
-          <Text style={styles.hudMeta}>Best {formatLapTime(state.bestLapMs)}</Text>
-          <Text style={styles.hudSpeed}>{kmhFromSpeed(state.speed)} km/h</Text>
+          <Text style={styles.hudBest}>Best {formatLapTime(state.bestLapMs)}</Text>
         </View>
-        <TrackMemoryMinimap layout={layout} s={state.s} />
+
+        <TrackMemoryMinimap layout={layout} s={state.s} size={88} />
       </View>
 
       {flashVisible && state.flash ? (
@@ -208,7 +259,9 @@ export function TrackMemoryScreen() {
       {state.phase === 'ready' ? (
         <View style={styles.banner} pointerEvents="none">
           <Text style={styles.bannerTitle}>Track Memory</Text>
-          <Text style={styles.bannerBody}>Hold Accel to start · 3 laps · memorise the turns</Text>
+          <Text style={styles.bannerBody}>
+            Tilt to lean · ↑ accel · ↓ brake · Stop exits · R resets
+          </Text>
         </View>
       ) : null}
 
@@ -221,11 +274,11 @@ export function TrackMemoryScreen() {
             </Text>
           ))}
           <Text style={styles.resultBest}>Best: {formatLapTime(state.sessionBestLapMs)}</Text>
-          <Text style={styles.resultHint}>Tap Reset to ride again</Text>
+          <Text style={styles.resultHint}>Press R to ride again · Stop to exit</Text>
         </View>
       ) : null}
 
-      <TrackMemoryControls lean={state.lean} held={held} onHold={onHold} onReset={onReset} />
+      <TrackMemoryControls held={held} onHold={onHold} />
     </View>
   );
 }
@@ -240,7 +293,7 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: '#64748b',
   },
-  hudTop: {
+  chrome: {
     position: 'absolute',
     top: 8,
     left: 10,
@@ -248,42 +301,65 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'space-between',
     alignItems: 'flex-start',
+    zIndex: 30,
   },
-  hudLeft: {
-    backgroundColor: 'rgba(15,23,42,0.55)',
-    borderRadius: 10,
+  stopBtn: {
+    width: 44,
+    height: 44,
+    borderRadius: 22,
+    backgroundColor: 'rgba(220,38,38,0.92)',
+    borderWidth: 2,
+    borderColor: '#fecaca',
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  stopInner: {
+    width: 28,
+    height: 28,
+    borderRadius: 14,
+    borderWidth: 2,
+    borderColor: '#fef2f2',
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  stopSquare: {
+    width: 12,
+    height: 12,
+    backgroundColor: '#fef2f2',
+    borderRadius: 2,
+  },
+  hudCenter: {
+    flex: 1,
+    marginHorizontal: 10,
+    backgroundColor: 'rgba(15,23,42,0.5)',
+    borderRadius: 8,
     paddingHorizontal: 10,
-    paddingVertical: 8,
-    maxWidth: '55%',
+    paddingVertical: 6,
+    alignSelf: 'flex-start',
+    maxWidth: 220,
   },
-  hudLabel: {
+  hudLine: {
     color: '#f8fafc',
-    fontWeight: '700',
     fontSize: 13,
-    marginBottom: 4,
-  },
-  hudMeta: {
-    color: '#cbd5e1',
-    fontSize: 12,
+    fontWeight: '700',
     fontVariant: ['tabular-nums'],
   },
-  hudSpeed: {
-    marginTop: 4,
-    color: '#fbbf24',
-    fontSize: 18,
-    fontWeight: '800',
+  hudBest: {
+    color: '#cbd5e1',
+    fontSize: 11,
+    marginTop: 2,
     fontVariant: ['tabular-nums'],
   },
   flashWrap: {
     position: 'absolute',
-    top: '18%',
+    top: '16%',
     left: 16,
     right: 16,
     alignItems: 'center',
   },
   flashText: {
     color: '#fef08a',
-    fontSize: 22,
+    fontSize: 20,
     fontWeight: '800',
     textAlign: 'center',
     textShadowColor: 'rgba(0,0,0,0.85)',
@@ -297,25 +373,25 @@ const styles = StyleSheet.create({
   },
   banner: {
     position: 'absolute',
-    top: '40%',
+    top: '36%',
     left: 24,
     right: 24,
     alignItems: 'center',
   },
   bannerTitle: {
     color: '#f8fafc',
-    fontSize: 28,
+    fontSize: 26,
     fontWeight: '800',
     marginBottom: 8,
   },
   bannerBody: {
     color: '#e2e8f0',
-    fontSize: 14,
+    fontSize: 13,
     textAlign: 'center',
   },
   resultCard: {
     position: 'absolute',
-    top: '28%',
+    top: '24%',
     left: 28,
     right: 28,
     backgroundColor: 'rgba(15,23,42,0.88)',

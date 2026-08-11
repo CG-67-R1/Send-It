@@ -67,6 +67,7 @@
         }
       ],
       "expo-status-bar",
+      "expo-screen-orientation",
       [
         "expo-splash-screen",
         {

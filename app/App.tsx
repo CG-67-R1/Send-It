@@ -177,7 +177,7 @@ function RiderCoachStack() {
       <Stack.Screen
         name="TrackMemory"
         component={TrackMemoryScreen}
-        options={{ title: 'Track Memory' }}
+        options={{ title: 'Track Memory', headerShown: false }}
       />
       <Stack.Screen
         name="ImportTrackNotes"

@@ -1,18 +1,22 @@
 import type { TrackMemoryLayout, TrackMemoryPoint } from './types';
 import { samplePath } from './physics';
 
+export type RubberStreak = {
+  /** Screen quad: TL, TR, BR, BL */
+  points: [number, number][];
+  opacity: number;
+};
+
 export type RoadTrapezoid = {
   /** Screen quad: TL, TR, BR, BL */
   points: [number, number][];
   curbLeft: boolean;
   curbRight: boolean;
   shade: number;
-  /** Scrolling centre dashed line on this segment. */
-  centerDash: boolean;
   /** Extra asphalt grain stripe (scrolls with distance). */
   grain: boolean;
-  /** Mid-lane seam marks. */
-  seam: boolean;
+  /** Dark rubber race-line streaks (no road lane dashes). */
+  rubber: RubberStreak[];
 };
 
 export type DistanceMarkerBillboard = {
@@ -35,11 +39,11 @@ export type ProjectedFrame = {
 const DRAW_DEPTH = 90;
 const SEG_LEN = 4.2;
 /** Rider eye height above asphalt (metres). */
-const CAM_HEIGHT_M = 1.2;
-/** Horizon as fraction of screen height (Y down). */
-const HORIZON_FRAC = 0.4;
-const DASH_PERIOD_M = 9;
+const CAM_HEIGHT_M = 1.15;
+/** Horizon as fraction of screen height (Y down) — lower = more track ahead. */
+const HORIZON_FRAC = 0.34;
 const GRAIN_PERIOD_M = 3.2;
+const RUBBER_PERIOD_M = 7.5;
 const MARKER_DISTANCES = [150, 100, 50] as const;
 const BOARD_HALF_W = 0.55;
 const BOARD_HEIGHT = 1.15;
@@ -107,7 +111,6 @@ function projectHeight(
   if (z <= 0.8) return null;
   const scale = fov / z;
   const sx = width / 2 + x * scale;
-  // worldY = height above road; camera at CAM_HEIGHT_M
   const sy = horizonY + (CAM_HEIGHT_M - worldY) * scale;
   return { sx, sy, scale };
 }
@@ -119,6 +122,54 @@ function wrapDist(s: number, lengthM: number): number {
 /** Ahead distance from rider s to markerS along the lap (0..lengthM). */
 function aheadDist(riderS: number, markerS: number, lengthM: number): number {
   return wrapDist(markerS - riderS, lengthM);
+}
+
+/** Irregular streak strip inset on a road quad (frac = lateral 0..1). */
+export function streakPoly(road: [number, number][], atFrac: number, halfWidthFrac: number): [number, number][] {
+  const [tl, tr, br, bl] = road;
+  const a = lerp2(tl, tr, atFrac - halfWidthFrac);
+  const b = lerp2(tl, tr, atFrac + halfWidthFrac);
+  const c = lerp2(bl, br, atFrac + halfWidthFrac);
+  const d = lerp2(bl, br, atFrac - halfWidthFrac);
+  return [a, b, c, d];
+}
+
+/** Thin longitudinal seam / texture strip (legacy helper for grain). */
+export function seamPoly(road: [number, number][], atFrac: number, halfWidthFrac = 0.015): string {
+  const pts = streakPoly(road, atFrac, halfWidthFrac);
+  return pts.map(([x, y]) => `${x},${y}`).join(' ');
+}
+
+function rubberForSegment(midDist: number, road: [number, number][]): RubberStreak[] {
+  const phase = ((midDist % RUBBER_PERIOD_M) + RUBBER_PERIOD_M) % RUBBER_PERIOD_M;
+  // Only draw streak patches some of the time so they scroll as discrete marks
+  if (phase > RUBBER_PERIOD_M * 0.72) return [];
+
+  const wobble = Math.sin(midDist * 0.31) * 0.04 + Math.sin(midDist * 0.77) * 0.02;
+  const mainFrac = 0.48 + wobble;
+  const mainHalf = 0.028 + 0.018 * (0.5 + 0.5 * Math.sin(midDist * 0.19));
+  const sideFrac = 0.62 + Math.sin(midDist * 0.41) * 0.05;
+  const sideHalf = 0.012 + 0.01 * (0.5 + 0.5 * Math.cos(midDist * 0.23));
+
+  const out: RubberStreak[] = [
+    {
+      points: streakPoly(road, mainFrac, mainHalf),
+      opacity: 0.42 + 0.12 * (0.5 + 0.5 * Math.sin(midDist * 0.5)),
+    },
+  ];
+  if (Math.sin(midDist * 0.13) > -0.2) {
+    out.push({
+      points: streakPoly(road, sideFrac, sideHalf),
+      opacity: 0.28,
+    });
+  }
+  if (Math.cos(midDist * 0.09) > 0.35) {
+    out.push({
+      points: streakPoly(road, 0.38 + Math.sin(midDist * 0.27) * 0.03, 0.01),
+      opacity: 0.22,
+    });
+  }
+  return out;
 }
 
 export function projectRoad(
@@ -183,23 +234,20 @@ export function projectRoad(
     const tr = applyLean(...clampY(pbR));
     const br = applyLean(...clampY(paR));
     const bl = applyLean(...clampY(paL));
+    const roadPts: [number, number][] = [tl, tr, br, bl];
 
     const midDist = (a.dist + b.dist) * 0.5;
     const curb = a.curvature > 1.8 || b.curvature > 1.8;
-    const dashPhase = ((midDist % DASH_PERIOD_M) + DASH_PERIOD_M) % DASH_PERIOD_M;
-    const centerDash = dashPhase < DASH_PERIOD_M * 0.45;
     const grain = Math.floor(midDist / GRAIN_PERIOD_M) % 2 === 0;
-    const seam = Math.floor(midDist / (GRAIN_PERIOD_M * 2.5)) % 2 === 0;
 
     const band = 0.5 + 0.5 * Math.sin(midDist * 0.55);
     quads.push({
-      points: [tl, tr, br, bl],
+      points: roadPts,
       curbLeft: curb,
       curbRight: curb,
       shade: 0.32 + 0.4 * (1 - i / samples.length) + band * 0.12,
-      centerDash,
       grain,
-      seam,
+      rubber: rubberForSegment(midDist, roadPts),
     });
   }
 
@@ -209,7 +257,6 @@ export function projectRoad(
   for (const corner of layout.corners) {
     if (corner.number == null) continue;
     const cornerS = corner.sNorm * layout.lengthM;
-    // Outside of corner from approach POV: left turn → boards on right (+)
     const side =
       corner.direction === 'right' ? -1 : corner.direction === 'left' ? 1 : 1;
 
@@ -253,26 +300,6 @@ export function projectRoad(
   markers.sort((a, b) => b.z - a.z);
 
   return { quads, markers, horizonY, leanDeg };
-}
-
-/** Centre dashed stripe polygon inset on a road quad. */
-export function centerDashPoly(road: [number, number][], halfWidthFrac = 0.04): string {
-  const [tl, tr, br, bl] = road;
-  const a = lerp2(tl, tr, 0.5 - halfWidthFrac);
-  const b = lerp2(tl, tr, 0.5 + halfWidthFrac);
-  const c = lerp2(bl, br, 0.5 + halfWidthFrac);
-  const d = lerp2(bl, br, 0.5 - halfWidthFrac);
-  return `${a[0]},${a[1]} ${b[0]},${b[1]} ${c[0]},${c[1]} ${d[0]},${d[1]}`;
-}
-
-/** Thin longitudinal seam / texture strip. */
-export function seamPoly(road: [number, number][], atFrac: number, halfWidthFrac = 0.015): string {
-  const [tl, tr, br, bl] = road;
-  const a = lerp2(tl, tr, atFrac - halfWidthFrac);
-  const b = lerp2(tl, tr, atFrac + halfWidthFrac);
-  const c = lerp2(bl, br, atFrac + halfWidthFrac);
-  const d = lerp2(bl, br, atFrac - halfWidthFrac);
-  return `${a[0]},${a[1]} ${b[0]},${b[1]} ${c[0]},${c[1]} ${d[0]},${d[1]}`;
 }
 
 export function minimapBounds(points: TrackMemoryPoint[]): {
