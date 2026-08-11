@@ -47,45 +47,56 @@ export function TrackMemoryRoad({ layout, s, lateral, lean, width, height }: Pro
 
   if (width < 8 || height < 8) return <View style={styles.fill} />;
 
+  const grassBand = Math.max(10, (height - frame.horizonY) * 0.08);
+
   return (
     <View style={styles.fill}>
       <Svg width={width} height={height} style={StyleSheet.absoluteFill}>
         <Defs>
           <LinearGradient id="sky" x1="0" y1="0" x2="0" y2="1">
-            <Stop offset="0%" stopColor="#7eb6d9" />
-            <Stop offset="55%" stopColor="#c5dde8" />
-            <Stop offset="100%" stopColor="#d9e4c9" />
+            <Stop offset="0%" stopColor="#6fa8d0" />
+            <Stop offset="55%" stopColor="#b9d4e4" />
+            <Stop offset="100%" stopColor="#cfe0c4" />
           </LinearGradient>
-          <LinearGradient id="grass" x1="0" y1="0" x2="0" y2="1">
-            <Stop offset="0%" stopColor="#6b8f4e" />
-            <Stop offset="100%" stopColor="#3f5c32" />
+          <LinearGradient id="asphaltBase" x1="0" y1="0" x2="0" y2="1">
+            <Stop offset="0%" stopColor="#4a4a4e" />
+            <Stop offset="40%" stopColor="#3a3a3e" />
+            <Stop offset="100%" stopColor="#2c2c30" />
           </LinearGradient>
         </Defs>
         <Rect x={0} y={0} width={width} height={frame.horizonY} fill="url(#sky)" />
+        {/* Distant verge only — bitumen fills the rest to the bottom of the screen */}
+        <Rect x={0} y={frame.horizonY} width={width} height={grassBand} fill="#5f7d4a" />
         <Rect
           x={0}
-          y={frame.horizonY}
+          y={frame.horizonY + grassBand * 0.55}
           width={width}
-          height={height - frame.horizonY}
-          fill="url(#grass)"
+          height={height - frame.horizonY - grassBand * 0.55}
+          fill="url(#asphaltBase)"
         />
         {[...frame.quads].reverse().map((q, idx) => {
-          const shade = Math.round(38 + q.shade * 52);
+          const shade = Math.round(34 + q.shade * 58);
           const fill = q.grain
-            ? `rgb(${shade + 6},${shade + 5},${shade + 8})`
-            : `rgb(${shade},${shade},${shade + 4})`;
+            ? `rgb(${shade + 8},${shade + 7},${shade + 10})`
+            : `rgb(${shade},${shade},${shade + 5})`;
           const curbOn = q.curbLeft || q.curbRight;
           return (
             <React.Fragment key={`q-${idx}`}>
               <Polygon points={quadToPoints(q.points)} fill={fill} />
               {q.grain ? (
-                <Polygon points={seamPoly(q.points, 0.5, 0.22)} fill="#1a1a1d" opacity={0.1} />
-              ) : null}
+                <>
+                  <Polygon points={seamPoly(q.points, 0.5, 0.26)} fill="#1a1a1d" opacity={0.14} />
+                  <Polygon points={seamPoly(q.points, 0.22, 0.04)} fill="#252528" opacity={0.18} />
+                  <Polygon points={seamPoly(q.points, 0.78, 0.04)} fill="#252528" opacity={0.18} />
+                </>
+              ) : (
+                <Polygon points={seamPoly(q.points, 0.5, 0.18)} fill="#222226" opacity={0.1} />
+              )}
               {q.rubber.map((r, ri) => (
                 <Polygon
                   key={`rub-${idx}-${ri}`}
                   points={quadToPoints(r.points)}
-                  fill="#141416"
+                  fill="#0f0f12"
                   opacity={r.opacity}
                 />
               ))}
@@ -105,14 +116,14 @@ export function TrackMemoryRoad({ layout, s, lateral, lean, width, height }: Pro
                   <Path
                     d={`M ${q.points[0][0]} ${q.points[0][1]} L ${q.points[3][0]} ${q.points[3][1]}`}
                     stroke="#f4f4f5"
-                    strokeWidth={2}
-                    opacity={0.75}
+                    strokeWidth={2.2}
+                    opacity={0.8}
                   />
                   <Path
                     d={`M ${q.points[1][0]} ${q.points[1][1]} L ${q.points[2][0]} ${q.points[2][1]}`}
                     stroke="#f4f4f5"
-                    strokeWidth={2}
-                    opacity={0.75}
+                    strokeWidth={2.2}
+                    opacity={0.8}
                   />
                 </>
               )}
@@ -146,5 +157,5 @@ export function TrackMemoryRoad({ layout, s, lateral, lean, width, height }: Pro
 }
 
 const styles = StyleSheet.create({
-  fill: { flex: 1, backgroundColor: '#64748b' },
+  fill: { flex: 1, backgroundColor: '#2c2c30' },
 });

@@ -1,10 +1,4 @@
-import type {
-  BrakeGate,
-  ControlState,
-  GameState,
-  TrackMemoryLayout,
-  TrackMemoryPoint,
-} from './types';
+import type { ControlState, GameState, TrackMemoryLayout, TrackMemoryPoint } from './types';
 
 export const TOTAL_LAPS = 3;
 const MAX_SPEED = 62; // m/s ~220 km/h arcade
@@ -15,23 +9,19 @@ const AERO_DRAG = 1.35;
 /** Extra drag only while braking is held (on top of BRAKE). */
 const BRAKE_DRAG = 2;
 /** Base auto-steer lateral rate; scaled by lean. */
-const STEER_RATE = 3.4;
-const LATERAL_LIMIT = 7.2;
-const ROAD_HALF_WIDTH = 5.5;
-const CRASH_LATERAL = ROAD_HALF_WIDTH * 1.12;
+const STEER_RATE = 2.8;
+const LATERAL_LIMIT = 4.2;
 const FLASH_MS = 1600;
 const BRAKE_NOW_MS = 1000;
-const CRASH_HOLD_MS = 1100;
-/** Slower tip-in = more progressive lean. */
-const LEAN_RESPONSE = 2.6;
-/** Look-ahead for bend / auto lean (metres). */
-const ASSIST_LOOK_M = 42;
+/** Slow tip-in / tip-out for smooth corner transitions. */
+const LEAN_RESPONSE = 1.55;
+/** Near / far look-ahead blended for smoother bend onset. */
+const ASSIST_LOOK_NEAR_M = 22;
+const ASSIST_LOOK_FAR_M = 58;
 /** Distance before corner for Brake Now! cue. */
 const BRAKE_MARK_M = 100;
-/** How hard we shove toward the outside when missing the brake. */
-const SLIDE_OUT_RATE = 9.5;
 /** Soft racing-line follow strength. */
-const LINE_FOLLOW = 1.6;
+const LINE_FOLLOW = 1.15;
 
 export function createInitialState(bestLapMs: number | null = null): GameState {
   return {
@@ -48,9 +38,6 @@ export function createInitialState(bestLapMs: number | null = null): GameState {
     flash: null,
     flashedIds: [],
     brakeFlashIds: [],
-    brakeGate: null,
-    slidingOut: false,
-    crashUntilMs: null,
     heading: 0,
   };
 }
@@ -92,7 +79,7 @@ function aheadDist(fromS: number, toS: number, lengthM: number): number {
 export function upcomingBend(
   layout: TrackMemoryLayout,
   s: number,
-  lookM: number = ASSIST_LOOK_M
+  lookM: number
 ): number {
   const a = samplePath(layout.points, layout.lengthM, s);
   const b = samplePath(layout.points, layout.lengthM, s + lookM);
@@ -102,30 +89,20 @@ export function upcomingBend(
   return Math.max(-1, Math.min(1, angle / 0.55));
 }
 
-/** Progressive auto lean in [-1, 1] — mild early, deep in hard corners. */
-function autoLeanTarget(bend: number, speed: number): number {
-  const mag = Math.min(1, Math.abs(bend) * 1.35);
-  // Power < 1 → progressive: small bends stay gentle, big bends dig in
-  const progressive = Math.pow(mag, 0.62);
-  const speedScale = 0.28 + 0.72 * Math.min(1, speed / 18);
-  if (progressive < 0.04) return 0;
-  return -Math.sign(bend) * progressive * speedScale;
+/** Blend near + far bends so lean eases in/out through the corner. */
+function smoothBend(layout: TrackMemoryLayout, s: number): number {
+  const near = upcomingBend(layout, s, ASSIST_LOOK_NEAR_M);
+  const far = upcomingBend(layout, s, ASSIST_LOOK_FAR_M);
+  return near * 0.42 + far * 0.58;
 }
 
-function respawnOnTrack(prev: GameState, layout: TrackMemoryLayout, nowMs: number): GameState {
-  const { heading } = samplePath(layout.points, layout.lengthM, prev.s);
-  return {
-    ...prev,
-    phase: 'racing',
-    lateral: 0,
-    speed: Math.min(14, prev.speed * 0.25 + 8),
-    lean: 0,
-    slidingOut: false,
-    crashUntilMs: null,
-    brakeGate: null,
-    flash: { text: 'Back on track', untilMs: nowMs + 1200, tone: 'normal' },
-    heading,
-  };
+/** Progressive auto lean in [-1, 1] — mild early, deep in hard corners. */
+function autoLeanTarget(bend: number, speed: number): number {
+  const mag = Math.min(1, Math.abs(bend) * 1.2);
+  const progressive = Math.pow(mag, 0.72);
+  const speedScale = 0.32 + 0.68 * Math.min(1, speed / 20);
+  if (progressive < 0.03) return 0;
+  return -Math.sign(bend) * progressive * speedScale;
 }
 
 export function stepGame(
@@ -151,61 +128,19 @@ export function stepGame(
     flash,
     flashedIds,
     brakeFlashIds,
-    brakeGate,
-    slidingOut,
-    crashUntilMs,
   } = prev;
-
-  // Crash hold → respawn mid-track
-  if (phase === 'crashing') {
-    const dt = Math.min(0.05, Math.max(0, dtSec));
-    lateral += Math.sign(lateral || 1) * 2.2 * dt;
-    speed = Math.max(0, speed - 28 * dt);
-    lean *= 1 - Math.min(1, dt * 4);
-    if (flash && nowMs > flash.untilMs) flash = null;
-    if (crashUntilMs != null && nowMs >= crashUntilMs) {
-      return respawnOnTrack(
-        {
-          ...prev,
-          phase,
-          s,
-          lateral,
-          speed,
-          lean,
-          flash,
-          slidingOut,
-          crashUntilMs,
-        },
-        layout,
-        nowMs
-      );
-    }
-    return {
-      ...prev,
-      phase,
-      s,
-      lateral,
-      speed,
-      lean,
-      flash,
-      slidingOut: true,
-      crashUntilMs,
-      heading: samplePath(layout.points, layout.lengthM, s).heading,
-    };
-  }
 
   if (phase === 'ready') {
     if (controls.accel) {
       phase = 'racing';
     } else {
-      return { ...prev, phase, lean: lean * 0.9 };
+      return { ...prev, phase, lean: lean * 0.92 };
     }
   }
 
   const dt = Math.min(0.05, Math.max(0, dtSec));
-  const bend = upcomingBend(layout, s);
+  const bend = smoothBend(layout, s);
 
-  // Throttle / brake — no free auto-slow into corners (memory = you must brake)
   if (controls.accel) speed += ACCEL * dt;
   if (controls.brake) {
     speed -= BRAKE * dt;
@@ -216,65 +151,20 @@ export function stepGame(
   }
   speed = Math.max(0, Math.min(MAX_SPEED, speed));
 
-  // Auto lean — progressive, can tip near full lean in tight bends
+  // Smooth auto lean into / out of corners
   const leanTarget = autoLeanTarget(bend, speed);
   lean += (leanTarget - lean) * Math.min(1, dt * LEAN_RESPONSE);
   lean = Math.max(-1, Math.min(1, lean));
 
-  // Mark brake input against the open 100 m gate
-  if (brakeGate && controls.brake) {
-    brakeGate = { ...brakeGate, braked: true };
-  }
+  // Auto-steer: soft racing line, stays on asphalt (no crash / slide-off)
+  const turnPower = STEER_RATE * (3.8 + speed * 0.22) * (0.2 + Math.abs(lean) * 1.25);
+  lateral -= lean * turnPower * dt;
 
-  // Missed brake → start sliding to the outside of the bend
-  if (brakeGate && !brakeGate.braked) {
-    const toCorner = aheadDist(s, brakeGate.cornerS, layout.lengthM);
-    if (toCorner < 28 && speed > 16) {
-      slidingOut = true;
-    }
-  }
-
-  if (slidingOut) {
-    // Outside of left bend (neg) is right (−lateral); outside of right bend is left (+)
-    const outSign = bend === 0 ? Math.sign(lateral || 1) : Math.sign(bend);
-    lateral += outSign * SLIDE_OUT_RATE * (0.55 + speed / MAX_SPEED) * dt;
-    // Keep a dramatic lean while sliding
-    lean = Math.max(-1, Math.min(1, lean + outSign * -0.35 * dt));
-  } else {
-    // Auto-steer: hold a soft racing line from lean + bend
-    const turnPower = STEER_RATE * (4.2 + speed * 0.26) * (0.22 + Math.abs(lean) * 1.45);
-    lateral -= lean * turnPower * dt;
-
-    if (Math.abs(bend) > 0.1) {
-      const lineTarget = -bend * 2.1;
-      lateral += (lineTarget - lateral) * Math.min(0.4, dt * LINE_FOLLOW * Math.abs(bend));
-    } else if (Math.abs(lean) < 0.1) {
-      lateral *= 1 - Math.min(0.5, dt * 1.1);
-    }
-  }
-
-  // Crash when off the asphalt
-  if (Math.abs(lateral) >= CRASH_LATERAL) {
-    return {
-      ...prev,
-      phase: 'crashing',
-      s,
-      lateral: Math.sign(lateral) * Math.min(Math.abs(lateral), LATERAL_LIMIT),
-      speed,
-      lean,
-      lap,
-      lapTimeMs,
-      bestLapMs,
-      sessionBestLapMs,
-      lapTimesMs,
-      flash: { text: 'CRASH!', untilMs: nowMs + CRASH_HOLD_MS, tone: 'danger' },
-      flashedIds,
-      brakeFlashIds,
-      brakeGate: null,
-      slidingOut: true,
-      crashUntilMs: nowMs + CRASH_HOLD_MS,
-      heading: samplePath(layout.points, layout.lengthM, s).heading,
-    };
+  if (Math.abs(bend) > 0.08) {
+    const lineTarget = -bend * 1.65;
+    lateral += (lineTarget - lateral) * Math.min(0.28, dt * LINE_FOLLOW * (0.35 + Math.abs(bend)));
+  } else if (Math.abs(lean) < 0.12) {
+    lateral *= 1 - Math.min(0.4, dt * 0.85);
   }
 
   lateral = Math.max(-LATERAL_LIMIT, Math.min(LATERAL_LIMIT, lateral));
@@ -282,21 +172,6 @@ export function stepGame(
   const prevS = s;
   s += speed * dt;
   lapTimeMs += dt * 1000;
-
-  // Clear brake gate once past the corner
-  if (brakeGate) {
-    const distToCorner = aheadDist(s, brakeGate.cornerS, layout.lengthM);
-    const traveled =
-      s >= prevS ? s - prevS : s + layout.lengthM - prevS;
-    const wasBefore = aheadDist(prevS, brakeGate.cornerS, layout.lengthM);
-    if (wasBefore > 0 && wasBefore <= traveled) {
-      if (brakeGate.braked) slidingOut = false;
-      brakeGate = null;
-    } else if (distToCorner > layout.lengthM * 0.55) {
-      // Failsafe if we somehow skipped the apex without clearing
-      brakeGate = null;
-    }
-  }
 
   // Lap crossing
   if (s >= layout.lengthM) {
@@ -323,9 +198,6 @@ export function stepGame(
         flash: { text: 'Session complete', untilMs: nowMs + 2500 },
         flashedIds: [],
         brakeFlashIds: [],
-        brakeGate: null,
-        slidingOut: false,
-        crashUntilMs: null,
         heading: samplePath(layout.points, layout.lengthM, 0).heading,
       };
     }
@@ -337,8 +209,6 @@ export function stepGame(
     sessionBestLapMs = nextSessionBest;
     flashedIds = [];
     brakeFlashIds = [];
-    brakeGate = null;
-    slidingOut = false;
     flash = { text: `Lap ${lap}`, untilMs: nowMs + 1200 };
   }
 
@@ -354,13 +224,10 @@ export function stepGame(
       const toMark = aheadDist(prevS, markS, lengthM);
       if (toMark > 0 && toMark <= traveled && !brakeFlashIds.includes(corner.id)) {
         brakeFlashIds = [...brakeFlashIds, corner.id];
-        brakeGate = { cornerId: corner.id, cornerS, braked: false };
-        slidingOut = false;
         flash = { text: 'Brake Now!', untilMs: nowMs + BRAKE_NOW_MS, tone: 'danger' };
       }
     }
 
-    // Corner name flash (does not override an active Brake Now!)
     for (const corner of layout.corners) {
       if (flashedIds.includes(corner.id)) continue;
       const cornerS = corner.sNorm * lengthM;
@@ -386,11 +253,6 @@ export function stepGame(
 
   if (flash && nowMs > flash.untilMs) flash = null;
 
-  // Soft slowdown only when grazing the edge (not full crash yet)
-  if (Math.abs(lateral) > ROAD_HALF_WIDTH * 0.92 && !slidingOut) {
-    speed *= 1 - Math.min(0.5, dt * 2.5);
-  }
-
   const { heading } = samplePath(layout.points, layout.lengthM, s);
 
   return {
@@ -407,9 +269,6 @@ export function stepGame(
     flash,
     flashedIds,
     brakeFlashIds,
-    brakeGate,
-    slidingOut,
-    crashUntilMs,
     heading,
   };
 }

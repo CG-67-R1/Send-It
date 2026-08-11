@@ -39,11 +39,11 @@ export type ProjectedFrame = {
 const DRAW_DEPTH = 90;
 const SEG_LEN = 4.2;
 /** Rider eye height above asphalt (metres). */
-const CAM_HEIGHT_M = 1.15;
+const CAM_HEIGHT_M = 1.05;
 /** Horizon as fraction of screen height (Y down) — lower = more track ahead. */
 const HORIZON_FRAC = 0.34;
-const GRAIN_PERIOD_M = 3.2;
-const RUBBER_PERIOD_M = 7.5;
+const GRAIN_PERIOD_M = 2.4;
+const RUBBER_PERIOD_M = 5.8;
 const MARKER_DISTANCES = [150, 100, 50] as const;
 const BOARD_HALF_W = 0.55;
 const BOARD_HEIGHT = 1.15;
@@ -56,7 +56,7 @@ function project(
   horizonY: number,
   fov: number
 ): { sx: number; sy: number; scale: number } | null {
-  if (z <= 0.8) return null;
+  if (z <= 0.45) return null;
   const scale = fov / z;
   const sx = width / 2 + x * scale;
   const sy = horizonY + CAM_HEIGHT_M * scale;
@@ -79,7 +79,7 @@ function localSamples(
   const riderX = here.pos.x + nx * lateral;
   const riderY = here.pos.y + ny * lateral;
 
-  out.push({ x: 0, z: 2.2, curvature: 0, dist: s + 2.2 });
+  out.push({ x: 0, z: 1.05, curvature: 0, dist: s + 1.05 });
 
   let prevLocalX = 0;
   for (let i = 1; i <= count; i++) {
@@ -91,7 +91,7 @@ function localSamples(
     const localX = dx * ty - dy * tx;
     const curvature = Math.abs(localX - prevLocalX);
     prevLocalX = localX;
-    if (localZ > 2.5) out.push({ x: localX, z: localZ, curvature, dist: s + ds });
+    if (localZ > 1.2) out.push({ x: localX, z: localZ, curvature, dist: s + ds });
   }
   return out;
 }
@@ -142,31 +142,36 @@ export function seamPoly(road: [number, number][], atFrac: number, halfWidthFrac
 
 function rubberForSegment(midDist: number, road: [number, number][]): RubberStreak[] {
   const phase = ((midDist % RUBBER_PERIOD_M) + RUBBER_PERIOD_M) % RUBBER_PERIOD_M;
-  // Only draw streak patches some of the time so they scroll as discrete marks
-  if (phase > RUBBER_PERIOD_M * 0.72) return [];
+  // Dense race-line rubber — most segments get at least a thin streak
+  if (phase > RUBBER_PERIOD_M * 0.88) return [];
 
-  const wobble = Math.sin(midDist * 0.31) * 0.04 + Math.sin(midDist * 0.77) * 0.02;
-  const mainFrac = 0.48 + wobble;
-  const mainHalf = 0.028 + 0.018 * (0.5 + 0.5 * Math.sin(midDist * 0.19));
-  const sideFrac = 0.62 + Math.sin(midDist * 0.41) * 0.05;
-  const sideHalf = 0.012 + 0.01 * (0.5 + 0.5 * Math.cos(midDist * 0.23));
+  const wobble = Math.sin(midDist * 0.31) * 0.045 + Math.sin(midDist * 0.77) * 0.025;
+  const mainFrac = 0.5 + wobble;
+  const mainHalf = 0.035 + 0.022 * (0.5 + 0.5 * Math.sin(midDist * 0.19));
+  const sideFrac = 0.64 + Math.sin(midDist * 0.41) * 0.055;
+  const sideHalf = 0.014 + 0.012 * (0.5 + 0.5 * Math.cos(midDist * 0.23));
+  const innerFrac = 0.36 + Math.sin(midDist * 0.29) * 0.03;
 
   const out: RubberStreak[] = [
     {
       points: streakPoly(road, mainFrac, mainHalf),
-      opacity: 0.42 + 0.12 * (0.5 + 0.5 * Math.sin(midDist * 0.5)),
+      opacity: 0.48 + 0.14 * (0.5 + 0.5 * Math.sin(midDist * 0.5)),
+    },
+    {
+      points: streakPoly(road, mainFrac + 0.03, mainHalf * 0.45),
+      opacity: 0.22,
     },
   ];
-  if (Math.sin(midDist * 0.13) > -0.2) {
+  if (Math.sin(midDist * 0.13) > -0.35) {
     out.push({
       points: streakPoly(road, sideFrac, sideHalf),
-      opacity: 0.28,
+      opacity: 0.32,
     });
   }
-  if (Math.cos(midDist * 0.09) > 0.35) {
+  if (Math.cos(midDist * 0.09) > 0.15) {
     out.push({
-      points: streakPoly(road, 0.38 + Math.sin(midDist * 0.27) * 0.03, 0.01),
-      opacity: 0.22,
+      points: streakPoly(road, innerFrac, 0.012),
+      opacity: 0.26,
     });
   }
   return out;
@@ -183,8 +188,8 @@ export function projectRoad(
   const samples = localSamples(layout, s, lateral, DRAW_DEPTH, SEG_LEN);
   const horizonY = height * HORIZON_FRAC;
   const fov = width * 0.62;
-  const roadHalf = 5.8;
-  const leanDeg = lean * 42;
+  const roadHalf = 6.2;
+  const leanDeg = lean * 36;
   const leanRad = (leanDeg * Math.PI) / 180;
   const cosL = Math.cos(leanRad);
   const sinL = Math.sin(leanRad);
@@ -224,10 +229,10 @@ export function projectRoad(
     const pbR = project(b.x + roadHalf, b.z, width, horizonY, fov);
     if (!paL || !paR || !pbL || !pbR) continue;
 
-    const maxSy = height * 0.78;
+    // Allow asphalt to the bottom of the screen (no mid-frame grass cutoff)
     const clampY = (p: { sx: number; sy: number }): [number, number] => [
       p.sx,
-      Math.min(p.sy, maxSy),
+      Math.min(p.sy, height + 8),
     ];
 
     const tl = applyLean(...clampY(pbL));
@@ -245,7 +250,7 @@ export function projectRoad(
       points: roadPts,
       curbLeft: curb,
       curbRight: curb,
-      shade: 0.32 + 0.4 * (1 - i / samples.length) + band * 0.12,
+      shade: 0.28 + 0.42 * (1 - i / samples.length) + band * 0.14,
       grain,
       rubber: rubberForSegment(midDist, roadPts),
     });

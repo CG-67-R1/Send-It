@@ -251,7 +251,7 @@ export function TrackMemoryScreen() {
         <View style={styles.banner} pointerEvents="none">
           <Text style={styles.bannerTitle}>Track Memory</Text>
           <Text style={styles.bannerBody}>
-            Auto-steers the line · ↑ accel · ↓ brake at boards · miss a brake and you crash
+            Auto-steers · ↑ accel · ↓ brake · Brake Now! at 100 m boards
           </Text>
         </View>
       ) : null}
