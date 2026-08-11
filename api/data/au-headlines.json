@@ -1,5 +1,5 @@
 {
-  "updatedAt": "2026-08-11T12:52:40.903Z",
+  "updatedAt": "2026-08-11T16:53:42.513Z",
   "sourceIds": [
     "ma_roadrace",
     "asbk",
@@ -297,7 +297,39 @@
       "source": "MCN",
       "sourceId": "mcn",
       "date": null,
-      "imageUrl": "https://www.motorcyclenews.com/wp-images/433187/480x320/sonic-shadow-auction-bike-07.jpg"
+      "imageUrl": "https://www.motorcyclenews.com/wp-images/433088/480x320/e-scooters-shutterstock_2125870724.jpg"
+    },
+    {
+      "title": "E-scooter riders face triple the brain injury risk of motorcyclists according to study",
+      "url": "https://www.motorcyclenews.com/news/2026/august/e-scooters-more-dangerous-than-motorbikes/",
+      "source": "MCN",
+      "sourceId": "mcn",
+      "date": null,
+      "imageUrl": "https://www.motorcyclenews.com/wp-images/433088/480x320/e-scooters-shutterstock_2125870724.jpg"
+    },
+    {
+      "title": "BMW R20 draws closer as latest boxer behemoth spotted by keen-eyed photographer",
+      "url": "https://www.motorcyclenews.com/news/new-bikes/2026/august/bmw-r20-spy-shots/",
+      "source": "MCN",
+      "sourceId": "mcn",
+      "date": null,
+      "imageUrl": "https://www.motorcyclenews.com/wp-images/433088/480x320/e-scooters-shutterstock_2125870724.jpg"
+    },
+    {
+      "title": "Cardo Ride app gains Apple CarPlay and Android Auto compatibility",
+      "url": "https://www.motorcyclenews.com/news/new-tech/2026/august/cardo-announce-carplay-and-android-auto-update/",
+      "source": "MCN",
+      "sourceId": "mcn",
+      "date": null,
+      "imageUrl": "https://www.motorcyclenews.com/wp-images/433088/480x320/e-scooters-shutterstock_2125870724.jpg"
+    },
+    {
+      "title": "Barry Sheene replica leathers help Silverstone MotoGP charity weekend raise record £200k+",
+      "url": "https://www.motorcyclenews.com/news/2026/august/silverstone-gp-of-champions-two-wheels-for-life/",
+      "source": "MCN",
+      "sourceId": "mcn",
+      "date": null,
+      "imageUrl": "https://www.motorcyclenews.com/wp-images/433088/480x320/e-scooters-shutterstock_2125870724.jpg"
     },
     {
       "title": "Sylvain Guintoli auctions one-off Sega Sonic 'Dark Rider' bike for Luca charity fundraiser",
@@ -305,7 +337,7 @@
       "source": "MCN",
       "sourceId": "mcn",
       "date": null,
-      "imageUrl": "https://www.motorcyclenews.com/wp-images/433187/480x320/sonic-shadow-auction-bike-07.jpg"
+      "imageUrl": "https://www.motorcyclenews.com/wp-images/433088/480x320/e-scooters-shutterstock_2125870724.jpg"
     },
     {
       "title": "Sam Sunderland targets round the world record attempt after suffering a broken back last year",
@@ -313,7 +345,7 @@
       "source": "MCN",
       "sourceId": "mcn",
       "date": null,
-      "imageUrl": "https://www.motorcyclenews.com/wp-images/433187/480x320/sonic-shadow-auction-bike-07.jpg"
+      "imageUrl": "https://www.motorcyclenews.com/wp-images/433088/480x320/e-scooters-shutterstock_2125870724.jpg"
     },
     {
       "title": "Norton go pink with one-off Manx [P]R art bike revealed at Silverstone",
@@ -321,7 +353,7 @@
       "source": "MCN",
       "sourceId": "mcn",
       "date": null,
-      "imageUrl": "https://www.motorcyclenews.com/wp-images/433187/480x320/sonic-shadow-auction-bike-07.jpg"
+      "imageUrl": "https://www.motorcyclenews.com/wp-images/433088/480x320/e-scooters-shutterstock_2125870724.jpg"
     },
     {
       "title": "UK bike sales jump 17.5% in July as new Honda CB1000GT tops the charts on its debut month",
@@ -329,7 +361,7 @@
       "source": "MCN",
       "sourceId": "mcn",
       "date": null,
-      "imageUrl": "https://www.motorcyclenews.com/wp-images/433187/480x320/sonic-shadow-auction-bike-07.jpg"
+      "imageUrl": "https://www.motorcyclenews.com/wp-images/433088/480x320/e-scooters-shutterstock_2125870724.jpg"
     },
     {
       "title": "Win Fabio Quartararo's actual 2026 MotoGP race helmet from £5 and help beat children's cancer",
@@ -337,7 +369,7 @@
       "source": "MCN",
       "sourceId": "mcn",
       "date": null,
-      "imageUrl": "https://www.motorcyclenews.com/wp-images/433187/480x320/sonic-shadow-auction-bike-07.jpg"
+      "imageUrl": "https://www.motorcyclenews.com/wp-images/433088/480x320/e-scooters-shutterstock_2125870724.jpg"
     },
     {
       "title": "Indian Motorcycle launch special edition Chief Vintage cruiser at the Sturgis Motorcycle Rally",
@@ -345,7 +377,7 @@
       "source": "MCN",
       "sourceId": "mcn",
       "date": null,
-      "imageUrl": "https://www.motorcyclenews.com/wp-images/433187/480x320/sonic-shadow-auction-bike-07.jpg"
+      "imageUrl": "https://www.motorcyclenews.com/wp-images/433088/480x320/e-scooters-shutterstock_2125870724.jpg"
     },
     {
       "title": "Ducati announce £105m research and development project backed by the Italian Government",
@@ -353,39 +385,7 @@
       "source": "MCN",
       "sourceId": "mcn",
       "date": null,
-      "imageUrl": "https://www.motorcyclenews.com/wp-images/433187/480x320/sonic-shadow-auction-bike-07.jpg"
-    },
-    {
-      "title": "Fresh images appear to show Royal Enfield’s long-awaited Himalayan 750 twin near UK tech centre",
-      "url": "https://www.motorcyclenews.com/news/new-bikes/2026/august/royal-enfield-himalayan-750-spy-shots/",
-      "source": "MCN",
-      "sourceId": "mcn",
-      "date": null,
-      "imageUrl": "https://www.motorcyclenews.com/wp-images/433187/480x320/sonic-shadow-auction-bike-07.jpg"
-    },
-    {
-      "title": "Kawasaki update colours and pricing for 2027 Versys 650, Vulcan S, Z1100, Z500 and Ninjas",
-      "url": "https://www.motorcyclenews.com/news/2026/august/kawasaki-2027-range-updates/",
-      "source": "MCN",
-      "sourceId": "mcn",
-      "date": null,
-      "imageUrl": "https://www.motorcyclenews.com/wp-images/433187/480x320/sonic-shadow-auction-bike-07.jpg"
-    },
-    {
-      "title": "Honda launches Ride.Buy.Win! competition with chance to take home a Super-N car!",
-      "url": "https://www.motorcyclenews.com/news/2026/august/honda-ride-buy-win-competition/",
-      "source": "MCN",
-      "sourceId": "mcn",
-      "date": null,
-      "imageUrl": "https://www.motorcyclenews.com/wp-images/433187/480x320/sonic-shadow-auction-bike-07.jpg"
-    },
-    {
-      "title": "Force to be reckoned with - How Bimota's adaptive aero works and why it might not last",
-      "url": "https://www.motorcyclenews.com/news/new-tech/2026/august/bimota-kb998-rimini-adaptable-aero/",
-      "source": "MCN",
-      "sourceId": "mcn",
-      "date": null,
-      "imageUrl": "https://www.motorcyclenews.com/wp-images/433187/480x320/sonic-shadow-auction-bike-07.jpg"
+      "imageUrl": "https://www.motorcyclenews.com/wp-images/433088/480x320/e-scooters-shutterstock_2125870724.jpg"
     },
     {
       "title": "Motorcycle Maintenance",
