@@ -1,8 +1,21 @@
 import React, { useMemo } from 'react';
 import { StyleSheet, View } from 'react-native';
-import Svg, { Defs, LinearGradient, Path, Polygon, Rect, Stop, Text as SvgText } from 'react-native-svg';
+import Svg, {
+  Defs,
+  Image as SvgImage,
+  LinearGradient,
+  Path,
+  Pattern,
+  Polygon,
+  Rect,
+  Stop,
+  Text as SvgText,
+} from 'react-native-svg';
 import type { TrackMemoryLayout } from './types';
 import { projectRoad, seamPoly } from './projectRoad';
+
+const BITUMEN_TILE = require('../../assets/track-memory/bitumen_tile.png');
+const TILE_PX = 160;
 
 type Props = {
   layout: TrackMemoryLayout;
@@ -45,6 +58,9 @@ export function TrackMemoryRoad({ layout, s, lateral, lean, width, height }: Pro
     [layout, s, lateral, lean, width, height]
   );
 
+  // Scroll texture with distance so the asphalt feels like it's moving under the bike
+  const scrollY = -((s * 5.5) % TILE_PX);
+
   if (width < 8 || height < 8) return <View style={styles.fill} />;
 
   const grassBand = Math.max(10, (height - frame.horizonY) * 0.08);
@@ -58,45 +74,53 @@ export function TrackMemoryRoad({ layout, s, lateral, lean, width, height }: Pro
             <Stop offset="55%" stopColor="#b9d4e4" />
             <Stop offset="100%" stopColor="#cfe0c4" />
           </LinearGradient>
-          <LinearGradient id="asphaltBase" x1="0" y1="0" x2="0" y2="1">
-            <Stop offset="0%" stopColor="#4a4a4e" />
-            <Stop offset="40%" stopColor="#3a3a3e" />
-            <Stop offset="100%" stopColor="#2c2c30" />
-          </LinearGradient>
+          <Pattern
+            id="bitumen"
+            patternUnits="userSpaceOnUse"
+            width={TILE_PX}
+            height={TILE_PX}
+            patternTransform={`translate(0 ${scrollY})`}
+          >
+            <SvgImage
+              href={BITUMEN_TILE}
+              x={0}
+              y={0}
+              width={TILE_PX}
+              height={TILE_PX}
+              preserveAspectRatio="xMidYMid slice"
+            />
+          </Pattern>
         </Defs>
         <Rect x={0} y={0} width={width} height={frame.horizonY} fill="url(#sky)" />
-        {/* Distant verge only — bitumen fills the rest to the bottom of the screen */}
         <Rect x={0} y={frame.horizonY} width={width} height={grassBand} fill="#5f7d4a" />
+        {/* Near asphalt apron uses the same bitumen tile */}
         <Rect
           x={0}
           y={frame.horizonY + grassBand * 0.55}
           width={width}
           height={height - frame.horizonY - grassBand * 0.55}
-          fill="url(#asphaltBase)"
+          fill="url(#bitumen)"
         />
         {[...frame.quads].reverse().map((q, idx) => {
-          const shade = Math.round(34 + q.shade * 58);
-          const fill = q.grain
-            ? `rgb(${shade + 8},${shade + 7},${shade + 10})`
-            : `rgb(${shade},${shade},${shade + 5})`;
           const curbOn = q.curbLeft || q.curbRight;
+          const depthShade = Math.min(0.35, idx / (frame.quads.length * 2.2));
           return (
             <React.Fragment key={`q-${idx}`}>
-              <Polygon points={quadToPoints(q.points)} fill={fill} />
+              <Polygon points={quadToPoints(q.points)} fill="url(#bitumen)" />
+              {/* Soft depth darkening so far segments read further away */}
+              <Polygon
+                points={quadToPoints(q.points)}
+                fill="#0a0a0c"
+                opacity={0.08 + depthShade}
+              />
               {q.grain ? (
-                <>
-                  <Polygon points={seamPoly(q.points, 0.5, 0.26)} fill="#1a1a1d" opacity={0.14} />
-                  <Polygon points={seamPoly(q.points, 0.22, 0.04)} fill="#252528" opacity={0.18} />
-                  <Polygon points={seamPoly(q.points, 0.78, 0.04)} fill="#252528" opacity={0.18} />
-                </>
-              ) : (
-                <Polygon points={seamPoly(q.points, 0.5, 0.18)} fill="#222226" opacity={0.1} />
-              )}
+                <Polygon points={seamPoly(q.points, 0.5, 0.2)} fill="#111114" opacity={0.12} />
+              ) : null}
               {q.rubber.map((r, ri) => (
                 <Polygon
                   key={`rub-${idx}-${ri}`}
                   points={quadToPoints(r.points)}
-                  fill="#0f0f12"
+                  fill="#050507"
                   opacity={r.opacity}
                 />
               ))}
@@ -157,5 +181,5 @@ export function TrackMemoryRoad({ layout, s, lateral, lean, width, height }: Pro
 }
 
 const styles = StyleSheet.create({
-  fill: { flex: 1, backgroundColor: '#2c2c30' },
+  fill: { flex: 1, backgroundColor: '#1a1a1d' },
 });

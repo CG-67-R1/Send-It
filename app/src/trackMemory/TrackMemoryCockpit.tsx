@@ -13,8 +13,8 @@ type Props = {
 };
 
 /**
- * Static postie-bike POV photo with live speed / lap overlay.
- * Lean rotates the whole plate for smooth corner feel.
+ * Transparent postie-bike POV overlay on the track.
+ * Lean rotates the plate for smooth corner feel.
  */
 export function TrackMemoryCockpit({
   width,
@@ -24,8 +24,9 @@ export function TrackMemoryCockpit({
   lap = 1,
   totalLaps = 3,
 }: Props) {
-  const leanDeg = lean * 28;
-  const cockpitH = Math.min(Math.round(height * 0.52), Math.round(width * 0.62));
+  const leanDeg = lean * 26;
+  // Tall enough to show arms + bag; asphalt shows through transparent areas
+  const cockpitH = Math.min(Math.round(height * 0.58), Math.round(width * 0.72));
   const top = height - cockpitH;
   const kmh = Math.round(speedMps * 3.6);
 
@@ -42,8 +43,7 @@ export function TrackMemoryCockpit({
         },
       ]}
     >
-      <Image source={POSTIE_COCKPIT} style={styles.image} resizeMode="cover" />
-      {/* Live readouts over the photo's LCD / dash area */}
+      <Image source={POSTIE_COCKPIT} style={styles.image} resizeMode="contain" />
       <View style={styles.hud}>
         <Text style={styles.speed}>{kmh}</Text>
         <Text style={styles.meta}>
@@ -58,21 +58,16 @@ const styles = StyleSheet.create({
   wrap: {
     position: 'absolute',
     left: 0,
-    overflow: 'hidden',
+    overflow: 'visible',
   },
   image: {
-    position: 'absolute',
-    left: 0,
-    top: 0,
-    right: 0,
-    bottom: 0,
     width: '100%',
     height: '100%',
   },
   hud: {
     position: 'absolute',
     alignSelf: 'center',
-    top: '38%',
+    top: '42%',
     minWidth: 72,
     paddingHorizontal: 8,
     paddingVertical: 4,
