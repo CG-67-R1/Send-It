@@ -50,6 +50,7 @@ export type RiderCoachStackParamList = {
     initialTrackName?: string;
     otherContext?: OtherTrackContext;
   };
+  TrackMemoryHub: undefined;
   TrackMemory: {
     initialTrackId?: string;
   };
@@ -150,6 +151,13 @@ export function RiderCoachScreen() {
         activeOpacity={0.8}
       >
         <Text style={styles.navButtonText}>Bike Setup Basics</Text>
+      </TouchableOpacity>
+      <TouchableOpacity
+        style={styles.navButton}
+        onPress={() => navigation.navigate('TrackMemoryHub')}
+        activeOpacity={0.8}
+      >
+        <Text style={styles.navButtonText}>Track Memory</Text>
       </TouchableOpacity>
 
       <TouchableOpacity

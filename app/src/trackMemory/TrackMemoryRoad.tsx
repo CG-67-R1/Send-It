@@ -51,6 +51,7 @@ function curbStrip(
   return `${outer[0][0]},${outer[0][1]} ${ix0},${iy0} ${ix1},${iy1} ${outer[1][0]},${outer[1][1]}`;
 }
 
+/** Continue a screen-space edge line past the near point — never kink vertical. */
 function extendEdgeToBottom(
   far: [number, number],
   near: [number, number],
@@ -58,10 +59,7 @@ function extendEdgeToBottom(
 ): [number, number] {
   const targetY = screenH + 6;
   const dy = near[1] - far[1];
-  // Near edge already past bottom, or flat — drop straight down
-  if (near[1] >= screenH - 1 || Math.abs(dy) < 0.5 || dy < 0) {
-    return [near[0], targetY];
-  }
+  if (Math.abs(dy) < 0.01) return [near[0], targetY];
   const t = (targetY - far[1]) / dy;
   return [far[0] + (near[0] - far[0]) * t, targetY];
 }
@@ -72,30 +70,32 @@ export function TrackMemoryRoad({ layout, s, lateral, width, height }: Props) {
     [layout, s, lateral, width, height]
   );
 
-  // Scroll texture with distance so the asphalt feels like it's moving under the bike
-  const scrollY = -((s * 5.5) % TILE_PX);
+  // Positive Y scroll = texture travels down the screen as the bike moves forward
+  const scrollY = (s * 5.5) % TILE_PX;
 
   /**
-   * Bitumen apron: continue the nearest road edges down under the cockpit so
-   * transparent bike areas show asphalt instead of grass.
+   * Bitumen apron: extend the same edge lines under the cockpit (no vertical kink).
    */
   const underBikeApron = useMemo(() => {
     if (frame.quads.length === 0) return null;
-    // Prefer the quad whose near edge sits lowest on screen (closest under the bike)
+    // Prefer a quad with real perspective slope in the lower half
     let best = frame.quads[0];
-    let bestY = -Infinity;
+    let bestScore = Infinity;
     for (const q of frame.quads) {
-      const [, , br, bl] = q.points;
-      const y = Math.max(bl[1], br[1]);
-      if (y > bestY) {
-        bestY = y;
+      const [tl, tr, br, bl] = q.points;
+      const nearY = (bl[1] + br[1]) * 0.5;
+      const farY = (tl[1] + tr[1]) * 0.5;
+      const slope = nearY - farY;
+      if (slope < 6) continue;
+      const score = Math.abs(nearY - height * 0.72);
+      if (score < bestScore) {
+        bestScore = score;
         best = q;
       }
     }
     const [tl, tr, br, bl] = best.points;
     const leftBot = extendEdgeToBottom(tl, bl, height);
     const rightBot = extendEdgeToBottom(tr, br, height);
-    // Always span to the screen bottom so cockpit transparency never shows grass
     return [bl, br, rightBot, leftBot] as [number, number][];
   }, [frame.quads, height]);
 

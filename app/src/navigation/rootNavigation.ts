@@ -8,7 +8,7 @@ export type RootTabParamList = {
   'Q&A': undefined;
   RiderCoachTab:
     | {
-        screen: 'CoachChat' | 'RiderCoach' | 'TrackWalk' | 'TrackMemory';
+        screen: 'CoachChat' | 'RiderCoach' | 'TrackWalk' | 'TrackMemory' | 'TrackMemoryHub';
         params?: {
           mode?: CoachSeedTab;
           seedDraftMessage?: string;

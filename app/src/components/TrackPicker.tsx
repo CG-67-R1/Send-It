@@ -5,12 +5,19 @@ import { getAllTracks, type TrackDefinition } from '../data/tracks';
 type Props = {
   selectedTrackId: string | null;
   onSelect: (track: TrackDefinition) => void;
+  /** When set, only these catalog track ids are shown. */
+  allowedTrackIds?: string[];
 };
 
-export function TrackPicker({ selectedTrackId, onSelect }: Props) {
+export function TrackPicker({ selectedTrackId, onSelect, allowedTrackIds }: Props) {
   const [open, setOpen] = useState(false);
   const [query, setQuery] = useState('');
-  const tracks = useMemo(() => getAllTracks(), []);
+  const tracks = useMemo(() => {
+    const all = getAllTracks();
+    if (!allowedTrackIds?.length) return all;
+    const allow = new Set(allowedTrackIds);
+    return all.filter((t) => allow.has(t.id));
+  }, [allowedTrackIds]);
   const selected = tracks.find((t) => t.id === selectedTrackId);
 
   const filtered = useMemo(() => {

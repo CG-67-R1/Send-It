@@ -78,13 +78,9 @@ function localSamples(
   const riderX = here.pos.x + nx * lateral;
   const riderY = here.pos.y + ny * lateral;
 
-  // Very near sample so asphalt projects under the cockpit, not a grass gap
-  out.push({ x: 0, z: 0.35, curvature: 0, dist: s + 0.35 });
-  out.push({ x: 0, z: 0.9, curvature: 0, dist: s + 0.9 });
-
   let prevLocalX = 0;
   for (let i = 1; i <= count; i++) {
-    const ds = i === 1 ? step * 0.35 : i * step;
+    const ds = i * step;
     const sample = samplePath(layout.points, layout.lengthM, s + ds);
     const dx = sample.pos.x - riderX;
     const dy = sample.pos.y - riderY;
@@ -92,7 +88,23 @@ function localSamples(
     const localX = dx * ty - dy * tx;
     const curvature = Math.abs(localX - prevLocalX);
     prevLocalX = localX;
-    if (localZ > 1.15) out.push({ x: localX, z: localZ, curvature, dist: s + ds });
+    if (localZ > 0.55) out.push({ x: localX, z: localZ, curvature, dist: s + ds });
+  }
+
+  // Near rings continue the nearest path lateral (do not snap x→0 — that kinks edges inward)
+  if (out.length >= 1) {
+    const a = out[0];
+    const b = out.length >= 2 ? out[1] : null;
+    const xAt = (z: number) => {
+      if (!b || Math.abs(b.z - a.z) < 1e-3) return a.x;
+      return a.x + ((b.x - a.x) * (z - a.z)) / (b.z - a.z);
+    };
+    const nearZs = [0.4, 0.85];
+    for (let i = nearZs.length - 1; i >= 0; i--) {
+      const z = nearZs[i];
+      if (z >= a.z) continue;
+      out.unshift({ x: xAt(z), z, curvature: 0, dist: s + z });
+    }
   }
   return out;
 }
@@ -191,8 +203,9 @@ export function projectRoad(
   const roadHalf = 6.2;
 
   // Track / sky stay world-flat — only the cockpit overlay leans.
+  // Do not clamp X: clipping to the viewport bends edge lines inward under the bike.
   const toScreen = (p: { sx: number; sy: number }): [number, number] => [
-    Math.max(-width * 0.15, Math.min(width * 1.15, p.sx)),
+    p.sx,
     Math.min(p.sy, height + 8),
   ];
 

@@ -14,3 +14,11 @@ export function getTrackMemoryLayout(trackId: string): TrackMemoryLayout | undef
 export function getDefaultTrackMemoryLayout(): TrackMemoryLayout {
   return LAYOUTS.mallala;
 }
+
+/** Layouts available for the Track Memory game (id + display name). */
+export function listTrackMemoryTracks(): { id: string; name: string }[] {
+  return TRACK_MEMORY_TRACK_IDS.map((id) => {
+    const layout = LAYOUTS[id];
+    return { id, name: layout.name };
+  });
+}

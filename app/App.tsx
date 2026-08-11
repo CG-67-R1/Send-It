@@ -22,6 +22,7 @@ import { RoadRacerAiFaqsScreen } from './src/screens/RoadRacerAiFaqsScreen';
 import { BikeBalanceSetupScreen } from './src/screens/BikeBalanceSetupScreen';
 import { TrackWalkScreen } from './src/screens/TrackWalkScreen';
 import { TrackMemoryScreen } from './src/screens/TrackMemoryScreen';
+import { TrackMemoryHubScreen } from './src/screens/TrackMemoryHubScreen';
 import { TrackPrepHubScreen } from './src/screens/TrackPrepHubScreen';
 import { TrackdayPrepScreen } from './src/screens/TrackdayPrepScreen';
 import { TrackdayPrepReportScreen } from './src/screens/TrackdayPrepReportScreen';
@@ -191,6 +192,11 @@ function RiderCoachStack() {
         name="TrackWalk"
         component={TrackWalkScreen}
         options={{ title: 'Track Walk Notes' }}
+      />
+      <Stack.Screen
+        name="TrackMemoryHub"
+        component={TrackMemoryHubScreen}
+        options={{ title: 'Track Memory' }}
       />
       <Stack.Screen
         name="TrackMemory"
