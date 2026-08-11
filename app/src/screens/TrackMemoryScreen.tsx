@@ -202,7 +202,6 @@ export function TrackMemoryScreen() {
           layout={layout}
           s={state.s}
           lateral={state.lateral}
-          lean={state.lean}
           width={size.w}
           height={size.h}
         />

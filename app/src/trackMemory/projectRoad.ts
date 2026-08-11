@@ -33,7 +33,6 @@ export type ProjectedFrame = {
   quads: RoadTrapezoid[];
   markers: DistanceMarkerBillboard[];
   horizonY: number;
-  leanDeg: number;
 };
 
 const DRAW_DEPTH = 90;
@@ -56,7 +55,7 @@ function project(
   horizonY: number,
   fov: number
 ): { sx: number; sy: number; scale: number } | null {
-  if (z <= 0.45) return null;
+  if (z <= 0.18) return null;
   const scale = fov / z;
   const sx = width / 2 + x * scale;
   const sy = horizonY + CAM_HEIGHT_M * scale;
@@ -79,11 +78,13 @@ function localSamples(
   const riderX = here.pos.x + nx * lateral;
   const riderY = here.pos.y + ny * lateral;
 
-  out.push({ x: 0, z: 1.05, curvature: 0, dist: s + 1.05 });
+  // Very near sample so asphalt projects under the cockpit, not a grass gap
+  out.push({ x: 0, z: 0.35, curvature: 0, dist: s + 0.35 });
+  out.push({ x: 0, z: 0.9, curvature: 0, dist: s + 0.9 });
 
   let prevLocalX = 0;
   for (let i = 1; i <= count; i++) {
-    const ds = i * step;
+    const ds = i === 1 ? step * 0.35 : i * step;
     const sample = samplePath(layout.points, layout.lengthM, s + ds);
     const dx = sample.pos.x - riderX;
     const dy = sample.pos.y - riderY;
@@ -91,7 +92,7 @@ function localSamples(
     const localX = dx * ty - dy * tx;
     const curvature = Math.abs(localX - prevLocalX);
     prevLocalX = localX;
-    if (localZ > 1.2) out.push({ x: localX, z: localZ, curvature, dist: s + ds });
+    if (localZ > 1.15) out.push({ x: localX, z: localZ, curvature, dist: s + ds });
   }
   return out;
 }
@@ -181,7 +182,6 @@ export function projectRoad(
   layout: TrackMemoryLayout,
   s: number,
   lateral: number,
-  lean: number,
   width: number,
   height: number
 ): ProjectedFrame {
@@ -189,18 +189,12 @@ export function projectRoad(
   const horizonY = height * HORIZON_FRAC;
   const fov = width * 0.62;
   const roadHalf = 6.2;
-  const leanDeg = lean * 36;
-  const leanRad = (leanDeg * Math.PI) / 180;
-  const cosL = Math.cos(leanRad);
-  const sinL = Math.sin(leanRad);
 
-  const applyLean = (sx: number, sy: number): [number, number] => {
-    const cx = width / 2;
-    const cy = horizonY + (height - horizonY) * 0.35;
-    const dx = sx - cx;
-    const dy = sy - cy;
-    return [cx + dx * cosL - dy * sinL, cy + dx * sinL + dy * cosL];
-  };
+  // Track / sky stay world-flat — only the cockpit overlay leans.
+  const toScreen = (p: { sx: number; sy: number }): [number, number] => [
+    Math.max(-width * 0.15, Math.min(width * 1.15, p.sx)),
+    Math.min(p.sy, height + 8),
+  ];
 
   const here = samplePath(layout.points, layout.lengthM, s);
   const tx = here.tangent.x;
@@ -229,16 +223,10 @@ export function projectRoad(
     const pbR = project(b.x + roadHalf, b.z, width, horizonY, fov);
     if (!paL || !paR || !pbL || !pbR) continue;
 
-    // Allow asphalt to the bottom of the screen (no mid-frame grass cutoff)
-    const clampY = (p: { sx: number; sy: number }): [number, number] => [
-      p.sx,
-      Math.min(p.sy, height + 8),
-    ];
-
-    const tl = applyLean(...clampY(pbL));
-    const tr = applyLean(...clampY(pbR));
-    const br = applyLean(...clampY(paR));
-    const bl = applyLean(...clampY(paL));
+    const tl = toScreen(pbL);
+    const tr = toScreen(pbR);
+    const br = toScreen(paR);
+    const bl = toScreen(paL);
     const roadPts: [number, number][] = [tl, tr, br, bl];
 
     const midDist = (a.dist + b.dist) * 0.5;
@@ -281,10 +269,10 @@ export function projectRoad(
       if (!bl || !br || !tl || !tr) continue;
 
       const pts: [number, number][] = [
-        applyLean(tl.sx, tl.sy),
-        applyLean(tr.sx, tr.sy),
-        applyLean(br.sx, br.sy),
-        applyLean(bl.sx, bl.sy),
+        toScreen(tl),
+        toScreen(tr),
+        toScreen(br),
+        toScreen(bl),
       ];
       const labelX = (pts[0][0] + pts[1][0] + pts[2][0] + pts[3][0]) / 4;
       const labelY = (pts[0][1] + pts[1][1] + pts[2][1] + pts[3][1]) / 4;
@@ -304,7 +292,7 @@ export function projectRoad(
 
   markers.sort((a, b) => b.z - a.z);
 
-  return { quads, markers, horizonY, leanDeg };
+  return { quads, markers, horizonY };
 }
 
 export function minimapBounds(points: TrackMemoryPoint[]): {

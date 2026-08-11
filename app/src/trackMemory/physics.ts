@@ -163,9 +163,9 @@ export function stepGame(
   lean = Math.max(-1, Math.min(1, lean));
 
   // Racing line: drift toward inside ripple strip through the bend, then back to centre.
-  // Left bend (neg) → positive lateral (left / inside). Right bend → negative lateral.
+  // Bend sign from path cross-product is opposite the lateral left-normal frame, so use +sign.
   const bendMag = Math.min(1, Math.abs(bend) * 1.35);
-  const insideSign = bend === 0 ? 0 : -Math.sign(bend);
+  const insideSign = bend === 0 ? 0 : Math.sign(bend);
   const lineTarget = insideSign * ROAD_HALF_M * INSIDE_LINE_FRAC * bendMag;
 
   const follow =
@@ -174,9 +174,8 @@ export function stepGame(
       : Math.min(0.35, dt * 0.9);
   lateral += (lineTarget - lateral) * follow;
 
-  // Mild lean-linked nudge so tip-in and line stay in sync (does not fight inside bias)
-  // Negative lean (left) → increase lateral (left of centre)
-  lateral -= lean * STEER_RATE * 0.35 * dt;
+  // Mild lean-linked nudge — same sign as racing-line inside bias
+  lateral += lean * STEER_RATE * 0.35 * dt;
 
   lateral = Math.max(-LATERAL_LIMIT, Math.min(LATERAL_LIMIT, lateral));
 

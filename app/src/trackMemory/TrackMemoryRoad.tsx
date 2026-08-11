@@ -21,7 +21,6 @@ type Props = {
   layout: TrackMemoryLayout;
   s: number;
   lateral: number;
-  lean: number;
   width: number;
   height: number;
 };
@@ -52,14 +51,53 @@ function curbStrip(
   return `${outer[0][0]},${outer[0][1]} ${ix0},${iy0} ${ix1},${iy1} ${outer[1][0]},${outer[1][1]}`;
 }
 
-export function TrackMemoryRoad({ layout, s, lateral, lean, width, height }: Props) {
+function extendEdgeToBottom(
+  far: [number, number],
+  near: [number, number],
+  screenH: number
+): [number, number] {
+  const targetY = screenH + 6;
+  const dy = near[1] - far[1];
+  // Near edge already past bottom, or flat — drop straight down
+  if (near[1] >= screenH - 1 || Math.abs(dy) < 0.5 || dy < 0) {
+    return [near[0], targetY];
+  }
+  const t = (targetY - far[1]) / dy;
+  return [far[0] + (near[0] - far[0]) * t, targetY];
+}
+
+export function TrackMemoryRoad({ layout, s, lateral, width, height }: Props) {
   const frame = useMemo(
-    () => projectRoad(layout, s, lateral, lean, width, height),
-    [layout, s, lateral, lean, width, height]
+    () => projectRoad(layout, s, lateral, width, height),
+    [layout, s, lateral, width, height]
   );
 
   // Scroll texture with distance so the asphalt feels like it's moving under the bike
   const scrollY = -((s * 5.5) % TILE_PX);
+
+  /**
+   * Bitumen apron: continue the nearest road edges down under the cockpit so
+   * transparent bike areas show asphalt instead of grass.
+   */
+  const underBikeApron = useMemo(() => {
+    if (frame.quads.length === 0) return null;
+    // Prefer the quad whose near edge sits lowest on screen (closest under the bike)
+    let best = frame.quads[0];
+    let bestY = -Infinity;
+    for (const q of frame.quads) {
+      const [, , br, bl] = q.points;
+      const y = Math.max(bl[1], br[1]);
+      if (y > bestY) {
+        bestY = y;
+        best = q;
+      }
+    }
+    const [tl, tr, br, bl] = best.points;
+    const leftBot = extendEdgeToBottom(tl, bl, height);
+    const rightBot = extendEdgeToBottom(tr, br, height);
+    // Always span to the screen bottom so cockpit transparency never shows grass
+    return [bl, br, rightBot, leftBot] as [number, number][];
+  }, [frame.quads, height]);
 
   if (width < 8 || height < 8) return <View style={styles.fill} />;
 
@@ -106,8 +144,8 @@ export function TrackMemoryRoad({ layout, s, lateral, lean, width, height }: Pro
           const depthShade = Math.min(0.35, idx / (frame.quads.length * 2.2));
           return (
             <React.Fragment key={`q-${idx}`}>
+              <Polygon points={quadToPoints(q.points)} fill="#2c2c30" />
               <Polygon points={quadToPoints(q.points)} fill="url(#bitumen)" />
-              {/* Soft depth darkening so far segments read further away */}
               <Polygon
                 points={quadToPoints(q.points)}
                 fill="#0a0a0c"
@@ -154,6 +192,26 @@ export function TrackMemoryRoad({ layout, s, lateral, lean, width, height }: Pro
             </React.Fragment>
           );
         })}
+
+        {/* Continue bitumen under the bike within track edges */}
+        {underBikeApron ? (
+          <>
+            <Polygon points={quadToPoints(underBikeApron)} fill="#2c2c30" />
+            <Polygon points={quadToPoints(underBikeApron)} fill="url(#bitumen)" />
+            <Path
+              d={`M ${underBikeApron[0][0]} ${underBikeApron[0][1]} L ${underBikeApron[3][0]} ${underBikeApron[3][1]}`}
+              stroke="#f4f4f5"
+              strokeWidth={2}
+              opacity={0.55}
+            />
+            <Path
+              d={`M ${underBikeApron[1][0]} ${underBikeApron[1][1]} L ${underBikeApron[2][0]} ${underBikeApron[2][1]}`}
+              stroke="#f4f4f5"
+              strokeWidth={2}
+              opacity={0.55}
+            />
+          </>
+        ) : null}
 
         {frame.markers.map((m, i) => (
           <React.Fragment key={`mk-${m.metres}-${i}`}>
