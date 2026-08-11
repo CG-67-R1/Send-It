@@ -35,8 +35,8 @@ export type ProjectedFrame = {
   horizonY: number;
 };
 
-const DRAW_DEPTH = 90;
-const SEG_LEN = 4.2;
+const DRAW_DEPTH = 140;
+const SEG_LEN = 2.0;
 /** Rider eye height above asphalt (metres). */
 const CAM_HEIGHT_M = 1.05;
 /** Horizon as fraction of screen height (Y down) — lower = more track ahead. */

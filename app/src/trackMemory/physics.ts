@@ -16,15 +16,22 @@ const ROAD_HALF_M = 5.8;
 const LATERAL_LIMIT = ROAD_HALF_M * 0.75;
 const FLASH_MS = 1600;
 const BRAKE_NOW_MS = 1000;
-/** Slow tip-in / tip-out for smooth corner transitions. */
-const LEAN_RESPONSE = 1.8;
+/** Tip-in rate — lower = smoother, less twitchy lean. */
+const LEAN_RESPONSE = 1.05;
+/** Extra low-pass on lean after target chase. */
+const LEAN_LP = 4.2;
+/** Extra low-pass on lateral after line + lean nudge. */
+const LATERAL_LP = 5.0;
 /** Near / far look-ahead blended for smoother bend onset. */
-const ASSIST_LOOK_NEAR_M = 22;
-const ASSIST_LOOK_FAR_M = 58;
+const ASSIST_LOOK_NEAR_M = 28;
+const ASSIST_LOOK_MID_M = 42;
+const ASSIST_LOOK_FAR_M = 68;
 /** Distance before corner for Brake Now! cue. */
 const BRAKE_MARK_M = 100;
 /** How strongly we ease toward the inside curb through a bend. */
-const LINE_FOLLOW = 1.8;
+const LINE_FOLLOW = 0.95;
+/** Lean-linked lateral assist scale (kept mild to avoid fighting the line). */
+const LEAN_NUDGE = 0.16;
 /** Peak inside offset as a fraction of ROAD_HALF_M (still inside the 75% band). */
 const INSIDE_LINE_FRAC = 0.62;
 
@@ -47,6 +54,61 @@ export function createInitialState(bestLapMs: number | null = null): GameState {
   };
 }
 
+function wrapIdx(i: number, n: number): number {
+  return ((i % n) + n) % n;
+}
+
+/** Catmull-Rom position on segment p1→p2 (t in [0,1]). */
+function catmullPos(
+  p0: TrackMemoryPoint,
+  p1: TrackMemoryPoint,
+  p2: TrackMemoryPoint,
+  p3: TrackMemoryPoint,
+  t: number
+): TrackMemoryPoint {
+  const t2 = t * t;
+  const t3 = t2 * t;
+  return {
+    x:
+      0.5 *
+      (2 * p1.x +
+        (-p0.x + p2.x) * t +
+        (2 * p0.x - 5 * p1.x + 4 * p2.x - p3.x) * t2 +
+        (-p0.x + 3 * p1.x - 3 * p2.x + p3.x) * t3),
+    y:
+      0.5 *
+      (2 * p1.y +
+        (-p0.y + p2.y) * t +
+        (2 * p0.y - 5 * p1.y + 4 * p2.y - p3.y) * t2 +
+        (-p0.y + 3 * p1.y - 3 * p2.y + p3.y) * t3),
+  };
+}
+
+/** Catmull-Rom derivative (tangent) on segment p1→p2. */
+function catmullTan(
+  p0: TrackMemoryPoint,
+  p1: TrackMemoryPoint,
+  p2: TrackMemoryPoint,
+  p3: TrackMemoryPoint,
+  t: number
+): TrackMemoryPoint {
+  const t2 = t * t;
+  return {
+    x:
+      0.5 *
+      (-p0.x +
+        p2.x +
+        (4 * p0.x - 10 * p1.x + 8 * p2.x - 2 * p3.x) * t +
+        (-3 * p0.x + 9 * p1.x - 9 * p2.x + 3 * p3.x) * t2),
+    y:
+      0.5 *
+      (-p0.y +
+        p2.y +
+        (4 * p0.y - 10 * p1.y + 8 * p2.y - 2 * p3.y) * t +
+        (-3 * p0.y + 9 * p1.y - 9 * p2.y + 3 * p3.y) * t2),
+  };
+}
+
 export function samplePath(
   points: TrackMemoryPoint[],
   lengthM: number,
@@ -58,18 +120,18 @@ export function samplePath(
   }
   const sNorm = (((s % lengthM) + lengthM) % lengthM) / lengthM;
   const f = sNorm * n;
-  const i0 = Math.floor(f) % n;
-  const i1 = (i0 + 1) % n;
+  const i1 = Math.floor(f) % n;
+  const i2 = (i1 + 1) % n;
   const t = f - Math.floor(f);
-  const a = points[i0];
-  const b = points[i1];
-  const pos = { x: a.x + (b.x - a.x) * t, y: a.y + (b.y - a.y) * t };
-  let tx = b.x - a.x;
-  let ty = b.y - a.y;
-  const len = Math.hypot(tx, ty) || 1;
-  tx /= len;
-  ty /= len;
-  return { pos, tangent: { x: tx, y: ty }, heading: Math.atan2(tx, ty) };
+  const p0 = points[wrapIdx(i1 - 1, n)];
+  const p1 = points[i1];
+  const p2 = points[i2];
+  const p3 = points[wrapIdx(i2 + 1, n)];
+  const pos = catmullPos(p0, p1, p2, p3, t);
+  let tan = catmullTan(p0, p1, p2, p3, t);
+  const len = Math.hypot(tan.x, tan.y) || 1;
+  tan = { x: tan.x / len, y: tan.y / len };
+  return { pos, tangent: tan, heading: Math.atan2(tan.x, tan.y) };
 }
 
 function wrapDist(s: number, lengthM: number): number {
@@ -94,11 +156,12 @@ export function upcomingBend(
   return Math.max(-1, Math.min(1, angle / 0.55));
 }
 
-/** Blend near + far bends so lean eases in/out through the corner. */
+/** Blend near / mid / far bends so lean eases in/out through the corner. */
 function smoothBend(layout: TrackMemoryLayout, s: number): number {
   const near = upcomingBend(layout, s, ASSIST_LOOK_NEAR_M);
+  const mid = upcomingBend(layout, s, ASSIST_LOOK_MID_M);
   const far = upcomingBend(layout, s, ASSIST_LOOK_FAR_M);
-  return near * 0.42 + far * 0.58;
+  return near * 0.28 + mid * 0.34 + far * 0.38;
 }
 
 /** Progressive auto lean in [-1, 1]. Negative lean = tip left (matches left bend). */
@@ -159,7 +222,9 @@ export function stepGame(
 
   // Smooth auto lean into / out of corners (visual + slight lateral assist)
   const leanTarget = autoLeanTarget(bend, speed);
-  lean += (leanTarget - lean) * Math.min(1, dt * LEAN_RESPONSE);
+  let leanDesired = lean + (leanTarget - lean) * Math.min(1, dt * LEAN_RESPONSE);
+  leanDesired = Math.max(-1, Math.min(1, leanDesired));
+  lean += (leanDesired - lean) * Math.min(1, dt * LEAN_LP);
   lean = Math.max(-1, Math.min(1, lean));
 
   // Racing line: drift toward inside ripple strip through the bend, then back to centre.
@@ -170,13 +235,14 @@ export function stepGame(
 
   const follow =
     Math.abs(bend) > 0.06
-      ? Math.min(0.45, dt * LINE_FOLLOW * (0.4 + bendMag))
-      : Math.min(0.35, dt * 0.9);
-  lateral += (lineTarget - lateral) * follow;
+      ? Math.min(0.28, dt * LINE_FOLLOW * (0.35 + bendMag * 0.85))
+      : Math.min(0.22, dt * 0.7);
+  let lateralDesired = lateral + (lineTarget - lateral) * follow;
 
   // Mild lean-linked nudge — same sign as racing-line inside bias
-  lateral += lean * STEER_RATE * 0.35 * dt;
-
+  lateralDesired += lean * STEER_RATE * LEAN_NUDGE * dt;
+  lateralDesired = Math.max(-LATERAL_LIMIT, Math.min(LATERAL_LIMIT, lateralDesired));
+  lateral += (lateralDesired - lateral) * Math.min(1, dt * LATERAL_LP);
   lateral = Math.max(-LATERAL_LIMIT, Math.min(LATERAL_LIMIT, lateral));
 
   const prevS = s;

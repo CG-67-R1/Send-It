@@ -15,7 +15,7 @@ import type { TrackMemoryLayout } from './types';
 import { projectRoad, seamPoly } from './projectRoad';
 
 const BITUMEN_TILE = require('../../assets/track-memory/bitumen_tile.png');
-const TILE_PX = 160;
+const TILE_PX = 96;
 
 type Props = {
   layout: TrackMemoryLayout;

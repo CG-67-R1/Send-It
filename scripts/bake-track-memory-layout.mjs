@@ -29,7 +29,7 @@ const DEFAULT_GPX_DIR = path.join(
   'gpx'
 );
 
-const TARGET_POINTS = 280;
+const TARGET_POINTS = 720;
 
 function parseArgs(argv) {
   const trackId = argv[2];
@@ -108,6 +108,30 @@ function pathLength(pts) {
     total += Math.hypot(dx, dy);
   }
   return total;
+}
+
+/** One Chaikin corner-cutting pass on a closed ring (drops open endpoints). */
+function chaikinClosed(pts, iterations = 2) {
+  let cur = pts.map((p) => ({ x: p.x, y: p.y }));
+  for (let iter = 0; iter < iterations; iter++) {
+    const n = cur.length;
+    if (n < 4) break;
+    const next = [];
+    for (let i = 0; i < n; i++) {
+      const a = cur[i];
+      const b = cur[(i + 1) % n];
+      next.push({
+        x: 0.75 * a.x + 0.25 * b.x,
+        y: 0.75 * a.y + 0.25 * b.y,
+      });
+      next.push({
+        x: 0.25 * a.x + 0.75 * b.x,
+        y: 0.25 * a.y + 0.75 * b.y,
+      });
+    }
+    cur = next;
+  }
+  return cur;
 }
 
 function closeLoop(pts) {
@@ -276,14 +300,33 @@ function main() {
   const segments = extractTrkpts(gpxXml);
   const raw = pickCentreline(segments);
   const local = projectLocal(raw);
-  const { points, lengthM } = resample(local, TARGET_POINTS);
+  // Soften polyline corners before even resampling
+  const smoothed = chaikinClosed(local, 2);
+  const { points, lengthM } = resample(smoothed, TARGET_POINTS);
 
   // Normalize so centroid is origin (nicer minimap)
   const cx = points.reduce((s, p) => s + p.x, 0) / points.length;
   const cy = points.reduce((s, p) => s + p.y, 0) / points.length;
   const centered = points.map((p) => ({ x: round2(p.x - cx), y: round2(p.y - cy) }));
 
-  const corners = placeCorners(track.corners, centered);
+  // Prefer previously baked corner stations so Brake Now! / labels stay stable
+  const outDir = path.join(ROOT, 'app', 'src', 'data', 'trackMemory');
+  const outPath = path.join(outDir, `${trackId}.json`);
+  let corners = placeCorners(track.corners, centered);
+  if (fs.existsSync(outPath)) {
+    try {
+      const prev = JSON.parse(fs.readFileSync(outPath, 'utf8'));
+      if (Array.isArray(prev.corners) && prev.corners.length) {
+        const byId = new Map(prev.corners.map((c) => [c.id, c]));
+        corners = corners.map((c) => {
+          const old = byId.get(c.id);
+          return old && typeof old.sNorm === 'number' ? { ...c, sNorm: old.sNorm } : c;
+        });
+      }
+    } catch {
+      /* keep freshly placed corners */
+    }
+  }
 
   const out = {
     trackId: meta.catalogId,
@@ -296,9 +339,7 @@ function main() {
     sourceGpx: path.basename(gpxPath),
   };
 
-  const outDir = path.join(ROOT, 'app', 'src', 'data', 'trackMemory');
   fs.mkdirSync(outDir, { recursive: true });
-  const outPath = path.join(outDir, `${trackId}.json`);
   fs.writeFileSync(outPath, JSON.stringify(out, null, 2) + '\n');
   console.log(`Wrote ${outPath}`);
   console.log(`  points=${out.points.length} lengthM=${out.lengthM} corners=${out.corners.length}`);
