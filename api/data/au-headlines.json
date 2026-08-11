@@ -1,11 +1,15 @@
 {
-  "updatedAt": "2026-08-11T05:02:37.672Z",
+  "updatedAt": "2026-08-11T08:48:36.761Z",
   "sourceIds": [
     "ma_roadrace",
     "asbk",
-    "amcn_asbk"
+    "amcn_asbk",
+    "mcn",
+    "bennetts",
+    "visordown",
+    "crash-net"
   ],
-  "count": 20,
+  "count": 39,
   "headlines": [
     {
       "title": "ASBK | A season of change Mark Bracks is feeling the summer love already",
@@ -166,6 +170,158 @@
       "sourceId": "asbk",
       "date": null,
       "imageUrl": "https://www.asbk.com.au/wp-content/uploads/2024/08/Pillion-1-e1781229749270-512x512.jpg"
+    },
+    {
+      "title": "First rides & tests",
+      "url": "https://www.motorcyclenews.com/news/first-rides-tests/",
+      "source": "MCN",
+      "sourceId": "mcn",
+      "date": null,
+      "imageUrl": "https://www.motorcyclenews.com/wp-images/433092/480x320/costs_image_1_2026_honda_cb1000gt_.jpg"
+    },
+    {
+      "title": "UK bike sales jump 17.5% in July as new Honda CB1000GT tops the charts on its debut month",
+      "url": "https://www.motorcyclenews.com/news/2026/august/mcia-motorcycle-sales-figures/",
+      "source": "MCN",
+      "sourceId": "mcn",
+      "date": null,
+      "imageUrl": "https://www.motorcyclenews.com/wp-images/433092/480x320/costs_image_1_2026_honda_cb1000gt_.jpg"
+    },
+    {
+      "title": "Win Fabio Quartararo's actual 2026 MotoGP race helmet from £5 and help beat children's cancer",
+      "url": "https://www.motorcyclenews.com/news/2026/august/luca-guintoli-foundation-quartararo-helmet-raffle/",
+      "source": "MCN",
+      "sourceId": "mcn",
+      "date": null,
+      "imageUrl": "https://www.motorcyclenews.com/wp-images/433092/480x320/costs_image_1_2026_honda_cb1000gt_.jpg"
+    },
+    {
+      "title": "Indian Motorcycle launch special edition Chief Vintage cruiser at the Sturgis Motorcycle Rally",
+      "url": "https://www.motorcyclenews.com/news/new-bikes/2026/august/indian-chief-vintage-sturgis-limited-edition/",
+      "source": "MCN",
+      "sourceId": "mcn",
+      "date": null,
+      "imageUrl": "https://www.motorcyclenews.com/wp-images/433092/480x320/costs_image_1_2026_honda_cb1000gt_.jpg"
+    },
+    {
+      "title": "Ducati announce £105m research and development project backed by the Italian Government",
+      "url": "https://www.motorcyclenews.com/news/2026/august/ducati-make-huge-research-and-development-investment/",
+      "source": "MCN",
+      "sourceId": "mcn",
+      "date": null,
+      "imageUrl": "https://www.motorcyclenews.com/wp-images/433092/480x320/costs_image_1_2026_honda_cb1000gt_.jpg"
+    },
+    {
+      "title": "Fresh images appear to show Royal Enfield’s long-awaited Himalayan 750 twin near UK tech centre",
+      "url": "https://www.motorcyclenews.com/news/new-bikes/2026/august/royal-enfield-himalayan-750-spy-shots/",
+      "source": "MCN",
+      "sourceId": "mcn",
+      "date": null,
+      "imageUrl": "https://www.motorcyclenews.com/wp-images/433092/480x320/costs_image_1_2026_honda_cb1000gt_.jpg"
+    },
+    {
+      "title": "Kawasaki update colours and pricing for 2027 Versys 650, Vulcan S, Z1100, Z500 and Ninjas",
+      "url": "https://www.motorcyclenews.com/news/2026/august/kawasaki-2027-range-updates/",
+      "source": "MCN",
+      "sourceId": "mcn",
+      "date": null,
+      "imageUrl": "https://www.motorcyclenews.com/wp-images/433092/480x320/costs_image_1_2026_honda_cb1000gt_.jpg"
+    },
+    {
+      "title": "Honda launches Ride.Buy.Win! competition with chance to take home a Super-N car!",
+      "url": "https://www.motorcyclenews.com/news/2026/august/honda-ride-buy-win-competition/",
+      "source": "MCN",
+      "sourceId": "mcn",
+      "date": null,
+      "imageUrl": "https://www.motorcyclenews.com/wp-images/433092/480x320/costs_image_1_2026_honda_cb1000gt_.jpg"
+    },
+    {
+      "title": "Force to be reckoned with - How Bimota's adaptive aero works and why it might not last",
+      "url": "https://www.motorcyclenews.com/news/new-tech/2026/august/bimota-kb998-rimini-adaptable-aero/",
+      "source": "MCN",
+      "sourceId": "mcn",
+      "date": null,
+      "imageUrl": "https://www.motorcyclenews.com/wp-images/433092/480x320/costs_image_1_2026_honda_cb1000gt_.jpg"
+    },
+    {
+      "title": "Hampshire Police training scheme teaches young riders the 'skills a CBT doesn't' - and it's free",
+      "url": "https://www.motorcyclenews.com/news/2026/july/hampshire-pcc-funds-free-motorcycle-training/",
+      "source": "MCN",
+      "sourceId": "mcn",
+      "date": null,
+      "imageUrl": "https://www.motorcyclenews.com/wp-images/433092/480x320/costs_image_1_2026_honda_cb1000gt_.jpg"
+    },
+    {
+      "title": "'We are deeply concerned' - Calls for reform and support for bikers as accident figures published",
+      "url": "https://www.motorcyclenews.com/news/2026/july/motorcycle-ksi-statistics-updated/",
+      "source": "MCN",
+      "sourceId": "mcn",
+      "date": null,
+      "imageUrl": "https://www.motorcyclenews.com/wp-images/433092/480x320/costs_image_1_2026_honda_cb1000gt_.jpg"
+    },
+    {
+      "title": "Honda reveals 10 models to be built in India including CB500 single-cylinder roadster",
+      "url": "https://www.motorcyclenews.com/news/2026/july/honda-expand-in-india/",
+      "source": "MCN",
+      "sourceId": "mcn",
+      "date": null,
+      "imageUrl": "https://www.motorcyclenews.com/wp-images/433092/480x320/costs_image_1_2026_honda_cb1000gt_.jpg"
+    },
+    {
+      "title": "Motorcycle Maintenance",
+      "url": "https://www.bennetts.co.uk/bikesocial/news-and-views/advice/bike-maintenance",
+      "source": "Bennetts BikeSocial",
+      "sourceId": "bennetts",
+      "date": null,
+      "imageUrl": null
+    },
+    {
+      "title": "Riding advice",
+      "url": "https://www.bennetts.co.uk/bikesocial/news-and-views/advice/biking-tips",
+      "source": "Bennetts BikeSocial",
+      "sourceId": "bennetts",
+      "date": null,
+      "imageUrl": null
+    },
+    {
+      "title": "Product advice",
+      "url": "https://www.bennetts.co.uk/bikesocial/news-and-views/features/product",
+      "source": "Bennetts BikeSocial",
+      "sourceId": "bennetts",
+      "date": null,
+      "imageUrl": null
+    },
+    {
+      "title": "Buying & Selling Bikes",
+      "url": "https://www.bennetts.co.uk/bikesocial/news-and-views/advice/buying-and-selling-a-bike",
+      "source": "Bennetts BikeSocial",
+      "sourceId": "bennetts",
+      "date": null,
+      "imageUrl": null
+    },
+    {
+      "title": "Travel advice",
+      "url": "https://www.bennetts.co.uk/bikesocial/news-and-views/features/travel",
+      "source": "Bennetts BikeSocial",
+      "sourceId": "bennetts",
+      "date": null,
+      "imageUrl": null
+    },
+    {
+      "title": "Motorcycle Blogs",
+      "url": "https://www.bennetts.co.uk/bikesocial/news-and-views/blog",
+      "source": "Bennetts BikeSocial",
+      "sourceId": "bennetts",
+      "date": null,
+      "imageUrl": null
+    },
+    {
+      "title": "Motorcycle Podcasts",
+      "url": "https://www.bennetts.co.uk/bikesocial/news-and-views/features/podcasts",
+      "source": "Bennetts BikeSocial",
+      "sourceId": "bennetts",
+      "date": null,
+      "imageUrl": null
     }
   ]
 }
