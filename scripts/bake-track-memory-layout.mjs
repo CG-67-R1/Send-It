@@ -29,7 +29,7 @@ const DEFAULT_GPX_DIR = path.join(
   'gpx'
 );
 
-const TARGET_POINTS = 720;
+const TARGET_POINTS = 1400;
 
 function parseArgs(argv) {
   const trackId = argv[2];
@@ -301,7 +301,7 @@ function main() {
   const raw = pickCentreline(segments);
   const local = projectLocal(raw);
   // Soften polyline corners before even resampling
-  const smoothed = chaikinClosed(local, 2);
+  const smoothed = chaikinClosed(local, 3);
   const { points, lengthM } = resample(smoothed, TARGET_POINTS);
 
   // Normalize so centroid is origin (nicer minimap)

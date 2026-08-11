@@ -15,12 +15,13 @@ import type { TrackMemoryLayout } from './types';
 import { projectRoad, seamPoly } from './projectRoad';
 
 const BITUMEN_TILE = require('../../assets/track-memory/bitumen_tile.png');
-const TILE_PX = 96;
+const TILE_PX = 64;
 
 type Props = {
   layout: TrackMemoryLayout;
   s: number;
   lateral: number;
+  heading: number;
   width: number;
   height: number;
 };
@@ -64,10 +65,10 @@ function extendEdgeToBottom(
   return [far[0] + (near[0] - far[0]) * t, targetY];
 }
 
-export function TrackMemoryRoad({ layout, s, lateral, width, height }: Props) {
+export function TrackMemoryRoad({ layout, s, lateral, heading, width, height }: Props) {
   const frame = useMemo(
-    () => projectRoad(layout, s, lateral, width, height),
-    [layout, s, lateral, width, height]
+    () => projectRoad(layout, s, lateral, width, height, heading),
+    [layout, s, lateral, heading, width, height]
   );
 
   // Positive Y scroll = texture travels down the screen as the bike moves forward

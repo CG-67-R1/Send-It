@@ -8,8 +8,6 @@ const BRAKE = 42;
 const AERO_DRAG = 1.35;
 /** Extra drag only while braking is held (on top of BRAKE). */
 const BRAKE_DRAG = 2;
-/** Base auto-steer lateral rate. */
-const STEER_RATE = 2.2;
 /** Half-width of asphalt (metres); match projectRoad roadHalf. */
 const ROAD_HALF_M = 5.8;
 /** Stay in the middle 75% of the track (±37.5% of full width from centre). */
@@ -17,21 +15,21 @@ const LATERAL_LIMIT = ROAD_HALF_M * 0.75;
 const FLASH_MS = 1600;
 const BRAKE_NOW_MS = 1000;
 /** Tip-in rate — lower = smoother, less twitchy lean. */
-const LEAN_RESPONSE = 1.05;
-/** Extra low-pass on lean after target chase. */
-const LEAN_LP = 4.2;
-/** Extra low-pass on lateral after line + lean nudge. */
-const LATERAL_LP = 5.0;
+const LEAN_RESPONSE = 0.72;
+/** Extra low-pass on lean after target chase (lower = softer). */
+const LEAN_LP = 3.0;
+/** Extra low-pass on lateral after line follow (lower = softer). */
+const LATERAL_LP = 3.4;
+/** Low-pass rate for camera heading (keeps the world from twitching). */
+const CAM_HEADING_LP = 3.6;
 /** Near / far look-ahead blended for smoother bend onset. */
-const ASSIST_LOOK_NEAR_M = 28;
-const ASSIST_LOOK_MID_M = 42;
-const ASSIST_LOOK_FAR_M = 68;
+const ASSIST_LOOK_NEAR_M = 32;
+const ASSIST_LOOK_MID_M = 48;
+const ASSIST_LOOK_FAR_M = 78;
 /** Distance before corner for Brake Now! cue. */
 const BRAKE_MARK_M = 100;
 /** How strongly we ease toward the inside curb through a bend. */
-const LINE_FOLLOW = 0.95;
-/** Lean-linked lateral assist scale (kept mild to avoid fighting the line). */
-const LEAN_NUDGE = 0.16;
+const LINE_FOLLOW = 0.55;
 /** Peak inside offset as a fraction of ROAD_HALF_M (still inside the 75% band). */
 const INSIDE_LINE_FRAC = 0.62;
 
@@ -142,6 +140,14 @@ function aheadDist(fromS: number, toS: number, lengthM: number): number {
   return wrapDist(toS - fromS, lengthM);
 }
 
+/** Shortest-path lerp for headings from samplePath (atan2(tx, ty)). */
+function lerpAngle(from: number, to: number, t: number): number {
+  let d = to - from;
+  while (d > Math.PI) d -= Math.PI * 2;
+  while (d < -Math.PI) d += Math.PI * 2;
+  return from + d * Math.max(0, Math.min(1, t));
+}
+
 /** Signed upcoming bend: negative = left, positive = right, ~0 = straight. */
 export function upcomingBend(
   layout: TrackMemoryLayout,
@@ -197,13 +203,20 @@ export function stepGame(
     flash,
     flashedIds,
     brakeFlashIds,
+    heading,
   } = prev;
 
   if (phase === 'ready') {
     if (controls.accel) {
       phase = 'racing';
     } else {
-      return { ...prev, phase, lean: lean * 0.92 };
+      const rawH = samplePath(layout.points, layout.lengthM, s).heading;
+      return {
+        ...prev,
+        phase,
+        lean: lean * 0.92,
+        heading: lerpAngle(heading, rawH, 0.2),
+      };
     }
   }
 
@@ -220,7 +233,7 @@ export function stepGame(
   }
   speed = Math.max(0, Math.min(MAX_SPEED, speed));
 
-  // Smooth auto lean into / out of corners (visual + slight lateral assist)
+  // Smooth auto lean into / out of corners (visual only — no lateral nudge)
   const leanTarget = autoLeanTarget(bend, speed);
   let leanDesired = lean + (leanTarget - lean) * Math.min(1, dt * LEAN_RESPONSE);
   leanDesired = Math.max(-1, Math.min(1, leanDesired));
@@ -235,12 +248,9 @@ export function stepGame(
 
   const follow =
     Math.abs(bend) > 0.06
-      ? Math.min(0.28, dt * LINE_FOLLOW * (0.35 + bendMag * 0.85))
-      : Math.min(0.22, dt * 0.7);
+      ? Math.min(0.18, dt * LINE_FOLLOW * (0.3 + bendMag * 0.75))
+      : Math.min(0.12, dt * 0.55);
   let lateralDesired = lateral + (lineTarget - lateral) * follow;
-
-  // Mild lean-linked nudge — same sign as racing-line inside bias
-  lateralDesired += lean * STEER_RATE * LEAN_NUDGE * dt;
   lateralDesired = Math.max(-LATERAL_LIMIT, Math.min(LATERAL_LIMIT, lateralDesired));
   lateral += (lateralDesired - lateral) * Math.min(1, dt * LATERAL_LP);
   lateral = Math.max(-LATERAL_LIMIT, Math.min(LATERAL_LIMIT, lateral));
@@ -329,7 +339,8 @@ export function stepGame(
 
   if (flash && nowMs > flash.untilMs) flash = null;
 
-  const { heading } = samplePath(layout.points, layout.lengthM, s);
+  const rawHeading = samplePath(layout.points, layout.lengthM, s).heading;
+  heading = lerpAngle(heading, rawHeading, Math.min(1, dt * CAM_HEADING_LP));
 
   return {
     phase,

@@ -53,5 +53,6 @@ export type GameState = {
   flashedIds: string[];
   /** Corner ids that already showed Brake Now! this lap. */
   brakeFlashIds: string[];
+  /** Low-passed camera heading (radians) used to project the road. */
   heading: number;
 };

@@ -14,6 +14,7 @@ import { getDefaultTrackMemoryLayout, getTrackMemoryLayout } from '../trackMemor
 import {
   createInitialState,
   resetGame,
+  samplePath,
   stepGame,
   TOTAL_LAPS,
 } from '../trackMemory/physics';
@@ -58,7 +59,11 @@ export function TrackMemoryScreen() {
   layoutRef.current = layout;
 
   const [size, setSize] = useState({ w: 0, h: 0 });
-  const [state, setState] = useState<GameState>(() => createInitialState(null));
+  const [state, setState] = useState<GameState>(() => {
+    const init = createInitialState(null);
+    init.heading = samplePath(layout.points, layout.lengthM, 0).heading;
+    return init;
+  });
   const [held, setHeld] = useState<ControlState>({ ...EMPTY_CONTROLS });
   const stateRef = useRef(state);
   const controlsRef = useRef<ControlState>({ ...EMPTY_CONTROLS });
@@ -108,6 +113,7 @@ export function TrackMemoryScreen() {
     controlsRef.current = { ...EMPTY_CONTROLS };
     setHeld({ ...EMPTY_CONTROLS });
     const next = resetGame(savedBestRef.current ?? stateRef.current.bestLapMs);
+    next.heading = samplePath(layoutRef.current.points, layoutRef.current.lengthM, 0).heading;
     stateRef.current = next;
     setState(next);
   }, []);
@@ -202,6 +208,7 @@ export function TrackMemoryScreen() {
           layout={layout}
           s={state.s}
           lateral={state.lateral}
+          heading={state.heading}
           width={size.w}
           height={size.h}
         />

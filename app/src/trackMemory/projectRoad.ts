@@ -35,8 +35,8 @@ export type ProjectedFrame = {
   horizonY: number;
 };
 
-const DRAW_DEPTH = 140;
-const SEG_LEN = 2.0;
+const DRAW_DEPTH = 220;
+const SEG_LEN = 1.0;
 /** Rider eye height above asphalt (metres). */
 const CAM_HEIGHT_M = 1.05;
 /** Horizon as fraction of screen height (Y down) — lower = more track ahead. */
@@ -67,12 +67,14 @@ function localSamples(
   s: number,
   lateral: number,
   count: number,
-  step: number
+  step: number,
+  camHeading: number
 ): { x: number; z: number; curvature: number; dist: number }[] {
   const out: { x: number; z: number; curvature: number; dist: number }[] = [];
   const here = samplePath(layout.points, layout.lengthM, s);
-  const tx = here.tangent.x;
-  const ty = here.tangent.y;
+  // Smoothed camera frame (matches samplePath atan2(tx, ty) convention)
+  const tx = Math.sin(camHeading);
+  const ty = Math.cos(camHeading);
   const nx = -ty;
   const ny = tx;
   const riderX = here.pos.x + nx * lateral;
@@ -195,9 +197,12 @@ export function projectRoad(
   s: number,
   lateral: number,
   width: number,
-  height: number
+  height: number,
+  camHeading?: number
 ): ProjectedFrame {
-  const samples = localSamples(layout, s, lateral, DRAW_DEPTH, SEG_LEN);
+  const here = samplePath(layout.points, layout.lengthM, s);
+  const heading = camHeading ?? here.heading;
+  const samples = localSamples(layout, s, lateral, DRAW_DEPTH, SEG_LEN, heading);
   const horizonY = height * HORIZON_FRAC;
   const fov = width * 0.62;
   const roadHalf = 6.2;
@@ -209,9 +214,8 @@ export function projectRoad(
     Math.min(p.sy, height + 8),
   ];
 
-  const here = samplePath(layout.points, layout.lengthM, s);
-  const tx = here.tangent.x;
-  const ty = here.tangent.y;
+  const tx = Math.sin(heading);
+  const ty = Math.cos(heading);
   const nx = -ty;
   const ny = tx;
   const riderX = here.pos.x + nx * lateral;
