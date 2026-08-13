@@ -1,6 +1,12 @@
 /** Metres before apex to show the corner name. */
 export const CORNER_NAME_LEAD_M = 95;
 
+/**
+ * Corner `sNorm` is the apex — mid-corner / peak of the turn.
+ * 150 / 100 / 50 boards and coaching cues are measured back from that point.
+ */
+export const DISTANCE_BOARD_M = [150, 100, 50] as const;
+
 /** Distance boards only when turn angle exceeds this (degrees). */
 export const DISTANCE_BOARD_MIN_DEG = 90;
 
@@ -15,14 +21,16 @@ export const COACH_SLOW_SPEED_FRAC = 0.5;
 
 export const COACH_START_TEXT = 'remember to look for your reference points';
 
-/** Distance-relative coaching marks for one taught corner (metres from apex). */
+/**
+ * Coaching marks aligned to distance boards (and apex / exit).
+ * Only used on corners that show 150/100/50 boards (>90° turns).
+ */
 export const COACH_CORNER_MARKS: { offsetM: number; key: string; text: string }[] = [
-  { offsetM: -125, key: 'brake', text: 'apply brake marker?' },
-  { offsetM: -70, key: 'ease', text: 'ease off brake marker?' },
-  { offsetM: -40, key: 'turnin', text: 'turn in marker?' },
-  { offsetM: -10, key: 'release', text: 'release brake/pickup throttle marker?' },
+  { offsetM: -150, key: 'brake', text: 'apply brake marker?' },
+  { offsetM: -100, key: 'ease', text: 'ease off brake marker?' },
+  { offsetM: -50, key: 'turnin', text: 'turn in marker?' },
   { offsetM: 0, key: 'apex', text: 'your apex?' },
-  { offsetM: 5, key: 'exit', text: 'exit target marker' },
+  { offsetM: 25, key: 'exit', text: 'exit target marker' },
 ];
 
 /** Near end-of-lap coaching (metres before finish / start). */

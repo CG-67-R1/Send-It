@@ -13,6 +13,7 @@ import {
   COACH_SLOW_SPEED_FRAC,
   COACH_START_TEXT,
   CORNER_NAME_LEAD_M,
+  DISTANCE_BOARD_M,
   DISTANCE_BOARD_MIN_DEG,
   coachCornerCueId,
 } from './coachCues';
@@ -88,6 +89,10 @@ function catmullPos(
 ): TrackMemoryPoint {
   const t2 = t * t;
   const t3 = t2 * t;
+  const z0 = p0.z ?? 0;
+  const z1 = p1.z ?? 0;
+  const z2 = p2.z ?? 0;
+  const z3 = p3.z ?? 0;
   return {
     x:
       0.5 *
@@ -101,6 +106,12 @@ function catmullPos(
         (-p0.y + p2.y) * t +
         (2 * p0.y - 5 * p1.y + 4 * p2.y - p3.y) * t2 +
         (-p0.y + 3 * p1.y - 3 * p2.y + p3.y) * t3),
+    z:
+      0.5 *
+      (2 * z1 +
+        (-z0 + z2) * t +
+        (2 * z0 - 5 * z1 + 4 * z2 - z3) * t2 +
+        (-z0 + 3 * z1 - 3 * z2 + z3) * t3),
   };
 }
 
@@ -227,12 +238,17 @@ function hasSlightStraightBefore(layout: TrackMemoryLayout, corner: TrackMemoryC
   return (Math.abs(d) * 180) / Math.PI < 18;
 }
 
-/** First two numbered corners after 30% lap that follow a slight straight (fallback: steepest). */
+/** First two numbered board-corners (>90°) after 30% lap that follow a slight straight. */
 export function pickCoachCorners(layout: TrackMemoryLayout): string[] {
-  const leadFrac = 125 / Math.max(1, layout.lengthM);
+  const leadFrac = DISTANCE_BOARD_M[0] / Math.max(1, layout.lengthM);
   const minSNorm = COACH_SEQUENCE_MIN_SNORM + leadFrac;
   const numbered = [...layout.corners]
-    .filter((c) => c.number != null && c.sNorm >= minSNorm)
+    .filter(
+      (c) =>
+        c.number != null &&
+        c.sNorm >= minSNorm &&
+        cornerNeedsDistanceBoards(layout, c)
+    )
     .sort((a, b) => a.sNorm - b.sNorm);
 
   const withStraight = numbered.filter((c) => hasSlightStraightBefore(layout, c));
@@ -507,7 +523,8 @@ export function stepGame(
 
       for (const cornerId of coachCornerIds) {
         const corner = layout.corners.find((c) => c.id === cornerId);
-        if (!corner) continue;
+        if (!corner || !cornerNeedsDistanceBoards(layout, corner)) continue;
+        // Apex = corner.sNorm; boards/cues are metres before/after that station
         const apex = corner.sNorm * lengthM;
         for (const mark of COACH_CORNER_MARKS) {
           const cueId = coachCornerCueId(cornerId, mark.key);

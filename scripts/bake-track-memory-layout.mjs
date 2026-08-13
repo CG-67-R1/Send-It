@@ -35,7 +35,11 @@ const TRACK_GPX = {
   mallala: { gpxName: 'Mallala_Raceway.gpx', catalogId: 'mallala' },
   morgan_park: { gpxName: 'Morgan_Raceway.gpx', catalogId: 'morgan_park' },
   mount_panorama: { gpxName: 'Mount_Panorama.gpx', catalogId: 'mount_panorama' },
-  phillip_island: { gpxName: 'Phillip_Island.gpx', catalogId: 'phillip_island' },
+  phillip_island: {
+    gpxName: 'phillip_island.gpx',
+    catalogId: 'phillip_island',
+    gpxDir: ZTRACKS_GPX_DIR, // DEM-enriched (Emtron elev was all zeros)
+  },
   queensland_raceway: { gpxName: 'Queensland_Raceway.gpx', catalogId: 'queensland_raceway' },
   sandown: { gpxName: 'Sandown_Raceway.gpx', catalogId: 'sandown' },
   smp_brabham: { gpxName: 'Sydney_Motorsport_Park_-_Brabham.gpx', catalogId: 'smp_brabham' },
@@ -86,14 +90,25 @@ function extractTrkpts(gpxXml) {
   let segMatch;
   while ((segMatch = segRe.exec(gpxXml))) {
     const pts = [];
-    const ptRe = /<trkpt\s+lat="([^"]+)"\s+lon="([^"]+)"/gi;
+    const ptRe = /<trkpt\s+lat="([^"]+)"\s+lon="([^"]+)"[^>]*>([\s\S]*?)<\/trkpt>/gi;
     let ptMatch;
     while ((ptMatch = ptRe.exec(segMatch[1]))) {
-      pts.push({ lat: Number(ptMatch[1]), lon: Number(ptMatch[2]) });
+      const eleM = /<ele>([^<]+)<\/ele>/i.exec(ptMatch[3] || '');
+      pts.push({
+        lat: Number(ptMatch[1]),
+        lon: Number(ptMatch[2]),
+        ele: eleM ? Number(eleM[1]) : 0,
+      });
     }
     if (pts.length >= 8) segments.push(pts);
   }
   return segments;
+}
+
+function elevSpanM(pts) {
+  const eles = pts.map((p) => p.ele ?? p.z ?? 0).filter((e) => Number.isFinite(e));
+  if (!eles.length) return 0;
+  return Math.max(...eles) - Math.min(...eles);
 }
 
 /** Prefer the longest closed-ish segment; else the longest by point count. */
@@ -133,7 +148,7 @@ function projectLocal(pts) {
   const meters = pts.map((p) => {
     const x = toRad(p.lon - origin.lon) * 6371000 * cosLat;
     const y = toRad(p.lat - origin.lat) * 6371000;
-    return { x, y };
+    return { x, y, z: Number.isFinite(p.ele) ? p.ele : 0 };
   });
   return meters;
 }
@@ -150,7 +165,7 @@ function pathLength(pts) {
 
 /** One Chaikin corner-cutting pass on a closed ring (drops open endpoints). */
 function chaikinClosed(pts, iterations = 2) {
-  let cur = pts.map((p) => ({ x: p.x, y: p.y }));
+  let cur = pts.map((p) => ({ x: p.x, y: p.y, z: p.z ?? 0 }));
   for (let iter = 0; iter < iterations; iter++) {
     const n = cur.length;
     if (n < 4) break;
@@ -161,10 +176,12 @@ function chaikinClosed(pts, iterations = 2) {
       next.push({
         x: 0.75 * a.x + 0.25 * b.x,
         y: 0.75 * a.y + 0.25 * b.y,
+        z: 0.75 * a.z + 0.25 * b.z,
       });
       next.push({
         x: 0.25 * a.x + 0.75 * b.x,
         y: 0.25 * a.y + 0.75 * b.y,
+        z: 0.25 * a.z + 0.75 * b.z,
       });
     }
     cur = next;
@@ -176,8 +193,10 @@ function closeLoop(pts) {
   const first = pts[0];
   const last = pts[pts.length - 1];
   const gap = Math.hypot(first.x - last.x, first.y - last.y);
-  if (gap > 1) return [...pts, { x: first.x, y: first.y }];
-  return pts.map((p, i) => (i === pts.length - 1 ? { x: first.x, y: first.y } : p));
+  if (gap > 1) return [...pts, { x: first.x, y: first.y, z: first.z ?? 0 }];
+  return pts.map((p, i) =>
+    i === pts.length - 1 ? { x: first.x, y: first.y, z: first.z ?? 0 } : p
+  );
 }
 
 /** Resample polyline to N points evenly by distance (including closed end). */
@@ -200,11 +219,13 @@ function resample(pts, n) {
     for (let s = 0; s < segLens.length; s++) {
       if (acc + segLens[s] >= target || s === segLens.length - 1) {
         const t = segLens[s] < 1e-9 ? 0 : (target - acc) / segLens[s];
+        const u = Math.min(1, Math.max(0, t));
         const a = closed[s];
         const b = closed[s + 1];
         out.push({
-          x: a.x + (b.x - a.x) * Math.min(1, Math.max(0, t)),
-          y: a.y + (b.y - a.y) * Math.min(1, Math.max(0, t)),
+          x: a.x + (b.x - a.x) * u,
+          y: a.y + (b.y - a.y) * u,
+          z: (a.z ?? 0) + ((b.z ?? 0) - (a.z ?? 0)) * u,
         });
         placed = true;
         break;
@@ -369,6 +390,8 @@ function bakeOne(trackId, gpxArg) {
   const gpxXml = fs.readFileSync(gpxPath, 'utf8');
   const segments = extractTrkpts(gpxXml);
   const raw = pickCentreline(segments);
+  const spanRaw = elevSpanM(raw);
+  const elevSource = spanRaw >= 5 ? (meta.gpxDir ? 'dem' : 'gpx') : null;
   const local = projectLocal(raw);
   const smoothed = chaikinClosed(local, 3);
   const approxLen = pathLengthClosed(smoothed);
@@ -377,7 +400,18 @@ function bakeOne(trackId, gpxArg) {
 
   const cx = points.reduce((s, p) => s + p.x, 0) / points.length;
   const cy = points.reduce((s, p) => s + p.y, 0) / points.length;
-  const centered = points.map((p) => ({ x: round2(p.x - cx), y: round2(p.y - cy) }));
+  const meanZ = points.reduce((s, p) => s + (p.z ?? 0), 0) / points.length;
+  const hasElevation = elevSpanM(points) >= 5;
+  const centered = points.map((p) => {
+    const row = { x: round2(p.x - cx), y: round2(p.y - cy) };
+    if (hasElevation) row.z = round2((p.z ?? 0) - meanZ);
+    return row;
+  });
+  const elevSpan = hasElevation
+    ? Math.round(
+        (Math.max(...centered.map((p) => p.z)) - Math.min(...centered.map((p) => p.z))) * 10
+      ) / 10
+    : 0;
 
   const outDir = path.join(ROOT, 'app', 'src', 'data', 'trackMemory');
   const outPath = path.join(outDir, `${trackId}.json`);
@@ -407,12 +441,18 @@ function bakeOne(trackId, gpxArg) {
     corners,
     bakedAt: new Date().toISOString().slice(0, 10),
     sourceGpx: path.basename(gpxPath),
+    ...(hasElevation
+      ? { hasElevation: true, elevSpanM: elevSpan, elevSource: elevSource || 'gpx' }
+      : {}),
   };
 
   fs.mkdirSync(outDir, { recursive: true });
   fs.writeFileSync(outPath, JSON.stringify(out, null, 2) + '\n');
   console.log(`Wrote ${outPath}`);
-  console.log(`  points=${out.points.length} lengthM=${out.lengthM} corners=${out.corners.length}`);
+  console.log(
+    `  points=${out.points.length} lengthM=${out.lengthM} corners=${out.corners.length}` +
+      (hasElevation ? ` elevSpan=${elevSpan}m (${out.elevSource})` : ' flat')
+  );
   return outPath;
 }
 

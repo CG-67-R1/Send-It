@@ -1,4 +1,5 @@
 import type { TrackMemoryLayout, TrackMemoryPoint } from './types';
+import { DISTANCE_BOARD_M } from './coachCues';
 import { cornerNeedsDistanceBoards, samplePath } from './physics';
 
 export type RubberStreak = {
@@ -43,7 +44,7 @@ const CAM_HEIGHT_M = 1.05;
 const HORIZON_FRAC = 0.34;
 const GRAIN_PERIOD_M = 2.4;
 const RUBBER_PERIOD_M = 5.8;
-const MARKER_DISTANCES = [150, 100, 50] as const;
+const MARKER_DISTANCES = DISTANCE_BOARD_M;
 const BOARD_HALF_W = 0.55;
 const BOARD_HEIGHT = 1.15;
 const BOARD_OFFSET = 7.4; // metres from centreline (outside asphalt)
@@ -51,10 +52,22 @@ const BOARD_OFFSET = 7.4; // metres from centreline (outside asphalt)
 const CURB_CURV_THRESH = 0.028;
 /** Half-window (m) around catalog corner apex for kerb paint. */
 const CURB_CORNER_HALF_M = 32;
+/**
+ * Subtle DEM/GPX spans (e.g. PI ~25 m) get a mild visual boost so Lukey reads;
+ * big circuits (Bathurst) stay 1:1.
+ */
+function elevVisualGain(layout: TrackMemoryLayout): number {
+  if (!layout.hasElevation) return 0;
+  const span = layout.elevSpanM ?? 0;
+  if (span < 8) return 0;
+  if (span < 45) return 2.0;
+  return 1.0;
+}
 
-function project(
+function projectHeight(
   x: number,
   z: number,
+  worldY: number,
   width: number,
   horizonY: number,
   fov: number
@@ -62,13 +75,15 @@ function project(
   if (z <= 0.18) return null;
   const scale = fov / z;
   const sx = width / 2 + x * scale;
-  const sy = horizonY + CAM_HEIGHT_M * scale;
+  const sy = horizonY + (CAM_HEIGHT_M - worldY) * scale;
   return { sx, sy, scale };
 }
 
 type RoadSample = {
   x: number;
   z: number;
+  /** Elevation relative to rider (metres, pre-gain). */
+  elev: number;
   /** Signed path bend: neg ≈ left, pos ≈ right (matches upcomingBend). */
   signedCurv: number;
   dist: number;
@@ -114,6 +129,7 @@ function localSamples(
 ): RoadSample[] {
   const out: RoadSample[] = [];
   const here = samplePath(layout.points, layout.lengthM, s);
+  const riderElev = here.pos.z ?? 0;
   // Smoothed camera frame (matches samplePath atan2(tx, ty) convention)
   const tx = Math.sin(camHeading);
   const ty = Math.cos(camHeading);
@@ -133,7 +149,15 @@ function localSamples(
     const cross = prevTan.x * sample.tangent.y - prevTan.y * sample.tangent.x;
     const signedCurv = cross / Math.max(0.5, step);
     prevTan = sample.tangent;
-    if (localZ > 0.55) out.push({ x: localX, z: localZ, signedCurv, dist: s + ds });
+    if (localZ > 0.55) {
+      out.push({
+        x: localX,
+        z: localZ,
+        elev: (sample.pos.z ?? 0) - riderElev,
+        signedCurv,
+        dist: s + ds,
+      });
+    }
   }
 
   // Near rings continue the nearest path lateral (do not snap x→0 — that kinks edges inward)
@@ -144,11 +168,21 @@ function localSamples(
       if (!b || Math.abs(b.z - a.z) < 1e-3) return a.x;
       return a.x + ((b.x - a.x) * (z - a.z)) / (b.z - a.z);
     };
+    const elevAt = (z: number) => {
+      if (!b || Math.abs(b.z - a.z) < 1e-3) return a.elev;
+      return a.elev + ((b.elev - a.elev) * (z - a.z)) / (b.z - a.z);
+    };
     const nearZs = [0.4, 0.85];
     for (let i = nearZs.length - 1; i >= 0; i--) {
       const z = nearZs[i];
       if (z >= a.z) continue;
-      out.unshift({ x: xAt(z), z, signedCurv: a.signedCurv, dist: s + z });
+      out.unshift({
+        x: xAt(z),
+        z,
+        elev: elevAt(z),
+        signedCurv: a.signedCurv,
+        dist: s + z,
+      });
     }
   }
   return out;
@@ -156,21 +190,6 @@ function localSamples(
 
 function lerp2(a: [number, number], b: [number, number], t: number): [number, number] {
   return [a[0] + (b[0] - a[0]) * t, a[1] + (b[1] - a[1]) * t];
-}
-
-function projectHeight(
-  x: number,
-  z: number,
-  worldY: number,
-  width: number,
-  horizonY: number,
-  fov: number
-): { sx: number; sy: number; scale: number } | null {
-  if (z <= 0.8) return null;
-  const scale = fov / z;
-  const sx = width / 2 + x * scale;
-  const sy = horizonY + (CAM_HEIGHT_M - worldY) * scale;
-  return { sx, sy, scale };
 }
 
 /** Irregular streak strip inset on a road quad (frac = lateral 0..1). */
@@ -240,8 +259,10 @@ export function projectRoad(
   const horizonY = height * HORIZON_FRAC;
   const fov = width * 0.62;
   const roadHalf = 6.2;
+  const elevGain = elevVisualGain(layout);
+  const riderElev = here.pos.z ?? 0;
 
-  // Track / sky stay world-flat — only the cockpit overlay leans.
+  // Roll stays flat (cockpit leans). Elevation pitches the road surface only.
   // Do not clamp X: clipping to the viewport bends edge lines inward under the bike.
   const toScreen = (p: { sx: number; sy: number }): [number, number] => [
     p.sx,
@@ -261,17 +282,20 @@ export function projectRoad(
     const dy = sample.pos.y - riderY;
     const localZ = dx * tx + dy * ty;
     const localX = dx * ty - dy * tx;
-    return { localX, localZ, tangent: sample.tangent };
+    const elev = ((sample.pos.z ?? 0) - riderElev) * elevGain;
+    return { localX, localZ, elev, tangent: sample.tangent };
   };
 
   const quads: RoadTrapezoid[] = [];
   for (let i = 0; i < samples.length - 1; i++) {
     const a = samples[i];
     const b = samples[i + 1];
-    const paL = project(a.x - roadHalf, a.z, width, horizonY, fov);
-    const paR = project(a.x + roadHalf, a.z, width, horizonY, fov);
-    const pbL = project(b.x - roadHalf, b.z, width, horizonY, fov);
-    const pbR = project(b.x + roadHalf, b.z, width, horizonY, fov);
+    const elevA = a.elev * elevGain;
+    const elevB = b.elev * elevGain;
+    const paL = projectHeight(a.x - roadHalf, a.z, elevA, width, horizonY, fov);
+    const paR = projectHeight(a.x + roadHalf, a.z, elevA, width, horizonY, fov);
+    const pbL = projectHeight(b.x - roadHalf, b.z, elevB, width, horizonY, fov);
+    const pbR = projectHeight(b.x + roadHalf, b.z, elevB, width, horizonY, fov);
     if (!paL || !paR || !pbL || !pbR) continue;
 
     const tl = toScreen(pbL);
@@ -329,10 +353,24 @@ export function projectRoad(
       if (loc.localZ < 3 || loc.localZ > maxLook) continue;
 
       const boardX = loc.localX + side * BOARD_OFFSET;
-      const bl = projectHeight(boardX - BOARD_HALF_W, loc.localZ, 0.15, width, horizonY, fov);
-      const br = projectHeight(boardX + BOARD_HALF_W, loc.localZ, 0.15, width, horizonY, fov);
-      const tl = projectHeight(boardX - BOARD_HALF_W, loc.localZ, BOARD_HEIGHT, width, horizonY, fov);
-      const tr = projectHeight(boardX + BOARD_HALF_W, loc.localZ, BOARD_HEIGHT, width, horizonY, fov);
+      const bl = projectHeight(boardX - BOARD_HALF_W, loc.localZ, loc.elev + 0.15, width, horizonY, fov);
+      const br = projectHeight(boardX + BOARD_HALF_W, loc.localZ, loc.elev + 0.15, width, horizonY, fov);
+      const tl = projectHeight(
+        boardX - BOARD_HALF_W,
+        loc.localZ,
+        loc.elev + BOARD_HEIGHT,
+        width,
+        horizonY,
+        fov
+      );
+      const tr = projectHeight(
+        boardX + BOARD_HALF_W,
+        loc.localZ,
+        loc.elev + BOARD_HEIGHT,
+        width,
+        horizonY,
+        fov
+      );
       if (!bl || !br || !tl || !tr) continue;
 
       const pts: [number, number][] = [

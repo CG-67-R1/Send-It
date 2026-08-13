@@ -1,10 +1,16 @@
-export type TrackMemoryPoint = { x: number; y: number };
+export type TrackMemoryPoint = {
+  x: number;
+  y: number;
+  /** Height relative to track mean (metres). Present when layout.hasElevation. */
+  z?: number;
+};
 
 export type TrackMemoryCorner = {
   id: string;
   number: number | null;
   label: string;
   direction: string;
+  /** Apex station along the lap [0,1) — mid-corner / peak of the turn. */
   sNorm: number;
 };
 
@@ -17,6 +23,11 @@ export type TrackMemoryLayout = {
   corners: TrackMemoryCorner[];
   bakedAt?: string;
   sourceGpx?: string;
+  /** True when points carry usable elevation (z). */
+  hasElevation?: boolean;
+  /** Peak-to-trough elevation span in metres. */
+  elevSpanM?: number;
+  elevSource?: string;
 };
 
 export type ControlState = {
