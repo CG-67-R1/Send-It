@@ -10,7 +10,7 @@ export const COACH_FLASH_MS = 3200;
 /** Do not start the coaching sequence until this fraction of the lap. */
 export const COACH_SEQUENCE_MIN_SNORM = 0.3;
 
-/** Speed cap while a taught-corner sequence is in progress (until Send it). */
+/** Speed cap while a taught-corner sequence is in progress (until exit cue). */
 export const COACH_SLOW_SPEED_FRAC = 0.5;
 
 export const COACH_START_TEXT = 'remember to look for your reference points';
@@ -23,7 +23,6 @@ export const COACH_CORNER_MARKS: { offsetM: number; key: string; text: string }[
   { offsetM: -10, key: 'release', text: 'release brake/pickup throttle marker?' },
   { offsetM: 0, key: 'apex', text: 'your apex?' },
   { offsetM: 5, key: 'exit', text: 'exit target marker' },
-  { offsetM: 15, key: 'sendit', text: 'Send it marker!' },
 ];
 
 /** Near end-of-lap coaching (metres before finish / start). */

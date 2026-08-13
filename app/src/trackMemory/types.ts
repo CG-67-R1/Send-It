@@ -59,7 +59,7 @@ export type GameState = {
   coachCornerIds: string[];
   /** Pending coaching popups (shown one at a time, full duration each). */
   coachQueue: { text: string; releaseSlow?: boolean }[];
-  /** Cap speed to 50% during a taught-corner sequence until Send it. */
+  /** Cap speed to 50% during a taught-corner sequence until the exit cue. */
   coachSlowActive: boolean;
   /** Wall clock when the bike first started moving this stint (ms), or null. */
   movedAtMs: number | null;

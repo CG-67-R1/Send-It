@@ -521,7 +521,7 @@ export function stepGame(
               coachShownIds,
               cueId,
               mark.text,
-              mark.key === 'sendit'
+              mark.key === 'exit'
             );
             coachQueue = enq.queue;
             coachShownIds = enq.shown;

@@ -264,10 +264,7 @@ export function TrackMemoryScreen() {
 
       {state.phase === 'ready' ? (
         <View style={styles.banner} pointerEvents="none">
-          <Text style={styles.bannerTitle}>Track Memory</Text>
-          <Text style={styles.bannerBody}>
-            Auto-steers · ↑ accel · ↓ brake · Brake Now! at 100 m boards
-          </Text>
+          <Text style={styles.bannerTitle}>Track Memory Game</Text>
         </View>
       ) : null}
 
@@ -398,11 +395,6 @@ const styles = StyleSheet.create({
     color: '#f8fafc',
     fontSize: 26,
     fontWeight: '800',
-    marginBottom: 8,
-  },
-  bannerBody: {
-    color: '#e2e8f0',
-    fontSize: 13,
     textAlign: 'center',
   },
   resultCard: {
