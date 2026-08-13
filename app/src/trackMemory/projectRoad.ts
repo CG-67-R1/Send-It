@@ -1,5 +1,5 @@
 import type { TrackMemoryLayout, TrackMemoryPoint } from './types';
-import { samplePath } from './physics';
+import { cornerNeedsDistanceBoards, samplePath } from './physics';
 
 export type RubberStreak = {
   /** Screen quad: TL, TR, BR, BL */
@@ -310,11 +310,12 @@ export function projectRoad(
     if (rightFlags[i - 1] || rightFlags[i + 1]) quads[i].curbRight = true;
   }
 
-  // 150 / 100 / 50 m boards before each corner (outside of the bend)
+  // 150 / 100 / 50 m boards — only for corners turning more than 90°
   const markers: DistanceMarkerBillboard[] = [];
   const maxLook = DRAW_DEPTH * SEG_LEN;
   for (const corner of layout.corners) {
     if (corner.number == null) continue;
+    if (!cornerNeedsDistanceBoards(layout, corner)) continue;
     const cornerS = corner.sNorm * layout.lengthM;
     const side =
       corner.direction === 'right' ? -1 : corner.direction === 'left' ? 1 : 1;

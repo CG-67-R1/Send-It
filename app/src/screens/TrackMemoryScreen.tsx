@@ -200,6 +200,7 @@ export function TrackMemoryScreen() {
 
   const flashVisible = Boolean(state.flash);
   const flashDanger = state.flash?.tone === 'danger';
+  const flashCoach = state.flash?.tone === 'coach';
 
   return (
     <View style={styles.root} onLayout={onLayout}>
@@ -249,7 +250,15 @@ export function TrackMemoryScreen() {
 
       {flashVisible && state.flash ? (
         <View style={styles.flashWrap} pointerEvents="none">
-          <Text style={[styles.flashText, flashDanger && styles.flashDanger]}>{state.flash.text}</Text>
+          <Text
+            style={[
+              styles.flashText,
+              flashDanger && styles.flashDanger,
+              flashCoach && styles.flashCoach,
+            ]}
+          >
+            {state.flash.text}
+          </Text>
         </View>
       ) : null}
 
@@ -372,6 +381,11 @@ const styles = StyleSheet.create({
     color: '#ef4444',
     fontSize: 28,
     backgroundColor: 'rgba(0,0,0,0.55)',
+  },
+  flashCoach: {
+    color: '#a5f3fc',
+    fontSize: 18,
+    backgroundColor: 'rgba(8, 47, 73, 0.72)',
   },
   banner: {
     position: 'absolute',

@@ -1,4 +1,19 @@
-import type { ControlState, GameState, TrackMemoryLayout, TrackMemoryPoint } from './types';
+import type {
+  ControlState,
+  GameState,
+  TrackMemoryCorner,
+  TrackMemoryLayout,
+  TrackMemoryPoint,
+} from './types';
+import {
+  COACH_CORNER_MARKS,
+  COACH_FLASH_MS,
+  COACH_LAP_END,
+  COACH_START_TEXT,
+  CORNER_NAME_LEAD_M,
+  DISTANCE_BOARD_MIN_DEG,
+  coachCornerCueId,
+} from './coachCues';
 
 export const TOTAL_LAPS = 3;
 const MAX_SPEED = 49.6; // m/s ~178 km/h arcade (−20%)
@@ -48,6 +63,9 @@ export function createInitialState(bestLapMs: number | null = null): GameState {
     flash: null,
     flashedIds: [],
     brakeFlashIds: [],
+    coachShownIds: [],
+    coachCornerIds: [],
+    movedAtMs: null,
     heading: 0,
   };
 }
@@ -171,6 +189,67 @@ function smoothBend(layout: TrackMemoryLayout, s: number): number {
   return near * 0.42 + mid * 0.33 + far * 0.25;
 }
 
+/** Absolute turn angle (deg) over ±window around apex. */
+export function cornerTurnAngleDeg(
+  layout: TrackMemoryLayout,
+  corner: TrackMemoryCorner,
+  windowM = 42
+): number {
+  const lengthM = layout.lengthM;
+  const apex = corner.sNorm * lengthM;
+  const before = samplePath(layout.points, lengthM, apex - windowM);
+  const after = samplePath(layout.points, lengthM, apex + windowM);
+  let d = after.heading - before.heading;
+  while (d > Math.PI) d -= Math.PI * 2;
+  while (d < -Math.PI) d += Math.PI * 2;
+  return (Math.abs(d) * 180) / Math.PI;
+}
+
+export function cornerNeedsDistanceBoards(
+  layout: TrackMemoryLayout,
+  corner: TrackMemoryCorner
+): boolean {
+  return cornerTurnAngleDeg(layout, corner) > DISTANCE_BOARD_MIN_DEG;
+}
+
+function hasSlightStraightBefore(layout: TrackMemoryLayout, corner: TrackMemoryCorner): boolean {
+  const lengthM = layout.lengthM;
+  const apex = corner.sNorm * lengthM;
+  const a = samplePath(layout.points, lengthM, apex - 110);
+  const b = samplePath(layout.points, lengthM, apex - 45);
+  let d = b.heading - a.heading;
+  while (d > Math.PI) d -= Math.PI * 2;
+  while (d < -Math.PI) d += Math.PI * 2;
+  return (Math.abs(d) * 180) / Math.PI < 18;
+}
+
+/** First two numbered corners that follow a slight straight (fallback: steepest). */
+export function pickCoachCorners(layout: TrackMemoryLayout): string[] {
+  const numbered = [...layout.corners]
+    .filter((c) => c.number != null)
+    .sort((a, b) => a.sNorm - b.sNorm);
+
+  const withStraight = numbered.filter((c) => hasSlightStraightBefore(layout, c));
+  if (withStraight.length >= 2) {
+    return withStraight.slice(0, 2).map((c) => c.id);
+  }
+
+  const byAngle = [...numbered].sort(
+    (a, b) => cornerTurnAngleDeg(layout, b) - cornerTurnAngleDeg(layout, a)
+  );
+  return byAngle.slice(0, 2).map((c) => c.id);
+}
+
+function tryCoachFlash(
+  flash: GameState['flash'],
+  nowMs: number,
+  text: string
+): GameState['flash'] {
+  // Never interrupt Brake Now!
+  if (flash?.tone === 'danger' && nowMs <= flash.untilMs) return flash;
+  return { text, untilMs: nowMs + COACH_FLASH_MS, tone: 'coach' };
+}
+
 /** Progressive auto lean in [-1, 1]. Negative lean = tip left (matches left bend). */
 function autoLeanTarget(bend: number, speed: number): number {
   const mag = Math.min(1, Math.abs(bend) * 1.65);
@@ -205,6 +284,9 @@ export function stepGame(
     flash,
     flashedIds,
     brakeFlashIds,
+    coachShownIds,
+    coachCornerIds,
+    movedAtMs,
     heading,
   } = prev;
 
@@ -286,6 +368,9 @@ export function stepGame(
         flash: { text: 'Session complete', untilMs: nowMs + 2500 },
         flashedIds: [],
         brakeFlashIds: [],
+        coachShownIds: [],
+        coachCornerIds: [],
+        movedAtMs: null,
         heading: samplePath(layout.points, layout.lengthM, 0).heading,
       };
     }
@@ -297,16 +382,28 @@ export function stepGame(
     sessionBestLapMs = nextSessionBest;
     flashedIds = [];
     brakeFlashIds = [];
+    coachShownIds = [];
+    coachCornerIds = [];
+    movedAtMs = nowMs;
     flash = { text: `Lap ${lap}`, untilMs: nowMs + 1200 };
   }
 
-  // 100 m Brake Now! + corner name flashes
+  // Mark when the bike first starts moving (for the 2s coaching intro)
+  if (movedAtMs == null && speed > 1.2) {
+    movedAtMs = nowMs;
+    if (coachCornerIds.length === 0) {
+      coachCornerIds = pickCoachCorners(layout);
+    }
+  }
+
+  // Corner name (before apex) + Brake Now! + coaching sequence
   {
     const lengthM = layout.lengthM;
     const traveled = s >= prevS ? s - prevS : s + lengthM - prevS;
 
     for (const corner of layout.corners) {
       if (corner.number == null) continue;
+      if (!cornerNeedsDistanceBoards(layout, corner)) continue;
       const cornerS = corner.sNorm * lengthM;
       const markS = wrapDist(cornerS - BRAKE_MARK_M, lengthM);
       const toMark = aheadDist(prevS, markS, lengthM);
@@ -316,11 +413,13 @@ export function stepGame(
       }
     }
 
+    // Corner name ~95 m before apex (not on exit)
     for (const corner of layout.corners) {
       if (flashedIds.includes(corner.id)) continue;
       const cornerS = corner.sNorm * lengthM;
-      const toCorner = aheadDist(prevS, cornerS, lengthM);
-      if (toCorner > 0 && toCorner <= traveled) {
+      const nameS = wrapDist(cornerS - CORNER_NAME_LEAD_M, lengthM);
+      const toName = aheadDist(prevS, nameS, lengthM);
+      if (toName > 0 && toName <= traveled) {
         flashedIds = [...flashedIds, corner.id];
         const brakeNowActive = flash?.tone === 'danger' && nowMs <= flash.untilMs;
         if (!brakeNowActive) {
@@ -335,6 +434,44 @@ export function stepGame(
             tone: 'normal',
           };
         }
+      }
+    }
+
+    // 2s after rolling: look for reference points
+    if (
+      movedAtMs != null &&
+      nowMs - movedAtMs >= 2000 &&
+      !coachShownIds.includes('coach:start-refs')
+    ) {
+      coachShownIds = [...coachShownIds, 'coach:start-refs'];
+      flash = tryCoachFlash(flash, nowMs, COACH_START_TEXT);
+    }
+
+    // Detailed coaching on two corners (after a slight straight)
+    for (const cornerId of coachCornerIds) {
+      const corner = layout.corners.find((c) => c.id === cornerId);
+      if (!corner) continue;
+      const apex = corner.sNorm * lengthM;
+      for (const mark of COACH_CORNER_MARKS) {
+        const cueId = coachCornerCueId(cornerId, mark.key);
+        if (coachShownIds.includes(cueId)) continue;
+        const cueS = wrapDist(apex + mark.offsetM, lengthM);
+        const toCue = aheadDist(prevS, cueS, lengthM);
+        if (toCue > 0 && toCue <= traveled) {
+          coachShownIds = [...coachShownIds, cueId];
+          flash = tryCoachFlash(flash, nowMs, mark.text);
+        }
+      }
+    }
+
+    // End-of-lap coaching (before crossing start/finish)
+    for (const endCue of COACH_LAP_END) {
+      if (coachShownIds.includes(endCue.id)) continue;
+      const cueS = wrapDist(lengthM - endCue.leadM, lengthM);
+      const toCue = aheadDist(prevS, cueS, lengthM);
+      if (toCue > 0 && toCue <= traveled) {
+        coachShownIds = [...coachShownIds, endCue.id];
+        flash = tryCoachFlash(flash, nowMs, endCue.text);
       }
     }
   }
@@ -358,6 +495,9 @@ export function stepGame(
     flash,
     flashedIds,
     brakeFlashIds,
+    coachShownIds,
+    coachCornerIds,
+    movedAtMs,
     heading,
   };
 }

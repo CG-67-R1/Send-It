@@ -30,7 +30,7 @@ export type FlashState = {
   text: string;
   untilMs: number;
   /** Red danger cue (e.g. Brake Now!). */
-  tone?: 'normal' | 'danger';
+  tone?: 'normal' | 'danger' | 'coach';
 } | null;
 
 export type GamePhase = 'ready' | 'racing' | 'finished';
@@ -53,6 +53,12 @@ export type GameState = {
   flashedIds: string[];
   /** Corner ids that already showed Brake Now! this lap. */
   brakeFlashIds: string[];
+  /** Coaching popup ids already shown this lap. */
+  coachShownIds: string[];
+  /** Two corner ids selected for the detailed coaching sequence this lap. */
+  coachCornerIds: string[];
+  /** Wall clock when the bike first started moving this stint (ms), or null. */
+  movedAtMs: number | null;
   /** Low-passed camera heading (radians) used to project the road. */
   heading: number;
 };
