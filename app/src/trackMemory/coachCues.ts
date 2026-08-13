@@ -4,8 +4,14 @@ export const CORNER_NAME_LEAD_M = 95;
 /** Distance boards only when turn angle exceeds this (degrees). */
 export const DISTANCE_BOARD_MIN_DEG = 90;
 
-/** Coaching popup duration. */
-export const COACH_FLASH_MS = 1500;
+/** Coaching popup duration (longer so riders can read). */
+export const COACH_FLASH_MS = 3200;
+
+/** Do not start the coaching sequence until this fraction of the lap. */
+export const COACH_SEQUENCE_MIN_SNORM = 0.3;
+
+/** Speed cap while a taught-corner sequence is in progress (until Send it). */
+export const COACH_SLOW_SPEED_FRAC = 0.5;
 
 export const COACH_START_TEXT = 'remember to look for your reference points';
 

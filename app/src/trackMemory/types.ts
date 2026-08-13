@@ -57,6 +57,10 @@ export type GameState = {
   coachShownIds: string[];
   /** Two corner ids selected for the detailed coaching sequence this lap. */
   coachCornerIds: string[];
+  /** Pending coaching popups (shown one at a time, full duration each). */
+  coachQueue: { text: string; releaseSlow?: boolean }[];
+  /** Cap speed to 50% during a taught-corner sequence until Send it. */
+  coachSlowActive: boolean;
   /** Wall clock when the bike first started moving this stint (ms), or null. */
   movedAtMs: number | null;
   /** Low-passed camera heading (radians) used to project the road. */

@@ -9,6 +9,8 @@ import {
   COACH_CORNER_MARKS,
   COACH_FLASH_MS,
   COACH_LAP_END,
+  COACH_SEQUENCE_MIN_SNORM,
+  COACH_SLOW_SPEED_FRAC,
   COACH_START_TEXT,
   CORNER_NAME_LEAD_M,
   DISTANCE_BOARD_MIN_DEG,
@@ -65,6 +67,8 @@ export function createInitialState(bestLapMs: number | null = null): GameState {
     brakeFlashIds: [],
     coachShownIds: [],
     coachCornerIds: [],
+    coachQueue: [],
+    coachSlowActive: false,
     movedAtMs: null,
     heading: 0,
   };
@@ -223,15 +227,21 @@ function hasSlightStraightBefore(layout: TrackMemoryLayout, corner: TrackMemoryC
   return (Math.abs(d) * 180) / Math.PI < 18;
 }
 
-/** First two numbered corners that follow a slight straight (fallback: steepest). */
+/** First two numbered corners after 30% lap that follow a slight straight (fallback: steepest). */
 export function pickCoachCorners(layout: TrackMemoryLayout): string[] {
+  const leadFrac = 125 / Math.max(1, layout.lengthM);
+  const minSNorm = COACH_SEQUENCE_MIN_SNORM + leadFrac;
   const numbered = [...layout.corners]
-    .filter((c) => c.number != null)
+    .filter((c) => c.number != null && c.sNorm >= minSNorm)
     .sort((a, b) => a.sNorm - b.sNorm);
 
   const withStraight = numbered.filter((c) => hasSlightStraightBefore(layout, c));
   if (withStraight.length >= 2) {
     return withStraight.slice(0, 2).map((c) => c.id);
+  }
+  if (withStraight.length === 1 && numbered.length >= 2) {
+    const rest = numbered.filter((c) => c.id !== withStraight[0].id);
+    return [withStraight[0].id, rest[0].id];
   }
 
   const byAngle = [...numbered].sort(
@@ -240,14 +250,42 @@ export function pickCoachCorners(layout: TrackMemoryLayout): string[] {
   return byAngle.slice(0, 2).map((c) => c.id);
 }
 
-function tryCoachFlash(
+function enqueueCoach(
+  queue: GameState['coachQueue'],
+  shown: string[],
+  cueId: string,
+  text: string,
+  releaseSlow = false
+): { queue: GameState['coachQueue']; shown: string[] } {
+  if (shown.includes(cueId)) return { queue, shown };
+  return {
+    shown: [...shown, cueId],
+    queue: [...queue, { text, releaseSlow }],
+  };
+}
+
+function drainCoachQueue(
   flash: GameState['flash'],
-  nowMs: number,
-  text: string
-): GameState['flash'] {
-  // Never interrupt Brake Now!
-  if (flash?.tone === 'danger' && nowMs <= flash.untilMs) return flash;
-  return { text, untilMs: nowMs + COACH_FLASH_MS, tone: 'coach' };
+  queue: GameState['coachQueue'],
+  coachSlowActive: boolean,
+  nowMs: number
+): {
+  flash: GameState['flash'];
+  queue: GameState['coachQueue'];
+  coachSlowActive: boolean;
+} {
+  const busy =
+    Boolean(flash && nowMs <= flash.untilMs) &&
+    (flash?.tone === 'danger' || flash?.tone === 'coach' || flash?.tone === 'normal');
+  if (busy || queue.length === 0) {
+    return { flash, queue, coachSlowActive };
+  }
+  const [next, ...rest] = queue;
+  return {
+    flash: { text: next.text, untilMs: nowMs + COACH_FLASH_MS, tone: 'coach' },
+    queue: rest,
+    coachSlowActive: next.releaseSlow ? false : coachSlowActive,
+  };
 }
 
 /** Progressive auto lean in [-1, 1]. Negative lean = tip left (matches left bend). */
@@ -286,6 +324,8 @@ export function stepGame(
     brakeFlashIds,
     coachShownIds,
     coachCornerIds,
+    coachQueue,
+    coachSlowActive,
     movedAtMs,
     heading,
   } = prev;
@@ -316,6 +356,9 @@ export function stepGame(
     speed -= speed * speed * 0.00035 * dt;
   }
   speed = Math.max(0, Math.min(MAX_SPEED, speed));
+  if (coachSlowActive) {
+    speed = Math.min(speed, MAX_SPEED * COACH_SLOW_SPEED_FRAC);
+  }
 
   // Smooth auto lean into / out of corners (visual only — no lateral nudge)
   const leanTarget = autoLeanTarget(bend, speed);
@@ -370,6 +413,8 @@ export function stepGame(
         brakeFlashIds: [],
         coachShownIds: [],
         coachCornerIds: [],
+        coachQueue: [],
+        coachSlowActive: false,
         movedAtMs: null,
         heading: samplePath(layout.points, layout.lengthM, 0).heading,
       };
@@ -384,22 +429,23 @@ export function stepGame(
     brakeFlashIds = [];
     coachShownIds = [];
     coachCornerIds = [];
+    coachQueue = [];
+    coachSlowActive = false;
     movedAtMs = nowMs;
     flash = { text: `Lap ${lap}`, untilMs: nowMs + 1200 };
   }
 
-  // Mark when the bike first starts moving (for the 2s coaching intro)
+  // Mark when the bike first starts moving
   if (movedAtMs == null && speed > 1.2) {
     movedAtMs = nowMs;
-    if (coachCornerIds.length === 0) {
-      coachCornerIds = pickCoachCorners(layout);
-    }
   }
 
   // Corner name (before apex) + Brake Now! + coaching sequence
   {
     const lengthM = layout.lengthM;
     const traveled = s >= prevS ? s - prevS : s + lengthM - prevS;
+    const sNorm = s / lengthM;
+    const pastCoachGate = sNorm >= COACH_SEQUENCE_MIN_SNORM;
 
     for (const corner of layout.corners) {
       if (corner.number == null) continue;
@@ -422,7 +468,8 @@ export function stepGame(
       if (toName > 0 && toName <= traveled) {
         flashedIds = [...flashedIds, corner.id];
         const brakeNowActive = flash?.tone === 'danger' && nowMs <= flash.untilMs;
-        if (!brakeNowActive) {
+        const coachActive = flash?.tone === 'coach' && nowMs <= flash.untilMs;
+        if (!brakeNowActive && !coachActive) {
           const hand =
             corner.direction === 'left' || corner.direction === 'right'
               ? ` (${corner.direction})`
@@ -437,46 +484,77 @@ export function stepGame(
       }
     }
 
-    // 2s after rolling: look for reference points
-    if (
-      movedAtMs != null &&
-      nowMs - movedAtMs >= 2000 &&
-      !coachShownIds.includes('coach:start-refs')
-    ) {
-      coachShownIds = [...coachShownIds, 'coach:start-refs'];
-      flash = tryCoachFlash(flash, nowMs, COACH_START_TEXT);
-    }
+    // Coaching only after 30% of the lap
+    if (pastCoachGate) {
+      if (coachCornerIds.length === 0) {
+        coachCornerIds = pickCoachCorners(layout);
+      }
 
-    // Detailed coaching on two corners (after a slight straight)
-    for (const cornerId of coachCornerIds) {
-      const corner = layout.corners.find((c) => c.id === cornerId);
-      if (!corner) continue;
-      const apex = corner.sNorm * lengthM;
-      for (const mark of COACH_CORNER_MARKS) {
-        const cueId = coachCornerCueId(cornerId, mark.key);
-        if (coachShownIds.includes(cueId)) continue;
-        const cueS = wrapDist(apex + mark.offsetM, lengthM);
+      // Intro once we pass the 30% gate (and have been rolling)
+      if (
+        movedAtMs != null &&
+        !coachShownIds.includes('coach:start-refs')
+      ) {
+        const enq = enqueueCoach(
+          coachQueue,
+          coachShownIds,
+          'coach:start-refs',
+          COACH_START_TEXT
+        );
+        coachQueue = enq.queue;
+        coachShownIds = enq.shown;
+      }
+
+      for (const cornerId of coachCornerIds) {
+        const corner = layout.corners.find((c) => c.id === cornerId);
+        if (!corner) continue;
+        const apex = corner.sNorm * lengthM;
+        for (const mark of COACH_CORNER_MARKS) {
+          const cueId = coachCornerCueId(cornerId, mark.key);
+          if (coachShownIds.includes(cueId)) continue;
+          const cueS = wrapDist(apex + mark.offsetM, lengthM);
+          const toCue = aheadDist(prevS, cueS, lengthM);
+          if (toCue > 0 && toCue <= traveled) {
+            if (mark.key === 'brake') coachSlowActive = true;
+            const enq = enqueueCoach(
+              coachQueue,
+              coachShownIds,
+              cueId,
+              mark.text,
+              mark.key === 'sendit'
+            );
+            coachQueue = enq.queue;
+            coachShownIds = enq.shown;
+          }
+        }
+      }
+
+      for (const endCue of COACH_LAP_END) {
+        if (coachShownIds.includes(endCue.id)) continue;
+        const cueS = wrapDist(lengthM - endCue.leadM, lengthM);
         const toCue = aheadDist(prevS, cueS, lengthM);
         if (toCue > 0 && toCue <= traveled) {
-          coachShownIds = [...coachShownIds, cueId];
-          flash = tryCoachFlash(flash, nowMs, mark.text);
+          const enq = enqueueCoach(coachQueue, coachShownIds, endCue.id, endCue.text);
+          coachQueue = enq.queue;
+          coachShownIds = enq.shown;
         }
       }
     }
 
-    // End-of-lap coaching (before crossing start/finish)
-    for (const endCue of COACH_LAP_END) {
-      if (coachShownIds.includes(endCue.id)) continue;
-      const cueS = wrapDist(lengthM - endCue.leadM, lengthM);
-      const toCue = aheadDist(prevS, cueS, lengthM);
-      if (toCue > 0 && toCue <= traveled) {
-        coachShownIds = [...coachShownIds, endCue.id];
-        flash = tryCoachFlash(flash, nowMs, endCue.text);
-      }
-    }
+    // Show one coaching message at a time for the full duration
+    if (flash && nowMs > flash.untilMs) flash = null;
+    const drained = drainCoachQueue(flash, coachQueue, coachSlowActive, nowMs);
+    flash = drained.flash;
+    coachQueue = drained.queue;
+    coachSlowActive = drained.coachSlowActive;
   }
 
   if (flash && nowMs > flash.untilMs) flash = null;
+
+  // Re-apply slow cap after coaching may have toggled it this frame
+  if (coachSlowActive) {
+    speed = Math.min(speed, MAX_SPEED * COACH_SLOW_SPEED_FRAC);
+  }
 
   const rawHeading = samplePath(layout.points, layout.lengthM, s).heading;
   heading = lerpAngle(heading, rawHeading, Math.min(1, dt * CAM_HEADING_LP));
@@ -497,6 +575,8 @@ export function stepGame(
     brakeFlashIds,
     coachShownIds,
     coachCornerIds,
+    coachQueue,
+    coachSlowActive,
     movedAtMs,
     heading,
   };

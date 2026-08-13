@@ -84,7 +84,7 @@ export function TrackMemoryHubScreen() {
         <Text style={styles.hint}>No Track Memory layouts are available yet.</Text>
       ) : (
         <Text style={styles.hint}>
-          Available now: {memoryTracks.map((t) => t.name).join(', ')}.
+          {memoryTracks.length} Australian circuits ready — pick one and hit Play.
         </Text>
       )}
 

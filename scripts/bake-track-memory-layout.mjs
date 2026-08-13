@@ -15,12 +15,45 @@ import { fileURLToPath } from 'node:url';
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const ROOT = path.resolve(__dirname, '..');
 
+/** Optional gpxDir: repo-relative folder (defaults to Desktop Emtron GPX). */
+const ZTRACKS_GPX_DIR = 'scripts/track-memory-gpx';
+
 const TRACK_GPX = {
-  mallala: {
-    gpxName: 'Mallala_Raceway.gpx',
-    catalogId: 'mallala',
+  baskerville: {
+    gpxName: 'baskerville.gpx',
+    catalogId: 'baskerville',
+    gpxDir: ZTRACKS_GPX_DIR,
   },
+  broadford: { gpxName: 'broadford.gpx', catalogId: 'broadford', gpxDir: ZTRACKS_GPX_DIR },
+  calder_park: { gpxName: 'Calder_Park_Raceway.gpx', catalogId: 'calder_park' },
+  hidden_valley: {
+    gpxName: 'hidden_valley.gpx',
+    catalogId: 'hidden_valley',
+    gpxDir: ZTRACKS_GPX_DIR,
+  },
+  mac_park: { gpxName: 'mac_park.gpx', catalogId: 'mac_park', gpxDir: ZTRACKS_GPX_DIR },
+  mallala: { gpxName: 'Mallala_Raceway.gpx', catalogId: 'mallala' },
+  morgan_park: { gpxName: 'Morgan_Raceway.gpx', catalogId: 'morgan_park' },
+  mount_panorama: { gpxName: 'Mount_Panorama.gpx', catalogId: 'mount_panorama' },
+  phillip_island: { gpxName: 'Phillip_Island.gpx', catalogId: 'phillip_island' },
+  queensland_raceway: { gpxName: 'Queensland_Raceway.gpx', catalogId: 'queensland_raceway' },
+  sandown: { gpxName: 'Sandown_Raceway.gpx', catalogId: 'sandown' },
+  smp_brabham: { gpxName: 'Sydney_Motorsport_Park_-_Brabham.gpx', catalogId: 'smp_brabham' },
+  smp_druitt: { gpxName: 'Sydney_Motorsport_Park_-_Druitt.gpx', catalogId: 'smp_druitt' },
+  smp_gardner: { gpxName: 'Sydney_Motorsport_Park_-_GP.gpx', catalogId: 'smp_gardner' },
+  the_bend_gt: { gpxName: 'Tallem_Bend_GT.gpx', catalogId: 'the_bend_gt' },
+  the_bend_international: {
+    gpxName: 'Tallem_Bend_International.gpx',
+    catalogId: 'the_bend_international',
+  },
+  wakefield_park: { gpxName: 'Wakefield_Park_Raceway.gpx', catalogId: 'wakefield_park' },
+  wanneroo: { gpxName: 'wanneroo.gpx', catalogId: 'wanneroo', gpxDir: ZTRACKS_GPX_DIR },
+  winton: { gpxName: 'Winton_Motor_Raceway.gpx', catalogId: 'winton' },
 };
+
+const BAKEABLE = Object.entries(TRACK_GPX)
+  .filter(([, meta]) => meta && meta.gpxName)
+  .map(([id]) => id);
 
 const DEFAULT_GPX_DIR = path.join(
   process.env.USERPROFILE || process.env.HOME || '',
@@ -29,17 +62,22 @@ const DEFAULT_GPX_DIR = path.join(
   'gpx'
 );
 
-const TARGET_POINTS = 1400;
+/** ~1.85 m spacing (Mallala density); clamped for short/long circuits. */
+function targetPointCount(lengthM) {
+  return Math.max(700, Math.min(2200, Math.round(lengthM / 1.85)));
+}
 
 function parseArgs(argv) {
   const trackId = argv[2];
   let gpxPath = null;
-  for (let i = 3; i < argv.length; i++) {
+  let all = false;
+  for (let i = 2; i < argv.length; i++) {
+    if (argv[i] === '--all') all = true;
     if (argv[i] === '--gpx' && argv[i + 1]) {
       gpxPath = argv[++i];
     }
   }
-  return { trackId, gpxPath };
+  return { trackId: all ? null : trackId === '--all' ? null : trackId, gpxPath, all };
 }
 
 function extractTrkpts(gpxXml) {
@@ -227,38 +265,72 @@ function turnPeaks(pts, loopLength) {
   return kept;
 }
 
+function pathLengthClosed(pts) {
+  if (pts.length < 2) return 0;
+  let total = pathLength(pts);
+  const a = pts[0];
+  const b = pts[pts.length - 1];
+  total += Math.hypot(a.x - b.x, a.y - b.y);
+  return total;
+}
+
 function placeCorners(catalogCorners, pts) {
   const playable = catalogCorners.filter((c) => !c.isFinish);
   const peaks = turnPeaks(pts);
   const corners = [];
 
-  if (peaks.length >= playable.length) {
-    // Pick evenly from strongest peaks ordered around the lap
-    const step = peaks.length / playable.length;
+  if (peaks.length === 0) {
     for (let i = 0; i < playable.length; i++) {
-      const peak = peaks[Math.min(peaks.length - 1, Math.floor(i * step + step / 2))];
       const c = playable[i];
       corners.push({
         id: c.id,
         number: c.number,
         label: c.label,
         direction: c.direction,
-        sNorm: round4(peak.sNorm),
+        sNorm: round4((i + 1) / (playable.length + 1)),
       });
     }
-  } else {
-    // Fallback: even spacing (skip start/finish band)
-    for (let i = 0; i < playable.length; i++) {
-      const c = playable[i];
-      const sNorm = round4((i + 1) / (playable.length + 1));
+    return corners.sort((a, b) => a.sNorm - b.sNorm);
+  }
+
+  // Strongest peaks, then match each catalog corner to the nearest unused peak in lap order
+  const pool = [...peaks]
+    .sort((a, b) => b.strength - a.strength)
+    .slice(0, Math.min(peaks.length, Math.max(playable.length + 3, playable.length)));
+  pool.sort((a, b) => a.sNorm - b.sNorm);
+  const used = new Set();
+
+  for (let i = 0; i < playable.length; i++) {
+    const c = playable[i];
+    const target = (i + 0.55) / playable.length;
+    let best = null;
+    let bestDist = Infinity;
+    for (const p of pool) {
+      if (used.has(p.i)) continue;
+      const d = Math.min(Math.abs(p.sNorm - target), 1 - Math.abs(p.sNorm - target));
+      if (d < bestDist) {
+        bestDist = d;
+        best = p;
+      }
+    }
+    if (!best) {
       corners.push({
         id: c.id,
         number: c.number,
         label: c.label,
         direction: c.direction,
-        sNorm,
+        sNorm: round4(target),
       });
+      continue;
     }
+    used.add(best.i);
+    corners.push({
+      id: c.id,
+      number: c.number,
+      label: c.label,
+      direction: c.direction,
+      sNorm: round4(best.sNorm),
+    });
   }
 
   corners.sort((a, b) => a.sNorm - b.sNorm);
@@ -273,46 +345,44 @@ function round2(n) {
   return Math.round(n * 100) / 100;
 }
 
-function main() {
-  const { trackId, gpxPath: gpxArg } = parseArgs(process.argv);
-  if (!trackId || !TRACK_GPX[trackId]) {
-    console.error(`Usage: node scripts/bake-track-memory-layout.mjs <trackId>`);
-    console.error(`Known: ${Object.keys(TRACK_GPX).join(', ')}`);
-    process.exit(1);
-  }
-
+function bakeOne(trackId, gpxArg) {
   const meta = TRACK_GPX[trackId];
-  const gpxPath = gpxArg || path.join(DEFAULT_GPX_DIR, meta.gpxName);
+  if (!meta || !meta.gpxName) {
+    throw new Error(`No GPX mapping for ${trackId}`);
+  }
+  const gpxPath =
+    gpxArg ||
+    (meta.gpxDir
+      ? path.join(ROOT, meta.gpxDir, meta.gpxName)
+      : path.join(DEFAULT_GPX_DIR, meta.gpxName));
   if (!fs.existsSync(gpxPath)) {
-    console.error(`GPX not found: ${gpxPath}`);
-    process.exit(1);
+    throw new Error(`GPX not found: ${gpxPath}`);
   }
 
   const catalogPath = path.join(ROOT, 'app', 'src', 'data', 'tracks.json');
   const catalog = JSON.parse(fs.readFileSync(catalogPath, 'utf8'));
   const track = catalog.tracks.find((t) => t.id === meta.catalogId);
   if (!track) {
-    console.error(`Catalog track missing: ${meta.catalogId}`);
-    process.exit(1);
+    throw new Error(`Catalog track missing: ${meta.catalogId}`);
   }
 
   const gpxXml = fs.readFileSync(gpxPath, 'utf8');
   const segments = extractTrkpts(gpxXml);
   const raw = pickCentreline(segments);
   const local = projectLocal(raw);
-  // Soften polyline corners before even resampling
   const smoothed = chaikinClosed(local, 3);
-  const { points, lengthM } = resample(smoothed, TARGET_POINTS);
+  const approxLen = pathLengthClosed(smoothed);
+  const nPoints = targetPointCount(approxLen);
+  const { points, lengthM } = resample(smoothed, nPoints);
 
-  // Normalize so centroid is origin (nicer minimap)
   const cx = points.reduce((s, p) => s + p.x, 0) / points.length;
   const cy = points.reduce((s, p) => s + p.y, 0) / points.length;
   const centered = points.map((p) => ({ x: round2(p.x - cx), y: round2(p.y - cy) }));
 
-  // Prefer previously baked corner stations so Brake Now! / labels stay stable
   const outDir = path.join(ROOT, 'app', 'src', 'data', 'trackMemory');
   const outPath = path.join(outDir, `${trackId}.json`);
   let corners = placeCorners(track.corners, centered);
+  // Keep Mallala (and any prior bake) corner stations stable when ids match
   if (fs.existsSync(outPath)) {
     try {
       const prev = JSON.parse(fs.readFileSync(outPath, 'utf8'));
@@ -343,6 +413,94 @@ function main() {
   fs.writeFileSync(outPath, JSON.stringify(out, null, 2) + '\n');
   console.log(`Wrote ${outPath}`);
   console.log(`  points=${out.points.length} lengthM=${out.lengthM} corners=${out.corners.length}`);
+  return outPath;
+}
+
+function writeLayoutsTs(bakedIds) {
+  const ids = [...bakedIds].sort();
+  const rows = ids.map((id) => ({
+    id,
+    varName: id.replace(/_([a-z0-9])/g, (_, c) => c.toUpperCase()),
+  }));
+
+  const importBlock = rows
+    .map((r) => `import ${r.varName} from '../data/trackMemory/${r.id}.json';`)
+    .join('\n');
+  const layoutEntries = rows.map((r) => `  ${r.id}: ${r.varName} as TrackMemoryLayout,`).join('\n');
+
+  const missing = Object.entries(TRACK_GPX)
+    .filter(([, meta]) => !meta)
+    .map(([id]) => id)
+    .sort();
+
+  const body = `${importBlock}
+import type { TrackMemoryLayout } from './types';
+
+const LAYOUTS: Record<string, TrackMemoryLayout> = {
+${layoutEntries}
+};
+
+export const TRACK_MEMORY_TRACK_IDS = Object.keys(LAYOUTS);
+
+/** Catalog track ids with no Emtron GPX bake yet. */
+export const TRACK_MEMORY_MISSING_GPX = ${JSON.stringify(missing, null, 2)} as const;
+
+export function getTrackMemoryLayout(trackId: string): TrackMemoryLayout | undefined {
+  return LAYOUTS[trackId];
+}
+
+export function getDefaultTrackMemoryLayout(): TrackMemoryLayout {
+  return LAYOUTS.mallala ?? LAYOUTS[TRACK_MEMORY_TRACK_IDS[0]];
+}
+
+/** Layouts available for the Track Memory game (id + display name). */
+export function listTrackMemoryTracks(): { id: string; name: string }[] {
+  return TRACK_MEMORY_TRACK_IDS.map((id) => {
+    const layout = LAYOUTS[id];
+    return { id, name: layout.name };
+  });
+}
+`;
+
+  const outPath = path.join(ROOT, 'app', 'src', 'trackMemory', 'layouts.ts');
+  fs.writeFileSync(outPath, body);
+  console.log(`Updated ${outPath} (${ids.length} layouts)`);
+}
+
+function main() {
+  const { trackId, gpxPath: gpxArg, all } = parseArgs(process.argv);
+  if (!all && (!trackId || trackId.startsWith('-') || !TRACK_GPX[trackId] || !TRACK_GPX[trackId]?.gpxName)) {
+    console.error(`Usage: node scripts/bake-track-memory-layout.mjs <trackId>|--all`);
+    console.error(`Bakeable: ${BAKEABLE.join(', ')}`);
+    const missing = Object.entries(TRACK_GPX)
+      .filter(([, m]) => !m)
+      .map(([id]) => id);
+    if (missing.length) console.error(`No GPX yet: ${missing.join(', ')}`);
+    process.exit(1);
+  }
+
+  const ids = all ? BAKEABLE : [trackId];
+  const baked = [];
+  let failed = 0;
+  for (const id of ids) {
+    try {
+      bakeOne(id, all ? null : gpxArg);
+      baked.push(id);
+    } catch (err) {
+      failed += 1;
+      console.error(`FAIL ${id}: ${err.message || err}`);
+    }
+  }
+
+  // Always merge with any existing JSON layouts on disk
+  const outDir = path.join(ROOT, 'app', 'src', 'data', 'trackMemory');
+  const onDisk = fs
+    .readdirSync(outDir)
+    .filter((f) => f.endsWith('.json'))
+    .map((f) => f.replace(/\.json$/, ''));
+  writeLayoutsTs(onDisk);
+
+  if (failed) process.exit(1);
 }
 
 main();
