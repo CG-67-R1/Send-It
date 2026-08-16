@@ -1,0 +1,278 @@
+<!DOCTYPE html>
+<html lang="en-AU">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+    <title>RoadRacer — features</title>
+    <meta
+      name="description"
+      content="RoadRacer is a motorcycle road-racing companion: news, calendar, track walk, bike setup tools, and AI coaching. Setups and notes stay on your device."
+    />
+    <meta property="og:title" content="RoadRacer — motorcycle road-racing companion" />
+    <meta
+      property="og:description"
+      content="News, calendar, track walk, bike setup, and AI coach — for track-day riders and club racers."
+    />
+    <meta property="og:type" content="website" />
+    <link rel="canonical" href="https://send-it-cg-67-r1s-projects.vercel.app/promo" />
+    <style>
+      :root {
+        --bg: #0f172a;
+        --card: #1e293b;
+        --line: #334155;
+        --amber: #f59e0b;
+        --text: #f8fafc;
+        --muted: #94a3b8;
+        --dim: #64748b;
+        --pad: max(1.25rem, env(safe-area-inset-left));
+      }
+      * { box-sizing: border-box; }
+      html, body { margin: 0; background: var(--bg); color: var(--text); }
+      body {
+        font-family: ui-sans-serif, system-ui, -apple-system, "Segoe UI", sans-serif;
+        line-height: 1.45;
+        -webkit-font-smoothing: antialiased;
+      }
+      a { color: var(--amber); }
+      .wrap {
+        max-width: 40rem;
+        margin: 0 auto;
+        padding: 1.5rem var(--pad) 3rem;
+        padding-right: max(1.25rem, env(safe-area-inset-right));
+      }
+      header { padding: 1.25rem 0 1.75rem; }
+      .kicker {
+        color: var(--amber);
+        font-size: 0.75rem;
+        font-weight: 700;
+        letter-spacing: 0.12em;
+        text-transform: uppercase;
+        margin: 0 0 0.6rem;
+      }
+      h1 {
+        font-size: 1.85rem;
+        line-height: 1.15;
+        margin: 0 0 0.75rem;
+      }
+      .lede { color: var(--muted); margin: 0; font-size: 1.05rem; }
+      .cta-row {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 0.75rem;
+        margin-top: 1.35rem;
+      }
+      .btn {
+        display: inline-block;
+        padding: 0.75rem 1.1rem;
+        border-radius: 12px;
+        font-weight: 700;
+        text-decoration: none;
+        font-size: 0.95rem;
+      }
+      .btn-primary { background: var(--amber); color: #0f172a; }
+      .btn-ghost {
+        background: transparent;
+        color: var(--amber);
+        border: 1px solid var(--amber);
+      }
+      h2 {
+        font-size: 1.15rem;
+        margin: 2rem 0 0.85rem;
+      }
+      .grid { display: grid; gap: 0.75rem; }
+      article {
+        background: var(--card);
+        border-radius: 12px;
+        padding: 1rem 1rem 1rem 1.05rem;
+        border-left: 4px solid var(--amber);
+      }
+      article h3 { margin: 0 0 0.35rem; font-size: 1.02rem; }
+      article p { margin: 0; color: var(--muted); font-size: 0.95rem; }
+      ul.funcs {
+        list-style: none;
+        margin: 0;
+        padding: 0;
+        display: grid;
+        gap: 0.55rem;
+      }
+      ul.funcs li {
+        background: var(--card);
+        border-radius: 12px;
+        padding: 0.85rem 1rem;
+        border: 1px solid var(--line);
+      }
+      ul.funcs strong { display: block; margin-bottom: 0.2rem; }
+      ul.funcs span { color: var(--muted); font-size: 0.92rem; }
+      .group { color: var(--dim); font-size: 0.75rem; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; margin: 1.25rem 0 0.5rem; }
+      footer {
+        margin-top: 2.5rem;
+        padding-top: 1.25rem;
+        border-top: 1px solid var(--line);
+        color: var(--dim);
+        font-size: 0.85rem;
+      }
+      footer p { margin: 0 0 0.6rem; }
+    </style>
+  </head>
+  <body>
+    <div class="wrap">
+      <header>
+        <p class="kicker">Motorsport is life</p>
+        <h1>RoadRacer</h1>
+        <p class="lede">
+          News, calendar, track walk, bike setup, and AI coaching — in one place for track-day
+          riders and club racers.
+        </p>
+        <div class="cta-row">
+          <a class="btn btn-primary" href="/">Open the web app</a>
+          <a class="btn btn-ghost" href="#features">See what’s inside</a>
+        </div>
+      </header>
+
+      <section id="features" aria-labelledby="pillars-title">
+        <h2 id="pillars-title">What you get</h2>
+        <div class="grid">
+          <article>
+            <h3>Rider Coach</h3>
+            <p>Ask for race-craft help when nobody is in the garage. Prep a circuit, walk corners, and lock in the layout before you roll out.</p>
+          </article>
+          <article>
+            <h3>Bike Setup</h3>
+            <p>Day sheets, balance, gearing, and tyre-wear photos — plus an AI that talks setup. Snapshots stay on this device until you share them.</p>
+          </article>
+          <article>
+            <h3>What’s on</h3>
+            <p>Upcoming MotoGP, WorldSBK, and regional road-racing dates. Tap an event for the link, or add a reminder to your phone calendar.</p>
+          </article>
+          <article>
+            <h3>News you control</h3>
+            <p>Headlines from motorcycle sources you can reorder. Open the article on the publisher’s site. Optional Priority 1 notify for the feed you care about most.</p>
+          </article>
+          <article>
+            <h3>Q&amp;A and trivia</h3>
+            <p>Ask a racing question, check an official rule clause, or play trivia from scooter rider to Track Guru.</p>
+          </article>
+          <article>
+            <h3>Your garage, your phone</h3>
+            <p>Profile, avatar, setups, and track notes stay private on device. No account. AI chats you send are processed to reply — not kept as server history.</p>
+          </article>
+        </div>
+      </section>
+
+      <section aria-labelledby="func-title">
+        <h2 id="func-title">Functionality list</h2>
+
+        <p class="group">Home and profile</p>
+        <ul class="funcs">
+          <li>
+            <strong>Personalised home</strong>
+            <span>Bike photo, rider avatar, and shortcuts that follow how you ride — Learn (track days) or Setup (race).</span>
+          </li>
+          <li>
+            <strong>Onboarding</strong>
+            <span>Favourite bike and rider, how you ride, nickname, and optional face photo in the leathers avatar.</span>
+          </li>
+          <li>
+            <strong>Track arrival</strong>
+            <span>Optional on-device greeting when you are near a known circuit, with a prompt to talk to Coach.</span>
+          </li>
+        </ul>
+
+        <p class="group">Rider Coach</p>
+        <ul class="funcs">
+          <li>
+            <strong>RR AI Coach</strong>
+            <span>Technique and race-craft chat. Seeded from Track Walk, imported notes, or a track-arrival draft.</span>
+          </li>
+          <li>
+            <strong>Track Prep</strong>
+            <span>Circuit briefing before the day, saved as your last Learn session on Home.</span>
+          </li>
+          <li>
+            <strong>Track Walk</strong>
+            <span>Corner-by-corner notes, photos, and voice (when available). Send the session to Coach.</span>
+          </li>
+          <li>
+            <strong>Track Memory</strong>
+            <span>Layout drills so the circuit is in your head before the first session.</span>
+          </li>
+          <li>
+            <strong>Import track notes</strong>
+            <span>Paste notes from Messages, attach photos, pick a catalog track, and send them to Coach.</span>
+          </li>
+        </ul>
+
+        <p class="group">Bike Setup</p>
+        <ul class="funcs">
+          <li>
+            <strong>Bike Setup AI</strong>
+            <span>Suspension, gearing, and tyre questions in a dedicated setup chat.</span>
+          </li>
+          <li>
+            <strong>Bike Setup Sheet</strong>
+            <span>On-device day sheet for pressures, sag, clicks, and notes — with session history and share as text.</span>
+          </li>
+          <li>
+            <strong>Bike Balance Setup</strong>
+            <span>Measurement-driven balance calculator with a report you can save locally.</span>
+          </li>
+          <li>
+            <strong>Gearing Guide</strong>
+            <span>Front/rear sprocket helper, powerband, and a brief you can send to Bike Setup Coach.</span>
+          </li>
+          <li>
+            <strong>Tyre Wear Analysis</strong>
+            <span>Guided tyre photos plus the facts a picture cannot show, then analyse with Bike Setup Coach.</span>
+          </li>
+          <li>
+            <strong>Bike Setup Basics</strong>
+            <span>Interactive suspension diagram — tap a hotspot for road vs track guidance.</span>
+          </li>
+        </ul>
+
+        <p class="group">News, calendar, and knowledge</p>
+        <ul class="funcs">
+          <li>
+            <strong>Headlines</strong>
+            <span>Aggregated motorcycle news (Settings → Open News). Source order, custom RSS, Priority 1 notify.</span>
+          </li>
+          <li>
+            <strong>What’s On calendar</strong>
+            <span>MotoGP, WorldSBK, ASBK and more. Add reminder uses your device calendar.</span>
+          </li>
+          <li>
+            <strong>Ask</strong>
+            <span>Live Q&amp;A with source links. Hinted toward Coach or Bike Setup when that is the better tool.</span>
+          </li>
+          <li>
+            <strong>Official rule check</strong>
+            <span>Look up MoMS clauses from the bundled rule knowledge — informational, not a licence substitute.</span>
+          </li>
+          <li>
+            <strong>Trivia</strong>
+            <span>Quiz with fail/pass tiers (Track rider / Track Guru). Best score stays on device.</span>
+          </li>
+          <li>
+            <strong>FAQs</strong>
+            <span>Searchable Coach and Bike Setup answers; tap through to the matching AI chat.</span>
+          </li>
+        </ul>
+      </section>
+
+      <footer>
+        <p>
+          Informational only — not professional race or mechanical advice. News headlines link to
+          publisher sites; copyright stays with those publishers.
+        </p>
+        <p>
+          <a href="https://github.com/CG-67-R1/Send-It/blob/main/docs/legal/PRIVACY.md">Privacy</a>
+          ·
+          <a href="mailto:projectapex@outlook.com.au?subject=RoadRacer%20feature%20request">Feature request</a>
+          ·
+          <a href="/">Web app</a>
+        </p>
+        <p>RoadRacer — Motorsport is life. Australia and United Kingdom circuit packs.</p>
+      </footer>
+    </div>
+  </body>
+</html>

@@ -87,7 +87,7 @@ motorcycle,racing,motogp,superbike,track day,bike setup,coach,calendar
 | Field | Value |
 |--------|--------|
 | Support URL | `https://github.com/CG-67-R1/Send-It` |
-| Marketing URL (optional) | `https://send-it-cg-67-r1s-projects.vercel.app` |
+| Marketing URL (optional) | `https://send-it-cg-67-r1s-projects.vercel.app/promo` |
 | Privacy Policy URL | (also under App Privacy — same GitHub PRIVACY.md link) |
 
 ### Promotional Text (optional, 170 chars)
