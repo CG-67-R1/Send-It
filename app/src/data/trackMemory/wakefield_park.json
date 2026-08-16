@@ -5881,31 +5881,38 @@
       "sNorm": 0.1007
     },
     {
-      "id": "wakefield_park_t10",
-      "number": 10,
-      "label": "Turn 10 (Final Hairpin, The Sweeper)",
-      "direction": "left",
-      "sNorm": 0.2517
-    },
-    {
       "id": "wakefield_park_t3",
       "number": 3,
       "label": "Turn 3 (Left Bend over Crest)",
       "direction": "left",
-      "sNorm": 0.2961
+      "sNorm": 0.2517
     },
     {
       "id": "wakefield_park_t4",
       "number": 4,
       "label": "Turn 4 (Left-hander)",
       "direction": "left",
-      "sNorm": 0.4044
+      "sNorm": 0.2961
     },
     {
       "id": "wakefield_park_t5",
       "number": 5,
       "label": "Turn 5 (Right-hander)",
       "direction": "right",
+      "sNorm": 0.349
+    },
+    {
+      "id": "wakefield_park_t6",
+      "number": 6,
+      "label": "Turns 6 & 7 (The Fish Hook)",
+      "direction": "complex",
+      "sNorm": 0.4044
+    },
+    {
+      "id": "wakefield_park_t8",
+      "number": 8,
+      "label": "Turn 8 (Left kink)",
+      "direction": "left",
       "sNorm": 0.5205
     },
     {
@@ -5913,24 +5920,17 @@
       "number": 9,
       "label": "Turn 9 (Fast Right Sweeper)",
       "direction": "right",
-      "sNorm": 0.5666
-    },
-    {
-      "id": "wakefield_park_t6",
-      "number": 6,
-      "label": "Turns 6 & 7 (The Fish Hook)",
-      "direction": "complex",
       "sNorm": 0.6536
     },
     {
-      "id": "wakefield_park_t8",
-      "number": 8,
-      "label": "Turn 8 (Left kink)",
+      "id": "wakefield_park_t10",
+      "number": 10,
+      "label": "Turn 10 (Final Hairpin, The Sweeper)",
       "direction": "left",
       "sNorm": 0.802
     }
   ],
-  "bakedAt": "2026-08-13",
+  "bakedAt": "2026-08-16",
   "sourceGpx": "Wakefield_Park_Raceway.gpx",
   "hasElevation": true,
   "elevSpanM": 19.4,

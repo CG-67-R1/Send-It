@@ -11018,28 +11018,28 @@
       "number": 2,
       "label": "Turn 2 (hairpin complex)",
       "direction": "complex",
-      "sNorm": 0.2118
+      "sNorm": 0.3209
     },
     {
       "id": "smp_brabham_t3",
       "number": 3,
       "label": "Turn 3 (right sweeper)",
       "direction": "complex",
-      "sNorm": 0.3209
+      "sNorm": 0.3673
     },
     {
       "id": "smp_brabham_t4",
       "number": 4,
       "label": "Turn 4 (left sweeper)",
       "direction": "complex",
-      "sNorm": 0.3673
+      "sNorm": 0.4364
     },
     {
       "id": "smp_brabham_t5",
       "number": 5,
       "label": "Turn 5 (left hairpin complex)",
       "direction": "complex",
-      "sNorm": 0.4364
+      "sNorm": 0.4777
     },
     {
       "id": "smp_brabham_t6",
@@ -11049,42 +11049,42 @@
       "sNorm": 0.52
     },
     {
-      "id": "smp_brabham_t11",
-      "number": 11,
-      "label": "Turn 11 (left hairpin / final)",
-      "direction": "complex",
-      "sNorm": 0.5591
-    },
-    {
       "id": "smp_brabham_t7",
       "number": 7,
       "label": "Turn 7 (right hairpin)",
       "direction": "complex",
-      "sNorm": 0.5941
+      "sNorm": 0.5591
     },
     {
       "id": "smp_brabham_t8",
       "number": 8,
       "label": "Turn 8 (left kink)",
       "direction": "complex",
-      "sNorm": 0.6982
+      "sNorm": 0.5941
     },
     {
       "id": "smp_brabham_t9",
       "number": 9,
       "label": "Turn 9 (right hairpin)",
       "direction": "complex",
-      "sNorm": 0.8082
+      "sNorm": 0.6982
     },
     {
       "id": "smp_brabham_t10",
       "number": 10,
       "label": "Turn 10 (right kink)",
       "direction": "complex",
+      "sNorm": 0.8082
+    },
+    {
+      "id": "smp_brabham_t11",
+      "number": 11,
+      "label": "Turn 11 (left hairpin / final)",
+      "direction": "complex",
       "sNorm": 0.8486
     }
   ],
-  "bakedAt": "2026-08-13",
+  "bakedAt": "2026-08-16",
   "sourceGpx": "Sydney_Motorsport_Park_-_Brabham.gpx",
   "hasElevation": true,
   "elevSpanM": 30.7,

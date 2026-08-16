@@ -2,6 +2,7 @@ import baskerville from '../data/trackMemory/baskerville.json';
 import broadford from '../data/trackMemory/broadford.json';
 import calderPark from '../data/trackMemory/calder_park.json';
 import hiddenValley from '../data/trackMemory/hidden_valley.json';
+import lakeside from '../data/trackMemory/lakeside.json';
 import macPark from '../data/trackMemory/mac_park.json';
 import mallala from '../data/trackMemory/mallala.json';
 import morganPark from '../data/trackMemory/morgan_park.json';
@@ -24,6 +25,7 @@ const LAYOUTS: Record<string, TrackMemoryLayout> = {
   broadford: broadford as TrackMemoryLayout,
   calder_park: calderPark as TrackMemoryLayout,
   hidden_valley: hiddenValley as TrackMemoryLayout,
+  lakeside: lakeside as TrackMemoryLayout,
   mac_park: macPark as TrackMemoryLayout,
   mallala: mallala as TrackMemoryLayout,
   morgan_park: morganPark as TrackMemoryLayout,

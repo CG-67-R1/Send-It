@@ -10456,80 +10456,80 @@
       "number": 1,
       "label": "Turn 1",
       "direction": "left",
-      "sNorm": 0.2039
+      "sNorm": 0.0661
     },
     {
       "id": "smp_gardner_t2",
       "number": 2,
       "label": "Turn 2 (Southern Hairpin)",
       "direction": "left",
-      "sNorm": 0.2446
+      "sNorm": 0.2039
     },
     {
       "id": "smp_gardner_t3",
       "number": 3,
       "label": "Turn 3 (medium-speed right over tunnel)",
       "direction": "right",
-      "sNorm": 0.4189
+      "sNorm": 0.2446
     },
     {
       "id": "smp_gardner_t4",
       "number": 4,
       "label": "Turn 4 (right-hand sweeper, Corporate Hill entry)",
       "direction": "right",
-      "sNorm": 0.5122
+      "sNorm": 0.282
     },
     {
       "id": "smp_gardner_t5",
       "number": 5,
       "label": "Turn 5",
       "direction": "left",
-      "sNorm": 0.6046
+      "sNorm": 0.3825
     },
     {
       "id": "smp_gardner_t6",
       "number": 6,
       "label": "Turn 6 (BMW / MotoRide corner)",
       "direction": "left",
-      "sNorm": 0.6587
-    },
-    {
-      "id": "smp_gardner_t9",
-      "number": 9,
-      "label": "Turn 9 (Hairpin)",
-      "direction": "right",
-      "sNorm": 0.7773
+      "sNorm": 0.4189
     },
     {
       "id": "smp_gardner_t7",
       "number": 7,
       "label": "Turn 7 (Corporate Hill)",
       "direction": "right",
-      "sNorm": 0.797
+      "sNorm": 0.5122
     },
     {
       "id": "smp_gardner_t8",
       "number": 8,
       "label": "Turn 8 (right kink / chute to T9)",
       "direction": "right",
-      "sNorm": 0.8325
+      "sNorm": 0.6046
+    },
+    {
+      "id": "smp_gardner_t9",
+      "number": 9,
+      "label": "Turn 9 (Hairpin)",
+      "direction": "right",
+      "sNorm": 0.6587
     },
     {
       "id": "smp_gardner_t10",
       "number": 10,
       "label": "Turn 10",
       "direction": "left",
-      "sNorm": 0.8682
+      "sNorm": 0.797
     },
     {
       "id": "smp_gardner_t11",
       "number": 11,
       "label": "Turn 11 (final corner)",
       "direction": "left",
-      "sNorm": 0.9591
+      "sNorm": 0.8325
     }
   ],
-  "bakedAt": "2026-08-13",
+  "bakedAt": "2026-08-16",
   "sourceGpx": "Sydney_Motorsport_Park_-_GP.gpx",
   "hasElevation": true,
   "elevSpanM": 25.1,

@@ -11011,80 +11011,80 @@
       "number": 1,
       "label": "Doohan Corner",
       "direction": "right",
-      "sNorm": 0.1045
+      "sNorm": 0.0014
     },
     {
       "id": "phillip_island_t2",
       "number": 2,
       "label": "Southern Loop",
       "direction": "left",
-      "sNorm": 0.2132
+      "sNorm": 0.0573
     },
     {
       "id": "phillip_island_t3",
       "number": 3,
       "label": "Stoner Corner",
       "direction": "left",
-      "sNorm": 0.4209
+      "sNorm": 0.1209
     },
     {
       "id": "phillip_island_t4",
       "number": 4,
       "label": "Miller Corner (formerly Honda Corner)",
       "direction": "right",
-      "sNorm": 0.4964
+      "sNorm": 0.2141
     },
     {
       "id": "phillip_island_t5",
       "number": 5,
       "label": "Siberia",
       "direction": "left",
-      "sNorm": 0.7545
+      "sNorm": 0.2495
     },
     {
       "id": "phillip_island_t6",
       "number": 6,
       "label": "Hayshed",
       "direction": "complex",
-      "sNorm": 0.8636
+      "sNorm": 0.3782
     },
     {
       "id": "phillip_island_t7",
       "number": 7,
       "label": "Lukey Heights entry",
       "direction": "complex",
-      "sNorm": 0.5955
+      "sNorm": 0.4959
     },
     {
       "id": "phillip_island_t8",
       "number": 8,
       "label": "Lukey Heights proper",
       "direction": "complex",
-      "sNorm": 0.6864
+      "sNorm": 0.5991
     },
     {
       "id": "phillip_island_t9",
       "number": 9,
       "label": "MG Hairpin",
       "direction": "right",
-      "sNorm": 0.7773
+      "sNorm": 0.7114
     },
     {
       "id": "phillip_island_t10",
       "number": 10,
       "label": "Turn 10",
       "direction": "complex",
-      "sNorm": 0.8682
+      "sNorm": 0.7473
     },
     {
       "id": "phillip_island_t11",
       "number": 11,
       "label": "Turn 11 (Gardner's)",
       "direction": "complex",
-      "sNorm": 0.9591
+      "sNorm": 0.8745
     }
   ],
-  "bakedAt": "2026-08-13",
+  "bakedAt": "2026-08-16",
   "sourceGpx": "phillip_island.gpx",
   "hasElevation": true,
   "elevSpanM": 29.8,

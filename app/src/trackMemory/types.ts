@@ -64,14 +64,10 @@ export type GameState = {
   flashedIds: string[];
   /** Corner ids that already showed Brake Now! this lap. */
   brakeFlashIds: string[];
-  /** Coaching popup ids already shown this lap. */
-  coachShownIds: string[];
-  /** Two corner ids selected for the detailed coaching sequence this lap. */
-  coachCornerIds: string[];
-  /** Pending coaching popups (shown one at a time, full duration each). */
-  coachQueue: { text: string; releaseSlow?: boolean }[];
-  /** Cap speed to 50% during a taught-corner sequence until the exit cue. */
-  coachSlowActive: boolean;
+  /** Next index into the lap coaching script (COACH_SCRIPT). */
+  coachIndex: number;
+  /** Wall clock when the next coaching popup may appear (ms), or null if not started. */
+  coachNextAtMs: number | null;
   /** Wall clock when the bike first started moving this stint (ms), or null. */
   movedAtMs: number | null;
   /** Low-passed camera heading (radians) used to project the road. */

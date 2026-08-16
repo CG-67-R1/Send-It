@@ -25,34 +25,37 @@ const TRACK_GPX = {
     gpxDir: ZTRACKS_GPX_DIR,
   },
   broadford: { gpxName: 'broadford.gpx', catalogId: 'broadford', gpxDir: ZTRACKS_GPX_DIR },
-  calder_park: { gpxName: 'Calder_Park_Raceway.gpx', catalogId: 'calder_park' },
+  calder_park: { gpxName: 'calder_park.gpx', catalogId: 'calder_park', gpxDir: ZTRACKS_GPX_DIR },
   hidden_valley: {
     gpxName: 'hidden_valley.gpx',
     catalogId: 'hidden_valley',
     gpxDir: ZTRACKS_GPX_DIR,
   },
   mac_park: { gpxName: 'mac_park.gpx', catalogId: 'mac_park', gpxDir: ZTRACKS_GPX_DIR },
-  mallala: { gpxName: 'Mallala_Raceway.gpx', catalogId: 'mallala' },
-  morgan_park: { gpxName: 'Morgan_Raceway.gpx', catalogId: 'morgan_park' },
+  mallala: { gpxName: 'mallala.gpx', catalogId: 'mallala', gpxDir: ZTRACKS_GPX_DIR },
+  morgan_park: { gpxName: 'morgan_park.gpx', catalogId: 'morgan_park', gpxDir: ZTRACKS_GPX_DIR },
   mount_panorama: { gpxName: 'Mount_Panorama.gpx', catalogId: 'mount_panorama' },
   phillip_island: {
     gpxName: 'phillip_island.gpx',
     catalogId: 'phillip_island',
-    gpxDir: ZTRACKS_GPX_DIR, // DEM-enriched (Emtron elev was all zeros)
+    gpxDir: ZTRACKS_GPX_DIR,
   },
+  // Leave on Desktop Emtron — DEM span ~5 m / KB flat; do not bake elevation
   queensland_raceway: { gpxName: 'Queensland_Raceway.gpx', catalogId: 'queensland_raceway' },
-  sandown: { gpxName: 'Sandown_Raceway.gpx', catalogId: 'sandown' },
+  sandown: { gpxName: 'sandown.gpx', catalogId: 'sandown', gpxDir: ZTRACKS_GPX_DIR },
   smp_brabham: { gpxName: 'Sydney_Motorsport_Park_-_Brabham.gpx', catalogId: 'smp_brabham' },
-  smp_druitt: { gpxName: 'Sydney_Motorsport_Park_-_Druitt.gpx', catalogId: 'smp_druitt' },
+  smp_druitt: { gpxName: 'smp_druitt.gpx', catalogId: 'smp_druitt', gpxDir: ZTRACKS_GPX_DIR },
   smp_gardner: { gpxName: 'Sydney_Motorsport_Park_-_GP.gpx', catalogId: 'smp_gardner' },
-  the_bend_gt: { gpxName: 'Tallem_Bend_GT.gpx', catalogId: 'the_bend_gt' },
+  the_bend_gt: { gpxName: 'the_bend_gt.gpx', catalogId: 'the_bend_gt', gpxDir: ZTRACKS_GPX_DIR },
   the_bend_international: {
-    gpxName: 'Tallem_Bend_International.gpx',
+    gpxName: 'the_bend_international.gpx',
     catalogId: 'the_bend_international',
+    gpxDir: ZTRACKS_GPX_DIR,
   },
   wakefield_park: { gpxName: 'Wakefield_Park_Raceway.gpx', catalogId: 'wakefield_park' },
   wanneroo: { gpxName: 'wanneroo.gpx', catalogId: 'wanneroo', gpxDir: ZTRACKS_GPX_DIR },
-  winton: { gpxName: 'Winton_Motor_Raceway.gpx', catalogId: 'winton' },
+  winton: { gpxName: 'winton.gpx', catalogId: 'winton', gpxDir: ZTRACKS_GPX_DIR },
+  lakeside: { gpxName: 'lakeside.gpx', catalogId: 'lakeside', gpxDir: ZTRACKS_GPX_DIR },
 };
 
 const BAKEABLE = Object.entries(TRACK_GPX)
@@ -75,13 +78,20 @@ function parseArgs(argv) {
   const trackId = argv[2];
   let gpxPath = null;
   let all = false;
+  let freshCorners = false;
   for (let i = 2; i < argv.length; i++) {
     if (argv[i] === '--all') all = true;
+    if (argv[i] === '--fresh-corners') freshCorners = true;
     if (argv[i] === '--gpx' && argv[i + 1]) {
       gpxPath = argv[++i];
     }
   }
-  return { trackId: all ? null : trackId === '--all' ? null : trackId, gpxPath, all };
+  return {
+    trackId: all ? null : trackId === '--all' ? null : trackId,
+    gpxPath,
+    all,
+    freshCorners,
+  };
 }
 
 function extractTrkpts(gpxXml) {
@@ -259,7 +269,7 @@ function angleDelta(a, b) {
 }
 
 /** Peak turn strength along path for placing non-finish corners. */
-function turnPeaks(pts, loopLength) {
+function turnPeaks(pts, minCount = 8) {
   const window = 4;
   const peaks = [];
   for (let i = 0; i < pts.length; i++) {
@@ -272,18 +282,31 @@ function turnPeaks(pts, loopLength) {
     const sNorm = i / pts.length;
     peaks.push({ i, sNorm, strength: delta });
   }
-  // Non-max suppression
-  const kept = [];
-  const sorted = [...peaks].sort((a, b) => b.strength - a.strength);
-  for (const p of sorted) {
-    if (p.strength < 8) continue;
-    if (kept.some((k) => Math.min(Math.abs(k.sNorm - p.sNorm), 1 - Math.abs(k.sNorm - p.sNorm)) < 0.035)) {
-      continue;
+
+  // Allow enough peaks for dense catalogs (e.g. Mac Park 12 turns)
+  const minSpacing = Math.min(0.035, 0.8 / Math.max(minCount, 6));
+  const strengthFloors = [8, 5, 3, 1.5];
+
+  for (const floor of strengthFloors) {
+    const kept = [];
+    const sorted = [...peaks].sort((a, b) => b.strength - a.strength);
+    for (const p of sorted) {
+      if (p.strength < floor) continue;
+      if (
+        kept.some(
+          (k) =>
+            Math.min(Math.abs(k.sNorm - p.sNorm), 1 - Math.abs(k.sNorm - p.sNorm)) < minSpacing
+        )
+      ) {
+        continue;
+      }
+      kept.push(p);
     }
-    kept.push(p);
+    kept.sort((a, b) => a.sNorm - b.sNorm);
+    if (kept.length >= minCount) return kept;
+    if (floor === strengthFloors[strengthFloors.length - 1]) return kept;
   }
-  kept.sort((a, b) => a.sNorm - b.sNorm);
-  return kept;
+  return [];
 }
 
 function pathLengthClosed(pts) {
@@ -295,10 +318,19 @@ function pathLengthClosed(pts) {
   return total;
 }
 
+/**
+ * Place catalog corners on the centreline.
+ * Assign in turn-number order to peaks sorted around the lap so T1..Tn
+ * advance in circuit order (avoids late-lap clustering / number scramble).
+ */
 function placeCorners(catalogCorners, pts) {
-  const playable = catalogCorners.filter((c) => !c.isFinish);
-  const peaks = turnPeaks(pts);
+  const playable = catalogCorners
+    .filter((c) => !c.isFinish)
+    .sort((a, b) => (a.number ?? 999) - (b.number ?? 999));
+  const peaks = turnPeaks(pts, playable.length);
   const corners = [];
+
+  const evenFallback = (i, n) => round4((i + 0.55) / Math.max(1, n));
 
   if (peaks.length === 0) {
     for (let i = 0; i < playable.length; i++) {
@@ -308,54 +340,39 @@ function placeCorners(catalogCorners, pts) {
         number: c.number,
         label: c.label,
         direction: c.direction,
-        sNorm: round4((i + 1) / (playable.length + 1)),
+        sNorm: evenFallback(i, playable.length),
       });
     }
     return corners.sort((a, b) => a.sNorm - b.sNorm);
   }
 
-  // Strongest peaks, then match each catalog corner to the nearest unused peak in lap order
-  const pool = [...peaks]
+  // Keep the strongest N peaks, then assign turn 1..N in circuit order
+  const selected = [...peaks]
     .sort((a, b) => b.strength - a.strength)
-    .slice(0, Math.min(peaks.length, Math.max(playable.length + 3, playable.length)));
-  pool.sort((a, b) => a.sNorm - b.sNorm);
-  const used = new Set();
+    .slice(0, playable.length)
+    .sort((a, b) => a.sNorm - b.sNorm);
 
   for (let i = 0; i < playable.length; i++) {
     const c = playable[i];
-    const target = (i + 0.55) / playable.length;
-    let best = null;
-    let bestDist = Infinity;
-    for (const p of pool) {
-      if (used.has(p.i)) continue;
-      const d = Math.min(Math.abs(p.sNorm - target), 1 - Math.abs(p.sNorm - target));
-      if (d < bestDist) {
-        bestDist = d;
-        best = p;
-      }
-    }
-    if (!best) {
-      corners.push({
-        id: c.id,
-        number: c.number,
-        label: c.label,
-        direction: c.direction,
-        sNorm: round4(target),
-      });
-      continue;
-    }
-    used.add(best.i);
+    const sNorm = selected[i] ? selected[i].sNorm : evenFallback(i, playable.length);
     corners.push({
       id: c.id,
       number: c.number,
       label: c.label,
       direction: c.direction,
-      sNorm: round4(best.sNorm),
+      sNorm: round4(sNorm),
     });
   }
 
-  corners.sort((a, b) => a.sNorm - b.sNorm);
-  return corners;
+  // Ensure strictly increasing sNorm in turn-number order (unwrap duplicates)
+  corners.sort((a, b) => (a.number ?? 0) - (b.number ?? 0));
+  for (let i = 1; i < corners.length; i++) {
+    if (corners[i].sNorm <= corners[i - 1].sNorm) {
+      corners[i].sNorm = round4(Math.min(0.995, corners[i - 1].sNorm + 0.012));
+    }
+  }
+
+  return corners.sort((a, b) => a.sNorm - b.sNorm);
 }
 
 function round4(n) {
@@ -366,7 +383,7 @@ function round2(n) {
   return Math.round(n * 100) / 100;
 }
 
-function bakeOne(trackId, gpxArg) {
+function bakeOne(trackId, gpxArg, freshCorners = false) {
   const meta = TRACK_GPX[trackId];
   if (!meta || !meta.gpxName) {
     throw new Error(`No GPX mapping for ${trackId}`);
@@ -416,8 +433,8 @@ function bakeOne(trackId, gpxArg) {
   const outDir = path.join(ROOT, 'app', 'src', 'data', 'trackMemory');
   const outPath = path.join(outDir, `${trackId}.json`);
   let corners = placeCorners(track.corners, centered);
-  // Keep Mallala (and any prior bake) corner stations stable when ids match
-  if (fs.existsSync(outPath)) {
+  // Keep prior stations stable unless --fresh-corners is requested
+  if (!freshCorners && fs.existsSync(outPath)) {
     try {
       const prev = JSON.parse(fs.readFileSync(outPath, 'utf8'));
       if (Array.isArray(prev.corners) && prev.corners.length) {
@@ -508,9 +525,9 @@ export function listTrackMemoryTracks(): { id: string; name: string }[] {
 }
 
 function main() {
-  const { trackId, gpxPath: gpxArg, all } = parseArgs(process.argv);
+  const { trackId, gpxPath: gpxArg, all, freshCorners } = parseArgs(process.argv);
   if (!all && (!trackId || trackId.startsWith('-') || !TRACK_GPX[trackId] || !TRACK_GPX[trackId]?.gpxName)) {
-    console.error(`Usage: node scripts/bake-track-memory-layout.mjs <trackId>|--all`);
+    console.error(`Usage: node scripts/bake-track-memory-layout.mjs <trackId>|--all [--fresh-corners]`);
     console.error(`Bakeable: ${BAKEABLE.join(', ')}`);
     const missing = Object.entries(TRACK_GPX)
       .filter(([, m]) => !m)
@@ -524,7 +541,7 @@ function main() {
   let failed = 0;
   for (const id of ids) {
     try {
-      bakeOne(id, all ? null : gpxArg);
+      bakeOne(id, all ? null : gpxArg, freshCorners);
       baked.push(id);
     } catch (err) {
       failed += 1;

@@ -6,16 +6,11 @@ import type {
   TrackMemoryPoint,
 } from './types';
 import {
-  COACH_CORNER_MARKS,
-  COACH_FLASH_MS,
-  COACH_LAP_END,
-  COACH_SEQUENCE_MIN_SNORM,
-  COACH_SLOW_SPEED_FRAC,
-  COACH_START_TEXT,
+  COACH_GAP_MS,
+  COACH_SCRIPT,
+  COACH_SHOW_MS,
   CORNER_NAME_LEAD_M,
-  DISTANCE_BOARD_M,
   DISTANCE_BOARD_MIN_DEG,
-  coachCornerCueId,
 } from './coachCues';
 
 export const TOTAL_LAPS = 3;
@@ -66,10 +61,8 @@ export function createInitialState(bestLapMs: number | null = null): GameState {
     flash: null,
     flashedIds: [],
     brakeFlashIds: [],
-    coachShownIds: [],
-    coachCornerIds: [],
-    coachQueue: [],
-    coachSlowActive: false,
+    coachIndex: 0,
+    coachNextAtMs: null,
     movedAtMs: null,
     heading: 0,
   };
@@ -227,83 +220,6 @@ export function cornerNeedsDistanceBoards(
   return cornerTurnAngleDeg(layout, corner) > DISTANCE_BOARD_MIN_DEG;
 }
 
-function hasSlightStraightBefore(layout: TrackMemoryLayout, corner: TrackMemoryCorner): boolean {
-  const lengthM = layout.lengthM;
-  const apex = corner.sNorm * lengthM;
-  const a = samplePath(layout.points, lengthM, apex - 110);
-  const b = samplePath(layout.points, lengthM, apex - 45);
-  let d = b.heading - a.heading;
-  while (d > Math.PI) d -= Math.PI * 2;
-  while (d < -Math.PI) d += Math.PI * 2;
-  return (Math.abs(d) * 180) / Math.PI < 18;
-}
-
-/** First two numbered board-corners (>90°) after 30% lap that follow a slight straight. */
-export function pickCoachCorners(layout: TrackMemoryLayout): string[] {
-  const leadFrac = DISTANCE_BOARD_M[0] / Math.max(1, layout.lengthM);
-  const minSNorm = COACH_SEQUENCE_MIN_SNORM + leadFrac;
-  const numbered = [...layout.corners]
-    .filter(
-      (c) =>
-        c.number != null &&
-        c.sNorm >= minSNorm &&
-        cornerNeedsDistanceBoards(layout, c)
-    )
-    .sort((a, b) => a.sNorm - b.sNorm);
-
-  const withStraight = numbered.filter((c) => hasSlightStraightBefore(layout, c));
-  if (withStraight.length >= 2) {
-    return withStraight.slice(0, 2).map((c) => c.id);
-  }
-  if (withStraight.length === 1 && numbered.length >= 2) {
-    const rest = numbered.filter((c) => c.id !== withStraight[0].id);
-    return [withStraight[0].id, rest[0].id];
-  }
-
-  const byAngle = [...numbered].sort(
-    (a, b) => cornerTurnAngleDeg(layout, b) - cornerTurnAngleDeg(layout, a)
-  );
-  return byAngle.slice(0, 2).map((c) => c.id);
-}
-
-function enqueueCoach(
-  queue: GameState['coachQueue'],
-  shown: string[],
-  cueId: string,
-  text: string,
-  releaseSlow = false
-): { queue: GameState['coachQueue']; shown: string[] } {
-  if (shown.includes(cueId)) return { queue, shown };
-  return {
-    shown: [...shown, cueId],
-    queue: [...queue, { text, releaseSlow }],
-  };
-}
-
-function drainCoachQueue(
-  flash: GameState['flash'],
-  queue: GameState['coachQueue'],
-  coachSlowActive: boolean,
-  nowMs: number
-): {
-  flash: GameState['flash'];
-  queue: GameState['coachQueue'];
-  coachSlowActive: boolean;
-} {
-  const busy =
-    Boolean(flash && nowMs <= flash.untilMs) &&
-    (flash?.tone === 'danger' || flash?.tone === 'coach' || flash?.tone === 'normal');
-  if (busy || queue.length === 0) {
-    return { flash, queue, coachSlowActive };
-  }
-  const [next, ...rest] = queue;
-  return {
-    flash: { text: next.text, untilMs: nowMs + COACH_FLASH_MS, tone: 'coach' },
-    queue: rest,
-    coachSlowActive: next.releaseSlow ? false : coachSlowActive,
-  };
-}
-
 /** Progressive auto lean in [-1, 1]. Negative lean = tip left (matches left bend). */
 function autoLeanTarget(bend: number, speed: number): number {
   const mag = Math.min(1, Math.abs(bend) * 1.65);
@@ -338,10 +254,8 @@ export function stepGame(
     flash,
     flashedIds,
     brakeFlashIds,
-    coachShownIds,
-    coachCornerIds,
-    coachQueue,
-    coachSlowActive,
+    coachIndex,
+    coachNextAtMs,
     movedAtMs,
     heading,
   } = prev;
@@ -372,9 +286,6 @@ export function stepGame(
     speed -= speed * speed * 0.00035 * dt;
   }
   speed = Math.max(0, Math.min(MAX_SPEED, speed));
-  if (coachSlowActive) {
-    speed = Math.min(speed, MAX_SPEED * COACH_SLOW_SPEED_FRAC);
-  }
 
   // Smooth auto lean into / out of corners (visual only — no lateral nudge)
   const leanTarget = autoLeanTarget(bend, speed);
@@ -427,10 +338,8 @@ export function stepGame(
         flash: { text: 'Session complete', untilMs: nowMs + 2500 },
         flashedIds: [],
         brakeFlashIds: [],
-        coachShownIds: [],
-        coachCornerIds: [],
-        coachQueue: [],
-        coachSlowActive: false,
+        coachIndex: 0,
+        coachNextAtMs: null,
         movedAtMs: null,
         heading: samplePath(layout.points, layout.lengthM, 0).heading,
       };
@@ -443,25 +352,23 @@ export function stepGame(
     sessionBestLapMs = nextSessionBest;
     flashedIds = [];
     brakeFlashIds = [];
-    coachShownIds = [];
-    coachCornerIds = [];
-    coachQueue = [];
-    coachSlowActive = false;
+    coachIndex = 0;
+    // Restart coaching after the brief "Lap N" banner
+    coachNextAtMs = nowMs + 1200 + COACH_GAP_MS;
     movedAtMs = nowMs;
     flash = { text: `Lap ${lap}`, untilMs: nowMs + 1200 };
   }
 
-  // Mark when the bike first starts moving
+  // Mark when the bike first starts moving — begin coaching playlist
   if (movedAtMs == null && speed > 1.2) {
     movedAtMs = nowMs;
+    if (coachNextAtMs == null) coachNextAtMs = nowMs;
   }
 
-  // Corner name (before apex) + Brake Now! + coaching sequence
+  // Corner name (before apex) + Brake Now! + timed coaching playlist
   {
     const lengthM = layout.lengthM;
     const traveled = s >= prevS ? s - prevS : s + lengthM - prevS;
-    const sNorm = s / lengthM;
-    const pastCoachGate = sNorm >= COACH_SEQUENCE_MIN_SNORM;
 
     for (const corner of layout.corners) {
       if (corner.number == null) continue;
@@ -475,7 +382,26 @@ export function stepGame(
       }
     }
 
-    // Corner name ~95 m before apex (not on exit)
+    if (flash && nowMs > flash.untilMs) flash = null;
+
+    // Coaching: fixed 2 s show / 2 s gap from lap start (not board-triggered)
+    const dangerBusy = flash?.tone === 'danger' && nowMs <= flash.untilMs;
+    if (
+      !dangerBusy &&
+      coachNextAtMs != null &&
+      coachIndex < COACH_SCRIPT.length &&
+      nowMs >= coachNextAtMs
+    ) {
+      flash = {
+        text: COACH_SCRIPT[coachIndex],
+        untilMs: nowMs + COACH_SHOW_MS,
+        tone: 'coach',
+      };
+      coachNextAtMs = nowMs + COACH_SHOW_MS + COACH_GAP_MS;
+      coachIndex += 1;
+    }
+
+    // Corner name ~95 m before apex (yields to Brake Now! / coaching)
     for (const corner of layout.corners) {
       if (flashedIds.includes(corner.id)) continue;
       const cornerS = corner.sNorm * lengthM;
@@ -483,9 +409,11 @@ export function stepGame(
       const toName = aheadDist(prevS, nameS, lengthM);
       if (toName > 0 && toName <= traveled) {
         flashedIds = [...flashedIds, corner.id];
-        const brakeNowActive = flash?.tone === 'danger' && nowMs <= flash.untilMs;
-        const coachActive = flash?.tone === 'coach' && nowMs <= flash.untilMs;
-        if (!brakeNowActive && !coachActive) {
+        const busy =
+          (flash?.tone === 'danger' || flash?.tone === 'coach') &&
+          flash != null &&
+          nowMs <= flash.untilMs;
+        if (!busy) {
           const hand =
             corner.direction === 'left' || corner.direction === 'right'
               ? ` (${corner.direction})`
@@ -499,79 +427,9 @@ export function stepGame(
         }
       }
     }
-
-    // Coaching only after 30% of the lap
-    if (pastCoachGate) {
-      if (coachCornerIds.length === 0) {
-        coachCornerIds = pickCoachCorners(layout);
-      }
-
-      // Intro once we pass the 30% gate (and have been rolling)
-      if (
-        movedAtMs != null &&
-        !coachShownIds.includes('coach:start-refs')
-      ) {
-        const enq = enqueueCoach(
-          coachQueue,
-          coachShownIds,
-          'coach:start-refs',
-          COACH_START_TEXT
-        );
-        coachQueue = enq.queue;
-        coachShownIds = enq.shown;
-      }
-
-      for (const cornerId of coachCornerIds) {
-        const corner = layout.corners.find((c) => c.id === cornerId);
-        if (!corner || !cornerNeedsDistanceBoards(layout, corner)) continue;
-        // Apex = corner.sNorm; boards/cues are metres before/after that station
-        const apex = corner.sNorm * lengthM;
-        for (const mark of COACH_CORNER_MARKS) {
-          const cueId = coachCornerCueId(cornerId, mark.key);
-          if (coachShownIds.includes(cueId)) continue;
-          const cueS = wrapDist(apex + mark.offsetM, lengthM);
-          const toCue = aheadDist(prevS, cueS, lengthM);
-          if (toCue > 0 && toCue <= traveled) {
-            if (mark.key === 'brake') coachSlowActive = true;
-            const enq = enqueueCoach(
-              coachQueue,
-              coachShownIds,
-              cueId,
-              mark.text,
-              mark.key === 'exit'
-            );
-            coachQueue = enq.queue;
-            coachShownIds = enq.shown;
-          }
-        }
-      }
-
-      for (const endCue of COACH_LAP_END) {
-        if (coachShownIds.includes(endCue.id)) continue;
-        const cueS = wrapDist(lengthM - endCue.leadM, lengthM);
-        const toCue = aheadDist(prevS, cueS, lengthM);
-        if (toCue > 0 && toCue <= traveled) {
-          const enq = enqueueCoach(coachQueue, coachShownIds, endCue.id, endCue.text);
-          coachQueue = enq.queue;
-          coachShownIds = enq.shown;
-        }
-      }
-    }
-
-    // Show one coaching message at a time for the full duration
-    if (flash && nowMs > flash.untilMs) flash = null;
-    const drained = drainCoachQueue(flash, coachQueue, coachSlowActive, nowMs);
-    flash = drained.flash;
-    coachQueue = drained.queue;
-    coachSlowActive = drained.coachSlowActive;
   }
 
   if (flash && nowMs > flash.untilMs) flash = null;
-
-  // Re-apply slow cap after coaching may have toggled it this frame
-  if (coachSlowActive) {
-    speed = Math.min(speed, MAX_SPEED * COACH_SLOW_SPEED_FRAC);
-  }
 
   const rawHeading = samplePath(layout.points, layout.lengthM, s).heading;
   heading = lerpAngle(heading, rawHeading, Math.min(1, dt * CAM_HEADING_LP));
@@ -590,10 +448,8 @@ export function stepGame(
     flash,
     flashedIds,
     brakeFlashIds,
-    coachShownIds,
-    coachCornerIds,
-    coachQueue,
-    coachSlowActive,
+    coachIndex,
+    coachNextAtMs,
     movedAtMs,
     heading,
   };

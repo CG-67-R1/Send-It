@@ -11056,16 +11056,16 @@
       "sNorm": 0.5305
     },
     {
-      "id": "mount_panorama_t9",
-      "number": 9,
-      "label": "The Chase (Sweeper left)",
+      "id": "mount_panorama_t8",
+      "number": 8,
+      "label": "Forrest's Elbow (right kink / descent)",
       "direction": "complex",
       "sNorm": 0.5886
     },
     {
-      "id": "mount_panorama_t8",
-      "number": 8,
-      "label": "Forrest's Elbow (right kink / descent)",
+      "id": "mount_panorama_t9",
+      "number": 9,
+      "label": "The Chase (Sweeper left)",
       "direction": "complex",
       "sNorm": 0.6273
     },
@@ -11074,24 +11074,24 @@
       "number": 10,
       "label": "Murrays Hairpin (bottom of mountain, left hairpin)",
       "direction": "complex",
-      "sNorm": 0.8523
+      "sNorm": 0.8073
     },
     {
       "id": "mount_panorama_t11",
       "number": 11,
       "label": "Reid Park left sweeper",
       "direction": "complex",
-      "sNorm": 0.9423
+      "sNorm": 0.8523
     },
     {
       "id": "mount_panorama_t12",
       "number": 12,
       "label": "Turn 12",
       "direction": "complex",
-      "sNorm": 0.9625
+      "sNorm": 0.9423
     }
   ],
-  "bakedAt": "2026-08-13",
+  "bakedAt": "2026-08-16",
   "sourceGpx": "Mount_Panorama.gpx",
   "hasElevation": true,
   "elevSpanM": 172.5,
