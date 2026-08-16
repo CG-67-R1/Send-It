@@ -1,14 +1,22 @@
 import { createNavigationContainerRef } from '@react-navigation/native';
 
 export type CoachSeedTab = 'coach' | 'bikesetup';
+export type QaSegment = 'ask' | 'trivia' | 'faqs';
 
 export type RootTabParamList = {
   HeadlinesTab: undefined;
   CalendarTab: undefined;
-  'Q&A': undefined;
   RiderCoachTab:
     | {
-        screen: 'CoachChat' | 'RiderCoach' | 'TrackWalk' | 'TrackMemory' | 'TrackMemoryHub';
+        screen:
+          | 'CoachChat'
+          | 'RiderCoach'
+          | 'TrackWalk'
+          | 'TrackMemory'
+          | 'TrackMemoryHub'
+          | 'TrackPrep'
+          | 'BikeSetupBasics'
+          | 'ImportTrackNotes';
         params?: {
           mode?: CoachSeedTab;
           seedDraftMessage?: string;
@@ -17,7 +25,17 @@ export type RootTabParamList = {
         };
       }
     | undefined;
-  FaqsTab: undefined;
+  BikeSetupTab:
+    | {
+        screen: 'CoachChat' | 'BikeSetupHub' | 'BikeSetupSheet' | 'BikeBalanceSetup' | 'BikeSetupBasics' | 'GearingGuide';
+        params?: {
+          mode?: CoachSeedTab;
+          seedDraftMessage?: string;
+          seedMessages?: unknown[];
+        };
+      }
+    | undefined;
+  'Q&A': { segment?: QaSegment } | undefined;
 };
 
 export const navigationRef = createNavigationContainerRef<RootTabParamList>();
@@ -31,13 +49,22 @@ export type CoachChatNavParams = {
 /** Typed root → CoachChat handoff (draft and/or seedMessages). */
 export function navigateToCoachChat(params: CoachChatNavParams = {}): void {
   if (!navigationRef.isReady()) return;
+  const mode = params.mode ?? 'coach';
+  const chatParams = {
+    mode,
+    seedDraftMessage: params.seedDraftMessage,
+    seedMessages: params.seedMessages,
+  };
+  if (mode === 'bikesetup') {
+    navigationRef.navigate('BikeSetupTab', {
+      screen: 'CoachChat',
+      params: chatParams,
+    });
+    return;
+  }
   navigationRef.navigate('RiderCoachTab', {
     screen: 'CoachChat',
-    params: {
-      mode: params.mode ?? 'coach',
-      seedDraftMessage: params.seedDraftMessage,
-      seedMessages: params.seedMessages,
-    },
+    params: chatParams,
   });
 }
 
@@ -51,5 +78,5 @@ export function navigateToBikeSetupWithDraft(draft: string): void {
 
 export function navigateToFaqs(): void {
   if (!navigationRef.isReady()) return;
-  navigationRef.navigate('FaqsTab');
+  navigationRef.navigate('Q&A', { segment: 'faqs' });
 }

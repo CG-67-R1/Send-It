@@ -1,6 +1,6 @@
 # RoadRace App — Screen-by-Screen Brief for Visuals & Themes
 
-Use this brief to generate mockups, illustrations, or theme variations in GPT (or similar). RoadRace is a **mobile app for motorcycle road-racing fans**: headlines, calendar, Q&A/trivia, and rider coach.
+Use this brief to generate mockups, illustrations, or theme variations in GPT (or similar). RoadRace is a **mobile app for trackday riders and club racers**: Rider Coach, Bike Setup, calendar, and Q&A. Home is Learn or Setup from onboarding. Headlines are archived in Settings.
 
 ---
 
@@ -35,28 +35,32 @@ Use this brief to generate mockups, illustrations, or theme variations in GPT (o
 
 ---
 
-## 2. Headlines (Main feed)
+## 2. Home
 
-**Purpose:** Latest motorsport news from configurable sources. Tap to open article; order set in Settings.
+**Purpose:** Identity (bike photo + avatar) plus last session/prep and shortcuts. Learn vs Setup from “how you ride.” News is not on this screen.
 
 **Layout:**
-- **Header:** “RoadRace” title; top-right “Settings” (amber text).
-- **List header:** “Latest headlines” (large title) + “Tap to open • Pull down to refresh • Order in Settings” (small gray).
-- **Cards:** Scrollable list. Each card: source name (small, amber, uppercase) above headline (2–3 lines). Card has dark background, rounded corners, **4px amber left border**. Tap opens external link.
-- **States:** Loading spinner + “Loading headlines…”; error message + “Start the API server…” + Retry button; pull-to-refresh.
+- **Header:** “RoadRacer” title; top-right “Settings” (amber text).
+- **Hero:** Bike photo (tap to change); avatar + nickname bottom-right → Profile.
+- **Last activity card:** Setup = newest Bike Setup Sheet session; Learn = newest Track Prep briefing. Empty state tells them what to save.
+- **Learn CTAs:** Rider Coach, Track Prep, Q & A.
+- **Setup CTAs:** Bike Balance, Bike Setup Sheet, Bike Setup AI.
+- **Profile & settings** secondary button.
 
-**Visual/theming ideas:** News ticker feel; optional hero image or “Breaking” strip; series logos (MotoGP, WorldSBK) as subtle watermarks or in header.
+**Visual/theming ideas:** Pit-lane identity; last-session card with amber left edge.
 
 ---
 
-## 3. Headlines Settings
+## 3. Profile & settings
 
-**Purpose:** Notifications for Priority 1 source; reorder sources; add/remove custom RSS feeds.
+**Purpose:** Rider profile, how-you-ride (Learn vs Setup home), track-arrival reminders, and archived News (Open News + optional source/RSS/P1 notify).
 
 **Layout:**
-- **Section: Notifications.** Title + short description. One row: “Notify for Priority 1 news” + toggle (amber when on).
-- **Section: Source priority.** “1 = first on the Headlines page. Tap to change.” List: position number (1, 2, 3…) in amber, then a button showing current source name + chevron. Tapping opens a **modal** to pick another source for that slot.
-- **Section: Custom sources.** Description, then: Feed URL input, Display name input, “Add source” button (amber). Below: “Your custom sources” list—name, URL (truncated), “Remove” (red/destructive).
+- **Section: Your profile.** Name, favourite bike, **How you ride** (four activity options), avatar.
+- **Section: Rider photo.** Face capture / library / align.
+- **Section: Reminders.** Track arrival toggle.
+- **Section: News (archived).** “Open News” → headlines list. Collapsed “Show news sources” reveals Priority 1 notify, source order, custom RSS.
+- **Section: Your data & privacy.** Legal links, export, reset onboarding, delete local data.
 - **Modal:** Overlay; centered card with “Select source for position N”, scrollable list of source names, “Cancel” at bottom.
 
 **Visual/theming ideas:** Drag-handle or reorder icons; clear “priority 1” badge or crown; modal could feel like a podium or ranking panel.
@@ -78,13 +82,14 @@ Use this brief to generate mockups, illustrations, or theme variations in GPT (o
 
 ## 5. Q & A
 
-**Purpose:** **Ask** (live web Q&A), **Official rule check** (MoMS), and **Trivia** (quiz). Same screen; Ask | Trivia tab switch at top; Rules sits under Ask.
+**Purpose:** **Ask** (live web Q&A), **Official rule check** (MoMS), **Trivia** (quiz), and **FAQs**. Same screen; Ask | Trivia | FAQs at top; Rules sits under Ask.
 
 **Layout:**
-- **Tab bar:** Two segments: “Ask” | “Trivia”. Active = amber fill, dark text; inactive = dark, gray text.
-- **Ask tab:** “Got a question?” + live-search subtitle. Search input + “Ask” (amber). Results: dark card with reply + source links. Hint to use Coach for coaching/setup.
+- **Tab bar:** Three segments: “Ask” | “Trivia” | “FAQs”. Active = amber fill, dark text; inactive = dark, gray text.
+- **Ask tab:** “Got a question?” + live-search subtitle. Search input + “Ask” (amber). Results: dark card with reply + source links. Hint to use Rider Coach or Bike Setup.
 - **Official rule check (under Ask):** Separate “Official rule check?” block for MoMS clause lookup. Input + “Check”. Reply card cites edition / clause locations when available.
 - **Trivia tab:** Quiz rules (3 wrong = fail; 5 right = track rider; 8+ = Track Guru). “Start trivia quiz”. While playing: score “✓ N  ✗ N”, question, 4 options. End states: fail (red) or tier result + “Play again”. Best score persisted; goat celebration on strong wins.
+- **FAQs tab:** Searchable Coach and Bike Setup FAQ lists; “Ask coach / Ask Bike Setup AI” seeds the matching chat.
 
 **Visual/theming ideas:** Quiz podium / rider tiers; “Scooter rider” vs “Track Guru” badges; rule-book / clipboard motif for MoMS.
 
@@ -92,15 +97,27 @@ Use this brief to generate mockups, illustrations, or theme variations in GPT (o
 
 ## 6. Rider Coach (hub)
 
-**Purpose:** Entry hub for AI dialog and setup tools — not an in-screen Coach | Bike Setup tab bar.
+**Purpose:** Trackday / race-craft entry — not setup tools.
 
 **Layout:**
 - Compact logo at top.
-- **AI dialog:** Two full-width nav buttons — “RR AI Coach” and “RR Bike Setup” → open `CoachChat` with the matching mode.
-- **Tools:** Short privacy note (data stays on device). Buttons for Day Setup Sheet, Bike Balance Setup, Bike Setup Basics, Track Walk / Track Notes, RoadRacer AI FAQs.
+- Buttons: **RR AI Coach**, **Track Prep**, **Bike Setup Basics**, **Track Memory**.
 - Feature-request mailto link at bottom.
 
-**Visual/theming ideas:** Pit-board hub; helmet for Coach; wrench for Bike Setup; tool-row icons for sheet / balance / walk.
+**Visual/theming ideas:** Pit-board hub; helmet for Coach; circuit for Track Prep.
+
+---
+
+## 6b. Bike Setup (hub)
+
+**Purpose:** Club / privateer setup tools as a first-class tab (Balance is two taps).
+
+**Layout:**
+- Compact logo at top.
+- Privacy note (data stays on device).
+- Buttons: **Bike Setup AI**, **Bike Setup Sheet**, **Bike Balance Setup**, **Gearing Guide**, **Bike Setup Basics**.
+
+**Visual/theming ideas:** Wrench hub; scale for balance; clipboard for the day sheet.
 
 ---
 
@@ -162,6 +179,16 @@ Use this brief to generate mockups, illustrations, or theme variations in GPT (o
 
 ---
 
+## 11b. Gearing Guide
+
+**Purpose:** Simple sprocket helper — current F/R and ratio, bike powerband (catalog with override), the problem to fix, then send that brief to Bike Setup Coach.
+
+**Layout:** Bike picker + editable specs; front/rear steppers; problem chips; optional track; nearby drive%/speed% table; Send to Bike Setup Coach. Footer points to Bike Balance for the most accurate overall setup.
+
+**Visual/theming ideas:** Ratio readout; amber send; catalog vs override badge.
+
+---
+
 ## 12. Bike Setup Basics
 
 **Purpose:** Interactive suspension diagram with hotspots; tap a point for road vs track guidance.
@@ -174,9 +201,9 @@ Use this brief to generate mockups, illustrations, or theme variations in GPT (o
 
 ## 13. RoadRacer AI FAQs
 
-**Purpose:** Static FAQ list about RoadRacer AI features and limits.
+**Purpose:** Static FAQ list about RoadRacer AI features and limits, under Q & A → FAQs (not its own tab).
 
-**Layout:** Scrollable Q&A sections on dark background; back via stack header.
+**Layout:** Search field; Coach and Bike Setup sections; expand an answer or send it into the matching AI chat.
 
 **Visual/theming ideas:** Simple list; optional “?” / helmet icon — keep sparse.
 
@@ -184,8 +211,10 @@ Use this brief to generate mockups, illustrations, or theme variations in GPT (o
 
 ## Navigation & Chrome
 
-- **Bottom tabs (4):** Home (Headlines) | Events (Calendar) | Q & A | Coach. Dark bar, amber active, gray inactive.
-- **Coach stack:** Hub → CoachChat, Track Walk, Import notes, setup tools, FAQs.
+- **Bottom tabs (5):** Home | Events | Rider Coach | Bike Setup | Q & A. Dark bar, amber active, gray inactive.
+- **Home stack:** Home hub → Profile & settings; News list only from Settings → Open News.
+- **Rider Coach stack:** Hub → CoachChat (coach), Track Prep / Walk / Memory, Import notes, Bike Setup Basics.
+- **Bike Setup stack:** Hub → CoachChat (bikesetup), Sheet, Balance, Basics.
 - **Stack headers:** Dark background, light title, amber for right-side actions (Settings, Import notes).
 - **Loading/splash:** Dark screen, amber spinner, before onboarding or before main app.
 

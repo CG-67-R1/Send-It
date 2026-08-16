@@ -18,8 +18,9 @@ import { CoachChatScreen } from './src/screens/CoachChatScreen';
 import { ImportTrackNotesScreen } from './src/screens/ImportTrackNotesScreen';
 import { BikeSetupBasicsScreen } from './src/screens/BikeSetupBasicsScreen';
 import { BikeSetupSheetScreen } from './src/screens/BikeSetupSheetScreen';
-import { RoadRacerAiFaqsScreen } from './src/screens/RoadRacerAiFaqsScreen';
+import { BikeSetupHubScreen } from './src/screens/BikeSetupHubScreen';
 import { BikeBalanceSetupScreen } from './src/screens/BikeBalanceSetupScreen';
+import { GearingGuideScreen } from './src/screens/GearingGuideScreen';
 import { TrackWalkScreen } from './src/screens/TrackWalkScreen';
 import { TrackMemoryScreen } from './src/screens/TrackMemoryScreen';
 import { TrackMemoryHubScreen } from './src/screens/TrackMemoryHubScreen';
@@ -137,7 +138,7 @@ function RiderCoachStack() {
         name="RiderCoach"
         component={RiderCoachScreen}
         options={({ navigation }) => ({
-          title: 'Coach',
+          title: 'Rider Coach',
           headerRight: () => (
             <TouchableOpacity
               onPress={() => navigation.navigate('ImportTrackNotes')}
@@ -162,16 +163,6 @@ function RiderCoachStack() {
         name="BikeSetupBasics"
         component={BikeSetupBasicsScreen}
         options={{ title: 'Bike Setup Basics' }}
-      />
-      <Stack.Screen
-        name="BikeSetupSheet"
-        component={BikeSetupSheetScreen}
-        options={{ title: 'Bike Setup Sheet' }}
-      />
-      <Stack.Screen
-        name="BikeBalanceSetup"
-        component={BikeBalanceSetupScreen}
-        options={{ title: 'Bike Balance Setup' }}
       />
       <Stack.Screen
         name="TrackPrep"
@@ -212,13 +203,38 @@ function RiderCoachStack() {
   );
 }
 
-function FaqsStack() {
+function BikeSetupStack() {
   return (
     <Stack.Navigator screenOptions={headerOptions}>
       <Stack.Screen
-        name="RoadRacerAiFaqs"
-        component={RoadRacerAiFaqsScreen}
-        options={{ title: 'FAQs' }}
+        name="BikeSetupHub"
+        component={BikeSetupHubScreen}
+        options={{ title: 'Bike Setup' }}
+      />
+      <Stack.Screen
+        name="CoachChat"
+        component={CoachChatScreen}
+        options={{ title: 'Bike Setup' }}
+      />
+      <Stack.Screen
+        name="BikeSetupSheet"
+        component={BikeSetupSheetScreen}
+        options={{ title: 'Bike Setup Sheet' }}
+      />
+      <Stack.Screen
+        name="BikeBalanceSetup"
+        component={BikeBalanceSetupScreen}
+        options={{ title: 'Bike Balance Setup' }}
+      />
+      <Stack.Screen
+        name="GearingGuide"
+        component={GearingGuideScreen}
+        options={{ title: 'Gearing Guide' }}
+      />
+      <Stack.Screen
+        name="BikeSetupBasics"
+        component={BikeSetupBasicsScreen}
+        options={{ title: 'Bike Setup Basics' }}
       />
     </Stack.Navigator>
   );
@@ -232,18 +248,22 @@ function MainTabs() {
         tabBarStyle: { backgroundColor: '#0f172a', borderTopColor: '#1e293b' },
         tabBarActiveTintColor: '#f59e0b',
         tabBarInactiveTintColor: '#64748b',
-        tabBarLabelStyle: { fontWeight: '600' },
+        tabBarLabelStyle: { fontWeight: '600', fontSize: 11 },
       }}
     >
       <Tab.Screen name="HeadlinesTab" component={HeadlinesStack} options={{ title: 'Home' }} />
       <Tab.Screen name="CalendarTab" component={CalendarScreen} options={{ title: 'Events' }} />
-      <Tab.Screen name="Q&A" component={QAScreen} options={{ title: 'Q & A' }} />
       <Tab.Screen
         name="RiderCoachTab"
         component={RiderCoachStack}
-        options={{ title: 'Coach' }}
+        options={{ title: 'Rider Coach' }}
       />
-      <Tab.Screen name="FaqsTab" component={FaqsStack} options={{ title: 'FAQs' }} />
+      <Tab.Screen
+        name="BikeSetupTab"
+        component={BikeSetupStack}
+        options={{ title: 'Bike Setup' }}
+      />
+      <Tab.Screen name="Q&A" component={QAScreen} options={{ title: 'Q & A' }} />
     </Tab.Navigator>
   );
 }

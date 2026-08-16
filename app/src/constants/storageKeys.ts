@@ -24,6 +24,7 @@ export const STORAGE_KEYS = {
   TRACK_PREP_SELECTED_TRACK: '@roadrace_track_prep_selected_track',
   TRACKDAY_PREP_DRAFT: '@roadrace_trackday_prep_draft',
   TRACKDAY_PREP_HISTORY: '@roadrace_trackday_prep_history',
+  GEARING_GUIDE_STATE: '@roadrace_gearing_guide_state',
 } as const;
 
 /** Pre-prefix trivia best-score key — migrate once then delete. */

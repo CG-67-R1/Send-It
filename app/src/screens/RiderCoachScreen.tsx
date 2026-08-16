@@ -25,6 +25,7 @@ export type RiderCoachStackParamList = {
     seedDraftMessage?: string;
     seedTab?: CoachMode;
   };
+  BikeSetupHub: undefined;
   CoachChat: {
     mode: CoachMode;
     seedMessages?: SeedMessage[];
@@ -57,11 +58,12 @@ export type RiderCoachStackParamList = {
   BikeSetupBasics: undefined;
   BikeSetupSheet: undefined;
   BikeBalanceSetup: undefined;
+  GearingGuide: undefined;
 };
 
 type RiderCoachNav = NativeStackNavigationProp<RiderCoachStackParamList, 'RiderCoach'>;
 
-/** Hub: headlines for RR AI Coach / RR Bike Setup and related tools. */
+/** Hub: RR AI Coach, Track Prep, Bike Setup Basics, Track Memory. */
 export function RiderCoachScreen() {
   const route = useRoute<RouteProp<RiderCoachStackParamList, 'RiderCoach'>>();
   const navigation = useNavigation<RiderCoachNav>();
@@ -94,7 +96,11 @@ export function RiderCoachScreen() {
         <AppLogo size={COMPACT_LOGO_SIZE} />
       </View>
 
-      <Text style={styles.sectionLabel}>AI dialog</Text>
+      <Text style={styles.sectionLabel}>Rider Coach</Text>
+      <Text style={styles.privacyNote}>
+        Ask the coach when nobody is in the garage. Prep a track, walk corners, or lock in layout
+        memory before the day.
+      </Text>
       <TouchableOpacity
         style={styles.navButton}
         onPress={() => navigation.navigate('CoachChat', { mode: 'coach' })}
@@ -104,46 +110,10 @@ export function RiderCoachScreen() {
       </TouchableOpacity>
       <TouchableOpacity
         style={styles.navButton}
-        onPress={() => navigation.navigate('CoachChat', { mode: 'bikesetup' })}
-        activeOpacity={0.8}
-      >
-        <Text style={styles.navButtonText}>RR Bike Setup</Text>
-      </TouchableOpacity>
-
-      <View style={styles.sectionDivider} />
-
-      <Text style={styles.sectionLabel}>Track Prep</Text>
-      <Text style={styles.privacyNote}>
-        Pick a track, then prep with a briefing, walk notes, or the layout memory game.
-      </Text>
-      <TouchableOpacity
-        style={styles.navButton}
         onPress={() => navigation.navigate('TrackPrep')}
         activeOpacity={0.8}
       >
         <Text style={styles.navButtonText}>Track Prep</Text>
-      </TouchableOpacity>
-
-      <View style={styles.sectionDivider} />
-
-      <Text style={styles.sectionLabel}>Tools</Text>
-      <Text style={styles.privacyNote}>
-        Setup tools keep your data private on this device. Save snapshots for later comparison, and
-        share a setup as text via Messages only when you choose.
-      </Text>
-      <TouchableOpacity
-        style={styles.navButton}
-        onPress={() => navigation.navigate('BikeSetupSheet')}
-        activeOpacity={0.8}
-      >
-        <Text style={styles.navButtonText}>Bike Setup Sheet</Text>
-      </TouchableOpacity>
-      <TouchableOpacity
-        style={styles.navButton}
-        onPress={() => navigation.navigate('BikeBalanceSetup')}
-        activeOpacity={0.8}
-      >
-        <Text style={styles.navButtonText}>Bike Balance Setup</Text>
       </TouchableOpacity>
       <TouchableOpacity
         style={styles.navButton}
@@ -201,11 +171,6 @@ const styles = StyleSheet.create({
     color: '#93c5fd',
     lineHeight: 18,
     marginBottom: 14,
-  },
-  sectionDivider: {
-    height: 1,
-    backgroundColor: '#334155',
-    marginVertical: 16,
   },
   navButton: {
     width: '100%',
