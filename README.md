@@ -1,6 +1,6 @@
-# RoadRace – Motorcycle & Racing Headlines
+# RoadRace – Rider Coach & Bike Setup
 
-Mobile app that shows **latest headlines** from motorcycle and racing news sites, with links to open articles. The headlines page **updates when the app opens** and supports **pull-to-refresh**.
+Mobile app for **trackday learners and club racers**: Rider Coach, Bike Setup (balance calculator, day sheet), track prep, calendar, and Q&A. Home switches Learn vs Setup from how you ride. Headlines stay in the API and behind **Settings → Open News** (not a product tab).
 
 ## Requirements
 
@@ -21,10 +21,11 @@ Mobile app that shows **latest headlines** from motorcycle and racing news sites
 
 ## Features (current)
 
-- **Headlines page:** Aggregated headlines from 8 built-in sources; tap to open the article; updates when the app opens; pull-to-refresh.
-- **Priority order:** In **Settings** (Headlines settings), a numbered priority grid with a dropdown per position. Set which source appears first (e.g. MotoGP = 1), second, and so on. The Headlines list is ordered by this priority.
-- **Custom sources:** Add your own source (RSS feed URL + display name). It appears in the priority list and in the headlines feed. Remove custom sources from Settings.
-- **Notify for Priority 1:** In Settings, turn on “Notify for Priority 1 news” to get a local notification when new headlines from your #1 source appear (e.g. when you open the app or pull to refresh). Permission is requested when you enable it.
+- **Home:** Bike photo + avatar. Learn home (track days) shows last Track Prep and Coach / Q&A shortcuts. Setup home (race) shows last day-sheet session and Bike Balance / Sheet shortcuts. Switch “How you ride” in Profile.
+- **Rider Coach:** RR AI Coach, Track Prep, Bike Setup Basics, Track Memory.
+- **Bike Setup:** Bike Setup AI, day sheet with session history, Bike Balance calculator, Bike Setup Basics.
+- **Events / Q&A:** Calendar; Ask, Trivia, and FAQs on one tab.
+- **News (archived):** Aggregated headlines remain in Settings → Open News (source order, custom RSS, Priority 1 notify). Not on Home or the tab bar.
 
 ## Quick start
 
@@ -38,7 +39,7 @@ cd api && npm install && cd ../app && npm install
 
 Or install each folder separately: `cd api` → `npm install`, then `cd app` → `npm install`.
 
-### 2. Run the API (required for headlines)
+### 2. Run the API (required for headlines, calendar, Q&A, Coach)
 
 ```bash
 cd api
@@ -58,10 +59,9 @@ npx expo start
 - Press **i** for iOS simulator or **a** for Android emulator.
 - On a **physical device**: install “Expo Go” and scan the QR code. Set your machine’s LAN IP in `app/constants/api.ts` (see below) so the device can reach the API.
 
-### 4. Update when app opens
+### 4. News feed (archived)
 
-- The app calls the API when the **Headlines** screen is focused (e.g. app open or tab focus).
-- **Pull down** on the list to refresh (bypasses cache and re-scrapes sources).
+- Open **Settings → Open News**, then **pull down** on the list to refresh (bypasses cache and re-scrapes sources).
 
 ## Configuration
 

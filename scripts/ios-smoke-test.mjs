@@ -1,6 +1,6 @@
 #!/usr/bin/env node
 /**
- * iOS Expo Go smoke test — API endpoints used by each of the 5 tabs.
+ * iOS Expo Go smoke test — API endpoints still used by the app (archived News API still live).
  * Run after deploy: node scripts/ios-smoke-test.mjs
  * Env: API_URL (default production Render)
  *
@@ -40,7 +40,7 @@ async function getJson(path, tab, label) {
 console.log('iOS smoke test (API layer)\n');
 console.log(`API_URL=${API_URL}\n`);
 
-// Tab 1: Headlines
+// Archived News API still live
 const headlines = await getJson('/headlines', 'Headlines', '/headlines');
 if (headlines?.headlines?.length >= 20) {
   pass('Headlines', `${headlines.headlines.length} headlines`);
@@ -118,7 +118,7 @@ else fail('App', `tsc failed: ${(tsc.stderr || '').trim().slice(0, 120)}`);
 console.log('\n--- Manual Expo Go steps ---');
 console.log('1. Install Expo Go on iPhone');
 console.log('2. cd app && npx expo start');
-console.log('3. Scan QR; verify all 5 tabs');
+console.log('3. Scan QR; verify Home, Events, Rider Coach, Bike Setup, Q & A');
 console.log('4. Coach/Ask: send a test message after OPENAI_API_KEY is on Render\n');
 
 const OPENAI_BLOCKERS = failures.filter((f) => f.msg.includes('OPENAI_API_KEY'));

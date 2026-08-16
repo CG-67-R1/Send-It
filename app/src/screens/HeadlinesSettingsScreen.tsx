@@ -21,7 +21,8 @@ import {
   ScaleDecorator,
 } from 'react-native-draggable-flatlist';
 import type { RenderItemParams } from 'react-native-draggable-flatlist';
-import { useFocusEffect } from '@react-navigation/native';
+import { useFocusEffect, useNavigation } from '@react-navigation/native';
+import type { NativeStackNavigationProp } from '@react-navigation/native-stack';
 import {
   DEFAULT_PRIORITY,
   getCustomSources,
@@ -55,6 +56,7 @@ import { AvatarFaceCameraModal } from '../components/AvatarFaceCameraModal';
 import { AvatarFaceEllipse } from '../components/AvatarFaceEllipse';
 import { AVATAR_PRESETS, DEFAULT_FACE_HOLE_LAYOUT, getAvatarPreset, getAvatarSource, getFaceHoleLayout } from '../avatar/presets';
 import { getOnboardingAnswers, updateOnboardingAnswers } from '../storage/onboarding';
+import { homeModeFromActivity, RIDE_ACTIVITY_OPTIONS, type RideActivity } from '../navigation/homeMode';
 import {
   clearAvatarFacePhoto,
   getAvatarFacePhotoUri,
@@ -72,11 +74,19 @@ import { clearBikeBalanceState, loadBikeBalanceState } from '../storage/bikeBala
 import { clearTrackWalkSessions } from '../storage/trackWalk';
 import { clearBikePhoto } from '../storage/bikePhoto';
 
+type SettingsNav = NativeStackNavigationProp<
+  { HeadlinesList: undefined; HeadlinesSettings: undefined },
+  'HeadlinesSettings'
+>;
+
 export function HeadlinesSettingsScreen() {
+  const navigation = useNavigation<SettingsNav>();
   const onboardingReset = useOnboardingReset();
   const [avatarId, setAvatarId] = useState<string | null>(null);
   const [riderNickname, setRiderNickname] = useState('');
   const [favouriteBike, setFavouriteBike] = useState('');
+  const [activity, setActivity] = useState<RideActivity>('just_love_bikes');
+  const [newsArchiveOpen, setNewsArchiveOpen] = useState(false);
   const [profileBusy, setProfileBusy] = useState(false);
   const [facePreviewUri, setFacePreviewUri] = useState<string | null>(null);
   const [builtinSources, setBuiltinSources] = useState<Source[]>([]);
@@ -154,6 +164,7 @@ export function HeadlinesSettingsScreen() {
     setAvatarId(answers?.avatarId ?? null);
     setRiderNickname(answers?.riderNickname?.trim() || answers?.favouriteRider?.trim() || 'Rider');
     setFavouriteBike(answers?.favouriteBike?.trim() || '');
+    setActivity(answers?.activity ?? 'just_love_bikes');
     setFacePreviewUri(uri);
   }, []);
 
@@ -222,6 +233,26 @@ export function HeadlinesSettingsScreen() {
       setProfileBusy(false);
     }
   }, [favouriteBike]);
+
+  const handleSelectActivity = useCallback(
+    async (next: RideActivity) => {
+      if (profileBusy || next === activity) return;
+      setProfileBusy(true);
+      try {
+        const updated = await updateOnboardingAnswers({ activity: next });
+        if (!updated) {
+          Alert.alert('Profile', 'Complete onboarding first to save how you ride.');
+          return;
+        }
+        setActivity(next);
+      } catch (e) {
+        Alert.alert('Error', e instanceof Error ? e.message : 'Could not save how you ride');
+      } finally {
+        setProfileBusy(false);
+      }
+    },
+    [activity, profileBusy]
+  );
 
   const handleRemoveRiderFace = useCallback(() => {
     Alert.alert('Remove rider photo', 'Remove the photo from your leathers avatar?', [
@@ -589,6 +620,30 @@ export function HeadlinesSettingsScreen() {
           <Text style={styles.saveProfileBtnText}>Save favourite bike</Text>
         </TouchableOpacity>
 
+        <Text style={[styles.fieldLabel, { marginTop: 16 }]}>How you ride</Text>
+        <Text style={styles.sectionSubtitle}>
+          Home shows setup tools if you race, or coach and track prep if you ride track days.
+          Current home: {homeModeFromActivity(activity) === 'setup' ? 'Setup' : 'Learn'}.
+        </Text>
+        {RIDE_ACTIVITY_OPTIONS.map((option) => (
+          <TouchableOpacity
+            key={option.value}
+            style={[styles.activityOption, activity === option.value && styles.activityOptionActive]}
+            onPress={() => handleSelectActivity(option.value)}
+            disabled={profileBusy}
+            activeOpacity={0.8}
+          >
+            <Text
+              style={[
+                styles.activityOptionText,
+                activity === option.value && styles.activityOptionTextActive,
+              ]}
+            >
+              {option.label}
+            </Text>
+          </TouchableOpacity>
+        ))}
+
         <Text style={[styles.fieldLabel, { marginTop: 16 }]}>Avatar</Text>
         <ScrollView
           horizontal
@@ -706,24 +761,6 @@ export function HeadlinesSettingsScreen() {
         </View>
       ) : null}
 
-      {Platform.OS !== 'web' ? (
-        <View style={styles.section}>
-          <Text style={styles.sectionTitle}>Notifications</Text>
-          <Text style={styles.sectionSubtitle}>
-            When new headlines appear from your Priority 1 source (e.g. when you open the app or refresh), show a notification.
-          </Text>
-          <View style={styles.notifyRow}>
-            <Text style={styles.notifyLabel}>Notify for Priority 1 news</Text>
-            <Switch
-              value={notifyPriority1}
-              onValueChange={handleNotifyPriority1Toggle}
-              trackColor={{ false: '#334155', true: '#f59e0b' }}
-              thumbColor="#f8fafc"
-            />
-          </View>
-        </View>
-      ) : null}
-
       <View style={styles.section}>
         <Text style={styles.sectionTitle}>Reminders</Text>
         <Text style={styles.sectionSubtitle}>
@@ -740,6 +777,50 @@ export function HeadlinesSettingsScreen() {
           />
         </View>
       </View>
+
+      <View style={styles.section}>
+        <Text style={styles.sectionTitle}>News (archived)</Text>
+        <Text style={styles.sectionSubtitle}>
+          Headlines are no longer on Home. Open the feed here if you still want it.
+        </Text>
+        <TouchableOpacity
+          style={styles.saveProfileBtn}
+          onPress={() => navigation.navigate('HeadlinesList')}
+          activeOpacity={0.85}
+        >
+          <Text style={styles.saveProfileBtnText}>Open News</Text>
+        </TouchableOpacity>
+        <TouchableOpacity
+          style={styles.archiveToggle}
+          onPress={() => setNewsArchiveOpen((open) => !open)}
+          activeOpacity={0.8}
+        >
+          <Text style={styles.archiveToggleText}>
+            {newsArchiveOpen ? 'Hide news sources' : 'Show news sources'}
+          </Text>
+        </TouchableOpacity>
+      </View>
+
+      {newsArchiveOpen ? (
+        <>
+          {Platform.OS !== 'web' ? (
+            <View style={styles.section}>
+              <Text style={styles.sectionTitle}>Notifications</Text>
+              <Text style={styles.sectionSubtitle}>
+                When new headlines appear from your Priority 1 source (e.g. when you open the app or
+                refresh), show a notification.
+              </Text>
+              <View style={styles.notifyRow}>
+                <Text style={styles.notifyLabel}>Notify for Priority 1 news</Text>
+                <Switch
+                  value={notifyPriority1}
+                  onValueChange={handleNotifyPriority1Toggle}
+                  trackColor={{ false: '#334155', true: '#f59e0b' }}
+                  thumbColor="#f8fafc"
+                />
+              </View>
+            </View>
+          ) : null}
 
       <View style={styles.section}>
         <Text style={styles.sectionTitle}>Source order</Text>
@@ -837,6 +918,8 @@ export function HeadlinesSettingsScreen() {
           </View>
         )}
       </View>
+        </>
+      ) : null}
 
       <View style={styles.section}>
         <Text style={styles.sectionTitle}>Your data & privacy</Text>
@@ -975,6 +1058,38 @@ const styles = StyleSheet.create({
     marginTop: 4,
   },
   saveProfileBtnText: { color: '#0f172a', fontWeight: '700', fontSize: 14 },
+  activityOption: {
+    paddingVertical: 12,
+    paddingHorizontal: 14,
+    borderRadius: 10,
+    borderWidth: 1,
+    borderColor: '#334155',
+    backgroundColor: '#1e293b',
+    marginBottom: 8,
+  },
+  activityOptionActive: {
+    borderColor: '#f59e0b',
+    backgroundColor: '#422006',
+  },
+  activityOptionText: {
+    color: '#cbd5e1',
+    fontSize: 15,
+    fontWeight: '600',
+  },
+  activityOptionTextActive: {
+    color: '#f8fafc',
+  },
+  archiveToggle: {
+    marginTop: 12,
+    paddingVertical: 10,
+    alignItems: 'center',
+  },
+  archiveToggleText: {
+    color: '#38bdf8',
+    fontSize: 14,
+    fontWeight: '600',
+    textDecorationLine: 'underline',
+  },
   avatarScroll: { marginBottom: 12, maxHeight: 180 },
   avatarScrollContent: {
     flexDirection: 'row',

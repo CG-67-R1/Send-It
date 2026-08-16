@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useState } from 'react';
+import React, { useCallback, useState } from 'react';
 import {
   ActivityIndicator,
   Alert,
@@ -21,11 +21,13 @@ import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { getBikePhotoUri, setBikePhotoUri, clearBikePhoto } from '../storage/bikePhoto';
 import { photoDisplayUri } from '../storage/localPhotoStorage';
 import { getAvatarFacePhotoUri } from '../storage/avatarFacePhoto';
-import { apiFetch, HEADLINES_URL } from '../../constants/api';
 import { getOnboardingAnswers } from '../storage/onboarding';
+import { getSessionHistory, type BikeSetupDaySheet } from '../storage/bikeSetupSheet';
+import { getTrackdayPrepHistory, type TrackdayPrepReport } from '../storage/trackdayPrep';
 import { HERO_AVATAR_BADGE_SIZE } from '../avatar/heroBadgeSizing';
 import { getAvatarPreset, getAvatarSource, getFaceHoleLayout } from '../avatar/presets';
 import { AvatarFaceEllipse } from '../components/AvatarFaceEllipse';
+import { homeModeFromActivity, type HomeMode } from '../navigation/homeMode';
 import type { RootTabParamList } from '../navigation/rootNavigation';
 
 type HeadlinesStackParamList = {
@@ -41,32 +43,27 @@ export function HeadlinesScreen() {
   const [nickname, setNickname] = useState<string>('');
   const [favouriteBike, setFavouriteBike] = useState('');
   const [pickingPhoto, setPickingPhoto] = useState(false);
-  const [hasPrefetchedHeadlines, setHasPrefetchedHeadlines] = useState(false);
+  const [homeMode, setHomeMode] = useState<HomeMode>('learn');
+  const [lastSession, setLastSession] = useState<BikeSetupDaySheet | null>(null);
+  const [lastPrep, setLastPrep] = useState<TrackdayPrepReport | null>(null);
   const [avatarSource, setAvatarSource] = useState<ImageSourcePropType | null>(null);
   const [avatarId, setAvatarId] = useState<string | null>(null);
   const [avatarFaceUri, setAvatarFaceUri] = useState<string | null>(null);
 
-  useEffect(() => {
-    if (hasPrefetchedHeadlines) return;
-    setHasPrefetchedHeadlines(true);
-    (async () => {
-      try {
-        await apiFetch(HEADLINES_URL, { signal: AbortSignal.timeout(25000) });
-      } catch {
-        // Best-effort warm-up only.
-      }
-    })();
-  }, [hasPrefetchedHeadlines]);
-
   const loadData = useCallback(async () => {
-    const [uri, answers, faceUri] = await Promise.all([
+    const [uri, answers, faceUri, history, prepHistory] = await Promise.all([
       getBikePhotoUri(),
       getOnboardingAnswers(),
       getAvatarFacePhotoUri(),
+      getSessionHistory(),
+      getTrackdayPrepHistory(),
     ]);
     setBikePhotoUriState(uri);
     setNickname(answers?.riderNickname?.trim() || answers?.favouriteRider?.trim() || 'Rider');
     setFavouriteBike(answers?.favouriteBike?.trim() || '');
+    setHomeMode(homeModeFromActivity(answers?.activity));
+    setLastSession(history.length ? history[history.length - 1] : null);
+    setLastPrep(prepHistory[0] ?? null);
     const nextAvatarId = answers?.avatarId ?? null;
     setAvatarId(nextAvatarId);
     setAvatarSource(getAvatarSource(nextAvatarId));
@@ -129,10 +126,13 @@ export function HeadlinesScreen() {
   }, []);
 
   const tabNav = navigation.getParent<NavigationProp<RootTabParamList>>();
-  const goToHeadlines = () => navigation.navigate('HeadlinesList');
-  const goToCalendar = () => tabNav?.navigate('CalendarTab');
-  const goToQA = () => tabNav?.navigate('Q&A');
+  const goToQA = () => tabNav?.navigate('Q&A', { segment: 'ask' });
   const goToRiderCoach = () => tabNav?.navigate('RiderCoachTab');
+  const goToTrackPrep = () => tabNav?.navigate('RiderCoachTab', { screen: 'TrackPrep' });
+  const goToBikeBalance = () => tabNav?.navigate('BikeSetupTab', { screen: 'BikeBalanceSetup' });
+  const goToBikeSheet = () => tabNav?.navigate('BikeSetupTab', { screen: 'BikeSetupSheet' });
+  const goToBikeSetupAi = () =>
+    tabNav?.navigate('BikeSetupTab', { screen: 'CoachChat', params: { mode: 'bikesetup' } });
   const goToSettings = () => navigation.navigate('HeadlinesSettings');
 
   const displayName = nickname.toUpperCase();
@@ -267,18 +267,71 @@ export function HeadlinesScreen() {
       </TouchableOpacity>
 
       <View style={[styles.buttons, { minHeight: buttonsHeight }]}>
-        <TouchableOpacity style={styles.navButton} onPress={goToRiderCoach} activeOpacity={0.8}>
-          <Text style={styles.navButtonText}>Coach & Bike Setup</Text>
-        </TouchableOpacity>
-        <TouchableOpacity style={styles.navButton} onPress={goToHeadlines} activeOpacity={0.8}>
-          <Text style={styles.navButtonText}>News</Text>
-        </TouchableOpacity>
-        <TouchableOpacity style={styles.navButton} onPress={goToCalendar} activeOpacity={0.8}>
-          <Text style={styles.navButtonText}>Events</Text>
-        </TouchableOpacity>
-        <TouchableOpacity style={styles.navButton} onPress={goToQA} activeOpacity={0.8}>
-          <Text style={styles.navButtonText}>Q & A</Text>
-        </TouchableOpacity>
+        {homeMode === 'setup' ? (
+          <TouchableOpacity
+            style={styles.activityCard}
+            onPress={goToBikeSheet}
+            activeOpacity={0.85}
+          >
+            <Text style={styles.activityLabel}>Last session</Text>
+            {lastSession ? (
+              <Text style={styles.activityTitle}>
+                {[lastSession.trackName.trim() || 'Setup sheet', lastSession.dateIso]
+                  .filter(Boolean)
+                  .join(' · ')}
+              </Text>
+            ) : (
+              <Text style={styles.activityEmpty}>
+                Save a session from Bike Setup Sheet to see it here.
+              </Text>
+            )}
+          </TouchableOpacity>
+        ) : (
+          <TouchableOpacity
+            style={styles.activityCard}
+            onPress={goToTrackPrep}
+            activeOpacity={0.85}
+          >
+            <Text style={styles.activityLabel}>Last track prep</Text>
+            {lastPrep ? (
+              <Text style={styles.activityTitle}>
+                {[lastPrep.trackName.trim() || 'Track prep', lastPrep.dateIso]
+                  .filter(Boolean)
+                  .join(' · ')}
+              </Text>
+            ) : (
+              <Text style={styles.activityEmpty}>
+                Run Track Prep to see your last briefing here.
+              </Text>
+            )}
+          </TouchableOpacity>
+        )}
+
+        {homeMode === 'learn' ? (
+          <>
+            <TouchableOpacity style={styles.navButton} onPress={goToRiderCoach} activeOpacity={0.8}>
+              <Text style={styles.navButtonText}>Rider Coach</Text>
+            </TouchableOpacity>
+            <TouchableOpacity style={styles.navButton} onPress={goToTrackPrep} activeOpacity={0.8}>
+              <Text style={styles.navButtonText}>Track Prep</Text>
+            </TouchableOpacity>
+            <TouchableOpacity style={styles.navButton} onPress={goToQA} activeOpacity={0.8}>
+              <Text style={styles.navButtonText}>Q & A</Text>
+            </TouchableOpacity>
+          </>
+        ) : (
+          <>
+            <TouchableOpacity style={styles.navButton} onPress={goToBikeBalance} activeOpacity={0.8}>
+              <Text style={styles.navButtonText}>Bike Balance</Text>
+            </TouchableOpacity>
+            <TouchableOpacity style={styles.navButton} onPress={goToBikeSheet} activeOpacity={0.8}>
+              <Text style={styles.navButtonText}>Bike Setup Sheet</Text>
+            </TouchableOpacity>
+            <TouchableOpacity style={styles.navButton} onPress={goToBikeSetupAi} activeOpacity={0.8}>
+              <Text style={styles.navButtonText}>Bike Setup AI</Text>
+            </TouchableOpacity>
+          </>
+        )}
         <TouchableOpacity style={styles.settingsButton} onPress={goToSettings} activeOpacity={0.8}>
           <Text style={styles.settingsButtonText}>Profile & settings</Text>
         </TouchableOpacity>
@@ -421,6 +474,34 @@ const styles = StyleSheet.create({
   buttons: {
     paddingHorizontal: 20,
     paddingTop: 20,
+  },
+  activityCard: {
+    width: '100%',
+    marginBottom: 16,
+    paddingVertical: 14,
+    paddingHorizontal: 16,
+    backgroundColor: '#1e293b',
+    borderRadius: 12,
+    borderLeftWidth: 4,
+    borderLeftColor: '#f59e0b',
+  },
+  activityLabel: {
+    fontSize: 12,
+    fontWeight: '700',
+    color: '#f59e0b',
+    textTransform: 'uppercase',
+    letterSpacing: 0.6,
+    marginBottom: 6,
+  },
+  activityTitle: {
+    fontSize: 16,
+    fontWeight: '600',
+    color: '#f8fafc',
+  },
+  activityEmpty: {
+    fontSize: 14,
+    color: '#94a3b8',
+    lineHeight: 20,
   },
   navButton: {
     width: '100%',

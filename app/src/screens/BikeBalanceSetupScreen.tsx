@@ -52,6 +52,8 @@ import {
   type BikeBalanceSavedSetup,
 } from '../storage/bikeBalance';
 import { shareBikeSetupAsText } from '../utils/shareBikeSetup';
+import { getOnboardingAnswers } from '../storage/onboarding';
+import { homeModeFromActivity } from '../navigation/homeMode';
 import type { RiderCoachStackParamList } from './RiderCoachScreen';
 import { navigateToFaqs } from '../navigation/rootNavigation';
 
@@ -109,10 +111,15 @@ export function BikeBalanceSetupScreen() {
     (async () => {
       const state = await loadBikeBalanceState();
       if (cancelled) return;
+      const answers = await getOnboardingAnswers();
+      const setupDefaultTuner =
+        homeModeFromActivity(answers?.activity) === 'setup' &&
+        state.skillMode === 'rider' &&
+        !state.introAccepted;
       setInputs(state.inputs);
       setRefInputs(state.refInputs);
       setSavedSetups(state.savedSetups);
-      setSkillMode(state.skillMode);
+      setSkillMode(setupDefaultTuner ? 'tuner' : state.skillMode);
       setIntroAccepted(state.introAccepted);
       setShowDataGuide(!state.introAccepted);
       setReady(true);

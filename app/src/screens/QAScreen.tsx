@@ -11,6 +11,7 @@ import {
   Animated,
   ImageSourcePropType,
 } from 'react-native';
+import { useFocusEffect, useRoute, type RouteProp } from '@react-navigation/native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { apiFetch, QA_TRIVIA_URL } from '../../constants/api';
 import { logAnalyticsEvent } from '../utils/analytics';
@@ -20,6 +21,8 @@ import { AppLogo } from '../components/AppLogo';
 import { SCREEN_LOGO_SIZE } from '../constants/logoSizing';
 import { LEGACY_TRIVIA_BEST_SCORE_KEY, STORAGE_KEYS } from '../constants/storageKeys';
 import { getLocalUiLabel } from '../packs/loader';
+import { RoadRacerAiFaqsBody } from './RoadRacerAiFaqsScreen';
+import type { QaSegment, RootTabParamList } from '../navigation/rootNavigation';
 
 const TRIVIA_BEST_SCORE_KEY = STORAGE_KEYS.TRIVIA_BEST_SCORE;
 
@@ -45,7 +48,7 @@ async function readTriviaBestScore(): Promise<number> {
 const THE_GOAT_SOURCE: ImageSourcePropType = require('../../avatar/the_goat.png');
 
 type TriviaState = 'idle' | 'playing' | 'result' | 'failed';
-type QATab = 'ask' | 'trivia';
+type QATab = QaSegment;
 
 const SCOOTER_COMMENTS = [
   "That wasn't a corner—that was a suggestion.",
@@ -78,6 +81,7 @@ function getTriviaResult(correct: number, wrong: number): { title: string; messa
 }
 
 export function QAScreen() {
+  const route = useRoute<RouteProp<RootTabParamList, 'Q&A'>>();
   const [activeTab, setActiveTab] = useState<QATab>('ask');
   const [query, setQuery] = useState('');
   const [askReply, setAskReply] = useState<string | null>(null);
@@ -122,6 +126,15 @@ export function QAScreen() {
       if (triviaFeedbackTimerRef.current) clearTimeout(triviaFeedbackTimerRef.current);
     };
   }, []);
+
+  useFocusEffect(
+    useCallback(() => {
+      const segment = route.params?.segment;
+      if (segment === 'faqs' || segment === 'trivia' || segment === 'ask') {
+        setActiveTab(segment);
+      }
+    }, [route.params?.segment])
+  );
 
   const triggerGoatExplosion = useCallback(() => {
     if (goatExplosionShown) return;
@@ -436,13 +449,19 @@ export function QAScreen() {
         >
           <Text style={[styles.tabText, activeTab === 'trivia' && styles.tabTextActive]}>Trivia</Text>
         </TouchableOpacity>
+        <TouchableOpacity
+          style={[styles.tab, activeTab === 'faqs' && styles.tabActive]}
+          onPress={() => setActiveTab('faqs')}
+        >
+          <Text style={[styles.tabText, activeTab === 'faqs' && styles.tabTextActive]}>FAQs</Text>
+        </TouchableOpacity>
       </View>
 
       {activeTab === 'ask' && (
       <View style={styles.section}>
         <Text style={styles.sectionTitle}>Got a question?</Text>
         <Text style={styles.sectionSubtitle}>
-          Motorcycle road racing Q&A with live web search — {getLocalUiLabel()} first (active regional packs), then world. History, series, terminology, and bike tech (not car racing). For coaching or bike setup, use Coach & Bike Setup. For official rules, use Official rule check below.
+          Motorcycle road racing Q&A with live web search — {getLocalUiLabel()} first (active regional packs), then world. History, series, terminology, and bike tech (not car racing). For coaching or bike setup, use Rider Coach or Bike Setup. For official rules, use Official rule check below.
         </Text>
         <View style={styles.searchRow}>
           <TextInput
@@ -506,7 +525,7 @@ export function QAScreen() {
               ) : null}
             </View>
             <Text style={styles.coachHint}>
-              For personalized coaching or bike setup, open Coach & Bike Setup.
+              For personalized coaching or bike setup, open Rider Coach or Bike Setup.
             </Text>
           </View>
         ) : null}
@@ -710,6 +729,11 @@ export function QAScreen() {
         )}
       </View>
       )}
+      {activeTab === 'faqs' && (
+        <View style={styles.section}>
+          <RoadRacerAiFaqsBody />
+        </View>
+      )}
       {goatExplosionVisible && (
         <View style={styles.goatExplosionOverlay} pointerEvents="none">
           <Animated.Image
@@ -753,7 +777,7 @@ const styles = StyleSheet.create({
     backgroundColor: '#f59e0b',
   },
   tabText: {
-    fontSize: 16,
+    fontSize: 14,
     fontWeight: '600',
     color: '#94a3b8',
   },

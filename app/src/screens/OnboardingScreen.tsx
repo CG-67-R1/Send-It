@@ -231,7 +231,7 @@ export function OnboardingScreen({ onComplete }: OnboardingScreenProps) {
           <View style={styles.step}>
             <Text style={styles.title}>Welcome to RoadRacer</Text>
             <Text style={styles.subtitle}>
-              Before we get you to the good stuff — headlines, calendar, rider coach — we need to know who you are. (Don’t worry, it’s quick.)
+              Before we get you to the good stuff — rider coach, bike setup, and track prep — we need to know who you are. (Don’t worry, it’s quick.)
             </Text>
             <Text style={styles.prompt}>Let’s go 👇</Text>
           </View>
@@ -669,7 +669,7 @@ export function OnboardingScreen({ onComplete }: OnboardingScreenProps) {
               </View>
             </View>
             <Text style={styles.summaryClosing}>
-              Whether you race, do track days, or just love bikes — RoadRacer is here for headlines, what’s on, Q&A, and rider coach. Time to send it. 🏁
+              Whether you race, do track days, or just love bikes — RoadRacer is here for coach, bike setup, and Q&A when you don’t have people to ask. Time to send it. 🏁
             </Text>
             <View style={styles.legalBlock}>
               <Text style={styles.legalIntro}>
