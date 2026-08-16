@@ -118,57 +118,80 @@ function Field({
   );
 }
 
-function TeethStepper({
+function teethRange(min: number, max: number): number[] {
+  const values: number[] = [];
+  for (let n = min; n <= max; n += 1) values.push(n);
+  return values;
+}
+
+function TeethDropdown({
   label,
   value,
   min,
   max,
   onChange,
+  placeholder,
+  allowEmpty,
 }: {
   label: string;
   value: string;
   min: number;
   max: number;
   onChange: (next: string) => void;
+  placeholder: string;
+  allowEmpty?: boolean;
 }) {
-  const n = parseTeeth(value);
+  const [open, setOpen] = useState(false);
+  const options = useMemo(() => teethRange(min, max), [min, max]);
+  const selected = value.trim();
+
   return (
-    <View style={styles.stepperWrap}>
+    <View style={styles.teethPickerWrap}>
       <Text style={styles.label}>{label}</Text>
-      <View style={styles.stepperRow}>
-        <TouchableOpacity
-          style={styles.stepperBtn}
-          onPress={() => {
-            if (n == null) {
-              onChange(String(min));
-              return;
-            }
-            onChange(String(Math.max(min, n - 1)));
-          }}
-        >
-          <Text style={styles.stepperBtnText}>−</Text>
-        </TouchableOpacity>
-        <TextInput
-          style={styles.stepperInput}
-          value={value}
-          onChangeText={onChange}
-          keyboardType="number-pad"
-          placeholder="—"
-          placeholderTextColor="#64748b"
-        />
-        <TouchableOpacity
-          style={styles.stepperBtn}
-          onPress={() => {
-            if (n == null) {
-              onChange(String(min));
-              return;
-            }
-            onChange(String(Math.min(max, n + 1)));
-          }}
-        >
-          <Text style={styles.stepperBtnText}>+</Text>
-        </TouchableOpacity>
-      </View>
+      <TouchableOpacity style={styles.teethTrigger} onPress={() => setOpen(true)} activeOpacity={0.8}>
+        <Text style={[styles.teethTriggerText, !selected && styles.teethPlaceholder]}>
+          {selected ? `${selected}T` : placeholder}
+        </Text>
+        <Text style={styles.chevron}>▼</Text>
+      </TouchableOpacity>
+      <Modal visible={open} transparent animationType="slide">
+        <View style={styles.overlay}>
+          <View style={styles.sheet}>
+            <Text style={styles.sheetTitle}>{label}</Text>
+            <ScrollView keyboardShouldPersistTaps="handled">
+              {allowEmpty ? (
+                <TouchableOpacity
+                  style={[styles.option, !selected && styles.optionSelected]}
+                  onPress={() => {
+                    onChange('');
+                    setOpen(false);
+                  }}
+                >
+                  <Text style={styles.optionText}>None</Text>
+                </TouchableOpacity>
+              ) : null}
+              {options.map((n) => {
+                const active = selected === String(n);
+                return (
+                  <TouchableOpacity
+                    key={n}
+                    style={[styles.option, active && styles.optionSelected]}
+                    onPress={() => {
+                      onChange(String(n));
+                      setOpen(false);
+                    }}
+                  >
+                    <Text style={styles.optionText}>{n}T</Text>
+                  </TouchableOpacity>
+                );
+              })}
+            </ScrollView>
+            <TouchableOpacity style={styles.cancel} onPress={() => setOpen(false)}>
+              <Text style={styles.cancelText}>Cancel</Text>
+            </TouchableOpacity>
+          </View>
+        </View>
+      </Modal>
     </View>
   );
 }
@@ -465,18 +488,20 @@ export function GearingGuideScreen() {
 
         <Text style={styles.section}>Current gearing</Text>
         <View style={styles.row2}>
-          <TeethStepper
-            label="Front teeth"
+          <TeethDropdown
+            label="Front sprocket"
             value={state.frontTeeth}
             min={FRONT_TEETH_MIN}
             max={FRONT_TEETH_MAX}
+            placeholder="Select front…"
             onChange={(t) => setState((prev) => ({ ...prev, frontTeeth: t }))}
           />
-          <TeethStepper
-            label="Rear teeth"
+          <TeethDropdown
+            label="Rear sprocket"
             value={state.rearTeeth}
             min={REAR_TEETH_MIN}
             max={REAR_TEETH_MAX}
+            placeholder="Select rear…"
             onChange={(t) => setState((prev) => ({ ...prev, rearTeeth: t }))}
           />
         </View>
@@ -488,18 +513,22 @@ export function GearingGuideScreen() {
         </Text>
         <Text style={styles.hint}>Optional pair you are considering:</Text>
         <View style={styles.row2}>
-          <TeethStepper
+          <TeethDropdown
             label="New front"
             value={state.newFrontTeeth}
             min={FRONT_TEETH_MIN}
             max={FRONT_TEETH_MAX}
+            placeholder="None"
+            allowEmpty
             onChange={(t) => setState((prev) => ({ ...prev, newFrontTeeth: t }))}
           />
-          <TeethStepper
+          <TeethDropdown
             label="New rear"
             value={state.newRearTeeth}
             min={REAR_TEETH_MIN}
             max={REAR_TEETH_MAX}
+            placeholder="None"
+            allowEmpty
             onChange={(t) => setState((prev) => ({ ...prev, newRearTeeth: t }))}
           />
         </View>
@@ -689,29 +718,21 @@ const styles = StyleSheet.create({
   chipActive: { borderColor: '#f59e0b', backgroundColor: 'rgba(245,158,11,0.15)' },
   chipText: { color: '#cbd5e1', fontSize: 13, fontWeight: '600' },
   chipTextActive: { color: '#fbbf24' },
-  stepperWrap: { flex: 1, marginBottom: 12 },
-  stepperRow: { flexDirection: 'row', alignItems: 'center', gap: 8 },
-  stepperBtn: {
-    width: 40,
-    height: 40,
-    borderRadius: 10,
-    backgroundColor: '#1e293b',
+  teethPickerWrap: { flex: 1, marginBottom: 12 },
+  teethTrigger: {
+    flexDirection: 'row',
     alignItems: 'center',
-    justifyContent: 'center',
+    justifyContent: 'space-between',
+    backgroundColor: '#1e293b',
+    borderRadius: 10,
     borderWidth: 1,
     borderColor: '#f59e0b',
+    paddingHorizontal: 12,
+    paddingVertical: 14,
+    minHeight: 52,
   },
-  stepperBtnText: { color: '#f8fafc', fontSize: 20, fontWeight: '700' },
-  stepperInput: {
-    flex: 1,
-    backgroundColor: '#1e293b',
-    borderRadius: 10,
-    paddingVertical: 10,
-    textAlign: 'center',
-    fontSize: 18,
-    color: '#f8fafc',
-    fontWeight: '700',
-  },
+  teethTriggerText: { fontSize: 18, fontWeight: '700', color: '#f8fafc' },
+  teethPlaceholder: { fontWeight: '600', fontSize: 14, color: '#94a3b8' },
   ratio: { fontSize: 18, fontWeight: '700', color: '#f8fafc', marginBottom: 8 },
   hint: { fontSize: 13, color: '#94a3b8', lineHeight: 18, marginBottom: 10 },
   tableHead: { flexDirection: 'row', paddingVertical: 6, borderBottomWidth: 1, borderBottomColor: '#334155' },

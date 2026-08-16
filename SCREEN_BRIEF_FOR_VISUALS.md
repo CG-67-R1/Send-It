@@ -182,7 +182,7 @@ Use this brief to generate mockups, illustrations, or theme variations in GPT (o
 
 **Purpose:** Simple sprocket helper — current F/R and ratio, bike powerband (catalog with override), the problem to fix, then send that brief to Bike Setup Coach.
 
-**Layout:** Bike picker + editable specs; front/rear steppers; problem chips; optional track; nearby drive%/speed% table; Send to Bike Setup Coach. Footer points to Bike Balance for the most accurate overall setup.
+**Layout:** Bike picker + editable specs; front/rear sprocket dropdowns; problem chips; optional track; nearby drive%/speed% table; Send to Bike Setup Coach. Footer points to Bike Balance for the most accurate overall setup.
 
 **Visual/theming ideas:** Ratio readout; amber send; catalog vs override badge.
 
