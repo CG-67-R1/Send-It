@@ -100,6 +100,27 @@ export function TrackMemoryRoad({ layout, s, lateral, heading, width, height }: 
     return [bl, br, rightBot, leftBot] as [number, number][];
   }, [frame.quads, height]);
 
+  /** Nearest grass shoulders continued under the cockpit at road elevation. */
+  const nearGrassAprons = useMemo(() => {
+    if (frame.grassQuads.length < 2) return null;
+    const left = frame.grassQuads[0];
+    const right = frame.grassQuads[1];
+    // left: farOut, farIn, nearIn, nearOut
+    const leftNearIn = left[2];
+    const leftNearOut = left[3];
+    const leftBotIn = extendEdgeToBottom(left[1], leftNearIn, height);
+    const leftBotOut = extendEdgeToBottom(left[0], leftNearOut, height);
+    // right: farIn, farOut, nearOut, nearIn
+    const rightNearOut = right[2];
+    const rightNearIn = right[3];
+    const rightBotOut = extendEdgeToBottom(right[1], rightNearOut, height);
+    const rightBotIn = extendEdgeToBottom(right[0], rightNearIn, height);
+    return {
+      left: [leftNearIn, leftNearOut, leftBotOut, leftBotIn] as [number, number][],
+      right: [rightNearIn, rightNearOut, rightBotOut, rightBotIn] as [number, number][],
+    };
+  }, [frame.grassQuads, height]);
+
   if (width < 8 || height < 8) return <View style={styles.fill} />;
 
   const grassBand = Math.max(10, (height - frame.horizonY) * 0.08);
@@ -131,15 +152,29 @@ export function TrackMemoryRoad({ layout, s, lateral, heading, width, height }: 
           </Pattern>
         </Defs>
         <Rect x={0} y={0} width={width} height={frame.horizonY} fill="url(#sky)" />
-        {/* Grass / run-off outside the track — no bitumen beyond the white lines */}
+        {/* Distant flat run-off behind elevated grass shoulders */}
         <Rect
           x={0}
           y={frame.horizonY}
           width={width}
           height={height - frame.horizonY}
-          fill="#4a6b3a"
+          fill="#3d5a32"
         />
-        <Rect x={0} y={frame.horizonY} width={width} height={grassBand} fill="#5f7d4a" />
+        <Rect x={0} y={frame.horizonY} width={width} height={grassBand} fill="#4f6b40" />
+        {/* Grass / run-off follows road elevation so the track isn't floating */}
+        {[...frame.grassQuads].reverse().map((pts, idx) => (
+          <Polygon
+            key={`g-${idx}`}
+            points={quadToPoints(pts)}
+            fill={idx % 2 === 0 ? '#4a6b3a' : '#456338'}
+          />
+        ))}
+        {nearGrassAprons ? (
+          <>
+            <Polygon points={quadToPoints(nearGrassAprons.left)} fill="#4a6b3a" />
+            <Polygon points={quadToPoints(nearGrassAprons.right)} fill="#456338" />
+          </>
+        ) : null}
         {[...frame.quads].reverse().map((q, idx) => {
           const depthShade = Math.min(0.35, idx / (frame.quads.length * 2.2));
           // Stable red/white along distance (not draw-order idx)

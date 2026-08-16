@@ -32,6 +32,8 @@ export type DistanceMarkerBillboard = {
 
 export type ProjectedFrame = {
   quads: RoadTrapezoid[];
+  /** Run-off grass beside the asphalt — same elevation as the road so it doesn't float. */
+  grassQuads: [number, number][][];
   markers: DistanceMarkerBillboard[];
   horizonY: number;
 };
@@ -48,6 +50,8 @@ const MARKER_DISTANCES = DISTANCE_BOARD_M;
 const BOARD_HALF_W = 0.55;
 const BOARD_HEIGHT = 1.15;
 const BOARD_OFFSET = 7.4; // metres from centreline (outside asphalt)
+/** Outer grass / run-off extent from centreline (metres). */
+const GRASS_OUTER_M = 40;
 /** |signed path curvature| above this gets inside rumble (per metre of path). */
 const CURB_CURV_THRESH = 0.028;
 /** Half-window (m) around catalog corner apex for kerb paint. */
@@ -287,6 +291,7 @@ export function projectRoad(
   };
 
   const quads: RoadTrapezoid[] = [];
+  const grassQuads: [number, number][][] = [];
   for (let i = 0; i < samples.length - 1; i++) {
     const a = samples[i];
     const b = samples[i + 1];
@@ -303,6 +308,18 @@ export function projectRoad(
     const br = toScreen(paR);
     const bl = toScreen(paL);
     const roadPts: [number, number][] = [tl, tr, br, bl];
+
+    // Grass shoulders at the same world height as the asphalt (prevents floating track)
+    const paGL = projectHeight(a.x - GRASS_OUTER_M, a.z, elevA, width, horizonY, fov);
+    const pbGL = projectHeight(b.x - GRASS_OUTER_M, b.z, elevB, width, horizonY, fov);
+    if (paGL && pbGL) {
+      grassQuads.push([toScreen(pbGL), tl, bl, toScreen(paGL)]);
+    }
+    const paGR = projectHeight(a.x + GRASS_OUTER_M, a.z, elevA, width, horizonY, fov);
+    const pbGR = projectHeight(b.x + GRASS_OUTER_M, b.z, elevB, width, horizonY, fov);
+    if (paGR && pbGR) {
+      grassQuads.push([tr, toScreen(pbGR), toScreen(paGR), br]);
+    }
 
     const midDist = (a.dist + b.dist) * 0.5;
     // Smooth curvature across neighbours so kerb bands don't flicker each metre
@@ -397,7 +414,7 @@ export function projectRoad(
 
   markers.sort((a, b) => b.z - a.z);
 
-  return { quads, markers, horizonY };
+  return { quads, grassQuads, markers, horizonY };
 }
 
 export function minimapBounds(points: TrackMemoryPoint[]): {
