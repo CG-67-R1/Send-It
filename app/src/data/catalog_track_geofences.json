@@ -343,6 +343,26 @@
           -42.6956
         ]
       }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "trackId": "lakeside",
+        "name": "Lakeside Park",
+        "radius_m": 1000,
+        "aliases": [
+          "Lakeside",
+          "Lakeside Raceway",
+          "Kurwongbah"
+        ]
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          152.9649,
+          -27.2285
+        ]
+      }
     }
   ]
 }

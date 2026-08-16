@@ -22,13 +22,15 @@
     "winton",
     "calder_park",
     "hidden_valley",
-    "baskerville"
+    "baskerville",
+    "lakeside"
   ],
   "trackDirection": {
     "phillip_island": "anticlockwise",
     "smp_gardner": "anticlockwise",
     "smp_brabham": "anticlockwise",
-    "smp_druitt": "anticlockwise"
+    "smp_druitt": "anticlockwise",
+    "lakeside": "anticlockwise"
   },
   "lengthKm": {
     "the_bend_gt": "7.77 km",

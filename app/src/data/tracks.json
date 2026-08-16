@@ -1729,6 +1729,89 @@
           "isFinish": true
         }
       ]
+    },
+    {
+      "id": "lakeside",
+      "name": "Lakeside Park",
+      "layout": "Full Circuit (2.41 km, 8 turns)",
+      "direction": "anticlockwise",
+      "lengthKm": "2.41 km",
+      "isOther": false,
+      "corners": [
+        {
+          "id": "lakeside_t1",
+          "number": 1,
+          "label": "Turn 1",
+          "shape": "Corner / complex",
+          "direction": "complex",
+          "approachFrom": "main straight / start-finish"
+        },
+        {
+          "id": "lakeside_t2",
+          "number": 2,
+          "label": "Karrussell",
+          "shape": "Corner / complex",
+          "direction": "complex",
+          "approachFrom": "T1 exit"
+        },
+        {
+          "id": "lakeside_t3",
+          "number": 3,
+          "label": "Turn 3",
+          "shape": "Corner / complex",
+          "direction": "complex",
+          "approachFrom": "T2 (Karrussell) exit"
+        },
+        {
+          "id": "lakeside_t4",
+          "number": 4,
+          "label": "Turn 4",
+          "shape": "Corner / complex",
+          "direction": "complex",
+          "approachFrom": "T3 exit"
+        },
+        {
+          "id": "lakeside_t5",
+          "number": 5,
+          "label": "Hungry",
+          "shape": "Corner / complex",
+          "direction": "complex",
+          "approachFrom": "T4 exit"
+        },
+        {
+          "id": "lakeside_t6",
+          "number": 6,
+          "label": "Shell Bridge",
+          "shape": "Corner / complex",
+          "direction": "complex",
+          "approachFrom": "T5 (Hungry) exit"
+        },
+        {
+          "id": "lakeside_t7",
+          "number": 7,
+          "label": "Turn 7",
+          "shape": "Corner / complex",
+          "direction": "complex",
+          "approachFrom": "T6 (Shell Bridge) exit"
+        },
+        {
+          "id": "lakeside_t8",
+          "number": 8,
+          "label": "Turn 8",
+          "shape": "Corner / complex",
+          "direction": "complex",
+          "approachFrom": "T7 exit"
+        },
+        {
+          "id": "lakeside_t_finish",
+          "number": null,
+          "label": "T-Finish",
+          "shape": "Straight",
+          "direction": "straight",
+          "approachFrom": "T8 exit onto main straight",
+          "isFinish": true
+        }
+      ]
     }
   ]
 }

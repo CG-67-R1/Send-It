@@ -2,10 +2,11 @@
  * Fill missing/flat GPX elevation from OpenTopoData (Mapzen DEM).
  *
  * Usage:
- *   node scripts/enrich-track-elevation.mjs phillip_island
+ *   node scripts/enrich-track-elevation.mjs baskerville
  *   node scripts/enrich-track-elevation.mjs --all-flat
  *
- * Writes enriched GPX under scripts/track-memory-gpx/ and leaves Desktop sources untouched.
+ * Writes enriched GPX under scripts/track-memory-gpx/<trackId>.gpx.
+ * Leaves Desktop Emtron sources untouched.
  */
 import fs from 'node:fs';
 import path from 'node:path';
@@ -14,6 +15,7 @@ import { fileURLToPath } from 'node:url';
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const ROOT = path.resolve(__dirname, '..');
 const OUT_DIR = path.join(ROOT, 'scripts', 'track-memory-gpx');
+const ZTRACKS_GPX_DIR = path.join(ROOT, 'scripts', 'track-memory-gpx');
 const DEFAULT_GPX_DIR = path.join(
   process.env.USERPROFILE || process.env.HOME || '',
   'Desktop',
@@ -21,9 +23,32 @@ const DEFAULT_GPX_DIR = path.join(
   'gpx'
 );
 
-/** Tracks that need DEM because Emtron GPX elevation is missing/zero. */
+/**
+ * Flat Track Memory layouts that need DEM (or already enriched).
+ * gpxDir: absolute or repo path; omit → Desktop Emtron folder.
+ * skip: true → not included in --all-flat (QR is DEM noise / truly flat).
+ */
 const DEM_TRACKS = {
-  phillip_island: 'Phillip_Island.gpx',
+  // ztracks centreline (no ele)
+  baskerville: { gpxName: 'baskerville.gpx', gpxDir: ZTRACKS_GPX_DIR },
+  broadford: { gpxName: 'broadford.gpx', gpxDir: ZTRACKS_GPX_DIR },
+  hidden_valley: { gpxName: 'hidden_valley.gpx', gpxDir: ZTRACKS_GPX_DIR },
+  mac_park: { gpxName: 'mac_park.gpx', gpxDir: ZTRACKS_GPX_DIR },
+  wanneroo: { gpxName: 'wanneroo.gpx', gpxDir: ZTRACKS_GPX_DIR },
+  lakeside: { gpxName: 'lakeside.gpx', gpxDir: ZTRACKS_GPX_DIR },
+  // Desktop Emtron (ele=0 / noise)
+  calder_park: { gpxName: 'Calder_Park_Raceway.gpx' },
+  mallala: { gpxName: 'Mallala_Raceway.gpx' },
+  morgan_park: { gpxName: 'Morgan_Raceway.gpx' },
+  sandown: { gpxName: 'Sandown_Raceway.gpx' },
+  smp_druitt: { gpxName: 'Sydney_Motorsport_Park_-_Druitt.gpx' },
+  the_bend_gt: { gpxName: 'Tallem_Bend_GT.gpx' },
+  the_bend_international: { gpxName: 'Tallem_Bend_International.gpx' },
+  winton: { gpxName: 'Winton_Motor_Raceway.gpx' },
+  // Already enriched; kept for re-run
+  phillip_island: { gpxName: 'phillip_island.gpx', gpxDir: ZTRACKS_GPX_DIR },
+  // KB + DEM say flat — skip --all-flat
+  queensland_raceway: { gpxName: 'Queensland_Raceway.gpx', skip: true },
 };
 
 const MIN_SPAN_M = 5;
@@ -95,12 +120,17 @@ function toGpx(name, pts) {
   return lines.join('\n');
 }
 
-async function enrichOne(trackId, gpxName) {
-  const src = path.join(DEFAULT_GPX_DIR, gpxName);
+function resolveSrc(meta) {
+  const dir = meta.gpxDir || DEFAULT_GPX_DIR;
+  return path.join(dir, meta.gpxName);
+}
+
+async function enrichOne(trackId, meta) {
+  const src = resolveSrc(meta);
   if (!fs.existsSync(src)) throw new Error(`GPX not found: ${src}`);
   const xml = fs.readFileSync(src, 'utf8');
   const pts = parseTrkpts(xml);
-  if (pts.length < 8) throw new Error(`Too few points in ${gpxName}`);
+  if (pts.length < 8) throw new Error(`Too few points in ${meta.gpxName}`);
   const span0 = elevSpan(pts);
   console.log(`${trackId}: ${pts.length} pts, GPX elev span ${span0.toFixed(1)} m`);
   let enriched = pts;
@@ -109,6 +139,8 @@ async function enrichOne(trackId, gpxName) {
     console.log(`  fetching Mapzen DEM…`);
     enriched = await fetchDem(pts);
     source = 'dem';
+  } else {
+    console.log(`  already has elevation — writing through`);
   }
   const span = elevSpan(enriched);
   if (span < MIN_SPAN_M) {
@@ -124,19 +156,24 @@ async function enrichOne(trackId, gpxName) {
 
 async function main() {
   const arg = process.argv[2];
-  const ids =
-    arg === '--all-flat'
-      ? Object.keys(DEM_TRACKS)
-      : arg && DEM_TRACKS[arg]
-        ? [arg]
-        : null;
+  let ids = null;
+  if (arg === '--all-flat') {
+    ids = Object.keys(DEM_TRACKS).filter((id) => !DEM_TRACKS[id].skip);
+  } else if (arg && DEM_TRACKS[arg]) {
+    ids = [arg];
+  }
   if (!ids) {
     console.error(`Usage: node scripts/enrich-track-elevation.mjs <trackId>|--all-flat`);
     console.error(`Known: ${Object.keys(DEM_TRACKS).join(', ')}`);
     process.exit(1);
   }
+  const results = [];
   for (const id of ids) {
-    await enrichOne(id, DEM_TRACKS[id]);
+    results.push(await enrichOne(id, DEM_TRACKS[id]));
+  }
+  console.log('\nDone:');
+  for (const r of results) {
+    console.log(`  ${r.trackId}: ${r.span.toFixed(1)} m (${r.source})`);
   }
 }
 

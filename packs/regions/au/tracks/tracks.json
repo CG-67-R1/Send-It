@@ -14,7 +14,7 @@
           "number": 1,
           "label": "Doohan Corner",
           "shape": "Sweeper",
-          "direction": "left",
+          "direction": "right",
           "approachFrom": "main straight / start-finish"
         },
         {
@@ -54,7 +54,7 @@
           "number": 6,
           "label": "Hayshed",
           "shape": "Kink",
-          "direction": "right",
+          "direction": "complex",
           "approachFrom": "T5 (Siberia) exit"
         },
         {
@@ -62,7 +62,7 @@
           "number": 7,
           "label": "Lukey Heights entry",
           "shape": "Corner / complex",
-          "direction": "left",
+          "direction": "complex",
           "approachFrom": "T6 (Hayshed) exit"
         },
         {
@@ -70,7 +70,7 @@
           "number": 8,
           "label": "Lukey Heights proper",
           "shape": "Corner / complex",
-          "direction": "left",
+          "direction": "complex",
           "approachFrom": "T7 (Lukey Heights entry) exit"
         },
         {
@@ -86,7 +86,7 @@
           "number": 10,
           "label": "Turn 10",
           "shape": "Kink",
-          "direction": "left",
+          "direction": "complex",
           "approachFrom": "T9 (MG Hairpin) exit"
         },
         {
@@ -94,7 +94,7 @@
           "number": 11,
           "label": "Turn 11 (Gardner's)",
           "shape": "Sweeper",
-          "direction": "left",
+          "direction": "complex",
           "approachFrom": "T10 (Turn 10) exit"
         },
         {
@@ -106,9 +106,7 @@
           "approachFrom": "T11 exit onto main straight",
           "isFinish": true
         }
-      ],
-      "nodeId": "au",
-      "kind": "road_circuit"
+      ]
     },
     {
       "id": "mallala",
@@ -199,9 +197,7 @@
           "approachFrom": "T9 exit onto main straight",
           "isFinish": true
         }
-      ],
-      "nodeId": "au",
-      "kind": "road_circuit"
+      ]
     },
     {
       "id": "mac_park",
@@ -316,9 +312,7 @@
           "approachFrom": "T12 exit onto main straight",
           "isFinish": true
         }
-      ],
-      "nodeId": "au",
-      "kind": "road_circuit"
+      ]
     },
     {
       "id": "morgan_park",
@@ -409,9 +403,7 @@
           "approachFrom": "T11 exit onto main straight",
           "isFinish": true
         }
-      ],
-      "nodeId": "au",
-      "kind": "road_circuit"
+      ]
     },
     {
       "id": "wakefield_park",
@@ -502,9 +494,7 @@
           "approachFrom": "T10 exit onto main straight",
           "isFinish": true
         }
-      ],
-      "nodeId": "au",
-      "kind": "road_circuit"
+      ]
     },
     {
       "id": "wanneroo",
@@ -587,9 +577,7 @@
           "approachFrom": "T8 exit onto main straight",
           "isFinish": true
         }
-      ],
-      "nodeId": "au",
-      "kind": "road_circuit"
+      ]
     },
     {
       "id": "the_bend_international",
@@ -712,9 +700,7 @@
           "approachFrom": "T18 exit onto main straight",
           "isFinish": true
         }
-      ],
-      "nodeId": "au",
-      "kind": "road_circuit"
+      ]
     },
     {
       "id": "the_bend_gt",
@@ -805,9 +791,7 @@
           "approachFrom": "final corner exit onto main straight",
           "isFinish": true
         }
-      ],
-      "nodeId": "au",
-      "kind": "road_circuit"
+      ]
     },
     {
       "id": "smp_gardner",
@@ -914,16 +898,14 @@
           "approachFrom": "T11 exit onto main straight",
           "isFinish": true
         }
-      ],
-      "nodeId": "au",
-      "kind": "road_circuit"
+      ]
     },
     {
       "id": "smp_brabham",
       "name": "Sydney Motorsport Park (Brabham Circuit)",
       "layout": "Brabham Circuit",
       "direction": "anticlockwise",
-      "lengthKm": "~3.0 km",
+      "lengthKm": "3.0 km",
       "isOther": false,
       "corners": [
         {
@@ -1023,16 +1005,14 @@
           "approachFrom": "T11 exit onto main straight",
           "isFinish": true
         }
-      ],
-      "nodeId": "au",
-      "kind": "road_circuit"
+      ]
     },
     {
       "id": "smp_druitt",
       "name": "Sydney Motorsport Park (Druitt Circuit)",
       "layout": "Druitt Circuit",
       "direction": "anticlockwise",
-      "lengthKm": "~1.9 km",
+      "lengthKm": "1.9 km",
       "isOther": false,
       "corners": [
         {
@@ -1092,9 +1072,7 @@
           "approachFrom": "T6 exit onto main straight",
           "isFinish": true
         }
-      ],
-      "nodeId": "au",
-      "kind": "road_circuit"
+      ]
     },
     {
       "id": "queensland_raceway",
@@ -1153,9 +1131,7 @@
           "approachFrom": "T6 exit onto main straight",
           "isFinish": true
         }
-      ],
-      "nodeId": "au",
-      "kind": "road_circuit"
+      ]
     },
     {
       "id": "broadford",
@@ -1230,9 +1206,7 @@
           "approachFrom": "T12 exit onto main straight",
           "isFinish": true
         }
-      ],
-      "nodeId": "au",
-      "kind": "road_circuit"
+      ]
     },
     {
       "id": "mount_panorama",
@@ -1347,9 +1321,7 @@
           "approachFrom": "T12 exit onto main straight",
           "isFinish": true
         }
-      ],
-      "nodeId": "au",
-      "kind": "road_circuit"
+      ]
     },
     {
       "id": "sandown",
@@ -1408,9 +1380,7 @@
           "approachFrom": "T5 exit onto main straight",
           "isFinish": true
         }
-      ],
-      "nodeId": "au",
-      "kind": "road_circuit"
+      ]
     },
     {
       "id": "winton",
@@ -1493,16 +1463,14 @@
           "approachFrom": "T8 exit onto main straight",
           "isFinish": true
         }
-      ],
-      "nodeId": "au",
-      "kind": "road_circuit"
+      ]
     },
     {
       "id": "calder_park",
       "name": "Calder Park Raceway",
       "layout": "Main circuit",
       "direction": "clockwise",
-      "lengthKm": "~2.3 km",
+      "lengthKm": "2.3 km",
       "isOther": false,
       "corners": [
         {
@@ -1538,9 +1506,7 @@
           "approachFrom": "T3 exit onto main straight",
           "isFinish": true
         }
-      ],
-      "nodeId": "au",
-      "kind": "road_circuit"
+      ]
     },
     {
       "id": "hidden_valley",
@@ -1671,9 +1637,7 @@
           "approachFrom": "T14 exit onto main straight",
           "isFinish": true
         }
-      ],
-      "nodeId": "au",
-      "kind": "road_circuit"
+      ]
     },
     {
       "id": "baskerville",
@@ -1764,9 +1728,90 @@
           "approachFrom": "T9 exit onto main straight",
           "isFinish": true
         }
-      ],
-      "nodeId": "au",
-      "kind": "road_circuit"
+      ]
+    },
+    {
+      "id": "lakeside",
+      "name": "Lakeside Park",
+      "layout": "Full Circuit (2.41 km, 8 turns)",
+      "direction": "anticlockwise",
+      "lengthKm": "2.41 km",
+      "isOther": false,
+      "corners": [
+        {
+          "id": "lakeside_t1",
+          "number": 1,
+          "label": "Turn 1",
+          "shape": "Corner / complex",
+          "direction": "complex",
+          "approachFrom": "main straight / start-finish"
+        },
+        {
+          "id": "lakeside_t2",
+          "number": 2,
+          "label": "Karrussell",
+          "shape": "Corner / complex",
+          "direction": "complex",
+          "approachFrom": "T1 exit"
+        },
+        {
+          "id": "lakeside_t3",
+          "number": 3,
+          "label": "Turn 3",
+          "shape": "Corner / complex",
+          "direction": "complex",
+          "approachFrom": "T2 (Karrussell) exit"
+        },
+        {
+          "id": "lakeside_t4",
+          "number": 4,
+          "label": "Turn 4",
+          "shape": "Corner / complex",
+          "direction": "complex",
+          "approachFrom": "T3 exit"
+        },
+        {
+          "id": "lakeside_t5",
+          "number": 5,
+          "label": "Hungry",
+          "shape": "Corner / complex",
+          "direction": "complex",
+          "approachFrom": "T4 exit"
+        },
+        {
+          "id": "lakeside_t6",
+          "number": 6,
+          "label": "Shell Bridge",
+          "shape": "Corner / complex",
+          "direction": "complex",
+          "approachFrom": "T5 (Hungry) exit"
+        },
+        {
+          "id": "lakeside_t7",
+          "number": 7,
+          "label": "Turn 7",
+          "shape": "Corner / complex",
+          "direction": "complex",
+          "approachFrom": "T6 (Shell Bridge) exit"
+        },
+        {
+          "id": "lakeside_t8",
+          "number": 8,
+          "label": "Turn 8",
+          "shape": "Corner / complex",
+          "direction": "complex",
+          "approachFrom": "T7 exit"
+        },
+        {
+          "id": "lakeside_t_finish",
+          "number": null,
+          "label": "T-Finish",
+          "shape": "Straight",
+          "direction": "straight",
+          "approachFrom": "T8 exit onto main straight",
+          "isFinish": true
+        }
+      ]
     }
   ]
 }
