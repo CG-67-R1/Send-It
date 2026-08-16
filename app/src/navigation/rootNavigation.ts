@@ -16,7 +16,8 @@ export type RootTabParamList = {
           | 'TrackMemoryHub'
           | 'TrackPrep'
           | 'BikeSetupBasics'
-          | 'ImportTrackNotes';
+          | 'ImportTrackNotes'
+          | 'TyreWearAnalysis';
         params?: {
           mode?: CoachSeedTab;
           seedDraftMessage?: string;
@@ -27,7 +28,14 @@ export type RootTabParamList = {
     | undefined;
   BikeSetupTab:
     | {
-        screen: 'CoachChat' | 'BikeSetupHub' | 'BikeSetupSheet' | 'BikeBalanceSetup' | 'BikeSetupBasics' | 'GearingGuide';
+        screen:
+          | 'CoachChat'
+          | 'BikeSetupHub'
+          | 'BikeSetupSheet'
+          | 'BikeBalanceSetup'
+          | 'BikeSetupBasics'
+          | 'GearingGuide'
+          | 'TyreWearAnalysis';
         params?: {
           mode?: CoachSeedTab;
           seedDraftMessage?: string;

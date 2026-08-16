@@ -21,6 +21,7 @@ import { BikeSetupSheetScreen } from './src/screens/BikeSetupSheetScreen';
 import { BikeSetupHubScreen } from './src/screens/BikeSetupHubScreen';
 import { BikeBalanceSetupScreen } from './src/screens/BikeBalanceSetupScreen';
 import { GearingGuideScreen } from './src/screens/GearingGuideScreen';
+import { TyreWearAnalysisScreen } from './src/screens/TyreWearAnalysisScreen';
 import { TrackWalkScreen } from './src/screens/TrackWalkScreen';
 import { TrackMemoryScreen } from './src/screens/TrackMemoryScreen';
 import { TrackMemoryHubScreen } from './src/screens/TrackMemoryHubScreen';
@@ -165,6 +166,11 @@ function RiderCoachStack() {
         options={{ title: 'Bike Setup Basics' }}
       />
       <Stack.Screen
+        name="TyreWearAnalysis"
+        component={TyreWearAnalysisScreen}
+        options={{ title: 'Tyre Wear Analysis' }}
+      />
+      <Stack.Screen
         name="TrackPrep"
         component={TrackPrepHubScreen}
         options={{ title: 'Track Prep' }}
@@ -230,6 +236,11 @@ function BikeSetupStack() {
         name="GearingGuide"
         component={GearingGuideScreen}
         options={{ title: 'Gearing Guide' }}
+      />
+      <Stack.Screen
+        name="TyreWearAnalysis"
+        component={TyreWearAnalysisScreen}
+        options={{ title: 'Tyre Wear Analysis' }}
       />
       <Stack.Screen
         name="BikeSetupBasics"

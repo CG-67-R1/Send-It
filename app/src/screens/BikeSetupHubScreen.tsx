@@ -8,7 +8,7 @@ import type { RiderCoachStackParamList } from './RiderCoachScreen';
 
 type Nav = NativeStackNavigationProp<RiderCoachStackParamList, 'BikeSetupHub'>;
 
-/** Hub for Bike Setup AI, day sheet, balance calculator, gearing guide, and basics. */
+/** Hub for Bike Setup AI, day sheet, balance calculator, gearing, tyre wear, and basics. */
 export function BikeSetupHubScreen() {
   const navigation = useNavigation<Nav>();
 
@@ -54,6 +54,13 @@ export function BikeSetupHubScreen() {
         activeOpacity={0.8}
       >
         <Text style={styles.navButtonText}>Gearing Guide</Text>
+      </TouchableOpacity>
+      <TouchableOpacity
+        style={styles.navButton}
+        onPress={() => navigation.navigate('TyreWearAnalysis')}
+        activeOpacity={0.8}
+      >
+        <Text style={styles.navButtonText}>Tyre Wear Analysis</Text>
       </TouchableOpacity>
       <TouchableOpacity
         style={styles.navButton}

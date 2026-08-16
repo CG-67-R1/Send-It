@@ -37,14 +37,13 @@ Use this brief to generate mockups, illustrations, or theme variations in GPT (o
 
 ## 2. Home
 
-**Purpose:** Identity (bike photo + avatar) plus last session/prep and shortcuts. Learn vs Setup from “how you ride.” News is not on this screen.
+**Purpose:** Identity (bike photo + avatar) plus last session/prep and shortcuts to the main tabs. News is not on this screen.
 
 **Layout:**
 - **Header:** “RoadRacer” title; top-right “Settings” (amber text).
 - **Hero:** Bike photo (tap to change); avatar + nickname bottom-right → Profile.
 - **Last activity card:** Setup = newest Bike Setup Sheet session; Learn = newest Track Prep briefing. Empty state tells them what to save.
-- **Learn CTAs:** Rider Coach, Track Prep, Q & A.
-- **Setup CTAs:** Bike Balance, Bike Setup Sheet, Bike Setup AI.
+- **CTAs:** Rider Coach, Bike Setup, Events, Q&A.
 - **Profile & settings** secondary button.
 
 **Visual/theming ideas:** Pit-lane identity; last-session card with amber left edge.
@@ -101,7 +100,7 @@ Use this brief to generate mockups, illustrations, or theme variations in GPT (o
 
 **Layout:**
 - Compact logo at top.
-- Buttons: **RR AI Coach**, **Track Prep**, **Bike Setup Basics**, **Track Memory**.
+- Buttons: **RR AI Coach**, **Track Prep**, **Bike Setup Basics**, **Tyre Wear Analysis**, **Track Memory**.
 - Feature-request mailto link at bottom.
 
 **Visual/theming ideas:** Pit-board hub; helmet for Coach; circuit for Track Prep.
@@ -115,7 +114,7 @@ Use this brief to generate mockups, illustrations, or theme variations in GPT (o
 **Layout:**
 - Compact logo at top.
 - Privacy note (data stays on device).
-- Buttons: **Bike Setup AI**, **Bike Setup Sheet**, **Bike Balance Setup**, **Gearing Guide**, **Bike Setup Basics**.
+- Buttons: **Bike Setup AI**, **Bike Setup Sheet**, **Bike Balance Setup**, **Gearing Guide**, **Tyre Wear Analysis**, **Bike Setup Basics**.
 
 **Visual/theming ideas:** Wrench hub; scale for balance; clipboard for the day sheet.
 
@@ -123,7 +122,7 @@ Use this brief to generate mockups, illustrations, or theme variations in GPT (o
 
 ## 7. Coach Chat
 
-**Purpose:** Full-screen chat for **coach** (technique / race craft) or **bikesetup** (suspension, gearing). Seeded from hub, Track Walk, Import notes, or track-arrival draft.
+**Purpose:** Full-screen chat for **coach** (technique / race craft) or **bikesetup** (suspension, gearing, tyres). Seeded from hub, Track Walk, Import notes, Gearing Guide, Tyre Wear Analysis, or track-arrival draft.
 
 **Layout:**
 - Mode from route params (`coach` | `bikesetup`). Message list + composer; long LLM timeout acceptable.
@@ -189,6 +188,16 @@ Use this brief to generate mockups, illustrations, or theme variations in GPT (o
 
 ---
 
+## 11c. Tyre Wear Analysis
+
+**Purpose:** Guided tyre-photo capture plus the facts photos cannot show, then send to Bike Setup Coach for wear diagnosis.
+
+**Layout:** How-to-photograph card; three slots (Overview required, Band follow recommended, Macro optional) with Take photo / library; Front/Rear chips; compound, hot pressure, temps, session length, warmers, hot-vs-cooled; optional track and notes; Analyse with Bike Setup Coach.
+
+**Visual/theming ideas:** Tyre-zone callouts; dashed capture tiles; amber analyse CTA.
+
+---
+
 ## 12. Bike Setup Basics
 
 **Purpose:** Interactive suspension diagram with hotspots; tap a point for road vs track guidance.
@@ -213,8 +222,8 @@ Use this brief to generate mockups, illustrations, or theme variations in GPT (o
 
 - **Bottom tabs (5):** Home | Events | Rider Coach | Bike Setup | Q & A. Dark bar, amber active, gray inactive.
 - **Home stack:** Home hub → Profile & settings; News list only from Settings → Open News.
-- **Rider Coach stack:** Hub → CoachChat (coach), Track Prep / Walk / Memory, Import notes, Bike Setup Basics.
-- **Bike Setup stack:** Hub → CoachChat (bikesetup), Sheet, Balance, Basics.
+- **Rider Coach stack:** Hub → CoachChat (coach), Track Prep / Walk / Memory, Import notes, Bike Setup Basics, Tyre Wear Analysis.
+- **Bike Setup stack:** Hub → CoachChat (bikesetup), Sheet, Balance, Gearing, Tyre Wear Analysis, Basics.
 - **Stack headers:** Dark background, light title, amber for right-side actions (Settings, Import notes).
 - **Loading/splash:** Dark screen, amber spinner, before onboarding or before main app.
 
