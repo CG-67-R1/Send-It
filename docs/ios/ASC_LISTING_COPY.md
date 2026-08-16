@@ -139,7 +139,7 @@ Use a real person Apple can reach:
 | Phone | (your mobile with country code, e.g. +61…) |
 | Email | `projectapex@outlook.com.au` (same as privacy contact) |
 
-Demo account: not required (no login). Notes for review (optional): “No account required. AI Coach/Bike Setup need network. Camera/photos/location only when user enables those features.”
+Demo account: not required (no login). Full Guideline 2.1 Notes, shot list, and resubmit steps: [`APP_REVIEW_NOTES.md`](APP_REVIEW_NOTES.md).
 
 ## Build
 
