@@ -129,10 +129,9 @@ export function HeadlinesScreen() {
   const goToQA = () => tabNav?.navigate('Q&A', { segment: 'ask' });
   const goToRiderCoach = () => tabNav?.navigate('RiderCoachTab');
   const goToTrackPrep = () => tabNav?.navigate('RiderCoachTab', { screen: 'TrackPrep' });
-  const goToBikeBalance = () => tabNav?.navigate('BikeSetupTab', { screen: 'BikeBalanceSetup' });
+  const goToBikeSetup = () => tabNav?.navigate('BikeSetupTab');
   const goToBikeSheet = () => tabNav?.navigate('BikeSetupTab', { screen: 'BikeSetupSheet' });
-  const goToBikeSetupAi = () =>
-    tabNav?.navigate('BikeSetupTab', { screen: 'CoachChat', params: { mode: 'bikesetup' } });
+  const goToEvents = () => tabNav?.navigate('CalendarTab');
   const goToSettings = () => navigation.navigate('HeadlinesSettings');
 
   const displayName = nickname.toUpperCase();
@@ -307,31 +306,18 @@ export function HeadlinesScreen() {
           </TouchableOpacity>
         )}
 
-        {homeMode === 'learn' ? (
-          <>
-            <TouchableOpacity style={styles.navButton} onPress={goToRiderCoach} activeOpacity={0.8}>
-              <Text style={styles.navButtonText}>Rider Coach</Text>
-            </TouchableOpacity>
-            <TouchableOpacity style={styles.navButton} onPress={goToTrackPrep} activeOpacity={0.8}>
-              <Text style={styles.navButtonText}>Track Prep</Text>
-            </TouchableOpacity>
-            <TouchableOpacity style={styles.navButton} onPress={goToQA} activeOpacity={0.8}>
-              <Text style={styles.navButtonText}>Q & A</Text>
-            </TouchableOpacity>
-          </>
-        ) : (
-          <>
-            <TouchableOpacity style={styles.navButton} onPress={goToBikeBalance} activeOpacity={0.8}>
-              <Text style={styles.navButtonText}>Bike Balance</Text>
-            </TouchableOpacity>
-            <TouchableOpacity style={styles.navButton} onPress={goToBikeSheet} activeOpacity={0.8}>
-              <Text style={styles.navButtonText}>Bike Setup Sheet</Text>
-            </TouchableOpacity>
-            <TouchableOpacity style={styles.navButton} onPress={goToBikeSetupAi} activeOpacity={0.8}>
-              <Text style={styles.navButtonText}>Bike Setup AI</Text>
-            </TouchableOpacity>
-          </>
-        )}
+        <TouchableOpacity style={styles.navButton} onPress={goToRiderCoach} activeOpacity={0.8}>
+          <Text style={styles.navButtonText}>Rider Coach</Text>
+        </TouchableOpacity>
+        <TouchableOpacity style={styles.navButton} onPress={goToBikeSetup} activeOpacity={0.8}>
+          <Text style={styles.navButtonText}>Bike Setup</Text>
+        </TouchableOpacity>
+        <TouchableOpacity style={styles.navButton} onPress={goToEvents} activeOpacity={0.8}>
+          <Text style={styles.navButtonText}>Events</Text>
+        </TouchableOpacity>
+        <TouchableOpacity style={styles.navButton} onPress={goToQA} activeOpacity={0.8}>
+          <Text style={styles.navButtonText}>Q&A</Text>
+        </TouchableOpacity>
         <TouchableOpacity style={styles.settingsButton} onPress={goToSettings} activeOpacity={0.8}>
           <Text style={styles.settingsButtonText}>Profile & settings</Text>
         </TouchableOpacity>
