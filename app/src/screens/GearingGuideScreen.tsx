@@ -29,7 +29,8 @@ import {
   matchBikePowerbandRef,
   nearbyPairs,
   parseSprocketPair,
-  parseTeeth,
+  parseTeethInRange,
+  sprocketTeethError,
   resolveBikeProvenance,
   type BikePowerbandRef,
   type EngineConfig,
@@ -308,26 +309,39 @@ export function GearingGuideScreen() {
     trackName: '',
   });
 
-  const front = parseTeeth(state.frontTeeth);
-  const rear = parseTeeth(state.rearTeeth);
-  const newFront = parseTeeth(state.newFrontTeeth);
-  const newRear = parseTeeth(state.newRearTeeth);
-  const ratioReady =
-    front != null &&
-    rear != null &&
-    front >= FRONT_TEETH_MIN &&
-    front <= FRONT_TEETH_MAX &&
-    rear >= REAR_TEETH_MIN &&
-    rear <= REAR_TEETH_MAX;
+  const front = parseTeethInRange(state.frontTeeth, FRONT_TEETH_MIN, FRONT_TEETH_MAX);
+  const rear = parseTeethInRange(state.rearTeeth, REAR_TEETH_MIN, REAR_TEETH_MAX);
+  const newFront = parseTeethInRange(state.newFrontTeeth, FRONT_TEETH_MIN, FRONT_TEETH_MAX);
+  const newRear = parseTeethInRange(state.newRearTeeth, REAR_TEETH_MIN, REAR_TEETH_MAX);
+  const newFrontError = sprocketTeethError(
+    state.newFrontTeeth,
+    FRONT_TEETH_MIN,
+    FRONT_TEETH_MAX,
+    'New front'
+  );
+  const newRearError = sprocketTeethError(
+    state.newRearTeeth,
+    REAR_TEETH_MIN,
+    REAR_TEETH_MAX,
+    'New rear'
+  );
+  const newPairIncomplete =
+    Boolean(state.newFrontTeeth.trim()) !== Boolean(state.newRearTeeth.trim());
+  const newPairError =
+    newFrontError ??
+    newRearError ??
+    (newPairIncomplete ? 'Enter both new sprockets, or leave both empty.' : null);
+  const ratioReady = front != null && rear != null;
   const currentRatio = ratioReady ? rear / front : null;
   const nearby = ratioReady ? nearbyPairs(front, rear) : [];
   const bikeReady = Boolean(state.manufacturer.trim() || state.family.trim() || state.catalogId);
-  const canSend = bikeReady && ratioReady && state.goalId != null;
+  const canSend = bikeReady && ratioReady && state.goalId != null && !newPairError;
 
   const filteredBikes = useMemo(() => filterBikePowerbandCatalog(bikeQuery), [bikeQuery]);
 
   const sendToCoach = useCallback(() => {
-    if (!canSend || front == null || rear == null || state.goalId == null) return;
+    if (!canSend || front == null || rear == null || state.goalId == null || newPairError) return;
+    const validNewPair = newFront != null && newRear != null;
     const seed = formatGearingForCoach({
       manufacturer: state.manufacturer,
       family: state.family,
@@ -343,14 +357,14 @@ export function GearingGuideScreen() {
       catalog,
       front,
       rear,
-      newFront: newFront != null && newRear != null ? newFront : null,
-      newRear: newFront != null && newRear != null ? newRear : null,
+      newFront: validNewPair ? newFront : null,
+      newRear: validNewPair ? newRear : null,
       goalId: state.goalId,
       requestText: state.requestText,
       trackName: state.trackName,
     });
     navigation.navigate('CoachChat', { mode: 'bikesetup', seedDraftMessage: seed });
-  }, [canSend, catalog, front, navigation, newFront, newRear, provenance, rear, state]);
+  }, [canSend, catalog, front, navigation, newFront, newRear, newPairError, provenance, rear, state]);
 
   if (!ready) return <View style={styles.container} />;
 
@@ -532,6 +546,7 @@ export function GearingGuideScreen() {
             onChange={(t) => setState((prev) => ({ ...prev, newRearTeeth: t }))}
           />
         </View>
+        {newPairError ? <Text style={styles.fieldError}>{newPairError}</Text> : null}
 
         <Text style={styles.section}>What are you trying to fix?</Text>
         <View style={styles.chipWrap}>
@@ -606,7 +621,11 @@ export function GearingGuideScreen() {
           <Text style={styles.sendBtnText}>Send to Bike Setup Coach</Text>
         </TouchableOpacity>
         {!canSend ? (
-          <Text style={styles.hint}>Need a bike, current front/rear, and a problem to send.</Text>
+          <Text style={styles.hint}>
+            {newPairError
+              ? newPairError
+              : 'Need a bike, current front/rear, and a problem to send.'}
+          </Text>
         ) : null}
 
         <Text style={styles.footer}>
@@ -735,6 +754,7 @@ const styles = StyleSheet.create({
   teethPlaceholder: { fontWeight: '600', fontSize: 14, color: '#94a3b8' },
   ratio: { fontSize: 18, fontWeight: '700', color: '#f8fafc', marginBottom: 8 },
   hint: { fontSize: 13, color: '#94a3b8', lineHeight: 18, marginBottom: 10 },
+  fieldError: { fontSize: 13, color: '#f87171', lineHeight: 18, marginBottom: 10 },
   tableHead: { flexDirection: 'row', paddingVertical: 6, borderBottomWidth: 1, borderBottomColor: '#334155' },
   tableRow: { flexDirection: 'row', paddingVertical: 8, borderBottomWidth: StyleSheet.hairlineWidth, borderBottomColor: '#1e293b' },
   tableRowCurrent: { backgroundColor: 'rgba(245,158,11,0.12)' },

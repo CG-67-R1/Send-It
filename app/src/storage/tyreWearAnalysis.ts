@@ -94,3 +94,11 @@ export async function saveTyreWearAnalysisState(state: TyreWearAnalysisState): P
     logStorageError('saveTyreWearAnalysisState', e);
   }
 }
+
+export async function clearTyreWearAnalysisState(): Promise<void> {
+  try {
+    await AsyncStorage.removeItem(KEY);
+  } catch (e) {
+    logStorageError('clearTyreWearAnalysisState', e);
+  }
+}

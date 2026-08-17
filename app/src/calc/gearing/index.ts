@@ -21,6 +21,8 @@ export {
   nearbyPairs,
   parseSprocketPair,
   parseTeeth,
+  parseTeethInRange,
+  sprocketTeethError,
 } from './ratio';
 export {
   filterBikePowerbandCatalog,

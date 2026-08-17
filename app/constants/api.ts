@@ -52,9 +52,28 @@ export const PRIVACY_POLICY_URL =
 export const TERMS_OF_USE_URL =
   'https://github.com/CG-67-R1/Send-It/blob/main/docs/legal/TERMS.md';
 
+/** Default for callers that do not pass `signal`. LLM routes should pass a longer timeout. */
+export const DEFAULT_API_TIMEOUT_MS = 60_000;
+export const LLM_API_TIMEOUT_MS = 90_000;
+export const REQUEST_TIMEOUT_MESSAGE = 'Request timed out — please retry';
+
+export function isRequestTimeoutError(error: unknown): boolean {
+  if (typeof error !== 'object' || error === null) return false;
+  const name = 'name' in error ? String(error.name) : '';
+  if (name === 'TimeoutError' || name === 'AbortError') return true;
+  const message = 'message' in error ? String(error.message).toLowerCase() : '';
+  return message.includes('timeout') || message.includes('timed out');
+}
+
+export function apiErrorMessage(error: unknown, fallback = 'Network error'): string {
+  if (isRequestTimeoutError(error)) return REQUEST_TIMEOUT_MESSAGE;
+  return error instanceof Error && error.message ? error.message : fallback;
+}
+
 /**
  * fetch() for RoadRacer API routes. Injects x-app-secret when
  * EXPO_PUBLIC_APP_API_SECRET is set (must match server APP_API_SECRET).
+ * Applies a 60s timeout unless the caller already passed `signal`.
  */
 export async function apiFetch(url: string, init: RequestInit = {}): Promise<Response> {
   const headers = new Headers(init.headers);
@@ -62,5 +81,6 @@ export async function apiFetch(url: string, init: RequestInit = {}): Promise<Res
   if (secret) {
     headers.set('x-app-secret', secret);
   }
-  return fetch(url, { ...init, headers });
+  const signal = init.signal ?? AbortSignal.timeout(DEFAULT_API_TIMEOUT_MS);
+  return fetch(url, { ...init, headers, signal });
 }

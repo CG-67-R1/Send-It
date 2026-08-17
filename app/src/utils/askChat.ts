@@ -1,4 +1,4 @@
-import { apiFetch, ROADRACE_ASK_URL } from '../../constants/api';
+import { apiErrorMessage, apiFetch, LLM_API_TIMEOUT_MS, ROADRACE_ASK_URL } from '../../constants/api';
 
 export type AskSource = {
   title: string;
@@ -66,7 +66,7 @@ export async function sendAskChat(
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify(body),
-      signal: AbortSignal.timeout(90000),
+      signal: AbortSignal.timeout(LLM_API_TIMEOUT_MS),
     });
     const data = await res.json();
 
@@ -91,6 +91,6 @@ export async function sendAskChat(
       momsOnline: asMomsOnlineMeta(data.momsOnline),
     };
   } catch (e) {
-    return { ok: false, error: e instanceof Error ? e.message : 'Network error' };
+    return { ok: false, error: apiErrorMessage(e) };
   }
 }

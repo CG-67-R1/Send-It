@@ -1,4 +1,4 @@
-import { apiFetch, ROADRACE_CHAT_URL } from '../../constants/api';
+import { apiErrorMessage, apiFetch, LLM_API_TIMEOUT_MS, ROADRACE_CHAT_URL } from '../../constants/api';
 import type { TrackWalkSession } from '../storage/trackWalk';
 import { formatSessionForExport } from '../storage/trackWalk';
 
@@ -64,7 +64,7 @@ export async function sendCoachChat(
         history: history.map((m) => ({ role: m.role, content: m.content })),
         attachments,
       }),
-      signal: AbortSignal.timeout(90000),
+      signal: AbortSignal.timeout(LLM_API_TIMEOUT_MS),
     });
     const data = await res.json();
 
@@ -83,7 +83,7 @@ export async function sendCoachChat(
 
     return suggestMode ? { ok: true, reply, suggestMode } : { ok: true, reply };
   } catch (e) {
-    return { ok: false, error: e instanceof Error ? e.message : 'Network error' };
+    return { ok: false, error: apiErrorMessage(e) };
   }
 }
 

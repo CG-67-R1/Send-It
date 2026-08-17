@@ -14,6 +14,7 @@ import {
 } from 'react-native';
 import { useNavigation, useRoute, type RouteProp } from '@react-navigation/native';
 import type { NativeStackNavigationProp } from '@react-navigation/native-stack';
+import { apiErrorMessage } from '../../constants/api';
 import {
   attachmentSummary,
   attachmentsToPayload,
@@ -281,7 +282,7 @@ export function CoachChatScreen() {
       setMessages((prev) => prev.slice(0, -1));
       setPendingAttachments(attachments);
       setInput(text);
-      setError(e instanceof Error ? e.message : 'Network error');
+      setError(apiErrorMessage(e));
     } finally {
       if (requestGeneration === conversationGenerationRef.current) {
         setLoading(false);

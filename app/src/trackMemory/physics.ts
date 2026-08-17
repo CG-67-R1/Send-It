@@ -263,7 +263,7 @@ export function stepGame(
         ...prev,
         phase,
         lean: lean * 0.92,
-        heading: lerpAngle(heading, rawH, 0.2),
+        heading: rawH,
       };
     }
   }
@@ -378,10 +378,33 @@ export function stepGame(
 
     if (flash && nowMs > flash.untilMs) flash = null;
 
-    // Coaching: fixed 2 s show / 2 s gap from lap start (not board-triggered)
     const dangerBusy = flash?.tone === 'danger' && nowMs <= flash.untilMs;
+
+    // Corner name while 8–95 m before apex. Brake Now! wins; coaching does not skip the name.
+    for (const corner of layout.corners) {
+      if (flashedIds.includes(corner.id)) continue;
+      const cornerS = corner.sNorm * lengthM;
+      const distToApex = aheadDist(s, cornerS, lengthM);
+      if (distToApex <= 8 || distToApex > CORNER_NAME_LEAD_M) continue;
+      if (dangerBusy) continue;
+      flashedIds = [...flashedIds, corner.id];
+      const hand =
+        corner.direction === 'left' || corner.direction === 'right'
+          ? ` (${corner.direction})`
+          : '';
+      const num = corner.number != null ? `T${corner.number} — ` : '';
+      flash = {
+        text: `${num}${corner.label}${hand}`,
+        untilMs: nowMs + FLASH_MS,
+        tone: 'normal',
+      };
+    }
+
+    // Coaching: fixed 2 s show / 2 s gap from lap start (not board-triggered)
+    const nameBusy = flash?.tone === 'normal' && nowMs <= flash.untilMs;
     if (
       !dangerBusy &&
+      !nameBusy &&
       coachNextAtMs != null &&
       coachIndex < COACH_SCRIPT.length &&
       nowMs >= coachNextAtMs
@@ -393,33 +416,6 @@ export function stepGame(
       };
       coachNextAtMs = nowMs + COACH_SHOW_MS + COACH_GAP_MS;
       coachIndex += 1;
-    }
-
-    // Corner name ~95 m before apex (yields to Brake Now! / coaching)
-    for (const corner of layout.corners) {
-      if (flashedIds.includes(corner.id)) continue;
-      const cornerS = corner.sNorm * lengthM;
-      const nameS = wrapDist(cornerS - CORNER_NAME_LEAD_M, lengthM);
-      const toName = aheadDist(prevS, nameS, lengthM);
-      if (toName > 0 && toName <= traveled) {
-        flashedIds = [...flashedIds, corner.id];
-        const busy =
-          (flash?.tone === 'danger' || flash?.tone === 'coach') &&
-          flash != null &&
-          nowMs <= flash.untilMs;
-        if (!busy) {
-          const hand =
-            corner.direction === 'left' || corner.direction === 'right'
-              ? ` (${corner.direction})`
-              : '';
-          const num = corner.number != null ? `T${corner.number} — ` : '';
-          flash = {
-            text: `${num}${corner.label}${hand}`,
-            untilMs: nowMs + FLASH_MS,
-            tone: 'normal',
-          };
-        }
-      }
     }
   }
 

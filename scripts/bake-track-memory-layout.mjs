@@ -163,6 +163,145 @@ function projectLocal(pts) {
   return meters;
 }
 
+function parseLengthM(lengthKm) {
+  const m = String(lengthKm || '').match(/([\d.]+)/);
+  return m ? Number(m[1]) * 1000 : null;
+}
+
+function hypot2(a, b) {
+  return Math.hypot(a.x - b.x, a.y - b.y);
+}
+
+function cumulativeDist(pts) {
+  const c = [0];
+  for (let i = 1; i < pts.length; i++) c.push(c[i - 1] + hypot2(pts[i], pts[i - 1]));
+  return c;
+}
+
+/** Skip GPS out-and-back scribbles at the start of a trace. */
+function startReversalIndex(pts) {
+  if (pts.length < 24) return 0;
+  const probe = Math.min(30, pts.length - 1);
+  let hx = 0;
+  let hy = 0;
+  for (let i = 10; i < probe; i++) {
+    hx += pts[i].x - pts[i - 1].x;
+    hy += pts[i].y - pts[i - 1].y;
+  }
+  const len = Math.hypot(hx, hy) || 1;
+  hx /= len;
+  hy /= len;
+  let i = 1;
+  while (i < 18) {
+    const dx = pts[i].x - pts[i - 1].x;
+    const dy = pts[i].y - pts[i - 1].y;
+    const step = Math.hypot(dx, dy) || 1;
+    if ((dx * hx + dy * hy) / step > 0.25) break;
+    i += 1;
+  }
+  return Math.max(0, i - 1);
+}
+
+function bearingXY(a, b) {
+  return Math.atan2(b.x - a.x, b.y - a.y);
+}
+
+function angDelta(a, b) {
+  let d = b - a;
+  while (d > Math.PI) d -= Math.PI * 2;
+  while (d < -Math.PI) d += Math.PI * 2;
+  return d;
+}
+
+/** Drop a GPS U-turn / out-and-back in the first 80 m (not a real T1). */
+function skipInitialUTurn(pts) {
+  const cum = cumulativeDist(pts);
+  for (let i = 4; i < pts.length - 4; i++) {
+    if (cum[i] > 80) break;
+    const h0 = bearingXY(pts[i - 4], pts[i]);
+    const h1 = bearingXY(pts[i], pts[i + 4]);
+    if (Math.abs(angDelta(h0, h1)) < 2.4) continue;
+    let j = i + 1;
+    while (j < pts.length && cum[j] - cum[i] < 20) j += 1;
+    return j;
+  }
+  return 0;
+}
+
+/** Pick the prefix/suffix pair that actually meets, so the close doesn't chord across grass. */
+function tightenLoopClose(pts) {
+  const n = pts.length;
+  if (n < 40) return pts;
+  const origGap = hypot2(pts[0], pts[n - 1]);
+  if (origGap < 8) return pts;
+  const headN = Math.min(36, Math.floor(n * 0.08));
+  const tailN = Math.min(36, Math.floor(n * 0.08));
+  let best = { i: 0, j: n - 1, score: origGap + 20, gap: origGap };
+  for (let i = 0; i < headN; i++) {
+    const hi = bearingXY(pts[i], pts[Math.min(n - 1, i + 3)]);
+    for (let j = n - tailN; j < n; j++) {
+      if (j - i < n * 0.72) continue;
+      const gap = hypot2(pts[i], pts[j]);
+      if (gap > 40) continue;
+      const hj = bearingXY(pts[Math.max(0, j - 3)], pts[j]);
+      const score = gap + Math.abs(angDelta(hi, hj)) * 10;
+      if (score < best.score) best = { i, j, score, gap };
+    }
+  }
+  if (best.gap > origGap - 3) return pts;
+  console.log(`  tightened loop close by ${best.i}+${n - 1 - best.j} pts (gap ${origGap.toFixed(1)}→${best.gap.toFixed(1)}m)`);
+  return pts.slice(best.i, best.j + 1);
+}
+
+/**
+ * Keep one closed circuit. Multi-lap GPX splices reverse at the join —
+ * the bike rides onto grass then snaps back onto the asphalt.
+ */
+function extractSingleLap(pts, targetM) {
+  const n = pts.length;
+  if (n < 24) return pts;
+  const cum = cumulativeDist(pts);
+  const total = cum[n - 1] + hypot2(pts[0], pts[n - 1]);
+  const startIdx = Math.max(startReversalIndex(pts), skipInitialUTurn(pts));
+
+  const findReturn = (i0, minRatio, maxRatio, maxGap) => {
+    if (!targetM) return null;
+    const start = pts[i0];
+    const minT = targetM * minRatio;
+    const maxT = targetM * maxRatio;
+    let best = null;
+    for (let j = i0 + 16; j < n; j++) {
+      const travel = cum[j] - cum[i0];
+      if (travel < minT) continue;
+      if (travel > maxT) break;
+      const gap = hypot2(pts[j], start);
+      if (gap > maxGap) continue;
+      const score = gap + Math.abs(travel - targetM) * 0.12;
+      if (!best || score < best.score) best = { j, travel, gap, score };
+    }
+    return best;
+  };
+
+  if (targetM && total > targetM * 1.22) {
+    const loop = findReturn(startIdx, 0.7, 1.22, 90);
+    if (loop) {
+      console.log(
+        `  cropped extra lap ${total.toFixed(0)}m → ${loop.travel.toFixed(0)}m (close ${loop.gap.toFixed(1)}m)`
+      );
+      return tightenLoopClose(pts.slice(startIdx, loop.j));
+    }
+    console.log(
+      `  WARN path ${total.toFixed(0)}m vs catalog ${targetM.toFixed(0)}m — left uncropped`
+    );
+  }
+
+  if (startIdx > 0) {
+    console.log(`  trimmed ${startIdx} start-reversal points`);
+    return pts.slice(startIdx);
+  }
+  return pts;
+}
+
 function pathLength(pts) {
   let total = 0;
   for (let i = 1; i < pts.length; i++) {
@@ -410,7 +549,8 @@ function bakeOne(trackId, gpxArg, freshCorners = false) {
   const spanRaw = elevSpanM(raw);
   const elevSource = spanRaw >= 5 ? (meta.gpxDir ? 'dem' : 'gpx') : null;
   const local = projectLocal(raw);
-  const smoothed = chaikinClosed(local, 3);
+  const oneLap = extractSingleLap(local, parseLengthM(track.lengthKm));
+  const smoothed = chaikinClosed(oneLap, 3);
   const approxLen = pathLengthClosed(smoothed);
   const nPoints = targetPointCount(approxLen);
   const { points, lengthM } = resample(smoothed, nPoints);

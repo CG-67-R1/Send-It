@@ -56,6 +56,21 @@ export function parseTeeth(raw: string): number | null {
   return value;
 }
 
+export function parseTeethInRange(raw: string, min: number, max: number): number | null {
+  const value = parseTeeth(raw);
+  if (value == null || value < min || value > max) return null;
+  return value;
+}
+
+export function sprocketTeethError(raw: string, min: number, max: number, label: string): string | null {
+  const trimmed = raw.trim();
+  if (!trimmed) return null;
+  const value = parseTeeth(trimmed);
+  if (value == null) return `${label} must be a whole number.`;
+  if (value < min || value > max) return `${label} must be ${min}–${max} teeth.`;
+  return null;
+}
+
 function inFrontRange(front: number): boolean {
   return front >= FRONT_TEETH_MIN && front <= FRONT_TEETH_MAX;
 }

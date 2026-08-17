@@ -10,6 +10,8 @@ import {
   matchBikePowerbandRef,
   nearbyPairs,
   parseSprocketPair,
+  parseTeethInRange,
+  sprocketTeethError,
   resolveBikeProvenance,
 } from '../index';
 
@@ -35,6 +37,17 @@ assert('parse 16/43', (() => {
   return parsed?.front === 16 && parsed?.rear === 43;
 })());
 assert('parse rejects junk', parseSprocketPair('sprockets') == null);
+assert('parse rejects out-of-range front', parseSprocketPair('5/43') == null);
+
+{
+  assert('parseTeethInRange accepts 16', parseTeethInRange('16', 11, 20) === 16);
+  assert('parseTeethInRange rejects 5', parseTeethInRange('5', 11, 20) == null);
+  assert('sprocketTeethError empty is null', sprocketTeethError('', 11, 20, 'New front') == null);
+  assert(
+    'sprocketTeethError out of range',
+    sprocketTeethError('5', 11, 20, 'New front') === 'New front must be 11–20 teeth.'
+  );
+}
 
 {
   const rows = nearbyPairs(16, 43);

@@ -43,7 +43,7 @@ export function HeadlinesScreen() {
   const [nickname, setNickname] = useState<string>('');
   const [favouriteBike, setFavouriteBike] = useState('');
   const [pickingPhoto, setPickingPhoto] = useState(false);
-  const [homeMode, setHomeMode] = useState<HomeMode>('learn');
+  const [homeMode, setHomeMode] = useState<HomeMode | null>(null);
   const [lastSession, setLastSession] = useState<BikeSetupDaySheet | null>(null);
   const [lastPrep, setLastPrep] = useState<TrackdayPrepReport | null>(null);
   const [avatarSource, setAvatarSource] = useState<ImageSourcePropType | null>(null);
@@ -285,7 +285,7 @@ export function HeadlinesScreen() {
               </Text>
             )}
           </TouchableOpacity>
-        ) : (
+        ) : homeMode === 'learn' ? (
           <TouchableOpacity
             style={styles.activityCard}
             onPress={goToTrackPrep}
@@ -304,6 +304,8 @@ export function HeadlinesScreen() {
               </Text>
             )}
           </TouchableOpacity>
+        ) : (
+          <View style={styles.activityCard} />
         )}
 
         <TouchableOpacity style={styles.navButton} onPress={goToRiderCoach} activeOpacity={0.8}>
@@ -466,6 +468,7 @@ const styles = StyleSheet.create({
     marginBottom: 16,
     paddingVertical: 14,
     paddingHorizontal: 16,
+    minHeight: 72,
     backgroundColor: '#1e293b',
     borderRadius: 12,
     borderLeftWidth: 4,

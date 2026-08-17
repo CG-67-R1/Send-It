@@ -37,6 +37,7 @@ import {
   emptyTyreWearAnalysisState,
   loadTyreWearAnalysisState,
   saveTyreWearAnalysisState,
+  clearTyreWearAnalysisState,
   type TyreWearAnalysisState,
 } from '../storage/tyreWearAnalysis';
 import {
@@ -244,6 +245,26 @@ export function TyreWearAnalysisScreen() {
   );
 
   const canSend = Boolean(state.axle && photos.overview && !sending);
+  const hasDraft =
+    photoOrder.length > 0 ||
+    state.axle != null ||
+    Boolean(state.brandCompound.trim()) ||
+    Boolean(state.hotPressure.trim()) ||
+    Boolean(state.notes.trim()) ||
+    Boolean(state.sessionLength.trim());
+
+  const resetAnalysis = useCallback(() => {
+    setPhotos({});
+    setState(emptyTyreWearAnalysisState());
+    void clearTyreWearAnalysisState();
+  }, []);
+
+  const confirmResetAnalysis = useCallback(() => {
+    Alert.alert('Start new analysis?', 'This clears photos and tyre facts on this screen.', [
+      { text: 'Cancel', style: 'cancel' },
+      { text: 'Clear', style: 'destructive', onPress: resetAnalysis },
+    ]);
+  }, [resetAnalysis]);
 
   const handleSend = useCallback(async () => {
     if (!state.axle || !photos.overview) {
@@ -277,6 +298,8 @@ export function TyreWearAnalysisScreen() {
         return;
       }
 
+      resetAnalysis();
+
       const seedParams = {
         mode: 'bikesetup' as const,
         seedMessages: [
@@ -301,7 +324,7 @@ export function TyreWearAnalysisScreen() {
     } finally {
       setSending(false);
     }
-  }, [navigation, photoOrder, photos, state]);
+  }, [navigation, photoOrder, photos, resetAnalysis, state]);
 
   if (!ready) return <View style={styles.container} />;
 
@@ -500,6 +523,15 @@ export function TyreWearAnalysisScreen() {
             <Text style={styles.sendBtnText}>Analyse with Bike Setup Coach</Text>
           )}
         </TouchableOpacity>
+        {hasDraft && !sending ? (
+          <TouchableOpacity
+            style={styles.clearBtn}
+            onPress={confirmResetAnalysis}
+            activeOpacity={0.85}
+          >
+            <Text style={styles.clearBtnText}>Start new analysis</Text>
+          </TouchableOpacity>
+        ) : null}
       </ScrollView>
     </KeyboardAvoidingView>
   );
@@ -589,4 +621,14 @@ const styles = StyleSheet.create({
   },
   sendBtnDisabled: { backgroundColor: '#334155' },
   sendBtnText: { color: '#0f172a', fontWeight: '800', fontSize: 16 },
+  clearBtn: {
+    marginTop: 12,
+    backgroundColor: '#1e293b',
+    borderRadius: 12,
+    borderWidth: 1,
+    borderColor: '#475569',
+    paddingVertical: 14,
+    alignItems: 'center',
+  },
+  clearBtnText: { color: '#f8fafc', fontWeight: '700', fontSize: 15 },
 });
