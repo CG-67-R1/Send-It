@@ -57,15 +57,42 @@ const CURB_CURV_THRESH = 0.028;
 /** Half-window (m) around catalog corner apex for kerb paint. */
 const CURB_CORNER_HALF_M = 32;
 /**
- * Subtle DEM/GPX spans (e.g. PI ~25 m) get a mild visual boost so Lukey reads;
- * big circuits (Bathurst) stay 1:1.
+ * First-person scale already exaggerates height. Never boost modest spans —
+ * the old 2× on 8–45 m (every DEM circuit) read as a roller coaster all lap.
  */
 function elevVisualGain(layout: TrackMemoryLayout): number {
   if (!layout.hasElevation) return 0;
   const span = layout.elevSpanM ?? 0;
   if (span < 8) return 0;
-  if (span < 45) return 2.0;
-  return 1.0;
+  if (layout.elevSource === 'dem') return span < 18 ? 0.32 : 0.42;
+  if (span > 80) return 0.62;
+  return 0.5;
+}
+
+/** Metres of path to average height over (DEM cells are ~30 m). */
+function elevSmoothWindowM(layout: TrackMemoryLayout): number {
+  return layout.elevSource === 'dem' ? 110 : 50;
+}
+
+/** Triangle-smoothed height at station s — kills 30 m DEM stairsteps. */
+function elevAtS(layout: TrackMemoryLayout, s: number): number {
+  if (!layout.hasElevation) return 0;
+  const pts = layout.points;
+  const n = pts.length;
+  const lengthM = layout.lengthM;
+  if (n < 2 || lengthM <= 0) return 0;
+  const half = Math.max(1, Math.round((elevSmoothWindowM(layout) / lengthM) * n * 0.5));
+  const sNorm = (((s % lengthM) + lengthM) % lengthM) / lengthM;
+  const i0 = Math.floor(sNorm * n) % n;
+  let acc = 0;
+  let wsum = 0;
+  for (let k = -half; k <= half; k++) {
+    const w = 1 - Math.abs(k) / (half + 1);
+    const idx = ((i0 + k) % n + n) % n;
+    acc += (pts[idx].z ?? 0) * w;
+    wsum += w;
+  }
+  return wsum > 0 ? acc / wsum : 0;
 }
 
 function projectHeight(
@@ -133,7 +160,7 @@ function localSamples(
 ): RoadSample[] {
   const out: RoadSample[] = [];
   const here = samplePath(layout.points, layout.lengthM, s);
-  const riderElev = here.pos.z ?? 0;
+  const riderElev = elevAtS(layout, s);
   // Smoothed camera frame (matches samplePath atan2(tx, ty) convention)
   const tx = Math.sin(camHeading);
   const ty = Math.cos(camHeading);
@@ -157,7 +184,7 @@ function localSamples(
       out.push({
         x: localX,
         z: localZ,
-        elev: (sample.pos.z ?? 0) - riderElev,
+        elev: elevAtS(layout, s + ds) - riderElev,
         signedCurv,
         dist: s + ds,
       });
@@ -264,7 +291,7 @@ export function projectRoad(
   const fov = width * 0.62;
   const roadHalf = 6.2;
   const elevGain = elevVisualGain(layout);
-  const riderElev = here.pos.z ?? 0;
+  const riderElev = elevAtS(layout, s);
 
   // Roll stays flat (cockpit leans). Elevation pitches the road surface only.
   // Do not clamp X: clipping to the viewport bends edge lines inward under the bike.
@@ -286,7 +313,7 @@ export function projectRoad(
     const dy = sample.pos.y - riderY;
     const localZ = dx * tx + dy * ty;
     const localX = dx * ty - dy * tx;
-    const elev = ((sample.pos.z ?? 0) - riderElev) * elevGain;
+    const elev = (elevAtS(layout, worldS) - riderElev) * elevGain;
     return { localX, localZ, elev, tangent: sample.tangent };
   };
 

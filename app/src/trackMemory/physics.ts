@@ -82,10 +82,8 @@ function catmullPos(
 ): TrackMemoryPoint {
   const t2 = t * t;
   const t3 = t2 * t;
-  const z0 = p0.z ?? 0;
   const z1 = p1.z ?? 0;
   const z2 = p2.z ?? 0;
-  const z3 = p3.z ?? 0;
   return {
     x:
       0.5 *
@@ -99,12 +97,8 @@ function catmullPos(
         (-p0.y + p2.y) * t +
         (2 * p0.y - 5 * p1.y + 4 * p2.y - p3.y) * t2 +
         (-p0.y + 3 * p1.y - 3 * p2.y + p3.y) * t3),
-    z:
-      0.5 *
-      (2 * z1 +
-        (-z0 + z2) * t +
-        (2 * z0 - 5 * z1 + 4 * z2 - z3) * t2 +
-        (-z0 + 3 * z1 - 3 * z2 + z3) * t3),
+    // Linear height — Catmull-Rom overshoots DEM spikes into fake crests.
+    z: z1 + (z2 - z1) * t,
   };
 }
 
