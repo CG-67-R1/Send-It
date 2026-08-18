@@ -1,5 +1,5 @@
 import {
-  createPicture,
+  ClipOp,
   FilterMode,
   MipmapMode,
   PaintStyle,
@@ -7,7 +7,15 @@ import {
   TileMode,
   matchFont,
 } from '@shopify/react-native-skia';
-import type { SkFont, SkImage, SkPaint, SkPath, SkPicture } from '@shopify/react-native-skia';
+import type {
+  SkFont,
+  SkImage,
+  SkPaint,
+  SkPath,
+  SkPicture,
+  SkPictureRecorder,
+  SkRect,
+} from '@shopify/react-native-skia';
 import type { ProjectedFrame } from './projectRoad';
 import { nearGrassAprons, underBikeApron } from './projectRoad';
 
@@ -69,18 +77,24 @@ function fillPaint(color: string, alpha = 1): SkPaint {
   return paint;
 }
 
+/**
+ * Every Skia handle the renderer needs, allocated once.
+ *
+ * Skia objects hold native memory that Hermes' GC does not account for, so
+ * allocating paths/shaders per frame grows native memory until iOS jetsams the
+ * app on the next surface allocation. Paths are rewound and refilled instead.
+ */
 export type RoadPaintKit = {
   width: number;
   height: number;
   horizonY: number;
-  grassBandH: number;
   sky: SkPaint;
   distantGrass: SkPaint;
   grassBand: SkPaint;
   grassA: SkPaint;
   grassB: SkPaint;
   asphalt: SkPaint;
-  bitumen: SkPaint;
+  bitumen: SkPaint | null;
   depthShade: SkPaint;
   rubberStrong: SkPaint;
   rubberLight: SkPaint;
@@ -91,13 +105,33 @@ export type RoadPaintKit = {
   boardStroke: SkPaint;
   boardText: SkPaint;
   font: SkFont;
+  recorder: SkPictureRecorder;
+  paths: {
+    grass: SkPath;
+    grassAlt: SkPath;
+    asphalt: SkPath;
+    rubberStrong: SkPath;
+    rubberLight: SkPath;
+    kerbRed: SkPath;
+    kerbWhite: SkPath;
+    edges: SkPath;
+    board: SkPath;
+  };
+  rects: {
+    sky: SkRect;
+    runoff: SkRect;
+    grassBand: SkRect;
+    bitumen: SkRect;
+    bounds: SkRect;
+  };
 };
 
-/**
- * Paints and gradients depend only on viewport size, so they are built once per
- * layout rather than per frame.
- */
-export function makeRoadPaintKit(width: number, height: number, horizonY: number): RoadPaintKit {
+export function makeRoadPaintKit(
+  width: number,
+  height: number,
+  horizonY: number,
+  bitumenTile: SkImage | null
+): RoadPaintKit {
   const sky = Skia.Paint();
   sky.setAntiAlias(true);
   sky.setShader(
@@ -135,18 +169,35 @@ export function makeRoadPaintKit(width: number, height: number, horizonY: number
   boardStroke.setStrokeWidth(1.2);
   boardStroke.setColor(Skia.Color('#111827'));
 
+  // One repeating shader for the life of the view; scrolling translates the
+  // canvas instead of rebuilding the shader every frame.
+  let bitumen: SkPaint | null = null;
+  if (bitumenTile) {
+    bitumen = Skia.Paint();
+    bitumen.setAntiAlias(true);
+    bitumen.setShader(
+      bitumenTile.makeShaderOptions(
+        TileMode.Repeat,
+        TileMode.Repeat,
+        FilterMode.Linear,
+        MipmapMode.None
+      )
+    );
+  }
+
+  const grassBandH = Math.max(10, (height - horizonY) * 0.08);
+
   return {
     width,
     height,
     horizonY,
-    grassBandH: Math.max(10, (height - horizonY) * 0.08),
     sky,
     distantGrass: fillPaint('#3d5a32'),
     grassBand: fillPaint('#4f6b40'),
     grassA: fillPaint('#4a6b3a'),
     grassB: fillPaint('#456338'),
     asphalt: fillPaint('#2c2c30'),
-    bitumen: fillPaint('#2c2c30'),
+    bitumen,
     depthShade,
     rubberStrong: fillPaint('#050507', 0.42),
     rubberLight: fillPaint('#050507', 0.22),
@@ -157,122 +208,164 @@ export function makeRoadPaintKit(width: number, height: number, horizonY: number
     boardStroke,
     boardText: fillPaint('#0f172a'),
     font: matchFont({ fontFamily: 'System', fontSize: 14, fontWeight: '800' }),
+    recorder: Skia.PictureRecorder(),
+    paths: {
+      grass: Skia.Path.Make(),
+      grassAlt: Skia.Path.Make(),
+      asphalt: Skia.Path.Make(),
+      rubberStrong: Skia.Path.Make(),
+      rubberLight: Skia.Path.Make(),
+      kerbRed: Skia.Path.Make(),
+      kerbWhite: Skia.Path.Make(),
+      edges: Skia.Path.Make(),
+      board: Skia.Path.Make(),
+    },
+    rects: {
+      sky: Skia.XYWHRect(0, 0, width, horizonY),
+      runoff: Skia.XYWHRect(0, horizonY, width, height - horizonY),
+      grassBand: Skia.XYWHRect(0, horizonY, width, grassBandH),
+      bitumen: Skia.XYWHRect(0, -TILE_PX, width, height + TILE_PX * 2),
+      bounds: Skia.XYWHRect(0, 0, width, height),
+    },
   };
 }
 
 /**
  * Records one frame as a single SkPicture (~15 draw calls) instead of the
- * ~1500 SVG nodes the web renderer emits.
+ * ~2000 SVG nodes the web renderer emits. The picture is the only Skia object
+ * allocated per frame.
  */
 export function buildRoadPicture(
   frame: ProjectedFrame,
   kit: RoadPaintKit,
-  scrollY: number,
-  bitumenTile: SkImage | null
+  scrollY: number
 ): SkPicture {
-  const { width, height, horizonY } = kit;
+  const { width, height, horizonY, paths, rects } = kit;
 
-  const grass = Skia.Path.Make();
-  const grassAlt = Skia.Path.Make();
+  paths.grass.rewind();
+  paths.grassAlt.rewind();
+  paths.asphalt.rewind();
+  paths.rubberStrong.rewind();
+  paths.rubberLight.rewind();
+  paths.kerbRed.rewind();
+  paths.kerbWhite.rewind();
+  paths.edges.rewind();
+
   for (let i = 0; i < frame.grassQuads.length; i++) {
-    addQuad(i % 2 === 0 ? grass : grassAlt, frame.grassQuads[i]);
+    addQuad(i % 2 === 0 ? paths.grass : paths.grassAlt, frame.grassQuads[i]);
   }
   const aprons = nearGrassAprons(frame, height);
   if (aprons) {
-    addQuad(grass, aprons.left);
-    addQuad(grassAlt, aprons.right);
+    addQuad(paths.grass, aprons.left);
+    addQuad(paths.grassAlt, aprons.right);
   }
-
-  const asphalt = Skia.Path.Make();
-  const rubberStrong = Skia.Path.Make();
-  const rubberLight = Skia.Path.Make();
-  const kerbRed = Skia.Path.Make();
-  const kerbWhite = Skia.Path.Make();
-  const edges = Skia.Path.Make();
 
   for (let i = 0; i < frame.quads.length; i++) {
     const q = frame.quads[i];
-    addQuad(asphalt, q.points);
+    addQuad(paths.asphalt, q.points);
 
     for (const streak of q.rubber) {
-      addQuad(streak.opacity >= 0.32 ? rubberStrong : rubberLight, streak.points);
+      addQuad(streak.opacity >= 0.32 ? paths.rubberStrong : paths.rubberLight, streak.points);
     }
 
     // Stable red/white alternation along the lap, not draw order
     const redFirst = Math.floor(i * 0.55) % 2 === 0;
     if (q.curbLeft) {
-      addCurbStrip(redFirst ? kerbRed : kerbWhite, q.points, 'left', 0.09);
+      addCurbStrip(redFirst ? paths.kerbRed : paths.kerbWhite, q.points, 'left', 0.09);
     } else {
-      edges.moveTo(q.points[0][0], q.points[0][1]);
-      edges.lineTo(q.points[3][0], q.points[3][1]);
+      paths.edges.moveTo(q.points[0][0], q.points[0][1]);
+      paths.edges.lineTo(q.points[3][0], q.points[3][1]);
     }
     if (q.curbRight) {
-      addCurbStrip(redFirst ? kerbWhite : kerbRed, q.points, 'right', 0.09);
+      addCurbStrip(redFirst ? paths.kerbWhite : paths.kerbRed, q.points, 'right', 0.09);
     } else {
-      edges.moveTo(q.points[1][0], q.points[1][1]);
-      edges.lineTo(q.points[2][0], q.points[2][1]);
+      paths.edges.moveTo(q.points[1][0], q.points[1][1]);
+      paths.edges.lineTo(q.points[2][0], q.points[2][1]);
     }
   }
 
   const apron = underBikeApron(frame, height);
   if (apron) {
-    addQuad(asphalt, apron);
-    edges.moveTo(apron[0][0], apron[0][1]);
-    edges.lineTo(apron[3][0], apron[3][1]);
-    edges.moveTo(apron[1][0], apron[1][1]);
-    edges.lineTo(apron[2][0], apron[2][1]);
+    addQuad(paths.asphalt, apron);
+    paths.edges.moveTo(apron[0][0], apron[0][1]);
+    paths.edges.lineTo(apron[3][0], apron[3][1]);
+    paths.edges.moveTo(apron[1][0], apron[1][1]);
+    paths.edges.lineTo(apron[2][0], apron[2][1]);
   }
 
-  if (bitumenTile) {
-    const m = Skia.Matrix();
-    m.translate(0, scrollY);
-    kit.bitumen.setShader(
-      bitumenTile.makeShaderOptions(
-        TileMode.Repeat,
-        TileMode.Repeat,
-        FilterMode.Linear,
-        MipmapMode.None,
-        m
-      )
+  // Recorder is reused; the picture it hands back copies the paths, so rewinding
+  // them next frame cannot corrupt a picture still on screen.
+  const canvas = kit.recorder.beginRecording(rects.bounds);
+
+  canvas.drawRect(rects.sky, kit.sky);
+  canvas.drawRect(rects.runoff, kit.distantGrass);
+  canvas.drawRect(rects.grassBand, kit.grassBand);
+  canvas.drawPath(paths.grass, kit.grassA);
+  canvas.drawPath(paths.grassAlt, kit.grassB);
+  canvas.drawPath(paths.asphalt, kit.asphalt);
+
+  if (kit.bitumen) {
+    canvas.save();
+    canvas.clipPath(paths.asphalt, ClipOp.Intersect, true);
+    canvas.translate(0, scrollY);
+    canvas.drawRect(rects.bitumen, kit.bitumen);
+    canvas.restore();
+  }
+
+  canvas.drawPath(paths.asphalt, kit.depthShade);
+  canvas.drawPath(paths.rubberLight, kit.rubberLight);
+  canvas.drawPath(paths.rubberStrong, kit.rubberStrong);
+  canvas.drawPath(paths.kerbRed, kit.kerbRed);
+  canvas.drawPath(paths.kerbWhite, kit.kerbWhite);
+  canvas.drawPath(paths.edges, kit.edgeLine);
+
+  for (const marker of frame.markers) {
+    paths.board.rewind();
+    addQuad(paths.board, marker.points);
+    canvas.drawPath(paths.board, kit.boardFill);
+    canvas.drawPath(paths.board, kit.boardStroke);
+    const label = String(marker.metres);
+    kit.font.setSize(marker.fontSize);
+    const w = kit.font.getTextWidth(label);
+    canvas.drawText(
+      label,
+      marker.labelX - w / 2,
+      marker.labelY + marker.fontSize * 0.35,
+      kit.boardText,
+      kit.font
     );
   }
 
-  return createPicture(
-    (canvas) => {
-      canvas.drawRect(Skia.XYWHRect(0, 0, width, horizonY), kit.sky);
-      canvas.drawRect(
-        Skia.XYWHRect(0, horizonY, width, height - horizonY),
-        kit.distantGrass
-      );
-      canvas.drawRect(Skia.XYWHRect(0, horizonY, width, kit.grassBandH), kit.grassBand);
-      canvas.drawPath(grass, kit.grassA);
-      canvas.drawPath(grassAlt, kit.grassB);
-      canvas.drawPath(asphalt, kit.asphalt);
-      if (bitumenTile) canvas.drawPath(asphalt, kit.bitumen);
-      canvas.drawPath(asphalt, kit.depthShade);
-      canvas.drawPath(rubberLight, kit.rubberLight);
-      canvas.drawPath(rubberStrong, kit.rubberStrong);
-      canvas.drawPath(kerbRed, kit.kerbRed);
-      canvas.drawPath(kerbWhite, kit.kerbWhite);
-      canvas.drawPath(edges, kit.edgeLine);
+  return kit.recorder.finishRecordingAsPicture();
+}
 
-      for (const marker of frame.markers) {
-        const board = Skia.Path.Make();
-        addQuad(board, marker.points);
-        canvas.drawPath(board, kit.boardFill);
-        canvas.drawPath(board, kit.boardStroke);
-        const label = String(marker.metres);
-        kit.font.setSize(marker.fontSize);
-        const w = kit.font.measureText(label).width;
-        canvas.drawText(
-          label,
-          marker.labelX - w / 2,
-          marker.labelY + marker.fontSize * 0.35,
-          kit.boardText,
-          kit.font
-        );
-      }
-    },
-    Skia.XYWHRect(0, 0, width, height)
-  );
+/**
+ * Releases pictures a few frames after they leave the screen.
+ *
+ * The UI thread may still be mid-draw on a picture the loop has already
+ * replaced, so disposal lags by RELEASE_LAG frames (~100 ms) rather than firing
+ * immediately. Waiting for the GC instead is what let native memory grow until
+ * iOS killed the app on the next surface allocation.
+ */
+const RELEASE_LAG = 6;
+
+export class PictureRecycler {
+  private queue: SkPicture[] = [];
+
+  track(picture: SkPicture): void {
+    this.queue.push(picture);
+    while (this.queue.length > RELEASE_LAG) {
+      this.queue.shift()?.dispose();
+    }
+  }
+}
+
+/**
+ * Frees the handles the kit owns outright. Paints are left alone: a recorded
+ * picture copies them, and disposing one still referenced by a frame on screen
+ * would crash.
+ */
+export function disposeRoadPaintKit(kit: RoadPaintKit): void {
+  for (const path of Object.values(kit.paths)) path.dispose();
+  kit.recorder.dispose();
 }

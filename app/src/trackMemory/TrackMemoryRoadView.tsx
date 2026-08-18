@@ -5,7 +5,13 @@ import type { SkPicture } from '@shopify/react-native-skia';
 import { useSharedValue } from 'react-native-reanimated';
 import type { TrackMemoryLayout } from './types';
 import { horizonYFor, NATIVE_QUALITY, projectRoad } from './projectRoad';
-import { buildRoadPicture, makeRoadPaintKit, TILE_PX } from './drawRoadSkia';
+import {
+  buildRoadPicture,
+  disposeRoadPaintKit,
+  makeRoadPaintKit,
+  PictureRecycler,
+  TILE_PX,
+} from './drawRoadSkia';
 import type { TrackMemoryRoadHandle } from './roadHandle';
 
 const BITUMEN_TILE = require('../../assets/track-memory/bitumen_tile.png');
@@ -27,23 +33,40 @@ export const TrackMemoryRoadView = forwardRef<TrackMemoryRoadHandle, Props>(
     const emptyPicture = useMemo(() => createPicture(() => {}), []);
     const picture = useSharedValue<SkPicture>(emptyPicture);
     const pose = useRef({ s: 0, lateral: 0, heading: 0 });
+    const alive = useRef(true);
+    const recycler = useMemo(() => new PictureRecycler(), []);
 
+    // Every Skia handle lives here for the life of the view; see drawRoadSkia.
     const kit = useMemo(
       () =>
         width >= 8 && height >= 8
-          ? makeRoadPaintKit(width, height, horizonYFor(height))
+          ? makeRoadPaintKit(width, height, horizonYFor(height), bitumen)
           : null,
-      [width, height]
+      [width, height, bitumen]
     );
+
+    useEffect(() => {
+      alive.current = true;
+      return () => {
+        alive.current = false;
+      };
+    }, []);
+
+    useEffect(() => {
+      if (!kit) return;
+      return () => disposeRoadPaintKit(kit);
+    }, [kit]);
 
     const draw = useCallback(
       (s: number, lateral: number, heading: number) => {
         pose.current = { s, lateral, heading };
-        if (!kit) return;
+        if (!kit || !alive.current) return;
         const frame = projectRoad(layout, s, lateral, width, height, heading, NATIVE_QUALITY);
-        picture.value = buildRoadPicture(frame, kit, (s * 5.5) % TILE_PX, bitumen);
+        const next = buildRoadPicture(frame, kit, (s * 5.5) % TILE_PX);
+        picture.value = next;
+        recycler.track(next);
       },
-      [kit, layout, width, height, bitumen, picture]
+      [kit, layout, width, height, picture, recycler]
     );
 
     useImperativeHandle(ref, () => ({ draw }), [draw]);

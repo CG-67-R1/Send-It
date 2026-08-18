@@ -11,7 +11,6 @@ import phillipIsland from '../data/trackMemory/phillip_island.json';
 import queenslandRaceway from '../data/trackMemory/queensland_raceway.json';
 import sandown from '../data/trackMemory/sandown.json';
 import smpBrabham from '../data/trackMemory/smp_brabham.json';
-import smpDruitt from '../data/trackMemory/smp_druitt.json';
 import smpGardner from '../data/trackMemory/smp_gardner.json';
 import theBendGt from '../data/trackMemory/the_bend_gt.json';
 import theBendInternational from '../data/trackMemory/the_bend_international.json';
@@ -34,7 +33,6 @@ const LAYOUTS: Record<string, TrackMemoryLayout> = {
   queensland_raceway: queenslandRaceway as TrackMemoryLayout,
   sandown: sandown as TrackMemoryLayout,
   smp_brabham: smpBrabham as TrackMemoryLayout,
-  smp_druitt: smpDruitt as TrackMemoryLayout,
   smp_gardner: smpGardner as TrackMemoryLayout,
   the_bend_gt: theBendGt as TrackMemoryLayout,
   the_bend_international: theBendInternational as TrackMemoryLayout,
@@ -47,6 +45,13 @@ export const TRACK_MEMORY_TRACK_IDS = Object.keys(LAYOUTS);
 
 /** Catalog track ids with no Emtron GPX bake yet. */
 export const TRACK_MEMORY_MISSING_GPX = [] as const;
+
+/**
+ * Baked but not playable: smp_druitt came from a multi-lap GPX (9771 m against a
+ * real ~3.9 km circuit), so the path crosses itself and some camera positions
+ * draw no road at all. Needs a re-bake from a single-lap trace.
+ */
+export const TRACK_MEMORY_NEEDS_REBAKE = ['smp_druitt'] as const;
 
 export function getTrackMemoryLayout(trackId: string): TrackMemoryLayout | undefined {
   return LAYOUTS[trackId];
