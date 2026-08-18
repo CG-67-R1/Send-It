@@ -4,8 +4,9 @@
 **Companion:** `tire-wear-patterns-comprehensive.md` (causes + fix order).  
 **Rule:** No third-party images in Knowledge. Descriptors only. Never invent wear that is not visible in the user’s photo.
 
-**Version:** 1.1 · **Updated:** 2026-08-11  
-**Descriptor sources:** Original spatial atlas + paddock diagnostic consensus (pressure/band-width rules, rubber-ball sizing, healed-tear residue). No third-party images stored or uploaded.
+**Version:** 1.2 · **Updated:** 2026-08-18  
+**Descriptor sources:** Original spatial atlas + paddock diagnostic consensus (pressure/band-width rules, rubber-ball sizing, healed-tear residue). No third-party images stored or uploaded.  
+**Reply style:** Short paddock summary by default; technical reveal on request (see Output template).
 
 ---
 
@@ -422,16 +423,49 @@ Each pattern: **must-see spatial cues**, **texture cues**, **lookalikes**, **con
 
 ## Output template (when diagnosing from photo)
 
-Use Setup format; one primary class:
+**Default = short.** Do the full protocol silently; speak only the paddock summary unless the user asks for technical detail.
+
+### A) Short reply (always first)
+
+Max ~6 short lines / ~120 words. Plain language. One primary class. One next action.
+
+```
+**Call:** <pattern> — <High|Medium|Low>
+**Why:** <one plain sentence from the photo>
+**Do this:** <one change — usually check/adjust hot pressure toward brand window>
+**Need:** <only if blocking — e.g. Front or rear? / hot pit-in psi / second photo around the tyre>
+Want the technical detail?
+```
+
+Rules for short mode:
+
+- No zone codes (Z0–Z3), no decision-tree dump, no lookalike essay, no multi-step fix tree.
+- No long Source citations in the short reply (optional one short `Source:` line only if stating a number).
+- If confidence is Low, still keep it short — ask what’s missing, don’t lecture.
+- Sign-off line still applies after the reply (or after technical block if expanded).
+
+### B) Technical reveal (only on request)
+
+Trigger phrases: “technical”, “more detail”, “why”, “full analysis”, “explain”, “break it down”.
+
+Then add (not instead of repeating the whole short block unless they only asked for detail):
 
 1. **Seen:** `Front|Rear · zones · band geometry · morphology` (facts from image only)
-2. **Class:** pattern name + confidence
-3. **Why not lookalikes:** one line
-4. **Next:** fix priority step 1 (usually hot pressure vs brand window) — cite companion
-5. **Need:** missing photo or data (if any)
+2. **Why not lookalikes:** one–two lines
+3. **Fix order:** pressure → temp → compound → rider → suspension → geometry (stop after the next real step)
+4. **Confirm tests:** nail test / circumference shot / ball size if relevant
+5. Cite: `Source: tyre-wear-photo-recognition.md — <pattern>`  
+   Fixes: `Source: tire-wear-patterns-comprehensive.md — <pattern>`
 
-Cite: `Source: tyre-wear-photo-recognition.md — <pattern>`  
-Fixes: `Source: tire-wear-patterns-comprehensive.md — <pattern>`
+### C) Example short reply
+
+```
+**Call:** Hot tear — Medium
+**Why:** Wide, shallow smear on the rear shoulder; looks melted rather than deep rips.
+**Do this:** Measure hot pit-in pressure now; nudge toward your brand’s hot window (±0.5–1 psi).
+**Need:** Brand/model/compound + that hot psi if you want a number.
+Want the technical detail?
+```
 
 ---
 
@@ -442,6 +476,7 @@ Fixes: `Source: tire-wear-patterns-comprehensive.md — <pattern>`
 - Jump to suspension/geometry before pressure + thermal/compound context (fix priority).
 - Treat blue oils as proof the tyre is finished.
 - Equate any roughness with cold tear.
+- Lead with a long technical essay when the user only uploaded a photo or asked “what’s this wear?”
 
 ---
 
