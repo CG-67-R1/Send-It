@@ -100,7 +100,7 @@ Use this brief to generate mockups, illustrations, or theme variations in GPT (o
 
 **Layout:**
 - Compact logo at top.
-- Buttons: **RR AI Coach**, **Track Prep**, **Bike Setup Basics**, **Tyre Wear Analysis**, **Track Memory**.
+- Buttons: **RR AI Coach**, **Track Prep**, **Bike Setup Basics**, **Tyre Wear Analysis**.
 - Feature-request mailto link at bottom.
 
 **Visual/theming ideas:** Pit-board hub; helmet for Coach; circuit for Track Prep.

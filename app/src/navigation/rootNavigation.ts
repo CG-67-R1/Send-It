@@ -12,8 +12,6 @@ export type RootTabParamList = {
           | 'CoachChat'
           | 'RiderCoach'
           | 'TrackWalk'
-          | 'TrackMemory'
-          | 'TrackMemoryHub'
           | 'TrackPrep'
           | 'TrackdayPrep'
           | 'TrackdayPrepReport'

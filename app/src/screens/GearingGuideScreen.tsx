@@ -1,8 +1,6 @@
 import React, { useCallback, useEffect, useMemo, useState } from 'react';
 import {
-  KeyboardAvoidingView,
   Modal,
-  Platform,
   ScrollView,
   StyleSheet,
   Text,
@@ -13,6 +11,7 @@ import {
 import { useNavigation } from '@react-navigation/native';
 import type { NativeStackNavigationProp } from '@react-navigation/native-stack';
 import { PrivateSetupBanner } from '../components/PrivateSetupBanner';
+import { KeyboardAvoidingOverlay } from '../components/KeyboardSafeView';
 import { TrackPicker } from '../components/TrackPicker';
 import {
   ENGINE_CONFIG_OPTIONS,
@@ -372,11 +371,7 @@ export function GearingGuideScreen() {
     provenance === 'catalog' ? 'Catalog specs' : provenance === 'user_override' ? 'You overrode catalog specs' : 'Manual bike';
 
   return (
-    <KeyboardAvoidingView
-      style={styles.container}
-      behavior={Platform.OS === 'ios' ? 'padding' : undefined}
-      keyboardVerticalOffset={Platform.OS === 'ios' ? 90 : 0}
-    >
+    <View style={styles.container}>
       <ScrollView contentContainerStyle={styles.content} keyboardShouldPersistTaps="handled">
         <PrivateSetupBanner detail="Gearing inputs stay on this device until you send a brief to Bike Setup Coach." />
         <Text style={styles.intro}>
@@ -638,7 +633,7 @@ export function GearingGuideScreen() {
       </ScrollView>
 
       <Modal visible={bikePickerOpen} transparent animationType="slide">
-        <View style={styles.overlay}>
+        <KeyboardAvoidingOverlay style={styles.overlay}>
           <View style={styles.sheet}>
             <Text style={styles.sheetTitle}>Select bike</Text>
             <TextInput
@@ -674,9 +669,9 @@ export function GearingGuideScreen() {
               <Text style={styles.cancelText}>Cancel</Text>
             </TouchableOpacity>
           </View>
-        </View>
+        </KeyboardAvoidingOverlay>
       </Modal>
-    </KeyboardAvoidingView>
+    </View>
   );
 }
 

@@ -19,6 +19,7 @@ Record on the **same TestFlight build** attached to 1.0.0 (or a newer production
 - **No IAP / subscriptions / paid unlocks.**
 - **No App Tracking Transparency** prompt (no tracking).
 - **No public social feed.** Track Walk “Private / Team / Community” is a **local label** on device storage — nothing is published to other users, so there is no report/block UI. Leave visibility on **Private** in the video.
+- **Track Memory game is not in this build** (rebuild in progress). Do not look for it under Rider Coach.
 - **Permissions that can appear:** camera (avatar), photos (bike / notes / avatar library), calendar (Events → Add reminder), location (Settings → track arrival), notifications (Priority 1 news), speech/mic (Track Walk voice note if the native module is present).
 - **Network:** headlines, calendar, Coach / Bike Setup AI / Q&A via `https://send-it-ke7r.onrender.com` (Render) and OpenAI. First API call after idle can take ~30s (cold start) — wait rather than showing an error.
 - **Regions:** AU + UK packs. Same features; headlines, calendar, and track catalogs differ by locale. Not a regulated industry. News is headlines + links to publisher sites ([`COPYRIGHT.md`](../legal/COPYRIGHT.md)).
@@ -45,7 +46,7 @@ Aim for **3–5 minutes**. Pause briefly on each screen.
 | 3 | Home: tap bike photo area → **Allow Photos** (or Don’t Allow if already granted — still tap the control) | Photos prompt |
 | 4 | **Settings** → Open News → scroll 2–3 headlines → tap one so Safari/publisher opens → back to app | Core news; third-party content is links |
 | 5 | Tab **Events** → scroll calendar → **Add reminder** on one event → **Allow Calendar** | Calendar prompt |
-| 6 | Tab **Rider Coach** → **Track Prep** or **Track Walk** (pick a catalog track, add one short note, keep **Private**) → back → **Track Memory** 10–15s of riding → **RR AI Coach**, send e.g. “How should I approach a slow hairpin?” and wait for a reply | Core coach flow + AI |
+| 6 | Tab **Rider Coach** → **Track Prep** or **Track Walk** (pick a catalog track, add one short note, keep **Private**) → **RR AI Coach**, send e.g. “How should I approach a slow hairpin?” and wait for a reply | Core coach flow + AI |
 | 7 | Tab **Bike Setup** → open **Bike Setup Sheet** (scroll fields) → **Bike Balance** (show first inputs, no need to finish) | Core setup tools; data stays on device |
 | 8 | Tab **Q & A** → Ask e.g. “What is a track day?” → wait for reply → open **Trivia**, start one question | Q&A core |
 | 9 | **Settings** → enable **track arrival** → **Allow Location While Using** | Location prompt |
@@ -66,7 +67,7 @@ Fill the device line first, then paste this entire block.
 RoadRacer — App Review notes (version 1.0.0)
 
 1) SCREEN RECORDING
-Attached in this Resolution Center reply: physical-device recording starting at app launch, then onboarding/Home, News, Events, Rider Coach (Track Walk + Track Memory + AI Coach), Bike Setup, Q&A, and permission prompts (camera/photos/calendar/location as they appear).
+Attached in this Resolution Center reply: physical-device recording starting at app launch, then onboarding/Home, News, Events, Rider Coach (Track Walk + AI Coach), Bike Setup, Q&A, and permission prompts (camera/photos/calendar/location as they appear).
 
 No account registration, login, or account deletion — there is no user account.
 No paid content, IAP, or subscriptions.
@@ -87,7 +88,7 @@ Target audience: adults interested in motorcycle road racing (not children). Inf
 - Home: identity (bike photo/avatar) and shortcuts.
 - Settings → Open News: headlines. Articles open on the publisher site.
 - Events: race calendar. Add reminder uses the device calendar (permission).
-- Rider Coach: RR AI Coach, Track Prep/Walk, Track Memory. Needs network for AI.
+- Rider Coach: RR AI Coach, Track Prep/Walk. Needs network for AI. Track Memory is not in this version.
 - Bike Setup: Bike Setup AI, Day Setup Sheet, Bike Balance (local). Needs network for AI only.
 - Q & A: Ask, Official rule check, Trivia, FAQs. Needs network for Ask/rules.
 - Settings → track arrival: optional foreground location near a known circuit.

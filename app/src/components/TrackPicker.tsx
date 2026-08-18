@@ -1,5 +1,6 @@
 import React, { useMemo, useState } from 'react';
 import { Modal, ScrollView, StyleSheet, Text, TextInput, TouchableOpacity, View } from 'react-native';
+import { KeyboardAvoidingOverlay } from './KeyboardSafeView';
 import { getAllTracks, type TrackDefinition } from '../data/tracks';
 
 type Props = {
@@ -35,7 +36,7 @@ export function TrackPicker({ selectedTrackId, onSelect, allowedTrackIds }: Prop
       </TouchableOpacity>
 
       <Modal visible={open} transparent animationType="slide">
-        <View style={styles.overlay}>
+        <KeyboardAvoidingOverlay style={styles.overlay}>
           <View style={styles.sheet}>
             <Text style={styles.sheetTitle}>Select track</Text>
             <TextInput
@@ -74,7 +75,7 @@ export function TrackPicker({ selectedTrackId, onSelect, allowedTrackIds }: Prop
               <Text style={styles.cancelText}>Cancel</Text>
             </TouchableOpacity>
           </View>
-        </View>
+        </KeyboardAvoidingOverlay>
       </Modal>
     </View>
   );

@@ -9,7 +9,6 @@ import { TrackPicker } from '../components/TrackPicker';
 import { COMPACT_LOGO_SIZE } from '../constants/logoSizing';
 import type { OtherTrackContext, TrackDefinition } from '../data/tracks';
 import { getTrackById, isOtherTrackComplete } from '../data/tracks';
-import { getTrackMemoryLayout } from '../trackMemory/layouts';
 import {
   getTrackPrepSelectedTrack,
   saveTrackPrepSelectedTrack,
@@ -103,8 +102,6 @@ export function TrackPrepHubScreen() {
     };
   }, [trackId, selectedTrack, otherContext]);
 
-  const memoryAvailable = trackId ? Boolean(getTrackMemoryLayout(trackId)) : false;
-
   return (
     <ScrollView
       style={styles.container}
@@ -115,7 +112,7 @@ export function TrackPrepHubScreen() {
         <AppLogo size={COMPACT_LOGO_SIZE} />
       </View>
 
-      <PrivateSetupBanner detail="Pick a track once — Trackday Prep, Track Walk Notes, and Track Memory all use it." />
+      <PrivateSetupBanner detail="Pick a track once — Trackday Prep and Track Walk Notes both use it." />
 
       <TrackPicker selectedTrackId={trackId} onSelect={handleSelectTrack} />
       {trackId === 'other' ? (
@@ -157,23 +154,6 @@ export function TrackPrepHubScreen() {
       >
         <Text style={styles.navButtonText}>Track Walk Notes</Text>
         <Text style={styles.navSub}>Corner notes and photos for this circuit</Text>
-      </TouchableOpacity>
-
-      <TouchableOpacity
-        style={[styles.navButton, (!trackReady || !memoryAvailable) && styles.navButtonDisabled]}
-        disabled={!trackReady || !trackParams || !memoryAvailable}
-        onPress={() => {
-          if (!trackParams) return;
-          navigation.navigate('TrackMemory', { initialTrackId: trackParams.trackId });
-        }}
-        activeOpacity={0.8}
-      >
-        <Text style={styles.navButtonText}>Track Memory</Text>
-        <Text style={styles.navSub}>
-          {memoryAvailable
-            ? 'Learn the layout before you ride'
-            : 'Layout game not available for this track yet'}
-        </Text>
       </TouchableOpacity>
     </ScrollView>
   );

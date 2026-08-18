@@ -10,7 +10,9 @@
     "assetBundlePatterns": [
       "**/*"
     ],
-    "web": {},
+    "web": {
+      "softwareKeyboardLayoutMode": "resize"
+    },
     "ios": {
       "supportsTablet": true,
       "bundleIdentifier": "com.milroadracer.app",

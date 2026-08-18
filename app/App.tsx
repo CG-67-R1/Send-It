@@ -23,8 +23,6 @@ import { BikeBalanceSetupScreen } from './src/screens/BikeBalanceSetupScreen';
 import { GearingGuideScreen } from './src/screens/GearingGuideScreen';
 import { TyreWearAnalysisScreen } from './src/screens/TyreWearAnalysisScreen';
 import { TrackWalkScreen } from './src/screens/TrackWalkScreen';
-import { TrackMemoryScreen } from './src/screens/TrackMemoryScreen';
-import { TrackMemoryHubScreen } from './src/screens/TrackMemoryHubScreen';
 import { TrackPrepHubScreen } from './src/screens/TrackPrepHubScreen';
 import { TrackdayPrepScreen } from './src/screens/TrackdayPrepScreen';
 import { TrackdayPrepReportScreen } from './src/screens/TrackdayPrepReportScreen';
@@ -34,6 +32,7 @@ import { OnboardingResetContext } from './src/context/OnboardingResetContext';
 import { TrackArrivalProvider } from './src/context/TrackArrivalContext';
 import { navigationRef } from './src/navigation/rootNavigation';
 import { AppLogo } from './src/components/AppLogo';
+import { KeyboardSafeView } from './src/components/KeyboardSafeView';
 import { HERO_LOGO_SIZE } from './src/constants/logoSizing';
 
 const Stack = createNativeStackNavigator();
@@ -191,16 +190,6 @@ function RiderCoachStack() {
         options={{ title: 'Track Walk Notes' }}
       />
       <Stack.Screen
-        name="TrackMemoryHub"
-        component={TrackMemoryHubScreen}
-        options={{ title: 'Track Memory' }}
-      />
-      <Stack.Screen
-        name="TrackMemory"
-        component={TrackMemoryScreen}
-        options={{ title: 'Track Memory', headerShown: false }}
-      />
-      <Stack.Screen
         name="ImportTrackNotes"
         component={ImportTrackNotesScreen}
         options={{ title: 'Import track notes' }}
@@ -256,6 +245,7 @@ function MainTabs() {
     <Tab.Navigator
       screenOptions={{
         headerShown: false,
+        tabBarHideOnKeyboard: true,
         tabBarStyle: { backgroundColor: '#0f172a', borderTopColor: '#1e293b' },
         tabBarActiveTintColor: '#f59e0b',
         tabBarInactiveTintColor: '#64748b',
@@ -335,46 +325,48 @@ export default function App() {
   return (
     <GestureHandlerRootView style={{ flex: 1 }}>
       <SafeAreaProvider>
-        {!fontsLoaded || onboardingComplete === null ? (
-          <View style={{ flex: 1, backgroundColor: '#0f172a', justifyContent: 'center', alignItems: 'center' }}>
-            <StatusBar style="light" />
-            <ActivityIndicator size="large" color="#f59e0b" />
-          </View>
-        ) : !onboardingComplete ? (
-          <OnboardingResetContext.Provider value={{ resetOnboarding }}>
-            <StatusBar style="light" />
-            <OnboardingScreen onComplete={() => setOnboardingComplete(true)} />
-          </OnboardingResetContext.Provider>
-        ) : (
-          <OnboardingResetContext.Provider value={{ resetOnboarding }}>
-            <View style={{ flex: 1 }}>
-              <NavigationContainer ref={navigationRef}>
-                <TrackArrivalProvider>
-                  <StatusBar style="light" />
-                  <MainTabs />
-                </TrackArrivalProvider>
-              </NavigationContainer>
-              {__DEV__ && isHermes ? (
-                <View
-                  style={{
-                    position: 'absolute',
-                    top: 14,
-                    right: 14,
-                    paddingHorizontal: 10,
-                    paddingVertical: 6,
-                    borderRadius: 999,
-                    backgroundColor: 'rgba(245, 158, 11, 0.92)',
-                    borderWidth: 1,
-                    borderColor: '#0f172a',
-                  }}
-                  pointerEvents="none"
-                >
-                  <Text style={{ color: '#0f172a', fontSize: 12, fontWeight: '700' }}>Hermes active</Text>
-                </View>
-              ) : null}
+        <KeyboardSafeView>
+          {!fontsLoaded || onboardingComplete === null ? (
+            <View style={{ flex: 1, backgroundColor: '#0f172a', justifyContent: 'center', alignItems: 'center' }}>
+              <StatusBar style="light" />
+              <ActivityIndicator size="large" color="#f59e0b" />
             </View>
-          </OnboardingResetContext.Provider>
-        )}
+          ) : !onboardingComplete ? (
+            <OnboardingResetContext.Provider value={{ resetOnboarding }}>
+              <StatusBar style="light" />
+              <OnboardingScreen onComplete={() => setOnboardingComplete(true)} />
+            </OnboardingResetContext.Provider>
+          ) : (
+            <OnboardingResetContext.Provider value={{ resetOnboarding }}>
+              <View style={{ flex: 1 }}>
+                <NavigationContainer ref={navigationRef}>
+                  <TrackArrivalProvider>
+                    <StatusBar style="light" />
+                    <MainTabs />
+                  </TrackArrivalProvider>
+                </NavigationContainer>
+                {__DEV__ && isHermes ? (
+                  <View
+                    style={{
+                      position: 'absolute',
+                      top: 14,
+                      right: 14,
+                      paddingHorizontal: 10,
+                      paddingVertical: 6,
+                      borderRadius: 999,
+                      backgroundColor: 'rgba(245, 158, 11, 0.92)',
+                      borderWidth: 1,
+                      borderColor: '#0f172a',
+                    }}
+                    pointerEvents="none"
+                  >
+                    <Text style={{ color: '#0f172a', fontSize: 12, fontWeight: '700' }}>Hermes active</Text>
+                  </View>
+                ) : null}
+              </View>
+            </OnboardingResetContext.Provider>
+          )}
+        </KeyboardSafeView>
       </SafeAreaProvider>
     </GestureHandlerRootView>
   );

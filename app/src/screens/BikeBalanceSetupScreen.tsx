@@ -1,8 +1,6 @@
 import React, { useCallback, useEffect, useMemo, useState } from 'react';
 import {
   Alert,
-  KeyboardAvoidingView,
-  Platform,
   ScrollView,
   StyleSheet,
   Text,
@@ -332,11 +330,7 @@ export function BikeBalanceSetupScreen() {
   };
 
   return (
-    <KeyboardAvoidingView
-      style={styles.container}
-      behavior={Platform.OS === 'ios' ? 'padding' : undefined}
-      keyboardVerticalOffset={Platform.OS === 'ios' ? 90 : 0}
-    >
+    <View style={styles.container}>
       <ScrollView contentContainerStyle={styles.content} keyboardShouldPersistTaps="handled">
         <PrivateSetupBanner detail="Save named setups privately, keep a Ref for deltas, and share a text report only when you choose." />
         <Text style={styles.disclaimer}>
@@ -773,7 +767,7 @@ export function BikeBalanceSetupScreen() {
         visible={sourceResult != null}
         onClose={() => setSourceResult(null)}
       />
-    </KeyboardAvoidingView>
+    </View>
   );
 }
 

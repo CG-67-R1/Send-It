@@ -3,7 +3,6 @@ import {
   ActivityIndicator,
   Alert,
   Image,
-  KeyboardAvoidingView,
   Platform,
   ScrollView,
   StyleSheet,
@@ -294,11 +293,7 @@ export function CoachChatScreen() {
 
   return (
     <View style={styles.container}>
-      <KeyboardAvoidingView
-        style={styles.chatArea}
-        behavior={Platform.OS === 'ios' ? 'padding' : undefined}
-        keyboardVerticalOffset={Platform.OS === 'ios' ? 90 : 0}
-      >
+      <View style={styles.chatArea}>
         <ScrollView
           ref={scrollRef}
           style={styles.scroll}
@@ -442,7 +437,7 @@ export function CoachChatScreen() {
             )}
           </TouchableOpacity>
         </View>
-      </KeyboardAvoidingView>
+      </View>
     </View>
   );
 }

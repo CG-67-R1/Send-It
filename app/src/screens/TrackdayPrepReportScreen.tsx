@@ -12,7 +12,6 @@ import { useNavigation, useRoute, type RouteProp } from '@react-navigation/nativ
 import type { NativeStackNavigationProp } from '@react-navigation/native-stack';
 import { AppLogo } from '../components/AppLogo';
 import { COMPACT_LOGO_SIZE } from '../constants/logoSizing';
-import { getTrackMemoryLayout } from '../trackMemory/layouts';
 import {
   formatTrackdayPrepSummary,
   saveTrackdayPrepToHistory,
@@ -29,8 +28,6 @@ export function TrackdayPrepReportScreen() {
   const route = useRoute<Route>();
   const { draft, reportText } = route.params;
   const [busy, setBusy] = useState<'save' | 'export' | 'print' | null>(null);
-
-  const memoryAvailable = Boolean(getTrackMemoryLayout(draft.trackId));
 
   const onSave = useCallback(async () => {
     setBusy('save');
@@ -83,10 +80,6 @@ export function TrackdayPrepReportScreen() {
     });
   }, [navigation, draft.trackName, draft.dateIso, reportText]);
 
-  const onTrackMemory = useCallback(() => {
-    navigation.navigate('TrackMemory', { initialTrackId: draft.trackId });
-  }, [navigation, draft.trackId]);
-
   return (
     <ScrollView style={styles.container} contentContainerStyle={styles.content}>
       <View style={styles.logoRow}>
@@ -113,12 +106,6 @@ export function TrackdayPrepReportScreen() {
         />
         <ActionButton label="Print" busy={busy === 'print'} disabled={!!busy} onPress={onPrint} />
         <ActionButton label="Continue in Coach" disabled={!!busy} onPress={onContinueCoach} />
-        <ActionButton
-          label="Play Track Memory"
-          disabled={!!busy || !memoryAvailable}
-          onPress={onTrackMemory}
-          hint={!memoryAvailable ? 'Layout game not available for this track yet' : undefined}
-        />
       </View>
     </ScrollView>
   );
@@ -129,13 +116,11 @@ function ActionButton({
   onPress,
   busy,
   disabled,
-  hint,
 }: {
   label: string;
   onPress: () => void;
   busy?: boolean;
   disabled?: boolean;
-  hint?: string;
 }) {
   return (
     <View style={styles.actionWrap}>
@@ -151,7 +136,6 @@ function ActionButton({
           <Text style={styles.actionText}>{label}</Text>
         )}
       </TouchableOpacity>
-      {hint ? <Text style={styles.hint}>{hint}</Text> : null}
     </View>
   );
 }
@@ -190,5 +174,4 @@ const styles = StyleSheet.create({
   },
   actionDisabled: { opacity: 0.45 },
   actionText: { fontFamily: 'RaceSport', fontSize: 16, color: '#0f172a' },
-  hint: { marginTop: 6, fontSize: 12, color: '#94a3b8', textAlign: 'center' },
 });

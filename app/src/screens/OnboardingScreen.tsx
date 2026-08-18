@@ -6,7 +6,6 @@ import {
   TouchableOpacity,
   View,
   ScrollView,
-  KeyboardAvoidingView,
   Platform,
   Image,
   Alert,
@@ -206,11 +205,7 @@ export function OnboardingScreen({ onComplete }: OnboardingScreenProps) {
 
   return (
     <>
-    <KeyboardAvoidingView
-      style={styles.container}
-      behavior={Platform.OS === 'ios' ? 'padding' : undefined}
-      keyboardVerticalOffset={20}
-    >
+    <View style={styles.container}>
       <ScrollView
         contentContainerStyle={styles.scrollContent}
         keyboardShouldPersistTaps="handled"
@@ -720,7 +715,7 @@ export function OnboardingScreen({ onComplete }: OnboardingScreenProps) {
           </TouchableOpacity>
         </View>
       </ScrollView>
-    </KeyboardAvoidingView>
+    </View>
     {(() => {
       const cameraAvatarSource =
         getAvatarSource(avatarId) ?? selectedAvatarPreset?.source ?? null;

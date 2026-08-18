@@ -3,9 +3,7 @@ import {
   ActivityIndicator,
   Alert,
   Image,
-  KeyboardAvoidingView,
   Linking,
-  Platform,
   ScrollView,
   StyleSheet,
   Text,
@@ -175,11 +173,7 @@ export function ImportTrackNotesScreen() {
   }, [notes, trackId, otherContext, photos, navigation]);
 
   return (
-    <KeyboardAvoidingView
-      style={styles.container}
-      behavior={Platform.OS === 'ios' ? 'padding' : undefined}
-      keyboardVerticalOffset={Platform.OS === 'ios' ? 90 : 0}
-    >
+    <View style={styles.container}>
       <ScrollView
         contentContainerStyle={styles.scrollContent}
         keyboardShouldPersistTaps="handled"
@@ -252,7 +246,7 @@ export function ImportTrackNotesScreen() {
           )}
         </TouchableOpacity>
       </ScrollView>
-    </KeyboardAvoidingView>
+    </View>
   );
 }
 

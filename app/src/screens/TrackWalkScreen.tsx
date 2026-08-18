@@ -3,10 +3,8 @@ import {
   ActivityIndicator,
   Alert,
   Image,
-  KeyboardAvoidingView,
   Linking,
   Modal,
-  Platform,
   ScrollView,
   StyleSheet,
   Text,
@@ -20,6 +18,7 @@ import type { NativeStackNavigationProp } from '@react-navigation/native-stack';
 import { useTrackArrivalRecheck } from '../context/TrackArrivalContext';
 import { isTrackArrivalEnabled } from '../location/trackGeofence';
 import { AppLogo } from '../components/AppLogo';
+import { KeyboardAvoidingOverlay } from '../components/KeyboardSafeView';
 import { COMPACT_LOGO_SIZE } from '../constants/logoSizing';
 import { CornerPicker } from '../components/CornerPicker';
 import { OtherTrackContextForm } from '../components/OtherTrackContextForm';
@@ -492,11 +491,7 @@ export function TrackWalkScreen() {
   const draftCorner = selectedTrack?.corners.find((c) => c.id === draftCornerId);
 
   return (
-    <KeyboardAvoidingView
-      style={styles.container}
-      behavior={Platform.OS === 'ios' ? 'padding' : undefined}
-      keyboardVerticalOffset={Platform.OS === 'ios' ? 90 : 0}
-    >
+    <View style={styles.container}>
       <ScrollView
         contentContainerStyle={styles.scrollContent}
         keyboardShouldPersistTaps="handled"
@@ -706,7 +701,7 @@ export function TrackWalkScreen() {
       </ScrollView>
 
       <Modal visible={showFinishModal} transparent animationType="fade">
-        <View style={styles.modalOverlay}>
+        <KeyboardAvoidingOverlay style={styles.modalOverlay}>
           <ScrollView
             style={styles.modalContent}
             contentContainerStyle={styles.modalContentInner}
@@ -801,9 +796,9 @@ export function TrackWalkScreen() {
               <Text style={styles.modalCancelText}>Cancel</Text>
             </TouchableOpacity>
           </ScrollView>
-        </View>
+        </KeyboardAvoidingOverlay>
       </Modal>
-    </KeyboardAvoidingView>
+    </View>
   );
 }
 

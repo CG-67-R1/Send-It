@@ -2,8 +2,6 @@ import React, { useCallback, useEffect, useMemo, useState } from 'react';
 import {
   ActivityIndicator,
   Alert,
-  KeyboardAvoidingView,
-  Platform,
   ScrollView,
   StyleSheet,
   Text,
@@ -159,10 +157,7 @@ export function TrackdayPrepScreen() {
   }, [draft, generating, navigation]);
 
   return (
-    <KeyboardAvoidingView
-      style={styles.flex}
-      behavior={Platform.OS === 'ios' ? 'padding' : undefined}
-    >
+    <View style={styles.flex}>
       <ScrollView
         style={styles.container}
         contentContainerStyle={styles.content}
@@ -259,7 +254,7 @@ export function TrackdayPrepScreen() {
           )}
         </TouchableOpacity>
       </ScrollView>
-    </KeyboardAvoidingView>
+    </View>
   );
 }
 

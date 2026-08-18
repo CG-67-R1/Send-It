@@ -2,6 +2,7 @@ import { apiErrorMessage, apiFetch, LLM_API_TIMEOUT_MS, ROADRACE_CHAT_URL } from
 import type { TrackWalkSession } from '../storage/trackWalk';
 import { formatSessionForExport } from '../storage/trackWalk';
 
+import { stripChatMarkdown } from './chatMarkdown';
 import type { CoachAttachmentPayload } from './coachAttachments';
 
 export type CoachMode = 'coach' | 'bikesetup';
@@ -72,7 +73,7 @@ export async function sendCoachChat(
       return { ok: false, error: typeof data?.error === 'string' ? data.error : 'Request failed' };
     }
 
-    const reply = typeof data?.reply === 'string' ? data.reply.trim() : '';
+    const reply = stripChatMarkdown(typeof data?.reply === 'string' ? data.reply.trim() : '');
     if (!reply) {
       return { ok: false, error: 'Coach returned an empty response.' };
     }

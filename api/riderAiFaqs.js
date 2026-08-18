@@ -1,6 +1,7 @@
 import fs from 'fs/promises';
 import path from 'path';
 import { fileURLToPath } from 'url';
+import { stripChatMarkdown } from './stripChatMarkdown.js';
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const FAQ_FILE = path.join(__dirname, 'data', 'rider_ai_faqs.json');
@@ -131,19 +132,21 @@ export function formatFaqsForPrompt(faqs, mode) {
 
   if (faqs.global_principles?.length) {
     sections.push(
-      `**Global principles (always follow):**\n${faqs.global_principles.map((p) => `- ${p}`).join('\n')}`
+      `Global principles (always follow):\n${faqs.global_principles.map((p) => `- ${p}`).join('\n')}`
     );
   }
 
   if (faqs.novice_guidelines) {
-    sections.push(`**Novice-friendly response guidelines:**\n${faqs.novice_guidelines}`);
+    sections.push(
+      `Novice-friendly response guidelines:\n${stripChatMarkdown(faqs.novice_guidelines)}`
+    );
   }
 
   const items = faqsForMode(faqs, mode);
   const faqBody = formatFaqBlock(items);
   if (faqBody) {
     sections.push(
-      `**Reference FAQs (ground truth for interrogation — when a user question matches these topics, align your answer with this guidance; you may expand with context but do not contradict it):**\n${faqBody}`
+      `Reference FAQs (ground truth for interrogation — when a user question matches these topics, align your answer with this guidance; you may expand with context but do not contradict it):\n${faqBody}`
     );
   }
 

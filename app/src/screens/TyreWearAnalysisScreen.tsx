@@ -3,8 +3,6 @@ import {
   ActivityIndicator,
   Alert,
   Image,
-  KeyboardAvoidingView,
-  Platform,
   ScrollView,
   StyleSheet,
   Text,
@@ -329,11 +327,7 @@ export function TyreWearAnalysisScreen() {
   if (!ready) return <View style={styles.container} />;
 
   return (
-    <KeyboardAvoidingView
-      style={styles.container}
-      behavior={Platform.OS === 'ios' ? 'padding' : undefined}
-      keyboardVerticalOffset={Platform.OS === 'ios' ? 90 : 0}
-    >
+    <View style={styles.container}>
       <ScrollView contentContainerStyle={styles.content} keyboardShouldPersistTaps="handled">
         <PrivateSetupBanner detail="Photos and tyre facts stay on this device until you send them to Bike Setup Coach for diagnosis." />
 
@@ -533,7 +527,7 @@ export function TyreWearAnalysisScreen() {
           </TouchableOpacity>
         ) : null}
       </ScrollView>
-    </KeyboardAvoidingView>
+    </View>
   );
 }
 

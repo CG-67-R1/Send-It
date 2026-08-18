@@ -1,4 +1,5 @@
 import { apiErrorMessage, apiFetch, LLM_API_TIMEOUT_MS, ROADRACE_ASK_URL } from '../../constants/api';
+import { stripChatMarkdown } from './chatMarkdown';
 
 export type AskSource = {
   title: string;
@@ -74,7 +75,7 @@ export async function sendAskChat(
       return { ok: false, error: typeof data?.error === 'string' ? data.error : 'Request failed' };
     }
 
-    const reply = typeof data?.reply === 'string' ? data.reply.trim() : '';
+    const reply = stripChatMarkdown(typeof data?.reply === 'string' ? data.reply.trim() : '');
     if (!reply) {
       return { ok: false, error: 'Ask returned an empty response.' };
     }

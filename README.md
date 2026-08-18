@@ -22,7 +22,7 @@ Mobile app for **trackday learners and club racers**: Rider Coach, Bike Setup (b
 ## Features (current)
 
 - **Home:** Bike photo + avatar. Learn home (track days) shows last Track Prep and Coach / Q&A shortcuts. Setup home (race) shows last day-sheet session and Bike Balance / Sheet shortcuts. Switch “How you ride” in Profile.
-- **Rider Coach:** RR AI Coach, Track Prep, Bike Setup Basics, Tyre Wear Analysis, Track Memory.
+- **Rider Coach:** RR AI Coach, Track Prep, Bike Setup Basics, Tyre Wear Analysis.
 - **Bike Setup:** Bike Setup AI, day sheet with session history, Bike Balance calculator, Gearing Guide, Tyre Wear Analysis, Bike Setup Basics.
 - **Events / Q&A:** Calendar; Ask, Trivia, and FAQs on one tab.
 - **News (archived):** Aggregated headlines remain in Settings → Open News (source order, custom RSS, Priority 1 notify). Not on Home or the tab bar.
