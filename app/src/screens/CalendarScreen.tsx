@@ -15,6 +15,13 @@ import { useFocusEffect } from '@react-navigation/native';
 import * as Calendar from 'expo-calendar';
 import { apiFetch, CALENDAR_URL } from '../../constants/api';
 import { safeOpenUrl } from '../utils/safeOpenUrl';
+import {
+  buildEventIcs,
+  eventIcsFilename,
+  localEndOfDayFromIso,
+  localMidnightFromIso,
+  openEventIcsInBrowser,
+} from '../utils/eventIcs';
 import type { CalendarEvent } from '../types';
 import { AppLogo } from '../components/AppLogo';
 import { SCREEN_LOGO_SIZE } from '../constants/logoSizing';
@@ -90,13 +97,47 @@ function getSeriesColor(series: string): string {
   return SERIES_COLORS[series.toLowerCase()] ?? '#64748b';
 }
 
-/** Build start/end Date for an all-day event (local midnight). */
-function eventDates(startDate: string, endDate: string): { start: Date; end: Date } {
-  const start = new Date(startDate);
-  start.setHours(0, 0, 0, 0);
-  const end = new Date(endDate);
-  end.setHours(23, 59, 59, 999);
-  return { start, end };
+function eventTitle(item: CalendarEvent): string {
+  return `${item.seriesLabel}: ${item.title}`;
+}
+
+function eventLocation(item: CalendarEvent): string {
+  return [item.venue, item.country].filter(Boolean).join(', ');
+}
+
+function eventNotes(item: CalendarEvent): string {
+  return item.url ? `Added from RoadRacer\n${item.url}` : 'Added from RoadRacer';
+}
+
+function addEventIcsOnWeb(item: CalendarEvent): void {
+  const title = eventTitle(item);
+  const ics = buildEventIcs({
+    title,
+    startDate: item.startDate,
+    endDate: item.endDate,
+    location: eventLocation(item) || undefined,
+    description: eventNotes(item),
+    uid: `${item.series}-${item.startDate}-${item.title}@roadracer.app`,
+  });
+  openEventIcsInBrowser(ics, eventIcsFilename(title));
+}
+
+async function getWritableCalendar(): Promise<Calendar.ExpoCalendar | null> {
+  if (Platform.OS === 'ios') {
+    try {
+      return Calendar.getDefaultCalendarSync();
+    } catch {
+      // Fall through to listing calendars (needed on some devices).
+    }
+  }
+  const calendars = await Calendar.getCalendars(
+    Platform.OS === 'ios' ? Calendar.EntityTypes.EVENT : undefined
+  );
+  return (
+    calendars.find((c) => c.allowsModifications && c.isPrimary) ??
+    calendars.find((c) => c.allowsModifications) ??
+    null
+  );
 }
 
 export function CalendarScreen() {
@@ -147,12 +188,11 @@ export function CalendarScreen() {
 
   const addReminder = useCallback(async (item: CalendarEvent) => {
     try {
-      const available = await Calendar.isAvailableAsync();
-      if (!available) {
-        Alert.alert('Not available', 'Calendar is not available on this device.');
+      if (Platform.OS === 'web') {
+        addEventIcsOnWeb(item);
         return;
       }
-      const { status } = await Calendar.requestCalendarPermissionsAsync();
+      const { status } = await Calendar.requestCalendarPermissions();
       if (status !== 'granted') {
         Alert.alert(
           'Calendar access',
@@ -161,18 +201,23 @@ export function CalendarScreen() {
         );
         return;
       }
-      const { start, end } = eventDates(item.startDate, item.endDate);
-      const location = [item.venue, item.country].filter(Boolean).join(', ');
-      const notes = item.url ? `Added from RoadRacer\n${item.url}` : 'Added from RoadRacer';
-      await Calendar.createEventInCalendarAsync({
-        title: `${item.seriesLabel}: ${item.title}`,
-        startDate: start,
-        endDate: end,
+      const calendar = await getWritableCalendar();
+      if (!calendar) {
+        Alert.alert('Not available', 'No writable calendar was found on this device.');
+        return;
+      }
+      const result = await calendar.addEventWithForm({
+        title: eventTitle(item),
+        startDate: localMidnightFromIso(item.startDate),
+        endDate: localEndOfDayFromIso(item.endDate),
         allDay: true,
-        location: location || undefined,
-        notes,
-        alarms: [{ relativeOffset: -24 * 60 }], // 1 day before
+        location: eventLocation(item) || undefined,
+        notes: eventNotes(item),
+        alarms: [{ relativeOffset: -24 * 60 }],
       });
+      if (result.action === Calendar.CalendarDialogResultActions.canceled) {
+        return;
+      }
       Alert.alert('Added', 'Event added to your calendar. You can set or change the reminder there.');
     } catch (e) {
       const message = e instanceof Error ? e.message : 'Could not add to calendar';
