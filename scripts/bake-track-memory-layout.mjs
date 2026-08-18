@@ -11,6 +11,14 @@
 import fs from 'node:fs';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
+import {
+  alignCornersToEvents,
+  expandCornerSlots,
+  findKinks,
+  scoreAlignment,
+  turnEvents,
+  turnRate,
+} from './lib/track-geometry.mjs';
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const ROOT = path.resolve(__dirname, '..');
@@ -46,11 +54,12 @@ const TRACK_GPX = {
   smp_brabham: { gpxName: 'Sydney_Motorsport_Park_-_Brabham.gpx', catalogId: 'smp_brabham' },
   smp_druitt: { gpxName: 'smp_druitt.gpx', catalogId: 'smp_druitt', gpxDir: ZTRACKS_GPX_DIR },
   smp_gardner: { gpxName: 'Sydney_Motorsport_Park_-_GP.gpx', catalogId: 'smp_gardner' },
-  the_bend_gt: { gpxName: 'the_bend_gt.gpx', catalogId: 'the_bend_gt', gpxDir: ZTRACKS_GPX_DIR },
+  // Emtron (Tallem_* typo) is a single clean lap. The DEM copies are ~2× catalog
+  // length and invent a right-hand kink at the entrance to the pit straight.
+  the_bend_gt: { gpxName: 'Tallem_Bend_GT.gpx', catalogId: 'the_bend_gt' },
   the_bend_international: {
-    gpxName: 'the_bend_international.gpx',
+    gpxName: 'Tallem_Bend_International.gpx',
     catalogId: 'the_bend_international',
-    gpxDir: ZTRACKS_GPX_DIR,
   },
   wakefield_park: { gpxName: 'Wakefield_Park_Raceway.gpx', catalogId: 'wakefield_park' },
   wanneroo: { gpxName: 'wanneroo.gpx', catalogId: 'wanneroo', gpxDir: ZTRACKS_GPX_DIR },
@@ -78,10 +87,8 @@ function parseArgs(argv) {
   const trackId = argv[2];
   let gpxPath = null;
   let all = false;
-  let freshCorners = false;
   for (let i = 2; i < argv.length; i++) {
     if (argv[i] === '--all') all = true;
-    if (argv[i] === '--fresh-corners') freshCorners = true;
     if (argv[i] === '--gpx' && argv[i + 1]) {
       gpxPath = argv[++i];
     }
@@ -90,7 +97,6 @@ function parseArgs(argv) {
     trackId: all ? null : trackId === '--all' ? null : trackId,
     gpxPath,
     all,
-    freshCorners,
   };
 }
 
@@ -262,6 +268,17 @@ function extractSingleLap(pts, targetM) {
   if (n < 24) return pts;
   const cum = cumulativeDist(pts);
   const total = cum[n - 1] + hypot2(pts[0], pts[n - 1]);
+
+  /*
+   * A trace that already returns to its own start is one complete lap. Trimming
+   * its head — the start-reversal heuristic misfires on sparse traces, where the
+   * first 30 points span a corner — opens a gap of a few hundred metres that then
+   * has to be bridged with road nobody rode.
+   */
+  if (hypot2(pts[0], pts[n - 1]) < 12 && (!targetM || total <= targetM * 1.22)) {
+    return pts;
+  }
+
   const startIdx = Math.max(startReversalIndex(pts), skipInitialUTurn(pts));
 
   const findReturn = (i0, minRatio, maxRatio, maxGap) => {
@@ -288,7 +305,27 @@ function extractSingleLap(pts, targetM) {
       console.log(
         `  cropped extra lap ${total.toFixed(0)}m → ${loop.travel.toFixed(0)}m (close ${loop.gap.toFixed(1)}m)`
       );
-      return tightenLoopClose(pts.slice(startIdx, loop.j));
+      // Keep point j itself: it is the one measured as closing the lap, and on a
+      // trace that samples every couple of seconds it can be 100 m of straight
+      // away from its neighbour.
+      return tightenLoopClose(pts.slice(startIdx, loop.j + 1));
+    }
+
+    // The trace may start in the pit lane, so no lap ever returns to point 0.
+    // Sweep further starts and keep the tightest single lap of about the right
+    // length.
+    let best = null;
+    const stride = Math.max(1, Math.round(n * 0.02));
+    for (let i0 = startIdx + stride; i0 < n * 0.6; i0 += stride) {
+      const found = findReturn(i0, 0.85, 1.15, 60);
+      if (found && (!best || found.score < best.score)) best = { ...found, i0 };
+    }
+    if (best) {
+      console.log(
+        `  cropped ${total.toFixed(0)}m → single lap ${best.travel.toFixed(0)}m` +
+          ` from point ${best.i0} (close ${best.gap.toFixed(1)}m)`
+      );
+      return tightenLoopClose(pts.slice(best.i0, best.j + 1));
     }
     console.log(
       `  WARN path ${total.toFixed(0)}m vs catalog ${targetM.toFixed(0)}m — left uncropped`
@@ -300,6 +337,135 @@ function extractSingleLap(pts, targetM) {
     return pts.slice(startIdx);
   }
   return pts;
+}
+
+/**
+ * Ease the *sideways* part of the loop-closure gap away.
+ *
+ * A trace starts and stops on the main straight a few metres apart across the
+ * track. Closing that directly turns the offset into a pair of opposing 40 deg
+ * breaks — a chicane on the start/finish straight that does not exist.
+ *
+ * Only the component across the direction of travel is a fault. The component
+ * along it is road the trace simply never recorded, and the closing chord
+ * covers it correctly; dragging the tail along its own heading would just
+ * shorten the lap.
+ */
+const MAX_LATERAL_CLOSE_M = 25;
+
+function taperLoopClose(pts, blendM = 120) {
+  const n = pts.length;
+  if (n < 40) return pts;
+  const gapX = pts[0].x - pts[n - 1].x;
+  const gapY = pts[0].y - pts[n - 1].y;
+  if (Math.hypot(gapX, gapY) < 0.5) return pts;
+
+  const tail = pts[Math.max(0, n - 9)];
+  const heading = Math.hypot(pts[n - 1].x - tail.x, pts[n - 1].y - tail.y);
+  if (heading < 1e-6) return pts;
+  const tx = (pts[n - 1].x - tail.x) / heading;
+  const ty = (pts[n - 1].y - tail.y) / heading;
+  // Normal to the direction of travel
+  const lateral = gapX * -ty + gapY * tx;
+  if (Math.abs(lateral) < 0.4) return pts;
+  if (Math.abs(lateral) > MAX_LATERAL_CLOSE_M) {
+    console.log(
+      `  WARN loop closes ${lateral.toFixed(1)}m across the track — trace is not one clean lap`
+    );
+    return pts;
+  }
+
+  const dx = -ty * lateral;
+  const dy = tx * lateral;
+  const cum = cumulativeDist(pts);
+  const total = cum[n - 1];
+  const blend = Math.min(blendM, total * 0.25);
+  const startS = total - blend;
+  const out = pts.map((p) => ({ ...p }));
+  for (let i = 0; i < n; i++) {
+    if (cum[i] <= startS) continue;
+    const t = (cum[i] - startS) / blend;
+    const w = t * t * (3 - 2 * t);
+    out[i].x += dx * w;
+    out[i].y += dy * w;
+  }
+  console.log(
+    `  eased ${lateral.toFixed(1)}m sideways loop-closure offset over ${Math.round(blend)}m` +
+      ` (total gap ${Math.hypot(gapX, gapY).toFixed(1)}m)`
+  );
+  return out;
+}
+
+/** Unit heading of the trace at an end, measured over a few points. */
+function endHeading(pts, atStart) {
+  const n = pts.length;
+  const span = Math.min(5, n - 1);
+  const a = atStart ? pts[0] : pts[n - 1 - span];
+  const b = atStart ? pts[span] : pts[n - 1];
+  const len = Math.hypot(b.x - a.x, b.y - a.y) || 1;
+  return { x: (b.x - a.x) / len, y: (b.y - a.y) / len };
+}
+
+/**
+ * Fill the road the trace never recorded with a curve that leaves the tail and
+ * arrives at the head on their own headings.
+ *
+ * Chording straight across leaves a heading break that smoothing cannot absorb:
+ * corner-cutting trims a fixed *fraction* of each neighbouring segment, so a
+ * 100 m chord beside 2 m segments still meets them at a hard angle. That break
+ * is what reads as a chicane that isn't there.
+ */
+function bridgeLoopGap(pts, spacingM) {
+  const n = pts.length;
+  const a = pts[n - 1];
+  const b = pts[0];
+  const gap = Math.hypot(b.x - a.x, b.y - a.y);
+  if (gap < Math.max(8, spacingM * 2)) return pts;
+
+  const tail = endHeading(pts, false);
+  const head = endHeading(pts, true);
+  const steps = Math.max(2, Math.round(gap / Math.max(2, spacingM)));
+  // Hermite tangents shorter than the span keep the link from bulging sideways
+  const m = gap * 0.8;
+  const out = pts.map((p) => ({ ...p }));
+  for (let k = 1; k < steps; k++) {
+    const t = k / steps;
+    const t2 = t * t;
+    const t3 = t2 * t;
+    const h00 = 2 * t3 - 3 * t2 + 1;
+    const h10 = t3 - 2 * t2 + t;
+    const h01 = -2 * t3 + 3 * t2;
+    const h11 = t3 - t2;
+    out.push({
+      x: h00 * a.x + h10 * tail.x * m + h01 * b.x + h11 * head.x * m,
+      y: h00 * a.y + h10 * tail.y * m + h01 * b.y + h11 * head.y * m,
+      z: (a.z ?? 0) + ((b.z ?? 0) - (a.z ?? 0)) * t,
+    });
+  }
+  console.log(`  bridged ${gap.toFixed(0)}m of unrecorded road with ${steps - 1} points`);
+  return out;
+}
+
+/** Low-pass the height profile so the road reads as terrain, not DEM stairsteps. */
+function smoothElevation(pts, lengthM, windowM) {
+  const n = pts.length;
+  const half = Math.max(1, Math.round((windowM / lengthM) * n * 0.5));
+  let src = pts.map((p) => p.z ?? 0);
+  for (let pass = 0; pass < 2; pass++) {
+    const next = new Array(n);
+    for (let i = 0; i < n; i++) {
+      let acc = 0;
+      let wsum = 0;
+      for (let k = -half; k <= half; k++) {
+        const w = 1 - Math.abs(k) / (half + 1);
+        acc += src[(((i + k) % n) + n) % n] * w;
+        wsum += w;
+      }
+      next[i] = acc / wsum;
+    }
+    src = next;
+  }
+  return pts.map((p, i) => ({ ...p, z: src[i] }));
 }
 
 function pathLength(pts) {
@@ -386,6 +552,134 @@ function resample(pts, n) {
   return { points: out, lengthM: total };
 }
 
+/** Triangle-smooth the plan so GPS jitter does not become wavy edges. */
+function smoothPlanar(pts, lengthM, windowM) {
+  const n = pts.length;
+  if (n < 8 || lengthM <= 0) return pts;
+  const half = Math.max(1, Math.round((windowM / lengthM) * n * 0.5));
+  const out = pts.map((p) => ({ ...p }));
+  for (let i = 0; i < n; i++) {
+    let ax = 0;
+    let ay = 0;
+    let wsum = 0;
+    for (let k = -half; k <= half; k++) {
+      const w = 1 - Math.abs(k) / (half + 1);
+      const p = pts[(((i + k) % n) + n) % n];
+      ax += p.x * w;
+      ay += p.y * w;
+      wsum += w;
+    }
+    out[i].x = ax / wsum;
+    out[i].y = ay / wsum;
+  }
+  return out;
+}
+
+function ensureCircuitDirection(pts, lengthM, catalogCorners, verifiedHands) {
+  const { slots } = expandCornerSlots(catalogCorners, verifiedHands);
+  const checked = slots.filter((s) => s.hand).length;
+  if (checked < 3) return pts;
+  const scoreOf = (ring) => {
+    const events = turnEvents(ring, lengthM);
+    const al = alignCornersToEvents(slots, events);
+    return al ? scoreAlignment(slots, al.pairs).agreed : 0;
+  };
+  const fwd = scoreOf(pts);
+  const revPts = [...pts].reverse();
+  const rev = scoreOf(revPts);
+  if (rev >= fwd + 2) {
+    console.log(`  reversed path (verified hands ${fwd} → ${rev})`);
+    return revPts;
+  }
+  return pts;
+}
+
+/**
+ * Put s=0 at the start of the pit straight (the straight that feeds T1).
+ *
+ * Picking the globally longest straight is wrong at Bathurst — Conrod is longer
+ * than the pit straight. Prefer a matching-hand feed of hairpin scale, in the
+ * 220–1000 m pit-straight band.
+ */
+function rotateToStraightBeforeT1(pts, lengthM, catalogCorners, verifiedHands) {
+  const { slots } = expandCornerSlots(catalogCorners, verifiedHands);
+  const t1Hand = slots[0]?.hand ?? null;
+  const events = turnEvents(pts, lengthM);
+  if (!events.length) return pts;
+
+  const n = pts.length;
+  const rate = turnRate(pts, 12);
+  const perPoint = lengthM / n;
+  const runs = [];
+  let runStart = null;
+  for (let k = 0; k < n * 2; k++) {
+    const i = k % n;
+    if (Math.abs(rate[i]) < 0.22) {
+      if (runStart === null) runStart = k;
+      const lenM = (k - runStart + 1) * perPoint;
+      if (lenM > 120 && lenM < lengthM * 0.55) {
+        const startI = runStart % n;
+        const existing = runs.find((r) => r.startI === startI);
+        const rec = { startI, endI: i, lenM };
+        if (!existing) runs.push(rec);
+        else if (lenM > existing.lenM) Object.assign(existing, rec);
+      }
+    } else {
+      runStart = null;
+    }
+  }
+
+  const following = (run) => {
+    const after = (run.endI + 1) % n;
+    let best = null;
+    let bestDist = Infinity;
+    for (const ev of events) {
+      const dist = (ev.startI - after + n) % n;
+      if (dist < bestDist) {
+        bestDist = dist;
+        best = ev;
+      }
+    }
+    return best;
+  };
+
+  let best = null;
+  let longest = null;
+  for (const run of runs) {
+    const next = following(run);
+    const match = Boolean(t1Hand && next && next.hand === t1Hand);
+    const pitBand = run.lenM >= 220 && run.lenM <= 1100;
+    const score =
+      (match ? 1e6 : 0) +
+      (match && pitBand ? 3e5 : 0) +
+      run.lenM * 4 +
+      (next ? next.totalDeg : 0);
+    if (!best || score > best.score) best = { run, next, score, match };
+    if (!longest || run.lenM > longest.lenM) longest = { run, next, lenM: run.lenM };
+  }
+  // When the pit is clearly the longest road and the hand-matching candidate
+  // is a short leftover (The Bend's 290 m vs 987 m), take the long one.
+  // Skip if the matching candidate is already a real pit (≥400 m) — otherwise
+  // Bathurst Conrod (~1089 m) beats the pit.
+  if (
+    longest &&
+    best &&
+    best.run.lenM < 400 &&
+    longest.lenM > best.run.lenM * 1.7 &&
+    longest.lenM > 600
+  ) {
+    best = { run: longest.run, next: longest.next, score: longest.lenM, match: false };
+  }
+  if (!best || best.run.startI === 0) return pts;
+
+  console.log(
+    `  rotated lap — S/F ${Math.round(best.run.lenM)}m pit straight` +
+      (best.next ? ` feeding ${best.next.hand} ${best.next.totalDeg}deg` : '')
+  );
+  const i = best.run.startI;
+  return [...pts.slice(i), ...pts.slice(0, i)];
+}
+
 function cumulativeS(pts) {
   const s = [0];
   for (let i = 1; i < pts.length; i++) {
@@ -394,58 +688,6 @@ function cumulativeS(pts) {
   // close to start
   const close = Math.hypot(pts[0].x - pts[pts.length - 1].x, pts[0].y - pts[pts.length - 1].y);
   return { s, loopLength: s[s.length - 1] + close };
-}
-
-function bearingDeg(a, b) {
-  return (Math.atan2(b.x - a.x, b.y - a.y) * 180) / Math.PI;
-}
-
-function angleDelta(a, b) {
-  let d = b - a;
-  while (d > 180) d -= 360;
-  while (d < -180) d += 360;
-  return d;
-}
-
-/** Peak turn strength along path for placing non-finish corners. */
-function turnPeaks(pts, minCount = 8) {
-  const window = 4;
-  const peaks = [];
-  for (let i = 0; i < pts.length; i++) {
-    const i0 = (i - window + pts.length) % pts.length;
-    const i1 = i;
-    const i2 = (i + window) % pts.length;
-    const b0 = bearingDeg(pts[i0], pts[i1]);
-    const b1 = bearingDeg(pts[i1], pts[i2]);
-    const delta = Math.abs(angleDelta(b0, b1));
-    const sNorm = i / pts.length;
-    peaks.push({ i, sNorm, strength: delta });
-  }
-
-  // Allow enough peaks for dense catalogs (e.g. Mac Park 12 turns)
-  const minSpacing = Math.min(0.035, 0.8 / Math.max(minCount, 6));
-  const strengthFloors = [8, 5, 3, 1.5];
-
-  for (const floor of strengthFloors) {
-    const kept = [];
-    const sorted = [...peaks].sort((a, b) => b.strength - a.strength);
-    for (const p of sorted) {
-      if (p.strength < floor) continue;
-      if (
-        kept.some(
-          (k) =>
-            Math.min(Math.abs(k.sNorm - p.sNorm), 1 - Math.abs(k.sNorm - p.sNorm)) < minSpacing
-        )
-      ) {
-        continue;
-      }
-      kept.push(p);
-    }
-    kept.sort((a, b) => a.sNorm - b.sNorm);
-    if (kept.length >= minCount) return kept;
-    if (floor === strengthFloors[strengthFloors.length - 1]) return kept;
-  }
-  return [];
 }
 
 function pathLengthClosed(pts) {
@@ -458,60 +700,61 @@ function pathLengthClosed(pts) {
 }
 
 /**
- * Place catalog corners on the centreline.
- * Assign in turn-number order to peaks sorted around the lap so T1..Tn
- * advance in circuit order (avoids late-lap clustering / number scramble).
+ * Place catalog corners on the centreline by matching the *verified* hand
+ * sequence to the turns the path actually makes.
+ *
+ * Turn 1 is the first turn after the start-finish line, so slots consume turn
+ * events in lap order from s=0. Corners the geometry cannot place are spread
+ * between their placed neighbours rather than dropped.
  */
-function placeCorners(catalogCorners, pts) {
-  const playable = catalogCorners
-    .filter((c) => !c.isFinish)
-    .sort((a, b) => (a.number ?? 999) - (b.number ?? 999));
-  const peaks = turnPeaks(pts, playable.length);
-  const corners = [];
+function placeCorners(catalogCorners, pts, lengthM, verifiedHands) {
+  const { playable, slots } = expandCornerSlots(catalogCorners, verifiedHands);
+  if (!playable.length) return { corners: [], report: null };
 
-  const evenFallback = (i, n) => round4((i + 0.55) / Math.max(1, n));
-
-  if (peaks.length === 0) {
-    for (let i = 0; i < playable.length; i++) {
-      const c = playable[i];
-      corners.push({
-        id: c.id,
-        number: c.number,
-        label: c.label,
-        direction: c.direction,
-        sNorm: evenFallback(i, playable.length),
-      });
+  const events = turnEvents(pts, lengthM);
+  const alignment = alignCornersToEvents(slots, events);
+  const placed = new Map();
+  if (alignment) {
+    for (const [slotIdx, ev] of alignment.pairs) {
+      const slot = slots[slotIdx];
+      if (slot.primary && !placed.has(slot.cornerIndex)) placed.set(slot.cornerIndex, ev.sNorm);
     }
-    return corners.sort((a, b) => a.sNorm - b.sNorm);
   }
 
-  // Keep the strongest N peaks, then assign turn 1..N in circuit order
-  const selected = [...peaks]
-    .sort((a, b) => b.strength - a.strength)
-    .slice(0, playable.length)
-    .sort((a, b) => a.sNorm - b.sNorm);
-
+  // Corners with no event of their own sit evenly between the ones that landed
+  const sNorms = new Array(playable.length).fill(null);
+  for (const [i, s] of placed) sNorms[i] = s;
   for (let i = 0; i < playable.length; i++) {
-    const c = playable[i];
-    const sNorm = selected[i] ? selected[i].sNorm : evenFallback(i, playable.length);
-    corners.push({
-      id: c.id,
-      number: c.number,
-      label: c.label,
-      direction: c.direction,
-      sNorm: round4(sNorm),
-    });
+    if (sNorms[i] != null) continue;
+    let before = i - 1;
+    while (before >= 0 && sNorms[before] == null) before--;
+    let after = i + 1;
+    while (after < playable.length && sNorms[after] == null) after++;
+    const from = before >= 0 ? sNorms[before] : 0;
+    const to = after < playable.length ? sNorms[after] : 1;
+    sNorms[i] = from + ((to - from) * (i - before)) / (after - before);
   }
 
-  // Ensure strictly increasing sNorm in turn-number order (unwrap duplicates)
-  corners.sort((a, b) => (a.number ?? 0) - (b.number ?? 0));
-  for (let i = 1; i < corners.length; i++) {
-    if (corners[i].sNorm <= corners[i - 1].sNorm) {
-      corners[i].sNorm = round4(Math.min(0.995, corners[i - 1].sNorm + 0.012));
-    }
-  }
+  const corners = playable.map((c, i) => ({
+    id: c.id,
+    number: c.number,
+    label: c.label,
+    direction: c.direction,
+    sNorm: round4(Math.min(0.9995, Math.max(0, sNorms[i]))),
+  }));
 
-  return corners.sort((a, b) => a.sNorm - b.sNorm);
+  const score = alignment ? scoreAlignment(slots, alignment.pairs) : { checked: 0, agreed: 0 };
+  return {
+    corners: corners.sort((a, b) => a.sNorm - b.sNorm),
+    report: {
+      events: events.length,
+      slots: slots.length,
+      placed: placed.size,
+      total: playable.length,
+      handsChecked: score.checked,
+      handsAgreed: score.agreed,
+    },
+  };
 }
 
 function round4(n) {
@@ -522,7 +765,7 @@ function round2(n) {
   return Math.round(n * 100) / 100;
 }
 
-function bakeOne(trackId, gpxArg, freshCorners = false) {
+function bakeOne(trackId, gpxArg) {
   const meta = TRACK_GPX[trackId];
   if (!meta || !meta.gpxName) {
     throw new Error(`No GPX mapping for ${trackId}`);
@@ -549,21 +792,44 @@ function bakeOne(trackId, gpxArg, freshCorners = false) {
   const spanRaw = elevSpanM(raw);
   const elevSource = spanRaw >= 5 ? (meta.gpxDir ? 'dem' : 'gpx') : null;
   const local = projectLocal(raw);
-  const oneLap = extractSingleLap(local, parseLengthM(track.lengthKm));
+  const cropped = extractSingleLap(local, parseLengthM(track.lengthKm));
+  const traceSpacing = pathLength(cropped) / Math.max(1, cropped.length - 1);
+  const oneLap = bridgeLoopGap(taperLoopClose(cropped), traceSpacing);
   const smoothed = chaikinClosed(oneLap, 3);
   const approxLen = pathLengthClosed(smoothed);
   const nPoints = targetPointCount(approxLen);
-  const { points, lengthM } = resample(smoothed, nPoints);
+  const resampled = resample(smoothed, nPoints);
+  const planar = smoothPlanar(resampled.points, resampled.lengthM, 14);
+  const lengthM = pathLengthClosed(planar);
+  // DEM cells are ~30 m and GPS altitude is noisy; smooth here so the renderer
+  // can read heights straight off the point list.
+  const elevated =
+    elevSource && spanRaw >= 5
+      ? smoothElevation(planar, lengthM, elevSource === 'dem' ? 130 : 90)
+      : planar;
 
-  const cx = points.reduce((s, p) => s + p.x, 0) / points.length;
-  const cy = points.reduce((s, p) => s + p.y, 0) / points.length;
-  const meanZ = points.reduce((s, p) => s + (p.z ?? 0), 0) / points.length;
-  const hasElevation = elevSpanM(points) >= 5;
-  const centered = points.map((p) => {
+  const cx = elevated.reduce((s, p) => s + p.x, 0) / elevated.length;
+  const cy = elevated.reduce((s, p) => s + p.y, 0) / elevated.length;
+  const meanZ = elevated.reduce((s, p) => s + (p.z ?? 0), 0) / elevated.length;
+  const hasElevation = elevSpanM(elevated) >= 5;
+  const centeredRaw = elevated.map((p) => {
     const row = { x: round2(p.x - cx), y: round2(p.y - cy) };
     if (hasElevation) row.z = round2((p.z ?? 0) - meanZ);
     return row;
   });
+  const verifiedHands = loadVerifiedHands(meta.catalogId);
+  const oriented = ensureCircuitDirection(
+    centeredRaw,
+    lengthM,
+    track.corners,
+    verifiedHands
+  );
+  const centered = rotateToStraightBeforeT1(
+    oriented,
+    lengthM,
+    track.corners,
+    verifiedHands
+  );
   const elevSpan = hasElevation
     ? Math.round(
         (Math.max(...centered.map((p) => p.z)) - Math.min(...centered.map((p) => p.z))) * 10
@@ -572,22 +838,7 @@ function bakeOne(trackId, gpxArg, freshCorners = false) {
 
   const outDir = path.join(ROOT, 'app', 'src', 'data', 'trackMemory');
   const outPath = path.join(outDir, `${trackId}.json`);
-  let corners = placeCorners(track.corners, centered);
-  // Keep prior stations stable unless --fresh-corners is requested
-  if (!freshCorners && fs.existsSync(outPath)) {
-    try {
-      const prev = JSON.parse(fs.readFileSync(outPath, 'utf8'));
-      if (Array.isArray(prev.corners) && prev.corners.length) {
-        const byId = new Map(prev.corners.map((c) => [c.id, c]));
-        corners = corners.map((c) => {
-          const old = byId.get(c.id);
-          return old && typeof old.sNorm === 'number' ? { ...c, sNorm: old.sNorm } : c;
-        });
-      }
-    } catch {
-      /* keep freshly placed corners */
-    }
-  }
+  const { corners, report } = placeCorners(track.corners, centered, lengthM, verifiedHands);
 
   const out = {
     trackId: meta.catalogId,
@@ -610,11 +861,44 @@ function bakeOne(trackId, gpxArg, freshCorners = false) {
     `  points=${out.points.length} lengthM=${out.lengthM} corners=${out.corners.length}` +
       (hasElevation ? ` elevSpan=${elevSpan}m (${out.elevSource})` : ' flat')
   );
+  if (report) {
+    console.log(
+      `  corners: ${report.placed}/${report.total} on a detected turn` +
+        ` (${report.events} turns found, ${report.slots} expected)` +
+        `  verified hands ${report.handsAgreed}/${report.handsChecked}`
+    );
+  }
+  const kinks = findKinks(centered).filter((k) => k.deg >= 22);
+  if (kinks.length) {
+    console.log(
+      `  WARN ${kinks.length} sharp kink(s): ` +
+        kinks.map((k) => `s=${k.sNorm.toFixed(3)}(${Math.round(k.deg)}deg)`).join(' ')
+    );
+  }
   return outPath;
 }
 
+/** Human-verified turn hands override the catalog for matching purposes. */
+function loadVerifiedHands(catalogId) {
+  const file = path.join(ROOT, 'app', 'src', 'data', 'track_turn_verification.json');
+  if (!fs.existsSync(file)) return {};
+  try {
+    const data = JSON.parse(fs.readFileSync(file, 'utf8'));
+    return data.verifiedHands?.[catalogId] ?? {};
+  } catch {
+    return {};
+  }
+}
+
+/**
+ * Layouts that exist on disk but must not reach the track picker, with the
+ * reason. Keeping this beside the bake stops a re-bake quietly re-listing a
+ * layout that was pulled for bad geometry.
+ */
+const NOT_PLAYABLE = {};
+
 function writeLayoutsTs(bakedIds) {
-  const ids = [...bakedIds].sort();
+  const ids = [...bakedIds].filter((id) => !NOT_PLAYABLE[id]).sort();
   const rows = ids.map((id) => ({
     id,
     varName: id.replace(/_([a-z0-9])/g, (_, c) => c.toUpperCase()),
@@ -642,6 +926,9 @@ export const TRACK_MEMORY_TRACK_IDS = Object.keys(LAYOUTS);
 /** Catalog track ids with no Emtron GPX bake yet. */
 export const TRACK_MEMORY_MISSING_GPX = ${JSON.stringify(missing, null, 2)} as const;
 
+/** Baked but withheld from the picker — see NOT_PLAYABLE in the bake script. */
+export const TRACK_MEMORY_NEEDS_REBAKE = ${JSON.stringify(Object.keys(NOT_PLAYABLE), null, 2)} as const;
+
 export function getTrackMemoryLayout(trackId: string): TrackMemoryLayout | undefined {
   return LAYOUTS[trackId];
 }
@@ -665,9 +952,9 @@ export function listTrackMemoryTracks(): { id: string; name: string }[] {
 }
 
 function main() {
-  const { trackId, gpxPath: gpxArg, all, freshCorners } = parseArgs(process.argv);
+  const { trackId, gpxPath: gpxArg, all } = parseArgs(process.argv);
   if (!all && (!trackId || trackId.startsWith('-') || !TRACK_GPX[trackId] || !TRACK_GPX[trackId]?.gpxName)) {
-    console.error(`Usage: node scripts/bake-track-memory-layout.mjs <trackId>|--all [--fresh-corners]`);
+    console.error(`Usage: node scripts/bake-track-memory-layout.mjs <trackId>|--all`);
     console.error(`Bakeable: ${BAKEABLE.join(', ')}`);
     const missing = Object.entries(TRACK_GPX)
       .filter(([, m]) => !m)
@@ -681,7 +968,7 @@ function main() {
   let failed = 0;
   for (const id of ids) {
     try {
-      bakeOne(id, all ? null : gpxArg, freshCorners);
+      bakeOne(id, all ? null : gpxArg);
       baked.push(id);
     } catch (err) {
       failed += 1;

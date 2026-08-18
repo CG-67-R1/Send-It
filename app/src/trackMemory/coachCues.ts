@@ -8,7 +8,7 @@ export const CORNER_NAME_LEAD_M = 95;
 export const DISTANCE_BOARD_M = [150, 100, 50] as const;
 
 /** Distance boards only when turn angle exceeds this (degrees). */
-export const DISTANCE_BOARD_MIN_DEG = 90;
+export const DISTANCE_BOARD_MIN_DEG = 65;
 
 /** Coaching popup visible duration. */
 export const COACH_SHOW_MS = 2000;

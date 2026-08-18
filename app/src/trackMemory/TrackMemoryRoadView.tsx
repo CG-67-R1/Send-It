@@ -6,6 +6,7 @@ import { useSharedValue } from 'react-native-reanimated';
 import type { TrackMemoryLayout } from './types';
 import { horizonYFor, NATIVE_QUALITY, projectRoad } from './projectRoad';
 import {
+  attachBitumenTile,
   buildRoadPicture,
   disposeRoadPaintKit,
   makeRoadPaintKit,
@@ -34,15 +35,16 @@ export const TrackMemoryRoadView = forwardRef<TrackMemoryRoadHandle, Props>(
     const picture = useSharedValue<SkPicture>(emptyPicture);
     const pose = useRef({ s: 0, lateral: 0, heading: 0 });
     const alive = useRef(true);
+    const drawing = useRef(false);
     const recycler = useMemo(() => new PictureRecycler(), []);
 
-    // Every Skia handle lives here for the life of the view; see drawRoadSkia.
+    // Size only — attaching the tile later must not rebuild/dispose the kit.
+    // Rebuilding when useImage resolves is what crashed Bathurst / Phillip
+    // Island on the first attempt (image still loading) and worked on the second
+    // (cached).
     const kit = useMemo(
-      () =>
-        width >= 8 && height >= 8
-          ? makeRoadPaintKit(width, height, horizonYFor(height), bitumen)
-          : null,
-      [width, height, bitumen]
+      () => (width >= 8 && height >= 8 ? makeRoadPaintKit(width, height, horizonYFor(height), null) : null),
+      [width, height]
     );
 
     useEffect(() => {
@@ -53,28 +55,41 @@ export const TrackMemoryRoadView = forwardRef<TrackMemoryRoadHandle, Props>(
     }, []);
 
     useEffect(() => {
-      if (!kit) return;
-      return () => disposeRoadPaintKit(kit);
+      if (!kit) return undefined;
+      return () => {
+        const dying = kit;
+        setTimeout(() => disposeRoadPaintKit(dying), 250);
+      };
     }, [kit]);
+
+    useEffect(() => {
+      if (kit && bitumen) attachBitumenTile(kit, bitumen);
+    }, [kit, bitumen]);
 
     const draw = useCallback(
       (s: number, lateral: number, heading: number) => {
         pose.current = { s, lateral, heading };
-        if (!kit || !alive.current) return;
-        const frame = projectRoad(layout, s, lateral, width, height, heading, NATIVE_QUALITY);
-        const next = buildRoadPicture(frame, kit, (s * 5.5) % TILE_PX);
-        picture.value = next;
-        recycler.track(next);
+        if (!kit || !alive.current || drawing.current) return;
+        drawing.current = true;
+        try {
+          const frame = projectRoad(layout, s, lateral, width, height, heading, NATIVE_QUALITY);
+          const next = buildRoadPicture(frame, kit, (s * 5.5) % TILE_PX);
+          picture.value = next;
+          recycler.track(next);
+        } catch (err) {
+          console.warn('[TrackMemory] draw skipped', err);
+        } finally {
+          drawing.current = false;
+        }
       },
       [kit, layout, width, height, picture, recycler]
     );
 
     useImperativeHandle(ref, () => ({ draw }), [draw]);
 
-    // Repaint on resize / texture load without waiting for the next tick
     useEffect(() => {
       draw(pose.current.s, pose.current.lateral, pose.current.heading);
-    }, [draw]);
+    }, [draw, bitumen]);
 
     return (
       <View style={styles.fill}>

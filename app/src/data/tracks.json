@@ -796,9 +796,9 @@
     {
       "id": "smp_gardner",
       "name": "Sydney Motorsport Park (Gardner GP Circuit)",
-      "layout": "Gardner GP Circuit (4.5 km)",
+      "layout": "Gardner GP Circuit (3.93 km)",
       "direction": "anticlockwise",
-      "lengthKm": "4.5 km",
+      "lengthKm": "3.93 km",
       "isOther": false,
       "corners": [
         {
@@ -905,7 +905,7 @@
       "name": "Sydney Motorsport Park (Brabham Circuit)",
       "layout": "Brabham Circuit",
       "direction": "anticlockwise",
-      "lengthKm": "3.0 km",
+      "lengthKm": "4.5 km",
       "isOther": false,
       "corners": [
         {
@@ -1012,7 +1012,7 @@
       "name": "Sydney Motorsport Park (Druitt Circuit)",
       "layout": "Druitt Circuit",
       "direction": "anticlockwise",
-      "lengthKm": "1.9 km",
+      "lengthKm": "2.8 km",
       "isOther": false,
       "corners": [
         {

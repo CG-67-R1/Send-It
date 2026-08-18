@@ -230,6 +230,17 @@ export function makeRoadPaintKit(
   };
 }
 
+/** Bind the asphalt tile without rebuilding the rest of the kit. */
+export function attachBitumenTile(kit: RoadPaintKit, tile: SkImage): void {
+  if (!kit.bitumen) {
+    kit.bitumen = Skia.Paint();
+    kit.bitumen.setAntiAlias(true);
+  }
+  kit.bitumen.setShader(
+    tile.makeShaderOptions(TileMode.Repeat, TileMode.Repeat, FilterMode.Linear, MipmapMode.None)
+  );
+}
+
 /**
  * Records one frame as a single SkPicture (~15 draw calls) instead of the
  * ~2000 SVG nodes the web renderer emits. The picture is the only Skia object
@@ -361,11 +372,14 @@ export class PictureRecycler {
 }
 
 /**
- * Frees the handles the kit owns outright. Paints are left alone: a recorded
- * picture copies them, and disposing one still referenced by a frame on screen
- * would crash.
+ * Frees the handles the kit owns. Delayed by the caller so an in-flight
+ * picture on the GPU is not holding a disposed recorder.
  */
 export function disposeRoadPaintKit(kit: RoadPaintKit): void {
-  for (const path of Object.values(kit.paths)) path.dispose();
-  kit.recorder.dispose();
+  try {
+    for (const path of Object.values(kit.paths)) path.dispose();
+    kit.recorder.dispose();
+  } catch {
+    // Already gone
+  }
 }

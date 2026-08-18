@@ -72,61 +72,12 @@ function wrapIdx(i: number, n: number): number {
   return ((i % n) + n) % n;
 }
 
-/** Catmull-Rom position on segment p1→p2 (t in [0,1]). */
-function catmullPos(
-  p0: TrackMemoryPoint,
-  p1: TrackMemoryPoint,
-  p2: TrackMemoryPoint,
-  p3: TrackMemoryPoint,
-  t: number
-): TrackMemoryPoint {
-  const t2 = t * t;
-  const t3 = t2 * t;
-  const z1 = p1.z ?? 0;
-  const z2 = p2.z ?? 0;
-  return {
-    x:
-      0.5 *
-      (2 * p1.x +
-        (-p0.x + p2.x) * t +
-        (2 * p0.x - 5 * p1.x + 4 * p2.x - p3.x) * t2 +
-        (-p0.x + 3 * p1.x - 3 * p2.x + p3.x) * t3),
-    y:
-      0.5 *
-      (2 * p1.y +
-        (-p0.y + p2.y) * t +
-        (2 * p0.y - 5 * p1.y + 4 * p2.y - p3.y) * t2 +
-        (-p0.y + 3 * p1.y - 3 * p2.y + p3.y) * t3),
-    // Linear height — Catmull-Rom overshoots DEM spikes into fake crests.
-    z: z1 + (z2 - z1) * t,
-  };
-}
-
-/** Catmull-Rom derivative (tangent) on segment p1→p2. */
-function catmullTan(
-  p0: TrackMemoryPoint,
-  p1: TrackMemoryPoint,
-  p2: TrackMemoryPoint,
-  p3: TrackMemoryPoint,
-  t: number
-): TrackMemoryPoint {
-  const t2 = t * t;
-  return {
-    x:
-      0.5 *
-      (-p0.x +
-        p2.x +
-        (4 * p0.x - 10 * p1.x + 8 * p2.x - 2 * p3.x) * t +
-        (-3 * p0.x + 9 * p1.x - 9 * p2.x + 3 * p3.x) * t2),
-    y:
-      0.5 *
-      (-p0.y +
-        p2.y +
-        (4 * p0.y - 10 * p1.y + 8 * p2.y - 2 * p3.y) * t +
-        (-3 * p0.y + 9 * p1.y - 9 * p2.y + 3 * p3.y) * t2),
-  };
-}
-
+/** Linear position + blended segment heading.
+ *
+ * Uniform Catmull-Rom overshoots GPS jitter and the Dipper's left/right flips,
+ * which reads as wavy track edges halfway around a lap. Points are already
+ * ~2 m apart; interpolating them is enough.
+ */
 export function samplePath(
   points: TrackMemoryPoint[],
   lengthM: number,
@@ -141,15 +92,35 @@ export function samplePath(
   const i1 = Math.floor(f) % n;
   const i2 = (i1 + 1) % n;
   const t = f - Math.floor(f);
-  const p0 = points[wrapIdx(i1 - 1, n)];
   const p1 = points[i1];
   const p2 = points[i2];
+  const pos: TrackMemoryPoint = {
+    x: p1.x + (p2.x - p1.x) * t,
+    y: p1.y + (p2.y - p1.y) * t,
+    z: (p1.z ?? 0) + ((p2.z ?? 0) - (p1.z ?? 0)) * t,
+  };
+  const p0 = points[wrapIdx(i1 - 1, n)];
   const p3 = points[wrapIdx(i2 + 1, n)];
-  const pos = catmullPos(p0, p1, p2, p3, t);
-  let tan = catmullTan(p0, p1, p2, p3, t);
-  const len = Math.hypot(tan.x, tan.y) || 1;
-  tan = { x: tan.x / len, y: tan.y / len };
-  return { pos, tangent: tan, heading: Math.atan2(tan.x, tan.y) };
+  const segA = { x: p1.x - p0.x, y: p1.y - p0.y };
+  const segB = { x: p2.x - p1.x, y: p2.y - p1.y };
+  const segC = { x: p3.x - p2.x, y: p3.y - p2.y };
+  const nA = Math.hypot(segA.x, segA.y) || 1;
+  const nB = Math.hypot(segB.x, segB.y) || 1;
+  const nC = Math.hypot(segC.x, segC.y) || 1;
+  const uA = { x: segA.x / nA, y: segA.y / nA };
+  const uB = { x: segB.x / nB, y: segB.y / nB };
+  const uC = { x: segC.x / nC, y: segC.y / nC };
+  // Blend neighboring segment headings so edges don't facet at every vertex
+  const h0x = uA.x + uB.x;
+  const h0y = uA.y + uB.y;
+  const h1x = uB.x + uC.x;
+  const h1y = uB.y + uC.y;
+  let tx = h0x + (h1x - h0x) * t;
+  let ty = h0y + (h1y - h0y) * t;
+  const len = Math.hypot(tx, ty) || 1;
+  tx /= len;
+  ty /= len;
+  return { pos, tangent: { x: tx, y: ty }, heading: Math.atan2(tx, ty) };
 }
 
 function wrapDist(s: number, lengthM: number): number {
@@ -195,7 +166,7 @@ function smoothBend(layout: TrackMemoryLayout, s: number): number {
 export function cornerTurnAngleDeg(
   layout: TrackMemoryLayout,
   corner: TrackMemoryCorner,
-  windowM = 42
+  windowM = 70
 ): number {
   const lengthM = layout.lengthM;
   const apex = corner.sNorm * lengthM;
