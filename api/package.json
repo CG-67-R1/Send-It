@@ -15,6 +15,7 @@
     "refresh-au-calendar": "node scripts/refreshAuCalendar.js",
     "health-check": "node ../scripts/health-check.mjs",
     "test-moms-rules": "node scripts/testMomsRulesRetrieval.mjs",
+    "test-trivia": "node scripts/testTriviaSelection.mjs",
     "build-rider-ai-knowledge": "node ../scripts/build-rider-ai-knowledge.mjs",
     "validate-packs": "node ../scripts/validate-packs.mjs",
     "bootstrap-packs": "node ../scripts/bootstrap-region-packs.mjs",

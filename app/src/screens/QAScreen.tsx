@@ -25,6 +25,28 @@ import { RoadRacerAiFaqsBody } from './RoadRacerAiFaqsScreen';
 import type { QaSegment, RootTabParamList } from '../navigation/rootNavigation';
 
 const TRIVIA_BEST_SCORE_KEY = STORAGE_KEYS.TRIVIA_BEST_SCORE;
+const TRIVIA_USED_CAP = 40;
+
+function capTriviaUsed(used: number[]): number[] {
+  return used.length <= TRIVIA_USED_CAP ? used : used.slice(-TRIVIA_USED_CAP);
+}
+
+function parseUsedIndices(raw: string | null): number[] {
+  if (!raw) return [];
+  try {
+    const parsed = JSON.parse(raw) as unknown;
+    if (!Array.isArray(parsed)) return [];
+    return parsed.filter((n): n is number => typeof n === 'number' && Number.isFinite(n));
+  } catch {
+    return [];
+  }
+}
+
+/** 7 Australian + 3 world in every 10 questions. */
+function regionForTriviaOrder(questionIndex: number): 'global' | 'au' {
+  const slot = ((questionIndex % 10) + 10) % 10;
+  return slot === 3 || slot === 6 || slot === 9 ? 'global' : 'au';
+}
 
 async function readTriviaBestScore(): Promise<number> {
   const raw = await AsyncStorage.getItem(TRIVIA_BEST_SCORE_KEY);
@@ -101,14 +123,13 @@ export function QAScreen() {
   const [triviaState, setTriviaState] = useState<TriviaState>('idle');
   const [triviaCorrect, setTriviaCorrect] = useState(0);
   const [triviaWrong, setTriviaWrong] = useState(0);
-  const [triviaUsedGlobal, setTriviaUsedGlobal] = useState<number[]>([]);
-  const [triviaUsedAus, setTriviaUsedAus] = useState<number[]>([]);
   const [triviaDifficulty, setTriviaDifficulty] = useState(2);
   const [triviaQuestion, setTriviaQuestion] = useState<{
     question: string;
     options: string[];
     correctIndex: number;
     triviaIndex: number;
+    region: 'au' | 'global';
   } | null>(null);
   const [triviaLoading, setTriviaLoading] = useState(false);
   const [triviaResult, setTriviaResult] = useState<{ title: string; message: string } | null>(null);
@@ -120,6 +141,8 @@ export function QAScreen() {
   const [goatExplosionShown, setGoatExplosionShown] = useState(false);
   const goatExplosionScale = React.useRef(new Animated.Value(0.1)).current;
   const triviaFeedbackTimerRef = React.useRef<ReturnType<typeof setTimeout> | null>(null);
+  const triviaUsedAusRef = React.useRef<number[]>([]);
+  const triviaUsedGlobalRef = React.useRef<number[]>([]);
 
   useEffect(() => {
     return () => {
@@ -161,8 +184,17 @@ export function QAScreen() {
     let cancelled = false;
     (async () => {
       try {
-        const bestScore = await readTriviaBestScore();
-        if (!cancelled) setTriviaBestScore(bestScore);
+        const [bestScore, auRaw, globalRaw] = await Promise.all([
+          readTriviaBestScore(),
+          AsyncStorage.getItem(STORAGE_KEYS.TRIVIA_USED_AU),
+          AsyncStorage.getItem(STORAGE_KEYS.TRIVIA_USED_GLOBAL),
+        ]);
+        if (cancelled) return;
+        setTriviaBestScore(bestScore);
+        const auUsed = capTriviaUsed(parseUsedIndices(auRaw));
+        const globalUsed = capTriviaUsed(parseUsedIndices(globalRaw));
+        triviaUsedAusRef.current = auUsed;
+        triviaUsedGlobalRef.current = globalUsed;
       } catch (_) {}
     })();
     return () => { cancelled = true; };
@@ -178,9 +210,19 @@ export function QAScreen() {
     } catch (_) {}
   }, []);
 
+  const persistTriviaUsed = useCallback((region: 'au' | 'global', next: number[]) => {
+    const capped = capTriviaUsed(next);
+    if (region === 'au') {
+      triviaUsedAusRef.current = capped;
+      void AsyncStorage.setItem(STORAGE_KEYS.TRIVIA_USED_AU, JSON.stringify(capped));
+    } else {
+      triviaUsedGlobalRef.current = capped;
+      void AsyncStorage.setItem(STORAGE_KEYS.TRIVIA_USED_GLOBAL, JSON.stringify(capped));
+    }
+  }, []);
+
   const getRegionForOrder = useCallback((correct: number, wrong: number): 'global' | 'au' => {
-    const index = correct + wrong;
-    return index % 3 === 2 ? 'au' : 'global';
+    return regionForTriviaOrder(correct + wrong);
   }, []);
 
   const onSearch = useCallback(async () => {
@@ -251,55 +293,80 @@ export function QAScreen() {
   }, []);
 
   const fetchTriviaQuestion = useCallback(
-    async (usedOverride?: number[], correctCount?: number, wrongCount?: number, difficultyOverride?: number) => {
+    async (correctCount?: number, wrongCount?: number, difficultyOverride?: number) => {
       setTriviaLoading(true);
       const correct = correctCount ?? triviaCorrect;
       const wrong = wrongCount ?? triviaWrong;
       const difficulty = difficultyOverride ?? triviaDifficulty;
-      const region = getRegionForOrder(correct, wrong);
-      const defaultUsed = region === 'au' ? triviaUsedAus : triviaUsedGlobal;
-      const used = usedOverride ?? defaultUsed;
-      try {
+      const preferred = getRegionForOrder(correct, wrong);
+      const regions: Array<'au' | 'global'> = preferred === 'au' ? ['au', 'global'] : ['global', 'au'];
+
+      const request = async (region: 'au' | 'global', used: number[]) => {
         const params: string[] = [];
         if (used.length) params.push(`used=${used.join(',')}`);
         if (typeof difficulty === 'number' && Number.isFinite(difficulty)) {
           params.push(`difficulty=${difficulty}`);
         }
         params.push(`region=${region}`);
-        const url = `${QA_TRIVIA_URL}?${params.join('&')}`;
-        const res = await apiFetch(url, { signal: AbortSignal.timeout(8000) });
+        const res = await apiFetch(`${QA_TRIVIA_URL}?${params.join('&')}`, {
+          signal: AbortSignal.timeout(8000),
+        });
         const data = await res.json();
-        if (!res.ok) {
-          throw new Error(typeof data?.error === 'string' ? data.error : 'Could not load trivia');
-        }
-        if (!data || typeof data.question !== 'string' || !Array.isArray(data.options)) {
-          throw new Error('Invalid trivia response from server');
-        }
-        if (data.error) {
-          void logAnalyticsEvent('trivia_end', {
-            result: 'complete',
-            correct,
-            wrong,
-            difficulty,
-          });
-          saveTriviaBestIfBetter(correct);
-          setTriviaState('result');
-          setTriviaResult(
-            getTriviaResult(correct, wrong) ?? {
-              title: 'Quiz over',
-              message: "You've seen all the questions. Nice run!",
-            }
-          );
-          setTriviaQuestion(null);
-          return;
-        }
+        return { res, data, region };
+      };
+
+      const applyQuestion = (data: {
+        question: string;
+        options: string[];
+        correctIndex: number;
+        triviaIndex: number;
+      }, region: 'au' | 'global') => {
         setLastAnswerCorrect(null);
         setTriviaQuestion({
           question: data.question,
           options: data.options,
           correctIndex: data.correctIndex,
           triviaIndex: data.triviaIndex,
+          region,
         });
+      };
+
+      try {
+        for (const region of regions) {
+          const used = region === 'au' ? triviaUsedAusRef.current : triviaUsedGlobalRef.current;
+          const { res, data } = await request(region, used);
+          if (res.ok && data && typeof data.question === 'string' && Array.isArray(data.options)) {
+            applyQuestion(data, region);
+            return;
+          }
+          const err = typeof data?.error === 'string' ? data.error : 'Could not load trivia';
+          if (err !== 'No more questions.') {
+            throw new Error(err);
+          }
+        }
+
+        persistTriviaUsed(preferred, []);
+        const retry = await request(preferred, []);
+        if (retry.res.ok && retry.data && typeof retry.data.question === 'string' && Array.isArray(retry.data.options)) {
+          applyQuestion(retry.data, preferred);
+          return;
+        }
+
+        void logAnalyticsEvent('trivia_end', {
+          result: 'complete',
+          correct,
+          wrong,
+          difficulty,
+        });
+        saveTriviaBestIfBetter(correct);
+        setTriviaState('result');
+        setTriviaResult(
+          getTriviaResult(correct, wrong) ?? {
+            title: 'Quiz over',
+            message: "You've seen all the questions. Nice run!",
+          }
+        );
+        setTriviaQuestion(null);
       } catch (e) {
         setTriviaQuestion(null);
         setTriviaFailMessage(e instanceof Error ? e.message : 'Could not load the next question. Tap Try again.');
@@ -308,7 +375,7 @@ export function QAScreen() {
         setTriviaLoading(false);
       }
     },
-    [triviaUsedGlobal, triviaUsedAus, triviaCorrect, triviaWrong, triviaDifficulty, getRegionForOrder, saveTriviaBestIfBetter]
+    [triviaCorrect, triviaWrong, triviaDifficulty, getRegionForOrder, persistTriviaUsed, saveTriviaBestIfBetter]
   );
 
   const startTrivia = useCallback(() => {
@@ -317,13 +384,11 @@ export function QAScreen() {
     setTriviaState('playing');
     setTriviaCorrect(0);
     setTriviaWrong(0);
-    setTriviaUsedGlobal([]);
-    setTriviaUsedAus([]);
     setTriviaDifficulty(2);
     setTriviaQuestion(null);
     setTriviaResult(null);
     setTriviaFailMessage(null);
-    fetchTriviaQuestion([], 0, 0, 2);
+    fetchTriviaQuestion(0, 0, 2);
   }, [fetchTriviaQuestion]);
 
   const onTriviaAnswer = useCallback(
@@ -332,7 +397,7 @@ export function QAScreen() {
       const correct = chosenIndex === triviaQuestion.correctIndex;
       const currentCorrect = triviaCorrect;
       const currentWrong = triviaWrong;
-      const currentRegion = getRegionForOrder(currentCorrect, currentWrong);
+      const currentRegion = triviaQuestion.region ?? getRegionForOrder(currentCorrect, currentWrong);
 
       void logAnalyticsEvent('trivia_answer', {
         correct,
@@ -348,17 +413,8 @@ export function QAScreen() {
         triggerGoatExplosion();
       }
 
-      const updatedGlobalUsed =
-        currentRegion === 'global'
-          ? [...triviaUsedGlobal, triviaQuestion.triviaIndex]
-          : triviaUsedGlobal;
-      const updatedAusUsed =
-        currentRegion === 'au'
-          ? [...triviaUsedAus, triviaQuestion.triviaIndex]
-          : triviaUsedAus;
-
-      setTriviaUsedGlobal(updatedGlobalUsed);
-      setTriviaUsedAus(updatedAusUsed);
+      const prevUsed = currentRegion === 'au' ? triviaUsedAusRef.current : triviaUsedGlobalRef.current;
+      persistTriviaUsed(currentRegion, [...prevUsed, triviaQuestion.triviaIndex]);
       setTriviaCorrect(newCorrect);
       setTriviaWrong(newWrong);
       setTriviaQuestion(null);
@@ -384,12 +440,10 @@ export function QAScreen() {
         return;
       }
 
-      const nextRegion = getRegionForOrder(newCorrect, newWrong);
-      const usedNow = nextRegion === 'au' ? updatedAusUsed : updatedGlobalUsed;
       if (triviaFeedbackTimerRef.current) clearTimeout(triviaFeedbackTimerRef.current);
       triviaFeedbackTimerRef.current = setTimeout(() => {
         triviaFeedbackTimerRef.current = null;
-        fetchTriviaQuestion(usedNow, newCorrect, newWrong, nextDifficulty);
+        fetchTriviaQuestion(newCorrect, newWrong, nextDifficulty);
       }, 1000);
     },
     [
@@ -397,10 +451,9 @@ export function QAScreen() {
       triviaLoading,
       triviaCorrect,
       triviaWrong,
-      triviaUsedGlobal,
-      triviaUsedAus,
       triviaDifficulty,
       getRegionForOrder,
+      persistTriviaUsed,
       fetchTriviaQuestion,
       saveTriviaBestIfBetter,
       triggerGoatExplosion,
@@ -415,8 +468,6 @@ export function QAScreen() {
     setTriviaState('idle');
     setTriviaCorrect(0);
     setTriviaWrong(0);
-    setTriviaUsedGlobal([]);
-    setTriviaUsedAus([]);
     setTriviaDifficulty(2);
     setTriviaQuestion(null);
     setTriviaResult(null);

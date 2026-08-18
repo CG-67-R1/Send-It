@@ -20,6 +20,8 @@ export const STORAGE_KEYS = {
   TRACK_ARRIVAL_ENABLED: '@roadrace_track_arrival_enabled',
   TRACK_ARRIVAL_STATE: '@roadrace_track_arrival_state',
   TRIVIA_BEST_SCORE: '@roadrace_trivia_best',
+  TRIVIA_USED_AU: '@roadrace_trivia_used_au',
+  TRIVIA_USED_GLOBAL: '@roadrace_trivia_used_global',
   TRACK_MEMORY_BEST_LAP: '@roadrace_track_memory_best_lap',
   TRACK_PREP_SELECTED_TRACK: '@roadrace_track_prep_selected_track',
   TRACKDAY_PREP_DRAFT: '@roadrace_trackday_prep_draft',
