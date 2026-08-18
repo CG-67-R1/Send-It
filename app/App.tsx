@@ -23,6 +23,8 @@ import { BikeBalanceSetupScreen } from './src/screens/BikeBalanceSetupScreen';
 import { GearingGuideScreen } from './src/screens/GearingGuideScreen';
 import { TyreWearAnalysisScreen } from './src/screens/TyreWearAnalysisScreen';
 import { TrackWalkScreen } from './src/screens/TrackWalkScreen';
+import { TrackMemoryScreen } from './src/screens/TrackMemoryScreen';
+import { TrackMemoryHubScreen } from './src/screens/TrackMemoryHubScreen';
 import { TrackPrepHubScreen } from './src/screens/TrackPrepHubScreen';
 import { TrackdayPrepScreen } from './src/screens/TrackdayPrepScreen';
 import { TrackdayPrepReportScreen } from './src/screens/TrackdayPrepReportScreen';
@@ -188,6 +190,16 @@ function RiderCoachStack() {
         name="TrackWalk"
         component={TrackWalkScreen}
         options={{ title: 'Track Walk Notes' }}
+      />
+      <Stack.Screen
+        name="TrackMemoryHub"
+        component={TrackMemoryHubScreen}
+        options={{ title: 'Track Memory' }}
+      />
+      <Stack.Screen
+        name="TrackMemory"
+        component={TrackMemoryScreen}
+        options={{ title: 'Track Memory', headerShown: false }}
       />
       <Stack.Screen
         name="ImportTrackNotes"

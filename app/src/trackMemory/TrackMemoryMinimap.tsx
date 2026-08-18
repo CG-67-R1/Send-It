@@ -13,7 +13,8 @@ type Props = {
 
 export function TrackMemoryMinimap({ layout, s, size = 112 }: Props) {
   const pad = 10;
-  const { pathD, rider } = useMemo(() => {
+  // The outline never changes while riding — only the rider dot does.
+  const { pathD, map } = useMemo(() => {
     const { minX, maxX, minY, maxY } = minimapBounds(layout.points);
     const spanX = Math.max(1, maxX - minX);
     const spanY = Math.max(1, maxY - minY);
@@ -35,9 +36,10 @@ export function TrackMemoryMinimap({ layout, s, size = 112 }: Props) {
             .join(' ') +
           ' Z'
         : '';
-    const { pos } = samplePath(layout.points, layout.lengthM, s);
-    return { pathD: d, rider: map(pos) };
-  }, [layout, s, size]);
+    return { pathD: d, map };
+  }, [layout, size]);
+
+  const rider = map(samplePath(layout.points, layout.lengthM, s).pos);
 
   return (
     <View style={[styles.wrap, { width: size, height: size }]}>

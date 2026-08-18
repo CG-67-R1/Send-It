@@ -38,6 +38,22 @@ export type ProjectedFrame = {
   horizonY: number;
 };
 
+/** Per-platform draw budget. Native phones cannot afford the full web depth. */
+export type ProjectQuality = {
+  /** Metres of road projected ahead (1 segment per metre). */
+  drawDepth?: number;
+  /** Compute rubber streaks on every Nth segment only (1 = all). */
+  rubberEveryNth?: number;
+  /** Emit the asphalt grain stripe flag. */
+  grain?: boolean;
+};
+
+export const NATIVE_QUALITY: ProjectQuality = {
+  drawDepth: 110,
+  rubberEveryNth: 2,
+  grain: false,
+};
+
 const DRAW_DEPTH = 220;
 const SEG_LEN = 1.0;
 /** Rider eye height above asphalt (metres). */
@@ -67,6 +83,10 @@ function elevVisualGain(layout: TrackMemoryLayout): number {
   if (layout.elevSource === 'dem') return span < 18 ? 0.32 : 0.42;
   if (span > 80) return 0.62;
   return 0.5;
+}
+
+export function horizonYFor(height: number): number {
+  return height * HORIZON_FRAC;
 }
 
 /** Metres of path to average height over (DEM cells are ~30 m). */
@@ -282,11 +302,15 @@ export function projectRoad(
   lateral: number,
   width: number,
   height: number,
-  camHeading?: number
+  camHeading?: number,
+  quality?: ProjectQuality
 ): ProjectedFrame {
+  const drawDepth = quality?.drawDepth ?? DRAW_DEPTH;
+  const rubberEveryNth = Math.max(1, quality?.rubberEveryNth ?? 1);
+  const wantGrain = quality?.grain ?? true;
   const here = samplePath(layout.points, layout.lengthM, s);
   const heading = camHeading ?? here.heading;
-  const samples = localSamples(layout, s, lateral, DRAW_DEPTH, SEG_LEN, heading);
+  const samples = localSamples(layout, s, lateral, drawDepth, SEG_LEN, heading);
   const horizonY = height * HORIZON_FRAC;
   const fov = width * 0.62;
   const roadHalf = 6.2;
@@ -357,7 +381,7 @@ export function projectRoad(
     // Inside kerb only: left bend → left edge, right bend → right edge
     const curbLeft = catalog.left || signedCurv < -CURB_CURV_THRESH;
     const curbRight = catalog.right || signedCurv > CURB_CURV_THRESH;
-    const grain = Math.floor(midDist / GRAIN_PERIOD_M) % 2 === 0;
+    const grain = wantGrain && Math.floor(midDist / GRAIN_PERIOD_M) % 2 === 0;
 
     const band = 0.5 + 0.5 * Math.sin(midDist * 0.55);
     quads.push({
@@ -366,7 +390,7 @@ export function projectRoad(
       curbRight,
       shade: 0.28 + 0.42 * (1 - i / samples.length) + band * 0.14,
       grain,
-      rubber: rubberForSegment(midDist, roadPts),
+      rubber: i % rubberEveryNth === 0 ? rubberForSegment(midDist, roadPts) : [],
     });
   }
 
@@ -380,7 +404,7 @@ export function projectRoad(
 
   // 150 / 100 / 50 m boards — only for corners turning more than 90°
   const markers: DistanceMarkerBillboard[] = [];
-  const maxLook = DRAW_DEPTH * SEG_LEN;
+  const maxLook = drawDepth * SEG_LEN;
   for (const corner of layout.corners) {
     if (corner.number == null) continue;
     if (!cornerNeedsDistanceBoards(layout, corner)) continue;
@@ -442,6 +466,73 @@ export function projectRoad(
   markers.sort((a, b) => b.z - a.z);
 
   return { quads, grassQuads, markers, horizonY };
+}
+
+/** Continue a screen-space edge line past the near point — never kink vertical. */
+export function extendEdgeToBottom(
+  far: [number, number],
+  near: [number, number],
+  screenH: number
+): [number, number] {
+  const targetY = screenH + 6;
+  const dy = near[1] - far[1];
+  if (Math.abs(dy) < 0.01) return [near[0], targetY];
+  const t = (targetY - far[1]) / dy;
+  return [far[0] + (near[0] - far[0]) * t, targetY];
+}
+
+/** Bitumen apron: extend the nearest road edges under the cockpit (no vertical kink). */
+export function underBikeApron(
+  frame: ProjectedFrame,
+  height: number
+): [number, number][] | null {
+  if (frame.quads.length === 0) return null;
+  // Prefer a quad with real perspective slope in the lower half
+  let best = frame.quads[0];
+  let bestScore = Infinity;
+  for (const q of frame.quads) {
+    const [tl, tr, br, bl] = q.points;
+    const nearY = (bl[1] + br[1]) * 0.5;
+    const farY = (tl[1] + tr[1]) * 0.5;
+    if (nearY - farY < 6) continue;
+    const score = Math.abs(nearY - height * 0.72);
+    if (score < bestScore) {
+      bestScore = score;
+      best = q;
+    }
+  }
+  const [tl, tr, br, bl] = best.points;
+  return [bl, br, extendEdgeToBottom(tr, br, height), extendEdgeToBottom(tl, bl, height)];
+}
+
+/** Nearest grass shoulders continued under the cockpit at road elevation. */
+export function nearGrassAprons(
+  frame: ProjectedFrame,
+  height: number
+): { left: [number, number][]; right: [number, number][] } | null {
+  if (frame.grassQuads.length < 2) return null;
+  const left = frame.grassQuads[0];
+  const right = frame.grassQuads[1];
+  // left: farOut, farIn, nearIn, nearOut
+  const leftNearIn = left[2];
+  const leftNearOut = left[3];
+  // right: farIn, farOut, nearOut, nearIn
+  const rightNearOut = right[2];
+  const rightNearIn = right[3];
+  return {
+    left: [
+      leftNearIn,
+      leftNearOut,
+      extendEdgeToBottom(left[0], leftNearOut, height),
+      extendEdgeToBottom(left[1], leftNearIn, height),
+    ],
+    right: [
+      rightNearIn,
+      rightNearOut,
+      extendEdgeToBottom(right[1], rightNearOut, height),
+      extendEdgeToBottom(right[0], rightNearIn, height),
+    ],
+  };
 }
 
 export function minimapBounds(points: TrackMemoryPoint[]): {

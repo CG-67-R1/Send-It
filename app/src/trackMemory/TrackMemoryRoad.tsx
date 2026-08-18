@@ -12,7 +12,7 @@ import Svg, {
   Text as SvgText,
 } from 'react-native-svg';
 import type { TrackMemoryLayout } from './types';
-import { projectRoad, seamPoly } from './projectRoad';
+import { nearGrassAprons, projectRoad, seamPoly, underBikeApron } from './projectRoad';
 
 const BITUMEN_TILE = require('../../assets/track-memory/bitumen_tile.png');
 const TILE_PX = 64;
@@ -52,19 +52,6 @@ function curbStrip(
   return `${outer[0][0]},${outer[0][1]} ${ix0},${iy0} ${ix1},${iy1} ${outer[1][0]},${outer[1][1]}`;
 }
 
-/** Continue a screen-space edge line past the near point — never kink vertical. */
-function extendEdgeToBottom(
-  far: [number, number],
-  near: [number, number],
-  screenH: number
-): [number, number] {
-  const targetY = screenH + 6;
-  const dy = near[1] - far[1];
-  if (Math.abs(dy) < 0.01) return [near[0], targetY];
-  const t = (targetY - far[1]) / dy;
-  return [far[0] + (near[0] - far[0]) * t, targetY];
-}
-
 export function TrackMemoryRoad({ layout, s, lateral, heading, width, height }: Props) {
   const frame = useMemo(
     () => projectRoad(layout, s, lateral, width, height, heading),
@@ -74,52 +61,8 @@ export function TrackMemoryRoad({ layout, s, lateral, heading, width, height }: 
   // Positive Y scroll = texture travels down the screen as the bike moves forward
   const scrollY = (s * 5.5) % TILE_PX;
 
-  /**
-   * Bitumen apron: extend the same edge lines under the cockpit (no vertical kink).
-   */
-  const underBikeApron = useMemo(() => {
-    if (frame.quads.length === 0) return null;
-    // Prefer a quad with real perspective slope in the lower half
-    let best = frame.quads[0];
-    let bestScore = Infinity;
-    for (const q of frame.quads) {
-      const [tl, tr, br, bl] = q.points;
-      const nearY = (bl[1] + br[1]) * 0.5;
-      const farY = (tl[1] + tr[1]) * 0.5;
-      const slope = nearY - farY;
-      if (slope < 6) continue;
-      const score = Math.abs(nearY - height * 0.72);
-      if (score < bestScore) {
-        bestScore = score;
-        best = q;
-      }
-    }
-    const [tl, tr, br, bl] = best.points;
-    const leftBot = extendEdgeToBottom(tl, bl, height);
-    const rightBot = extendEdgeToBottom(tr, br, height);
-    return [bl, br, rightBot, leftBot] as [number, number][];
-  }, [frame.quads, height]);
-
-  /** Nearest grass shoulders continued under the cockpit at road elevation. */
-  const nearGrassAprons = useMemo(() => {
-    if (frame.grassQuads.length < 2) return null;
-    const left = frame.grassQuads[0];
-    const right = frame.grassQuads[1];
-    // left: farOut, farIn, nearIn, nearOut
-    const leftNearIn = left[2];
-    const leftNearOut = left[3];
-    const leftBotIn = extendEdgeToBottom(left[1], leftNearIn, height);
-    const leftBotOut = extendEdgeToBottom(left[0], leftNearOut, height);
-    // right: farIn, farOut, nearOut, nearIn
-    const rightNearOut = right[2];
-    const rightNearIn = right[3];
-    const rightBotOut = extendEdgeToBottom(right[1], rightNearOut, height);
-    const rightBotIn = extendEdgeToBottom(right[0], rightNearIn, height);
-    return {
-      left: [leftNearIn, leftNearOut, leftBotOut, leftBotIn] as [number, number][],
-      right: [rightNearIn, rightNearOut, rightBotOut, rightBotIn] as [number, number][],
-    };
-  }, [frame.grassQuads, height]);
+  const apron = useMemo(() => underBikeApron(frame, height), [frame, height]);
+  const grassAprons = useMemo(() => nearGrassAprons(frame, height), [frame, height]);
 
   if (width < 8 || height < 8) return <View style={styles.fill} />;
 
@@ -169,10 +112,10 @@ export function TrackMemoryRoad({ layout, s, lateral, heading, width, height }: 
             fill={idx % 2 === 0 ? '#4a6b3a' : '#456338'}
           />
         ))}
-        {nearGrassAprons ? (
+        {grassAprons ? (
           <>
-            <Polygon points={quadToPoints(nearGrassAprons.left)} fill="#4a6b3a" />
-            <Polygon points={quadToPoints(nearGrassAprons.right)} fill="#456338" />
+            <Polygon points={quadToPoints(grassAprons.left)} fill="#4a6b3a" />
+            <Polygon points={quadToPoints(grassAprons.right)} fill="#456338" />
           </>
         ) : null}
         {[...frame.quads].reverse().map((q, idx) => {
@@ -230,18 +173,18 @@ export function TrackMemoryRoad({ layout, s, lateral, heading, width, height }: 
         })}
 
         {/* Continue bitumen under the bike within track edges */}
-        {underBikeApron ? (
+        {apron ? (
           <>
-            <Polygon points={quadToPoints(underBikeApron)} fill="#2c2c30" />
-            <Polygon points={quadToPoints(underBikeApron)} fill="url(#bitumen)" />
+            <Polygon points={quadToPoints(apron)} fill="#2c2c30" />
+            <Polygon points={quadToPoints(apron)} fill="url(#bitumen)" />
             <Path
-              d={`M ${underBikeApron[0][0]} ${underBikeApron[0][1]} L ${underBikeApron[3][0]} ${underBikeApron[3][1]}`}
+              d={`M ${apron[0][0]} ${apron[0][1]} L ${apron[3][0]} ${apron[3][1]}`}
               stroke="#f4f4f5"
               strokeWidth={2}
               opacity={0.55}
             />
             <Path
-              d={`M ${underBikeApron[1][0]} ${underBikeApron[1][1]} L ${underBikeApron[2][0]} ${underBikeApron[2][1]}`}
+              d={`M ${apron[1][0]} ${apron[1][1]} L ${apron[2][0]} ${apron[2][1]}`}
               stroke="#f4f4f5"
               strokeWidth={2}
               opacity={0.55}

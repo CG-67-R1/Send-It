@@ -1,5 +1,6 @@
-import React, { useCallback, useEffect, useRef, useState } from 'react';
+import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import {
+  Animated,
   LayoutChangeEvent,
   Platform,
   Pressable,
@@ -18,9 +19,10 @@ import {
   stepGame,
   TOTAL_LAPS,
 } from '../trackMemory/physics';
-import type { ControlState, GameState } from '../trackMemory/types';
+import type { ControlState, FlashState, GamePhase, GameState } from '../trackMemory/types';
 import { formatLapTime, readBestLapMs, writeBestLapMs } from '../trackMemory/storage';
-import { TrackMemoryRoad } from '../trackMemory/TrackMemoryRoad';
+import { TrackMemoryRoadView } from '../trackMemory/TrackMemoryRoadView';
+import type { TrackMemoryRoadHandle } from '../trackMemory/roadHandle';
 import { TrackMemoryMinimap } from '../trackMemory/TrackMemoryMinimap';
 import { TrackMemoryCockpit } from '../trackMemory/TrackMemoryCockpit';
 import { TrackMemoryControls } from '../trackMemory/TrackMemoryControls';
@@ -32,6 +34,39 @@ const EMPTY_CONTROLS: ControlState = {
   accel: false,
   brake: false,
 };
+
+/**
+ * The simulation runs every frame in refs; React only re-renders the chrome at
+ * this cadence (plus immediately on phase / coaching changes). Rendering the
+ * whole screen per frame is what made the native build lag and crash.
+ */
+const HUD_INTERVAL_MS = 90;
+
+type Hud = {
+  phase: GamePhase;
+  lap: number;
+  lapTimeMs: number;
+  bestLapMs: number | null;
+  sessionBestLapMs: number | null;
+  lapTimesMs: number[];
+  flash: FlashState;
+  speed: number;
+  s: number;
+};
+
+function toHud(state: GameState): Hud {
+  return {
+    phase: state.phase,
+    lap: state.lap,
+    lapTimeMs: state.lapTimeMs,
+    bestLapMs: state.bestLapMs,
+    sessionBestLapMs: state.sessionBestLapMs,
+    lapTimesMs: state.lapTimesMs,
+    flash: state.flash,
+    speed: state.speed,
+    s: state.s,
+  };
+}
 
 function keyToControl(code: string): 'accel' | 'brake' | 'reset' | null {
   switch (code) {
@@ -59,50 +94,84 @@ export function TrackMemoryScreen() {
   layoutRef.current = layout;
 
   const [size, setSize] = useState({ w: 0, h: 0 });
-  const [state, setState] = useState<GameState>(() => {
+  const initialState = useMemo(() => {
     const init = createInitialState(null);
     init.heading = samplePath(layout.points, layout.lengthM, 0).heading;
     return init;
-  });
+  }, [layout]);
+
   const [held, setHeld] = useState<ControlState>({ ...EMPTY_CONTROLS });
-  const stateRef = useRef(state);
+  const [hud, setHud] = useState<Hud>(() => toHud(initialState));
+  const hudRef = useRef(hud);
+  const hudAtRef = useRef(0);
+  const stateRef = useRef(initialState);
   const controlsRef = useRef<ControlState>({ ...EMPTY_CONTROLS });
+  const roadRef = useRef<TrackMemoryRoadHandle>(null);
+  const leanAnim = useRef(new Animated.Value(initialState.lean)).current;
   const rafRef = useRef<number | null>(null);
   const lastTsRef = useRef<number | null>(null);
   const savedBestRef = useRef<number | null>(null);
 
-  useEffect(() => {
-    stateRef.current = state;
-  }, [state]);
+  const publishHud = useCallback((next: GameState) => {
+    const snap = toHud(next);
+    hudRef.current = snap;
+    setHud(snap);
+  }, []);
 
   useEffect(() => {
     let cancelled = false;
     void readBestLapMs(layout.trackId).then((best) => {
       if (cancelled) return;
       savedBestRef.current = best;
-      setState((s) => ({ ...s, bestLapMs: best }));
+      stateRef.current = { ...stateRef.current, bestLapMs: best };
+      publishHud(stateRef.current);
     });
     return () => {
       cancelled = true;
     };
-  }, [layout.trackId]);
+  }, [layout.trackId, publishHud]);
 
   useEffect(() => {
-    if (state.phase !== 'finished' || state.sessionBestLapMs == null) return;
-    void writeBestLapMs(layout.trackId, state.sessionBestLapMs).then(() => {
-      savedBestRef.current = state.bestLapMs;
+    if (hud.phase !== 'finished' || hud.sessionBestLapMs == null) return;
+    void writeBestLapMs(layout.trackId, hud.sessionBestLapMs).then(() => {
+      savedBestRef.current = stateRef.current.bestLapMs;
     });
-  }, [state.phase, state.sessionBestLapMs, state.bestLapMs, layout.trackId]);
+  }, [hud.phase, hud.sessionBestLapMs, layout.trackId]);
 
-  const tick = useCallback((ts: number) => {
-    const last = lastTsRef.current ?? ts;
-    lastTsRef.current = ts;
-    const dt = Math.min(0.05, Math.max(0, (ts - last) / 1000));
-    const next = stepGame(stateRef.current, layoutRef.current, controlsRef.current, dt, Date.now());
-    stateRef.current = next;
-    setState(next);
-    rafRef.current = requestAnimationFrame(tick);
-  }, []);
+  // Paint the first frame (and any resize) with the real rider pose
+  useEffect(() => {
+    const s = stateRef.current;
+    roadRef.current?.draw(s.s, s.lateral, s.heading);
+  }, [size.w, size.h]);
+
+  const tick = useCallback(
+    (ts: number) => {
+      const last = lastTsRef.current ?? ts;
+      lastTsRef.current = ts;
+      const dt = Math.min(0.05, Math.max(0, (ts - last) / 1000));
+      const next = stepGame(
+        stateRef.current,
+        layoutRef.current,
+        controlsRef.current,
+        dt,
+        Date.now()
+      );
+      stateRef.current = next;
+      roadRef.current?.draw(next.s, next.lateral, next.heading);
+      leanAnim.setValue(next.lean);
+
+      const prev = hudRef.current;
+      const changedNow =
+        prev.phase !== next.phase || (prev.flash?.text ?? null) !== (next.flash?.text ?? null);
+      if (changedNow || ts - hudAtRef.current >= HUD_INTERVAL_MS) {
+        hudAtRef.current = ts;
+        publishHud(next);
+      }
+
+      rafRef.current = requestAnimationFrame(tick);
+    },
+    [leanAnim, publishHud]
+  );
 
   const applyControl = useCallback((key: keyof ControlState, down: boolean) => {
     controlsRef.current = { ...controlsRef.current, [key]: down };
@@ -115,8 +184,11 @@ export function TrackMemoryScreen() {
     const next = resetGame(savedBestRef.current ?? stateRef.current.bestLapMs);
     next.heading = samplePath(layoutRef.current.points, layoutRef.current.lengthM, 0).heading;
     stateRef.current = next;
-    setState(next);
-  }, []);
+    leanAnim.setValue(next.lean);
+    roadRef.current?.draw(next.s, next.lateral, next.heading);
+    hudAtRef.current = 0;
+    publishHud(next);
+  }, [leanAnim, publishHud]);
 
   const onStop = useCallback(() => {
     navigation.goBack();
@@ -198,21 +270,13 @@ export function TrackMemoryScreen() {
     setSize({ w: Math.floor(width), h: Math.floor(height) });
   };
 
-  const flashVisible = Boolean(state.flash);
-  const flashDanger = state.flash?.tone === 'danger';
-  const flashCoach = state.flash?.tone === 'coach';
+  const flashDanger = hud.flash?.tone === 'danger';
+  const flashCoach = hud.flash?.tone === 'coach';
 
   return (
     <View style={styles.root} onLayout={onLayout}>
       {size.w > 0 && size.h > 0 ? (
-        <TrackMemoryRoad
-          layout={layout}
-          s={state.s}
-          lateral={state.lateral}
-          heading={state.heading}
-          width={size.w}
-          height={size.h}
-        />
+        <TrackMemoryRoadView ref={roadRef} layout={layout} width={size.w} height={size.h} />
       ) : (
         <View style={styles.placeholder} />
       )}
@@ -220,9 +284,9 @@ export function TrackMemoryScreen() {
       <TrackMemoryCockpit
         width={size.w || 320}
         height={size.h || 640}
-        lean={state.lean}
-        speedMps={state.speed}
-        lap={Math.min(state.lap, TOTAL_LAPS)}
+        lean={leanAnim}
+        speedMps={hud.speed}
+        lap={Math.min(hud.lap, TOTAL_LAPS)}
         totalLaps={TOTAL_LAPS}
       />
 
@@ -240,15 +304,15 @@ export function TrackMemoryScreen() {
 
         <View style={styles.hudCenter} pointerEvents="none">
           <Text style={styles.hudLine}>
-            Lap {Math.min(state.lap, TOTAL_LAPS)}/{TOTAL_LAPS} · {formatLapTime(state.lapTimeMs)}
+            Lap {Math.min(hud.lap, TOTAL_LAPS)}/{TOTAL_LAPS} · {formatLapTime(hud.lapTimeMs)}
           </Text>
-          <Text style={styles.hudBest}>Best {formatLapTime(state.bestLapMs)}</Text>
+          <Text style={styles.hudBest}>Best {formatLapTime(hud.bestLapMs)}</Text>
         </View>
 
-        <TrackMemoryMinimap layout={layout} s={state.s} size={88} />
+        <TrackMemoryMinimap layout={layout} s={hud.s} size={88} />
       </View>
 
-      {flashVisible && state.flash ? (
+      {hud.flash ? (
         <View style={styles.flashWrap} pointerEvents="none">
           <Text
             style={[
@@ -257,26 +321,26 @@ export function TrackMemoryScreen() {
               flashCoach && styles.flashCoach,
             ]}
           >
-            {state.flash.text}
+            {hud.flash.text}
           </Text>
         </View>
       ) : null}
 
-      {state.phase === 'ready' ? (
+      {hud.phase === 'ready' ? (
         <View style={styles.banner} pointerEvents="none">
           <Text style={styles.bannerTitle}>Track Memory Game</Text>
         </View>
       ) : null}
 
-      {state.phase === 'finished' ? (
+      {hud.phase === 'finished' ? (
         <View style={styles.resultCard} pointerEvents="none">
           <Text style={styles.resultTitle}>Session complete</Text>
-          {state.lapTimesMs.map((t, i) => (
+          {hud.lapTimesMs.map((t, i) => (
             <Text key={`lap-${i}`} style={styles.resultLine}>
               Lap {i + 1}: {formatLapTime(t)}
             </Text>
           ))}
-          <Text style={styles.resultBest}>Best: {formatLapTime(state.sessionBestLapMs)}</Text>
+          <Text style={styles.resultBest}>Best: {formatLapTime(hud.sessionBestLapMs)}</Text>
           <Text style={styles.resultHint}>Press R to ride again · Stop to exit</Text>
         </View>
       ) : null}

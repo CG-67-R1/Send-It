@@ -1,12 +1,13 @@
 import React from 'react';
-import { Image, StyleSheet, Text, View } from 'react-native';
+import { Animated, Image, StyleSheet, Text, View } from 'react-native';
 
 const POSTIE_COCKPIT = require('../../assets/track-memory/postie-cockpit.png');
 
 type Props = {
   width: number;
   height: number;
-  lean: number;
+  /** Driven straight from the game loop so lean stays smooth without React renders. */
+  lean: Animated.Value;
   speedMps?: number;
   lap?: number;
   totalLaps?: number;
@@ -25,14 +26,17 @@ export function TrackMemoryCockpit({
   totalLaps = 3,
 }: Props) {
   // Physics lean sign is opposite screen tip-in; negate so bike tips toward the inside.
-  const leanDeg = -lean * 40;
+  const rotate = lean.interpolate({
+    inputRange: [-1, 1],
+    outputRange: ['40deg', '-40deg'],
+  });
   // Tall enough to show arms + bag; asphalt shows through transparent areas
   const cockpitH = Math.min(Math.round(height * 0.58), Math.round(width * 0.72));
   const top = height - cockpitH;
   const kmh = Math.round(speedMps * 3.6);
 
   return (
-    <View
+    <Animated.View
       pointerEvents="none"
       style={[
         styles.wrap,
@@ -40,7 +44,7 @@ export function TrackMemoryCockpit({
           width,
           height: cockpitH,
           top,
-          transform: [{ rotate: `${leanDeg}deg` }],
+          transform: [{ rotate }],
         },
       ]}
     >
@@ -51,7 +55,7 @@ export function TrackMemoryCockpit({
           km/h · L{Math.min(lap, totalLaps)}/{totalLaps}
         </Text>
       </View>
-    </View>
+    </Animated.View>
   );
 }
 
