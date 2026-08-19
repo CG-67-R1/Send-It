@@ -54,6 +54,13 @@ export const NATIVE_QUALITY: ProjectQuality = {
   grain: false,
 };
 
+/** SVG on Safari cannot afford the full 220-segment mesh on first paint. */
+export const WEB_QUALITY: ProjectQuality = {
+  drawDepth: 90,
+  rubberEveryNth: 3,
+  grain: false,
+};
+
 const DRAW_DEPTH = 220;
 const SEG_LEN = 1.0;
 /** Rider eye height above asphalt (metres). */

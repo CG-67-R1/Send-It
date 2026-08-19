@@ -12,6 +12,7 @@ import {
   makeRoadPaintKit,
   PictureRecycler,
   TILE_PX,
+  type RoadPaintKit,
 } from './drawRoadSkia';
 import type { TrackMemoryRoadHandle } from './roadHandle';
 
@@ -37,30 +38,35 @@ export const TrackMemoryRoadView = forwardRef<TrackMemoryRoadHandle, Props>(
     const alive = useRef(true);
     const drawing = useRef(false);
     const recycler = useMemo(() => new PictureRecycler(), []);
+    const kitsRef = useRef<RoadPaintKit[]>([]);
 
-    // Size only — attaching the tile later must not rebuild/dispose the kit.
-    // Rebuilding when useImage resolves is what crashed Bathurst / Phillip
-    // Island on the first attempt (image still loading) and worked on the second
-    // (cached).
-    const kit = useMemo(
-      () => (width >= 8 && height >= 8 ? makeRoadPaintKit(width, height, horizonYFor(height), null) : null),
-      [width, height]
-    );
+    // Size only — attaching the tile later must not rebuild the kit.
+    // Kits are never disposed while this view is mounted: the landscape lock
+    // resizes the surface on first open, and disposing the portrait kit while
+    // its picture is still on the GPU is what crashed every track before the
+    // ride UI appeared.
+    const kit = useMemo(() => {
+      if (width < 8 || height < 8) return null;
+      try {
+        const next = makeRoadPaintKit(width, height, horizonYFor(height), null);
+        kitsRef.current.push(next);
+        return next;
+      } catch (err) {
+        console.warn('[TrackMemory] paint kit failed', err);
+        return null;
+      }
+    }, [width, height]);
 
     useEffect(() => {
       alive.current = true;
       return () => {
         alive.current = false;
+        const dying = kitsRef.current.splice(0);
+        setTimeout(() => {
+          for (const k of dying) disposeRoadPaintKit(k);
+        }, 1000);
       };
     }, []);
-
-    useEffect(() => {
-      if (!kit) return undefined;
-      return () => {
-        const dying = kit;
-        setTimeout(() => disposeRoadPaintKit(dying), 250);
-      };
-    }, [kit]);
 
     useEffect(() => {
       if (kit && bitumen) attachBitumenTile(kit, bitumen);
@@ -90,6 +96,10 @@ export const TrackMemoryRoadView = forwardRef<TrackMemoryRoadHandle, Props>(
     useEffect(() => {
       draw(pose.current.s, pose.current.lateral, pose.current.heading);
     }, [draw, bitumen]);
+
+    if (!kit) {
+      return <View style={styles.fill} />;
+    }
 
     return (
       <View style={styles.fill}>

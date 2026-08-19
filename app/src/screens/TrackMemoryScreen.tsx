@@ -94,9 +94,20 @@ export function TrackMemoryScreen() {
   layoutRef.current = layout;
 
   const [size, setSize] = useState({ w: 0, h: 0 });
+  // Native locks to landscape on focus. Mounting Skia at the portrait size and
+  // then disposing that kit on rotate is what crashed every track before the
+  // ride opened. Wait until the lock settles, then create the canvas once.
+  const [oriented, setOriented] = useState(Platform.OS === 'web');
+  const [forceSurface, setForceSurface] = useState(false);
   const initialState = useMemo(() => {
     const init = createInitialState(null);
-    init.heading = samplePath(layout.points, layout.lengthM, 0).heading;
+    try {
+      if (layout.points.length > 1 && layout.lengthM > 0) {
+        init.heading = samplePath(layout.points, layout.lengthM, 0).heading;
+      }
+    } catch {
+      init.heading = 0;
+    }
     return init;
   }, [layout]);
 
@@ -196,6 +207,7 @@ export function TrackMemoryScreen() {
 
   useFocusEffect(
     useCallback(() => {
+      let cancelled = false;
       lastTsRef.current = null;
       rafRef.current = requestAnimationFrame(tick);
 
@@ -212,6 +224,14 @@ export function TrackMemoryScreen() {
         } catch {
           // Web / unsupported — user rotates manually
         }
+        await new Promise<void>((resolve) => {
+          requestAnimationFrame(() => resolve());
+        });
+        if (!cancelled) setOriented(true);
+        await new Promise<void>((resolve) => {
+          setTimeout(resolve, 700);
+        });
+        if (!cancelled) setForceSurface(true);
       })();
 
       const onKey = (e: KeyboardEvent, down: boolean) => {
@@ -235,6 +255,9 @@ export function TrackMemoryScreen() {
       }
 
       return () => {
+        cancelled = true;
+        setOriented(false);
+        setForceSurface(false);
         if (rafRef.current != null) cancelAnimationFrame(rafRef.current);
         rafRef.current = null;
         lastTsRef.current = null;
@@ -272,10 +295,12 @@ export function TrackMemoryScreen() {
 
   const flashDanger = hud.flash?.tone === 'danger';
   const flashCoach = hud.flash?.tone === 'coach';
+  const landscape = Platform.OS === 'web' || forceSurface || size.w >= size.h;
+  const surfaceReady = oriented && landscape && size.w >= 8 && size.h >= 8;
 
   return (
     <View style={styles.root} onLayout={onLayout}>
-      {size.w > 0 && size.h > 0 ? (
+      {surfaceReady ? (
         <TrackMemoryRoadView ref={roadRef} layout={layout} width={size.w} height={size.h} />
       ) : (
         <View style={styles.placeholder} />

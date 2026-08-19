@@ -77,6 +77,22 @@ function fillPaint(color: string, alpha = 1): SkPaint {
   return paint;
 }
 
+function safeBoardFont(): SkFont | null {
+  try {
+    const matched = matchFont({ fontFamily: 'System', fontSize: 14, fontWeight: '800' });
+    if (matched) return matched;
+  } catch {
+    // Some iOS builds throw if the named weight is missing
+  }
+  try {
+    const fallback = matchFont({ fontSize: 14 });
+    if (fallback) return fallback;
+  } catch {
+    // Boards still draw; labels are skipped
+  }
+  return null;
+}
+
 /**
  * Every Skia handle the renderer needs, allocated once.
  *
@@ -104,7 +120,7 @@ export type RoadPaintKit = {
   boardFill: SkPaint;
   boardStroke: SkPaint;
   boardText: SkPaint;
-  font: SkFont;
+  font: SkFont | null;
   recorder: SkPictureRecorder;
   paths: {
     grass: SkPath;
@@ -207,7 +223,7 @@ export function makeRoadPaintKit(
     boardFill: fillPaint('#f8fafc'),
     boardStroke,
     boardText: fillPaint('#0f172a'),
-    font: matchFont({ fontFamily: 'System', fontSize: 14, fontWeight: '800' }),
+    font: safeBoardFont(),
     recorder: Skia.PictureRecorder(),
     paths: {
       grass: Skia.Path.Make(),
@@ -336,15 +352,17 @@ export function buildRoadPicture(
     canvas.drawPath(paths.board, kit.boardFill);
     canvas.drawPath(paths.board, kit.boardStroke);
     const label = String(marker.metres);
-    kit.font.setSize(marker.fontSize);
-    const w = kit.font.getTextWidth(label);
-    canvas.drawText(
-      label,
-      marker.labelX - w / 2,
-      marker.labelY + marker.fontSize * 0.35,
-      kit.boardText,
-      kit.font
-    );
+    if (kit.font) {
+      kit.font.setSize(marker.fontSize);
+      const w = kit.font.getTextWidth(label);
+      canvas.drawText(
+        label,
+        marker.labelX - w / 2,
+        marker.labelY + marker.fontSize * 0.35,
+        kit.boardText,
+        kit.font
+      );
+    }
   }
 
   return kit.recorder.finishRecordingAsPicture();

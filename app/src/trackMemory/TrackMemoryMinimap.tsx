@@ -26,7 +26,9 @@ export function TrackMemoryMinimap({ layout, s, size = 112 }: Props) {
       // flip Y for screen
       y: size - (oy + (p.y - minY) * scale),
     });
-    const pts = layout.points.map(map);
+    const mapped = layout.points.map(map);
+    const stride = Math.max(1, Math.ceil(mapped.length / 180));
+    const pts = mapped.filter((_, i) => i % stride === 0 || i === mapped.length - 1);
     const d =
       pts.length > 0
         ? `M ${pts[0].x} ${pts[0].y} ` +

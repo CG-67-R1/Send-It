@@ -12,7 +12,7 @@ import Svg, {
   Text as SvgText,
 } from 'react-native-svg';
 import type { TrackMemoryLayout } from './types';
-import { nearGrassAprons, projectRoad, seamPoly, underBikeApron } from './projectRoad';
+import { nearGrassAprons, projectRoad, seamPoly, underBikeApron, WEB_QUALITY } from './projectRoad';
 
 const BITUMEN_TILE = require('../../assets/track-memory/bitumen_tile.png');
 const TILE_PX = 64;
@@ -54,7 +54,7 @@ function curbStrip(
 
 export function TrackMemoryRoad({ layout, s, lateral, heading, width, height }: Props) {
   const frame = useMemo(
-    () => projectRoad(layout, s, lateral, width, height, heading),
+    () => projectRoad(layout, s, lateral, width, height, heading, WEB_QUALITY),
     [layout, s, lateral, heading, width, height]
   );
 
