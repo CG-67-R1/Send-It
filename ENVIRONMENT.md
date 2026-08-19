@@ -135,8 +135,9 @@ PoC details and troubleshooting: [`POC_HOSTING_GUIDE.md`](POC_HOSTING_GUIDE.md).
 | Apple Team ID | `UAWP5NV4NQ` |
 | Enrollment | Individual (public App Store seller name = your legal name) |
 | Expo account | [motorsport-is-life](https://expo.dev/accounts/motorsport-is-life) |
+| EAS plan | **Starter** (high-priority queue, 2h timeout, large workers, $45/mo build credit) |
 | EAS project | `@motorsport-is-life/roadracer` (`c3447188-53ab-4806-96af-6eb1b5417de3`) |
-| EAS config | [`app/eas.json`](app/eas.json) (`credentialsSource: remote`) |
+| EAS config | [`app/eas.json`](app/eas.json) (`credentialsSource: remote`; production/preview `resourceClass: large`) |
 | Setup guide | [`docs/ios/APPLE_DEVELOPER_SETUP.md`](docs/ios/APPLE_DEVELOPER_SETUP.md) |
 
 Register Identifier + App Store Connect app (requires ASC API key env):

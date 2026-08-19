@@ -17,8 +17,11 @@
     "preview": {
       "distribution": "store",
       "ios": {
-        "resourceClass": "m-medium",
+        "resourceClass": "large",
         "credentialsSource": "remote"
+      },
+      "android": {
+        "resourceClass": "large"
       },
       "env": {
         "SENTRY_DISABLE_AUTO_UPLOAD": "true"
@@ -27,8 +30,11 @@
     "production": {
       "autoIncrement": true,
       "ios": {
-        "resourceClass": "m-medium",
+        "resourceClass": "large",
         "credentialsSource": "remote"
+      },
+      "android": {
+        "resourceClass": "large"
       },
       "env": {
         "SENTRY_ALLOW_FAILURE": "true"
