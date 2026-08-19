@@ -55,6 +55,29 @@ curl https://send-it-ke7r.onrender.com/health
 
 Without the key, Headlines/Calendar/Trivia work; **Coach, Bike Setup, and Ask fail**.
 
+Scale-up by active user count (50 / 200 / 1,000 / 5,000 / 10,000): [`docs/SCALE_UP_PLAN.md`](docs/SCALE_UP_PLAN.md).
+
+## Sentry (crash diagnostics)
+
+JS exceptions, React render crashes, and native crashes are sent to Sentry when a DSN is present. Leave the DSN unset and reporting stays off (no outbound Sentry traffic).
+
+1. Create a **React Native** project at [sentry.io](https://sentry.io/) (free Developer plan is enough).
+2. Copy the project **DSN**.
+3. Set env (do not commit the auth token):
+
+| Where | Variable | Purpose |
+|-------|----------|---------|
+| Vercel (web) + EAS (iOS/Android) + `app/.env` | `EXPO_PUBLIC_SENTRY_DSN` | Enables the SDK. Public; it is inlined into the bundle. |
+| EAS secrets only | `SENTRY_AUTH_TOKEN` | Uploads source maps / dSYMs on production EAS builds. |
+| EAS secrets only | `SENTRY_ORG` | Sentry org slug (for symbol upload). |
+| EAS secrets only | `SENTRY_PROJECT` | Sentry project slug (for symbol upload). |
+
+Vercel: Project **send-it** → Settings → Environment Variables → Production. EAS: `npx eas-cli secret:create` from `app/`, or Expo dashboard → Environment variables.
+
+Production EAS uses `SENTRY_ALLOW_FAILURE=true` so a missing token does not fail the build. Development/preview profiles skip upload (`SENTRY_DISABLE_AUTO_UPLOAD`). After the token is set, the next production build symbolicates native crashes.
+
+Privacy: `sendDefaultPii` is off; Coach / Q&A request bodies are not attached; screenshots are not sent. [`docs/legal/PRIVACY.md`](docs/legal/PRIVACY.md) already discloses crash reporting. If the DSN is in a store build, include **Diagnostics / Crash Data** on the App Store nutrition label and Play Data safety form.
+
 ## Autonomous monitoring
 
 | Layer | What | How |

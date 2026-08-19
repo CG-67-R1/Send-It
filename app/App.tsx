@@ -3,7 +3,7 @@ import { ActivityIndicator, StyleSheet, Text, TouchableOpacity, View } from 'rea
 import { GestureHandlerRootView } from 'react-native-gesture-handler';
 import { StatusBar } from 'expo-status-bar';
 import { useFonts } from 'expo-font';
-import { NavigationContainer } from '@react-navigation/native';
+import { NavigationContainer, type NavigationState } from '@react-navigation/native';
 import { SafeAreaProvider, useSafeAreaInsets } from 'react-native-safe-area-context';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
@@ -34,8 +34,13 @@ import { OnboardingResetContext } from './src/context/OnboardingResetContext';
 import { TrackArrivalProvider } from './src/context/TrackArrivalContext';
 import { navigationRef } from './src/navigation/rootNavigation';
 import { AppLogo } from './src/components/AppLogo';
+import { CountryFlag } from './src/components/CountryFlag';
 import { KeyboardSafeView } from './src/components/KeyboardSafeView';
+import { CrashErrorBoundary } from './src/diagnostics/CrashErrorBoundary';
+import { addNavigationBreadcrumb, getActiveRouteName, initSentry } from './src/diagnostics/sentry';
 import { HERO_LOGO_SIZE } from './src/constants/logoSizing';
+import { getReleaseCountryCode } from './src/data/homeCountries';
+import { getPrimaryManifest, getPrimaryPackId } from './src/packs/loader';
 
 const Stack = createNativeStackNavigator();
 const Tab = createBottomTabNavigator();
@@ -50,19 +55,28 @@ const headerOptions = {
 const HOME_HEADER_LOGO_PAD = 8;
 const HOME_HEADER_BAR_HEIGHT = HERO_LOGO_SIZE + HOME_HEADER_LOGO_PAD * 2;
 
+const RELEASE_FLAG = getReleaseCountryCode(
+  getPrimaryPackId(),
+  getPrimaryManifest()?.isoCountries?.[0]
+);
+
 /**
- * Home headline: "RoadRacer" left-aligned, RR logo centered at the same size
- * as other screens, Settings on the right. Bar grows to fit the logo.
+ * Home headline: "RoadRacer" plus release-country flag, RR logo centered at the
+ * same size as other screens, Settings on the right. Bar grows to fit the logo.
  */
 function HomeHeader({ navigation }: NativeStackHeaderProps) {
   const insets = useSafeAreaInsets();
+
   return (
     <View style={[homeHeaderStyles.wrap, { paddingTop: insets.top }]}>
       <View style={[homeHeaderStyles.bar, { height: HOME_HEADER_BAR_HEIGHT }]}>
         <View style={homeHeaderStyles.logoCenter} pointerEvents="none">
           <AppLogo size={HERO_LOGO_SIZE} />
         </View>
-        <Text style={homeHeaderStyles.title}>RoadRacer</Text>
+        <View style={homeHeaderStyles.titleRow}>
+          <Text style={homeHeaderStyles.title}>RoadRacer</Text>
+          <CountryFlag code={RELEASE_FLAG} height={14} />
+        </View>
         <TouchableOpacity
           onPress={() => navigation.navigate('HeadlinesSettings')}
           style={homeHeaderStyles.settingsBtn}
@@ -92,11 +106,16 @@ const homeHeaderStyles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
   },
+  titleRow: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: 6,
+    zIndex: 1,
+  },
   title: {
     color: '#f8fafc',
     fontWeight: '700',
     fontSize: 18,
-    zIndex: 1,
   },
   settingsBtn: {
     zIndex: 1,
@@ -301,32 +320,8 @@ export default function App() {
     console.log(`[Runtime] JavaScript engine: ${isHermes ? 'Hermes' : 'non-Hermes'}`);
   }, []);
 
-  // Load Sentry after the native runtime is ready. Eager import can throw during the
-  // initial module graph before RN is initialized (seen previously with Hermes).
   useEffect(() => {
-    const dsn = process.env.EXPO_PUBLIC_SENTRY_DSN;
-    if (!dsn) {
-      if (__DEV__) {
-        console.warn('[Sentry] EXPO_PUBLIC_SENTRY_DSN not set — crash reporting disabled');
-      }
-      return;
-    }
-    let cancelled = false;
-    void import('@sentry/react-native')
-      .then((Sentry) => {
-        if (cancelled) return;
-        Sentry.init({
-          dsn,
-          debug: __DEV__,
-          enabled: true,
-        });
-      })
-      .catch((e) => {
-        if (__DEV__) console.warn('[Sentry] init skipped:', e);
-      });
-    return () => {
-      cancelled = true;
-    };
+    void initSentry();
   }, []);
 
   const resetOnboarding = useCallback(async () => {
@@ -336,8 +331,9 @@ export default function App() {
 
   return (
     <GestureHandlerRootView style={{ flex: 1 }}>
-      <SafeAreaProvider>
-        <KeyboardSafeView>
+      <CrashErrorBoundary>
+        <SafeAreaProvider>
+          <KeyboardSafeView>
           {!fontsLoaded || onboardingComplete === null ? (
             <View style={{ flex: 1, backgroundColor: '#0f172a', justifyContent: 'center', alignItems: 'center' }}>
               <StatusBar style="light" />
@@ -351,7 +347,13 @@ export default function App() {
           ) : (
             <OnboardingResetContext.Provider value={{ resetOnboarding }}>
               <View style={{ flex: 1 }}>
-                <NavigationContainer ref={navigationRef}>
+                <NavigationContainer
+                  ref={navigationRef}
+                  onStateChange={(state: NavigationState | undefined) => {
+                    const name = getActiveRouteName(state);
+                    if (name) addNavigationBreadcrumb(name);
+                  }}
+                >
                   <TrackArrivalProvider>
                     <StatusBar style="light" />
                     <MainTabs />
@@ -378,8 +380,9 @@ export default function App() {
               </View>
             </OnboardingResetContext.Provider>
           )}
-        </KeyboardSafeView>
-      </SafeAreaProvider>
+          </KeyboardSafeView>
+        </SafeAreaProvider>
+      </CrashErrorBoundary>
     </GestureHandlerRootView>
   );
 }
