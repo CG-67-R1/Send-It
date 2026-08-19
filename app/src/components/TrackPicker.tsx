@@ -17,7 +17,23 @@ export function TrackPicker({ selectedTrackId, onSelect, allowedTrackIds }: Prop
     const all = getAllTracks();
     if (!allowedTrackIds?.length) return all;
     const allow = new Set(allowedTrackIds);
-    return all.filter((t) => allow.has(t.id));
+    const fromCatalog = all.filter((t) => allow.has(t.id));
+    const seen = new Set(fromCatalog.map((t) => t.id));
+    const missing: TrackDefinition[] = [];
+    for (const id of allowedTrackIds) {
+      if (seen.has(id)) continue;
+      const named = all.find((t) => t.id === id);
+      missing.push(
+        named ?? {
+          id,
+          name: id.replace(/_/g, ' '),
+          direction: 'unknown',
+          isOther: false,
+          corners: [],
+        }
+      );
+    }
+    return missing.length ? [...fromCatalog, ...missing] : fromCatalog;
   }, [allowedTrackIds]);
   const selected = tracks.find((t) => t.id === selectedTrackId);
 

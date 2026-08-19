@@ -94,11 +94,6 @@ export function TrackMemoryScreen() {
   layoutRef.current = layout;
 
   const [size, setSize] = useState({ w: 0, h: 0 });
-  // Native locks to landscape on focus. Mounting Skia at the portrait size and
-  // then disposing that kit on rotate is what crashed every track before the
-  // ride opened. Wait until the lock settles, then create the canvas once.
-  const [oriented, setOriented] = useState(Platform.OS === 'web');
-  const [forceSurface, setForceSurface] = useState(false);
   const initialState = useMemo(() => {
     const init = createInitialState(null);
     try {
@@ -207,7 +202,6 @@ export function TrackMemoryScreen() {
 
   useFocusEffect(
     useCallback(() => {
-      let cancelled = false;
       lastTsRef.current = null;
       rafRef.current = requestAnimationFrame(tick);
 
@@ -219,19 +213,20 @@ export function TrackMemoryScreen() {
       });
 
       void (async () => {
+        // Do not await lock forever — iOS with portrait-only Info.plist (or a
+        // hung orientation callback) never resolved, so every track stayed on
+        // the placeholder. Kits are no longer disposed on resize, so it is
+        // safe to draw as soon as we have a size.
         try {
-          await ScreenOrientation.lockAsync(ScreenOrientation.OrientationLock.LANDSCAPE);
+          await Promise.race([
+            ScreenOrientation.lockAsync(ScreenOrientation.OrientationLock.LANDSCAPE),
+            new Promise<void>((resolve) => {
+              setTimeout(resolve, 800);
+            }),
+          ]);
         } catch {
-          // Web / unsupported — user rotates manually
+          // Web / unsupported / timed out — user rotates or we draw anyway
         }
-        await new Promise<void>((resolve) => {
-          requestAnimationFrame(() => resolve());
-        });
-        if (!cancelled) setOriented(true);
-        await new Promise<void>((resolve) => {
-          setTimeout(resolve, 700);
-        });
-        if (!cancelled) setForceSurface(true);
       })();
 
       const onKey = (e: KeyboardEvent, down: boolean) => {
@@ -255,9 +250,6 @@ export function TrackMemoryScreen() {
       }
 
       return () => {
-        cancelled = true;
-        setOriented(false);
-        setForceSurface(false);
         if (rafRef.current != null) cancelAnimationFrame(rafRef.current);
         rafRef.current = null;
         lastTsRef.current = null;
@@ -272,7 +264,12 @@ export function TrackMemoryScreen() {
         });
         void (async () => {
           try {
-            await ScreenOrientation.lockAsync(ScreenOrientation.OrientationLock.PORTRAIT_UP);
+            await Promise.race([
+              ScreenOrientation.lockAsync(ScreenOrientation.OrientationLock.PORTRAIT_UP),
+              new Promise<void>((resolve) => {
+                setTimeout(resolve, 800);
+              }),
+            ]);
           } catch {
             // ignore
           }
@@ -295,8 +292,7 @@ export function TrackMemoryScreen() {
 
   const flashDanger = hud.flash?.tone === 'danger';
   const flashCoach = hud.flash?.tone === 'coach';
-  const landscape = Platform.OS === 'web' || forceSurface || size.w >= size.h;
-  const surfaceReady = oriented && landscape && size.w >= 8 && size.h >= 8;
+  const surfaceReady = size.w >= 8 && size.h >= 8;
 
   return (
     <View style={styles.root} onLayout={onLayout}>
