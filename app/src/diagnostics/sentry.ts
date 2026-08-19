@@ -59,6 +59,11 @@ export function getActiveRouteName(state: NavigationState | undefined): string |
 /**
  * Load Sentry after the native runtime is ready. A static import can throw during
  * the initial module graph before RN is initialized (seen previously with Hermes).
+ *
+ * Do not add `@sentry/react-native/expo` to app.json until SENTRY_ORG,
+ * SENTRY_PROJECT, and SENTRY_AUTH_TOKEN are set on EAS. That plugin wraps the
+ * Xcode JS-bundle phase; without org/project the IPA can ship with no
+ * main.jsbundle and crash on tap from the home screen.
  */
 export async function initSentry(): Promise<void> {
   const dsn = getDsn();

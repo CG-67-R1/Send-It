@@ -61,13 +61,6 @@
           "locationWhenInUsePermission": "RoadRacer uses your location at the circuit to greet you when you arrive and suggest chatting with your coach."
         }
       ],
-      [
-        "@sentry/react-native/expo",
-        {
-          "url": "https://sentry.io/",
-          "note": "Set SENTRY_AUTH_TOKEN, SENTRY_ORG, and SENTRY_PROJECT as EAS secrets to upload source maps."
-        }
-      ],
       "expo-asset",
       [
         "expo-build-properties",

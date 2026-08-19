@@ -76,6 +76,8 @@ Vercel: Project **send-it** → Settings → Environment Variables → Productio
 
 Production EAS uses `SENTRY_ALLOW_FAILURE=true` so a missing token does not fail the build. Development/preview profiles skip upload (`SENTRY_DISABLE_AUTO_UPLOAD`). After the token is set, the next production build symbolicates native crashes.
 
+Do **not** add the `@sentry/react-native/expo` config plugin until `SENTRY_ORG`, `SENTRY_PROJECT`, and `SENTRY_AUTH_TOKEN` are set on EAS. The plugin wraps Xcode’s “Bundle React Native code and images” phase; without those values the build can still succeed (`SENTRY_ALLOW_FAILURE`) while the IPA has no `main.jsbundle`, which crashes immediately from the home screen (build 13). JS `initSentry()` is enough for JS/React reports once a DSN is set.
+
 Privacy: `sendDefaultPii` is off; Coach / Q&A request bodies are not attached; screenshots are not sent. [`docs/legal/PRIVACY.md`](docs/legal/PRIVACY.md) already discloses crash reporting. If the DSN is in a store build, include **Diagnostics / Crash Data** on the App Store nutrition label and Play Data safety form.
 
 ## Autonomous monitoring
