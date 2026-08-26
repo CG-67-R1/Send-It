@@ -3,10 +3,10 @@
   "name": "RoadRacer_Catalog_Track_Geofences",
   "metadata": {
     "version": 2,
-    "feature_count": 19,
+    "feature_count": 18,
     "detection": "haversine_point_radius",
     "source": "australian_motorsport_tracks_1km_geofences.geojson",
-    "note": "v2: the_bend split into the_bend_international + the_bend_gt; sydney_motorsport_park split into smp_gardner + smp_brabham + smp_druitt; mount_panorama, sandown, winton, calder_park added; added hidden_valley, baskerville"
+    "note": "v2: the_bend split into the_bend_international + the_bend_gt; sydney_motorsport_park split into smp_gardner + smp_brabham + smp_druitt; sandown, winton, calder_park, hidden_valley, baskerville added; mount_panorama removed from catalog"
   },
   "features": [
     {
@@ -227,26 +227,6 @@
         "coordinates": [
           145.0603,
           -37.2067
-        ]
-      }
-    },
-    {
-      "type": "Feature",
-      "properties": {
-        "trackId": "mount_panorama",
-        "name": "Mount Panorama Circuit (Bathurst)",
-        "radius_m": 1500,
-        "aliases": [
-          "Mount Panorama",
-          "Bathurst",
-          "Bathurst 1000"
-        ]
-      },
-      "geometry": {
-        "type": "Point",
-        "coordinates": [
-          149.5528,
-          -33.4491
         ]
       }
     },

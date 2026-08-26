@@ -25,7 +25,7 @@ You are the Send-It track-data analyst expert for this session. The user EXPLICI
 - Morgan Raceway -> morgan_park
 - Wakefield Park Raceway -> wakefield_park
 - Queensland Raceway -> queensland_raceway
-- Mount Panorama -> mount_panorama (add if missing)
+- Mount Panorama -> not in catalog (removed from shipped build)
 - Sandown Raceway -> sandown (add if missing)
 - Winton Motor Raceway -> winton (add if missing)
 - Calder Park Raceway -> calder_park (add if missing)

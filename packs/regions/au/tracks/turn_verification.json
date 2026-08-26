@@ -1,7 +1,7 @@
 {
   "version": 1,
   "policy": "left|right only when rider- or official-map-verified. GPX bearing alone must never set turn hand. Prefer complex over a wrong hand.",
-  "updated": "2026-08-11",
+  "updated": "2026-08-26",
   "forceAllComplex": [
     "the_bend_gt",
     "smp_brabham",
@@ -42,15 +42,13 @@
       "7": "right"
     },
     "mac_park": {
-      "2": "left",
       "3": "right",
       "4": "left",
       "5": "right",
       "7": "left",
       "8": "right",
       "10": "left",
-      "11": "right",
-      "12": "left"
+      "11": "right"
     },
     "morgan_park": {
       "3": "left",
@@ -67,7 +65,6 @@
       "4": "left",
       "5": "right",
       "8": "left",
-      "9": "right",
       "10": "left"
     },
     "wanneroo": {
@@ -86,8 +83,7 @@
       "12": "left",
       "13": "right",
       "14": "right",
-      "17": "right",
-      "18": "left"
+      "17": "right"
     },
     "smp_gardner": {
       "1": "left",
@@ -113,9 +109,18 @@
       "5": "right",
       "10": "right",
       "12": "left"
+    }
+  },
+  "demotedHands": {
+    "mac_park": {
+      "2": "Blind crest: GPX is straight between neighbours; prefer complex over a wrong left.",
+      "12": "No left after T11 in the GPX (close is a pit-entry right)."
     },
-    "mount_panorama": {
-      "1": "right"
+    "wakefield_park": {
+      "9": "No right between T8 and T10 in the GPX; prefer complex over a wrong right."
+    },
+    "the_bend_international": {
+      "18": "GPX close is pit-entry right, not the official final left; prefer complex over a wrong hand."
     }
   }
 }

@@ -6879,14 +6879,14 @@
       "number": 1,
       "label": "Turn 1 (Kitty's Corner)",
       "direction": "right",
-      "sNorm": 0.5632
+      "sNorm": 0.5525
     },
     {
       "id": "queensland_raceway_t2",
       "number": 2,
       "label": "Turn 2 (left hairpin)",
       "direction": "left",
-      "sNorm": 0.7647
+      "sNorm": 0.7659
     },
     {
       "id": "queensland_raceway_t3",
@@ -6900,16 +6900,16 @@
       "number": 5,
       "label": "Turn 5 (Spitfire / Thunderbolt hairpin)",
       "direction": "right",
-      "sNorm": 0.8072
+      "sNorm": 0.9572
     },
     {
       "id": "queensland_raceway_t6",
       "number": 6,
       "label": "Turn 6 (final corner onto main straight)",
       "direction": "right",
-      "sNorm": 0.9691
+      "sNorm": 0.9652
     }
   ],
-  "bakedAt": "2026-08-18",
+  "bakedAt": "2026-08-26",
   "sourceGpx": "Queensland_Raceway.gpx"
 }

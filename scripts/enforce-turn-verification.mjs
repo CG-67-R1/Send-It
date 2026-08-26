@@ -51,26 +51,6 @@ for (const track of catalog.tracks) {
   }
 }
 
-// Bathurst T1 = Hell Corner (right) when present
-const bath = catalog.tracks.find((t) => t.id === 'mount_panorama');
-if (bath) {
-  const t1 = bath.corners.find((c) => c.number === 1);
-  const hellElsewhere = bath.corners.find((c) => c.number !== 1 && /hell/i.test(c.label || ''));
-  if (t1) {
-    if (t1.label !== 'Hell Corner' || t1.direction !== 'right') {
-      changes.push('mount_panorama T1 → Hell Corner (right)');
-      t1.label = 'Hell Corner';
-      t1.shape = 'Hairpin';
-      t1.direction = 'right';
-    }
-  }
-  if (hellElsewhere) {
-    changes.push(`mount_panorama T${hellElsewhere.number}: demote duplicate Hell Corner label`);
-    hellElsewhere.label = `Turn ${hellElsewhere.number}`;
-    hellElsewhere.direction = 'complex';
-  }
-}
-
 console.log(write ? 'WRITE mode' : 'DRY-RUN (pass --write to apply)');
 console.log(`Changes: ${changes.length}`);
 for (const line of changes) console.log(' ', line);

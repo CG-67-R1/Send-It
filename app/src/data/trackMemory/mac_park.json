@@ -6387,7 +6387,7 @@
       "id": "mac_park_t2",
       "number": 2,
       "label": "Turn 2 (blind crest)",
-      "direction": "left",
+      "direction": "complex",
       "sNorm": 0.2077
     },
     {
@@ -6395,21 +6395,21 @@
       "number": 3,
       "label": "Turn 3",
       "direction": "right",
-      "sNorm": 0.3116
+      "sNorm": 0.3189
     },
     {
       "id": "mac_park_t4",
       "number": 4,
       "label": "Turn 4 (Left-hander)",
       "direction": "left",
-      "sNorm": 0.4419
+      "sNorm": 0.4428
     },
     {
       "id": "mac_park_t5",
       "number": 5,
       "label": "Turn 5 (Right-hand sweeper)",
       "direction": "right",
-      "sNorm": 0.4827
+      "sNorm": 0.4826
     },
     {
       "id": "mac_park_t6",
@@ -6423,14 +6423,14 @@
       "number": 7,
       "label": "Turn 7 (fast left sweeper / crest)",
       "direction": "left",
-      "sNorm": 0.6044
+      "sNorm": 0.6033
     },
     {
       "id": "mac_park_t8",
       "number": 8,
       "label": "Turn 8 (Fast Right)",
       "direction": "right",
-      "sNorm": 0.657
+      "sNorm": 0.7259
     },
     {
       "id": "mac_park_t9",
@@ -6444,24 +6444,24 @@
       "number": 10,
       "label": "Turn 10 (esses / blind crest)",
       "direction": "left",
-      "sNorm": 0.8556
+      "sNorm": 0.8575
     },
     {
       "id": "mac_park_t11",
       "number": 11,
       "label": "Turn 11 (esses right)",
       "direction": "right",
-      "sNorm": 0.9372
+      "sNorm": 0.8922
     },
     {
       "id": "mac_park_t12",
       "number": 12,
       "label": "Turn 12 (final left onto main straight)",
-      "direction": "left",
+      "direction": "complex",
       "sNorm": 0.9686
     }
   ],
-  "bakedAt": "2026-08-18",
+  "bakedAt": "2026-08-26",
   "sourceGpx": "mac_park.gpx",
   "hasElevation": true,
   "elevSpanM": 8,

@@ -220,7 +220,7 @@
           "number": 2,
           "label": "Turn 2 (blind crest)",
           "shape": "Corner / complex",
-          "direction": "left",
+          "direction": "complex",
           "approachFrom": "T1 (The Hairpin) exit"
         },
         {
@@ -300,7 +300,7 @@
           "number": 12,
           "label": "Turn 12 (final left onto main straight)",
           "shape": "Hairpin",
-          "direction": "left",
+          "direction": "complex",
           "approachFrom": "T11 (Turn 11) exit"
         },
         {
@@ -474,7 +474,7 @@
           "number": 9,
           "label": "Turn 9 (Fast Right Sweeper)",
           "shape": "Sweeper",
-          "direction": "right",
+          "direction": "complex",
           "approachFrom": "T8 (Turn 8) exit"
         },
         {
@@ -688,7 +688,7 @@
           "number": 18,
           "label": "Turn 18 (final left onto main straight)",
           "shape": "Corner / complex",
-          "direction": "left",
+          "direction": "complex",
           "approachFrom": "T17 exit"
         },
         {
@@ -1199,121 +1199,6 @@
         },
         {
           "id": "broadford_t_finish",
-          "number": null,
-          "label": "T-Finish",
-          "shape": "Straight",
-          "direction": "straight",
-          "approachFrom": "T12 exit onto main straight",
-          "isFinish": true
-        }
-      ]
-    },
-    {
-      "id": "mount_panorama",
-      "name": "Mount Panorama Circuit (Bathurst)",
-      "layout": "Mountain Circuit (6.213 km)",
-      "direction": "clockwise",
-      "lengthKm": "6.213 km",
-      "isOther": false,
-      "corners": [
-        {
-          "id": "mount_panorama_t1",
-          "number": 1,
-          "label": "Hell Corner",
-          "shape": "Hairpin",
-          "direction": "right",
-          "approachFrom": "main straight / start-finish"
-        },
-        {
-          "id": "mount_panorama_t2",
-          "number": 2,
-          "label": "Murray's Corner",
-          "shape": "Sweeper",
-          "direction": "complex",
-          "approachFrom": "T1 exit"
-        },
-        {
-          "id": "mount_panorama_t3",
-          "number": 3,
-          "label": "McPhillamy Park (left hairpin)",
-          "shape": "Hairpin",
-          "direction": "complex",
-          "approachFrom": "T2 exit"
-        },
-        {
-          "id": "mount_panorama_t4",
-          "number": 4,
-          "label": "Sulman Park / Frog Hollow kinks",
-          "shape": "Kink",
-          "direction": "complex",
-          "approachFrom": "T3 exit"
-        },
-        {
-          "id": "mount_panorama_t5",
-          "number": 5,
-          "label": "Skyline approach kinks",
-          "shape": "Kink",
-          "direction": "complex",
-          "approachFrom": "T4 exit"
-        },
-        {
-          "id": "mount_panorama_t6",
-          "number": 6,
-          "label": "Skyline left-right complex",
-          "shape": "Corner / complex",
-          "direction": "complex",
-          "approachFrom": "T5 exit"
-        },
-        {
-          "id": "mount_panorama_t7",
-          "number": 7,
-          "label": "The Dipper (fast left descent)",
-          "shape": "Sweeper",
-          "direction": "complex",
-          "approachFrom": "T6 exit"
-        },
-        {
-          "id": "mount_panorama_t8",
-          "number": 8,
-          "label": "Forrest's Elbow (right kink / descent)",
-          "shape": "Kink",
-          "direction": "complex",
-          "approachFrom": "T7 exit"
-        },
-        {
-          "id": "mount_panorama_t9",
-          "number": 9,
-          "label": "The Chase (Sweeper left)",
-          "shape": "Sweeper",
-          "direction": "complex",
-          "approachFrom": "T8 exit"
-        },
-        {
-          "id": "mount_panorama_t10",
-          "number": 10,
-          "label": "Murrays Hairpin (bottom of mountain, left hairpin)",
-          "shape": "Hairpin",
-          "direction": "complex",
-          "approachFrom": "T9 exit"
-        },
-        {
-          "id": "mount_panorama_t11",
-          "number": 11,
-          "label": "Reid Park left sweeper",
-          "shape": "Sweeper",
-          "direction": "complex",
-          "approachFrom": "T10 exit"
-        },
-        {
-          "id": "mount_panorama_t12",
-          "number": 12,
-          "label": "Turn 12",
-          "shape": "Hairpin",
-          "direction": "complex",
-          "approachFrom": "T11 exit"
-        },
-        {
-          "id": "mount_panorama_t_finish",
           "number": null,
           "label": "T-Finish",
           "shape": "Straight",

@@ -1,7 +1,7 @@
 {
   "version": 2,
   "policy": "left|right only with handSources evidence. Prefer complex over a wrong hand. Never set turn hand from GPX bearings or from circuit clockwise/anticlockwise alone.",
-  "updated": "2026-08-11",
+  "updated": "2026-08-26",
   "allowedSourceMethods": [
     "rider",
     "official_map",
@@ -52,15 +52,13 @@
       "7": "right"
     },
     "mac_park": {
-      "2": "left",
       "3": "right",
       "4": "left",
       "5": "right",
       "7": "left",
       "8": "right",
       "10": "left",
-      "11": "right",
-      "12": "left"
+      "11": "right"
     },
     "morgan_park": {
       "3": "left",
@@ -77,7 +75,6 @@
       "4": "left",
       "5": "right",
       "8": "left",
-      "9": "right",
       "10": "left"
     },
     "wanneroo": {
@@ -96,8 +93,7 @@
       "12": "left",
       "13": "right",
       "14": "right",
-      "17": "right",
-      "18": "left"
+      "17": "right"
     },
     "smp_gardner": {
       "1": "left",
@@ -123,9 +119,6 @@
       "5": "right",
       "10": "right",
       "12": "left"
-    },
-    "mount_panorama": {
-      "1": "right"
     }
   },
   "handSources": {
@@ -181,10 +174,6 @@
       }
     },
     "mac_park": {
-      "2": {
-        "hand": "left",
-        "method": "legacy_lock"
-      },
       "3": {
         "hand": "right",
         "method": "legacy_lock"
@@ -211,10 +200,6 @@
       },
       "11": {
         "hand": "right",
-        "method": "legacy_lock"
-      },
-      "12": {
-        "hand": "left",
         "method": "legacy_lock"
       }
     },
@@ -267,10 +252,6 @@
       },
       "8": {
         "hand": "left",
-        "method": "legacy_lock"
-      },
-      "9": {
-        "hand": "right",
         "method": "legacy_lock"
       },
       "10": {
@@ -336,10 +317,6 @@
       "17": {
         "hand": "right",
         "method": "legacy_lock"
-      },
-      "18": {
-        "hand": "left",
-        "method": "legacy_lock"
       }
     },
     "smp_gardner": {
@@ -423,13 +400,18 @@
         "hand": "left",
         "method": "legacy_lock"
       }
+    }
+  },
+  "demotedHands": {
+    "mac_park": {
+      "2": "Blind crest: GPX is straight between neighbours; prefer complex over a wrong left.",
+      "12": "No left after T11 in the GPX (close is a pit-entry right)."
     },
-    "mount_panorama": {
-      "1": {
-        "hand": "right",
-        "method": "legacy_lock",
-        "note": "Hell Corner"
-      }
+    "wakefield_park": {
+      "9": "No right between T8 and T10 in the GPX; prefer complex over a wrong right."
+    },
+    "the_bend_international": {
+      "18": "GPX close is pit-entry right, not the official final left; prefer complex over a wrong hand."
     }
   }
 }

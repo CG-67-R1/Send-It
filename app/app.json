@@ -43,7 +43,7 @@
       [
         "expo-image-picker",
         {
-          "photosPermission": "RoadRacer uses your photos so you can set a picture of your bike on the home screen."
+          "photosPermission": "RoadRacer uses your photos to set your bike photo and rider avatar, add images to Track Walk notes, and attach photos in Coach."
         }
       ],
       [
@@ -54,7 +54,13 @@
           "recordAudioAndroid": false
         }
       ],
-      "expo-speech-recognition",
+      [
+        "expo-speech-recognition",
+        {
+          "microphonePermission": "RoadRacer uses the microphone to transcribe voice notes in Track Walk.",
+          "speechRecognitionPermission": "RoadRacer uses speech recognition to transcribe voice notes in Track Walk."
+        }
+      ],
       [
         "expo-location",
         {

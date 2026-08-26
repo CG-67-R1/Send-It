@@ -71,7 +71,9 @@ import {
   clearAllBikeSetupData,
 } from '../storage/bikeSetupSheet';
 import { clearBikeBalanceState, loadBikeBalanceState } from '../storage/bikeBalance';
+import { clearGearingGuideState } from '../storage/gearingGuide';
 import { clearTrackWalkSessions } from '../storage/trackWalk';
+import { clearTyreWearAnalysisState } from '../storage/tyreWearAnalysis';
 import { clearBikePhoto } from '../storage/bikePhoto';
 
 type SettingsNav = NativeStackNavigationProp<
@@ -495,7 +497,7 @@ export function HeadlinesSettingsScreen() {
     if (!onboardingReset) return;
     Alert.alert(
       'Delete all local data?',
-      'This permanently removes your profile, photos, Bike Setup Sheet and saved setups, Bike Balance state, Track Walk notes, and news preferences from this device, then restarts onboarding.',
+      'This permanently removes your profile, photos, Bike Setup Sheet and saved setups, Bike Balance, Gearing Guide, Tyre Wear, Track Walk notes, and news preferences from this device, then restarts onboarding.',
       [
         { text: 'Cancel', style: 'cancel' },
         {
@@ -506,6 +508,8 @@ export function HeadlinesSettingsScreen() {
               await Promise.all([
                 clearAllBikeSetupData(),
                 clearBikeBalanceState(),
+                clearGearingGuideState(),
+                clearTyreWearAnalysisState(),
                 clearTrackWalkSessions(),
                 resetHeadlinesSettings(),
                 clearAvatarFacePhoto(),

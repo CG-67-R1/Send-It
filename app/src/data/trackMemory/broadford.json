@@ -5701,7 +5701,7 @@
       "number": 1,
       "label": "Turns 1 & 2 (Big Left Honda Corner double-apex)",
       "direction": "left",
-      "sNorm": 0.2232
+      "sNorm": 0.245
     },
     {
       "id": "broadford_t3",
@@ -5715,7 +5715,7 @@
       "number": 5,
       "label": "Turn 5 (Uphill Hairpin)",
       "direction": "right",
-      "sNorm": 0.5237
+      "sNorm": 0.501
     },
     {
       "id": "broadford_t6",
@@ -5736,17 +5736,17 @@
       "number": 10,
       "label": "Turns 10 & 11 (Twin Apex Rights)",
       "direction": "right",
-      "sNorm": 0.862
+      "sNorm": 0.8414
     },
     {
       "id": "broadford_t12",
       "number": 12,
       "label": "Turn 12 (final left onto straight)",
       "direction": "left",
-      "sNorm": 0.9815
+      "sNorm": 0.9546
     }
   ],
-  "bakedAt": "2026-08-18",
+  "bakedAt": "2026-08-26",
   "sourceGpx": "broadford.gpx",
   "hasElevation": true,
   "elevSpanM": 26.7,

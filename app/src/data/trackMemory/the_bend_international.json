@@ -8811,21 +8811,21 @@
       "number": 1,
       "label": "Turn 1 (Big Stop hairpin)",
       "direction": "right",
-      "sNorm": 0.2055
+      "sNorm": 0.2054
     },
     {
       "id": "the_bend_international_t2",
       "number": 2,
       "label": "Turn 2",
       "direction": "left",
-      "sNorm": 0.2295
+      "sNorm": 0.2276
     },
     {
       "id": "the_bend_international_t3",
       "number": 3,
       "label": "Turn 3",
       "direction": "right",
-      "sNorm": 0.2564
+      "sNorm": 0.255
     },
     {
       "id": "the_bend_international_t4",
@@ -8839,7 +8839,7 @@
       "number": 6,
       "label": "Turn 6 (long left hairpin, off-camber)",
       "direction": "left",
-      "sNorm": 0.3436
+      "sNorm": 0.4118
     },
     {
       "id": "the_bend_international_t7",
@@ -8853,28 +8853,28 @@
       "number": 11,
       "label": "Turn 11 (fast right after crest)",
       "direction": "right",
-      "sNorm": 0.5623
+      "sNorm": 0.5622
     },
     {
       "id": "the_bend_international_t12",
       "number": 12,
       "label": "Turn 12 (left, leads to back straight)",
       "direction": "left",
-      "sNorm": 0.6059
+      "sNorm": 0.6103
     },
     {
       "id": "the_bend_international_t13",
       "number": 13,
       "label": "Turn 13 (hairpin end of back straight)",
       "direction": "right",
-      "sNorm": 0.6295
+      "sNorm": 0.6317
     },
     {
       "id": "the_bend_international_t14",
       "number": 14,
       "label": "Turn 14 (right hairpin)",
       "direction": "right",
-      "sNorm": 0.7336
+      "sNorm": 0.7308
     },
     {
       "id": "the_bend_international_t15",
@@ -8888,16 +8888,16 @@
       "number": 17,
       "label": "Turn 17 (right hairpin, heavy braking)",
       "direction": "right",
-      "sNorm": 0.9373
+      "sNorm": 0.9354
     },
     {
       "id": "the_bend_international_t18",
       "number": 18,
       "label": "Turn 18 (final left onto main straight)",
-      "direction": "left",
+      "direction": "complex",
       "sNorm": 0.9918
     }
   ],
-  "bakedAt": "2026-08-18",
+  "bakedAt": "2026-08-26",
   "sourceGpx": "Tallem_Bend_International.gpx"
 }

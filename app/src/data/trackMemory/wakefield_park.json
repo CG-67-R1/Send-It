@@ -5871,35 +5871,35 @@
       "number": 1,
       "label": "Turn 1 (Left Kink)",
       "direction": "left",
-      "sNorm": 0.2329
+      "sNorm": 0.2359
     },
     {
       "id": "wakefield_park_t2",
       "number": 2,
       "label": "Turn 2 (Right Hairpin)",
       "direction": "right",
-      "sNorm": 0.4957
+      "sNorm": 0.5046
     },
     {
       "id": "wakefield_park_t3",
       "number": 3,
       "label": "Turn 3 (Left Bend over Crest)",
       "direction": "left",
-      "sNorm": 0.6169
+      "sNorm": 0.6808
     },
     {
       "id": "wakefield_park_t4",
       "number": 4,
       "label": "Turn 4 (Left-hander)",
       "direction": "left",
-      "sNorm": 0.6928
+      "sNorm": 0.6888
     },
     {
       "id": "wakefield_park_t5",
       "number": 5,
       "label": "Turn 5 (Right-hander)",
       "direction": "right",
-      "sNorm": 0.7782
+      "sNorm": 0.7806
     },
     {
       "id": "wakefield_park_t6",
@@ -5913,13 +5913,13 @@
       "number": 8,
       "label": "Turn 8 (Left kink)",
       "direction": "left",
-      "sNorm": 0.9266
+      "sNorm": 0.9255
     },
     {
       "id": "wakefield_park_t9",
       "number": 9,
       "label": "Turn 9 (Fast Right Sweeper)",
-      "direction": "right",
+      "direction": "complex",
       "sNorm": 0.959
     },
     {
@@ -5927,10 +5927,10 @@
       "number": 10,
       "label": "Turn 10 (Final Hairpin, The Sweeper)",
       "direction": "left",
-      "sNorm": 0.9915
+      "sNorm": 0.9903
     }
   ],
-  "bakedAt": "2026-08-18",
+  "bakedAt": "2026-08-26",
   "sourceGpx": "Wakefield_Park_Raceway.gpx",
   "hasElevation": true,
   "elevSpanM": 18.4,

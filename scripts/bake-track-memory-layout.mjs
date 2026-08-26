@@ -16,6 +16,7 @@ import {
   expandCornerSlots,
   findKinks,
   scoreAlignment,
+  snapStationsToVerifiedHands,
   turnEvents,
   turnRate,
 } from './lib/track-geometry.mjs';
@@ -42,7 +43,6 @@ const TRACK_GPX = {
   mac_park: { gpxName: 'mac_park.gpx', catalogId: 'mac_park', gpxDir: ZTRACKS_GPX_DIR },
   mallala: { gpxName: 'mallala.gpx', catalogId: 'mallala', gpxDir: ZTRACKS_GPX_DIR },
   morgan_park: { gpxName: 'morgan_park.gpx', catalogId: 'morgan_park', gpxDir: ZTRACKS_GPX_DIR },
-  mount_panorama: { gpxName: 'Mount_Panorama.gpx', catalogId: 'mount_panorama' },
   phillip_island: {
     gpxName: 'phillip_island.gpx',
     catalogId: 'phillip_island',
@@ -734,6 +734,12 @@ function placeCorners(catalogCorners, pts, lengthM, verifiedHands) {
     const to = after < playable.length ? sNorms[after] : 1;
     sNorms[i] = from + ((to - from) * (i - before)) / (after - before);
   }
+
+  sNorms.splice(
+    0,
+    sNorms.length,
+    ...snapStationsToVerifiedHands(playable, sNorms, pts, lengthM, verifiedHands)
+  );
 
   const corners = playable.map((c, i) => ({
     id: c.id,

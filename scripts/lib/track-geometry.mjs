@@ -167,20 +167,59 @@ export function findKinks(points, kinkDeg = 12) {
 }
 
 /** Averaged |deg/m| at a station that reads as cornering rather than a straight. */
-const AUDIT_DEG_PER_M = 0.25;
+export const AUDIT_DEG_PER_M = 0.25;
 
-/** Hand the geometry turns at a station, averaged over a corner-scale window. */
-export function handAt(points, lengthM, sNorm, rateCache) {
+export function avgTurnRateAt(points, lengthM, sNorm, rateCache) {
   const n = points.length;
   const rate = rateCache ?? turnRate(points, 15);
   const half = Math.max(1, Math.round((18 / lengthM) * n));
   const i0 = ((Math.round(sNorm * n) % n) + n) % n;
   let sum = 0;
   for (let k = -half; k <= half; k++) sum += rate[(((i0 + k) % n) + n) % n];
-  const avg = sum / (half * 2 + 1);
-  if (avg <= -AUDIT_DEG_PER_M) return 'left';
-  if (avg >= AUDIT_DEG_PER_M) return 'right';
+  return sum / (half * 2 + 1);
+}
+
+export function handFromRate(avg, floor = AUDIT_DEG_PER_M) {
+  if (avg <= -floor) return 'left';
+  if (avg >= floor) return 'right';
   return 'straight';
+}
+
+/** Hand the geometry turns at a station, averaged over a corner-scale window. */
+export function handAt(points, lengthM, sNorm, rateCache) {
+  return handFromRate(avgTurnRateAt(points, lengthM, sNorm, rateCache));
+}
+
+/**
+ * Slide each verified left|right station to the strongest matching-hand sample
+ * strictly between its neighbours. Does not invent a turn — if the window has
+ * no matching geometry the original station is kept.
+ */
+export function snapStationsToVerifiedHands(playable, sNorms, points, lengthM, verifiedHands) {
+  const rate = turnRate(points, 15);
+  const out = sNorms.slice();
+  for (let i = 0; i < playable.length; i++) {
+    const want = verifiedHands[String(playable[i].number)] ?? playable[i].direction;
+    if (want !== 'left' && want !== 'right') continue;
+    const lo = (i === 0 ? 0 : out[i - 1]) + 0.008;
+    const hi = (i === playable.length - 1 ? 0.999 : out[i + 1]) - 0.008;
+    if (!(hi > lo)) continue;
+    let bestS = null;
+    let bestMag = -1;
+    const steps = Math.max(32, Math.round((hi - lo) * 250));
+    for (let k = 0; k <= steps; k++) {
+      const s = lo + ((hi - lo) * k) / steps;
+      const avg = avgTurnRateAt(points, lengthM, s, rate);
+      if (handFromRate(avg) !== want) continue;
+      const mag = Math.abs(avg);
+      if (mag > bestMag) {
+        bestMag = mag;
+        bestS = s;
+      }
+    }
+    if (bestS != null) out[i] = bestS;
+  }
+  return out;
 }
 
 /**

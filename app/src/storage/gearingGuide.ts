@@ -104,3 +104,11 @@ export async function saveGearingGuideState(state: GearingGuideState): Promise<v
     logStorageError('saveGearingGuideState', e);
   }
 }
+
+export async function clearGearingGuideState(): Promise<void> {
+  try {
+    await AsyncStorage.removeItem(KEY);
+  } catch (e) {
+    logStorageError('clearGearingGuideState', e);
+  }
+}

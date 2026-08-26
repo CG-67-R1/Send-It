@@ -6,7 +6,6 @@ import lakeside from '../data/trackMemory/lakeside.json';
 import macPark from '../data/trackMemory/mac_park.json';
 import mallala from '../data/trackMemory/mallala.json';
 import morganPark from '../data/trackMemory/morgan_park.json';
-import mountPanorama from '../data/trackMemory/mount_panorama.json';
 import phillipIsland from '../data/trackMemory/phillip_island.json';
 import queenslandRaceway from '../data/trackMemory/queensland_raceway.json';
 import sandown from '../data/trackMemory/sandown.json';
@@ -29,7 +28,6 @@ const LAYOUTS: Record<string, TrackMemoryLayout> = {
   mac_park: macPark as TrackMemoryLayout,
   mallala: mallala as TrackMemoryLayout,
   morgan_park: morganPark as TrackMemoryLayout,
-  mount_panorama: mountPanorama as TrackMemoryLayout,
   phillip_island: phillipIsland as TrackMemoryLayout,
   queensland_raceway: queenslandRaceway as TrackMemoryLayout,
   sandown: sandown as TrackMemoryLayout,
