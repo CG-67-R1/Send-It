@@ -1,5 +1,5 @@
 {
-  "updatedAt": "2026-08-25T20:22:31.965Z",
+  "updatedAt": "2026-08-26T00:59:26.738Z",
   "sourceIds": [
     "ma_roadrace",
     "asbk",
@@ -9,128 +9,8 @@
     "visordown",
     "crash-net"
   ],
-  "count": 54,
+  "count": 39,
   "headlines": [
-    {
-      "title": "Vale Tom Williams",
-      "url": "https://www.ma.org.au/vale-tom-williams/",
-      "source": "Motorcycling Australia (Road Race)",
-      "sourceId": "ma_roadrace",
-      "date": "2026-07-10",
-      "imageUrl": "https://www.ma.org.au/wp-content/uploads/2026/07/D4S_7360-copy-300x200.jpg"
-    },
-    {
-      "title": "Cameron wraps up 2026 OJC in rollercoaster season finale",
-      "url": "https://www.ma.org.au/cameron-wraps-up-2026-ojc-in-rollercoaster-season-finale/",
-      "source": "Motorcycling Australia (Road Race)",
-      "sourceId": "ma_roadrace",
-      "date": "2026-06-30",
-      "imageUrl": "https://www.ma.org.au/wp-content/uploads/2026/06/Thomas-Cameron-2026-OJC-champion-300x200.jpg"
-    },
-    {
-      "title": "ASBK celebrations for Edwards, Farnsworth, King and Lewis at Queensland Raceway",
-      "url": "https://www.ma.org.au/asbk-celebrations-for-edwards-farnsworth-king-and-lewis-at-queensland-raceway/",
-      "source": "Motorcycling Australia (Road Race)",
-      "sourceId": "ma_roadrace",
-      "date": "2026-06-29",
-      "imageUrl": "https://www.ma.org.au/wp-content/uploads/2026/06/2026-ASBK-Rnd5-QLD-Raceway-RbMotoLens-RML_1882-web-res--300x200.jpg"
-    },
-    {
-      "title": "Voight clinches 2026 ASBK Championship in style at Queensland Raceway",
-      "url": "https://www.ma.org.au/voight-clinches-2026-asbk-championship-in-style-at-queensland-raceway/",
-      "source": "Motorcycling Australia (Road Race)",
-      "sourceId": "ma_roadrace",
-      "date": "2026-06-29",
-      "imageUrl": "https://www.ma.org.au/wp-content/uploads/2026/06/2026-ASBK-Rnd5-QLD-Raceway-RbMotoLens-RML_4332-1024x600-1-300x176.jpg"
-    },
-    {
-      "title": "Youth versus experience as ASBK reaches thrilling Queensland finale",
-      "url": "https://www.ma.org.au/youth-versus-experience-as-asbk-reaches-thrilling-queensland-finale/",
-      "source": "Motorcycling Australia (Road Race)",
-      "sourceId": "ma_roadrace",
-      "date": "2026-06-24",
-      "imageUrl": "https://www.ma.org.au/wp-content/uploads/2026/06/2025-ASBK-Rnd4-Morgan-Park-RbMotoLens-RML_0082-Q1-SBK-Harry-Voight-300x200.jpg"
-    },
-    {
-      "title": "Australian WorldSBK round moving to The Bend from 2028",
-      "url": "https://www.ma.org.au/australian-worldsbk-round-moving-to-the-bend-from-2028/",
-      "source": "Motorcycling Australia (Road Race)",
-      "sourceId": "ma_roadrace",
-      "date": "2026-06-19",
-      "imageUrl": "https://www.ma.org.au/wp-content/uploads/2026/06/2026-ASBK-Rnd3-TheBend-RbMotoLens-RML_5321--300x200.jpg"
-    },
-    {
-      "title": "Cameron stretches BLU CRU OJC lead after Morgan Park clean sweep",
-      "url": "https://www.ma.org.au/cameron-stretches-blu-cru-ojc-lead-after-morgan-park-clean-sweep/",
-      "source": "Motorcycling Australia (Road Race)",
-      "sourceId": "ma_roadrace",
-      "date": "2026-06-02",
-      "imageUrl": "https://www.ma.org.au/wp-content/uploads/2026/06/2025-ASBK-Rnd4-Morgan-Park-RbMotoLens-RML_0928-R1-OJC-Thomas-Cameron-webres-300x200.jpg"
-    },
-    {
-      "title": "Crunch time as Penrite ASBK Championship heads to Morgan Park",
-      "url": "https://www.ma.org.au/crunch-time-as-penrite-asbk-championship-heads-to-morgan-park/",
-      "source": "Motorcycling Australia (Road Race)",
-      "sourceId": "ma_roadrace",
-      "date": "2026-05-27",
-      "imageUrl": "https://www.ma.org.au/wp-content/uploads/2026/05/2025-ASBK-Rnd4-Morgan-Park-DJI_20250615075751_0063_D-Sunday-Morning-v2-1200x600-1-300x150.jpg"
-    },
-    {
-      "title": "FIM Intercontinental Games now heading to Brazil in December 2026",
-      "url": "https://www.ma.org.au/fim-intercontinental-games-now-heading-to-brazil-in-december-2026/",
-      "source": "Motorcycling Australia (Road Race)",
-      "sourceId": "ma_roadrace",
-      "date": "2026-05-11",
-      "imageUrl": "https://www.ma.org.au/wp-content/uploads/2026/05/Pits-300x200.jpg"
-    },
-    {
-      "title": "McKenna, Hyslop and Campbell share OJC spoils at The Bend",
-      "url": "https://www.ma.org.au/mckenna-hyslop-and-campbell-share-ojc-spoils-at-the-bend/",
-      "source": "Motorcycling Australia (Road Race)",
-      "sourceId": "ma_roadrace",
-      "date": "2026-05-05",
-      "imageUrl": "https://www.ma.org.au/wp-content/uploads/2026/05/2026-ASBK-Rnd3-TheBend-RbMotoLens-RML_8147-webres-300x200.jpg"
-    },
-    {
-      "title": "Dunker and Waters strike winning ASBK blows at The Bend",
-      "url": "https://www.ma.org.au/dunker-and-waters-strike-winning-asbk-blows-at-the-bend/",
-      "source": "Motorcycling Australia (Road Race)",
-      "sourceId": "ma_roadrace",
-      "date": "2026-05-04",
-      "imageUrl": "https://www.ma.org.au/wp-content/uploads/2026/05/Cameron-Dunker_webres-300x200.jpg"
-    },
-    {
-      "title": "Stakes rising as Penrite ASBK Championship returns to The Bend",
-      "url": "https://www.ma.org.au/stakes-rising-as-penrite-asbk-championship-returns-to-the-bend/",
-      "source": "Motorcycling Australia (Road Race)",
-      "sourceId": "ma_roadrace",
-      "date": "2026-04-30",
-      "imageUrl": "https://www.ma.org.au/wp-content/uploads/2026/04/The-Bend-aerial-view-300x200.jpg"
-    },
-    {
-      "title": "Team FIM Oceania expressions of interest open for 2027 FIM Intercontinental Games",
-      "url": "https://www.ma.org.au/team-fim-oceania-expressions-of-interest-open-for-2027-fim-intercontinental-games/",
-      "source": "Motorcycling Australia (Road Race)",
-      "sourceId": "ma_roadrace",
-      "date": "2026-04-02",
-      "imageUrl": "https://www.ma.org.au/wp-content/uploads/2026/04/ae2eefb4-98dd-078f-952e-b57e84c91545-300x200.jpg"
-    },
-    {
-      "title": "Cameron’s triple treat in 2026 BLU CRU Oceania Junior Cup opener",
-      "url": "https://www.ma.org.au/camerons-triple-treat-in-2026-blu-cru-oceania-junior-cup-opener/",
-      "source": "Motorcycling Australia (Road Race)",
-      "sourceId": "ma_roadrace",
-      "date": "2026-03-31",
-      "imageUrl": "https://www.ma.org.au/wp-content/uploads/2026/03/2026-ASBK-Rnd2-SMP-RbMotoLens-RML_1878--300x200.jpg"
-    },
-    {
-      "title": "Waters and Voight claim the Penrite ASBK honours at Sydney Motorsport Park",
-      "url": "https://www.ma.org.au/waters-and-voight-claim-the-penrite-asbk-honours-at-sydney-motorsport-park/",
-      "source": "Motorcycling Australia (Road Race)",
-      "sourceId": "ma_roadrace",
-      "date": "2026-03-30",
-      "imageUrl": "https://www.ma.org.au/wp-content/uploads/2026/03/2026-ASBK-Rnd2-SMP-RbMotoLens-RML_3718-R5-Race-Podium-SBK-Harry-Voight-Josh-Waters-Cru-Halliday-300x200.jpg"
-    },
     {
       "title": "ASBK | A season of change Mark Bracks is feeling the summer love already",
       "url": "https://amcn.com.au/editorial/asbk-season-of-change/",
@@ -297,7 +177,15 @@
       "source": "MCN",
       "sourceId": "mcn",
       "date": null,
-      "imageUrl": "https://www.motorcyclenews.com/wp-images/435214/480x320/dainese-project-apex-2026-18.jpg"
+      "imageUrl": "https://www.motorcyclenews.com/wp-images/435357/480x320/motorcycle-theft-01.jpg"
+    },
+    {
+      "title": "MAG relaunch Fight Motorcycle Theft campaign, demanding stolen bikes be properly counted",
+      "url": "https://www.motorcyclenews.com/news/2026/august/mag-relaunch-anti-theft-campaign-still-there-in-the-morning/",
+      "source": "MCN",
+      "sourceId": "mcn",
+      "date": null,
+      "imageUrl": "https://www.motorcyclenews.com/wp-images/435357/480x320/motorcycle-theft-01.jpg"
     },
     {
       "title": "Elite Dainese-backed racers feedback on next generation riding kit during special Project Apex event",
@@ -305,7 +193,7 @@
       "source": "MCN",
       "sourceId": "mcn",
       "date": null,
-      "imageUrl": "https://www.motorcyclenews.com/wp-images/435214/480x320/dainese-project-apex-2026-18.jpg"
+      "imageUrl": "https://www.motorcyclenews.com/wp-images/435357/480x320/motorcycle-theft-01.jpg"
     },
     {
       "title": "Ace Cafe has been forced to close its doors to the legendary Friday Bike Nights",
@@ -313,7 +201,7 @@
       "source": "MCN",
       "sourceId": "mcn",
       "date": null,
-      "imageUrl": "https://www.motorcyclenews.com/wp-images/435214/480x320/dainese-project-apex-2026-18.jpg"
+      "imageUrl": "https://www.motorcyclenews.com/wp-images/435357/480x320/motorcycle-theft-01.jpg"
     },
     {
       "title": "Triumph legend Norman Hyde launches 'Ride to Recall' after dementia diagnosis",
@@ -321,7 +209,7 @@
       "source": "MCN",
       "sourceId": "mcn",
       "date": null,
-      "imageUrl": "https://www.motorcyclenews.com/wp-images/435214/480x320/dainese-project-apex-2026-18.jpg"
+      "imageUrl": "https://www.motorcyclenews.com/wp-images/435357/480x320/motorcycle-theft-01.jpg"
     },
     {
       "title": "The 'barn find' of the year for mid-century Japanese bike enthusiasts, up for sale August 26",
@@ -329,7 +217,7 @@
       "source": "MCN",
       "sourceId": "mcn",
       "date": null,
-      "imageUrl": "https://www.motorcyclenews.com/wp-images/435214/480x320/dainese-project-apex-2026-18.jpg"
+      "imageUrl": "https://www.motorcyclenews.com/wp-images/435357/480x320/motorcycle-theft-01.jpg"
     },
     {
       "title": "Mike Hailwood's title-winning Honda RC173 to be auctioned with a record-beating price on the cards",
@@ -337,7 +225,7 @@
       "source": "MCN",
       "sourceId": "mcn",
       "date": null,
-      "imageUrl": "https://www.motorcyclenews.com/wp-images/435214/480x320/dainese-project-apex-2026-18.jpg"
+      "imageUrl": "https://www.motorcyclenews.com/wp-images/435357/480x320/motorcycle-theft-01.jpg"
     },
     {
       "title": "Honda unveil £37,730 John McGuinness 30th Anniversary Fireblade SP limited to 15 bikes",
@@ -345,7 +233,7 @@
       "source": "MCN",
       "sourceId": "mcn",
       "date": null,
-      "imageUrl": "https://www.motorcyclenews.com/wp-images/435214/480x320/dainese-project-apex-2026-18.jpg"
+      "imageUrl": "https://www.motorcyclenews.com/wp-images/435357/480x320/motorcycle-theft-01.jpg"
     },
     {
       "title": "E85 could save the internal combustion engine and Suzuki's SF 250 FFV shows the way",
@@ -353,7 +241,7 @@
       "source": "MCN",
       "sourceId": "mcn",
       "date": null,
-      "imageUrl": "https://www.motorcyclenews.com/wp-images/435214/480x320/dainese-project-apex-2026-18.jpg"
+      "imageUrl": "https://www.motorcyclenews.com/wp-images/435357/480x320/motorcycle-theft-01.jpg"
     },
     {
       "title": "Bangkok to Beaulieu! Extraordinary expedition ends after 101 days and 13,500 miles",
@@ -361,7 +249,7 @@
       "source": "MCN",
       "sourceId": "mcn",
       "date": null,
-      "imageUrl": "https://www.motorcyclenews.com/wp-images/435214/480x320/dainese-project-apex-2026-18.jpg"
+      "imageUrl": "https://www.motorcyclenews.com/wp-images/435357/480x320/motorcycle-theft-01.jpg"
     },
     {
       "title": "Meet the laser scanner now deciding if WorldSBK bikes are legal – and how the FIM checks the rules",
@@ -369,7 +257,7 @@
       "source": "MCN",
       "sourceId": "mcn",
       "date": null,
-      "imageUrl": "https://www.motorcyclenews.com/wp-images/435214/480x320/dainese-project-apex-2026-18.jpg"
+      "imageUrl": "https://www.motorcyclenews.com/wp-images/435357/480x320/motorcycle-theft-01.jpg"
     },
     {
       "title": "Spy shots point to possible new BMW F650GS twin to rival Yamaha’s Ténéré 700",
@@ -377,15 +265,7 @@
       "source": "MCN",
       "sourceId": "mcn",
       "date": null,
-      "imageUrl": "https://www.motorcyclenews.com/wp-images/435214/480x320/dainese-project-apex-2026-18.jpg"
-    },
-    {
-      "title": "Ten years on: remembering Cal Crutchlow's stunning Brno win that ended Britain's 35-year MotoGP wait",
-      "url": "https://www.motorcyclenews.com/news/2026/august/ten-years-since-cal-crutchlow-won-brno-motogp/",
-      "source": "MCN",
-      "sourceId": "mcn",
-      "date": null,
-      "imageUrl": "https://www.motorcyclenews.com/wp-images/435214/480x320/dainese-project-apex-2026-18.jpg"
+      "imageUrl": "https://www.motorcyclenews.com/wp-images/435357/480x320/motorcycle-theft-01.jpg"
     },
     {
       "title": "Motorcycle Maintenance",
