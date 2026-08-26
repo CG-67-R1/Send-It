@@ -20,6 +20,7 @@ import {
   eventIcsFilename,
   localEndOfDayFromIso,
   localMidnightFromIso,
+  normalizeEventDateRange,
   openEventIcsInBrowser,
 } from '../utils/eventIcs';
 import type { CalendarEvent } from '../types';
@@ -206,10 +207,11 @@ export function CalendarScreen() {
         Alert.alert('Not available', 'No writable calendar was found on this device.');
         return;
       }
+      const dates = normalizeEventDateRange(item.startDate, item.endDate);
       const result = await calendar.addEventWithForm({
         title: eventTitle(item),
-        startDate: localMidnightFromIso(item.startDate),
-        endDate: localEndOfDayFromIso(item.endDate),
+        startDate: localMidnightFromIso(dates.startDate),
+        endDate: localEndOfDayFromIso(dates.endDate),
         allDay: true,
         location: eventLocation(item) || undefined,
         notes: eventNotes(item),
