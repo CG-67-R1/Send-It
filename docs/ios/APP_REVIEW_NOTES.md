@@ -22,6 +22,7 @@ Record on the **same TestFlight build** attached to 1.0.0 (or a newer production
 - **Track Memory is in this build.** Rider Coach → Track Memory → pick a catalog circuit → Play. Landscape first-person Skia road with on-screen throttle/brake; coaching boards appear at named corners. On-device only (no account, not multiplayer).
 - **Permissions that can appear:** camera (avatar), photos (bike / notes / avatar library), calendar (Events → Add reminder), location (Settings → track arrival), notifications (Priority 1 news), speech/mic (Track Walk voice note if the native module is present).
 - **Network:** headlines, calendar, Coach / Bike Setup AI / Q&A via `https://send-it-ke7r.onrender.com` (Render) and OpenAI. First API call after idle can take ~30s (cold start) — wait rather than showing an error.
+- **`expo-speech-recognition` is pinned at `56.0.1`.** Expo SDK 57’s `~57.0.x` package is not published yet; keep 56 until a 57 release exists. Do not invent a 57 pin.
 - **Regions:** AU + UK packs. Same features; headlines, calendar, and track catalogs differ by locale. Not a regulated industry. News is headlines + links to publisher sites ([`COPYRIGHT.md`](../legal/COPYRIGHT.md)).
 
 ---

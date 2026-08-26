@@ -85,6 +85,7 @@ export function ImportTrackNotesScreen() {
       const result = await ImagePicker.launchImageLibraryAsync({
         mediaTypes: ['images'],
         quality: 0.7,
+        exif: false,
       });
       if (!result.canceled && result.assets?.length) {
         setPhotos((prev) => [...prev, ...result.assets.map((a) => a.uri)]);

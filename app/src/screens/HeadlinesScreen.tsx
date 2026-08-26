@@ -27,7 +27,7 @@ import { getTrackdayPrepHistory, type TrackdayPrepReport } from '../storage/trac
 import { HERO_AVATAR_BADGE_SIZE } from '../avatar/heroBadgeSizing';
 import { getAvatarPreset, getAvatarSource, getFaceHoleLayout } from '../avatar/presets';
 import { AvatarFaceEllipse } from '../components/AvatarFaceEllipse';
-import { homeModeFromActivity, type HomeMode } from '../navigation/homeMode';
+import { homeModeFromActivity, peekHomeMode, rememberHomeMode, type HomeMode } from '../navigation/homeMode';
 import type { RootTabParamList } from '../navigation/rootNavigation';
 
 type HeadlinesStackParamList = {
@@ -43,7 +43,7 @@ export function HeadlinesScreen() {
   const [nickname, setNickname] = useState<string>('');
   const [favouriteBike, setFavouriteBike] = useState('');
   const [pickingPhoto, setPickingPhoto] = useState(false);
-  const [homeMode, setHomeMode] = useState<HomeMode | null>(null);
+  const [homeMode, setHomeMode] = useState<HomeMode | null>(() => peekHomeMode());
   const [lastSession, setLastSession] = useState<BikeSetupDaySheet | null>(null);
   const [lastPrep, setLastPrep] = useState<TrackdayPrepReport | null>(null);
   const [avatarSource, setAvatarSource] = useState<ImageSourcePropType | null>(null);
@@ -61,7 +61,9 @@ export function HeadlinesScreen() {
     setBikePhotoUriState(uri);
     setNickname(answers?.riderNickname?.trim() || answers?.favouriteRider?.trim() || 'Rider');
     setFavouriteBike(answers?.favouriteBike?.trim() || '');
-    setHomeMode(homeModeFromActivity(answers?.activity));
+    const nextMode = homeModeFromActivity(answers?.activity);
+    rememberHomeMode(nextMode);
+    setHomeMode(nextMode);
     setLastSession(history.length ? history[history.length - 1] : null);
     setLastPrep(prepHistory[0] ?? null);
     const nextAvatarId = answers?.avatarId ?? null;
@@ -93,7 +95,8 @@ export function HeadlinesScreen() {
         mediaTypes: ['images'],
         allowsEditing: true,
         aspect: [16, 9],
-        quality: 0.8,
+        quality: 0.7,
+        exif: false,
       });
       if (!result.canceled && result.assets[0]) {
         const uri = await setBikePhotoUri(result.assets[0].uri);

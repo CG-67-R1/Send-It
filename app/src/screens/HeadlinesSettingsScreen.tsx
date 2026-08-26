@@ -56,7 +56,7 @@ import { AvatarFaceCameraModal } from '../components/AvatarFaceCameraModal';
 import { AvatarFaceEllipse } from '../components/AvatarFaceEllipse';
 import { AVATAR_PRESETS, DEFAULT_FACE_HOLE_LAYOUT, getAvatarPreset, getAvatarSource, getFaceHoleLayout } from '../avatar/presets';
 import { getOnboardingAnswers, updateOnboardingAnswers } from '../storage/onboarding';
-import { homeModeFromActivity, RIDE_ACTIVITY_OPTIONS, type RideActivity } from '../navigation/homeMode';
+import { homeModeFromActivity, rememberHomeMode, RIDE_ACTIVITY_OPTIONS, type RideActivity } from '../navigation/homeMode';
 import {
   clearAvatarFacePhoto,
   getAvatarFacePhotoUri,
@@ -247,6 +247,8 @@ export function HeadlinesSettingsScreen() {
           return;
         }
         setActivity(next);
+        rememberHomeMode(homeModeFromActivity(next));
+        rememberHomeMode(homeModeFromActivity(next));
       } catch (e) {
         Alert.alert('Error', e instanceof Error ? e.message : 'Could not save how you ride');
       } finally {

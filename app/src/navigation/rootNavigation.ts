@@ -15,6 +15,8 @@ export type RootTabParamList = {
           | 'TrackPrep'
           | 'TrackdayPrep'
           | 'TrackdayPrepReport'
+          | 'TrackMemoryHub'
+          | 'TrackMemory'
           | 'BikeSetupBasics'
           | 'ImportTrackNotes'
           | 'TyreWearAnalysis';

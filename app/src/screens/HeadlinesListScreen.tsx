@@ -141,30 +141,36 @@ export function HeadlinesListScreen() {
     }, [fetchHeadlines])
   );
 
-  const openLink = (url: string) => {
+  const openLink = useCallback((url: string) => {
     void safeOpenUrl(url, 'headline');
-  };
+  }, []);
 
-  const renderItem = ({ item, index }: { item: Headline; index: number }) => (
-    <TouchableOpacity
-      style={styles.item}
-      onPress={() => openLink(item.url)}
-      activeOpacity={0.7}
-    >
-      <View style={styles.itemRow}>
-        {index < 15 && item.imageUrl ? (
-          <HeadlineThumbnail uri={item.imageUrl} />
-        ) : null}
-        <View style={styles.itemBody}>
-          <Text style={styles.source}>{item.source}</Text>
-          <Text style={styles.title} numberOfLines={3}>{item.title}</Text>
-          <Text style={styles.tapHint}>Tap to open link →</Text>
+  const renderItem = useCallback(
+    ({ item, index }: { item: Headline; index: number }) => (
+      <TouchableOpacity
+        style={styles.item}
+        onPress={() => openLink(item.url)}
+        activeOpacity={0.7}
+      >
+        <View style={styles.itemRow}>
+          {index < 15 && item.imageUrl ? (
+            <HeadlineThumbnail uri={item.imageUrl} />
+          ) : null}
+          <View style={styles.itemBody}>
+            <Text style={styles.source}>{item.source}</Text>
+            <Text style={styles.title} numberOfLines={3}>{item.title}</Text>
+            <Text style={styles.tapHint}>Tap to open link →</Text>
+          </View>
         </View>
-      </View>
-    </TouchableOpacity>
+      </TouchableOpacity>
+    ),
+    [openLink]
   );
 
-  const keyExtractor = (item: Headline, index: number) => `${item.url}-${index}`;
+  const keyExtractor = useCallback(
+    (item: Headline, index: number) => `${item.url}-${index}`,
+    []
+  );
 
   const filteredHeadlines = useMemo(() => {
     if (viewMode === 'custom') {

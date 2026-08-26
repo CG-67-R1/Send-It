@@ -334,7 +334,7 @@ export function TrackWalkScreen() {
           Alert.alert('Camera', 'Allow camera access to take track photos.');
           return;
         }
-        const result = await ImagePicker.launchCameraAsync({ quality: 0.7 });
+        const result = await ImagePicker.launchCameraAsync({ quality: 0.7, exif: false });
         if (!result.canceled && result.assets?.[0]?.uri) {
           setDraftPhotos((prev) => [...prev, result.assets[0].uri]);
         }
@@ -350,6 +350,7 @@ export function TrackWalkScreen() {
         const result = await ImagePicker.launchImageLibraryAsync({
           mediaTypes: ['images'],
           quality: 0.7,
+          exif: false,
         });
         if (!result.canceled && result.assets?.length) {
           setDraftPhotos((prev) => [...prev, ...result.assets.map((a) => a.uri)]);

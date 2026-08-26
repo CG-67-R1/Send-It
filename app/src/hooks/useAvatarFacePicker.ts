@@ -34,6 +34,7 @@ export function useAvatarFacePicker({ onAligned, guardBusy = false }: Options) {
         mediaTypes: ['images'],
         allowsEditing: false,
         quality: 0.9,
+        exif: false,
       });
       if (!result.canceled && result.assets[0]) {
         setAlignImageUri(result.assets[0].uri);

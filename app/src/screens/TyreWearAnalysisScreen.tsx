@@ -6,12 +6,13 @@ import {
   ScrollView,
   StyleSheet,
   Text,
-  TextInput,
   TouchableOpacity,
   View,
 } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import type { NativeStackNavigationProp } from '@react-navigation/native-stack';
+import { ChipRow } from '../components/ChipRow';
+import { FormField } from '../components/FormField';
 import { PrivateSetupBanner } from '../components/PrivateSetupBanner';
 import { TrackPicker } from '../components/TrackPicker';
 import {
@@ -51,69 +52,6 @@ type Nav = NativeStackNavigationProp<RiderCoachStackParamList, 'TyreWearAnalysis
 
 type CoachImageAttachment = Extract<CoachAttachment, { kind: 'image' }>;
 type PhotoSlots = Partial<Record<TyrePhotoSlotId, CoachImageAttachment>>;
-
-function isSessionLengthPreset(value: string): boolean {
-  return (SESSION_LENGTH_OPTIONS as readonly string[]).includes(value);
-}
-
-function Field({
-  label,
-  value,
-  onChangeText,
-  placeholder,
-  keyboardType,
-  multiline,
-}: {
-  label: string;
-  value: string;
-  onChangeText: (text: string) => void;
-  placeholder?: string;
-  keyboardType?: 'default' | 'number-pad' | 'decimal-pad';
-  multiline?: boolean;
-}) {
-  return (
-    <View style={styles.field}>
-      <Text style={styles.label}>{label}</Text>
-      <TextInput
-        style={[styles.input, multiline && styles.inputMultiline]}
-        value={value}
-        onChangeText={onChangeText}
-        placeholder={placeholder}
-        placeholderTextColor="#64748b"
-        keyboardType={keyboardType ?? 'default'}
-        multiline={multiline}
-        textAlignVertical={multiline ? 'top' : 'center'}
-      />
-    </View>
-  );
-}
-
-function ChipRow<T extends string>({
-  options,
-  value,
-  onChange,
-}: {
-  options: { id: T; label: string }[];
-  value: T | null;
-  onChange: (id: T) => void;
-}) {
-  return (
-    <View style={styles.chipWrap}>
-      {options.map((opt) => {
-        const active = value === opt.id;
-        return (
-          <TouchableOpacity
-            key={opt.id}
-            style={[styles.chip, active && styles.chipActive]}
-            onPress={() => onChange(opt.id)}
-          >
-            <Text style={[styles.chipText, active && styles.chipTextActive]}>{opt.label}</Text>
-          </TouchableOpacity>
-        );
-      })}
-    </View>
-  );
-}
 
 export function TyreWearAnalysisScreen() {
   const navigation = useNavigation<Nav>();
@@ -392,7 +330,7 @@ export function TyreWearAnalysisScreen() {
         <Text style={styles.label}>Front or rear</Text>
         <ChipRow options={TYRE_AXLE_OPTIONS} value={state.axle} onChange={setAxle} />
 
-        <Field
+        <FormField
           label="Brand / model / compound"
           value={state.brandCompound}
           onChangeText={(t) => setState((prev) => ({ ...prev, brandCompound: t }))}
@@ -401,7 +339,7 @@ export function TyreWearAnalysisScreen() {
 
         <View style={styles.row2}>
           <View style={styles.flex}>
-            <Field
+            <FormField
               label={`Hot pit-in pressure (${state.pressureUnit})`}
               value={state.hotPressure}
               onChangeText={(t) => setState((prev) => ({ ...prev, hotPressure: t }))}
@@ -424,7 +362,7 @@ export function TyreWearAnalysisScreen() {
 
         <View style={styles.row2}>
           <View style={styles.flex}>
-            <Field
+            <FormField
               label="Track temp"
               value={state.trackTemp}
               onChangeText={(t) => setState((prev) => ({ ...prev, trackTemp: t }))}
@@ -433,7 +371,7 @@ export function TyreWearAnalysisScreen() {
             />
           </View>
           <View style={styles.flex}>
-            <Field
+            <FormField
               label="Ambient"
               value={state.ambientTemp}
               onChangeText={(t) => setState((prev) => ({ ...prev, ambientTemp: t }))}
@@ -444,28 +382,27 @@ export function TyreWearAnalysisScreen() {
         </View>
 
         <Text style={styles.label}>Session length</Text>
-        <View style={styles.chipWrap}>
-          {SESSION_LENGTH_OPTIONS.map((opt) => {
-            const active = state.sessionLength === opt;
-            return (
-              <TouchableOpacity
-                key={opt}
-                style={[styles.chip, active && styles.chipActive]}
-                onPress={() =>
-                  setState((prev) => ({
-                    ...prev,
-                    sessionLength: prev.sessionLength === opt ? '' : opt,
-                  }))
-                }
-              >
-                <Text style={[styles.chipText, active && styles.chipTextActive]}>{opt}</Text>
-              </TouchableOpacity>
-            );
-          })}
-        </View>
-        <Field
+        <ChipRow
+          options={SESSION_LENGTH_OPTIONS.map((opt) => ({ id: opt, label: opt }))}
+          value={
+            (SESSION_LENGTH_OPTIONS as readonly string[]).includes(state.sessionLength)
+              ? state.sessionLength
+              : null
+          }
+          onChange={(opt) =>
+            setState((prev) => ({
+              ...prev,
+              sessionLength: prev.sessionLength === opt ? '' : opt,
+            }))
+          }
+        />
+        <FormField
           label="Or type session length"
-          value={isSessionLengthPreset(state.sessionLength) ? '' : state.sessionLength}
+          value={
+            (SESSION_LENGTH_OPTIONS as readonly string[]).includes(state.sessionLength)
+              ? ''
+              : state.sessionLength
+          }
           onChangeText={(t) => setState((prev) => ({ ...prev, sessionLength: t }))}
           placeholder="e.g. 8 laps"
         />
@@ -491,7 +428,7 @@ export function TyreWearAnalysisScreen() {
           }
         />
 
-        <Field
+        <FormField
           label="What you felt (optional)"
           value={state.notes}
           onChangeText={(t) => setState((prev) => ({ ...prev, notes: t }))}
@@ -579,32 +516,10 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   slotBtnText: { color: '#f8fafc', fontWeight: '600' },
-  field: { marginBottom: 12 },
   label: { fontSize: 13, fontWeight: '600', color: '#94a3b8', marginBottom: 6 },
-  input: {
-    backgroundColor: '#1e293b',
-    borderRadius: 10,
-    paddingHorizontal: 14,
-    paddingVertical: 12,
-    fontSize: 16,
-    color: '#f8fafc',
-  },
-  inputMultiline: { minHeight: 88 },
   row2: { flexDirection: 'row', gap: 10 },
   flex: { flex: 1 },
   unitCol: { width: 120 },
-  chipWrap: { flexDirection: 'row', flexWrap: 'wrap', gap: 8, marginBottom: 12 },
-  chip: {
-    backgroundColor: '#1e293b',
-    borderRadius: 20,
-    paddingHorizontal: 12,
-    paddingVertical: 8,
-    borderWidth: 1,
-    borderColor: '#334155',
-  },
-  chipActive: { borderColor: '#f59e0b', backgroundColor: 'rgba(245,158,11,0.15)' },
-  chipText: { color: '#cbd5e1', fontSize: 13, fontWeight: '600' },
-  chipTextActive: { color: '#fbbf24' },
   hint: { fontSize: 13, color: '#94a3b8', lineHeight: 18, marginBottom: 10 },
   sendBtn: {
     marginTop: 8,

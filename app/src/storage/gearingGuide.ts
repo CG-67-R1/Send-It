@@ -5,6 +5,24 @@ import { logStorageError } from './logStorageError';
 
 const KEY = STORAGE_KEYS.GEARING_GUIDE_STATE;
 
+/** Bike identity / powerband keys that catalog apply + override tracking use. */
+export const GEARING_BIKE_FIELDS = [
+  'manufacturer',
+  'family',
+  'yearFrom',
+  'yearTo',
+  'capacityCc',
+  'engineConfig',
+  'peakTorqueRpm',
+  'peakPowerRpm',
+  'powerbandRpmFrom',
+  'powerbandRpmTo',
+] as const;
+
+export type GearingBikeField = (typeof GEARING_BIKE_FIELDS)[number];
+
+const BIKE_FIELD_SET = new Set<string>(GEARING_BIKE_FIELDS);
+
 export type GearingGuideState = {
   catalogId: string | null;
   manufacturer: string;
@@ -17,7 +35,7 @@ export type GearingGuideState = {
   peakPowerRpm: string;
   powerbandRpmFrom: string;
   powerbandRpmTo: string;
-  overriddenFields: string[];
+  overriddenFields: GearingBikeField[];
   frontTeeth: string;
   rearTeeth: string;
   newFrontTeeth: string;
@@ -73,7 +91,9 @@ function normalize(raw: Partial<GearingGuideState>): GearingGuideState {
     powerbandRpmFrom: asString(raw.powerbandRpmFrom),
     powerbandRpmTo: asString(raw.powerbandRpmTo),
     overriddenFields: Array.isArray(raw.overriddenFields)
-      ? raw.overriddenFields.filter((item): item is string => typeof item === 'string')
+      ? raw.overriddenFields.filter(
+          (item): item is GearingBikeField => typeof item === 'string' && BIKE_FIELD_SET.has(item)
+        )
       : [],
     frontTeeth: asString(raw.frontTeeth),
     rearTeeth: asString(raw.rearTeeth),

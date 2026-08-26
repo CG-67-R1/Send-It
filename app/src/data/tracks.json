@@ -715,7 +715,7 @@
           "number": 1,
           "label": "Turn 1 (right sweeper / entry)",
           "shape": "Sweeper",
-          "direction": "complex",
+          "direction": "right",
           "approachFrom": "main straight / start-finish"
         },
         {
@@ -723,7 +723,7 @@
           "number": 2,
           "label": "Turn 2 (left hairpin)",
           "shape": "Hairpin",
-          "direction": "complex",
+          "direction": "left",
           "approachFrom": "T1 exit"
         },
         {
@@ -731,7 +731,7 @@
           "number": 3,
           "label": "Turn 3 (right hairpin)",
           "shape": "Hairpin",
-          "direction": "complex",
+          "direction": "right",
           "approachFrom": "T2 exit"
         },
         {
@@ -739,7 +739,7 @@
           "number": 4,
           "label": "Turn 4 (right sweeper / infield loop)",
           "shape": "Sweeper",
-          "direction": "complex",
+          "direction": "right",
           "approachFrom": "T3 exit"
         },
         {
@@ -747,7 +747,7 @@
           "number": 5,
           "label": "Turn 5 (left hairpin)",
           "shape": "Hairpin",
-          "direction": "complex",
+          "direction": "left",
           "approachFrom": "T4 exit"
         },
         {
@@ -763,7 +763,7 @@
           "number": 7,
           "label": "Turn 7 (right hairpin / back section)",
           "shape": "Hairpin",
-          "direction": "complex",
+          "direction": "right",
           "approachFrom": "T6 exit"
         },
         {
@@ -771,7 +771,7 @@
           "number": 8,
           "label": "Turn 8 (left hairpin)",
           "shape": "Hairpin",
-          "direction": "complex",
+          "direction": "left",
           "approachFrom": "T7 exit"
         },
         {
@@ -779,7 +779,7 @@
           "number": 9,
           "label": "Turn 9 (right sweeper)",
           "shape": "Sweeper",
-          "direction": "complex",
+          "direction": "right",
           "approachFrom": "T8 exit"
         },
         {

@@ -10,8 +10,9 @@ export async function safeOpenUrl(url: string, label = 'link'): Promise<void> {
     Alert.alert('Link unavailable', `This ${label} is not available right now.`);
     return;
   }
+  let parsed: URL;
   try {
-    const parsed = new URL(url);
+    parsed = new URL(url);
     if (!SAFE_SCHEMES.includes(parsed.protocol)) {
       Alert.alert('Unsafe link', 'This link uses an unsupported scheme and was blocked.');
       return;
@@ -23,6 +24,16 @@ export async function safeOpenUrl(url: string, label = 'link'): Promise<void> {
   try {
     await Linking.openURL(url);
   } catch {
+    if (parsed.protocol === 'mailto:') {
+      const address = decodeURIComponent(
+        parsed.pathname || parsed.href.replace(/^mailto:/i, '').split('?')[0]
+      );
+      Alert.alert(
+        'Could not open email',
+        `No email app available. Write to ${address || 'projectapex@outlook.com.au'}.`
+      );
+      return;
+    }
     Alert.alert('Could not open link', 'Try again or open it from your browser.');
   }
 }

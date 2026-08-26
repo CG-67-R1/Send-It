@@ -13,3 +13,14 @@ export const RIDE_ACTIVITY_OPTIONS: { value: RideActivity; label: string }[] = [
 export function homeModeFromActivity(activity: RideActivity | null | undefined): HomeMode {
   return activity === 'race' ? 'setup' : 'learn';
 }
+
+let cachedHomeMode: HomeMode | null = null;
+
+/** Last resolved home mode for remounts so the activity card does not flash empty. */
+export function peekHomeMode(): HomeMode | null {
+  return cachedHomeMode;
+}
+
+export function rememberHomeMode(mode: HomeMode): void {
+  cachedHomeMode = mode;
+}

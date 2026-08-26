@@ -33,13 +33,16 @@ import {
   resolveBikeProvenance,
   type BikePowerbandRef,
   type EngineConfig,
-  type GearingGoalId,
 } from '../calc/gearing';
+import { ChipRow } from '../components/ChipRow';
+import { FormField } from '../components/FormField';
 import type { TrackDefinition } from '../data/tracks';
 import {
   emptyGearingGuideState,
+  GEARING_BIKE_FIELDS,
   loadGearingGuideState,
   saveGearingGuideState,
+  type GearingBikeField,
   type GearingGuideState,
 } from '../storage/gearingGuide';
 import { getBikeSetupDaySheet, parseFavouriteBike } from '../storage/bikeSetupSheet';
@@ -50,20 +53,7 @@ import type { RiderCoachStackParamList } from './RiderCoachScreen';
 
 type Nav = NativeStackNavigationProp<RiderCoachStackParamList, 'GearingGuide'>;
 
-const BIKE_FIELDS = [
-  'manufacturer',
-  'family',
-  'yearFrom',
-  'yearTo',
-  'capacityCc',
-  'engineConfig',
-  'peakTorqueRpm',
-  'peakPowerRpm',
-  'powerbandRpmFrom',
-  'powerbandRpmTo',
-] as const;
-
-type BikeField = (typeof BIKE_FIELDS)[number];
+type BikeField = GearingBikeField;
 
 function catalogToFields(row: BikePowerbandRef): Pick<GearingGuideState, BikeField> {
   return {
@@ -83,39 +73,11 @@ function catalogToFields(row: BikePowerbandRef): Pick<GearingGuideState, BikeFie
 function applyCatalog(state: GearingGuideState, row: BikePowerbandRef): GearingGuideState {
   const next = catalogToFields(row);
   const merged: GearingGuideState = { ...state, catalogId: row.id };
-  for (const field of BIKE_FIELDS) {
+  for (const field of GEARING_BIKE_FIELDS) {
     if (state.overriddenFields.includes(field)) continue;
     merged[field] = next[field] as never;
   }
   return merged;
-}
-
-function Field({
-  label,
-  value,
-  onChangeText,
-  placeholder,
-  keyboardType,
-}: {
-  label: string;
-  value: string;
-  onChangeText: (text: string) => void;
-  placeholder?: string;
-  keyboardType?: 'default' | 'number-pad';
-}) {
-  return (
-    <View style={styles.field}>
-      <Text style={styles.label}>{label}</Text>
-      <TextInput
-        style={styles.input}
-        value={value}
-        onChangeText={onChangeText}
-        placeholder={placeholder}
-        placeholderTextColor="#64748b"
-        keyboardType={keyboardType ?? 'default'}
-      />
-    </View>
-  );
 }
 
 function teethRange(min: number, max: number): number[] {
@@ -391,7 +353,7 @@ export function GearingGuideScreen() {
         <Text style={styles.badge}>{provenanceLabel}</Text>
         <View style={styles.row2}>
           <View style={styles.flex}>
-            <Field
+            <FormField
               label="Manufacturer"
               value={state.manufacturer}
               onChangeText={(t) => setBikeField('manufacturer', t)}
@@ -399,7 +361,7 @@ export function GearingGuideScreen() {
             />
           </View>
           <View style={styles.flex}>
-            <Field
+            <FormField
               label="Model"
               value={state.family}
               onChangeText={(t) => setBikeField('family', t)}
@@ -409,7 +371,7 @@ export function GearingGuideScreen() {
         </View>
         <View style={styles.row2}>
           <View style={styles.flex}>
-            <Field
+            <FormField
               label="Year from"
               value={state.yearFrom}
               onChangeText={(t) => setBikeField('yearFrom', t)}
@@ -418,7 +380,7 @@ export function GearingGuideScreen() {
             />
           </View>
           <View style={styles.flex}>
-            <Field
+            <FormField
               label="Year to"
               value={state.yearTo}
               onChangeText={(t) => setBikeField('yearTo', t)}
@@ -429,7 +391,7 @@ export function GearingGuideScreen() {
         </View>
         <View style={styles.row2}>
           <View style={styles.flex}>
-            <Field
+            <FormField
               label="Capacity (cc)"
               value={state.capacityCc}
               onChangeText={(t) => setBikeField('capacityCc', t)}
@@ -455,7 +417,7 @@ export function GearingGuideScreen() {
         </ScrollView>
         <View style={styles.row2}>
           <View style={styles.flex}>
-            <Field
+            <FormField
               label="Peak torque RPM"
               value={state.peakTorqueRpm}
               onChangeText={(t) => setBikeField('peakTorqueRpm', t)}
@@ -464,7 +426,7 @@ export function GearingGuideScreen() {
             />
           </View>
           <View style={styles.flex}>
-            <Field
+            <FormField
               label="Peak power RPM"
               value={state.peakPowerRpm}
               onChangeText={(t) => setBikeField('peakPowerRpm', t)}
@@ -475,7 +437,7 @@ export function GearingGuideScreen() {
         </View>
         <View style={styles.row2}>
           <View style={styles.flex}>
-            <Field
+            <FormField
               label="Powerband from"
               value={state.powerbandRpmFrom}
               onChangeText={(t) => setBikeField('powerbandRpmFrom', t)}
@@ -483,7 +445,7 @@ export function GearingGuideScreen() {
             />
           </View>
           <View style={styles.flex}>
-            <Field
+            <FormField
               label="Powerband to"
               value={state.powerbandRpmTo}
               onChangeText={(t) => setBikeField('powerbandRpmTo', t)}
@@ -544,26 +506,17 @@ export function GearingGuideScreen() {
         {newPairError ? <Text style={styles.fieldError}>{newPairError}</Text> : null}
 
         <Text style={styles.section}>What are you trying to fix?</Text>
-        <View style={styles.chipWrap}>
-          {GEARING_GOALS.map((goal) => {
-            const active = state.goalId === goal.id;
-            return (
-              <TouchableOpacity
-                key={goal.id}
-                style={[styles.chip, styles.chipWrapItem, active && styles.chipActive]}
-                onPress={() =>
-                  setState((prev) => ({
-                    ...prev,
-                    goalId: prev.goalId === goal.id ? null : (goal.id as GearingGoalId),
-                  }))
-                }
-              >
-                <Text style={[styles.chipText, active && styles.chipTextActive]}>{goal.label}</Text>
-              </TouchableOpacity>
-            );
-          })}
-        </View>
-        <Field
+        <ChipRow
+          options={GEARING_GOALS.map((goal) => ({ id: goal.id, label: goal.label }))}
+          value={state.goalId}
+          onChange={(id) =>
+            setState((prev) => ({
+              ...prev,
+              goalId: prev.goalId === id ? null : id,
+            }))
+          }
+        />
+        <FormField
           label="Your request (optional)"
           value={state.requestText}
           onChangeText={(t) => setState((prev) => ({ ...prev, requestText: t }))}
@@ -704,21 +657,10 @@ const styles = StyleSheet.create({
   pickerText: { fontSize: 16, color: '#f8fafc', flex: 1 },
   chevron: { color: '#94a3b8', fontSize: 12, marginLeft: 8 },
   badge: { fontSize: 12, color: '#fbbf24', marginTop: 6, marginBottom: 10 },
-  field: { marginBottom: 12 },
   label: { fontSize: 13, fontWeight: '600', color: '#94a3b8', marginBottom: 6 },
-  input: {
-    backgroundColor: '#1e293b',
-    borderRadius: 10,
-    paddingHorizontal: 14,
-    paddingVertical: 12,
-    fontSize: 16,
-    color: '#f8fafc',
-  },
   row2: { flexDirection: 'row', gap: 10 },
   flex: { flex: 1 },
   chipScroll: { marginBottom: 12 },
-  chipWrap: { flexDirection: 'row', flexWrap: 'wrap', gap: 8, marginBottom: 12 },
-  chipWrapItem: { marginBottom: 0 },
   chip: {
     backgroundColor: '#1e293b',
     borderRadius: 20,

@@ -50,8 +50,8 @@ const TRACK_GPX = {
   },
   // Leave on Desktop Emtron — DEM span ~5 m / KB flat; do not bake elevation
   queensland_raceway: { gpxName: 'Queensland_Raceway.gpx', catalogId: 'queensland_raceway' },
-  sandown: { gpxName: 'sandown.gpx', catalogId: 'sandown', gpxDir: ZTRACKS_GPX_DIR },
-  smp_brabham: { gpxName: 'Sydney_Motorsport_Park_-_Brabham.gpx', catalogId: 'smp_brabham' },
+  sandown: { gpxName: 'sandown.gpx', catalogId: 'sandown', gpxDir: ZTRACKS_GPX_DIR, planarSmoothM: 24 },
+  smp_brabham: { gpxName: 'Sydney_Motorsport_Park_-_Brabham.gpx', catalogId: 'smp_brabham', planarSmoothM: 22 },
   smp_druitt: { gpxName: 'smp_druitt.gpx', catalogId: 'smp_druitt', gpxDir: ZTRACKS_GPX_DIR },
   smp_gardner: { gpxName: 'Sydney_Motorsport_Park_-_GP.gpx', catalogId: 'smp_gardner' },
   // Emtron (Tallem_* typo) is a single clean lap. The DEM copies are ~2× catalog
@@ -62,7 +62,7 @@ const TRACK_GPX = {
     catalogId: 'the_bend_international',
   },
   wakefield_park: { gpxName: 'Wakefield_Park_Raceway.gpx', catalogId: 'wakefield_park' },
-  wanneroo: { gpxName: 'wanneroo.gpx', catalogId: 'wanneroo', gpxDir: ZTRACKS_GPX_DIR },
+  wanneroo: { gpxName: 'wanneroo.gpx', catalogId: 'wanneroo', gpxDir: ZTRACKS_GPX_DIR, planarSmoothM: 22 },
   winton: { gpxName: 'winton.gpx', catalogId: 'winton', gpxDir: ZTRACKS_GPX_DIR },
   lakeside: { gpxName: 'lakeside.gpx', catalogId: 'lakeside', gpxDir: ZTRACKS_GPX_DIR },
 };
@@ -805,7 +805,7 @@ function bakeOne(trackId, gpxArg) {
   const approxLen = pathLengthClosed(smoothed);
   const nPoints = targetPointCount(approxLen);
   const resampled = resample(smoothed, nPoints);
-  const planar = smoothPlanar(resampled.points, resampled.lengthM, 14);
+  const planar = smoothPlanar(resampled.points, resampled.lengthM, meta.planarSmoothM ?? 14);
   const lengthM = pathLengthClosed(planar);
   // DEM cells are ~30 m and GPS altitude is noisy; smooth here so the renderer
   // can read heights straight off the point list.

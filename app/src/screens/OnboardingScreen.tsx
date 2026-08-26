@@ -166,11 +166,7 @@ export function OnboardingScreen({ onComplete }: OnboardingScreenProps) {
       ];
       const body = encodeURIComponent(bodyLines.join('\n'));
       const mailtoUrl = `mailto:projectapex@outlook.com.au?subject=${subject}&body=${body}`;
-      try {
-        await safeOpenUrl(mailtoUrl, 'email');
-      } catch {
-        // Fail silently if email app cannot be opened.
-      }
+      await safeOpenUrl(mailtoUrl, 'email');
     }
 
     if (step < totalSteps - 1) {

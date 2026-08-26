@@ -79,7 +79,6 @@ export function CoachChatScreen() {
     if (lastSeedKeyRef.current === seedKey) return;
     lastSeedKeyRef.current = seedKey;
     setMessages(ensureMessageIds(seed));
-    setTimeout(() => scrollRef.current?.scrollToEnd({ animated: true }), 150);
   }, [route.params?.seedMessages]);
 
   useEffect(() => {
@@ -198,8 +197,10 @@ export function CoachChatScreen() {
 
   const addAttachment = useCallback(async (picker: () => Promise<CoachAttachment | null>) => {
     if (!canAddAttachment(pendingAttachments.length)) return;
+    const generation = conversationGenerationRef.current;
     const att = await picker();
     if (!att) return;
+    if (generation !== conversationGenerationRef.current) return;
     setPendingAttachments((prev) => [...prev, att]);
     setError(null);
   }, [pendingAttachments.length]);
@@ -275,7 +276,6 @@ export function CoachChatScreen() {
       if (result.suggestMode && result.suggestMode !== mode) {
         setSuggestMode(result.suggestMode);
       }
-      setTimeout(() => scrollRef.current?.scrollToEnd({ animated: true }), 100);
     } catch (e) {
       if (requestGeneration !== conversationGenerationRef.current) return;
       setMessages((prev) => prev.slice(0, -1));
@@ -300,6 +300,7 @@ export function CoachChatScreen() {
           contentContainerStyle={styles.scrollContent}
           keyboardShouldPersistTaps="handled"
           showsVerticalScrollIndicator={false}
+          onContentSizeChange={() => scrollRef.current?.scrollToEnd({ animated: true })}
         >
           {messages.length === 0 && mode === 'bikesetup' ? (
             <View style={styles.welcome}>

@@ -8810,66 +8810,66 @@
       "id": "the_bend_gt_t1",
       "number": 1,
       "label": "Turn 1 (right sweeper / entry)",
-      "direction": "complex",
-      "sNorm": 0.1641
+      "direction": "right",
+      "sNorm": 0.132
     },
     {
       "id": "the_bend_gt_t2",
       "number": 2,
       "label": "Turn 2 (left hairpin)",
-      "direction": "complex",
-      "sNorm": 0.2682
+      "direction": "left",
+      "sNorm": 0.2672
     },
     {
       "id": "the_bend_gt_t3",
       "number": 3,
       "label": "Turn 3 (right hairpin)",
-      "direction": "complex",
-      "sNorm": 0.3559
+      "direction": "right",
+      "sNorm": 0.5273
     },
     {
       "id": "the_bend_gt_t4",
       "number": 4,
       "label": "Turn 4 (right sweeper / infield loop)",
-      "direction": "complex",
-      "sNorm": 0.3945
+      "direction": "right",
+      "sNorm": 0.6311
     },
     {
       "id": "the_bend_gt_t5",
       "number": 5,
       "label": "Turn 5 (left hairpin)",
-      "direction": "complex",
-      "sNorm": 0.6314
+      "direction": "left",
+      "sNorm": 0.7504
     },
     {
       "id": "the_bend_gt_t6",
       "number": 6,
       "label": "Turn 6 (infield complex / esses)",
       "direction": "complex",
-      "sNorm": 0.7264
+      "sNorm": 0.7823
     },
     {
       "id": "the_bend_gt_t7",
       "number": 7,
       "label": "Turn 7 (right hairpin / back section)",
-      "direction": "complex",
-      "sNorm": 0.7509
+      "direction": "right",
+      "sNorm": 0.8326
     },
     {
       "id": "the_bend_gt_t8",
       "number": 8,
       "label": "Turn 8 (left hairpin)",
-      "direction": "complex",
-      "sNorm": 0.7823
+      "direction": "left",
+      "sNorm": 0.8711
     },
     {
       "id": "the_bend_gt_t9",
       "number": 9,
       "label": "Turn 9 (right sweeper)",
-      "direction": "complex",
-      "sNorm": 0.9568
+      "direction": "right",
+      "sNorm": 0.956
     }
   ],
-  "bakedAt": "2026-08-18",
+  "bakedAt": "2026-08-26",
   "sourceGpx": "Tallem_Bend_GT.gpx"
 }

@@ -95,6 +95,7 @@ export async function pickCoachPhotoFromLibrary(): Promise<CoachAttachment | nul
   const result = await ImagePicker.launchImageLibraryAsync({
     mediaTypes: ['images'],
     quality: 0.65,
+    exif: false,
     base64: true,
   });
   if (result.canceled) return null;
@@ -110,6 +111,7 @@ export async function takeCoachPhoto(): Promise<CoachAttachment | null> {
 
   const result = await ImagePicker.launchCameraAsync({
     quality: 0.65,
+    exif: false,
     base64: true,
   });
   if (result.canceled) return null;
