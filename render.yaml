@@ -1,0 +1,17 @@
+# Blueprint for the live API: https://send-it-ke7r.onrender.com
+# If the service was created in the dashboard (not from this file), copy the
+# buildFilter / rootDir settings there instead of creating a second web service.
+services:
+  - type: web
+    name: send-it-ke7r
+    runtime: node
+    rootDir: api
+    buildCommand: npm install
+    startCommand: npm start
+    healthCheckPath: /health
+    buildFilter:
+      paths:
+        - api/**
+      ignoredPaths:
+        - api/data/au-headlines.json
+        - api/data/au-road-race-events.json

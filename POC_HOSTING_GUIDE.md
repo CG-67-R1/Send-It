@@ -207,8 +207,8 @@ If you prefer Netlify:
 - **API returns 503 or times out:**  
   On Render’s free tier, the service sleeps after inactivity. The first request after a while can take 30–50 seconds; refresh once and wait.
 
-- **Build fails on Render:**  
-  Ensure **Build Command** and **Start Command** point to the `api` folder (`cd api && npm install`, `cd api && npm start`) and that **Root Directory** (if used) matches your repo layout.
+- **Build fails on Render / daily failure emails:**  
+  Set **Root Directory** to `api` (Build `npm install`, Start `npm start`) and auto-deploy **only** `api/**`, ignoring `api/data/au-headlines.json`. Cache-only commits must use `[skip render]`. See [`ENVIRONMENT.md`](ENVIRONMENT.md) and [`render.yaml`](render.yaml).
 
 ---
 

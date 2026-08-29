@@ -1,8 +1,9 @@
 name: Refresh AU headlines cache
 
+# Manual only. A 4-hour schedule used to commit to main every cycle, which
+# auto-deployed the Render API and mailed "build/deploy failed" all day.
+# Weekly refresh: .github/workflows/refresh-au-caches.yml
 on:
-  schedule:
-    - cron: '0 */4 * * *'
   workflow_dispatch:
 
 permissions:
@@ -33,5 +34,5 @@ jobs:
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
           git add api/data/au-headlines.json
-          git diff --staged --quiet || git commit -m "chore: refresh AU headlines cache"
+          git diff --staged --quiet || git commit -m "chore: refresh AU headlines cache [skip render]"
           git push
