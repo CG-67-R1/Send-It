@@ -1,0 +1,7 @@
+{
+  "packs": [
+    "au",
+    "uk"
+  ],
+  "notes": "Hybrid release: Australia home + United Kingdom scale launch. PackLoader loads listed packs only; run sync-app-packs after edits."
+}

@@ -1,0 +1,28 @@
+node_modules/
+.expo/
+dist/
+.env
+.env.local
+*.local
+
+# Android build outputs (keep the Gradle project in git)
+android/.gradle/
+android/build/
+android/app/build/
+android/app/.cxx/
+android/local.properties
+android/.idea/
+android/*.iml
+android/captures/
+android/.cxx/
+
+# Signing — never commit (keep the RN debug keystore so local installs match)
+*.keystore
+!**/debug.keystore
+*.jks
+*.keystore.properties
+google-services.json
+play-service-account.json
+
+# Scratch font downloads (licensed copy lives in assets/fonts/)
+assets/fonts-temp/

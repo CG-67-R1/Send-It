@@ -67,7 +67,7 @@ JS exceptions, React render crashes, and native crashes are sent to Sentry when 
 
 | Where | Variable | Purpose |
 |-------|----------|---------|
-| Vercel (web) + EAS (iOS/Android) + `app/.env` | `EXPO_PUBLIC_SENTRY_DSN` | Enables the SDK. Public; it is inlined into the bundle. |
+| Vercel (web) + EAS iOS (`app/.env`) + EAS Android (`android-app/.env`) | `EXPO_PUBLIC_SENTRY_DSN` | Enables the SDK. Public; it is inlined into the bundle. |
 | EAS secrets only | `SENTRY_AUTH_TOKEN` | Uploads source maps / dSYMs on production EAS builds. |
 | EAS secrets only | `SENTRY_ORG` | Sentry org slug (for symbol upload). |
 | EAS secrets only | `SENTRY_PROJECT` | Sentry project slug (for symbol upload). |
@@ -89,6 +89,7 @@ Privacy: `sendDefaultPii` is off; Coach / Q&A request bodies are not attached; s
 | **Hermes (Nous)** | Daily gate + weekly review | `.\scripts\setup-hermes-cron.ps1` then paste cron blocks in Hermes |
 | **Scripts** | Production probe | `node scripts/verify-production.mjs` |
 | **Scripts** | iOS tab smoke test | `node scripts/ios-smoke-test.mjs` |
+| **Scripts** | Android tab smoke test | `node scripts/android-smoke-test.mjs` |
 
 ## Git branches
 
@@ -115,16 +116,20 @@ node scripts/health-check.mjs
 # Production API only
 $env:API_URL='https://send-it-ke7r.onrender.com'; node scripts/health-check.mjs
 
-# App TypeScript only
+# App TypeScript only (web / iOS tree)
 cd app && npx tsc --noEmit
+
+# Android / Play TypeScript
+cd android-app && npx tsc --noEmit
 ```
 
 ## Deploy flow
 
 1. Merge to **`main`** on GitHub.
 2. **Render** redeploys API if connected to `main` (or manual deploy in Render dashboard).
-3. **Vercel** auto-deploys `app/` on push to `main`.
+3. **Vercel** auto-deploys `app/` on push to `main` (web only — **not** the Android binary).
 4. Confirm: Vercel deployment **READY**, `GET /health` on Render OK, web app loads headlines.
+5. **Android / Play** is built from [`android-app/`](android-app/) via EAS (`npx eas-cli@latest build -p android`). It is **not** verified on Vercel. Install the APK/AAB on a physical phone or Play Internal testing.
 
 PoC details and troubleshooting: [`POC_HOSTING_GUIDE.md`](POC_HOSTING_GUIDE.md).
 
@@ -150,6 +155,33 @@ node scripts/setup-eas-ios-credentials.mjs
 ```
 
 Seller/developer name = Program membership entity (not a Development profile nickname). Prefer **Organization** if the public store name should be a company/brand.
+
+## Android / Play (RoadRacer)
+
+Play Android lives in **`android-app/`** — a separate Expo copy with a committed Gradle project. It does **not** share folders with `app/`. Vercel is not the Android binary.
+
+| Item | Value |
+|------|--------|
+| App name | RoadRacer - Motorsport_Is_Life |
+| Package | `com.milroadracer.app` |
+| targetSdk / compileSdk | 36 |
+| Expo account | [motorsport-is-life](https://expo.dev/accounts/motorsport-is-life) |
+| EAS project | `@motorsport-is-life/roadracer` (`c3447188-53ab-4806-96af-6eb1b5417de3`) |
+| EAS config | [`android-app/eas.json`](android-app/eas.json) (Android-only profiles; production AAB, preview APK) |
+| Play submit | **Not wired** — no `submit.production.android` (no Play service-account JSON in repo). Do not invent a Play app id. |
+| Setup | [`android-app/README.md`](android-app/README.md) |
+| Play listing / Data safety | [`docs/play/PLAY_LISTING_COPY.md`](docs/play/PLAY_LISTING_COPY.md) |
+| Play Console how-to | [`docs/play/PLAY_CONSOLE_SETUP.md`](docs/play/PLAY_CONSOLE_SETUP.md) |
+| Local IDE | Android Studio — SDK **36**, emulator or USB; `cd android-app && npx expo run:android`. Not the store binary. |
+
+```powershell
+cd android-app
+npx tsc --noEmit
+npx eas-cli@latest build -p android --profile preview --non-interactive --no-wait
+npx eas-cli@latest build -p android --profile production --non-interactive --no-wait
+```
+
+Verify on a **physical Android phone**, Studio emulator, or Play Internal testing — **not** Vercel: cold launch, Track Memory landscape, permission denied paths, Coach/Q&A after Render cold start.
 
 ## Hermes (RR app expert)
 

@@ -1,0 +1,9 @@
+{
+  "locales": {
+    "en-AU": {
+      "localFeed": "Australian headlines",
+      "localCalendar": "Australia",
+      "worldFeed": "World"
+    }
+  }
+}

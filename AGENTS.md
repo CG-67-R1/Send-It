@@ -4,7 +4,8 @@ Mobile app for motorcycle and racing headlines, plus Q&A, calendar, track walk, 
 
 ## Repo layout
 
-- `app/` — Expo (React Native) client; TypeScript; main entry `App.tsx`
+- `app/` — Expo client for **Vercel web + iOS EAS**; TypeScript; main entry `App.tsx`
+- `android-app/` — Expo **Android / Play** product (separate copy, committed `android/` Gradle). No shared folders with `app/`. See [`android-app/README.md`](android-app/README.md).
 - `api/` — Node.js / Express headlines + Q&A API; ESM (`"type": "module"`)
 - `packs/` — data-driven regional packs (AU + Regions 01–13); see `packs/README.md`
 - `Q&A/` — PDF knowledge base; scrape via `cd api && npm run scrape-pdfs`
@@ -22,20 +23,24 @@ Mobile app for motorcycle and racing headlines, plus Q&A, calendar, track walk, 
 # API (required for headlines)
 cd api && npm install && npm start
 
-# App
+# App (web / iOS)
 cd app && npm install && npx expo start
+
+# Android / Play (separate tree)
+cd android-app && npm install && npx tsc --noEmit && npx expo start --android
 
 # Checks before merge to main
 cd api && npm run health-check
 cd ../app && npx tsc --noEmit
+cd ../android-app && npx tsc --noEmit
 ```
 
 ## Configuration
 
-- App API URL: `app/constants/api.ts` (`getApiBaseUrl()`)
+- App API URL: `app/constants/api.ts` and the Android copy `android-app/constants/api.ts` (`getApiBaseUrl()`)
   - Android emulator: `http://10.0.2.2:3001`
   - iOS simulator: `http://localhost:3001`
-  - Physical device: LAN IP of dev machine
+  - Physical device / Play binary: hosted Render API (default)
 - API port: `PORT` env (default 3001)
 
 ## Branch workflow
@@ -78,9 +83,12 @@ Hermes is the **Send-It / RoadRace app expert**. It runs regular health gates an
 | Cadence | Skill | Output |
 |---------|-------|--------|
 | **Daily** (weekdays) | `send-it/rr-app-expert` (daily-gate) | Short OK / FAIL summary |
-| **Weekly** (Monday) | `send-it/rr-app-expert` + `send-it/mobile-review` + `send-it/track-data-analyst` | `docs/reviews/RR_REVIEW_YYYY-MM-DD.md` (includes Track data) |
+| **Weekly** (Monday) | `send-it/rr-app-expert` + `send-it/mobile-review` + `send-it/track-data-analyst` | `docs/reviews/RR_REVIEW_YYYY-MM-DD.md` (includes Track data + Track Memory gate) |
 | **Weekly** (Wednesday) | `send-it/mobile-app-expert` + `send-it/mobile-review` | `docs/reviews/MOBILE_OPS_YYYY-MM-DD.md` — HEALTHY or CURSOR ALERT (perf/security/iOS+Android) |
-| **On-demand** | `/rr-app-expert`, `/mobile-app-expert`, or `/track-data-analyst` | Full report + top Cursor fixes |
+| **Weekly** (Thursday) | `send-it/agent-play` (weekly-skills **and** pre-submit) | Refresh Agent Play `CURRENT.md` + `AGENT_PLAY_SKILLS_YYYY-MM-DD.md` + `PLAY_PREFLIGHT_YYYY-MM-DD.md` (android-app code/security) |
+| **Weekly** (Friday) | `send-it/agent-apple` (weekly-skills) | Refresh Agent Apple `CURRENT.md` + `docs/reviews/AGENT_APPLE_SKILLS_YYYY-MM-DD.md` |
+| **Weekly** (Sunday 18:00) | `send-it/ai-enterprise-watch` | Short Telegram message + `docs/reviews/AI_ENTERPRISE_WATCH_YYYY-MM-DD.md` (enterprise AI; hype called out) |
+| **On-demand** | `/rr-app-expert`, `/mobile-app-expert`, `/track-data-analyst`, `/agent-apple`, `/agent-play`, or `/ai-enterprise-watch` | Full report + top Cursor fixes; Agent Apple = pre-ASC; Agent Play = pre-Play; AI watch = enterprise landscape |
 
 **Setup (one-time):** `.\scripts\install-hermes-skills.ps1` then follow [`docs/hermes/CRON_SETUP.md`](docs/hermes/CRON_SETUP.md) to create Hermes cron jobs.
 
@@ -95,12 +103,30 @@ hermes
 # Ask: "Run full-review. Write docs/reviews/MOBILE_OPS_<date>.md. HEALTHY or CURSOR ALERT. Report only."
 # /track-data-analyst
 # Ask: "Run track data review. Include Bend GT/International/West/East lengths. Report only."
+# Ask: "Run track memory review. Geometry + elevation + diagnose + test:track-frames. Report only."
+# /agent-apple
+# Ask: "Review this app before submitting to App Store Connect. Identify iOS issues. Report only."
+# Ask: "Update your skillset. weekly-skills. Refresh CURRENT.md from Apple/Expo sources."
+# /agent-play
+# Ask: "Review this app before submitting to Google Play. Identify Android issues. Report only."
+# Ask: "Update your skillset. weekly-skills. Refresh CURRENT.md from Android/Play/Expo sources."
+# /ai-enterprise-watch
+# Ask: "Run weekly-watch. Relevant outcomes only. Flag hype. Report only."
 ```
 
 Track structural gate (also part of mobile-review preflight):
 
 ```powershell
 node scripts/validate-track-data.mjs
+```
+
+Track Memory gate (weekly / on-demand track-data-analyst — report only, do not bake):
+
+```powershell
+node scripts/diagnose-track-memory.mjs
+cd app
+npm run test:track-frames
+npx tsc --noEmit
 ```
 
 **Turn hands are P0:** wrong left/right must not ship. Allowed hands live in `app/src/data/track_turn_verification.json`. After catalog edits run `node scripts/enforce-turn-verification.mjs --write` then the validator. GPX alone must never set turn direction.
@@ -130,7 +156,7 @@ cd api && npm run health-check
 
 | Step | Pass criteria |
 |------|----------------|
-| App TypeScript | `npx tsc --noEmit` in `app/` |
+| App TypeScript | `npx tsc --noEmit` in `app/` and `android-app/` |
 | AU interleave | World feed 1-in-4 AU pattern |
 | Scrapers | Required sources present; Peterbom, GPone, Motor Sport MotoGP return items |
 | AU cache | `api/data/au-headlines.json` exists with 10+ headlines |
@@ -164,6 +190,7 @@ cd api && npm run refresh-au-headlines
 # Production probe / iOS API smoke test
 node scripts/verify-production.mjs
 node scripts/ios-smoke-test.mjs
+node scripts/android-smoke-test.mjs
 ```
 
 GitHub Actions (on push to `main`): health-check every 10 min + weekly AU cache refresh — see `.github/workflows/`.

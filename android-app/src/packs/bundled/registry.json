@@ -1,0 +1,303 @@
+{
+  "version": 1,
+  "nodes": [
+    {
+      "id": "au",
+      "parentId": null,
+      "kind": "region",
+      "displayName": "Australia",
+      "regionNumber": null,
+      "packId": "au",
+      "locales": [
+        "en-AU"
+      ],
+      "timezones": [
+        "Australia/Adelaide",
+        "Australia/Sydney",
+        "Australia/Melbourne",
+        "Australia/Brisbane",
+        "Australia/Perth",
+        "Australia/Hobart",
+        "Australia/Darwin"
+      ],
+      "isoCountries": [
+        "AU"
+      ],
+      "adminAreas": [
+        "NSW",
+        "VIC",
+        "QLD",
+        "SA",
+        "WA",
+        "TAS",
+        "ACT",
+        "NT"
+      ],
+      "status": "active"
+    },
+    {
+      "id": "au-nsw",
+      "parentId": "au",
+      "kind": "subdivision",
+      "displayName": "New South Wales",
+      "packId": "au",
+      "locales": [
+        "en-AU"
+      ],
+      "timezones": [
+        "Australia/Sydney"
+      ],
+      "isoCountries": [
+        "AU"
+      ],
+      "adminAreas": [
+        "NSW"
+      ],
+      "status": "active"
+    },
+    {
+      "id": "au-vic",
+      "parentId": "au",
+      "kind": "subdivision",
+      "displayName": "Victoria",
+      "packId": "au",
+      "locales": [
+        "en-AU"
+      ],
+      "timezones": [
+        "Australia/Melbourne"
+      ],
+      "isoCountries": [
+        "AU"
+      ],
+      "adminAreas": [
+        "VIC"
+      ],
+      "status": "active"
+    },
+    {
+      "id": "au-qld",
+      "parentId": "au",
+      "kind": "subdivision",
+      "displayName": "Queensland",
+      "packId": "au",
+      "locales": [
+        "en-AU"
+      ],
+      "timezones": [
+        "Australia/Brisbane"
+      ],
+      "isoCountries": [
+        "AU"
+      ],
+      "adminAreas": [
+        "QLD"
+      ],
+      "status": "active"
+    },
+    {
+      "id": "au-sa",
+      "parentId": "au",
+      "kind": "subdivision",
+      "displayName": "South Australia",
+      "packId": "au",
+      "locales": [
+        "en-AU"
+      ],
+      "timezones": [
+        "Australia/Adelaide"
+      ],
+      "isoCountries": [
+        "AU"
+      ],
+      "adminAreas": [
+        "SA"
+      ],
+      "status": "active"
+    },
+    {
+      "id": "au-wa",
+      "parentId": "au",
+      "kind": "subdivision",
+      "displayName": "Western Australia",
+      "packId": "au",
+      "locales": [
+        "en-AU"
+      ],
+      "timezones": [
+        "Australia/Perth"
+      ],
+      "isoCountries": [
+        "AU"
+      ],
+      "adminAreas": [
+        "WA"
+      ],
+      "status": "active"
+    },
+    {
+      "id": "au-tas",
+      "parentId": "au",
+      "kind": "subdivision",
+      "displayName": "Tasmania",
+      "packId": "au",
+      "locales": [
+        "en-AU"
+      ],
+      "timezones": [
+        "Australia/Hobart"
+      ],
+      "isoCountries": [
+        "AU"
+      ],
+      "adminAreas": [
+        "TAS"
+      ],
+      "status": "active"
+    },
+    {
+      "id": "au-act",
+      "parentId": "au",
+      "kind": "subdivision",
+      "displayName": "Australian Capital Territory",
+      "packId": "au",
+      "locales": [
+        "en-AU"
+      ],
+      "timezones": [
+        "Australia/Sydney"
+      ],
+      "isoCountries": [
+        "AU"
+      ],
+      "adminAreas": [
+        "ACT"
+      ],
+      "status": "active"
+    },
+    {
+      "id": "au-nt",
+      "parentId": "au",
+      "kind": "subdivision",
+      "displayName": "Northern Territory",
+      "packId": "au",
+      "locales": [
+        "en-AU"
+      ],
+      "timezones": [
+        "Australia/Darwin"
+      ],
+      "isoCountries": [
+        "AU"
+      ],
+      "adminAreas": [
+        "NT"
+      ],
+      "status": "active"
+    },
+    {
+      "id": "uk",
+      "parentId": null,
+      "kind": "region",
+      "displayName": "United Kingdom",
+      "regionNumber": 1,
+      "packId": "uk",
+      "locales": [
+        "en-GB"
+      ],
+      "timezones": [
+        "Europe/London"
+      ],
+      "isoCountries": [
+        "GB"
+      ],
+      "adminAreas": [
+        "ENG",
+        "SCT",
+        "WLS",
+        "NIR"
+      ],
+      "status": "seed"
+    },
+    {
+      "id": "uk-england",
+      "parentId": "uk",
+      "kind": "country",
+      "displayName": "England",
+      "packId": "uk",
+      "locales": [
+        "en-GB"
+      ],
+      "timezones": [
+        "Europe/London"
+      ],
+      "isoCountries": [
+        "GB"
+      ],
+      "adminAreas": [
+        "ENG"
+      ],
+      "status": "seed"
+    },
+    {
+      "id": "uk-scotland",
+      "parentId": "uk",
+      "kind": "country",
+      "displayName": "Scotland",
+      "packId": "uk",
+      "locales": [
+        "en-GB"
+      ],
+      "timezones": [
+        "Europe/London"
+      ],
+      "isoCountries": [
+        "GB"
+      ],
+      "adminAreas": [
+        "SCT"
+      ],
+      "status": "seed"
+    },
+    {
+      "id": "uk-wales",
+      "parentId": "uk",
+      "kind": "country",
+      "displayName": "Wales",
+      "packId": "uk",
+      "locales": [
+        "en-GB"
+      ],
+      "timezones": [
+        "Europe/London"
+      ],
+      "isoCountries": [
+        "GB"
+      ],
+      "adminAreas": [
+        "WLS"
+      ],
+      "status": "seed"
+    },
+    {
+      "id": "uk-northern-ireland",
+      "parentId": "uk",
+      "kind": "country",
+      "displayName": "Northern Ireland",
+      "packId": "uk",
+      "locales": [
+        "en-GB"
+      ],
+      "timezones": [
+        "Europe/London"
+      ],
+      "isoCountries": [
+        "GB"
+      ],
+      "adminAreas": [
+        "NIR"
+      ],
+      "status": "seed"
+    }
+  ]
+}

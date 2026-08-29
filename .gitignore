@@ -5,6 +5,8 @@ node_modules/
 app/.expo/
 app/dist/
 app/web-build/
+android-app/.expo/
+android-app/dist/
 
 # Env
 .env

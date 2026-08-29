@@ -26,10 +26,15 @@ jobs:
           cache: npm
           cache-dependency-path: |
             app/package-lock.json
+            android-app/package-lock.json
             api/package-lock.json
 
       - name: Install app dependencies
         working-directory: app
+        run: npm ci --legacy-peer-deps
+
+      - name: Install Android app dependencies
+        working-directory: android-app
         run: npm ci --legacy-peer-deps
 
       - name: Install API dependencies

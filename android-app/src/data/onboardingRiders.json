@@ -1,0 +1,6580 @@
+[
+  {
+    "id": "rossi",
+    "displayName": "Valentino Rossi",
+    "aliases": [
+      "valentino rossi",
+      "rossi",
+      "the doctor",
+      "46"
+    ],
+    "series": [
+      "motogp",
+      "suzuka"
+    ],
+    "era": "legend",
+    "characteristics": {
+      "style": [
+        "showman",
+        "racer_iq"
+      ],
+      "vibe": [
+        "charismatic",
+        "crowd_favourite"
+      ],
+      "signature": "made millions want to ride"
+    },
+    "blurb": "Valentino Rossi didn't just win — he made millions want to ride. Also, he once dressed as a chicken to celebrate a bet. You're in good company.",
+    "active": true
+  },
+  {
+    "id": "marquez",
+    "displayName": "Marc Márquez",
+    "aliases": [
+      "marc marquez",
+      "márquez",
+      "marquez",
+      "marc márquez",
+      "93"
+    ],
+    "series": [
+      "motogp"
+    ],
+    "era": "current",
+    "characteristics": {
+      "style": [
+        "aggressive",
+        "salvage_king"
+      ],
+      "vibe": [
+        "impossible_saves"
+      ],
+      "signature": "makes the impossible look easy"
+    },
+    "blurb": "Marc Márquez has a habit of winning titles and making impossible saves look easy. If you ever thought 'how did he do that?' — you're not alone.",
+    "active": true
+  },
+  {
+    "id": "stoner",
+    "displayName": "Casey Stoner",
+    "aliases": [
+      "casey stoner",
+      "stoner"
+    ],
+    "series": [
+      "motogp"
+    ],
+    "era": "legend",
+    "characteristics": {
+      "style": [
+        "natural",
+        "smooth"
+      ],
+      "vibe": [
+        "australian_legend"
+      ],
+      "signature": "did it his way"
+    },
+    "blurb": "Casey Stoner left the sport on his own terms and still makes pundits say 'what if.' Respect. You picked a rider who did it his way.",
+    "active": true
+  },
+  {
+    "id": "lorenzo",
+    "displayName": "Jorge Lorenzo",
+    "aliases": [
+      "jorge lorenzo",
+      "lorenzo",
+      "por fuera"
+    ],
+    "series": [
+      "motogp"
+    ],
+    "era": "legend",
+    "characteristics": {
+      "style": [
+        "smooth",
+        "outside_line"
+      ],
+      "vibe": [
+        "stylish"
+      ],
+      "signature": "Por Fuera smoothness"
+    },
+    "blurb": "Jorge Lorenzo was so smooth they called him 'Por Fuera' — and his helmet designs were art. Style and speed: you've got taste.",
+    "active": true
+  },
+  {
+    "id": "biaggi",
+    "displayName": "Max Biaggi",
+    "aliases": [
+      "max biaggi",
+      "biaggi",
+      "roman emperor"
+    ],
+    "series": [
+      "motogp",
+      "wsbk"
+    ],
+    "era": "legend",
+    "characteristics": {
+      "style": [
+        "aggressive"
+      ],
+      "vibe": [
+        "entertainer"
+      ],
+      "signature": "the Roman Emperor"
+    },
+    "blurb": "Max Biaggi had more personality per square inch than most grids. The Roman Emperor didn't just race — he entertained. Legend.",
+    "active": true
+  },
+  {
+    "id": "bayliss",
+    "displayName": "Troy Bayliss",
+    "aliases": [
+      "troy bayliss",
+      "bayliss"
+    ],
+    "series": [
+      "wsbk"
+    ],
+    "era": "legend",
+    "characteristics": {
+      "style": [
+        "send_it"
+      ],
+      "vibe": [
+        "aussie_legend"
+      ],
+      "signature": "shed in Taree to WSBK champion"
+    },
+    "blurb": "Troy Bayliss came from a shed in Taree and won WSBK. If that doesn't say 'just send it,' nothing does. Aussie legend.",
+    "active": true
+  },
+  {
+    "id": "rea",
+    "displayName": "Jonathan Rea",
+    "aliases": [
+      "jonathan rea",
+      "johnny rea",
+      "j rea"
+    ],
+    "series": [
+      "wsbk",
+      "suzuka"
+    ],
+    "era": "legend",
+    "characteristics": {
+      "style": [
+        "consistency",
+        "record_breaker"
+      ],
+      "vibe": [
+        "relentless"
+      ],
+      "signature": "six titles in a row"
+    },
+    "blurb": "Jonathan Rea rewrote the WSBK record books. Six titles in a row. He's the kind of rider who makes 'impossible' look like Tuesday.",
+    "active": true
+  },
+  {
+    "id": "toprak",
+    "displayName": "Toprak Razgatlıoğlu",
+    "aliases": [
+      "toprak",
+      "razgatlioglu",
+      "razgatlıoğlu",
+      "toprak razgatlioglu"
+    ],
+    "series": [
+      "wsbk",
+      "motogp"
+    ],
+    "era": "current",
+    "characteristics": {
+      "style": [
+        "wild",
+        "rear_wheel"
+      ],
+      "vibe": [
+        "send_it"
+      ],
+      "signature": "makes physicists nervous"
+    },
+    "blurb": "Toprak Razgatlıoğlu does things on a bike that make physicists nervous. If he's your favourite, you clearly like sending it.",
+    "active": true
+  },
+  {
+    "id": "bautista",
+    "displayName": "Álvaro Bautista",
+    "aliases": [
+      "alvaro bautista",
+      "álvaro bautista",
+      "bautista"
+    ],
+    "series": [
+      "wsbk",
+      "motogp",
+      "moto3"
+    ],
+    "era": "current",
+    "characteristics": {
+      "style": [
+        "smooth",
+        "late_bloomer"
+      ],
+      "vibe": [
+        "dominant"
+      ],
+      "signature": "when it's your time, send it"
+    },
+    "blurb": "Álvaro Bautista came back to WSBK and decided to win everything. Late bloomer? More like 'when it's your time, send it.'",
+    "active": true
+  },
+  {
+    "id": "miller",
+    "displayName": "Jack Miller",
+    "aliases": [
+      "jack miller",
+      "miller",
+      "jackass"
+    ],
+    "series": [
+      "motogp",
+      "wsbk"
+    ],
+    "era": "current",
+    "characteristics": {
+      "style": [
+        "aggressive",
+        "send_it"
+      ],
+      "vibe": [
+        "aussie_larrikin"
+      ],
+      "signature": "says send it then does it"
+    },
+    "blurb": "Jack Miller is the kind of guy who'd say 'just send it' in an interview and then actually do it. You've got a good one.",
+    "active": true
+  },
+  {
+    "id": "bagnaia",
+    "displayName": "Francesco Bagnaia",
+    "aliases": [
+      "pecco",
+      "bagnaia",
+      "francesco bagnaia",
+      "pecco bagnaia"
+    ],
+    "series": [
+      "motogp"
+    ],
+    "era": "current",
+    "characteristics": {
+      "style": [
+        "smooth",
+        "smart"
+      ],
+      "vibe": [
+        "champion"
+      ],
+      "signature": "turned Ducati into a title machine"
+    },
+    "blurb": "Pecco Bagnaia turned Ducati into a title machine. Smooth, smart, and when it's time — he sends it. MotoGP royalty.",
+    "active": true
+  },
+  {
+    "id": "quartararo",
+    "displayName": "Fabio Quartararo",
+    "aliases": [
+      "fabio quartararo",
+      "quartararo",
+      "el diablo",
+      "diablo"
+    ],
+    "series": [
+      "motogp"
+    ],
+    "era": "current",
+    "characteristics": {
+      "style": [
+        "smooth",
+        "stylish"
+      ],
+      "vibe": [
+        "el_diablo"
+      ],
+      "signature": "made Yamaha cool again"
+    },
+    "blurb": "Fabio Quartararo made Yamaha cool again and did it with style. El Diablo doesn't overthink — he just goes. Your kind of rider.",
+    "active": true
+  },
+  {
+    "id": "doohan",
+    "displayName": "Mick Doohan",
+    "aliases": [
+      "mick doohan",
+      "doohan"
+    ],
+    "series": [
+      "motogp",
+      "suzuka"
+    ],
+    "era": "legend",
+    "characteristics": {
+      "style": [
+        "tough",
+        "throttle_warrior"
+      ],
+      "vibe": [
+        "aussie_legend"
+      ],
+      "signature": "five consecutive 500cc titles"
+    },
+    "blurb": "Mick Doohan won five 500cc titles in a row and did it with a left hand that wrote the rulebook for toughness. Aussie royalty.",
+    "active": true
+  },
+  {
+    "id": "gardner",
+    "displayName": "Wayne Gardner",
+    "aliases": [
+      "wayne gardner",
+      "gardner"
+    ],
+    "series": [
+      "motogp",
+      "suzuka"
+    ],
+    "era": "legend",
+    "characteristics": {
+      "style": [
+        "brave",
+        "send_it"
+      ],
+      "vibe": [
+        "aussie_legend"
+      ],
+      "signature": "Australia's first 500cc world champion"
+    },
+    "blurb": "Wayne Gardner was Australia's first 500cc world champion — Wollongong grit on a Grand Prix stage. You picked a pioneer.",
+    "active": true
+  },
+  {
+    "id": "fogarty",
+    "displayName": "Carl Fogarty",
+    "aliases": [
+      "carl fogarty",
+      "fogarty",
+      "foggy"
+    ],
+    "series": [
+      "wsbk",
+      "tt"
+    ],
+    "era": "legend",
+    "characteristics": {
+      "style": [
+        "aggressive",
+        "late_braker"
+      ],
+      "vibe": [
+        "british_legend"
+      ],
+      "signature": "Foggy on a 916"
+    },
+    "blurb": "Carl Fogarty and a Ducati 916 — WSBK's defining image. Foggy didn't ease into corners; he arrived. Proper legend.",
+    "active": true
+  },
+  {
+    "id": "hailwood",
+    "displayName": "Mike Hailwood",
+    "aliases": [
+      "mike hailwood",
+      "hailwood",
+      "mike the bike"
+    ],
+    "series": [
+      "motogp",
+      "tt",
+      "classic"
+    ],
+    "era": "legend",
+    "characteristics": {
+      "style": [
+        "versatile",
+        "natural"
+      ],
+      "vibe": [
+        "mike_the_bike"
+      ],
+      "signature": "Mike the Bike"
+    },
+    "blurb": "Mike Hailwood — Mike the Bike. TT hero, GP legend, and still the answer when someone asks who could ride anything.",
+    "active": true
+  },
+  {
+    "id": "agostini",
+    "displayName": "Giacomo Agostini",
+    "aliases": [
+      "giacomo agostini",
+      "agostini",
+      "ago"
+    ],
+    "series": [
+      "motogp",
+      "tt",
+      "classic"
+    ],
+    "era": "legend",
+    "characteristics": {
+      "style": [
+        "smooth",
+        "dominant"
+      ],
+      "vibe": [
+        "mv_legend"
+      ],
+      "signature": "more world titles than almost anyone"
+    },
+    "blurb": "Giacomo Agostini stacked world titles like firewood. Ago on an MV — that's the poster on the wall of racing history.",
+    "active": true
+  },
+  {
+    "id": "pedrosa",
+    "displayName": "Dani Pedrosa",
+    "aliases": [
+      "dani pedrosa",
+      "pedrosa"
+    ],
+    "series": [
+      "motogp",
+      "moto3"
+    ],
+    "era": "legend",
+    "characteristics": {
+      "style": [
+        "smooth",
+        "precision"
+      ],
+      "vibe": [
+        "pocket_rocket"
+      ],
+      "signature": "precision over drama"
+    },
+    "blurb": "Dani Pedrosa rode with surgical precision — small package, massive talent. If you like craft over chaos, he's your guy.",
+    "active": true
+  },
+  {
+    "id": "martin",
+    "displayName": "Jorge Martín",
+    "aliases": [
+      "jorge martin",
+      "jorge martín",
+      "martin",
+      "martín"
+    ],
+    "series": [
+      "motogp",
+      "moto3",
+      "red_bull_rookies"
+    ],
+    "era": "current",
+    "characteristics": {
+      "style": [
+        "aggressive",
+        "qualifier"
+      ],
+      "vibe": [
+        "champion"
+      ],
+      "signature": "pole machine turned champion"
+    },
+    "blurb": "Jorge Martín turned Saturday poles into a Sunday title. If your favourite is Martín, you like riders who go for it.",
+    "active": true
+  },
+  {
+    "id": "acosta",
+    "displayName": "Pedro Acosta",
+    "aliases": [
+      "pedro acosta",
+      "acosta",
+      "shark"
+    ],
+    "series": [
+      "motogp",
+      "moto3",
+      "moto2",
+      "red_bull_rookies"
+    ],
+    "era": "current",
+    "characteristics": {
+      "style": [
+        "aggressive",
+        "prodigy"
+      ],
+      "vibe": [
+        "next_gen"
+      ],
+      "signature": "the Shark doesn't wait"
+    },
+    "blurb": "Pedro Acosta arrived like he already knew the script. The Shark doesn't wait for permission — and neither do you, apparently.",
+    "active": true
+  },
+  {
+    "id": "vinales",
+    "displayName": "Maverick Viñales",
+    "aliases": [
+      "maverick vinales",
+      "maverick viñales",
+      "vinales",
+      "viñales"
+    ],
+    "series": [
+      "motogp",
+      "moto3"
+    ],
+    "era": "current",
+    "characteristics": {
+      "style": [
+        "smooth",
+        "natural"
+      ],
+      "vibe": [
+        "enigma"
+      ],
+      "signature": "natural talent on tap"
+    },
+    "blurb": "Maverick Viñales has that rare natural feel — when it's on, it's poetry. You picked a rider with serious hands.",
+    "active": true
+  },
+  {
+    "id": "mir",
+    "displayName": "Joan Mir",
+    "aliases": [
+      "joan mir",
+      "mir"
+    ],
+    "series": [
+      "motogp",
+      "moto3"
+    ],
+    "era": "current",
+    "characteristics": {
+      "style": [
+        "consistent",
+        "smart"
+      ],
+      "vibe": [
+        "champion"
+      ],
+      "signature": "title by consistency"
+    },
+    "blurb": "Joan Mir won a MotoGP title the hard way — brains, consistency, and timing. Quiet class. Strong pick.",
+    "active": true
+  },
+  {
+    "id": "zarco",
+    "displayName": "Johann Zarco",
+    "aliases": [
+      "johann zarco",
+      "zarco"
+    ],
+    "series": [
+      "motogp",
+      "red_bull_rookies"
+    ],
+    "era": "current",
+    "characteristics": {
+      "style": [
+        "aggressive",
+        "qualifier"
+      ],
+      "vibe": [
+        "wildcard_energy"
+      ],
+      "signature": "qualifying assassin"
+    },
+    "blurb": "Johann Zarco can put a bike on pole when it looks impossible. If he's your favourite, you respect pure pace.",
+    "active": true
+  },
+  {
+    "id": "crutchlow",
+    "displayName": "Cal Crutchlow",
+    "aliases": [
+      "cal crutchlow",
+      "crutchlow"
+    ],
+    "series": [
+      "motogp",
+      "ssp"
+    ],
+    "era": "legend",
+    "characteristics": {
+      "style": [
+        "aggressive",
+        "send_it"
+      ],
+      "vibe": [
+        "british_fighter"
+      ],
+      "signature": "privateer heart, factory pace"
+    },
+    "blurb": "Cal Crutchlow raced like the bike owed him money. British grit on a Grand Prix grid — proper send-it energy.",
+    "active": true
+  },
+  {
+    "id": "edwards",
+    "displayName": "Colin Edwards",
+    "aliases": [
+      "colin edwards",
+      "texas tornado"
+    ],
+    "series": [
+      "wsbk",
+      "motogp",
+      "suzuka"
+    ],
+    "era": "legend",
+    "characteristics": {
+      "style": [
+        "smooth",
+        "versatile"
+      ],
+      "vibe": [
+        "texas_tornado"
+      ],
+      "signature": "Texas Tornado"
+    },
+    "blurb": "Colin Edwards — the Texas Tornado. WSBK champion who brought American swagger to the GP paddock. Cool choice.",
+    "active": true
+  },
+  {
+    "id": "haga",
+    "displayName": "Noriyuki Haga",
+    "aliases": [
+      "noriyuki haga",
+      "haga",
+      "nitro nori"
+    ],
+    "series": [
+      "wsbk"
+    ],
+    "era": "legend",
+    "characteristics": {
+      "style": [
+        "aggressive",
+        "spectacular"
+      ],
+      "vibe": [
+        "nitro_nori"
+      ],
+      "signature": "Nitro Nori fireworks"
+    },
+    "blurb": "Noriyuki Haga — Nitro Nori — never sealed a WSBK title, but he was pure Superbike theatre. Titles optional; fireworks mandatory.",
+    "active": true
+  },
+  {
+    "id": "corser",
+    "displayName": "Troy Corser",
+    "aliases": [
+      "troy corser",
+      "corser"
+    ],
+    "series": [
+      "wsbk"
+    ],
+    "era": "legend",
+    "characteristics": {
+      "style": [
+        "smooth",
+        "versatile"
+      ],
+      "vibe": [
+        "aussie_legend"
+      ],
+      "signature": "WSBK champ who could ride anything"
+    },
+    "blurb": "Troy Corser won WSBK and made it look composed. Another Aussie who proved the shed-to-world-stage path is real.",
+    "active": true
+  },
+  {
+    "id": "waters",
+    "displayName": "Josh Waters",
+    "aliases": [
+      "josh waters",
+      "waters"
+    ],
+    "series": [
+      "asbk"
+    ],
+    "era": "current",
+    "characteristics": {
+      "style": [
+        "smooth",
+        "race_craft"
+      ],
+      "vibe": [
+        "asbk_legend"
+      ],
+      "signature": "ASBK benchmark"
+    },
+    "blurb": "Josh Waters has been the ASBK benchmark for years. Local hero energy with championship pedigree. Strong Aussie pick.",
+    "active": true
+  },
+  {
+    "id": "herfoss",
+    "displayName": "Troy Herfoss",
+    "aliases": [
+      "troy herfoss",
+      "herfoss",
+      "the rocket"
+    ],
+    "series": [
+      "asbk"
+    ],
+    "era": "current",
+    "characteristics": {
+      "style": [
+        "aggressive",
+        "send_it"
+      ],
+      "vibe": [
+        "the_rocket"
+      ],
+      "signature": "The Rocket"
+    },
+    "blurb": "Troy Herfoss — The Rocket — races like the last lap is every lap. ASBK fire. You clearly like drama done right.",
+    "active": true
+  },
+  {
+    "id": "maxwell",
+    "displayName": "Wayne Maxwell",
+    "aliases": [
+      "wayne maxwell",
+      "maxwell"
+    ],
+    "series": [
+      "asbk"
+    ],
+    "era": "legend",
+    "characteristics": {
+      "style": [
+        "aggressive",
+        "race_craft"
+      ],
+      "vibe": [
+        "asbk_legend"
+      ],
+      "signature": "ASBK hard man"
+    },
+    "blurb": "Wayne Maxwell brought proper race-craft and fight to ASBK. If he's your favourite, you like riders who scrap for it.",
+    "active": true
+  },
+  {
+    "id": "allerton",
+    "displayName": "Glenn Allerton",
+    "aliases": [
+      "glenn allerton",
+      "allerton"
+    ],
+    "series": [
+      "asbk"
+    ],
+    "era": "current",
+    "characteristics": {
+      "style": [
+        "smooth",
+        "consistent"
+      ],
+      "vibe": [
+        "asbk_stalwart"
+      ],
+      "signature": "ASBK consistency"
+    },
+    "blurb": "Glenn Allerton has been an ASBK fixture with pace and polish. Local knowledge, championship hunger — solid taste.",
+    "active": true
+  },
+  {
+    "id": "jones",
+    "displayName": "Mike Jones",
+    "aliases": [
+      "mike jones"
+    ],
+    "series": [
+      "asbk"
+    ],
+    "era": "current",
+    "characteristics": {
+      "style": [
+        "smooth",
+        "racer_iq"
+      ],
+      "vibe": [
+        "asbk_champ"
+      ],
+      "signature": "ASBK title winner"
+    },
+    "blurb": "Mike Jones has the ASBK titles to prove the pace is real. Quiet speed. You picked a proper Australian road racer.",
+    "active": true
+  },
+  {
+    "id": "phillip_island_king_hodgson",
+    "displayName": "Daniel Falzon",
+    "aliases": [
+      "daniel falzon",
+      "falzon"
+    ],
+    "series": [
+      "asbk"
+    ],
+    "era": "legend",
+    "characteristics": {
+      "style": [
+        "smooth"
+      ],
+      "vibe": [
+        "asbk"
+      ],
+      "signature": "ASBK talent"
+    },
+    "blurb": "Daniel Falzon brought serious ASBK credentials and South Aussie grit. Local hero material — nice pick.",
+    "active": true
+  },
+  {
+    "id": "greene",
+    "displayName": "Chris Greene",
+    "aliases": [
+      "chris greene",
+      "greene",
+      "greeney",
+      "greeny",
+      "geedog",
+      "gee dog",
+      "67"
+    ],
+    "series": [
+      "asbk",
+      "australian"
+    ],
+    "era": "legend",
+    "characteristics": {
+      "style": [
+        "fighter",
+        "race_craft"
+      ],
+      "vibe": [
+        "south_aussie_legend",
+        "godfather"
+      ],
+      "signature": "Godfather of Road Racing in SA"
+    },
+    "blurb": "Chris Greene — Greeney, Greeny, GeeDog — a stand-up legend who became the Godfather of Road Racing in SA. Number 67, that envy-inducing 60th-anniversary 2016 R1, fought hard on track and harder for the sport off it, often leaving his name in the dark. Proper South Aussie pick.",
+    "active": true
+  },
+  {
+    "id": "schwantz",
+    "displayName": "Kevin Schwantz",
+    "aliases": [
+      "kevin schwantz",
+      "schwantz"
+    ],
+    "series": [
+      "motogp",
+      "classic"
+    ],
+    "era": "legend",
+    "characteristics": {
+      "style": [
+        "wild",
+        "send_it"
+      ],
+      "vibe": [
+        "suzuki_legend"
+      ],
+      "signature": "wild and wonderful on a Suzuki"
+    },
+    "blurb": "Kevin Schwantz rode like the brakes were optional and still won a 500cc title. Pure send-it energy. Respect.",
+    "active": true
+  },
+  {
+    "id": "rainey",
+    "displayName": "Wayne Rainey",
+    "aliases": [
+      "wayne rainey",
+      "rainey"
+    ],
+    "series": [
+      "motogp",
+      "classic",
+      "suzuka"
+    ],
+    "era": "legend",
+    "characteristics": {
+      "style": [
+        "smooth",
+        "racer_iq"
+      ],
+      "vibe": [
+        "champion"
+      ],
+      "signature": "three titles of composure"
+    },
+    "blurb": "Wayne Rainey stacked 500cc titles with ice-cold race craft. If you picked Rainey, you respect the thinking racer.",
+    "active": true
+  },
+  {
+    "id": "lawson",
+    "displayName": "Eddie Lawson",
+    "aliases": [
+      "eddie lawson",
+      "lawson",
+      "steady eddie"
+    ],
+    "series": [
+      "motogp",
+      "classic",
+      "suzuka"
+    ],
+    "era": "legend",
+    "characteristics": {
+      "style": [
+        "smooth",
+        "consistent"
+      ],
+      "vibe": [
+        "steady_eddie"
+      ],
+      "signature": "Steady Eddie"
+    },
+    "blurb": "Eddie Lawson — Steady Eddie — won titles by being relentlessly excellent. Quiet greatness. Strong choice.",
+    "active": true
+  },
+  {
+    "id": "mamola",
+    "displayName": "Randy Mamola",
+    "aliases": [
+      "randy mamola",
+      "mamola"
+    ],
+    "series": [
+      "motogp",
+      "classic"
+    ],
+    "era": "legend",
+    "characteristics": {
+      "style": [
+        "showman",
+        "spectacular"
+      ],
+      "vibe": [
+        "entertainer"
+      ],
+      "signature": "showman of the 500s"
+    },
+    "blurb": "Randy Mamola was the showman of the 500cc era — speed with a wink. If he's your favourite, you like racing with personality.",
+    "active": true
+  },
+  {
+    "id": "spencer",
+    "displayName": "Freddie Spencer",
+    "aliases": [
+      "freddie spencer",
+      "spencer",
+      "fast freddie"
+    ],
+    "series": [
+      "motogp",
+      "classic"
+    ],
+    "era": "legend",
+    "characteristics": {
+      "style": [
+        "smooth",
+        "prodigy"
+      ],
+      "vibe": [
+        "fast_freddie"
+      ],
+      "signature": "Fast Freddie"
+    },
+    "blurb": "Freddie Spencer — Fast Freddie — made 500s look effortless and won titles young. Pure talent. Excellent taste.",
+    "active": true
+  },
+  {
+    "id": "roberts",
+    "displayName": "Kenny Roberts",
+    "aliases": [
+      "kenny roberts",
+      "king kenny"
+    ],
+    "series": [
+      "motogp",
+      "classic"
+    ],
+    "era": "legend",
+    "characteristics": {
+      "style": [
+        "pioneer",
+        "dirt_track_roots"
+      ],
+      "vibe": [
+        "king_kenny"
+      ],
+      "signature": "King Kenny"
+    },
+    "blurb": "Kenny Roberts — King Kenny — brought American dirt-track swagger to GPs and changed everything. Royalty.",
+    "active": true
+  },
+  {
+    "id": "beattie",
+    "displayName": "Daryl Beattie",
+    "aliases": [
+      "daryl beattie",
+      "beattie"
+    ],
+    "series": [
+      "motogp",
+      "suzuka"
+    ],
+    "era": "legend",
+    "characteristics": {
+      "style": [
+        "smooth",
+        "fast"
+      ],
+      "vibe": [
+        "aussie_legend"
+      ],
+      "signature": "what-if Aussie GP star"
+    },
+    "blurb": "Daryl Beattie had the pace to trouble the best of the 500cc era. Another Aussie 'what if' with serious credentials.",
+    "active": true
+  },
+  {
+    "id": "mclaren_mclaren",
+    "displayName": "Chris Vermeulen",
+    "aliases": [
+      "chris vermeulen",
+      "vermeulen"
+    ],
+    "series": [
+      "motogp",
+      "wsbk",
+      "ssp"
+    ],
+    "era": "legend",
+    "characteristics": {
+      "style": [
+        "wet_weather",
+        "send_it"
+      ],
+      "vibe": [
+        "aussie_legend"
+      ],
+      "signature": "wet-weather magician"
+    },
+    "blurb": "Chris Vermeulen could make a wet track look dry. Aussie GP winner energy — you picked a proper rain dancer.",
+    "active": true
+  },
+  {
+    "id": "stoner_protege_hayden",
+    "displayName": "Nicky Hayden",
+    "aliases": [
+      "nicky hayden",
+      "hayden",
+      "kentucky kid"
+    ],
+    "series": [
+      "motogp"
+    ],
+    "era": "legend",
+    "characteristics": {
+      "style": [
+        "hard_worker",
+        "racer_iq"
+      ],
+      "vibe": [
+        "kentucky_kid"
+      ],
+      "signature": "Kentucky Kid champion"
+    },
+    "blurb": "Nicky Hayden — the Kentucky Kid — grinded his way to a MotoGP title. Heart, craft, and class. Lovely pick.",
+    "active": true
+  },
+  {
+    "id": "lorenzo_era_pedrosa_steyn",
+    "displayName": "Andrea Dovizioso",
+    "aliases": [
+      "andrea dovizioso",
+      "dovizioso",
+      "dovi"
+    ],
+    "series": [
+      "motogp",
+      "moto3"
+    ],
+    "era": "legend",
+    "characteristics": {
+      "style": [
+        "smooth",
+        "racer_iq"
+      ],
+      "vibe": [
+        "last_lap_artist"
+      ],
+      "signature": "last-lap chess master"
+    },
+    "blurb": "Andrea Dovizioso turned last laps into chess matches. If Dovi's your favourite, you like brains with the brakes.",
+    "active": true
+  },
+  {
+    "id": "moto2_star_binder",
+    "displayName": "Brad Binder",
+    "aliases": [
+      "brad binder",
+      "binder"
+    ],
+    "series": [
+      "motogp",
+      "moto3",
+      "red_bull_rookies"
+    ],
+    "era": "current",
+    "characteristics": {
+      "style": [
+        "aggressive",
+        "overtaker"
+      ],
+      "vibe": [
+        "south_african_fighter"
+      ],
+      "signature": "passes from nowhere"
+    },
+    "blurb": "Brad Binder invents passes from thin air. South African fight on a MotoGP grid — you like riders who never give up.",
+    "active": true
+  },
+  {
+    "id": "alex_marquez",
+    "displayName": "Álex Márquez",
+    "aliases": [
+      "alex marquez",
+      "álex márquez",
+      "alex márquez"
+    ],
+    "series": [
+      "motogp",
+      "moto3",
+      "moto2"
+    ],
+    "era": "current",
+    "characteristics": {
+      "style": [
+        "smooth",
+        "race_craft"
+      ],
+      "vibe": [
+        "champion_bloodline"
+      ],
+      "signature": "craft over chaos"
+    },
+    "blurb": "Álex Márquez brings championship bloodline with his own cool race craft. Smart pick — not just the famous surname.",
+    "active": true
+  },
+  {
+    "id": "rins",
+    "displayName": "Alex Rins",
+    "aliases": [
+      "alex rins",
+      "rins"
+    ],
+    "series": [
+      "motogp"
+    ],
+    "era": "current",
+    "characteristics": {
+      "style": [
+        "smooth",
+        "wet_weather"
+      ],
+      "vibe": [
+        "giant_killer"
+      ],
+      "signature": "giant-killer Sundays"
+    },
+    "blurb": "Alex Rins has a habit of giant-killing when it matters. If he's your favourite, you like surprise podiums and pure talent.",
+    "active": true
+  },
+  {
+    "id": "bautista_era_davies",
+    "displayName": "Chaz Davies",
+    "aliases": [
+      "chaz davies",
+      "davies"
+    ],
+    "series": [
+      "wsbk",
+      "ssp"
+    ],
+    "era": "legend",
+    "characteristics": {
+      "style": [
+        "smooth",
+        "race_craft"
+      ],
+      "vibe": [
+        "ducati_wsbk"
+      ],
+      "signature": "Ducati WSBK stylist"
+    },
+    "blurb": "Chaz Davies made Ducati WSBK bikes look elegant at race pace. Style and substance — excellent taste.",
+    "active": true
+  },
+  {
+    "id": "sykes",
+    "displayName": "Tom Sykes",
+    "aliases": [
+      "tom sykes",
+      "sykes"
+    ],
+    "series": [
+      "wsbk"
+    ],
+    "era": "legend",
+    "characteristics": {
+      "style": [
+        "qualifier",
+        "aggressive"
+      ],
+      "vibe": [
+        "kawasaki_legend"
+      ],
+      "signature": "qualifying destroyer"
+    },
+    "blurb": "Tom Sykes could destroy a qualifying session on a green Kawasaki. Pole specialist energy. Sharp choice.",
+    "active": true
+  },
+  {
+    "id": "remy_gardner",
+    "displayName": "Remy Gardner",
+    "aliases": [
+      "remy gardner",
+      "remy"
+    ],
+    "series": [
+      "motogp",
+      "moto2"
+    ],
+    "era": "current",
+    "characteristics": {
+      "style": [
+        "technical"
+      ],
+      "vibe": [
+        "australian_legend"
+      ],
+      "signature": "2021 Moto2 world champion"
+    },
+    "blurb": "Remy Gardner took the 2021 Moto2 world title — then stepped up to Tech3 KTM in MotoGP. Father-son world champions with Wayne. Respect the process.",
+    "active": true
+  },
+  {
+    "id": "broc_parkes",
+    "displayName": "Broc Parkes",
+    "aliases": [
+      "broc parkes",
+      "parkes"
+    ],
+    "series": [
+      "wsbk",
+      "bsb"
+    ],
+    "era": "legend",
+    "characteristics": {
+      "style": [
+        "consistent"
+      ],
+      "vibe": [
+        "australian_legend"
+      ]
+    },
+    "blurb": "Broc Parkes raced at the highest level of World Superbikes for years — quietly impressive and always in the mix. A proper Aussie road racer.",
+    "active": true
+  },
+  {
+    "id": "joey_dunlop",
+    "displayName": "Joey Dunlop",
+    "aliases": [
+      "joey dunlop",
+      "joey",
+      "king of the mountain"
+    ],
+    "series": [
+      "tt"
+    ],
+    "era": "legend",
+    "characteristics": {
+      "style": [
+        "brave",
+        "road_racing"
+      ],
+      "vibe": [
+        "tt_legend"
+      ],
+      "signature": "King of the Mountain"
+    },
+    "blurb": "Joey Dunlop is the King of the Mountain — 26 TT wins and a presence that still defines the Isle of Man. Proper reverence.",
+    "active": true
+  },
+  {
+    "id": "john_mcguinness",
+    "displayName": "John McGuinness",
+    "aliases": [
+      "john mcguinness",
+      "mcguinness",
+      "morecambe missile"
+    ],
+    "series": [
+      "tt"
+    ],
+    "era": "legend",
+    "characteristics": {
+      "style": [
+        "smooth",
+        "road_racing"
+      ],
+      "vibe": [
+        "tt_legend"
+      ],
+      "signature": "Morecambe Missile"
+    },
+    "blurb": "John McGuinness made 130mph+ TT laps look calm. The Morecambe Missile — road-racing royalty.",
+    "active": true
+  },
+  {
+    "id": "michael_dunlop",
+    "displayName": "Michael Dunlop",
+    "aliases": [
+      "michael dunlop"
+    ],
+    "series": [
+      "tt"
+    ],
+    "era": "current",
+    "characteristics": {
+      "style": [
+        "aggressive",
+        "road_racing"
+      ],
+      "vibe": [
+        "tt_legend"
+      ],
+      "signature": "most TT wins ever"
+    },
+    "blurb": "Michael Dunlop keeps rewriting the TT record books. Mountain Course aggression with Dunlop DNA.",
+    "active": true
+  },
+  {
+    "id": "peter_hickman",
+    "displayName": "Peter Hickman",
+    "aliases": [
+      "peter hickman",
+      "hickman",
+      "hicky"
+    ],
+    "series": [
+      "tt",
+      "bsb"
+    ],
+    "era": "current",
+    "characteristics": {
+      "style": [
+        "fast",
+        "road_racing"
+      ],
+      "vibe": [
+        "speed_record"
+      ],
+      "signature": "135mph+ TT lap"
+    },
+    "blurb": "Peter Hickman smashed the TT lap-record barrier and still wins when it matters. Roads and short circuits — both send it.",
+    "active": true
+  },
+  {
+    "id": "ian_hutchinson",
+    "displayName": "Ian Hutchinson",
+    "aliases": [
+      "ian hutchinson",
+      "hutchy"
+    ],
+    "series": [
+      "tt"
+    ],
+    "era": "legend",
+    "characteristics": {
+      "style": [
+        "determined",
+        "road_racing"
+      ],
+      "vibe": [
+        "comeback_king"
+      ],
+      "signature": "five TT wins in a week"
+    },
+    "blurb": "Ian Hutchinson once took five TT wins in a single week — then came back from career-threatening injury. Hutchy never quit.",
+    "active": true
+  },
+  {
+    "id": "david_jefferies",
+    "displayName": "David Jefferies",
+    "aliases": [
+      "david jefferies",
+      "dj jefferies"
+    ],
+    "series": [
+      "tt"
+    ],
+    "era": "legend",
+    "characteristics": {
+      "style": [
+        "brave",
+        "road_racing"
+      ],
+      "vibe": [
+        "tt_legend"
+      ],
+      "signature": "Yorkshire flyer"
+    },
+    "blurb": "David Jefferies was pure TT pace — a Yorkshire flyer who pushed the Mountain Course into a new era.",
+    "active": true
+  },
+  {
+    "id": "dean_harrison",
+    "displayName": "Dean Harrison",
+    "aliases": [
+      "dean harrison"
+    ],
+    "series": [
+      "tt"
+    ],
+    "era": "current",
+    "characteristics": {
+      "style": [
+        "aggressive",
+        "road_racing"
+      ],
+      "vibe": [
+        "tt_contender"
+      ],
+      "signature": "Kawasaki road warrior"
+    },
+    "blurb": "Dean Harrison is a modern TT threat who attacks the Mountain Course like he means it. Road-racing taste confirmed.",
+    "active": true
+  },
+  {
+    "id": "shane_byrne",
+    "displayName": "Shane Byrne",
+    "aliases": [
+      "shane byrne",
+      "shakey",
+      "shakey byrne"
+    ],
+    "series": [
+      "bsb"
+    ],
+    "era": "legend",
+    "characteristics": {
+      "style": [
+        "racer_iq",
+        "consistent"
+      ],
+      "vibe": [
+        "bsb_legend"
+      ],
+      "signature": "six-time BSB champion"
+    },
+    "blurb": "Shane 'Shakey' Byrne is a six-time BSB champion — the benchmark for British Superbike smarts.",
+    "active": true
+  },
+  {
+    "id": "josh_brookes",
+    "displayName": "Josh Brookes",
+    "aliases": [
+      "josh brookes",
+      "brookes"
+    ],
+    "series": [
+      "bsb",
+      "asbk"
+    ],
+    "era": "current",
+    "characteristics": {
+      "style": [
+        "aggressive",
+        "send_it"
+      ],
+      "vibe": [
+        "australian_legend"
+      ],
+      "signature": "Aussie BSB champion"
+    },
+    "blurb": "Josh Brookes took Aussie aggression to BSB and won titles doing it his way. Loud, fast, unapologetic.",
+    "active": true
+  },
+  {
+    "id": "leon_haslam",
+    "displayName": "Leon Haslam",
+    "aliases": [
+      "leon haslam",
+      "haslam"
+    ],
+    "series": [
+      "bsb",
+      "wsbk",
+      "suzuka"
+    ],
+    "era": "legend",
+    "characteristics": {
+      "style": [
+        "aggressive"
+      ],
+      "vibe": [
+        "bsb_legend"
+      ],
+      "signature": "Rocket Ron's son"
+    },
+    "blurb": "Leon Haslam carried the family name into BSB and WSBK podiums. Rocket lineage, modern race craft.",
+    "active": true
+  },
+  {
+    "id": "james_toseland",
+    "displayName": "James Toseland",
+    "aliases": [
+      "james toseland",
+      "toseland",
+      "toseland the crooner"
+    ],
+    "series": [
+      "wsbk",
+      "bsb",
+      "motogp"
+    ],
+    "era": "legend",
+    "characteristics": {
+      "style": [
+        "smooth",
+        "race_craft"
+      ],
+      "vibe": [
+        "showman"
+      ],
+      "signature": "two-time WSBK champion"
+    },
+    "blurb": "James Toseland — two-time World Superbike champion who also sang on stage. Style points and silverware.",
+    "active": true
+  },
+  {
+    "id": "tommy_bridewell",
+    "displayName": "Tommy Bridewell",
+    "aliases": [
+      "tommy bridewell",
+      "bridewell"
+    ],
+    "series": [
+      "bsb"
+    ],
+    "era": "current",
+    "characteristics": {
+      "style": [
+        "smooth",
+        "race_craft"
+      ],
+      "vibe": [
+        "bsb_champion"
+      ],
+      "signature": "BSB title winner"
+    },
+    "blurb": "Tommy Bridewell timed his BSB title run perfectly — calm under pressure when the championship got loud.",
+    "active": true
+  },
+  {
+    "id": "glenn_irwin",
+    "displayName": "Glenn Irwin",
+    "aliases": [
+      "glenn irwin"
+    ],
+    "series": [
+      "bsb"
+    ],
+    "era": "current",
+    "characteristics": {
+      "style": [
+        "aggressive",
+        "late_braker"
+      ],
+      "vibe": [
+        "hard_charger"
+      ],
+      "signature": "Northern Irish hammer"
+    },
+    "blurb": "Glenn Irwin races like the brakes are optional. Northern Irish fire in BSB — not for the faint-hearted.",
+    "active": true
+  },
+  {
+    "id": "kyle_ryde",
+    "displayName": "Kyle Ryde",
+    "aliases": [
+      "kyle ryde",
+      "ryde"
+    ],
+    "series": [
+      "bsb"
+    ],
+    "era": "current",
+    "characteristics": {
+      "style": [
+        "aggressive",
+        "qualifier"
+      ],
+      "vibe": [
+        "bsb_champion"
+      ],
+      "signature": "BSB champion"
+    },
+    "blurb": "Kyle Ryde turned raw pace into a British Superbike title. When he's on it, the grid knows.",
+    "active": true
+  },
+  {
+    "id": "ryuichi_kiyonari",
+    "displayName": "Ryuichi Kiyonari",
+    "aliases": [
+      "ryuichi kiyonari",
+      "kiyonari",
+      "rk"
+    ],
+    "series": [
+      "bsb",
+      "wsbk",
+      "suzuka",
+      "endurance"
+    ],
+    "era": "legend",
+    "characteristics": {
+      "style": [
+        "smooth",
+        "technical"
+      ],
+      "vibe": [
+        "honda_legend"
+      ],
+      "signature": "three-time BSB champion"
+    },
+    "blurb": "Ryuichi Kiyonari made Honda look balletic in BSB — three titles of quiet excellence.",
+    "active": true
+  },
+  {
+    "id": "neil_hodgson",
+    "displayName": "Neil Hodgson",
+    "aliases": [
+      "neil hodgson",
+      "hodgson"
+    ],
+    "series": [
+      "wsbk",
+      "bsb",
+      "motogp"
+    ],
+    "era": "legend",
+    "characteristics": {
+      "style": [
+        "aggressive"
+      ],
+      "vibe": [
+        "british_legend"
+      ],
+      "signature": "2003 WSBK champion"
+    },
+    "blurb": "Neil Hodgson took the 2003 World Superbike title — British grit on a Ducati in a golden era.",
+    "active": true
+  },
+  {
+    "id": "bryan_staring",
+    "displayName": "Bryan Staring",
+    "aliases": [
+      "bryan staring",
+      "staring"
+    ],
+    "series": [
+      "asbk",
+      "motogp"
+    ],
+    "era": "legend",
+    "characteristics": {
+      "style": [
+        "aggressive"
+      ],
+      "vibe": [
+        "australian_legend"
+      ],
+      "signature": "ASBK champion + CRT MotoGP"
+    },
+    "blurb": "Bryan Staring won ASBK and took the CRT MotoGP leap. Aussie road-race résumé with proper chapters.",
+    "active": true
+  },
+  {
+    "id": "cru_halliday",
+    "displayName": "Cru Halliday",
+    "aliases": [
+      "cru halliday",
+      "halliday"
+    ],
+    "series": [
+      "asbk"
+    ],
+    "era": "current",
+    "characteristics": {
+      "style": [
+        "smooth",
+        "race_craft"
+      ],
+      "vibe": [
+        "asbk_champion"
+      ],
+      "signature": "ASBK title contender"
+    },
+    "blurb": "Cru Halliday has been a constant ASBK threat — Yamaha pace with championship composure.",
+    "active": true
+  },
+  {
+    "id": "mat_mladin",
+    "displayName": "Mat Mladin",
+    "aliases": [
+      "mat mladin",
+      "mladin"
+    ],
+    "series": [
+      "motoamerica",
+      "asbk"
+    ],
+    "era": "legend",
+    "characteristics": {
+      "style": [
+        "aggressive",
+        "dominant"
+      ],
+      "vibe": [
+        "australian_legend"
+      ],
+      "signature": "seven-time AMA Superbike champion"
+    },
+    "blurb": "Mat Mladin owns the AMA Superbike record books — seven titles. Aussie domination in the US.",
+    "active": true
+  },
+  {
+    "id": "ben_spies",
+    "displayName": "Ben Spies",
+    "aliases": [
+      "ben spies",
+      "spies"
+    ],
+    "series": [
+      "motoamerica",
+      "wsbk",
+      "motogp"
+    ],
+    "era": "legend",
+    "characteristics": {
+      "style": [
+        "smooth",
+        "qualifier"
+      ],
+      "vibe": [
+        "american_legend"
+      ],
+      "signature": "AMA to WSBK champion"
+    },
+    "blurb": "Ben Spies went AMA Superbike titles → World Superbike champion. Texas cool with serious speed.",
+    "active": true
+  },
+  {
+    "id": "josh_hayes",
+    "displayName": "Josh Hayes",
+    "aliases": [
+      "josh hayes"
+    ],
+    "series": [
+      "motoamerica"
+    ],
+    "era": "legend",
+    "characteristics": {
+      "style": [
+        "smooth",
+        "race_craft"
+      ],
+      "vibe": [
+        "american_legend"
+      ],
+      "signature": "four-time AMA Superbike champion"
+    },
+    "blurb": "Josh Hayes stacked four AMA/MotoAmerica Superbike titles on Yamaha. Quietly elite.",
+    "active": true
+  },
+  {
+    "id": "cameron_beaubier",
+    "displayName": "Cameron Beaubier",
+    "aliases": [
+      "cameron beaubier",
+      "beaubier"
+    ],
+    "series": [
+      "motoamerica",
+      "moto2"
+    ],
+    "era": "current",
+    "characteristics": {
+      "style": [
+        "aggressive",
+        "dominant"
+      ],
+      "vibe": [
+        "american_legend"
+      ],
+      "signature": "six-time MotoAmerica Superbike champion"
+    },
+    "blurb": "Cameron Beaubier is a MotoAmerica Superbike giant — multiple titles and a Moto2 chapter too.",
+    "active": true
+  },
+  {
+    "id": "jake_gagne",
+    "displayName": "Jake Gagne",
+    "aliases": [
+      "jake gagne",
+      "gagne",
+      "jacob gagne"
+    ],
+    "series": [
+      "motoamerica",
+      "wsbk",
+      "red_bull_rookies"
+    ],
+    "era": "current",
+    "characteristics": {
+      "style": [
+        "aggressive",
+        "send_it"
+      ],
+      "vibe": [
+        "american_champion"
+      ],
+      "signature": "three-time MotoAmerica Superbike champion"
+    },
+    "blurb": "Jake Gagne went on a MotoAmerica win streak that looked unfair — then made the titles stick.",
+    "active": true
+  },
+  {
+    "id": "scott_russell",
+    "displayName": "Scott Russell",
+    "aliases": [
+      "scott russell",
+      "mr daytona"
+    ],
+    "series": [
+      "motoamerica",
+      "wsbk"
+    ],
+    "era": "legend",
+    "characteristics": {
+      "style": [
+        "aggressive",
+        "send_it"
+      ],
+      "vibe": [
+        "american_legend"
+      ],
+      "signature": "Mr Daytona"
+    },
+    "blurb": "Scott Russell — Mr Daytona. AMA pace, WSBK titles, and that Florida grin when the draft hits.",
+    "active": true
+  },
+  {
+    "id": "miguel_duhamel",
+    "displayName": "Miguel Duhamel",
+    "aliases": [
+      "miguel duhamel",
+      "duhamel"
+    ],
+    "series": [
+      "motoamerica"
+    ],
+    "era": "legend",
+    "characteristics": {
+      "style": [
+        "aggressive",
+        "endurance"
+      ],
+      "vibe": [
+        "american_legend"
+      ],
+      "signature": "AMA legend + Daytona icon"
+    },
+    "blurb": "Miguel Duhamel was an AMA force and a Daytona legend. Canadian fire in American Superbike colours.",
+    "active": true
+  },
+  {
+    "id": "fred_merkel",
+    "displayName": "Fred Merkel",
+    "aliases": [
+      "fred merkel",
+      "merkel",
+      "flying fred"
+    ],
+    "series": [
+      "motoamerica",
+      "wsbk"
+    ],
+    "era": "legend",
+    "characteristics": {
+      "style": [
+        "aggressive"
+      ],
+      "vibe": [
+        "american_legend"
+      ],
+      "signature": "AMA + inaugural WSBK champion"
+    },
+    "blurb": "Fred Merkel won AMA Superbike titles and the first World Superbike championship. Flying Fred — pioneer energy.",
+    "active": true
+  },
+  {
+    "id": "josh_herrin",
+    "displayName": "Josh Herrin",
+    "aliases": [
+      "josh herrin",
+      "herrin"
+    ],
+    "series": [
+      "motoamerica"
+    ],
+    "era": "current",
+    "characteristics": {
+      "style": [
+        "aggressive"
+      ],
+      "vibe": [
+        "american_champion"
+      ],
+      "signature": "MotoAmerica Superbike champion"
+    },
+    "blurb": "Josh Herrin has multiple MotoAmerica Superbike titles on his résumé. US national pace, properly proven.",
+    "active": true
+  },
+  {
+    "id": "ai_ogura",
+    "displayName": "Ai Ogura",
+    "aliases": [
+      "ai ogura",
+      "ogura"
+    ],
+    "series": [
+      "moto2",
+      "motogp"
+    ],
+    "era": "current",
+    "characteristics": {
+      "style": [
+        "smooth",
+        "race_craft"
+      ],
+      "vibe": [
+        "champion"
+      ],
+      "signature": "Moto2 world champion"
+    },
+    "blurb": "Ai Ogura took a Moto2 world title with calm precision — then stepped toward the premier class.",
+    "active": true
+  },
+  {
+    "id": "augusto_fernandez",
+    "displayName": "Augusto Fernández",
+    "aliases": [
+      "augusto fernandez",
+      "augusto fernández"
+    ],
+    "series": [
+      "moto2",
+      "motogp"
+    ],
+    "era": "current",
+    "characteristics": {
+      "style": [
+        "smooth",
+        "race_craft"
+      ],
+      "vibe": [
+        "champion"
+      ],
+      "signature": "2022 Moto2 world champion"
+    },
+    "blurb": "Augusto Fernández claimed the 2022 Moto2 crown — quiet speed that still gets the job done.",
+    "active": true
+  },
+  {
+    "id": "aron_canet",
+    "displayName": "Arón Canet",
+    "aliases": [
+      "aron canet",
+      "arón canet",
+      "canet"
+    ],
+    "series": [
+      "moto2"
+    ],
+    "era": "current",
+    "characteristics": {
+      "style": [
+        "aggressive",
+        "qualifier"
+      ],
+      "vibe": [
+        "moto2_star"
+      ],
+      "signature": "Moto2 title contender"
+    },
+    "blurb": "Arón Canet is pure Moto2 threat energy — poles, podiums, and that never-settled hunger.",
+    "active": true
+  },
+  {
+    "id": "fermin_aldeguer",
+    "displayName": "Fermín Aldeguer",
+    "aliases": [
+      "fermin aldeguer",
+      "fermín aldeguer",
+      "aldeguer"
+    ],
+    "series": [
+      "moto2",
+      "motogp"
+    ],
+    "era": "current",
+    "characteristics": {
+      "style": [
+        "aggressive",
+        "send_it"
+      ],
+      "vibe": [
+        "future_star"
+      ],
+      "signature": "Moto2 rocket → MotoGP"
+    },
+    "blurb": "Fermín Aldeguer looked like a Moto2 cheat code — then took that rocket fuel upstairs to MotoGP.",
+    "active": true
+  },
+  {
+    "id": "joe_roberts",
+    "displayName": "Joe Roberts",
+    "aliases": [
+      "joe roberts"
+    ],
+    "series": [
+      "moto2"
+    ],
+    "era": "current",
+    "characteristics": {
+      "style": [
+        "smooth",
+        "race_craft"
+      ],
+      "vibe": [
+        "american_in_gp"
+      ],
+      "signature": "American Moto2 frontrunner"
+    },
+    "blurb": "Joe Roberts flies the US flag in Moto2 with proper front-running pace. Stars and stripes in the intermediate class.",
+    "active": true
+  },
+  {
+    "id": "sam_lowes",
+    "displayName": "Sam Lowes",
+    "aliases": [
+      "sam lowes",
+      "lowes"
+    ],
+    "series": [
+      "moto2",
+      "wsbk",
+      "bsb",
+      "ssp"
+    ],
+    "era": "current",
+    "characteristics": {
+      "style": [
+        "aggressive",
+        "qualifier"
+      ],
+      "vibe": [
+        "british_fighter"
+      ],
+      "signature": "Moto2 race winner"
+    },
+    "blurb": "Sam Lowes has won across BSB, WSBK, and Moto2. When the pace is there, he is impossible to ignore.",
+    "active": true
+  },
+  {
+    "id": "jake_dixon",
+    "displayName": "Jake Dixon",
+    "aliases": [
+      "jake dixon",
+      "dixon"
+    ],
+    "series": [
+      "moto2",
+      "bsb"
+    ],
+    "era": "current",
+    "characteristics": {
+      "style": [
+        "smooth",
+        "race_craft"
+      ],
+      "vibe": [
+        "british_star"
+      ],
+      "signature": "BSB to Moto2"
+    },
+    "blurb": "Jake Dixon went from British Superbikes to Moto2 podiums. Homegrown talent with world-class finishing.",
+    "active": true
+  },
+  {
+    "id": "franco_morbidelli",
+    "displayName": "Franco Morbidelli",
+    "aliases": [
+      "franco morbidelli",
+      "morbidelli",
+      "franky"
+    ],
+    "series": [
+      "moto2",
+      "motogp"
+    ],
+    "era": "current",
+    "characteristics": {
+      "style": [
+        "smooth",
+        "technical"
+      ],
+      "vibe": [
+        "champion"
+      ],
+      "signature": "2017 Moto2 world champion"
+    },
+    "blurb": "Franco Morbidelli won the 2017 Moto2 title before becoming a MotoGP race winner. Smooth is fast.",
+    "active": true
+  },
+  {
+    "id": "senna_agius",
+    "displayName": "Senna Agius",
+    "aliases": [
+      "senna agius",
+      "agius"
+    ],
+    "series": [
+      "moto2"
+    ],
+    "era": "current",
+    "characteristics": {
+      "style": [
+        "aggressive",
+        "technical"
+      ],
+      "vibe": [
+        "australian_rising"
+      ],
+      "signature": "Aussie in Moto2"
+    },
+    "blurb": "Senna Agius is the Aussie flying the flag in Moto2 — young, hungry, and already race-winning pace.",
+    "active": true
+  },
+  {
+    "id": "tony_arbolino",
+    "displayName": "Tony Arbolino",
+    "aliases": [
+      "tony arbolino",
+      "arbolino"
+    ],
+    "series": [
+      "moto2"
+    ],
+    "era": "current",
+    "characteristics": {
+      "style": [
+        "smooth",
+        "race_craft"
+      ],
+      "vibe": [
+        "moto2_star"
+      ],
+      "signature": "Moto2 race winner"
+    },
+    "blurb": "Tony Arbolino mixes Italian flair with Moto2 race wins. When the rhythm's right, he's podium material.",
+    "active": true
+  },
+  {
+    "id": "celestino_vietti",
+    "displayName": "Celestino Vietti",
+    "aliases": [
+      "celestino vietti",
+      "vietti"
+    ],
+    "series": [
+      "moto2"
+    ],
+    "era": "current",
+    "characteristics": {
+      "style": [
+        "aggressive"
+      ],
+      "vibe": [
+        "moto2_star"
+      ],
+      "signature": "Moto2 frontrunner"
+    },
+    "blurb": "Celestino Vietti is a Moto2 regular who can steal a win when the cards fall. Proper intermediate-class fighter.",
+    "active": true
+  },
+  {
+    "id": "sandro_cortese",
+    "displayName": "Sandro Cortese",
+    "aliases": [
+      "sandro cortese",
+      "cortese"
+    ],
+    "series": [
+      "moto3",
+      "ssp"
+    ],
+    "era": "legend",
+    "characteristics": {
+      "style": [
+        "smooth",
+        "race_craft"
+      ],
+      "vibe": [
+        "champion"
+      ],
+      "signature": "first Moto3 world champion"
+    },
+    "blurb": "Sandro Cortese was the first Moto3 world champion in 2012 — he wrote the opening chapter of the class.",
+    "active": true
+  },
+  {
+    "id": "danny_kent",
+    "displayName": "Danny Kent",
+    "aliases": [
+      "danny kent"
+    ],
+    "series": [
+      "moto3",
+      "red_bull_rookies",
+      "bsb"
+    ],
+    "era": "legend",
+    "characteristics": {
+      "style": [
+        "aggressive",
+        "race_craft"
+      ],
+      "vibe": [
+        "british_champion"
+      ],
+      "signature": "2015 Moto3 world champion"
+    },
+    "blurb": "Danny Kent took Britain its first Moto3 title in 2015 — Rookies graduate, world champion, proper pathway story.",
+    "active": true
+  },
+  {
+    "id": "lorenzo_dalla_porta",
+    "displayName": "Lorenzo Dalla Porta",
+    "aliases": [
+      "lorenzo dalla porta",
+      "dalla porta"
+    ],
+    "series": [
+      "moto3"
+    ],
+    "era": "legend",
+    "characteristics": {
+      "style": [
+        "smooth",
+        "race_craft"
+      ],
+      "vibe": [
+        "champion"
+      ],
+      "signature": "2019 Moto3 world champion"
+    },
+    "blurb": "Lorenzo Dalla Porta sealed the 2019 Moto3 crown with Italian race craft when the season got serious.",
+    "active": true
+  },
+  {
+    "id": "albert_arenas",
+    "displayName": "Albert Arenas",
+    "aliases": [
+      "albert arenas",
+      "arenas"
+    ],
+    "series": [
+      "moto3",
+      "moto2"
+    ],
+    "era": "current",
+    "characteristics": {
+      "style": [
+        "aggressive"
+      ],
+      "vibe": [
+        "champion"
+      ],
+      "signature": "2020 Moto3 world champion"
+    },
+    "blurb": "Albert Arenas won the chaotic 2020 Moto3 title by four points. Pressure cooker champion energy.",
+    "active": true
+  },
+  {
+    "id": "izan_guevara",
+    "displayName": "Izan Guevara",
+    "aliases": [
+      "izan guevara",
+      "guevara"
+    ],
+    "series": [
+      "moto3",
+      "moto2",
+      "red_bull_rookies"
+    ],
+    "era": "current",
+    "characteristics": {
+      "style": [
+        "aggressive",
+        "send_it"
+      ],
+      "vibe": [
+        "champion"
+      ],
+      "signature": "2022 Moto3 world champion"
+    },
+    "blurb": "Izan Guevara stormed the 2022 Moto3 title — Rookies pathway, GasGas pace, future stamped.",
+    "active": true
+  },
+  {
+    "id": "jaume_masia",
+    "displayName": "Jaume Masià",
+    "aliases": [
+      "jaume masia",
+      "jaume masià",
+      "masia",
+      "masià"
+    ],
+    "series": [
+      "moto3",
+      "moto2",
+      "red_bull_rookies"
+    ],
+    "era": "current",
+    "characteristics": {
+      "style": [
+        "aggressive",
+        "qualifier"
+      ],
+      "vibe": [
+        "champion"
+      ],
+      "signature": "2023 Moto3 world champion"
+    },
+    "blurb": "Jaume Masià took the 2023 Moto3 championship — poles, late-season ice, and a Rookies pedigree.",
+    "active": true
+  },
+  {
+    "id": "david_alonso",
+    "displayName": "David Alonso",
+    "aliases": [
+      "david alonso"
+    ],
+    "series": [
+      "moto3",
+      "moto2",
+      "red_bull_rookies"
+    ],
+    "era": "current",
+    "characteristics": {
+      "style": [
+        "dominant",
+        "aggressive"
+      ],
+      "vibe": [
+        "champion"
+      ],
+      "signature": "2024 Moto3 world champion"
+    },
+    "blurb": "David Alonso demolished the 2024 Moto3 season — Rookies Cup champ, then a historic title run. Colombian rocket.",
+    "active": true
+  },
+  {
+    "id": "jose_antonio_rueda",
+    "displayName": "José Antonio Rueda",
+    "aliases": [
+      "jose antonio rueda",
+      "josé antonio rueda",
+      "rueda"
+    ],
+    "series": [
+      "moto3",
+      "red_bull_rookies"
+    ],
+    "era": "current",
+    "characteristics": {
+      "style": [
+        "smooth",
+        "race_craft"
+      ],
+      "vibe": [
+        "champion"
+      ],
+      "signature": "2025 Moto3 world champion"
+    },
+    "blurb": "José Antonio Rueda: Rookies Cup champion, then 2025 Moto3 world champion. The pathway working exactly as designed.",
+    "active": true
+  },
+  {
+    "id": "jd_beach",
+    "displayName": "J.D. Beach",
+    "aliases": [
+      "jd beach",
+      "j.d. beach",
+      "j d beach"
+    ],
+    "series": [
+      "red_bull_rookies",
+      "motoamerica"
+    ],
+    "era": "legend",
+    "characteristics": {
+      "style": [
+        "aggressive"
+      ],
+      "vibe": [
+        "american_rising"
+      ],
+      "signature": "2008 Red Bull Rookies Cup champion"
+    },
+    "blurb": "J.D. Beach won the 2008 Red Bull MotoGP Rookies Cup — American pathway energy before the US home races got loud.",
+    "active": true
+  },
+  {
+    "id": "jakub_kornfeil",
+    "displayName": "Jakub Kornfeil",
+    "aliases": [
+      "jakub kornfeil",
+      "kornfeil"
+    ],
+    "series": [
+      "red_bull_rookies",
+      "moto3"
+    ],
+    "era": "legend",
+    "characteristics": {
+      "style": [
+        "consistent"
+      ],
+      "vibe": [
+        "rookies_graduate"
+      ],
+      "signature": "2009 Red Bull Rookies Cup champion"
+    },
+    "blurb": "Jakub Kornfeil took the 2009 Rookies Cup, then became a long-serving Moto3 warrior. Persistence personified.",
+    "active": true
+  },
+  {
+    "id": "lorenzo_baldassarri",
+    "displayName": "Lorenzo Baldassarri",
+    "aliases": [
+      "lorenzo baldassarri",
+      "baldassarri"
+    ],
+    "series": [
+      "red_bull_rookies",
+      "moto2"
+    ],
+    "era": "legend",
+    "characteristics": {
+      "style": [
+        "smooth"
+      ],
+      "vibe": [
+        "rookies_graduate"
+      ],
+      "signature": "2011 Red Bull Rookies Cup champion"
+    },
+    "blurb": "Lorenzo Baldassarri won the 2011 Rookies Cup and graduated into Moto2 race wins. Italian pipeline product.",
+    "active": true
+  },
+  {
+    "id": "karel_hanika",
+    "displayName": "Karel Hanika",
+    "aliases": [
+      "karel hanika",
+      "hanika"
+    ],
+    "series": [
+      "red_bull_rookies"
+    ],
+    "era": "legend",
+    "characteristics": {
+      "style": [
+        "aggressive"
+      ],
+      "vibe": [
+        "rookies_champion"
+      ],
+      "signature": "2013 Red Bull Rookies Cup champion"
+    },
+    "blurb": "Karel Hanika dominated the 2013 Red Bull Rookies Cup. Czech speed in the MotoGP junior classroom.",
+    "active": true
+  },
+  {
+    "id": "bo_bendsneyder",
+    "displayName": "Bo Bendsneyder",
+    "aliases": [
+      "bo bendsneyder",
+      "bendsneyder"
+    ],
+    "series": [
+      "red_bull_rookies",
+      "moto2",
+      "moto3"
+    ],
+    "era": "current",
+    "characteristics": {
+      "style": [
+        "smooth",
+        "technical"
+      ],
+      "vibe": [
+        "rookies_champion"
+      ],
+      "signature": "2015 Red Bull Rookies Cup champion"
+    },
+    "blurb": "Bo Bendsneyder won the 2015 Rookies Cup — Dutch precision before the GP grind.",
+    "active": true
+  },
+  {
+    "id": "ayumu_sasaki",
+    "displayName": "Ayumu Sasaki",
+    "aliases": [
+      "ayumu sasaki",
+      "sasaki"
+    ],
+    "series": [
+      "red_bull_rookies",
+      "moto3",
+      "moto2"
+    ],
+    "era": "current",
+    "characteristics": {
+      "style": [
+        "aggressive",
+        "qualifier"
+      ],
+      "vibe": [
+        "rookies_champion"
+      ],
+      "signature": "2016 Red Bull Rookies Cup champion"
+    },
+    "blurb": "Ayumu Sasaki took the 2016 Rookies Cup and became a Moto3 race winner. Japanese pace, European classroom.",
+    "active": true
+  },
+  {
+    "id": "can_oncu",
+    "displayName": "Can Öncü",
+    "aliases": [
+      "can oncu",
+      "can öncü",
+      "oncu"
+    ],
+    "series": [
+      "red_bull_rookies",
+      "moto3",
+      "ssp"
+    ],
+    "era": "current",
+    "characteristics": {
+      "style": [
+        "aggressive",
+        "send_it"
+      ],
+      "vibe": [
+        "rookies_champion"
+      ],
+      "signature": "2018 Red Bull Rookies Cup champion"
+    },
+    "blurb": "Can Öncü won the 2018 Rookies Cup and scored a Moto3 win as a wild-card teenager. Fearless from day one.",
+    "active": true
+  },
+  {
+    "id": "carlos_tatay",
+    "displayName": "Carlos Tatay",
+    "aliases": [
+      "carlos tatay",
+      "tatay"
+    ],
+    "series": [
+      "red_bull_rookies",
+      "moto3"
+    ],
+    "era": "current",
+    "characteristics": {
+      "style": [
+        "aggressive"
+      ],
+      "vibe": [
+        "rookies_champion"
+      ],
+      "signature": "2019 Red Bull Rookies Cup champion"
+    },
+    "blurb": "Carlos Tatay claimed the 2019 Rookies Cup — another Spanish graduate from the Red Bull finishing school.",
+    "active": true
+  },
+  {
+    "id": "angel_piqueras",
+    "displayName": "Ángel Piqueras",
+    "aliases": [
+      "angel piqueras",
+      "ángel piqueras",
+      "piqueras"
+    ],
+    "series": [
+      "red_bull_rookies",
+      "moto3"
+    ],
+    "era": "current",
+    "characteristics": {
+      "style": [
+        "aggressive",
+        "dominant"
+      ],
+      "vibe": [
+        "rookies_champion"
+      ],
+      "signature": "2023 Red Bull Rookies Cup champion"
+    },
+    "blurb": "Ángel Piqueras crushed the 2023 Rookies Cup — then stepped into Moto3 with that same hungry energy.",
+    "active": true
+  },
+  {
+    "id": "alvaro_carpe",
+    "displayName": "Álvaro Carpe",
+    "aliases": [
+      "alvaro carpe",
+      "álvaro carpe",
+      "carpe"
+    ],
+    "series": [
+      "red_bull_rookies",
+      "moto3"
+    ],
+    "era": "current",
+    "characteristics": {
+      "style": [
+        "aggressive"
+      ],
+      "vibe": [
+        "rookies_champion"
+      ],
+      "signature": "2024 Red Bull Rookies Cup champion"
+    },
+    "blurb": "Álvaro Carpe took the 2024 Red Bull Rookies Cup title. Next stop: proving it in the world championship.",
+    "active": true
+  },
+  {
+    "id": "brian_uriarte",
+    "displayName": "Brian Uriarte",
+    "aliases": [
+      "brian uriarte",
+      "uriarte"
+    ],
+    "series": [
+      "red_bull_rookies"
+    ],
+    "era": "current",
+    "characteristics": {
+      "style": [
+        "aggressive",
+        "race_craft"
+      ],
+      "vibe": [
+        "rookies_champion"
+      ],
+      "signature": "2025 Red Bull Rookies Cup champion"
+    },
+    "blurb": "Brian Uriarte is the 2025 Red Bull MotoGP Rookies Cup champion — the latest graduate from the talent factory.",
+    "active": true
+  },
+  {
+    "id": "florian_alt",
+    "displayName": "Florian Alt",
+    "aliases": [
+      "florian alt"
+    ],
+    "series": [
+      "red_bull_rookies"
+    ],
+    "era": "legend",
+    "characteristics": {
+      "style": [
+        "smooth"
+      ],
+      "vibe": [
+        "rookies_champion"
+      ],
+      "signature": "2012 Red Bull Rookies Cup champion"
+    },
+    "blurb": "Florian Alt won the 2012 Red Bull Rookies Cup — German graduate from the equal-bike classroom.",
+    "active": true
+  },
+  {
+    "id": "kazuki_masaki",
+    "displayName": "Kazuki Masaki",
+    "aliases": [
+      "kazuki masaki",
+      "masaki"
+    ],
+    "series": [
+      "red_bull_rookies",
+      "moto3"
+    ],
+    "era": "legend",
+    "characteristics": {
+      "style": [
+        "smooth",
+        "technical"
+      ],
+      "vibe": [
+        "rookies_champion"
+      ],
+      "signature": "2017 Red Bull Rookies Cup champion"
+    },
+    "blurb": "Kazuki Masaki took the 2017 Rookies Cup — another Japanese standout from the Red Bull ladder.",
+    "active": true
+  },
+  {
+    "id": "guy_martin",
+    "displayName": "Guy Martin",
+    "aliases": [
+      "guy martin"
+    ],
+    "series": [
+      "tt"
+    ],
+    "era": "legend",
+    "characteristics": {
+      "style": [
+        "brave",
+        "road_racing"
+      ],
+      "vibe": [
+        "cult_hero"
+      ],
+      "signature": "TT legend without a TT win"
+    },
+    "blurb": "Guy Martin never won a TT — and somehow became more iconic for it. Truck fitter, mountain racer, cult hero.",
+    "active": true
+  },
+  {
+    "id": "norick_abe",
+    "displayName": "Norick Abe",
+    "aliases": [
+      "norick abe",
+      "norick"
+    ],
+    "series": [
+      "motogp"
+    ],
+    "era": "legend",
+    "characteristics": {
+      "style": [
+        "aggressive",
+        "spectacular"
+      ],
+      "vibe": [
+        "cult_hero"
+      ],
+      "signature": "Suzuka hero, never world champion"
+    },
+    "blurb": "Norick Abe won Grands Prix and owned Suzuka moments — never a world champion, always unforgettable.",
+    "active": true
+  },
+  {
+    "id": "sete_gibernau",
+    "displayName": "Sete Gibernau",
+    "aliases": [
+      "sete gibernau",
+      "gibernau"
+    ],
+    "series": [
+      "motogp"
+    ],
+    "era": "legend",
+    "characteristics": {
+      "style": [
+        "smooth",
+        "race_craft"
+      ],
+      "vibe": [
+        "cult_hero"
+      ],
+      "signature": "Rossi's great rival who never took the title"
+    },
+    "blurb": "Sete Gibernau pushed Rossi hard and won MotoGP races — the title never came. Rivalry immortalised anyway.",
+    "active": true
+  },
+  {
+    "id": "alex_barros",
+    "displayName": "Alex Barros",
+    "aliases": [
+      "alex barros",
+      "barros"
+    ],
+    "series": [
+      "motogp"
+    ],
+    "era": "legend",
+    "characteristics": {
+      "style": [
+        "aggressive",
+        "longevity"
+      ],
+      "vibe": [
+        "cult_hero"
+      ],
+      "signature": "GP winner, never world champion"
+    },
+    "blurb": "Alex Barros won Grands Prix across eras and never needed a number-one plate to earn respect. Brazilian longevity.",
+    "active": true
+  },
+  {
+    "id": "garry_mccoy",
+    "displayName": "Garry McCoy",
+    "aliases": [
+      "garry mccoy",
+      "mccoy",
+      "the wheelie king"
+    ],
+    "series": [
+      "motogp"
+    ],
+    "era": "legend",
+    "characteristics": {
+      "style": [
+        "spectacular",
+        "showman"
+      ],
+      "vibe": [
+        "cult_hero"
+      ],
+      "signature": "Wheelie King"
+    },
+    "blurb": "Garry McCoy — the Wheelie King — won GPs sideways and still never took a title. Style over silverware.",
+    "active": true
+  },
+  {
+    "id": "shinya_nakano",
+    "displayName": "Shinya Nakano",
+    "aliases": [
+      "shinya nakano",
+      "nakano"
+    ],
+    "series": [
+      "motogp",
+      "wsbk"
+    ],
+    "era": "legend",
+    "characteristics": {
+      "style": [
+        "smooth",
+        "technical"
+      ],
+      "vibe": [
+        "cult_hero"
+      ],
+      "signature": "GP winner without a world title"
+    },
+    "blurb": "Shinya Nakano won Grands Prix with quiet Japanese precision — never a world champion, always a rider's rider.",
+    "active": true
+  },
+  {
+    "id": "jeremy_mcwilliams",
+    "displayName": "Jeremy McWilliams",
+    "aliases": [
+      "jeremy mcwilliams",
+      "mcwilliams"
+    ],
+    "series": [
+      "motogp",
+      "tt"
+    ],
+    "era": "legend",
+    "characteristics": {
+      "style": [
+        "brave",
+        "versatile"
+      ],
+      "vibe": [
+        "cult_hero"
+      ],
+      "signature": "GP podium + roads legend"
+    },
+    "blurb": "Jeremy McWilliams took GP podiums and still rode the roads like a proper Irishman. No world title required.",
+    "active": true
+  },
+  {
+    "id": "aleix_espargaro",
+    "displayName": "Aleix Espargaró",
+    "aliases": [
+      "aleix espargaro",
+      "aleix espargaró"
+    ],
+    "series": [
+      "motogp"
+    ],
+    "era": "current",
+    "characteristics": {
+      "style": [
+        "aggressive",
+        "race_craft"
+      ],
+      "vibe": [
+        "cult_hero"
+      ],
+      "signature": "MotoGP race winner, never world champion"
+    },
+    "blurb": "Aleix Espargaró finally won in MotoGP after years of grinding — still no world title, massive respect.",
+    "active": true
+  },
+  {
+    "id": "aaron_slight",
+    "displayName": "Aaron Slight",
+    "aliases": [
+      "aaron slight",
+      "slight"
+    ],
+    "series": [
+      "wsbk",
+      "suzuka"
+    ],
+    "era": "legend",
+    "characteristics": {
+      "style": [
+        "smooth",
+        "race_craft"
+      ],
+      "vibe": [
+        "cult_hero"
+      ],
+      "signature": "WSBK legend without the title"
+    },
+    "blurb": "Aaron Slight stacked WSBK wins and still never wore the crown. Kiwi class in Superbike's golden era.",
+    "active": true
+  },
+  {
+    "id": "regis_laconi",
+    "displayName": "Régis Laconi",
+    "aliases": [
+      "regis laconi",
+      "régis laconi",
+      "laconi"
+    ],
+    "series": [
+      "wsbk",
+      "motogp"
+    ],
+    "era": "legend",
+    "characteristics": {
+      "style": [
+        "aggressive",
+        "qualifier"
+      ],
+      "vibe": [
+        "cult_hero"
+      ],
+      "signature": "WSBK race winner, never champion"
+    },
+    "blurb": "Régis Laconi could qualify like a missile and still never locked a world title. French flair, hard luck story.",
+    "active": true
+  },
+  {
+    "id": "chris_walker",
+    "displayName": "Chris Walker",
+    "aliases": [
+      "chris walker",
+      "the statter"
+    ],
+    "series": [
+      "bsb",
+      "wsbk"
+    ],
+    "era": "legend",
+    "characteristics": {
+      "style": [
+        "aggressive",
+        "showman"
+      ],
+      "vibe": [
+        "cult_hero"
+      ],
+      "signature": "BSB cult hero"
+    },
+    "blurb": "Chris Walker — The Statter — was BSB box office without needing a world championship on the CV.",
+    "active": true
+  },
+  {
+    "id": "scott_redding",
+    "displayName": "Scott Redding",
+    "aliases": [
+      "scott redding",
+      "redding"
+    ],
+    "series": [
+      "motogp",
+      "wsbk",
+      "bsb"
+    ],
+    "era": "current",
+    "characteristics": {
+      "style": [
+        "aggressive",
+        "showman"
+      ],
+      "vibe": [
+        "cult_hero"
+      ],
+      "signature": "race winner, never world champion"
+    },
+    "blurb": "Scott Redding won across GPs, WSBK and BSB — never a world champion, always loud and memorable.",
+    "active": true
+  },
+  {
+    "id": "bradley_smith",
+    "displayName": "Bradley Smith",
+    "aliases": [
+      "bradley smith"
+    ],
+    "series": [
+      "motogp",
+      "wsbk"
+    ],
+    "era": "legend",
+    "characteristics": {
+      "style": [
+        "smooth",
+        "race_craft"
+      ],
+      "vibe": [
+        "cult_hero"
+      ],
+      "signature": "GP podium without a title"
+    },
+    "blurb": "Bradley Smith took MotoGP podiums and kept showing up when bikes were difficult. No title, plenty of respect.",
+    "active": true
+  },
+  {
+    "id": "eugene_laverty",
+    "displayName": "Eugene Laverty",
+    "aliases": [
+      "eugene laverty",
+      "laverty"
+    ],
+    "series": [
+      "wsbk",
+      "bsb",
+      "motogp"
+    ],
+    "era": "legend",
+    "characteristics": {
+      "style": [
+        "aggressive",
+        "versatile"
+      ],
+      "vibe": [
+        "cult_hero"
+      ],
+      "signature": "WSBK race winner, never champion"
+    },
+    "blurb": "Eugene Laverty won WSBK races and bounced between series like a true mercenary. Titles optional; pace not.",
+    "active": true
+  },
+  {
+    "id": "michael_rutter",
+    "displayName": "Michael Rutter",
+    "aliases": [
+      "michael rutter",
+      "rutter"
+    ],
+    "series": [
+      "tt",
+      "bsb"
+    ],
+    "era": "legend",
+    "characteristics": {
+      "style": [
+        "brave",
+        "road_racing"
+      ],
+      "vibe": [
+        "cult_hero"
+      ],
+      "signature": "roads legend"
+    },
+    "blurb": "Michael Rutter has been winning on roads and short circuits for decades — a British racing constant.",
+    "active": true
+  },
+  {
+    "id": "conor_cummins",
+    "displayName": "Conor Cummins",
+    "aliases": [
+      "conor cummins",
+      "cummins"
+    ],
+    "series": [
+      "tt"
+    ],
+    "era": "current",
+    "characteristics": {
+      "style": [
+        "brave",
+        "road_racing"
+      ],
+      "vibe": [
+        "cult_hero"
+      ],
+      "signature": "Manx TT hero"
+    },
+    "blurb": "Conor Cummins is pure Mountain Course courage — Manx grit that made him a TT favourite with or without the big wins.",
+    "active": true
+  },
+  {
+    "id": "tohru_ukawa",
+    "displayName": "Tohru Ukawa",
+    "aliases": [
+      "tohru ukawa",
+      "ukawa"
+    ],
+    "series": [
+      "motogp",
+      "suzuka",
+      "endurance"
+    ],
+    "era": "legend",
+    "characteristics": {
+      "style": [
+        "smooth",
+        "technical"
+      ],
+      "vibe": [
+        "cult_hero"
+      ],
+      "signature": "GP winner, never world champion"
+    },
+    "blurb": "Tohru Ukawa won Grands Prix in the four-stroke dawn — never a world champion, still part of the Honda lore.",
+    "active": true
+  },
+  {
+    "id": "john_hopkins",
+    "displayName": "John Hopkins",
+    "aliases": [
+      "john hopkins",
+      "hopper",
+      "hopkins"
+    ],
+    "series": [
+      "motogp",
+      "wsbk",
+      "bsb"
+    ],
+    "era": "legend",
+    "characteristics": {
+      "style": [
+        "aggressive"
+      ],
+      "vibe": [
+        "cult_hero"
+      ],
+      "signature": "Hopper — GP podium without a title"
+    },
+    "blurb": "John Hopkins — Hopper — scored MotoGP podiums and kept fighting through injuries. American heart, no world title.",
+    "active": true
+  },
+  {
+    "id": "pierfrancesco_chili",
+    "displayName": "Pierfrancesco Chili",
+    "aliases": [
+      "pierfrancesco chili",
+      "frankie chili",
+      "chili"
+    ],
+    "series": [
+      "wsbk",
+      "motogp"
+    ],
+    "era": "legend",
+    "characteristics": {
+      "style": [
+        "aggressive",
+        "showman"
+      ],
+      "vibe": [
+        "cult_hero"
+      ],
+      "signature": "WSBK entertainer, never champion"
+    },
+    "blurb": "Frankie Chili was WSBK entertainment incarnate — wins, drama, and still no world championship. Italian theatre.",
+    "active": true
+  },
+  {
+    "id": "barry_sheene",
+    "displayName": "Barry Sheene",
+    "aliases": [
+      "barry sheene",
+      "sheene",
+      "seven"
+    ],
+    "series": [
+      "motogp",
+      "classic"
+    ],
+    "era": "legend",
+    "characteristics": {
+      "style": [
+        "showman",
+        "racer_iq"
+      ],
+      "vibe": [
+        "british_legend"
+      ],
+      "signature": "two-time 500cc world champion"
+    },
+    "blurb": "Barry Sheene — two-time 500cc world champion, playboy, survivor, and the face of British bike racing. Proper legend.",
+    "active": true
+  },
+  {
+    "id": "geoff_duke",
+    "displayName": "Geoff Duke",
+    "aliases": [
+      "geoff duke",
+      "duke"
+    ],
+    "series": [
+      "motogp",
+      "classic"
+    ],
+    "era": "legend",
+    "characteristics": {
+      "style": [
+        "smooth"
+      ],
+      "vibe": [
+        "classic_legend"
+      ],
+      "signature": "six-time world champion"
+    },
+    "blurb": "Geoff Duke was the original stylish world champion — six titles when road racing was still raw courage.",
+    "active": true
+  },
+  {
+    "id": "john_surtees",
+    "displayName": "John Surtees",
+    "aliases": [
+      "john surtees",
+      "surtees"
+    ],
+    "series": [
+      "motogp",
+      "classic"
+    ],
+    "era": "legend",
+    "characteristics": {
+      "style": [
+        "versatile",
+        "racer_iq"
+      ],
+      "vibe": [
+        "classic_legend"
+      ],
+      "signature": "multi-class world champion + F1"
+    },
+    "blurb": "John Surtees won bike world titles and Formula 1 — the only person to champion both. Unreal résumé.",
+    "active": true
+  },
+  {
+    "id": "phil_read",
+    "displayName": "Phil Read",
+    "aliases": [
+      "phil read"
+    ],
+    "series": [
+      "motogp",
+      "classic"
+    ],
+    "era": "legend",
+    "characteristics": {
+      "style": [
+        "racer_iq",
+        "aggressive"
+      ],
+      "vibe": [
+        "classic_legend"
+      ],
+      "signature": "multi-class world champion"
+    },
+    "blurb": "Phil Read collected world titles across classes like they were souvenir badges. British GP royalty.",
+    "active": true
+  },
+  {
+    "id": "jim_redman",
+    "displayName": "Jim Redman",
+    "aliases": [
+      "jim redman",
+      "redman"
+    ],
+    "series": [
+      "motogp",
+      "classic"
+    ],
+    "era": "legend",
+    "characteristics": {
+      "style": [
+        "smooth",
+        "versatile"
+      ],
+      "vibe": [
+        "classic_legend"
+      ],
+      "signature": "six-time world champion"
+    },
+    "blurb": "Jim Redman won six world championships for Honda in the classic era. Rhodesian steel, Japanese machinery.",
+    "active": true
+  },
+  {
+    "id": "carlo_ubbiali",
+    "displayName": "Carlo Ubbiali",
+    "aliases": [
+      "carlo ubbiali",
+      "ubbiali"
+    ],
+    "series": [
+      "motogp",
+      "classic"
+    ],
+    "era": "legend",
+    "characteristics": {
+      "style": [
+        "smooth",
+        "technical"
+      ],
+      "vibe": [
+        "classic_legend"
+      ],
+      "signature": "nine-time world champion"
+    },
+    "blurb": "Carlo Ubbiali stacked nine world titles in the small classes — MV Agusta excellence.",
+    "active": true
+  },
+  {
+    "id": "luigi_taveri",
+    "displayName": "Luigi Taveri",
+    "aliases": [
+      "luigi taveri",
+      "taveri"
+    ],
+    "series": [
+      "motogp",
+      "classic"
+    ],
+    "era": "legend",
+    "characteristics": {
+      "style": [
+        "smooth"
+      ],
+      "vibe": [
+        "classic_legend"
+      ],
+      "signature": "three-time 125cc world champion"
+    },
+    "blurb": "Luigi Taveri — Swiss precision, three 125cc world titles. Classic-era craft.",
+    "active": true
+  },
+  {
+    "id": "franco_uncini",
+    "displayName": "Franco Uncini",
+    "aliases": [
+      "franco uncini",
+      "uncini"
+    ],
+    "series": [
+      "motogp"
+    ],
+    "era": "legend",
+    "characteristics": {
+      "style": [
+        "aggressive"
+      ],
+      "vibe": [
+        "champion"
+      ],
+      "signature": "1982 500cc world champion"
+    },
+    "blurb": "Franco Uncini took the 1982 500cc title — Italian grit in the two-stroke missile era.",
+    "active": true
+  },
+  {
+    "id": "alex_criville",
+    "displayName": "Àlex Crivillé",
+    "aliases": [
+      "alex criville",
+      "àlex crivillé",
+      "criville",
+      "crivillé"
+    ],
+    "series": [
+      "motogp"
+    ],
+    "era": "legend",
+    "characteristics": {
+      "style": [
+        "smooth",
+        "race_craft"
+      ],
+      "vibe": [
+        "champion"
+      ],
+      "signature": "1999 500cc world champion"
+    },
+    "blurb": "Àlex Crivillé became Spain's first 500cc world champion in 1999. Pathway opener for a generation.",
+    "active": true
+  },
+  {
+    "id": "kenny_roberts_jr",
+    "displayName": "Kenny Roberts Jr.",
+    "aliases": [
+      "kenny roberts jr",
+      "kenny roberts junior",
+      "roberts jr"
+    ],
+    "series": [
+      "motogp"
+    ],
+    "era": "legend",
+    "characteristics": {
+      "style": [
+        "aggressive",
+        "smooth"
+      ],
+      "vibe": [
+        "champion"
+      ],
+      "signature": "2000 500cc world champion"
+    },
+    "blurb": "Kenny Roberts Jr. followed his dad to a 500cc world title in 2000. American GP bloodline.",
+    "active": true
+  },
+  {
+    "id": "leslie_graham",
+    "displayName": "Leslie Graham",
+    "aliases": [
+      "leslie graham",
+      "les graham"
+    ],
+    "series": [
+      "motogp",
+      "classic"
+    ],
+    "era": "legend",
+    "characteristics": {
+      "style": [
+        "brave"
+      ],
+      "vibe": [
+        "classic_legend"
+      ],
+      "signature": "inaugural 500cc world champion"
+    },
+    "blurb": "Leslie Graham won the first-ever 500cc world championship in 1949. Where the history book starts.",
+    "active": true
+  },
+  {
+    "id": "umberto_masetti",
+    "displayName": "Umberto Masetti",
+    "aliases": [
+      "umberto masetti",
+      "masetti"
+    ],
+    "series": [
+      "motogp",
+      "classic"
+    ],
+    "era": "legend",
+    "characteristics": {
+      "style": [
+        "brave"
+      ],
+      "vibe": [
+        "classic_legend"
+      ],
+      "signature": "two-time 500cc world champion"
+    },
+    "blurb": "Umberto Masetti took early 500cc titles when the world championship was still finding its feet.",
+    "active": true
+  },
+  {
+    "id": "fergus_anderson",
+    "displayName": "Fergus Anderson",
+    "aliases": [
+      "fergus anderson"
+    ],
+    "series": [
+      "motogp",
+      "classic"
+    ],
+    "era": "legend",
+    "characteristics": {
+      "style": [
+        "smooth"
+      ],
+      "vibe": [
+        "classic_legend"
+      ],
+      "signature": "two-time 350cc world champion"
+    },
+    "blurb": "Fergus Anderson was a 350cc world champion in the 1950s — Scottish talent on continental grids.",
+    "active": true
+  },
+  {
+    "id": "libero_liberati",
+    "displayName": "Libero Liberati",
+    "aliases": [
+      "libero liberati",
+      "liberati"
+    ],
+    "series": [
+      "motogp",
+      "classic"
+    ],
+    "era": "legend",
+    "characteristics": {
+      "style": [
+        "aggressive"
+      ],
+      "vibe": [
+        "classic_legend"
+      ],
+      "signature": "1957 500cc world champion"
+    },
+    "blurb": "Libero Liberati won the 1957 500cc crown — Italian classic-era steel.",
+    "active": true
+  },
+  {
+    "id": "gary_hocking",
+    "displayName": "Gary Hocking",
+    "aliases": [
+      "gary hocking",
+      "hocking"
+    ],
+    "series": [
+      "motogp",
+      "classic"
+    ],
+    "era": "legend",
+    "characteristics": {
+      "style": [
+        "aggressive"
+      ],
+      "vibe": [
+        "classic_legend"
+      ],
+      "signature": "1961 500cc world champion"
+    },
+    "blurb": "Gary Hocking took the 1961 500cc title — Rhodesian speed in the MV years.",
+    "active": true
+  },
+  {
+    "id": "kel_carruthers",
+    "displayName": "Kel Carruthers",
+    "aliases": [
+      "kel carruthers",
+      "carruthers"
+    ],
+    "series": [
+      "motogp",
+      "classic"
+    ],
+    "era": "legend",
+    "characteristics": {
+      "style": [
+        "racer_iq"
+      ],
+      "vibe": [
+        "australian_legend"
+      ],
+      "signature": "1969 250cc world champion"
+    },
+    "blurb": "Kel Carruthers won the 1969 250cc title and later mentored Americans into GP. Aussie pioneer.",
+    "active": true
+  },
+  {
+    "id": "walter_villa",
+    "displayName": "Walter Villa",
+    "aliases": [
+      "walter villa"
+    ],
+    "series": [
+      "motogp",
+      "classic"
+    ],
+    "era": "legend",
+    "characteristics": {
+      "style": [
+        "smooth"
+      ],
+      "vibe": [
+        "champion"
+      ],
+      "signature": "four-time world champion"
+    },
+    "blurb": "Walter Villa piled up 250/350 titles for Harley-Davidson's race program. Unusual factory, serious results.",
+    "active": true
+  },
+  {
+    "id": "kork_ballington",
+    "displayName": "Kork Ballington",
+    "aliases": [
+      "kork ballington",
+      "ballington"
+    ],
+    "series": [
+      "motogp",
+      "classic"
+    ],
+    "era": "legend",
+    "characteristics": {
+      "style": [
+        "smooth",
+        "technical"
+      ],
+      "vibe": [
+        "champion"
+      ],
+      "signature": "four-time world champion"
+    },
+    "blurb": "Kork Ballington swept 250 and 350 titles for Kawasaki. South African excellence.",
+    "active": true
+  },
+  {
+    "id": "anton_mang",
+    "displayName": "Anton Mang",
+    "aliases": [
+      "anton mang",
+      "mang"
+    ],
+    "series": [
+      "motogp",
+      "classic"
+    ],
+    "era": "legend",
+    "characteristics": {
+      "style": [
+        "smooth"
+      ],
+      "vibe": [
+        "champion"
+      ],
+      "signature": "five-time world champion"
+    },
+    "blurb": "Anton Mang collected five world titles in 250/350 — German precision in the two-stroke age.",
+    "active": true
+  },
+  {
+    "id": "loris_capirossi",
+    "displayName": "Loris Capirossi",
+    "aliases": [
+      "loris capirossi",
+      "capirossi",
+      "capi"
+    ],
+    "series": [
+      "motogp"
+    ],
+    "era": "legend",
+    "characteristics": {
+      "style": [
+        "aggressive",
+        "race_craft"
+      ],
+      "vibe": [
+        "champion"
+      ],
+      "signature": "three-time world champion"
+    },
+    "blurb": "Loris Capirossi won titles from 125 up and became a MotoGP race winner. Capì never aged out of fight.",
+    "active": true
+  },
+  {
+    "id": "marco_simoncelli",
+    "displayName": "Marco Simoncelli",
+    "aliases": [
+      "marco simoncelli",
+      "simoncelli",
+      "sic"
+    ],
+    "series": [
+      "motogp"
+    ],
+    "era": "legend",
+    "characteristics": {
+      "style": [
+        "aggressive",
+        "showman"
+      ],
+      "vibe": [
+        "cult_hero"
+      ],
+      "signature": "2008 250cc world champion"
+    },
+    "blurb": "Marco Simoncelli — Sic — won the 250 title and raced with a wild grin. Gone too soon, never forgotten.",
+    "active": true
+  },
+  {
+    "id": "enea_bastianini",
+    "displayName": "Enea Bastianini",
+    "aliases": [
+      "enea bastianini",
+      "bastianini",
+      "bestia",
+      "the beast"
+    ],
+    "series": [
+      "motogp",
+      "moto2"
+    ],
+    "era": "current",
+    "characteristics": {
+      "style": [
+        "aggressive",
+        "smooth"
+      ],
+      "vibe": [
+        "champion"
+      ],
+      "signature": "2020 Moto2 world champion"
+    },
+    "blurb": "Enea Bastianini — Bestia — took Moto2 gold then started winning in MotoGP. The Beast lives up to it.",
+    "active": true
+  },
+  {
+    "id": "marco_melandri",
+    "displayName": "Marco Melandri",
+    "aliases": [
+      "marco melandri",
+      "melandri"
+    ],
+    "series": [
+      "motogp",
+      "wsbk"
+    ],
+    "era": "legend",
+    "characteristics": {
+      "style": [
+        "smooth",
+        "race_craft"
+      ],
+      "vibe": [
+        "champion"
+      ],
+      "signature": "2002 250cc world champion"
+    },
+    "blurb": "Marco Melandri won the 250 crown and later WSBK races — Italian flair across two decades.",
+    "active": true
+  },
+  {
+    "id": "stefan_bradl",
+    "displayName": "Stefan Bradl",
+    "aliases": [
+      "stefan bradl",
+      "bradl"
+    ],
+    "series": [
+      "motogp",
+      "moto2"
+    ],
+    "era": "legend",
+    "characteristics": {
+      "style": [
+        "smooth"
+      ],
+      "vibe": [
+        "champion"
+      ],
+      "signature": "2011 Moto2 world champion"
+    },
+    "blurb": "Stefan Bradl took the 2011 Moto2 title — German pathway into the premier class.",
+    "active": true
+  },
+  {
+    "id": "pol_espargaro",
+    "displayName": "Pol Espargaró",
+    "aliases": [
+      "pol espargaro",
+      "pol espargaró"
+    ],
+    "series": [
+      "motogp",
+      "moto2",
+      "endurance",
+      "suzuka"
+    ],
+    "era": "current",
+    "characteristics": {
+      "style": [
+        "aggressive",
+        "spectacular"
+      ],
+      "vibe": [
+        "champion"
+      ],
+      "signature": "2013 Moto2 world champion"
+    },
+    "blurb": "Pol Espargaró won Moto2 in 2013 and later helped Yamaha conquer Suzuka. Sibling rivalry fuel.",
+    "active": true
+  },
+  {
+    "id": "esteve_rabat",
+    "displayName": "Esteve Rabat",
+    "aliases": [
+      "esteve rabat",
+      "tito rabat",
+      "rabat"
+    ],
+    "series": [
+      "moto2",
+      "motogp"
+    ],
+    "era": "legend",
+    "characteristics": {
+      "style": [
+        "smooth",
+        "race_craft"
+      ],
+      "vibe": [
+        "champion"
+      ],
+      "signature": "2014 Moto2 world champion"
+    },
+    "blurb": "Tito Rabat dominated Moto2 in 2014 — calm on a Kalex when the intermediate class was chaos.",
+    "active": true
+  },
+  {
+    "id": "toni_elias",
+    "displayName": "Toni Elías",
+    "aliases": [
+      "toni elias",
+      "toni elías",
+      "elias"
+    ],
+    "series": [
+      "moto2",
+      "motoamerica",
+      "motogp"
+    ],
+    "era": "legend",
+    "characteristics": {
+      "style": [
+        "aggressive",
+        "versatile"
+      ],
+      "vibe": [
+        "champion"
+      ],
+      "signature": "2010 Moto2 + AMA champion"
+    },
+    "blurb": "Toni Elías won the first Moto2 world title and later AMA Superbike gold. Spanish résumé, US chapter.",
+    "active": true
+  },
+  {
+    "id": "daijiro_kato",
+    "displayName": "Daijiro Kato",
+    "aliases": [
+      "daijiro kato",
+      "kato"
+    ],
+    "series": [
+      "motogp",
+      "suzuka"
+    ],
+    "era": "legend",
+    "characteristics": {
+      "style": [
+        "aggressive",
+        "spectacular"
+      ],
+      "vibe": [
+        "cult_hero"
+      ],
+      "signature": "2001 250cc world champion"
+    },
+    "blurb": "Daijiro Kato won the 250 title and Suzuka glory — Japanese hero taken far too soon.",
+    "active": true
+  },
+  {
+    "id": "tady_okada",
+    "displayName": "Tadayuki Okada",
+    "aliases": [
+      "tadayuki okada",
+      "tady okada",
+      "okada"
+    ],
+    "series": [
+      "motogp",
+      "suzuka"
+    ],
+    "era": "legend",
+    "characteristics": {
+      "style": [
+        "smooth"
+      ],
+      "vibe": [
+        "cult_hero"
+      ],
+      "signature": "GP winner + Suzuka winner"
+    },
+    "blurb": "Tady Okada was Honda's late-90s GP threat and a Suzuka 8 Hours winner. Quiet speed.",
+    "active": true
+  },
+  {
+    "id": "nobuatsu_aoki",
+    "displayName": "Nobuatsu Aoki",
+    "aliases": [
+      "nobuatsu aoki",
+      "aoki"
+    ],
+    "series": [
+      "motogp",
+      "suzuka"
+    ],
+    "era": "legend",
+    "characteristics": {
+      "style": [
+        "smooth"
+      ],
+      "vibe": [
+        "cult_hero"
+      ],
+      "signature": "GP podium + Suzuka winner"
+    },
+    "blurb": "Nobuatsu Aoki flew the Japanese flag in 500cc and later won at Suzuka. Family racing dynasty energy.",
+    "active": true
+  },
+  {
+    "id": "doug_polen",
+    "displayName": "Doug Polen",
+    "aliases": [
+      "doug polen",
+      "polen"
+    ],
+    "series": [
+      "wsbk",
+      "motoamerica"
+    ],
+    "era": "legend",
+    "characteristics": {
+      "style": [
+        "smooth",
+        "qualifier"
+      ],
+      "vibe": [
+        "champion"
+      ],
+      "signature": "two-time WSBK champion"
+    },
+    "blurb": "Doug Polen won back-to-back World Superbike titles — American domination on a Ducati.",
+    "active": true
+  },
+  {
+    "id": "reg_pridmore",
+    "displayName": "Reg Pridmore",
+    "aliases": [
+      "reg pridmore",
+      "pridmore"
+    ],
+    "series": [
+      "motoamerica",
+      "classic"
+    ],
+    "era": "legend",
+    "characteristics": {
+      "style": [
+        "smooth"
+      ],
+      "vibe": [
+        "classic_legend"
+      ],
+      "signature": "three-time AMA Superbike champion"
+    },
+    "blurb": "Reg Pridmore won the first three AMA Superbike titles. Where the US national story begins.",
+    "active": true
+  },
+  {
+    "id": "wes_cooley",
+    "displayName": "Wes Cooley",
+    "aliases": [
+      "wes cooley",
+      "cooley"
+    ],
+    "series": [
+      "motoamerica",
+      "suzuka"
+    ],
+    "era": "legend",
+    "characteristics": {
+      "style": [
+        "aggressive"
+      ],
+      "vibe": [
+        "champion"
+      ],
+      "signature": "two-time AMA Superbike champion"
+    },
+    "blurb": "Wes Cooley was an AMA Superbike champ and Suzuka winner — California cool in the superbike dawn.",
+    "active": true
+  },
+  {
+    "id": "carlos_checa",
+    "displayName": "Carlos Checa",
+    "aliases": [
+      "carlos checa",
+      "checa"
+    ],
+    "series": [
+      "wsbk",
+      "motogp",
+      "suzuka"
+    ],
+    "era": "legend",
+    "characteristics": {
+      "style": [
+        "smooth",
+        "race_craft"
+      ],
+      "vibe": [
+        "champion"
+      ],
+      "signature": "2011 WSBK champion"
+    },
+    "blurb": "Carlos Checa finally took a World Superbike title in 2011 — and he won Suzuka too. Spanish persistence.",
+    "active": true
+  },
+  {
+    "id": "anthony_west",
+    "displayName": "Anthony West",
+    "aliases": [
+      "anthony west",
+      "aj west"
+    ],
+    "series": [
+      "asbk",
+      "motogp",
+      "endurance"
+    ],
+    "era": "legend",
+    "characteristics": {
+      "style": [
+        "aggressive",
+        "versatile"
+      ],
+      "vibe": [
+        "australian_legend"
+      ],
+      "signature": "ASBK + GP race winner"
+    },
+    "blurb": "Anthony West won Grands Prix and kept showing up in ASBK and endurance — Aussie career chameleon.",
+    "active": true
+  },
+  {
+    "id": "kevin_magee",
+    "displayName": "Kevin Magee",
+    "aliases": [
+      "kevin magee",
+      "magee"
+    ],
+    "series": [
+      "motogp",
+      "suzuka",
+      "asbk"
+    ],
+    "era": "legend",
+    "characteristics": {
+      "style": [
+        "aggressive"
+      ],
+      "vibe": [
+        "australian_legend"
+      ],
+      "signature": "GP winner + Suzuka winner"
+    },
+    "blurb": "Kevin Magee won a 500cc GP and the Suzuka 8 Hours — Aussie pace on the biggest stages.",
+    "active": true
+  },
+  {
+    "id": "graeme_crosby",
+    "displayName": "Graeme Crosby",
+    "aliases": [
+      "graeme crosby",
+      "crosby"
+    ],
+    "series": [
+      "motogp",
+      "tt",
+      "suzuka",
+      "classic"
+    ],
+    "era": "legend",
+    "characteristics": {
+      "style": [
+        "brave",
+        "aggressive"
+      ],
+      "vibe": [
+        "cult_hero"
+      ],
+      "signature": "TT winner + GP star"
+    },
+    "blurb": "Graeme Crosby won at the TT and ran at the front in 500cc — Kiwi legend across roads and GPs.",
+    "active": true
+  },
+  {
+    "id": "kenan_sofuoglu",
+    "displayName": "Kenan Sofuoğlu",
+    "aliases": [
+      "kenan sofuoglu",
+      "kenan sofuoğlu",
+      "sofuoglu",
+      "sofuoğlu"
+    ],
+    "series": [
+      "ssp"
+    ],
+    "era": "legend",
+    "characteristics": {
+      "style": [
+        "aggressive",
+        "dominant"
+      ],
+      "vibe": [
+        "champion"
+      ],
+      "signature": "five-time WorldSSP champion"
+    },
+    "blurb": "Kenan Sofuoğlu owns World Supersport — five titles. Turkey's road-racing giant.",
+    "active": true
+  },
+  {
+    "id": "dominique_aegerter",
+    "displayName": "Dominique Aegerter",
+    "aliases": [
+      "dominique aegerter",
+      "aegerter"
+    ],
+    "series": [
+      "ssp",
+      "moto2",
+      "endurance",
+      "wsbk"
+    ],
+    "era": "current",
+    "characteristics": {
+      "style": [
+        "smooth",
+        "race_craft"
+      ],
+      "vibe": [
+        "champion"
+      ],
+      "signature": "two-time WorldSSP champion"
+    },
+    "blurb": "Dominique Aegerter went Moto2 → back-to-back WorldSSP titles → WSBK. Swiss multi-tool.",
+    "active": true
+  },
+  {
+    "id": "nicolo_bulega",
+    "displayName": "Nicolò Bulega",
+    "aliases": [
+      "nicolo bulega",
+      "nicolò bulega",
+      "bulega"
+    ],
+    "series": [
+      "ssp",
+      "wsbk",
+      "moto2"
+    ],
+    "era": "current",
+    "characteristics": {
+      "style": [
+        "aggressive",
+        "smooth"
+      ],
+      "vibe": [
+        "champion"
+      ],
+      "signature": "2023 WorldSSP champion"
+    },
+    "blurb": "Nicolò Bulega took WorldSSP gold then started winning in World Superbike. Ducati rocket.",
+    "active": true
+  },
+  {
+    "id": "adrian_huertas",
+    "displayName": "Adrián Huertas",
+    "aliases": [
+      "adrian huertas",
+      "adrián huertas",
+      "huertas"
+    ],
+    "series": [
+      "ssp"
+    ],
+    "era": "current",
+    "characteristics": {
+      "style": [
+        "aggressive"
+      ],
+      "vibe": [
+        "champion"
+      ],
+      "signature": "2024 WorldSSP champion"
+    },
+    "blurb": "Adrián Huertas became WorldSSP champion in 2024 — young, fast, Ducati-mounted.",
+    "active": true
+  },
+  {
+    "id": "stefano_manzi",
+    "displayName": "Stefano Manzi",
+    "aliases": [
+      "stefano manzi",
+      "manzi"
+    ],
+    "series": [
+      "ssp",
+      "moto2",
+      "red_bull_rookies"
+    ],
+    "era": "current",
+    "characteristics": {
+      "style": [
+        "smooth",
+        "race_craft"
+      ],
+      "vibe": [
+        "champion"
+      ],
+      "signature": "2025 WorldSSP champion"
+    },
+    "blurb": "Stefano Manzi capped the climb with the 2025 WorldSSP title. Rookies graduate, job done.",
+    "active": true
+  },
+  {
+    "id": "andrea_locatelli",
+    "displayName": "Andrea Locatelli",
+    "aliases": [
+      "andrea locatelli",
+      "locatelli"
+    ],
+    "series": [
+      "ssp",
+      "wsbk"
+    ],
+    "era": "current",
+    "characteristics": {
+      "style": [
+        "smooth"
+      ],
+      "vibe": [
+        "champion"
+      ],
+      "signature": "2020 WorldSSP champion"
+    },
+    "blurb": "Andrea Locatelli dominated WorldSSP in 2020 then stepped to Superbike. Italian pathway clean.",
+    "active": true
+  },
+  {
+    "id": "lucas_mahias",
+    "displayName": "Lucas Mahias",
+    "aliases": [
+      "lucas mahias",
+      "mahias"
+    ],
+    "series": [
+      "ssp",
+      "endurance"
+    ],
+    "era": "legend",
+    "characteristics": {
+      "style": [
+        "aggressive"
+      ],
+      "vibe": [
+        "champion"
+      ],
+      "signature": "2017 WorldSSP champion"
+    },
+    "blurb": "Lucas Mahias took the 2017 WorldSSP crown — French flair in the 600 class.",
+    "active": true
+  },
+  {
+    "id": "randy_krummenacher",
+    "displayName": "Randy Krummenacher",
+    "aliases": [
+      "randy krummenacher",
+      "krummenacher"
+    ],
+    "series": [
+      "ssp"
+    ],
+    "era": "legend",
+    "characteristics": {
+      "style": [
+        "smooth"
+      ],
+      "vibe": [
+        "champion"
+      ],
+      "signature": "2019 WorldSSP champion"
+    },
+    "blurb": "Randy Krummenacher sealed the 2019 WorldSSP title — Swiss race craft in a Yamaha year.",
+    "active": true
+  },
+  {
+    "id": "michael_van_der_mark",
+    "displayName": "Michael van der Mark",
+    "aliases": [
+      "michael van der mark",
+      "van der mark",
+      "mvdm"
+    ],
+    "series": [
+      "ssp",
+      "wsbk",
+      "suzuka",
+      "endurance"
+    ],
+    "era": "current",
+    "characteristics": {
+      "style": [
+        "smooth",
+        "versatile"
+      ],
+      "vibe": [
+        "champion"
+      ],
+      "signature": "2014 WorldSSP + Suzuka winner"
+    },
+    "blurb": "Michael van der Mark won WorldSSP and keeps winning at Suzuka. Dutch endurance weapon.",
+    "active": true
+  },
+  {
+    "id": "sebastien_charpentier",
+    "displayName": "Sébastien Charpentier",
+    "aliases": [
+      "sebastien charpentier",
+      "sébastien charpentier",
+      "charpentier"
+    ],
+    "series": [
+      "ssp"
+    ],
+    "era": "legend",
+    "characteristics": {
+      "style": [
+        "aggressive"
+      ],
+      "vibe": [
+        "champion"
+      ],
+      "signature": "two-time WorldSSP champion"
+    },
+    "blurb": "Sébastien Charpentier went back-to-back in WorldSSP mid-2000s. French 600-class benchmark.",
+    "active": true
+  },
+  {
+    "id": "andrew_pitt",
+    "displayName": "Andrew Pitt",
+    "aliases": [
+      "andrew pitt"
+    ],
+    "series": [
+      "ssp",
+      "wsbk"
+    ],
+    "era": "legend",
+    "characteristics": {
+      "style": [
+        "racer_iq",
+        "smooth"
+      ],
+      "vibe": [
+        "australian_legend"
+      ],
+      "signature": "two-time WorldSSP champion"
+    },
+    "blurb": "Andrew Pitt won WorldSSP twice — including a title without a race win. Aussie brain over brawn.",
+    "active": true
+  },
+  {
+    "id": "karl_muggeridge",
+    "displayName": "Karl Muggeridge",
+    "aliases": [
+      "karl muggeridge",
+      "muggeridge"
+    ],
+    "series": [
+      "ssp"
+    ],
+    "era": "legend",
+    "characteristics": {
+      "style": [
+        "aggressive"
+      ],
+      "vibe": [
+        "australian_legend"
+      ],
+      "signature": "2004 WorldSSP champion"
+    },
+    "blurb": "Karl Muggeridge took the 2004 WorldSSP title for Ten Kate Honda. Aussie 600-class gold.",
+    "active": true
+  },
+  {
+    "id": "fabien_foret",
+    "displayName": "Fabien Foret",
+    "aliases": [
+      "fabien foret",
+      "fabien forêt",
+      "foret"
+    ],
+    "series": [
+      "ssp"
+    ],
+    "era": "legend",
+    "characteristics": {
+      "style": [
+        "aggressive"
+      ],
+      "vibe": [
+        "champion"
+      ],
+      "signature": "2002 WorldSSP champion"
+    },
+    "blurb": "Fabien Foret won the 2002 WorldSSP championship — early-era French supersport star.",
+    "active": true
+  },
+  {
+    "id": "jorg_teuchert",
+    "displayName": "Jörg Teuchert",
+    "aliases": [
+      "jorg teuchert",
+      "jörg teuchert",
+      "teuchert"
+    ],
+    "series": [
+      "ssp"
+    ],
+    "era": "legend",
+    "characteristics": {
+      "style": [
+        "smooth"
+      ],
+      "vibe": [
+        "champion"
+      ],
+      "signature": "2000 WorldSSP champion"
+    },
+    "blurb": "Jörg Teuchert was WorldSSP champion in 2000 — German Yamaha pace.",
+    "active": true
+  },
+  {
+    "id": "stephane_chambon",
+    "displayName": "Stéphane Chambon",
+    "aliases": [
+      "stephane chambon",
+      "stéphane chambon",
+      "chambon"
+    ],
+    "series": [
+      "ssp"
+    ],
+    "era": "legend",
+    "characteristics": {
+      "style": [
+        "aggressive"
+      ],
+      "vibe": [
+        "champion"
+      ],
+      "signature": "1999 WorldSSP champion"
+    },
+    "blurb": "Stéphane Chambon took WorldSSP gold in 1999 on a Suzuki. French classic of the 600 class.",
+    "active": true
+  },
+  {
+    "id": "paolo_casoli",
+    "displayName": "Paolo Casoli",
+    "aliases": [
+      "paolo casoli",
+      "casoli"
+    ],
+    "series": [
+      "ssp"
+    ],
+    "era": "legend",
+    "characteristics": {
+      "style": [
+        "aggressive"
+      ],
+      "vibe": [
+        "champion"
+      ],
+      "signature": "1997 WorldSSP champion"
+    },
+    "blurb": "Paolo Casoli won the inaugural modern WorldSSP flavour title era on Ducati. Italian pioneer.",
+    "active": true
+  },
+  {
+    "id": "fabrizio_pirovano",
+    "displayName": "Fabrizio Pirovano",
+    "aliases": [
+      "fabrizio pirovano",
+      "pirovano"
+    ],
+    "series": [
+      "ssp",
+      "wsbk"
+    ],
+    "era": "legend",
+    "characteristics": {
+      "style": [
+        "smooth"
+      ],
+      "vibe": [
+        "champion"
+      ],
+      "signature": "1998 WorldSSP champion"
+    },
+    "blurb": "Fabrizio Pirovano won WorldSSP in 1998 after years as a Superbike cult hero. Italian longevity.",
+    "active": true
+  },
+  {
+    "id": "raffaele_de_rosa",
+    "displayName": "Raffaele De Rosa",
+    "aliases": [
+      "raffaele de rosa",
+      "de rosa"
+    ],
+    "series": [
+      "superstock",
+      "ssp"
+    ],
+    "era": "legend",
+    "characteristics": {
+      "style": [
+        "aggressive"
+      ],
+      "vibe": [
+        "champion"
+      ],
+      "signature": "Superstock 1000 champion"
+    },
+    "blurb": "Raffaele De Rosa won Superstock 1000 — the production-bike proving ground done properly.",
+    "active": true
+  },
+  {
+    "id": "sylvain_barrier",
+    "displayName": "Sylvain Barrier",
+    "aliases": [
+      "sylvain barrier",
+      "barrier"
+    ],
+    "series": [
+      "superstock"
+    ],
+    "era": "legend",
+    "characteristics": {
+      "style": [
+        "aggressive"
+      ],
+      "vibe": [
+        "champion"
+      ],
+      "signature": "Superstock 1000 champion"
+    },
+    "blurb": "Sylvain Barrier took Superstock 1000 titles when BMW was rewriting the class. French factory pace.",
+    "active": true
+  },
+  {
+    "id": "leandro_mercado",
+    "displayName": "Leandro Mercado",
+    "aliases": [
+      "leandro mercado",
+      "tati mercado",
+      "mercado"
+    ],
+    "series": [
+      "superstock",
+      "wsbk"
+    ],
+    "era": "legend",
+    "characteristics": {
+      "style": [
+        "aggressive"
+      ],
+      "vibe": [
+        "champion"
+      ],
+      "signature": "Superstock champion"
+    },
+    "blurb": "Tati Mercado won Superstock and stepped to World Superbike — Argentine fire.",
+    "active": true
+  },
+  {
+    "id": "markus_reiterberger",
+    "displayName": "Markus Reiterberger",
+    "aliases": [
+      "markus reiterberger",
+      "reiterberger"
+    ],
+    "series": [
+      "superstock",
+      "wsbk"
+    ],
+    "era": "legend",
+    "characteristics": {
+      "style": [
+        "smooth"
+      ],
+      "vibe": [
+        "champion"
+      ],
+      "signature": "Superstock / IDM star"
+    },
+    "blurb": "Markus Reiterberger dominated German superbike ladders and Superstock machinery. Teutonic pace.",
+    "active": true
+  },
+  {
+    "id": "florian_marino",
+    "displayName": "Florian Marino",
+    "aliases": [
+      "florian marino"
+    ],
+    "series": [
+      "superstock",
+      "ssp"
+    ],
+    "era": "legend",
+    "characteristics": {
+      "style": [
+        "smooth"
+      ],
+      "vibe": [
+        "champion"
+      ],
+      "signature": "Superstock / SSP winner"
+    },
+    "blurb": "Florian Marino won at Superstock and WorldSSP level — French production-bike specialist.",
+    "active": true
+  },
+  {
+    "id": "xavi_fore",
+    "displayName": "Xavi Forés",
+    "aliases": [
+      "xavi fores",
+      "xavi forés",
+      "fores",
+      "forés"
+    ],
+    "series": [
+      "superstock",
+      "wsbk"
+    ],
+    "era": "legend",
+    "characteristics": {
+      "style": [
+        "aggressive"
+      ],
+      "vibe": [
+        "cult_hero"
+      ],
+      "signature": "Superstock race winner"
+    },
+    "blurb": "Xavi Forés was a Superstock and WSBK regular who could steal wins when it counted.",
+    "active": true
+  },
+  {
+    "id": "gino_rea",
+    "displayName": "Gino Rea",
+    "aliases": [
+      "gino rea"
+    ],
+    "series": [
+      "superstock",
+      "ssp",
+      "endurance"
+    ],
+    "era": "legend",
+    "characteristics": {
+      "style": [
+        "aggressive"
+      ],
+      "vibe": [
+        "cult_hero"
+      ],
+      "signature": "Superstock / SSP race winner"
+    },
+    "blurb": "Gino Rea won in Superstock and kept fighting through injuries — British determination.",
+    "active": true
+  },
+  {
+    "id": "steve_hislop",
+    "displayName": "Steve Hislop",
+    "aliases": [
+      "steve hislop",
+      "hislop",
+      "hizzy"
+    ],
+    "series": [
+      "tt",
+      "bsb",
+      "classic"
+    ],
+    "era": "legend",
+    "characteristics": {
+      "style": [
+        "brave",
+        "smooth"
+      ],
+      "vibe": [
+        "tt_legend"
+      ],
+      "signature": "multiple TT winner"
+    },
+    "blurb": "Steve Hislop — Hizzy — won TTs and a BSB title. Scotland's road-racing poet.",
+    "active": true
+  },
+  {
+    "id": "robert_dunlop",
+    "displayName": "Robert Dunlop",
+    "aliases": [
+      "robert dunlop"
+    ],
+    "series": [
+      "tt",
+      "classic"
+    ],
+    "era": "legend",
+    "characteristics": {
+      "style": [
+        "brave",
+        "road_racing"
+      ],
+      "vibe": [
+        "tt_legend"
+      ],
+      "signature": "multiple TT winner"
+    },
+    "blurb": "Robert Dunlop carried the Dunlop name with TT wins of his own. Family dynasty, roads DNA.",
+    "active": true
+  },
+  {
+    "id": "william_dunlop",
+    "displayName": "William Dunlop",
+    "aliases": [
+      "william dunlop"
+    ],
+    "series": [
+      "tt"
+    ],
+    "era": "legend",
+    "characteristics": {
+      "style": [
+        "brave",
+        "road_racing"
+      ],
+      "vibe": [
+        "tt_legend"
+      ],
+      "signature": "multiple TT / NW200 winner"
+    },
+    "blurb": "William Dunlop won on the roads with that unmistakable Dunlop commitment. Gone too soon.",
+    "active": true
+  },
+  {
+    "id": "bruce_anstey",
+    "displayName": "Bruce Anstey",
+    "aliases": [
+      "bruce anstey",
+      "anstey"
+    ],
+    "series": [
+      "tt"
+    ],
+    "era": "legend",
+    "characteristics": {
+      "style": [
+        "smooth",
+        "road_racing"
+      ],
+      "vibe": [
+        "tt_legend"
+      ],
+      "signature": "multiple TT winner"
+    },
+    "blurb": "Bruce Anstey was a TT winner with Kiwi calm at mountain pace. Quietly rapid.",
+    "active": true
+  },
+  {
+    "id": "dave_molyneux",
+    "displayName": "Dave Molyneux",
+    "aliases": [
+      "dave molyneux",
+      "molyneux"
+    ],
+    "series": [
+      "tt",
+      "sidecar"
+    ],
+    "era": "legend",
+    "characteristics": {
+      "style": [
+        "technical",
+        "road_racing"
+      ],
+      "vibe": [
+        "tt_legend"
+      ],
+      "signature": "record TT sidecar winner"
+    },
+    "blurb": "Dave Molyneux owns TT sidecar history — more wins than seems fair. Outfit king of the Mountain.",
+    "active": true
+  },
+  {
+    "id": "klaus_klaffenbock",
+    "displayName": "Klaus Klaffenböck",
+    "aliases": [
+      "klaus klaffenbock",
+      "klaus klaffenböck",
+      "klaffenbock"
+    ],
+    "series": [
+      "tt",
+      "sidecar"
+    ],
+    "era": "legend",
+    "characteristics": {
+      "style": [
+        "technical"
+      ],
+      "vibe": [
+        "tt_legend"
+      ],
+      "signature": "TT sidecar winner"
+    },
+    "blurb": "Klaus Klaffenböck won TT sidecars — Austrian precision in the chair class.",
+    "active": true
+  },
+  {
+    "id": "nick_jefferies",
+    "displayName": "Nick Jefferies",
+    "aliases": [
+      "nick jefferies"
+    ],
+    "series": [
+      "tt",
+      "classic"
+    ],
+    "era": "legend",
+    "characteristics": {
+      "style": [
+        "brave"
+      ],
+      "vibe": [
+        "tt_legend"
+      ],
+      "signature": "TT winner"
+    },
+    "blurb": "Nick Jefferies won at the Isle of Man — Yorkshire racing bloodline (and David's uncle).",
+    "active": true
+  },
+  {
+    "id": "phillip_mccallen",
+    "displayName": "Phillip McCallen",
+    "aliases": [
+      "phillip mccallen",
+      "mccallen"
+    ],
+    "series": [
+      "tt",
+      "classic"
+    ],
+    "era": "legend",
+    "characteristics": {
+      "style": [
+        "aggressive",
+        "road_racing"
+      ],
+      "vibe": [
+        "tt_legend"
+      ],
+      "signature": "multiple TT winner"
+    },
+    "blurb": "Phillip McCallen racked TT wins in the 90s — Northern Irish mountain specialist.",
+    "active": true
+  },
+  {
+    "id": "adrian_archibald",
+    "displayName": "Adrian Archibald",
+    "aliases": [
+      "adrian archibald",
+      "archibald"
+    ],
+    "series": [
+      "tt"
+    ],
+    "era": "legend",
+    "characteristics": {
+      "style": [
+        "brave"
+      ],
+      "vibe": [
+        "tt_legend"
+      ],
+      "signature": "TT winner"
+    },
+    "blurb": "Adrian Archibald won TTs — another Northern Irish name etched into Mountain Course history.",
+    "active": true
+  },
+  {
+    "id": "ryan_farquhar",
+    "displayName": "Ryan Farquhar",
+    "aliases": [
+      "ryan farquhar",
+      "farquhar"
+    ],
+    "series": [
+      "tt"
+    ],
+    "era": "legend",
+    "characteristics": {
+      "style": [
+        "aggressive",
+        "road_racing"
+      ],
+      "vibe": [
+        "tt_legend"
+      ],
+      "signature": "multiple national roads winner"
+    },
+    "blurb": "Ryan Farquhar won everywhere on the Irish roads circuit — TT podiums and domestic domination.",
+    "active": true
+  },
+  {
+    "id": "james_hillier",
+    "displayName": "James Hillier",
+    "aliases": [
+      "james hillier",
+      "hillier"
+    ],
+    "series": [
+      "tt"
+    ],
+    "era": "current",
+    "characteristics": {
+      "style": [
+        "brave"
+      ],
+      "vibe": [
+        "tt_legend"
+      ],
+      "signature": "TT winner"
+    },
+    "blurb": "James Hillier is a modern TT winner — British roads pace when the weather turns nasty.",
+    "active": true
+  },
+  {
+    "id": "charlie_williams",
+    "displayName": "Charlie Williams",
+    "aliases": [
+      "charlie williams"
+    ],
+    "series": [
+      "tt",
+      "classic"
+    ],
+    "era": "legend",
+    "characteristics": {
+      "style": [
+        "brave"
+      ],
+      "vibe": [
+        "tt_legend"
+      ],
+      "signature": "multiple TT winner"
+    },
+    "blurb": "Charlie Williams won multiple TTs in the classic production era — British roads staple.",
+    "active": true
+  },
+  {
+    "id": "mick_grant",
+    "displayName": "Mick Grant",
+    "aliases": [
+      "mick grant"
+    ],
+    "series": [
+      "tt",
+      "classic",
+      "motogp"
+    ],
+    "era": "legend",
+    "characteristics": {
+      "style": [
+        "brave",
+        "aggressive"
+      ],
+      "vibe": [
+        "tt_legend"
+      ],
+      "signature": "multiple TT winner"
+    },
+    "blurb": "Mick Grant won TTs and raced GPs — Yorkshire hardman of the 70s roads.",
+    "active": true
+  },
+  {
+    "id": "tony_rutter",
+    "displayName": "Tony Rutter",
+    "aliases": [
+      "tony rutter"
+    ],
+    "series": [
+      "tt",
+      "classic"
+    ],
+    "era": "legend",
+    "characteristics": {
+      "style": [
+        "smooth"
+      ],
+      "vibe": [
+        "tt_legend"
+      ],
+      "signature": "multiple TT Formula winner"
+    },
+    "blurb": "Tony Rutter cleaned up TT Formula races — related racing bloodline, serious silverware.",
+    "active": true
+  },
+  {
+    "id": "alex_george",
+    "displayName": "Alex George",
+    "aliases": [
+      "alex george"
+    ],
+    "series": [
+      "tt",
+      "classic"
+    ],
+    "era": "legend",
+    "characteristics": {
+      "style": [
+        "brave"
+      ],
+      "vibe": [
+        "tt_legend"
+      ],
+      "signature": "TT winner"
+    },
+    "blurb": "Alex George won at the Isle of Man — Scottish courage on the Mountain Course.",
+    "active": true
+  },
+  {
+    "id": "brian_reid",
+    "displayName": "Brian Reid",
+    "aliases": [
+      "brian reid"
+    ],
+    "series": [
+      "tt",
+      "classic"
+    ],
+    "era": "legend",
+    "characteristics": {
+      "style": [
+        "brave"
+      ],
+      "vibe": [
+        "tt_legend"
+      ],
+      "signature": "TT winner"
+    },
+    "blurb": "Brian Reid won TTs — Irish roads excellence from the classic years.",
+    "active": true
+  },
+  {
+    "id": "sammy_miller",
+    "displayName": "Sammy Miller",
+    "aliases": [
+      "sammy miller"
+    ],
+    "series": [
+      "tt",
+      "classic"
+    ],
+    "era": "legend",
+    "characteristics": {
+      "style": [
+        "versatile",
+        "technical"
+      ],
+      "vibe": [
+        "classic_legend"
+      ],
+      "signature": "TT winner + trials legend"
+    },
+    "blurb": "Sammy Miller won TTs and became a trials immortal — rare dual-threat legend.",
+    "active": true
+  },
+  {
+    "id": "john_hartle",
+    "displayName": "John Hartle",
+    "aliases": [
+      "john hartle",
+      "hartle"
+    ],
+    "series": [
+      "tt",
+      "classic",
+      "motogp"
+    ],
+    "era": "legend",
+    "characteristics": {
+      "style": [
+        "brave"
+      ],
+      "vibe": [
+        "classic_legend"
+      ],
+      "signature": "TT winner + GP winner"
+    },
+    "blurb": "John Hartle won TTs and Grands Prix — British star of the late 50s/60s.",
+    "active": true
+  },
+  {
+    "id": "bob_mcintyre",
+    "displayName": "Bob McIntyre",
+    "aliases": [
+      "bob mcintyre",
+      "mcintyre"
+    ],
+    "series": [
+      "tt",
+      "classic"
+    ],
+    "era": "legend",
+    "characteristics": {
+      "style": [
+        "brave"
+      ],
+      "vibe": [
+        "classic_legend"
+      ],
+      "signature": "first 100mph TT lap"
+    },
+    "blurb": "Bob McIntyre was first to lap the TT at 100mph — Scottish history on the Mountain.",
+    "active": true
+  },
+  {
+    "id": "stanley_woods",
+    "displayName": "Stanley Woods",
+    "aliases": [
+      "stanley woods"
+    ],
+    "series": [
+      "tt",
+      "classic"
+    ],
+    "era": "legend",
+    "characteristics": {
+      "style": [
+        "brave",
+        "dominant"
+      ],
+      "vibe": [
+        "classic_legend"
+      ],
+      "signature": "10-time TT winner"
+    },
+    "blurb": "Stanley Woods won 10 TTs — pre-war and 1930s dominance. Absolute roads royalty.",
+    "active": true
+  },
+  {
+    "id": "mike_duff",
+    "displayName": "Mike Duff",
+    "aliases": [
+      "mike duff"
+    ],
+    "series": [
+      "tt",
+      "classic",
+      "motogp"
+    ],
+    "era": "legend",
+    "characteristics": {
+      "style": [
+        "brave"
+      ],
+      "vibe": [
+        "classic_legend"
+      ],
+      "signature": "TT / GP winner"
+    },
+    "blurb": "Mike Duff won at world level and on the roads — Canadian in a European world.",
+    "active": true
+  },
+  {
+    "id": "tom_herron",
+    "displayName": "Tom Herron",
+    "aliases": [
+      "tom herron",
+      "herron"
+    ],
+    "series": [
+      "tt",
+      "classic",
+      "motogp"
+    ],
+    "era": "legend",
+    "characteristics": {
+      "style": [
+        "brave",
+        "aggressive"
+      ],
+      "vibe": [
+        "tt_legend"
+      ],
+      "signature": "TT winner + GP winner"
+    },
+    "blurb": "Tom Herron won TTs and Grands Prix — Northern Irish talent taken far too young.",
+    "active": true
+  },
+  {
+    "id": "john_williams_tt",
+    "displayName": "John Williams",
+    "aliases": [
+      "john williams"
+    ],
+    "series": [
+      "tt",
+      "classic"
+    ],
+    "era": "legend",
+    "characteristics": {
+      "style": [
+        "brave"
+      ],
+      "vibe": [
+        "tt_legend"
+      ],
+      "signature": "TT winner"
+    },
+    "blurb": "John Williams won TTs in the 1970s — British roads hardman era.",
+    "active": true
+  },
+  {
+    "id": "gary_johnson",
+    "displayName": "Gary Johnson",
+    "aliases": [
+      "gary johnson"
+    ],
+    "series": [
+      "tt"
+    ],
+    "era": "legend",
+    "characteristics": {
+      "style": [
+        "brave"
+      ],
+      "vibe": [
+        "tt_legend"
+      ],
+      "signature": "TT winner"
+    },
+    "blurb": "Gary Johnson won TTs — privateer heart, Mountain Course results.",
+    "active": true
+  },
+  {
+    "id": "cameron_donald",
+    "displayName": "Cameron Donald",
+    "aliases": [
+      "cameron donald"
+    ],
+    "series": [
+      "tt"
+    ],
+    "era": "legend",
+    "characteristics": {
+      "style": [
+        "brave",
+        "aggressive"
+      ],
+      "vibe": [
+        "tt_legend"
+      ],
+      "signature": "TT winner"
+    },
+    "blurb": "Cameron Donald won TTs — Aussie attacking the Mountain Course.",
+    "active": true
+  },
+  {
+    "id": "steve_plater",
+    "displayName": "Steve Plater",
+    "aliases": [
+      "steve plater",
+      "plater"
+    ],
+    "series": [
+      "tt",
+      "bsb"
+    ],
+    "era": "legend",
+    "characteristics": {
+      "style": [
+        "brave"
+      ],
+      "vibe": [
+        "tt_legend"
+      ],
+      "signature": "TT winner"
+    },
+    "blurb": "Steve Plater won TTs and raced BSB — British all-rounder on roads and short circuits.",
+    "active": true
+  },
+  {
+    "id": "keith_amor",
+    "displayName": "Keith Amor",
+    "aliases": [
+      "keith amor"
+    ],
+    "series": [
+      "tt"
+    ],
+    "era": "legend",
+    "characteristics": {
+      "style": [
+        "brave"
+      ],
+      "vibe": [
+        "tt_legend"
+      ],
+      "signature": "TT winner"
+    },
+    "blurb": "Keith Amor won at the Isle of Man — Irish roads winner.",
+    "active": true
+  },
+  {
+    "id": "ivan_lintin",
+    "displayName": "Ivan Lintin",
+    "aliases": [
+      "ivan lintin",
+      "lintin"
+    ],
+    "series": [
+      "tt"
+    ],
+    "era": "legend",
+    "characteristics": {
+      "style": [
+        "brave"
+      ],
+      "vibe": [
+        "tt_legend"
+      ],
+      "signature": "TT winner"
+    },
+    "blurb": "Ivan Lintin won a TT — lightweight class heroics on the Mountain Course.",
+    "active": true
+  },
+  {
+    "id": "lee_johnston",
+    "displayName": "Lee Johnston",
+    "aliases": [
+      "lee johnston"
+    ],
+    "series": [
+      "tt"
+    ],
+    "era": "current",
+    "characteristics": {
+      "style": [
+        "brave"
+      ],
+      "vibe": [
+        "tt_legend"
+      ],
+      "signature": "TT winner"
+    },
+    "blurb": "Lee Johnston is a modern TT winner — Northern Irish pace across road-race weekends.",
+    "active": true
+  },
+  {
+    "id": "dan_kneen",
+    "displayName": "Dan Kneen",
+    "aliases": [
+      "dan kneen",
+      "kneen"
+    ],
+    "series": [
+      "tt"
+    ],
+    "era": "legend",
+    "characteristics": {
+      "style": [
+        "brave"
+      ],
+      "vibe": [
+        "tt_legend"
+      ],
+      "signature": "TT winner"
+    },
+    "blurb": "Dan Kneen won TTs — Manx rider living the home-course dream.",
+    "active": true
+  },
+  {
+    "id": "horst_saiger",
+    "displayName": "Horst Saiger",
+    "aliases": [
+      "horst saiger",
+      "saiger"
+    ],
+    "series": [
+      "tt",
+      "endurance"
+    ],
+    "era": "legend",
+    "characteristics": {
+      "style": [
+        "brave"
+      ],
+      "vibe": [
+        "tt_legend"
+      ],
+      "signature": "TT winner"
+    },
+    "blurb": "Horst Saiger became a TT race winner and endurance regular — Austrian roads commitment.",
+    "active": true
+  },
+  {
+    "id": "davey_todd",
+    "displayName": "Davey Todd",
+    "aliases": [
+      "davey todd"
+    ],
+    "series": [
+      "tt",
+      "bsb"
+    ],
+    "era": "current",
+    "characteristics": {
+      "style": [
+        "aggressive",
+        "brave"
+      ],
+      "vibe": [
+        "tt_legend"
+      ],
+      "signature": "TT winner"
+    },
+    "blurb": "Davey Todd is a modern TT winner who also races BSB — British roads/short-circuit crossover.",
+    "active": true
+  },
+  {
+    "id": "dominic_herbertson",
+    "displayName": "Dominic Herbertson",
+    "aliases": [
+      "dominic herbertson"
+    ],
+    "series": [
+      "tt"
+    ],
+    "era": "current",
+    "characteristics": {
+      "style": [
+        "brave"
+      ],
+      "vibe": [
+        "tt_legend"
+      ],
+      "signature": "TT winner"
+    },
+    "blurb": "Dominic Herbertson won at the TT — privateer story done right.",
+    "active": true
+  },
+  {
+    "id": "paul_jordan",
+    "displayName": "Paul Jordan",
+    "aliases": [
+      "paul jordan"
+    ],
+    "series": [
+      "tt"
+    ],
+    "era": "current",
+    "characteristics": {
+      "style": [
+        "brave"
+      ],
+      "vibe": [
+        "tt_legend"
+      ],
+      "signature": "TT winner"
+    },
+    "blurb": "Paul Jordan won TT races — Irish roads pace in the modern era.",
+    "active": true
+  },
+  {
+    "id": "jamie_coward",
+    "displayName": "Jamie Coward",
+    "aliases": [
+      "jamie coward"
+    ],
+    "series": [
+      "tt"
+    ],
+    "era": "current",
+    "characteristics": {
+      "style": [
+        "brave"
+      ],
+      "vibe": [
+        "tt_legend"
+      ],
+      "signature": "TT winner"
+    },
+    "blurb": "Jamie Coward is a TT winner — Yorkshire racing through and through.",
+    "active": true
+  },
+  {
+    "id": "michael_sweeney",
+    "displayName": "Michael Sweeney",
+    "aliases": [
+      "michael sweeney"
+    ],
+    "series": [
+      "tt"
+    ],
+    "era": "current",
+    "characteristics": {
+      "style": [
+        "brave"
+      ],
+      "vibe": [
+        "tt_legend"
+      ],
+      "signature": "TT winner"
+    },
+    "blurb": "Michael Sweeney won TT racing — Irish attack on the Mountain.",
+    "active": true
+  },
+  {
+    "id": "adam_mclean",
+    "displayName": "Adam McLean",
+    "aliases": [
+      "adam mclean"
+    ],
+    "series": [
+      "tt"
+    ],
+    "era": "current",
+    "characteristics": {
+      "style": [
+        "brave"
+      ],
+      "vibe": [
+        "tt_legend"
+      ],
+      "signature": "TT winner"
+    },
+    "blurb": "Adam McLean won at the TT — modern lightweight / roads specialist.",
+    "active": true
+  },
+  {
+    "id": "takumi_takahashi",
+    "displayName": "Takumi Takahashi",
+    "aliases": [
+      "takumi takahashi"
+    ],
+    "series": [
+      "suzuka",
+      "endurance"
+    ],
+    "era": "current",
+    "characteristics": {
+      "style": [
+        "smooth",
+        "endurance"
+      ],
+      "vibe": [
+        "champion"
+      ],
+      "signature": "record Suzuka 8 Hours winner"
+    },
+    "blurb": "Takumi Takahashi is the Suzuka 8 Hours win king — Honda's endurance metronome.",
+    "active": true
+  },
+  {
+    "id": "katsuyuki_nakasuga",
+    "displayName": "Katsuyuki Nakasuga",
+    "aliases": [
+      "katsuyuki nakasuga",
+      "nakasuga"
+    ],
+    "series": [
+      "suzuka",
+      "endurance",
+      "motogp"
+    ],
+    "era": "legend",
+    "characteristics": {
+      "style": [
+        "smooth",
+        "endurance"
+      ],
+      "vibe": [
+        "champion"
+      ],
+      "signature": "multiple Suzuka 8 Hours winner"
+    },
+    "blurb": "Katsuyuki Nakasuga won Suzuka again and again for Yamaha — test rider who delivered on Sundays.",
+    "active": true
+  },
+  {
+    "id": "josh_hook",
+    "displayName": "Josh Hook",
+    "aliases": [
+      "josh hook",
+      "hooky"
+    ],
+    "series": [
+      "endurance",
+      "suzuka",
+      "asbk"
+    ],
+    "era": "current",
+    "characteristics": {
+      "style": [
+        "aggressive",
+        "endurance"
+      ],
+      "vibe": [
+        "australian_legend"
+      ],
+      "signature": "EWC / Suzuka winner"
+    },
+    "blurb": "Josh Hook wins endurance classics and flies the Aussie flag at Suzuka. Hooky means business.",
+    "active": true
+  },
+  {
+    "id": "gregg_black",
+    "displayName": "Gregg Black",
+    "aliases": [
+      "gregg black"
+    ],
+    "series": [
+      "endurance",
+      "suzuka"
+    ],
+    "era": "current",
+    "characteristics": {
+      "style": [
+        "smooth",
+        "endurance"
+      ],
+      "vibe": [
+        "champion"
+      ],
+      "signature": "EWC champion / Suzuka winner"
+    },
+    "blurb": "Gregg Black is a modern Endurance world title threat and Suzuka winner — Yamaha's long-haul ace.",
+    "active": true
+  },
+  {
+    "id": "mike_di_meglio",
+    "displayName": "Mike Di Meglio",
+    "aliases": [
+      "mike di meglio",
+      "di meglio"
+    ],
+    "series": [
+      "endurance",
+      "motogp",
+      "suzuka"
+    ],
+    "era": "legend",
+    "characteristics": {
+      "style": [
+        "versatile",
+        "endurance"
+      ],
+      "vibe": [
+        "champion"
+      ],
+      "signature": "125 champ + EWC star"
+    },
+    "blurb": "Mike Di Meglio won a 125 world title then became an Endurance / Suzuka weapon. Full career arc.",
+    "active": true
+  },
+  {
+    "id": "xavier_simeon",
+    "displayName": "Xavier Siméon",
+    "aliases": [
+      "xavier simeon",
+      "xavier siméon",
+      "simeon"
+    ],
+    "series": [
+      "endurance",
+      "motogp"
+    ],
+    "era": "legend",
+    "characteristics": {
+      "style": [
+        "smooth",
+        "endurance"
+      ],
+      "vibe": [
+        "champion"
+      ],
+      "signature": "EWC winner"
+    },
+    "blurb": "Xavier Siméon won at Endurance world level after a GP career — Belgian versatility.",
+    "active": true
+  },
+  {
+    "id": "etienne_masson",
+    "displayName": "Etienne Masson",
+    "aliases": [
+      "etienne masson",
+      "étienne masson"
+    ],
+    "series": [
+      "endurance"
+    ],
+    "era": "current",
+    "characteristics": {
+      "style": [
+        "endurance"
+      ],
+      "vibe": [
+        "champion"
+      ],
+      "signature": "EWC race winner"
+    },
+    "blurb": "Etienne Masson wins FIM Endurance classics — French long-distance specialist.",
+    "active": true
+  },
+  {
+    "id": "julien_da_costa",
+    "displayName": "Julien Da Costa",
+    "aliases": [
+      "julien da costa"
+    ],
+    "series": [
+      "endurance"
+    ],
+    "era": "legend",
+    "characteristics": {
+      "style": [
+        "endurance",
+        "race_craft"
+      ],
+      "vibe": [
+        "champion"
+      ],
+      "signature": "EWC champion"
+    },
+    "blurb": "Julien Da Costa collected Endurance world titles — French Bol d'Or DNA.",
+    "active": true
+  },
+  {
+    "id": "vincent_philippe",
+    "displayName": "Vincent Philippe",
+    "aliases": [
+      "vincent philippe"
+    ],
+    "series": [
+      "endurance"
+    ],
+    "era": "legend",
+    "characteristics": {
+      "style": [
+        "endurance",
+        "longevity"
+      ],
+      "vibe": [
+        "champion"
+      ],
+      "signature": "multiple EWC / Bol d'Or winner"
+    },
+    "blurb": "Vincent Philippe is Bol d'Or / EWC royalty — decades of French endurance excellence.",
+    "active": true
+  },
+  {
+    "id": "freddy_foray",
+    "displayName": "Freddy Foray",
+    "aliases": [
+      "freddy foray",
+      "foray"
+    ],
+    "series": [
+      "endurance"
+    ],
+    "era": "legend",
+    "characteristics": {
+      "style": [
+        "aggressive",
+        "endurance"
+      ],
+      "vibe": [
+        "champion"
+      ],
+      "signature": "EWC / Bol d'Or winner"
+    },
+    "blurb": "Freddy Foray won the big French endurance races — sprint brain, endurance body.",
+    "active": true
+  },
+  {
+    "id": "niccolo_canepa",
+    "displayName": "Niccolò Canepa",
+    "aliases": [
+      "niccolo canepa",
+      "niccolò canepa",
+      "canepa"
+    ],
+    "series": [
+      "endurance",
+      "motogp",
+      "wsbk"
+    ],
+    "era": "legend",
+    "characteristics": {
+      "style": [
+        "smooth",
+        "endurance"
+      ],
+      "vibe": [
+        "champion"
+      ],
+      "signature": "EWC champion"
+    },
+    "blurb": "Niccolò Canepa won Endurance world honours after GP and WSBK chapters. Italian all-rounder.",
+    "active": true
+  },
+  {
+    "id": "randy_de_puniet",
+    "displayName": "Randy de Puniet",
+    "aliases": [
+      "randy de puniet",
+      "de puniet"
+    ],
+    "series": [
+      "endurance",
+      "motogp"
+    ],
+    "era": "legend",
+    "characteristics": {
+      "style": [
+        "aggressive",
+        "endurance"
+      ],
+      "vibe": [
+        "cult_hero"
+      ],
+      "signature": "GP winner + EWC star"
+    },
+    "blurb": "Randy de Puniet won Grands Prix and later Endurance races — French career second act.",
+    "active": true
+  },
+  {
+    "id": "shinichi_itoh",
+    "displayName": "Shinichi Itoh",
+    "aliases": [
+      "shinichi itoh",
+      "shin'ichi itoh",
+      "itoh"
+    ],
+    "series": [
+      "suzuka",
+      "motogp",
+      "endurance"
+    ],
+    "era": "legend",
+    "characteristics": {
+      "style": [
+        "smooth",
+        "endurance"
+      ],
+      "vibe": [
+        "champion"
+      ],
+      "signature": "multiple Suzuka winner"
+    },
+    "blurb": "Shinichi Itoh won Suzuka multiple times and raced 500cc GPs — Honda legend.",
+    "active": true
+  },
+  {
+    "id": "kousuke_akiyoshi",
+    "displayName": "Kousuke Akiyoshi",
+    "aliases": [
+      "kousuke akiyoshi",
+      "akiyoshi"
+    ],
+    "series": [
+      "suzuka",
+      "endurance"
+    ],
+    "era": "legend",
+    "characteristics": {
+      "style": [
+        "endurance"
+      ],
+      "vibe": [
+        "champion"
+      ],
+      "signature": "multiple Suzuka winner"
+    },
+    "blurb": "Kousuke Akiyoshi is a multi-time Suzuka 8 Hours winner — Japanese endurance benchmark.",
+    "active": true
+  },
+  {
+    "id": "manabu_kamada",
+    "displayName": "Manabu Kamada",
+    "aliases": [
+      "manabu kamada",
+      "kamada"
+    ],
+    "series": [
+      "suzuka",
+      "endurance"
+    ],
+    "era": "legend",
+    "characteristics": {
+      "style": [
+        "endurance"
+      ],
+      "vibe": [
+        "champion"
+      ],
+      "signature": "Suzuka 8 Hours winner"
+    },
+    "blurb": "Manabu Kamada won the Suzuka 8 Hours alongside GP stars — Japanese endurance glue.",
+    "active": true
+  },
+  {
+    "id": "yukio_kagayama",
+    "displayName": "Yukio Kagayama",
+    "aliases": [
+      "yukio kagayama",
+      "kagayama"
+    ],
+    "series": [
+      "suzuka",
+      "wsbk"
+    ],
+    "era": "legend",
+    "characteristics": {
+      "style": [
+        "aggressive"
+      ],
+      "vibe": [
+        "champion"
+      ],
+      "signature": "Suzuka winner + WSBK winner"
+    },
+    "blurb": "Yukio Kagayama won at Suzuka and in World Superbike — Suzuki's Japanese fighter.",
+    "active": true
+  },
+  {
+    "id": "alex_lowes",
+    "displayName": "Alex Lowes",
+    "aliases": [
+      "alex lowes"
+    ],
+    "series": [
+      "wsbk",
+      "suzuka",
+      "endurance",
+      "bsb"
+    ],
+    "era": "current",
+    "characteristics": {
+      "style": [
+        "smooth",
+        "versatile"
+      ],
+      "vibe": [
+        "champion"
+      ],
+      "signature": "WSBK winner + Suzuka winner"
+    },
+    "blurb": "Alex Lowes wins World Superbike races and Suzuka 8 Hours — Lowes family race craft.",
+    "active": true
+  },
+  {
+    "id": "iker_lecuona",
+    "displayName": "Iker Lecuona",
+    "aliases": [
+      "iker lecuona",
+      "lecuona"
+    ],
+    "series": [
+      "wsbk",
+      "suzuka",
+      "motogp"
+    ],
+    "era": "current",
+    "characteristics": {
+      "style": [
+        "aggressive"
+      ],
+      "vibe": [
+        "champion"
+      ],
+      "signature": "WSBK winner + Suzuka winner"
+    },
+    "blurb": "Iker Lecuona wins in WSBK and at Suzuka — Spanish fire on Honda machinery.",
+    "active": true
+  },
+  {
+    "id": "tetsuta_nagashima",
+    "displayName": "Tetsuta Nagashima",
+    "aliases": [
+      "tetsuta nagashima",
+      "nagashima"
+    ],
+    "series": [
+      "motogp",
+      "suzuka"
+    ],
+    "era": "legend",
+    "characteristics": {
+      "style": [
+        "smooth"
+      ],
+      "vibe": [
+        "champion"
+      ],
+      "signature": "Moto2 winner + Suzuka winner"
+    },
+    "blurb": "Tetsuta Nagashima won in Moto2 and the Suzuka 8 Hours — Japanese home-soil hero.",
+    "active": true
+  },
+  {
+    "id": "jarno_saarinen",
+    "displayName": "Jarno Saarinen",
+    "aliases": [
+      "jarno saarinen",
+      "saarinen"
+    ],
+    "series": [
+      "motogp",
+      "classic"
+    ],
+    "era": "legend",
+    "characteristics": {
+      "style": [
+        "smooth",
+        "racer_iq"
+      ],
+      "vibe": [
+        "classic_legend"
+      ],
+      "signature": "1972 250cc world champion"
+    },
+    "blurb": "Jarno Saarinen won the 250 title with revolutionary style — Finnish genius, gone too soon.",
+    "active": true
+  },
+  {
+    "id": "teuvo_lansivuori",
+    "displayName": "Teuvo Länsivuori",
+    "aliases": [
+      "teuvo lansivuori",
+      "teuvo länsivuori",
+      "lansivuori"
+    ],
+    "series": [
+      "motogp",
+      "classic"
+    ],
+    "era": "legend",
+    "characteristics": {
+      "style": [
+        "aggressive"
+      ],
+      "vibe": [
+        "cult_hero"
+      ],
+      "signature": "GP winner"
+    },
+    "blurb": "Teuvo Länsivuori won Grands Prix in the 70s — another Finnish flyer.",
+    "active": true
+  },
+  {
+    "id": "pat_hennen",
+    "displayName": "Pat Hennen",
+    "aliases": [
+      "pat hennen",
+      "hennen"
+    ],
+    "series": [
+      "motogp",
+      "classic"
+    ],
+    "era": "legend",
+    "characteristics": {
+      "style": [
+        "brave",
+        "aggressive"
+      ],
+      "vibe": [
+        "cult_hero"
+      ],
+      "signature": "first US 500cc GP winner"
+    },
+    "blurb": "Pat Hennen was the first American to win a 500cc GP — then the story stopped too early.",
+    "active": true
+  },
+  {
+    "id": "bubba_shobert",
+    "displayName": "Bubba Shobert",
+    "aliases": [
+      "bubba shobert",
+      "shobert"
+    ],
+    "series": [
+      "motoamerica",
+      "motogp",
+      "classic"
+    ],
+    "era": "legend",
+    "characteristics": {
+      "style": [
+        "aggressive"
+      ],
+      "vibe": [
+        "american_legend"
+      ],
+      "signature": "AMA Superbike champion"
+    },
+    "blurb": "Bubba Shobert won AMA Superbike titles before a tough GP jump. Texas dirt-track DNA on tarmac.",
+    "active": true
+  },
+  {
+    "id": "marco_lucchinelli",
+    "displayName": "Marco Lucchinelli",
+    "aliases": [
+      "marco lucchinelli",
+      "lucchinelli",
+      "lucky"
+    ],
+    "series": [
+      "motogp",
+      "classic"
+    ],
+    "era": "legend",
+    "characteristics": {
+      "style": [
+        "aggressive",
+        "showman"
+      ],
+      "vibe": [
+        "champion"
+      ],
+      "signature": "1981 500cc world champion"
+    },
+    "blurb": "Marco Lucchinelli — Lucky — took the 1981 500cc title. Italian cool in the two-stroke wars.",
+    "active": true
+  },
+  {
+    "id": "raymond_roche",
+    "displayName": "Raymond Roche",
+    "aliases": [
+      "raymond roche",
+      "roche"
+    ],
+    "series": [
+      "wsbk",
+      "endurance",
+      "classic"
+    ],
+    "era": "legend",
+    "characteristics": {
+      "style": [
+        "aggressive"
+      ],
+      "vibe": [
+        "champion"
+      ],
+      "signature": "1990 WSBK champion"
+    },
+    "blurb": "Raymond Roche won the 1990 World Superbike title — French pioneer of the series.",
+    "active": true
+  },
+  {
+    "id": "jean_philippe_ruggia",
+    "displayName": "Jean-Philippe Ruggia",
+    "aliases": [
+      "jean-philippe ruggia",
+      "ruggia"
+    ],
+    "series": [
+      "motogp",
+      "classic"
+    ],
+    "era": "legend",
+    "characteristics": {
+      "style": [
+        "spectacular"
+      ],
+      "vibe": [
+        "cult_hero"
+      ],
+      "signature": "GP winner"
+    },
+    "blurb": "Jean-Philippe Ruggia won 250 GPs with wild saves — French entertainment.",
+    "active": true
+  },
+  {
+    "id": "luca_cadalora",
+    "displayName": "Luca Cadalora",
+    "aliases": [
+      "luca cadalora",
+      "cadalora"
+    ],
+    "series": [
+      "motogp",
+      "classic"
+    ],
+    "era": "legend",
+    "characteristics": {
+      "style": [
+        "smooth",
+        "technical"
+      ],
+      "vibe": [
+        "champion"
+      ],
+      "signature": "two-time 250cc world champion"
+    },
+    "blurb": "Luca Cadalora won two 250 titles and ran at the front in 500cc. Italian textbook style.",
+    "active": true
+  },
+  {
+    "id": "alex_debon",
+    "displayName": "Àlex Debón",
+    "aliases": [
+      "alex debon",
+      "àlex debón",
+      "debon"
+    ],
+    "series": [
+      "motogp"
+    ],
+    "era": "legend",
+    "characteristics": {
+      "style": [
+        "aggressive"
+      ],
+      "vibe": [
+        "cult_hero"
+      ],
+      "signature": "250 GP winner"
+    },
+    "blurb": "Àlex Debón won 250 GPs — Spanish privateer-speed energy.",
+    "active": true
+  },
+  {
+    "id": "roberto_rolfo",
+    "displayName": "Roberto Rolfo",
+    "aliases": [
+      "roberto rolfo",
+      "rolfo"
+    ],
+    "series": [
+      "motogp",
+      "ssp"
+    ],
+    "era": "legend",
+    "characteristics": {
+      "style": [
+        "smooth"
+      ],
+      "vibe": [
+        "cult_hero"
+      ],
+      "signature": "250 GP winner"
+    },
+    "blurb": "Roberto Rolfo won at 250 level and later raced Supersport — Italian career depth.",
+    "active": true
+  },
+  {
+    "id": "sebastian_porto",
+    "displayName": "Sebastián Porto",
+    "aliases": [
+      "sebastian porto",
+      "sebastián porto",
+      "porto"
+    ],
+    "series": [
+      "motogp"
+    ],
+    "era": "legend",
+    "characteristics": {
+      "style": [
+        "aggressive"
+      ],
+      "vibe": [
+        "cult_hero"
+      ],
+      "signature": "250 GP winner"
+    },
+    "blurb": "Sebastián Porto won 250 GPs — Argentine attack in the two-stroke twilight.",
+    "active": true
+  },
+  {
+    "id": "hiroshi_aoyama",
+    "displayName": "Hiroshi Aoyama",
+    "aliases": [
+      "hiroshi aoyama",
+      "aoyama"
+    ],
+    "series": [
+      "motogp"
+    ],
+    "era": "legend",
+    "characteristics": {
+      "style": [
+        "smooth"
+      ],
+      "vibe": [
+        "champion"
+      ],
+      "signature": "2009 250cc world champion"
+    },
+    "blurb": "Hiroshi Aoyama was the last 250cc world champion in 2009 — end of an era, Japanese title.",
+    "active": true
+  },
+  {
+    "id": "thomas_luthi",
+    "displayName": "Thomas Lüthi",
+    "aliases": [
+      "thomas luthi",
+      "thomas lüthi",
+      "luthi",
+      "lüthi"
+    ],
+    "series": [
+      "motogp",
+      "moto2"
+    ],
+    "era": "legend",
+    "characteristics": {
+      "style": [
+        "smooth",
+        "race_craft"
+      ],
+      "vibe": [
+        "champion"
+      ],
+      "signature": "2005 125cc world champion"
+    },
+    "blurb": "Thomas Lüthi won the 2005 125 title and became a Moto2 institution. Swiss longevity.",
+    "active": true
+  },
+  {
+    "id": "gabor_talmacsi",
+    "displayName": "Gábor Talmácsi",
+    "aliases": [
+      "gabor talmacsi",
+      "gábor talmácsi",
+      "talmacsi"
+    ],
+    "series": [
+      "motogp"
+    ],
+    "era": "legend",
+    "characteristics": {
+      "style": [
+        "aggressive"
+      ],
+      "vibe": [
+        "champion"
+      ],
+      "signature": "2007 125cc world champion"
+    },
+    "blurb": "Gábor Talmácsi took the 2007 125 crown — Hungary's world champion.",
+    "active": true
+  },
+  {
+    "id": "julian_simon",
+    "displayName": "Julián Simón",
+    "aliases": [
+      "julian simon",
+      "julián simón",
+      "simon 125"
+    ],
+    "series": [
+      "motogp"
+    ],
+    "era": "legend",
+    "characteristics": {
+      "style": [
+        "smooth"
+      ],
+      "vibe": [
+        "champion"
+      ],
+      "signature": "2009 125cc world champion"
+    },
+    "blurb": "Julián Simón won the 2009 125 title — Spanish small-class excellence.",
+    "active": true
+  },
+  {
+    "id": "nico_terol",
+    "displayName": "Nicolás Terol",
+    "aliases": [
+      "nicolas terol",
+      "nicolás terol",
+      "nico terol",
+      "terol"
+    ],
+    "series": [
+      "motogp"
+    ],
+    "era": "legend",
+    "characteristics": {
+      "style": [
+        "smooth",
+        "race_craft"
+      ],
+      "vibe": [
+        "champion"
+      ],
+      "signature": "2011 125cc world champion"
+    },
+    "blurb": "Nicolás Terol was the last 125cc world champion in 2011 — end of the two-stroke age.",
+    "active": true
+  },
+  {
+    "id": "ron_haslam",
+    "displayName": "Ron Haslam",
+    "aliases": [
+      "ron haslam",
+      "rocket ron"
+    ],
+    "series": [
+      "motogp",
+      "classic",
+      "tt"
+    ],
+    "era": "legend",
+    "characteristics": {
+      "style": [
+        "brave",
+        "aggressive"
+      ],
+      "vibe": [
+        "british_legend"
+      ],
+      "signature": "GP star + TT"
+    },
+    "blurb": "Rocket Ron Haslam — GP front-runner, TT racer, British institution. Leon's dad.",
+    "active": true
+  },
+  {
+    "id": "gaylard",
+    "displayName": "Peter Williams",
+    "aliases": [
+      "peter williams norton"
+    ],
+    "series": [
+      "tt",
+      "classic"
+    ],
+    "era": "legend",
+    "characteristics": {
+      "style": [
+        "technical",
+        "brave"
+      ],
+      "vibe": [
+        "classic_legend"
+      ],
+      "signature": "TT winner + Norton legend"
+    },
+    "blurb": "Peter Williams won TTs and shaped Norton race engineering — rider-engineer mythos.",
+    "active": true
+  },
+  {
+    "id": "john_cooper",
+    "displayName": "John Cooper",
+    "aliases": [
+      "john cooper motorcycle"
+    ],
+    "series": [
+      "classic",
+      "tt"
+    ],
+    "era": "legend",
+    "characteristics": {
+      "style": [
+        "aggressive"
+      ],
+      "vibe": [
+        "classic_legend"
+      ],
+      "signature": "Transatlantic / classic winner"
+    },
+    "blurb": "John Cooper was a British short-circuit terror of the classic era — feature-race destroyer.",
+    "active": true
+  },
+  {
+    "id": "percy_tait",
+    "displayName": "Percy Tait",
+    "aliases": [
+      "percy tait"
+    ],
+    "series": [
+      "classic",
+      "tt"
+    ],
+    "era": "legend",
+    "characteristics": {
+      "style": [
+        "versatile"
+      ],
+      "vibe": [
+        "classic_legend"
+      ],
+      "signature": "TT winner + Triumph tester"
+    },
+    "blurb": "Percy Tait won TTs and developed Triumphs — factory rider in the classic sense.",
+    "active": true
+  }
+]

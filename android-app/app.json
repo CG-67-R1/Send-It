@@ -1,0 +1,104 @@
+{
+  "expo": {
+    "name": "RoadRacer - Motorsport_Is_Life",
+    "slug": "roadracer",
+    "owner": "motorsport-is-life",
+    "version": "1.0.0",
+    "orientation": "portrait",
+    "icon": "./assets/icon.png",
+    "userInterfaceStyle": "automatic",
+    "assetBundlePatterns": [
+      "**/*"
+    ],
+    "android": {
+      "adaptiveIcon": {
+        "foregroundImage": "./assets/icon.png",
+        "backgroundColor": "#0f172a"
+      },
+      "package": "com.milroadracer.app",
+      "permissions": [
+        "android.permission.POST_NOTIFICATIONS"
+      ],
+      "blockedPermissions": [
+        "android.permission.RECORD_AUDIO",
+        "android.permission.ACCESS_BACKGROUND_LOCATION",
+        "android.permission.FOREGROUND_SERVICE",
+        "android.permission.FOREGROUND_SERVICE_LOCATION"
+      ]
+    },
+    "plugins": [
+      "expo-notifications",
+      [
+        "expo-calendar",
+        {
+          "calendarPermission": "RoadRacer uses your calendar to add race events and reminders."
+        }
+      ],
+      [
+        "expo-image-picker",
+        {
+          "photosPermission": "RoadRacer uses your photos to set your bike photo and rider avatar, add images to Track Walk notes, and attach photos in Coach."
+        }
+      ],
+      [
+        "expo-camera",
+        {
+          "cameraPermission": "RoadRacer uses your camera to place your face in the rider avatar.",
+          "microphonePermission": false,
+          "recordAudioAndroid": false
+        }
+      ],
+      [
+        "expo-speech-recognition",
+        {
+          "microphonePermission": "RoadRacer uses the microphone to transcribe voice notes in Track Walk.",
+          "speechRecognitionPermission": "RoadRacer uses speech recognition to transcribe voice notes in Track Walk."
+        }
+      ],
+      [
+        "expo-location",
+        {
+          "locationWhenInUsePermission": "RoadRacer uses your location at the circuit to greet you when you arrive and suggest chatting with your coach.",
+          "isAndroidBackgroundLocationEnabled": false,
+          "isAndroidForegroundServiceEnabled": false
+        }
+      ],
+      "expo-asset",
+      [
+        "expo-build-properties",
+        {
+          "android": {
+            "compileSdkVersion": 36,
+            "targetSdkVersion": 36,
+            "minSdkVersion": 24,
+            "enableProguardInReleaseBuilds": true,
+            "enableShrinkResourcesInReleaseBuilds": true,
+            "extraProguardRules": "-keep class com.shopify.reactnative.skia.** { *; }\n-keep class com.swmansion.reanimated.** { *; }\n-keep class com.swmansion.worklets.** { *; }\n-keep class com.facebook.react.turbomodule.** { *; }\n-keep class io.sentry.** { *; }\n-dontwarn com.shopify.reactnative.skia.**\n"
+          }
+        }
+      ],
+      "expo-status-bar",
+      [
+        "expo-screen-orientation",
+        {
+          "initialOrientation": "PORTRAIT_UP"
+        }
+      ],
+      [
+        "expo-splash-screen",
+        {
+          "backgroundColor": "#0f172a",
+          "image": "./assets/icon.png",
+          "resizeMode": "contain"
+        }
+      ]
+    ],
+    "extra": {
+      "privacyPolicyUrl": "https://github.com/CG-67-R1/Send-It/blob/main/docs/legal/PRIVACY.md",
+      "termsOfUseUrl": "https://github.com/CG-67-R1/Send-It/blob/main/docs/legal/TERMS.md",
+      "eas": {
+        "projectId": "c3447188-53ab-4806-96af-6eb1b5417de3"
+      }
+    }
+  }
+}

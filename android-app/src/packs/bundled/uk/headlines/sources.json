@@ -1,0 +1,24 @@
+{
+  "sourceIds": [
+    "mcn",
+    "bennetts"
+  ],
+  "sources": [
+    {
+      "id": "mcn",
+      "name": "MCN",
+      "type": "scraper",
+      "confidence": "established-press",
+      "nodeId": "uk",
+      "url": "https://www.motorcyclenews.com/news/"
+    },
+    {
+      "id": "bennetts",
+      "name": "Bennetts BikeSocial",
+      "type": "scraper",
+      "confidence": "established-press",
+      "nodeId": "uk",
+      "url": "https://www.bennetts.co.uk/bikesocial/news-and-views"
+    }
+  ]
+}

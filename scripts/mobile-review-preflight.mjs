@@ -12,6 +12,7 @@ import { fileURLToPath } from 'node:url';
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const ROOT = path.resolve(__dirname, '..');
 const APP_DIR = path.join(ROOT, 'app');
+const ANDROID_APP_DIR = path.join(ROOT, 'android-app');
 const API_DIR = path.join(ROOT, 'api');
 const SCREENS_DIR = path.join(APP_DIR, 'src', 'screens');
 
@@ -68,6 +69,7 @@ if (process.env.SKIP_TSC === '1') {
   console.log('  SKIP  TypeScript (SKIP_TSC=1)');
 } else {
   run('npx', ['tsc', '--noEmit'], APP_DIR, 'TypeScript (app)');
+  run('npx', ['tsc', '--noEmit'], ANDROID_APP_DIR, 'TypeScript (android-app)');
 }
 
 section('API syntax');
@@ -162,6 +164,7 @@ function runAudit(cwd, label) {
   }
 }
 runAudit(APP_DIR, 'npm audit (app)');
+runAudit(ANDROID_APP_DIR, 'npm audit (android-app)');
 runAudit(API_DIR, 'npm audit (api)');
 
 section('Repo health check');

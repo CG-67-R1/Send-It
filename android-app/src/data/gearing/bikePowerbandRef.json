@@ -1,0 +1,231 @@
+{
+  "version": "1.0",
+  "lastUpdated": "2026-08-16",
+  "note": "Peak RPM only when cited from OEM/spec sheets. Empty RPM stays empty — do not invent.",
+  "bikes": [
+    {
+      "id": "yamaha_yzf_r6_2017",
+      "manufacturer": "Yamaha",
+      "family": "YZF-R6",
+      "aliases": ["r6", "yzf-r6", "yzf r6", "yamaha r6", "yamaha yzf-r6"],
+      "yearFrom": 2017,
+      "yearTo": 2025,
+      "capacityCc": 599,
+      "engineConfig": "I4",
+      "peakTorqueRpm": 10500,
+      "peakPowerRpm": 14500,
+      "powerbandRpmFrom": 10500,
+      "powerbandRpmTo": 14500,
+      "sources": [
+        "https://cdn2.yamaha-motor.eu/prod/product-assets/2022/YZF600R6RCOMP/Factsheets/2022-YZF600R6RCOMP_en-GB.pdf"
+      ]
+    },
+    {
+      "id": "honda_cbr600rr_2024",
+      "manufacturer": "Honda",
+      "family": "CBR600RR",
+      "aliases": ["cbr600rr", "cbr 600rr", "cbr 600 rr", "honda cbr600rr", "600rr"],
+      "yearFrom": 2024,
+      "yearTo": 2026,
+      "capacityCc": 599,
+      "engineConfig": "I4",
+      "peakTorqueRpm": 11500,
+      "peakPowerRpm": 14250,
+      "powerbandRpmFrom": 11500,
+      "powerbandRpmTo": 14250,
+      "sources": [
+        "https://www.honda.co.uk/motorcycles/range/super-sport/cbr600rr/specifications-and-price.html"
+      ]
+    },
+    {
+      "id": "kawasaki_zx6r_636_2013",
+      "manufacturer": "Kawasaki",
+      "family": "Ninja ZX-6R 636",
+      "aliases": ["zx-6r", "zx6r", "zx 6r", "636", "ninja zx-6r", "kawasaki zx-6r"],
+      "yearFrom": 2013,
+      "yearTo": 2018,
+      "capacityCc": 636,
+      "engineConfig": "I4",
+      "peakTorqueRpm": 11500,
+      "peakPowerRpm": 13500,
+      "powerbandRpmFrom": 11500,
+      "powerbandRpmTo": 13500,
+      "sources": [
+        "https://www.ultimatekawasakiipswich.com.au/ssl/cms/files_cms/11527_2016_Ninja_ZX-6R_636_ABS.pdf"
+      ]
+    },
+    {
+      "id": "kawasaki_zx6r_636_2024",
+      "manufacturer": "Kawasaki",
+      "family": "Ninja ZX-6R",
+      "aliases": ["zx-6r 2024", "zx6r 2024", "ninja zx-6r 636"],
+      "yearFrom": 2024,
+      "yearTo": 2026,
+      "capacityCc": 636,
+      "engineConfig": "I4",
+      "peakTorqueRpm": 10800,
+      "peakPowerRpm": 13000,
+      "powerbandRpmFrom": 10800,
+      "powerbandRpmTo": 13000,
+      "sources": [
+        "https://hawaii.kawasaki.com/en-us/products/ProductSpecSheetPDF/2026-ninja-zx-6r"
+      ]
+    },
+    {
+      "id": "suzuki_gsxr600_2011",
+      "manufacturer": "Suzuki",
+      "family": "GSX-R600",
+      "aliases": ["gsx-r600", "gsxr600", "gsxr 600", "gixxer 600", "suzuki gsx-r600"],
+      "yearFrom": 2011,
+      "yearTo": 2018,
+      "capacityCc": 599,
+      "engineConfig": "I4",
+      "peakTorqueRpm": null,
+      "peakPowerRpm": null,
+      "powerbandRpmFrom": null,
+      "powerbandRpmTo": null,
+      "sources": []
+    },
+    {
+      "id": "yamaha_yzf_r1_2020",
+      "manufacturer": "Yamaha",
+      "family": "YZF-R1",
+      "aliases": ["r1", "yzf-r1", "yzf r1", "yamaha r1", "yamaha yzf-r1"],
+      "yearFrom": 2020,
+      "yearTo": 2025,
+      "capacityCc": 998,
+      "engineConfig": "I4",
+      "peakTorqueRpm": 11500,
+      "peakPowerRpm": 13500,
+      "powerbandRpmFrom": 11500,
+      "powerbandRpmTo": 13500,
+      "sources": [
+        "https://www.yamaha-motor.eu/kv/en/motorcycles/supersport/pdp/r1/"
+      ]
+    },
+    {
+      "id": "bmw_s1000rr_2023",
+      "manufacturer": "BMW",
+      "family": "S 1000 RR",
+      "aliases": ["s1000rr", "s 1000 rr", "s1000 rr", "bmw s1000rr"],
+      "yearFrom": 2023,
+      "yearTo": 2026,
+      "capacityCc": 999,
+      "engineConfig": "I4",
+      "peakTorqueRpm": 11000,
+      "peakPowerRpm": 13750,
+      "powerbandRpmFrom": 11000,
+      "powerbandRpmTo": 13750,
+      "sources": [
+        "https://www.bmw-motorrad.com.my/en/models/sport/s1000rr/technicaldata.html"
+      ]
+    },
+    {
+      "id": "kawasaki_zx10r",
+      "manufacturer": "Kawasaki",
+      "family": "Ninja ZX-10R",
+      "aliases": ["zx-10r", "zx10r", "zx 10r", "ninja zx-10r", "kawasaki zx-10r"],
+      "yearFrom": 2016,
+      "yearTo": 2026,
+      "capacityCc": 998,
+      "engineConfig": "I4",
+      "peakTorqueRpm": null,
+      "peakPowerRpm": null,
+      "powerbandRpmFrom": null,
+      "powerbandRpmTo": null,
+      "sources": []
+    },
+    {
+      "id": "honda_cbr1000rr",
+      "manufacturer": "Honda",
+      "family": "CBR1000RR",
+      "aliases": ["cbr1000rr", "cbr 1000rr", "fireblade", "honda cbr1000rr"],
+      "yearFrom": 2017,
+      "yearTo": 2026,
+      "capacityCc": 1000,
+      "engineConfig": "I4",
+      "peakTorqueRpm": null,
+      "peakPowerRpm": null,
+      "powerbandRpmFrom": null,
+      "powerbandRpmTo": null,
+      "sources": []
+    },
+    {
+      "id": "suzuki_gsxr1000_2017",
+      "manufacturer": "Suzuki",
+      "family": "GSX-R1000",
+      "aliases": ["gsx-r1000", "gsxr1000", "gsxr 1000", "gixxer 1000", "suzuki gsx-r1000"],
+      "yearFrom": 2017,
+      "yearTo": 2022,
+      "capacityCc": 999,
+      "engineConfig": "I4",
+      "peakTorqueRpm": null,
+      "peakPowerRpm": null,
+      "powerbandRpmFrom": null,
+      "powerbandRpmTo": null,
+      "sources": []
+    },
+    {
+      "id": "ducati_panigale_v4_2021",
+      "manufacturer": "Ducati",
+      "family": "Panigale V4",
+      "aliases": ["panigale v4", "v4", "ducati v4", "ducati panigale v4"],
+      "yearFrom": 2021,
+      "yearTo": 2024,
+      "capacityCc": 1103,
+      "engineConfig": "V4",
+      "peakTorqueRpm": 9500,
+      "peakPowerRpm": 13000,
+      "powerbandRpmFrom": 9500,
+      "powerbandRpmTo": 13000,
+      "sources": [
+        "https://assets.ctfassets.net/x7j9qwvpvr5s/3dttWusRKXI8VEuLlXcZ9I/0a28fca0e859c95569a04fad99f778b2/Brochure_MY21_Panigale_V4_ENG.pdf"
+      ]
+    },
+    {
+      "id": "yamaha_mt07",
+      "manufacturer": "Yamaha",
+      "family": "MT-07",
+      "aliases": ["mt-07", "mt07", "mt 07", "yamaha mt-07", "r7"],
+      "yearFrom": 2021,
+      "yearTo": 2026,
+      "capacityCc": 689,
+      "engineConfig": "I2",
+      "peakTorqueRpm": null,
+      "peakPowerRpm": null,
+      "powerbandRpmFrom": null,
+      "powerbandRpmTo": null,
+      "sources": []
+    },
+    {
+      "id": "yamaha_yzf_r3",
+      "manufacturer": "Yamaha",
+      "family": "YZF-R3",
+      "aliases": ["r3", "yzf-r3", "yamaha r3", "yamaha yzf-r3"],
+      "yearFrom": 2019,
+      "yearTo": 2026,
+      "capacityCc": 321,
+      "engineConfig": "I2",
+      "peakTorqueRpm": null,
+      "peakPowerRpm": null,
+      "powerbandRpmFrom": null,
+      "powerbandRpmTo": null,
+      "sources": []
+    },
+    {
+      "id": "kawasaki_ninja_400",
+      "manufacturer": "Kawasaki",
+      "family": "Ninja 400",
+      "aliases": ["ninja 400", "ninja400", "ex400", "kawasaki ninja 400"],
+      "yearFrom": 2018,
+      "yearTo": 2026,
+      "capacityCc": 399,
+      "engineConfig": "I2",
+      "peakTorqueRpm": null,
+      "peakPowerRpm": null,
+      "powerbandRpmFrom": null,
+      "powerbandRpmTo": null,
+      "sources": []
+    }
+  ]
+}

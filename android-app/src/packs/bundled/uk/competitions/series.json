@@ -1,0 +1,52 @@
+{
+  "series": [
+    {
+      "id": "bsb",
+      "name": "Bennetts British Superbike Championship",
+      "nodeId": "uk",
+      "local": true,
+      "website": "https://www.britishsuperbike.com",
+      "confidence": "official"
+    },
+    {
+      "id": "bsb_supports",
+      "name": "BSB support classes (Supersport, Superstock, Talent Cup, etc.)",
+      "nodeId": "uk",
+      "local": true,
+      "website": "https://www.britishsuperbike.com",
+      "confidence": "official"
+    },
+    {
+      "id": "uk_club",
+      "name": "UK club road racing (Bemsee / No Limits / Thundersport / NG)",
+      "nodeId": "uk",
+      "local": true,
+      "confidence": "community"
+    },
+    {
+      "id": "crmc",
+      "name": "Classic Racing Motorcycle Club",
+      "nodeId": "uk",
+      "local": true,
+      "website": "https://www.crmc.co.uk",
+      "confidence": "official"
+    },
+    {
+      "id": "isle_of_man_tt",
+      "name": "Isle of Man TT",
+      "nodeId": "uk",
+      "local": true,
+      "website": "https://www.iomtt.com",
+      "confidence": "official",
+      "notes": "Crown Dependency event; often followed by UK riders."
+    },
+    {
+      "id": "nw200",
+      "name": "North West 200",
+      "nodeId": "uk-northern-ireland",
+      "local": true,
+      "website": "https://www.northwest200.org",
+      "confidence": "official"
+    }
+  ]
+}

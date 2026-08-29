@@ -12,6 +12,7 @@ import { fileURLToPath, pathToFileURL } from 'node:url';
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const ROOT = path.resolve(__dirname, '..');
 const APP_DIR = path.join(ROOT, 'app');
+const ANDROID_APP_DIR = path.join(ROOT, 'android-app');
 const API_DIR = path.join(ROOT, 'api');
 const AU_CACHE = path.join(API_DIR, 'data', 'au-headlines.json');
 const AU_CALENDAR_CACHE = path.join(API_DIR, 'data', 'au-road-race-events.json');
@@ -222,6 +223,7 @@ console.log('RoadRace health check\n');
 console.log('App');
 if (process.env.SKIP_TSC !== '1') {
   run('npx', ['tsc', '--noEmit'], APP_DIR, 'TypeScript (app)');
+  run('npx', ['tsc', '--noEmit'], ANDROID_APP_DIR, 'TypeScript (android-app)');
 } else {
   console.log('  skip tsc (SKIP_TSC=1)');
 }

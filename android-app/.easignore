@@ -1,0 +1,20 @@
+# EAS upload root = android-app/
+.expo/
+node_modules/
+dist/
+android/.gradle/
+android/build/
+android/app/build/
+android/app/.cxx/
+android/local.properties
+
+# Never exclude regional pack bundle used by Metro
+!src/packs/
+
+# Do not upload secrets or signing material
+.env
+.env.local
+*.keystore
+*.jks
+google-services.json
+play-service-account.json

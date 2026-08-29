@@ -69,7 +69,7 @@ hermes cron create "0 8 * * 1-5" `
   --workdir $RepoRoot
 
 $weeklyPrompt = @'
-Run weekly-review mode. Full preflight (includes validate-track-data.mjs), production health-check (API_URL=https://send-it-ke7r.onrender.com), screen audit, track-data-analyst pass (catalog/geofences/corners/Bend+SMP layouts), coding improvements scan. Write docs/reviews/RR_REVIEW_<today>.md with a Track data section. Compare to prior RR_REVIEW_*.md, TRACK_GPX_ALIGN_*.md, and GPT_REPO_PARITY_AUDIT_*.md. Report only - no commits. End with P0/P1/P2 counts and top 3 Cursor fixes.
+Run weekly-review mode. Full preflight (includes validate-track-data.mjs), production health-check (API_URL=https://send-it-ke7r.onrender.com), screen audit, track-data-analyst pass (catalog/geofences/corners/Bend+SMP layouts, plus Track Memory geometry + elevation + diagnose-track-memory.mjs + test:track-frames). Write docs/reviews/RR_REVIEW_<today>.md with a Track data section that includes a Track Memory subsection. Compare to prior RR_REVIEW_*.md, TRACK_GPX_ALIGN_*.md, TRACK_MEMORY_REVIEW_*.md, and GPT_REPO_PARITY_AUDIT_*.md. Report only - no commits, no bake. End with P0/P1/P2 counts and top 3 Cursor fixes.
 '@
 
 Write-Host "Creating weekly review (Mondays 9:00)..." -ForegroundColor Cyan
@@ -78,6 +78,17 @@ hermes cron create "0 9 * * 1" $weeklyPrompt `
   --skill send-it/rr-app-expert `
   --skill send-it/mobile-review `
   --skill send-it/track-data-analyst `
+  --workdir $RepoRoot `
+  --deliver $deliver
+
+$playPrompt = @'
+You are Agent Play. First run weekly-skills. Fetch Android security bulletins, Play target API requirements, 16 KB page-size docs, Play policy center, and Expo Android/Skia issues. Rewrite docs/hermes/skills/send-it/agent-play/CURRENT.md (As of today; keep last 8 weeks of changelog). Write docs/reviews/AGENT_PLAY_SKILLS_<today>.md summarizing what changed. Then run .\scripts\install-hermes-skills.ps1. Second, run pre-submit against android-app/ (not app/). Execute mobile-review-preflight.mjs and npx tsc --noEmit in android-app. Audit secrets, TLS/hosts, permissions (blocked RECORD_AUDIO / background location / FGS vs SYSTEM_ALERT_WINDOW), Data safety vs PRIVACY.md, targetSdk 36, 16 KB ELF. Write docs/reviews/PLAY_PREFLIGHT_<today>.md with SUBMIT or HOLD. Do not invent a Play app id. Do not edit android-app/, app/, or api/. Do not bake. End with P0/P1/P2 and top Cursor fixes.
+'@
+
+Write-Host "Creating Agent Play weekly (Thursdays 9:00)..." -ForegroundColor Cyan
+hermes cron create "0 9 * * 4" $playPrompt `
+  --name "Send-It Agent Play" `
+  --skill send-it/agent-play `
   --workdir $RepoRoot `
   --deliver $deliver
 
@@ -93,7 +104,7 @@ if ($gw -notmatch "Gateway process running") {
   Write-Host "`nGateway already running." -ForegroundColor Green
 }
 
-Write-Host "`nDone. Daily gate is script-only (silent on pass). Weekly review uses Nous credits." -ForegroundColor Green
+Write-Host "`nDone. Daily gate is script-only (silent on pass). Weekly review and Agent Play use Nous credits." -ForegroundColor Green
 $dailyPath = Join-Path $HermesScripts "send-it-daily-gate.py"
 Write-Host "Test daily gate now: python $dailyPath" -ForegroundColor DarkGray
 Write-Host 'Manual weekly run: hermes cron run WEEKLY_JOB_ID' -ForegroundColor DarkGray

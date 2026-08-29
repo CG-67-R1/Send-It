@@ -1,0 +1,461 @@
+{
+  "version": 2,
+  "policy": "left|right only with handSources evidence. Prefer complex over a wrong hand. Never set turn hand from GPX bearings or from circuit clockwise/anticlockwise alone.",
+  "updated": "2026-08-26",
+  "allowedSourceMethods": [
+    "rider",
+    "official_map",
+    "authoritative_preview",
+    "legacy_lock"
+  ],
+  "bannedSourceMethods": [
+    "gpx_bearing",
+    "ccw_inference",
+    "clockwise_inference",
+    "kb_extract_alone"
+  ],
+  "forceAllComplex": [
+    "smp_brabham",
+    "smp_druitt",
+    "sandown",
+    "winton",
+    "calder_park",
+    "hidden_valley",
+    "baskerville",
+    "lakeside"
+  ],
+  "trackDirection": {
+    "phillip_island": "anticlockwise",
+    "smp_gardner": "anticlockwise",
+    "smp_brabham": "anticlockwise",
+    "smp_druitt": "anticlockwise",
+    "lakeside": "anticlockwise"
+  },
+  "lengthKm": {
+    "the_bend_gt": "7.77 km",
+    "the_bend_international": "4.95 km"
+  },
+  "verifiedHands": {
+    "phillip_island": {
+      "1": "right",
+      "2": "left",
+      "3": "left",
+      "4": "right",
+      "5": "left",
+      "9": "right"
+    },
+    "mallala": {
+      "2": "left",
+      "3": "right",
+      "6": "left",
+      "7": "right"
+    },
+    "mac_park": {
+      "3": "right",
+      "4": "left",
+      "5": "right",
+      "7": "left",
+      "8": "right",
+      "10": "left",
+      "11": "right"
+    },
+    "morgan_park": {
+      "3": "left",
+      "4": "right",
+      "5": "left",
+      "6": "right",
+      "7": "left",
+      "10": "right"
+    },
+    "wakefield_park": {
+      "1": "left",
+      "2": "right",
+      "3": "left",
+      "4": "left",
+      "5": "right",
+      "8": "left",
+      "10": "left"
+    },
+    "wanneroo": {
+      "1": "right",
+      "3": "left",
+      "5": "right",
+      "7": "left",
+      "8": "right"
+    },
+    "the_bend_international": {
+      "1": "right",
+      "2": "left",
+      "3": "right",
+      "6": "left",
+      "11": "right",
+      "12": "left",
+      "13": "right",
+      "14": "right",
+      "17": "right"
+    },
+    "the_bend_gt": {
+      "1": "right",
+      "2": "left",
+      "3": "right",
+      "4": "right",
+      "5": "left",
+      "7": "right",
+      "8": "left",
+      "9": "right"
+    },
+    "smp_gardner": {
+      "1": "left",
+      "2": "left",
+      "3": "right",
+      "4": "right",
+      "5": "left",
+      "6": "left",
+      "7": "right",
+      "8": "right",
+      "9": "right",
+      "10": "left",
+      "11": "left"
+    },
+    "queensland_raceway": {
+      "1": "right",
+      "2": "left",
+      "5": "right",
+      "6": "right"
+    },
+    "broadford": {
+      "1": "left",
+      "5": "right",
+      "10": "right",
+      "12": "left"
+    }
+  },
+  "handSources": {
+    "phillip_island": {
+      "1": {
+        "hand": "right",
+        "method": "authoritative_preview",
+        "note": "Doohan Corner — MotoGP/Honda previews + rider report 2026-08. Must never be left from anticlockwise inference. Southern Loop is T2, not T1."
+      },
+      "2": {
+        "hand": "left",
+        "method": "authoritative_preview",
+        "note": "Southern Loop — first major left after Doohan."
+      },
+      "3": {
+        "hand": "left",
+        "method": "authoritative_preview",
+        "note": "Stoner Corner — sweeping left before Miller."
+      },
+      "4": {
+        "hand": "right",
+        "method": "authoritative_preview",
+        "note": "Miller / Honda hairpin — right-hander."
+      },
+      "5": {
+        "hand": "left",
+        "method": "authoritative_preview",
+        "note": "Siberia — left-hander."
+      },
+      "9": {
+        "hand": "right",
+        "method": "authoritative_preview",
+        "note": "MG Hairpin — downhill right. T6–T8/T10–T11 left complex until rider lock."
+      }
+    },
+    "mallala": {
+      "2": {
+        "hand": "left",
+        "method": "legacy_lock"
+      },
+      "3": {
+        "hand": "right",
+        "method": "rider",
+        "note": "Rider-view: right hairpin (not map top/bottom-left)."
+      },
+      "6": {
+        "hand": "left",
+        "method": "legacy_lock"
+      },
+      "7": {
+        "hand": "right",
+        "method": "legacy_lock"
+      }
+    },
+    "mac_park": {
+      "3": {
+        "hand": "right",
+        "method": "legacy_lock"
+      },
+      "4": {
+        "hand": "left",
+        "method": "legacy_lock"
+      },
+      "5": {
+        "hand": "right",
+        "method": "legacy_lock"
+      },
+      "7": {
+        "hand": "left",
+        "method": "legacy_lock"
+      },
+      "8": {
+        "hand": "right",
+        "method": "legacy_lock"
+      },
+      "10": {
+        "hand": "left",
+        "method": "legacy_lock"
+      },
+      "11": {
+        "hand": "right",
+        "method": "legacy_lock"
+      }
+    },
+    "morgan_park": {
+      "3": {
+        "hand": "left",
+        "method": "legacy_lock"
+      },
+      "4": {
+        "hand": "right",
+        "method": "legacy_lock"
+      },
+      "5": {
+        "hand": "left",
+        "method": "legacy_lock"
+      },
+      "6": {
+        "hand": "right",
+        "method": "legacy_lock"
+      },
+      "7": {
+        "hand": "left",
+        "method": "legacy_lock"
+      },
+      "10": {
+        "hand": "right",
+        "method": "legacy_lock"
+      }
+    },
+    "wakefield_park": {
+      "1": {
+        "hand": "left",
+        "method": "legacy_lock"
+      },
+      "2": {
+        "hand": "right",
+        "method": "legacy_lock"
+      },
+      "3": {
+        "hand": "left",
+        "method": "legacy_lock"
+      },
+      "4": {
+        "hand": "left",
+        "method": "legacy_lock"
+      },
+      "5": {
+        "hand": "right",
+        "method": "legacy_lock"
+      },
+      "8": {
+        "hand": "left",
+        "method": "legacy_lock"
+      },
+      "10": {
+        "hand": "left",
+        "method": "legacy_lock"
+      }
+    },
+    "wanneroo": {
+      "1": {
+        "hand": "right",
+        "method": "legacy_lock"
+      },
+      "3": {
+        "hand": "left",
+        "method": "legacy_lock"
+      },
+      "5": {
+        "hand": "right",
+        "method": "legacy_lock"
+      },
+      "7": {
+        "hand": "left",
+        "method": "legacy_lock"
+      },
+      "8": {
+        "hand": "right",
+        "method": "legacy_lock"
+      }
+    },
+    "the_bend_international": {
+      "1": {
+        "hand": "right",
+        "method": "legacy_lock"
+      },
+      "2": {
+        "hand": "left",
+        "method": "legacy_lock"
+      },
+      "3": {
+        "hand": "right",
+        "method": "legacy_lock"
+      },
+      "6": {
+        "hand": "left",
+        "method": "legacy_lock"
+      },
+      "11": {
+        "hand": "right",
+        "method": "legacy_lock"
+      },
+      "12": {
+        "hand": "left",
+        "method": "legacy_lock"
+      },
+      "13": {
+        "hand": "right",
+        "method": "legacy_lock"
+      },
+      "14": {
+        "hand": "right",
+        "method": "legacy_lock"
+      },
+      "17": {
+        "hand": "right",
+        "method": "legacy_lock"
+      }
+    },
+    "the_bend_gt": {
+      "1": {
+        "hand": "right",
+        "method": "official_map",
+        "note": "GT T1 right sweeper — catalog label; T6 esses stay complex."
+      },
+      "2": {
+        "hand": "left",
+        "method": "official_map"
+      },
+      "3": {
+        "hand": "right",
+        "method": "official_map"
+      },
+      "4": {
+        "hand": "right",
+        "method": "official_map"
+      },
+      "5": {
+        "hand": "left",
+        "method": "official_map"
+      },
+      "7": {
+        "hand": "right",
+        "method": "official_map"
+      },
+      "8": {
+        "hand": "left",
+        "method": "official_map"
+      },
+      "9": {
+        "hand": "right",
+        "method": "official_map"
+      }
+    },
+    "smp_gardner": {
+      "1": {
+        "hand": "left",
+        "method": "legacy_lock"
+      },
+      "2": {
+        "hand": "left",
+        "method": "legacy_lock"
+      },
+      "3": {
+        "hand": "right",
+        "method": "legacy_lock"
+      },
+      "4": {
+        "hand": "right",
+        "method": "legacy_lock"
+      },
+      "5": {
+        "hand": "left",
+        "method": "legacy_lock"
+      },
+      "6": {
+        "hand": "left",
+        "method": "legacy_lock"
+      },
+      "7": {
+        "hand": "right",
+        "method": "legacy_lock"
+      },
+      "8": {
+        "hand": "right",
+        "method": "legacy_lock"
+      },
+      "9": {
+        "hand": "right",
+        "method": "legacy_lock"
+      },
+      "10": {
+        "hand": "left",
+        "method": "legacy_lock"
+      },
+      "11": {
+        "hand": "left",
+        "method": "legacy_lock"
+      }
+    },
+    "queensland_raceway": {
+      "1": {
+        "hand": "right",
+        "method": "legacy_lock"
+      },
+      "2": {
+        "hand": "left",
+        "method": "legacy_lock"
+      },
+      "5": {
+        "hand": "right",
+        "method": "legacy_lock"
+      },
+      "6": {
+        "hand": "right",
+        "method": "legacy_lock"
+      }
+    },
+    "broadford": {
+      "1": {
+        "hand": "left",
+        "method": "legacy_lock"
+      },
+      "5": {
+        "hand": "right",
+        "method": "legacy_lock"
+      },
+      "10": {
+        "hand": "right",
+        "method": "legacy_lock"
+      },
+      "12": {
+        "hand": "left",
+        "method": "legacy_lock"
+      }
+    }
+  },
+  "demotedHands": {
+    "mac_park": {
+      "2": "Blind crest: GPX is straight between neighbours; prefer complex over a wrong left.",
+      "12": "No left after T11 in the GPX (close is a pit-entry right)."
+    },
+    "wakefield_park": {
+      "9": "No right between T8 and T10 in the GPX; prefer complex over a wrong right."
+    },
+    "the_bend_international": {
+      "18": "GPX close is pit-entry right, not the official final left; prefer complex over a wrong hand."
+    }
+  }
+}
