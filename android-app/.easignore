@@ -1,6 +1,9 @@
 # EAS upload root = android-app/
 .expo/
 node_modules/
+node_modules/**
+**/node_modules/**
+.git/
 dist/
 android/.gradle/
 android/build/
