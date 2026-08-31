@@ -43,7 +43,8 @@ export const TrackMemoryRoadView = forwardRef<TrackMemoryRoadHandle, Props>(
     const kitRef = useRef<RoadPaintKit | null>(null);
     const [kit, setKit] = useState<RoadPaintKit | null>(null);
 
-    const landscape = width >= 8 && height >= 8 && width > height;
+    const validSurface = width >= 8 && height >= 8;
+    const landscape = validSurface && width > height;
     const [settled, setSettled] = useState(false);
 
     useEffect(() => {
@@ -68,7 +69,10 @@ export const TrackMemoryRoadView = forwardRef<TrackMemoryRoadHandle, Props>(
     }, []);
 
     useEffect(() => {
-      if (!settled || !landscape) return;
+      if (!validSurface) return;
+      // Portrait is a valid fallback when orientation lock stalls; only landscape
+      // resizes need settling before replacing the current kit.
+      if (landscape && !settled) return;
       let created: RoadPaintKit | null = null;
       try {
         created = makeRoadPaintKit(width, height, horizonYFor(height), null);
@@ -82,7 +86,7 @@ export const TrackMemoryRoadView = forwardRef<TrackMemoryRoadHandle, Props>(
       if (prev && prev !== created) {
         setTimeout(() => disposeRoadPaintKit(prev), KIT_DISPOSE_MS);
       }
-    }, [settled, landscape, width, height]);
+    }, [settled, landscape, validSurface, width, height]);
 
     useEffect(() => {
       if (kit && bitumen) attachBitumenTile(kit, bitumen);
