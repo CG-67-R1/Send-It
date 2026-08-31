@@ -32,7 +32,6 @@ import type { RootTabParamList } from '../navigation/rootNavigation';
 
 type HeadlinesStackParamList = {
   Headlines: undefined;
-  HeadlinesList: undefined;
   HeadlinesSettings: undefined;
 };
 

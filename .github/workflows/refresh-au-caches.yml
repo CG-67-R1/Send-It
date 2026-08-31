@@ -26,10 +26,6 @@ jobs:
         working-directory: api
         run: npm ci
 
-      - name: Refresh AU headlines cache
-        working-directory: api
-        run: npm run refresh-au-headlines
-
       - name: Refresh AU calendar cache
         working-directory: api
         run: npm run refresh-au-calendar
@@ -38,10 +34,10 @@ jobs:
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
-          git add api/data/au-headlines.json api/data/au-road-race-events.json
+          git add api/data/au-road-race-events.json
           if git diff --staged --quiet; then
             echo "No cache changes to commit"
           else
-            git commit -m "chore: refresh AU headline and calendar caches [skip render]"
+            git commit -m "chore: refresh AU calendar cache [skip render]"
             git push
           fi

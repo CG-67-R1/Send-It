@@ -79,47 +79,9 @@ const GRASS_OUTER_M = 40;
 const CURB_CURV_THRESH = 0.028;
 /** Half-window (m) around catalog corner apex for kerb paint. */
 const CURB_CORNER_HALF_M = 32;
-/**
- * First-person scale already exaggerates height. Never boost modest spans —
- * the old 2× on 8–45 m (every DEM circuit) read as a roller coaster all lap.
- */
-function elevVisualGain(layout: TrackMemoryLayout): number {
-  if (!layout.hasElevation) return 0;
-  const span = layout.elevSpanM ?? 0;
-  if (span < 8) return 0;
-  if (layout.elevSource === 'dem') return span < 18 ? 0.32 : 0.42;
-  if (span > 80) return 0.62;
-  return 0.5;
-}
 
 export function horizonYFor(height: number): number {
   return height * HORIZON_FRAC;
-}
-
-/** Metres of path to average height over (DEM cells are ~30 m). */
-function elevSmoothWindowM(layout: TrackMemoryLayout): number {
-  return layout.elevSource === 'dem' ? 110 : 50;
-}
-
-/** Triangle-smoothed height at station s — kills 30 m DEM stairsteps. */
-function elevAtS(layout: TrackMemoryLayout, s: number): number {
-  if (!layout.hasElevation) return 0;
-  const pts = layout.points;
-  const n = pts.length;
-  const lengthM = layout.lengthM;
-  if (n < 2 || lengthM <= 0) return 0;
-  const half = Math.max(1, Math.round((elevSmoothWindowM(layout) / lengthM) * n * 0.5));
-  const sNorm = (((s % lengthM) + lengthM) % lengthM) / lengthM;
-  const i0 = Math.floor(sNorm * n) % n;
-  let acc = 0;
-  let wsum = 0;
-  for (let k = -half; k <= half; k++) {
-    const w = 1 - Math.abs(k) / (half + 1);
-    const idx = ((i0 + k) % n + n) % n;
-    acc += (pts[idx].z ?? 0) * w;
-    wsum += w;
-  }
-  return wsum > 0 ? acc / wsum : 0;
 }
 
 function projectHeight(
@@ -187,7 +149,6 @@ function localSamples(
 ): RoadSample[] {
   const out: RoadSample[] = [];
   const here = samplePath(layout.points, layout.lengthM, s);
-  const riderElev = elevAtS(layout, s);
   // Smoothed camera frame (matches samplePath atan2(tx, ty) convention)
   const tx = Math.sin(camHeading);
   const ty = Math.cos(camHeading);
@@ -211,7 +172,7 @@ function localSamples(
       out.push({
         x: localX,
         z: localZ,
-        elev: elevAtS(layout, s + ds) - riderElev,
+        elev: 0,
         signedCurv,
         dist: s + ds,
       });
@@ -226,10 +187,6 @@ function localSamples(
       if (!b || Math.abs(b.z - a.z) < 1e-3) return a.x;
       return a.x + ((b.x - a.x) * (z - a.z)) / (b.z - a.z);
     };
-    const elevAt = (z: number) => {
-      if (!b || Math.abs(b.z - a.z) < 1e-3) return a.elev;
-      return a.elev + ((b.elev - a.elev) * (z - a.z)) / (b.z - a.z);
-    };
     const nearZs = [0.4, 0.85];
     for (let i = nearZs.length - 1; i >= 0; i--) {
       const z = nearZs[i];
@@ -237,7 +194,7 @@ function localSamples(
       out.unshift({
         x: xAt(z),
         z,
-        elev: elevAt(z),
+        elev: 0,
         signedCurv: a.signedCurv,
         dist: s + z,
       });
@@ -321,10 +278,8 @@ export function projectRoad(
   const horizonY = height * HORIZON_FRAC;
   const fov = width * 0.62;
   const roadHalf = 6.2;
-  const elevGain = elevVisualGain(layout);
-  const riderElev = elevAtS(layout, s);
 
-  // Roll stays flat (cockpit leans). Elevation pitches the road surface only.
+  // Roll stays flat (cockpit leans).
   // Do not clamp X: clipping to the viewport bends edge lines inward under the bike.
   const toScreen = (p: { sx: number; sy: number }): [number, number] => [
     p.sx,
@@ -344,8 +299,7 @@ export function projectRoad(
     const dy = sample.pos.y - riderY;
     const localZ = dx * tx + dy * ty;
     const localX = dx * ty - dy * tx;
-    const elev = (elevAtS(layout, worldS) - riderElev) * elevGain;
-    return { localX, localZ, elev, tangent: sample.tangent };
+    return { localX, localZ, elev: 0, tangent: sample.tangent };
   };
 
   const quads: RoadTrapezoid[] = [];
@@ -353,12 +307,10 @@ export function projectRoad(
   for (let i = 0; i < samples.length - 1; i++) {
     const a = samples[i];
     const b = samples[i + 1];
-    const elevA = a.elev * elevGain;
-    const elevB = b.elev * elevGain;
-    const paL = projectHeight(a.x - roadHalf, a.z, elevA, width, horizonY, fov);
-    const paR = projectHeight(a.x + roadHalf, a.z, elevA, width, horizonY, fov);
-    const pbL = projectHeight(b.x - roadHalf, b.z, elevB, width, horizonY, fov);
-    const pbR = projectHeight(b.x + roadHalf, b.z, elevB, width, horizonY, fov);
+    const paL = projectHeight(a.x - roadHalf, a.z, 0, width, horizonY, fov);
+    const paR = projectHeight(a.x + roadHalf, a.z, 0, width, horizonY, fov);
+    const pbL = projectHeight(b.x - roadHalf, b.z, 0, width, horizonY, fov);
+    const pbR = projectHeight(b.x + roadHalf, b.z, 0, width, horizonY, fov);
     if (!paL || !paR || !pbL || !pbR) continue;
 
     const tl = toScreen(pbL);
@@ -368,13 +320,13 @@ export function projectRoad(
     const roadPts: [number, number][] = [tl, tr, br, bl];
 
     // Grass shoulders at the same world height as the asphalt (prevents floating track)
-    const paGL = projectHeight(a.x - GRASS_OUTER_M, a.z, elevA, width, horizonY, fov);
-    const pbGL = projectHeight(b.x - GRASS_OUTER_M, b.z, elevB, width, horizonY, fov);
+    const paGL = projectHeight(a.x - GRASS_OUTER_M, a.z, 0, width, horizonY, fov);
+    const pbGL = projectHeight(b.x - GRASS_OUTER_M, b.z, 0, width, horizonY, fov);
     if (paGL && pbGL) {
       grassQuads.push([toScreen(pbGL), tl, bl, toScreen(paGL)]);
     }
-    const paGR = projectHeight(a.x + GRASS_OUTER_M, a.z, elevA, width, horizonY, fov);
-    const pbGR = projectHeight(b.x + GRASS_OUTER_M, b.z, elevB, width, horizonY, fov);
+    const paGR = projectHeight(a.x + GRASS_OUTER_M, a.z, 0, width, horizonY, fov);
+    const pbGR = projectHeight(b.x + GRASS_OUTER_M, b.z, 0, width, horizonY, fov);
     if (paGR && pbGR) {
       grassQuads.push([tr, toScreen(pbGR), toScreen(paGR), br]);
     }
@@ -409,7 +361,7 @@ export function projectRoad(
     if (rightFlags[i - 1] || rightFlags[i + 1]) quads[i].curbRight = true;
   }
 
-  // 150 / 100 / 50 m boards — only for corners turning more than 90°
+  // 150 / 100 / 50 m boards — only for corners turning more than DISTANCE_BOARD_MIN_DEG
   const markers: DistanceMarkerBillboard[] = [];
   const maxLook = drawDepth * SEG_LEN;
   for (const corner of layout.corners) {

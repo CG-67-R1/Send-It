@@ -9,7 +9,6 @@ import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import type { NativeStackHeaderProps } from '@react-navigation/native-stack';
 import { HeadlinesScreen } from './src/screens/HeadlinesScreen';
-import { HeadlinesListScreen } from './src/screens/HeadlinesListScreen';
 import { HeadlinesSettingsScreen } from './src/screens/HeadlinesSettingsScreen';
 import { QAScreen } from './src/screens/QAScreen';
 import { CalendarScreen } from './src/screens/CalendarScreen';
@@ -137,11 +136,6 @@ function HeadlinesStack() {
           options={{
             header: (props) => <HomeHeader {...props} />,
           }}
-      />
-      <Stack.Screen
-        name="HeadlinesList"
-        component={HeadlinesListScreen}
-        options={{ title: 'News' }}
       />
       <Stack.Screen
         name="HeadlinesSettings"

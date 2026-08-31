@@ -2,7 +2,7 @@
 /**
  * Repo health check for Hermes / CI / pre-deploy.
  * Usage (from repo root): node scripts/health-check.mjs
- * Env: API_URL (default http://localhost:3001), SKIP_TSC=1, SKIP_SCRAPERS=1
+ * Env: API_URL (default http://localhost:3001), SKIP_TSC=1
  */
 import { spawnSync } from 'node:child_process';
 import fs from 'node:fs';
@@ -14,7 +14,6 @@ const ROOT = path.resolve(__dirname, '..');
 const APP_DIR = path.join(ROOT, 'app');
 const ANDROID_APP_DIR = path.join(ROOT, 'android-app');
 const API_DIR = path.join(ROOT, 'api');
-const AU_CACHE = path.join(API_DIR, 'data', 'au-headlines.json');
 const AU_CALENDAR_CACHE = path.join(API_DIR, 'data', 'au-road-race-events.json');
 
 const API_URL = process.env.API_URL || 'http://localhost:3001';
@@ -37,98 +36,6 @@ function run(cmd, args, cwd, label) {
   }
   fail(`${label}${r.stderr ? `: ${r.stderr.trim().slice(0, 200)}` : ''}`);
   return false;
-}
-
-function checkInterleaveLogic() {
-  // Active AU pack local sources (packs/regions/au/headlines/sources.json)
-  const LOCAL = ['ma_roadrace', 'asbk', 'amcn_asbk'];
-  const interleave = (headlines, auIds, everyN = 4) => {
-    const au = headlines.filter((h) => auIds.includes(h.sourceId));
-    const rest = headlines.filter((h) => !auIds.includes(h.sourceId));
-    if (au.length === 0) return rest;
-    if (rest.length === 0) return au;
-    const out = [];
-    let ai = 0;
-    let ri = 0;
-    const worldChunk = Math.max(1, everyN - 1);
-    while (ri < rest.length || ai < au.length) {
-      for (let i = 0; i < worldChunk && ri < rest.length; i++) out.push(rest[ri++]);
-      if (ai < au.length) out.push(au[ai++]);
-      else if (ri < rest.length) out.push(rest[ri++]);
-    }
-    return out;
-  };
-
-  const sample = [
-    { sourceId: 'motogp' },
-    { sourceId: 'motogp' },
-    { sourceId: 'motogp' },
-    { sourceId: 'asbk' },
-    { sourceId: 'gpone' },
-    { sourceId: 'ma_roadrace' },
-  ];
-  const mixed = interleave(sample, LOCAL, 4);
-  const auCount = mixed.filter((h) => LOCAL.includes(h.sourceId)).length;
-  const ratio = auCount / mixed.length;
-  if (mixed[3]?.sourceId === 'asbk' && ratio >= 0.25) {
-    pass('AU interleave logic (1-in-4 pattern)');
-  } else {
-    fail(`AU interleave logic (got ratio ${ratio.toFixed(2)}, expected >= 0.25)`);
-  }
-}
-
-async function checkScrapers() {
-  const scrapersPath = pathToFileURL(path.join(API_DIR, 'scrapers.js')).href;
-  const { getAllHeadlines, BUILTIN_SOURCES, AU_SOURCE_IDS } = await import(scrapersPath);
-  const required = [
-    'motogpnews',
-    'gpone',
-    'motor_sport_motogp',
-    'ma_roadrace',
-    'asbk',
-    'amcn_asbk',
-  ];
-  const ids = BUILTIN_SOURCES.map((s) => s.id);
-  for (const id of required) {
-    if (!ids.includes(id)) fail(`BUILTIN_SOURCES missing ${id}`);
-    else pass(`source registered: ${id}`);
-  }
-  for (const id of ['bikereview', 'transmoto', 'mcnews', 'amcn_club']) {
-    if (ids.includes(id)) fail(`removed source still present: ${id}`);
-  }
-  const auKeys = ['ma_roadrace', 'asbk', 'amcn_asbk'];
-  if (!auKeys.every((id) => AU_SOURCE_IDS.includes(id))) {
-    fail(`AU_SOURCE_IDS missing expected keys (got ${AU_SOURCE_IDS.join(', ')})`);
-  } else {
-    pass('AU_SOURCE_IDS');
-  }
-
-  const headlines = await getAllHeadlines(true);
-  if (headlines.length < 50) fail(`scraper total too low: ${headlines.length}`);
-  else pass(`scrapers returned ${headlines.length} headlines`);
-
-  const bySource = {};
-  for (const h of headlines) bySource[h.sourceId] = (bySource[h.sourceId] || 0) + 1;
-  for (const id of ['gpone', 'motor_sport_motogp']) {
-    if (!bySource[id]) fail(`scraper ${id} returned 0 items`);
-    else pass(`scraper ${id}: ${bySource[id]} items`);
-  }
-  const withImages = headlines.filter((h) => h.imageUrl).length;
-  if (withImages < 10) fail(`few thumbnails: ${withImages}`);
-  else pass(`thumbnails present: ${withImages}/${headlines.length}`);
-}
-
-function checkAuCacheFile() {
-  if (!fs.existsSync(AU_CACHE)) {
-    fail('api/data/au-headlines.json missing (run: cd api && npm run refresh-au-headlines)');
-    return;
-  }
-  const data = JSON.parse(fs.readFileSync(AU_CACHE, 'utf8'));
-  if (!Array.isArray(data.headlines) || data.headlines.length < 10) {
-    fail(`AU cache too small: ${data.headlines?.length ?? 0} items`);
-  } else {
-    pass(`AU cache file: ${data.headlines.length} headlines (updated ${data.updatedAt || 'unknown'})`);
-  }
 }
 
 function checkAuCalendarCacheFile() {
@@ -190,18 +97,6 @@ async function checkLiveApi() {
       fail('API /health response not valid JSON');
     }
 
-    const headlinesRes = await fetch(`${API_URL}/headlines`, { signal: AbortSignal.timeout(90000) });
-    if (!headlinesRes.ok) {
-      fail(`API /headlines HTTP ${headlinesRes.status}`);
-      return;
-    }
-    const data = await headlinesRes.json();
-    if (!Array.isArray(data.headlines) || data.headlines.length < 20) {
-      fail(`API /headlines count low: ${data.headlines?.length ?? 0}`);
-    } else {
-      pass(`API /headlines: ${data.headlines.length} items`);
-    }
-
     const calendarRes = await fetch(`${API_URL}/calendar`, { signal: AbortSignal.timeout(30000) });
     if (!calendarRes.ok) {
       fail(`API /calendar HTTP ${calendarRes.status}`);
@@ -227,9 +122,6 @@ if (process.env.SKIP_TSC !== '1') {
 } else {
   console.log('  skip tsc (SKIP_TSC=1)');
 }
-
-console.log('\nHeadlines logic');
-checkInterleaveLogic();
 
 async function checkAskRetrieval() {
   const qaPath = pathToFileURL(path.join(API_DIR, 'qa.js')).href;
@@ -310,22 +202,8 @@ try {
   fail(`retrieveForAsk: ${e.message}`);
 }
 
-console.log('\nAPI scrapers');
-if (process.env.SKIP_SCRAPERS !== '1') {
-  try {
-    await checkScrapers();
-  } catch (e) {
-    fail(`scraper import/run: ${e.message}`);
-  }
-} else {
-  console.log('  skip scrapers (SKIP_SCRAPERS=1)');
-}
-
 console.log('\nMoMS rule book');
 checkMomsCorpus();
-
-console.log('\nAU cache');
-checkAuCacheFile();
 
 console.log('\nAU calendar cache');
 checkAuCalendarCacheFile();

@@ -38,13 +38,6 @@ try {
     else fail('roadraceAi disabled — set OPENAI_API_KEY on Render dashboard');
   }
 
-  const headlines = await fetchJson('/headlines', '/headlines');
-  if (headlines?.headlines?.length >= 20) {
-    pass(`/headlines: ${headlines.headlines.length} items`);
-  } else if (headlines) {
-    fail(`/headlines count low: ${headlines.headlines?.length ?? 0}`);
-  }
-
   const calendar = await fetchJson('/calendar', '/calendar');
   if (calendar?.events?.length >= 20) {
     pass(`/calendar: ${calendar.events.length} events`);

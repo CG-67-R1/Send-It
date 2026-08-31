@@ -1,4 +1,4 @@
-import React, { forwardRef, useCallback, useEffect, useImperativeHandle, useMemo, useRef } from 'react';
+import React, { forwardRef, useCallback, useEffect, useImperativeHandle, useMemo, useRef, useState } from 'react';
 import { StyleSheet, View } from 'react-native';
 import { Canvas, Picture, createPicture, useImage } from '@shopify/react-native-skia';
 import type { SkPicture } from '@shopify/react-native-skia';
@@ -17,6 +17,8 @@ import {
 import type { TrackMemoryRoadHandle } from './roadHandle';
 
 const BITUMEN_TILE = require('../../assets/track-memory/bitumen_tile.png');
+const KIT_SETTLE_MS = 300;
+const KIT_DISPOSE_MS = 1000;
 
 type Props = {
   layout: TrackMemoryLayout;
@@ -38,35 +40,49 @@ export const TrackMemoryRoadView = forwardRef<TrackMemoryRoadHandle, Props>(
     const alive = useRef(true);
     const drawing = useRef(false);
     const recycler = useMemo(() => new PictureRecycler(), []);
-    const kitsRef = useRef<RoadPaintKit[]>([]);
+    const kitRef = useRef<RoadPaintKit | null>(null);
+    const [kit, setKit] = useState<RoadPaintKit | null>(null);
 
-    // Size only — attaching the tile later must not rebuild the kit.
-    // Kits are never disposed while this view is mounted: the landscape lock
-    // resizes the surface on first open, and disposing the portrait kit while
-    // its picture is still on the GPU is what crashed every track before the
-    // ride UI appeared.
-    const kit = useMemo(() => {
-      if (width < 8 || height < 8) return null;
-      try {
-        const next = makeRoadPaintKit(width, height, horizonYFor(height), null);
-        kitsRef.current.push(next);
-        return next;
-      } catch (err) {
-        console.warn('[TrackMemory] paint kit failed', err);
-        return null;
+    const landscape = width >= 8 && height >= 8 && width > height;
+    const [settled, setSettled] = useState(false);
+
+    useEffect(() => {
+      if (!landscape) {
+        setSettled(false);
+        return;
       }
-    }, [width, height]);
+      const t = setTimeout(() => setSettled(true), KIT_SETTLE_MS);
+      return () => clearTimeout(t);
+    }, [landscape, width, height]);
 
     useEffect(() => {
       alive.current = true;
       return () => {
         alive.current = false;
-        const dying = kitsRef.current.splice(0);
-        setTimeout(() => {
-          for (const k of dying) disposeRoadPaintKit(k);
-        }, 1000);
+        const dying = kitRef.current;
+        kitRef.current = null;
+        if (dying) {
+          setTimeout(() => disposeRoadPaintKit(dying), KIT_DISPOSE_MS);
+        }
       };
     }, []);
+
+    useEffect(() => {
+      if (!settled || !landscape) return;
+      let created: RoadPaintKit | null = null;
+      try {
+        created = makeRoadPaintKit(width, height, horizonYFor(height), null);
+      } catch (err) {
+        console.warn('[TrackMemory] paint kit failed', err);
+        return;
+      }
+      const prev = kitRef.current;
+      kitRef.current = created;
+      setKit(created);
+      if (prev && prev !== created) {
+        setTimeout(() => disposeRoadPaintKit(prev), KIT_DISPOSE_MS);
+      }
+    }, [settled, landscape, width, height]);
 
     useEffect(() => {
       if (kit && bitumen) attachBitumenTile(kit, bitumen);

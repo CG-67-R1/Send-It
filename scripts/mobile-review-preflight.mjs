@@ -2,7 +2,7 @@
 /**
  * Mobile review preflight for Hermes send-it/mobile-review skill.
  * Usage (from repo root): node scripts/mobile-review-preflight.mjs
- * Env: same as health-check.mjs (API_URL, SKIP_TSC, SKIP_SCRAPERS)
+ * Env: same as health-check.mjs (API_URL, SKIP_TSC)
  */
 import { spawnSync } from 'node:child_process';
 import fs from 'node:fs';

@@ -13,5 +13,4 @@ services:
       paths:
         - api/**
       ignoredPaths:
-        - api/data/au-headlines.json
         - api/data/au-road-race-events.json

@@ -41,22 +41,6 @@ async function getJson(path, tab, label) {
 console.log('Android smoke test (API layer)\n');
 console.log(`API_URL=${API_URL}\n`);
 
-const headlines = await getJson('/headlines', 'Headlines', '/headlines');
-if (headlines?.headlines?.length >= 20) {
-  pass('Headlines', `${headlines.headlines.length} headlines`);
-  const au = headlines.headlines.filter((h) =>
-    ['ma_roadrace', 'asbk', 'amcn_asbk'].includes(h.sourceId)
-  );
-  if (au.length >= 1) pass('Headlines', `${au.length} AU items in feed`);
-  else fail('Headlines', 'no AU headlines in response');
-} else if (headlines) {
-  fail('Headlines', `count low: ${headlines.headlines?.length ?? 0}`);
-}
-
-const sources = await getJson('/sources', 'Headlines', '/sources');
-if (sources?.sources?.length >= 10) pass('Headlines', `${sources.sources.length} built-in sources`);
-else if (sources) fail('Headlines', 'sources list too small');
-
 const calendar = await getJson('/calendar', 'Events', '/calendar');
 if (calendar?.events?.length >= 20) {
   pass('Events', `${calendar.events.length} events`);

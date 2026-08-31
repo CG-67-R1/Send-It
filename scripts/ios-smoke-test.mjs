@@ -1,6 +1,6 @@
 #!/usr/bin/env node
 /**
- * iOS Expo Go smoke test — API endpoints still used by the app (archived News API still live).
+ * iOS Expo Go smoke test — API endpoints still used by the app.
  * Run after deploy: node scripts/ios-smoke-test.mjs
  * Env: API_URL (default production Render)
  *
@@ -39,23 +39,6 @@ async function getJson(path, tab, label) {
 
 console.log('iOS smoke test (API layer)\n');
 console.log(`API_URL=${API_URL}\n`);
-
-// Archived News API still live
-const headlines = await getJson('/headlines', 'Headlines', '/headlines');
-if (headlines?.headlines?.length >= 20) {
-  pass('Headlines', `${headlines.headlines.length} headlines`);
-  const au = headlines.headlines.filter((h) =>
-    ['ma_roadrace', 'asbk', 'amcn_asbk'].includes(h.sourceId)
-  );
-  if (au.length >= 1) pass('Headlines', `${au.length} AU items in feed`);
-  else fail('Headlines', 'no AU headlines in response');
-} else if (headlines) {
-  fail('Headlines', `count low: ${headlines.headlines?.length ?? 0}`);
-}
-
-const sources = await getJson('/sources', 'Headlines', '/sources');
-if (sources?.sources?.length >= 10) pass('Headlines', `${sources.sources.length} built-in sources`);
-else if (sources) fail('Headlines', 'sources list too small');
 
 // Tab 2: Events / Calendar
 const calendar = await getJson('/calendar', 'Events', '/calendar');

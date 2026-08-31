@@ -3,7 +3,6 @@ import express from 'express';
 import cors from 'cors';
 import helmet from 'helmet';
 import rateLimit from 'express-rate-limit';
-import { getAllHeadlines, fetchCustomHeadlines, BUILTIN_SOURCES } from './scrapers.js';
 import { search, getTriviaQuestion } from './qa.js';
 import { getCalendarEvents } from './calendar.js';
 import { chat as roadraceAiChat, askChat } from './roadraceAi.js';
@@ -81,7 +80,6 @@ const roadraceAiLimiter = rateLimit({
 });
 
 app.use('/roadrace-ai', requireAppSecret, roadraceAiLimiter);
-app.use('/headlines/custom', requireAppSecret);
 
 app.get('/health', (_, res) => {
   res.json({
@@ -95,8 +93,6 @@ app.get('/', (_, res) => {
     name: 'RoadRacer API',
     health: '/health',
     endpoints: [
-      '/headlines',
-      '/sources',
       '/qa/search',
       '/qa/trivia',
       '/calendar',
@@ -105,46 +101,6 @@ app.get('/', (_, res) => {
       '/roadrace-ai/faqs',
     ],
   });
-});
-
-app.get('/sources', (_, res) => {
-  res.json({ sources: BUILTIN_SOURCES });
-});
-
-app.get('/headlines', async (req, res) => {
-  if (!requireAppSecretForRefresh(req, res)) return;
-  const bypassCache = req.query.refresh === '1';
-  try {
-    const headlines = await getAllHeadlines(bypassCache);
-    res.json({ headlines, count: headlines.length });
-  } catch (e) {
-    logError('headlines', e);
-    res.status(500).json({ error: 'Failed to fetch headlines', headlines: [] });
-  }
-});
-
-app.post('/headlines/custom', async (req, res) => {
-  const { customSources } = req.body || {};
-  if (!Array.isArray(customSources) || customSources.length === 0) {
-    return res.json({ headlines: [], count: 0 });
-  }
-  if (customSources.length > 4) {
-    return res.status(400).json({ error: 'A maximum of 4 custom sources is allowed' });
-  }
-  if (
-    customSources.some(
-      (source) => !source || typeof source.url !== 'string' || source.url.trim().length === 0
-    )
-  ) {
-    return res.status(400).json({ error: 'Each custom source must include a URL string' });
-  }
-  try {
-    const headlines = await fetchCustomHeadlines(customSources);
-    res.json({ headlines, count: headlines.length });
-  } catch (e) {
-    logError('headlines/custom', e);
-    res.status(500).json({ error: 'Failed to fetch custom headlines', headlines: [] });
-  }
 });
 
 app.get('/qa/search', async (req, res) => {

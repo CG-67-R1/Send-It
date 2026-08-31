@@ -6,11 +6,15 @@ import type {
   TrackMemoryPoint,
 } from './types';
 import {
-  COACH_GAP_MS,
-  COACH_SCRIPT,
-  COACH_SHOW_MS,
   CORNER_NAME_LEAD_M,
   DISTANCE_BOARD_MIN_DEG,
+  REF_OVERLAY_FIRST,
+  REF_OVERLAY_FIRST_MS,
+  REF_OVERLAY_SECOND,
+  REF_OVERLAY_SECOND_MS,
+  REF_OVERLAY_SHOW_MS,
+  SLOW_HOLD_MS,
+  SLOW_MARK_M,
 } from './coachCues';
 
 export const TOTAL_LAPS = 3;
@@ -26,7 +30,6 @@ const ROAD_HALF_M = 5.8;
 /** Stay in the middle 75% of the track (±37.5% of full width from centre). */
 const LATERAL_LIMIT = ROAD_HALF_M * 0.75;
 const FLASH_MS = 1600;
-const BRAKE_NOW_MS = 1000;
 /** Tip-in rate — lower = smoother, less twitchy lean. */
 const LEAN_RESPONSE = 1.15;
 /** Extra low-pass on lean after target chase (lower = softer). */
@@ -39,8 +42,6 @@ const CAM_HEADING_LP = 3.6;
 const ASSIST_LOOK_NEAR_M = 32;
 const ASSIST_LOOK_MID_M = 48;
 const ASSIST_LOOK_FAR_M = 78;
-/** Distance before corner for Brake Now! cue. */
-const BRAKE_MARK_M = 100;
 /** How strongly we ease toward the inside curb through a bend. */
 const LINE_FOLLOW = 0.55;
 /** Peak inside offset as a fraction of ROAD_HALF_M (still inside the 75% band). */
@@ -60,10 +61,11 @@ export function createInitialState(bestLapMs: number | null = null): GameState {
     lapTimesMs: [],
     flash: null,
     flashedIds: [],
-    brakeFlashIds: [],
+    slowIds: [],
     coachIndex: 0,
-    coachNextAtMs: null,
     movedAtMs: null,
+    slowUntilMs: null,
+    slowCap: 0,
     heading: 0,
   };
 }
@@ -97,7 +99,6 @@ export function samplePath(
   const pos: TrackMemoryPoint = {
     x: p1.x + (p2.x - p1.x) * t,
     y: p1.y + (p2.y - p1.y) * t,
-    z: (p1.z ?? 0) + ((p2.z ?? 0) - (p1.z ?? 0)) * t,
   };
   const p0 = points[wrapIdx(i1 - 1, n)];
   const p3 = points[wrapIdx(i2 + 1, n)];
@@ -218,10 +219,11 @@ export function stepGame(
     lapTimesMs,
     flash,
     flashedIds,
-    brakeFlashIds,
+    slowIds,
     coachIndex,
-    coachNextAtMs,
     movedAtMs,
+    slowUntilMs,
+    slowCap,
     heading,
   } = prev;
 
@@ -241,8 +243,9 @@ export function stepGame(
 
   const dt = Math.min(0.05, Math.max(0, dtSec));
   const bend = smoothBend(layout, s);
+  const slowing = slowUntilMs != null && nowMs < slowUntilMs;
 
-  if (controls.accel) speed += ACCEL * dt;
+  if (controls.accel && !slowing) speed += ACCEL * dt;
   if (controls.brake) {
     speed -= BRAKE * dt;
     speed -= BRAKE_DRAG * dt;
@@ -251,6 +254,7 @@ export function stepGame(
     speed -= speed * speed * 0.00035 * dt;
   }
   speed = Math.max(0, Math.min(MAX_SPEED, speed));
+  if (slowing) speed = Math.min(speed, slowCap);
 
   // Smooth auto lean into / out of corners (visual only — no lateral nudge)
   const leanTarget = autoLeanTarget(bend, speed);
@@ -302,10 +306,11 @@ export function stepGame(
         lapTimesMs: nextLapTimes,
         flash: { text: 'Session complete', untilMs: nowMs + 2500 },
         flashedIds: [],
-        brakeFlashIds: [],
+        slowIds: [],
         coachIndex: 0,
-        coachNextAtMs: null,
         movedAtMs: null,
+        slowUntilMs: null,
+        slowCap: 0,
         heading: samplePath(layout.points, layout.lengthM, 0).heading,
       };
     }
@@ -316,21 +321,18 @@ export function stepGame(
     bestLapMs = nextBest;
     sessionBestLapMs = nextSessionBest;
     flashedIds = [];
-    brakeFlashIds = [];
+    slowIds = [];
     coachIndex = 0;
-    // Restart coaching after the brief "Lap N" banner
-    coachNextAtMs = nowMs + 1200 + COACH_GAP_MS;
     movedAtMs = nowMs;
     flash = { text: `Lap ${lap}`, untilMs: nowMs + 1200 };
   }
 
-  // Mark when the bike first starts moving — begin coaching playlist
+  // Mark when the bike first starts moving
   if (movedAtMs == null && speed > 1.2) {
     movedAtMs = nowMs;
-    if (coachNextAtMs == null) coachNextAtMs = nowMs;
   }
 
-  // Corner name (before apex) + Brake Now! + timed coaching playlist
+  // Corner name (before apex) + 50 m slowdown + two reference overlays
   {
     const lengthM = layout.lengthM;
     const traveled = s >= prevS ? s - prevS : s + lengthM - prevS;
@@ -339,25 +341,24 @@ export function stepGame(
       if (corner.number == null) continue;
       if (!cornerNeedsDistanceBoards(layout, corner)) continue;
       const cornerS = corner.sNorm * lengthM;
-      const markS = wrapDist(cornerS - BRAKE_MARK_M, lengthM);
+      const markS = wrapDist(cornerS - SLOW_MARK_M, lengthM);
       const toMark = aheadDist(prevS, markS, lengthM);
-      if (toMark > 0 && toMark <= traveled && !brakeFlashIds.includes(corner.id)) {
-        brakeFlashIds = [...brakeFlashIds, corner.id];
-        flash = { text: 'Brake Now!', untilMs: nowMs + BRAKE_NOW_MS, tone: 'danger' };
+      if (toMark > 0 && toMark <= traveled && !slowIds.includes(corner.id)) {
+        slowIds = [...slowIds, corner.id];
+        slowCap = Math.max(4, speed * 0.5);
+        slowUntilMs = nowMs + SLOW_HOLD_MS;
+        speed = Math.min(speed, slowCap);
       }
     }
 
     if (flash && nowMs > flash.untilMs) flash = null;
 
-    const dangerBusy = flash?.tone === 'danger' && nowMs <= flash.untilMs;
-
-    // Corner name while 8–95 m before apex. Brake Now! wins; coaching does not skip the name.
+    // Corner name while 8–150 m before apex. Name wins over coach overlays.
     for (const corner of layout.corners) {
       if (flashedIds.includes(corner.id)) continue;
       const cornerS = corner.sNorm * lengthM;
       const distToApex = aheadDist(s, cornerS, lengthM);
       if (distToApex <= 8 || distToApex > CORNER_NAME_LEAD_M) continue;
-      if (dangerBusy) continue;
       flashedIds = [...flashedIds, corner.id];
       const hand =
         corner.direction === 'left' || corner.direction === 'right'
@@ -371,22 +372,28 @@ export function stepGame(
       };
     }
 
-    // Coaching: fixed 2 s show / 2 s gap from lap start (not board-triggered)
     const nameBusy = flash?.tone === 'normal' && nowMs <= flash.untilMs;
-    if (
-      !dangerBusy &&
-      !nameBusy &&
-      coachNextAtMs != null &&
-      coachIndex < COACH_SCRIPT.length &&
-      nowMs >= coachNextAtMs
-    ) {
-      flash = {
-        text: COACH_SCRIPT[coachIndex],
-        untilMs: nowMs + COACH_SHOW_MS,
-        tone: 'coach',
-      };
-      coachNextAtMs = nowMs + COACH_SHOW_MS + COACH_GAP_MS;
-      coachIndex += 1;
+    if (!nameBusy && movedAtMs != null) {
+      const elapsed = nowMs - movedAtMs;
+      if (coachIndex === 0 && elapsed >= REF_OVERLAY_FIRST_MS) {
+        flash = {
+          text: REF_OVERLAY_FIRST.title,
+          title: REF_OVERLAY_FIRST.title,
+          lines: [...REF_OVERLAY_FIRST.lines],
+          untilMs: nowMs + REF_OVERLAY_SHOW_MS,
+          tone: 'coach',
+        };
+        coachIndex = 1;
+      } else if (coachIndex === 1 && elapsed >= REF_OVERLAY_SECOND_MS) {
+        flash = {
+          text: REF_OVERLAY_SECOND.title,
+          title: REF_OVERLAY_SECOND.title,
+          lines: [...REF_OVERLAY_SECOND.lines],
+          untilMs: nowMs + REF_OVERLAY_SHOW_MS,
+          tone: 'coach',
+        };
+        coachIndex = 2;
+      }
     }
   }
 
@@ -408,10 +415,11 @@ export function stepGame(
     lapTimesMs,
     flash,
     flashedIds,
-    brakeFlashIds,
+    slowIds,
     coachIndex,
-    coachNextAtMs,
     movedAtMs,
+    slowUntilMs,
+    slowCap,
     heading,
   };
 }

@@ -1,12 +1,12 @@
 # Send-It (RoadRace) — Agent Context
 
-Mobile app for motorcycle and racing headlines, plus Q&A, calendar, track walk, and rider coach features.
+Mobile app for motorcycle racing: Home, Events, Q&A, calendar, track walk, and rider coach features.
 
 ## Repo layout
 
 - `app/` — Expo client for **Vercel web + iOS EAS**; TypeScript; main entry `App.tsx`
 - `android-app/` — Expo **Android / Play** product (separate copy, committed `android/` Gradle). No shared folders with `app/`. See [`android-app/README.md`](android-app/README.md).
-- `api/` — Node.js / Express headlines + Q&A API; ESM (`"type": "module"`)
+- `api/` — Node.js / Express calendar + Q&A API; ESM (`"type": "module"`)
 - `packs/` — data-driven regional packs (AU + Regions 01–13); see `packs/README.md`
 - `Q&A/` — PDF knowledge base; scrape via `cd api && npm run scrape-pdfs`
 - `docs/gpt-knowledge/` — Custom GPT / TrackRider knowledge pack (reference for Coach & Bike Setup integration)
@@ -20,7 +20,7 @@ Mobile app for motorcycle and racing headlines, plus Q&A, calendar, track walk, 
 ## Commands
 
 ```bash
-# API (required for headlines)
+# API (required for calendar / Coach)
 cd api && npm install && npm start
 
 # App (web / iOS)
@@ -55,7 +55,6 @@ cd ../android-app && npx tsc --noEmit
 - Do not commit secrets (`.env`, API keys, tokens)
 - Do not force-push `main`
 - Run TypeScript check in `app/` before claiming app changes are done
-- Headlines cache: 15 minutes; `?refresh=1` bypasses cache
 
 ## Key docs
 
@@ -157,28 +156,25 @@ cd api && npm run health-check
 | Step | Pass criteria |
 |------|----------------|
 | App TypeScript | `npx tsc --noEmit` in `app/` and `android-app/` |
-| AU interleave | World feed 1-in-4 AU pattern |
-| Scrapers | Required sources present; Peterbom, GPone, Motor Sport MotoGP return items |
-| AU cache | `api/data/au-headlines.json` exists with 10+ headlines |
-| Live API (optional) | `GET /health` and `/headlines` if API is running |
+| AU calendar cache | `api/data/au-road-race-events.json` exists with 10+ events |
+| Live API (optional) | `GET /health` and `/calendar` if API is running |
 
 **Environment**
 
 - `API_URL` — default `http://localhost:3001` (set to Render URL to test production)
 - `SKIP_TSC=1` — skip TypeScript step
-- `SKIP_SCRAPERS=1` — skip live scrape (faster; uses cache checks only)
 
 **If health check fails**
 
 1. Read the `FAIL` lines in output
-2. **Cursor:** fix code in workspace (scrapers, types, app UI)
-3. **Hermes:** re-run `npm run refresh-au-headlines` if AU cache is stale; restart API if live checks fail
+2. **Cursor:** fix code in workspace (calendar, types, app UI)
+3. **Hermes:** re-run `npm run refresh-au-calendar` if AU calendar cache is stale; restart API if live checks fail
 4. **Ollama (optional):** paste `git diff` + failure log for a second opinion — install Ollama locally first; it does not auto-fix files
 
-**Refresh AU cache manually**
+**Refresh AU calendar cache manually**
 
 ```bash
-cd api && npm run refresh-au-headlines
+cd api && npm run refresh-au-calendar
 ```
 
 **Autonomous monitoring (GitHub + Hermes)**

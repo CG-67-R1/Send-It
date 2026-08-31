@@ -4,7 +4,6 @@ on:
   push:
     branches: [main]
     paths-ignore:
-      - 'api/data/au-headlines.json'
       - 'api/data/au-road-race-events.json'
   pull_request:
     branches: [main]
@@ -44,10 +43,8 @@ jobs:
         working-directory: api
         run: npm ci
 
-      - name: Run health check (skip live scrapers)
+      - name: Run health check
         run: node scripts/health-check.mjs
-        env:
-          SKIP_SCRAPERS: '1'
 
       - name: Ping production health (cold-start tolerant)
         run: node scripts/verify-production.mjs

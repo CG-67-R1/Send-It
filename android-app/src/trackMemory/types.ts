@@ -1,7 +1,7 @@
 export type TrackMemoryPoint = {
   x: number;
   y: number;
-  /** Height relative to track mean (metres). Present when layout.hasElevation. */
+  /** Ignored at runtime — layouts may still carry leftover bake z. */
   z?: number;
 };
 
@@ -23,11 +23,6 @@ export type TrackMemoryLayout = {
   corners: TrackMemoryCorner[];
   bakedAt?: string;
   sourceGpx?: string;
-  /** True when points carry usable elevation (z). */
-  hasElevation?: boolean;
-  /** Peak-to-trough elevation span in metres. */
-  elevSpanM?: number;
-  elevSource?: string;
 };
 
 export type ControlState = {
@@ -39,9 +34,10 @@ export type ControlState = {
 
 export type FlashState = {
   text: string;
+  title?: string;
+  lines?: string[];
   untilMs: number;
-  /** Red danger cue (e.g. Brake Now!). */
-  tone?: 'normal' | 'danger' | 'coach';
+  tone?: 'normal' | 'coach';
 } | null;
 
 export type GamePhase = 'ready' | 'racing' | 'finished';
@@ -62,14 +58,15 @@ export type GameState = {
   flash: FlashState;
   /** Corner ids already name-flashed this lap. */
   flashedIds: string[];
-  /** Corner ids that already showed Brake Now! this lap. */
-  brakeFlashIds: string[];
-  /** Next index into the lap coaching script (COACH_SCRIPT). */
+  /** Corner ids already used for the 50 m slowdown this lap. */
+  slowIds: string[];
+  /** 0 = first overlay pending, 1 = first shown, 2 = second shown. */
   coachIndex: number;
-  /** Wall clock when the next coaching popup may appear (ms), or null if not started. */
-  coachNextAtMs: number | null;
   /** Wall clock when the bike first started moving this stint (ms), or null. */
   movedAtMs: number | null;
+  /** Half-speed cap after a 50 m board; null when not slowing. */
+  slowUntilMs: number | null;
+  slowCap: number;
   /** Low-passed camera heading (radians) used to project the road. */
   heading: number;
 };

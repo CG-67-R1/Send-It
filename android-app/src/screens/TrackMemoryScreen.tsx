@@ -290,9 +290,10 @@ export function TrackMemoryScreen() {
     setSize({ w: Math.floor(width), h: Math.floor(height) });
   };
 
-  const flashDanger = hud.flash?.tone === 'danger';
   const flashCoach = hud.flash?.tone === 'coach';
   const surfaceReady = size.w >= 8 && size.h >= 8;
+  const flashLines = hud.flash?.lines ?? [];
+  const flashTitle = hud.flash?.title || (flashCoach ? hud.flash?.text : null);
 
   return (
     <View style={styles.root} onLayout={onLayout}>
@@ -334,16 +335,19 @@ export function TrackMemoryScreen() {
       </View>
 
       {hud.flash ? (
-        <View style={styles.flashWrap} pointerEvents="none">
-          <Text
-            style={[
-              styles.flashText,
-              flashDanger && styles.flashDanger,
-              flashCoach && styles.flashCoach,
-            ]}
-          >
-            {hud.flash.text}
-          </Text>
+        <View style={[styles.flashWrap, flashCoach && styles.flashCoachBox]} pointerEvents="none">
+          {flashTitle ? (
+            <>
+              <Text style={[styles.flashText, flashCoach && styles.flashCoach]}>{flashTitle}</Text>
+              {flashLines.map((line) => (
+                <Text key={line} style={styles.flashLine}>
+                  {flashLines.length > 1 ? `• ${line}` : line}
+                </Text>
+              ))}
+            </>
+          ) : (
+            <Text style={styles.flashText}>{hud.flash.text}</Text>
+          )}
         </View>
       ) : null}
 
@@ -459,15 +463,25 @@ const styles = StyleSheet.create({
     overflow: 'hidden',
     borderRadius: 8,
   },
-  flashDanger: {
-    color: '#ef4444',
-    fontSize: 28,
-    backgroundColor: 'rgba(0,0,0,0.55)',
+  flashCoachBox: {
+    backgroundColor: 'rgba(8, 47, 73, 0.82)',
+    borderRadius: 10,
+    paddingHorizontal: 16,
+    paddingVertical: 12,
   },
   flashCoach: {
     color: '#a5f3fc',
     fontSize: 18,
-    backgroundColor: 'rgba(8, 47, 73, 0.72)',
+    backgroundColor: 'transparent',
+    paddingHorizontal: 0,
+    paddingVertical: 0,
+  },
+  flashLine: {
+    color: '#e0f2fe',
+    fontSize: 15,
+    fontWeight: '600',
+    textAlign: 'center',
+    marginTop: 6,
   },
   banner: {
     position: 'absolute',

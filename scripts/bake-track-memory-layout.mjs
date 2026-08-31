@@ -121,12 +121,6 @@ function extractTrkpts(gpxXml) {
   return segments;
 }
 
-function elevSpanM(pts) {
-  const eles = pts.map((p) => p.ele ?? p.z ?? 0).filter((e) => Number.isFinite(e));
-  if (!eles.length) return 0;
-  return Math.max(...eles) - Math.min(...eles);
-}
-
 /** Prefer the longest closed-ish segment; else the longest by point count. */
 function pickCentreline(segments) {
   if (!segments.length) throw new Error('No trkseg points found in GPX');
@@ -446,27 +440,6 @@ function bridgeLoopGap(pts, spacingM) {
   return out;
 }
 
-/** Low-pass the height profile so the road reads as terrain, not DEM stairsteps. */
-function smoothElevation(pts, lengthM, windowM) {
-  const n = pts.length;
-  const half = Math.max(1, Math.round((windowM / lengthM) * n * 0.5));
-  let src = pts.map((p) => p.z ?? 0);
-  for (let pass = 0; pass < 2; pass++) {
-    const next = new Array(n);
-    for (let i = 0; i < n; i++) {
-      let acc = 0;
-      let wsum = 0;
-      for (let k = -half; k <= half; k++) {
-        const w = 1 - Math.abs(k) / (half + 1);
-        acc += src[(((i + k) % n) + n) % n] * w;
-        wsum += w;
-      }
-      next[i] = acc / wsum;
-    }
-    src = next;
-  }
-  return pts.map((p, i) => ({ ...p, z: src[i] }));
-}
 
 function pathLength(pts) {
   let total = 0;
@@ -795,8 +768,6 @@ function bakeOne(trackId, gpxArg) {
   const gpxXml = fs.readFileSync(gpxPath, 'utf8');
   const segments = extractTrkpts(gpxXml);
   const raw = pickCentreline(segments);
-  const spanRaw = elevSpanM(raw);
-  const elevSource = spanRaw >= 5 ? (meta.gpxDir ? 'dem' : 'gpx') : null;
   const local = projectLocal(raw);
   const cropped = extractSingleLap(local, parseLengthM(track.lengthKm));
   const traceSpacing = pathLength(cropped) / Math.max(1, cropped.length - 1);
@@ -807,22 +778,13 @@ function bakeOne(trackId, gpxArg) {
   const resampled = resample(smoothed, nPoints);
   const planar = smoothPlanar(resampled.points, resampled.lengthM, meta.planarSmoothM ?? 14);
   const lengthM = pathLengthClosed(planar);
-  // DEM cells are ~30 m and GPS altitude is noisy; smooth here so the renderer
-  // can read heights straight off the point list.
-  const elevated =
-    elevSource && spanRaw >= 5
-      ? smoothElevation(planar, lengthM, elevSource === 'dem' ? 130 : 90)
-      : planar;
 
-  const cx = elevated.reduce((s, p) => s + p.x, 0) / elevated.length;
-  const cy = elevated.reduce((s, p) => s + p.y, 0) / elevated.length;
-  const meanZ = elevated.reduce((s, p) => s + (p.z ?? 0), 0) / elevated.length;
-  const hasElevation = elevSpanM(elevated) >= 5;
-  const centeredRaw = elevated.map((p) => {
-    const row = { x: round2(p.x - cx), y: round2(p.y - cy) };
-    if (hasElevation) row.z = round2((p.z ?? 0) - meanZ);
-    return row;
-  });
+  const cx = planar.reduce((s, p) => s + p.x, 0) / planar.length;
+  const cy = planar.reduce((s, p) => s + p.y, 0) / planar.length;
+  const centeredRaw = planar.map((p) => ({
+    x: round2(p.x - cx),
+    y: round2(p.y - cy),
+  }));
   const verifiedHands = loadVerifiedHands(meta.catalogId);
   const oriented = ensureCircuitDirection(
     centeredRaw,
@@ -836,11 +798,6 @@ function bakeOne(trackId, gpxArg) {
     track.corners,
     verifiedHands
   );
-  const elevSpan = hasElevation
-    ? Math.round(
-        (Math.max(...centered.map((p) => p.z)) - Math.min(...centered.map((p) => p.z))) * 10
-      ) / 10
-    : 0;
 
   const outDir = path.join(ROOT, 'app', 'src', 'data', 'trackMemory');
   const outPath = path.join(outDir, `${trackId}.json`);
@@ -855,17 +812,13 @@ function bakeOne(trackId, gpxArg) {
     corners,
     bakedAt: new Date().toISOString().slice(0, 10),
     sourceGpx: path.basename(gpxPath),
-    ...(hasElevation
-      ? { hasElevation: true, elevSpanM: elevSpan, elevSource: elevSource || 'gpx' }
-      : {}),
   };
 
   fs.mkdirSync(outDir, { recursive: true });
   fs.writeFileSync(outPath, JSON.stringify(out, null, 2) + '\n');
   console.log(`Wrote ${outPath}`);
   console.log(
-    `  points=${out.points.length} lengthM=${out.lengthM} corners=${out.corners.length}` +
-      (hasElevation ? ` elevSpan=${elevSpan}m (${out.elevSource})` : ' flat')
+    `  points=${out.points.length} lengthM=${out.lengthM} corners=${out.corners.length} (planar)`
   );
   if (report) {
     console.log(

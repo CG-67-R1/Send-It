@@ -1,11 +1,8 @@
-import React, { useCallback, useEffect, useMemo, useState } from 'react';
+import React, { useCallback, useState } from 'react';
 import {
   Alert,
   Image,
   Linking,
-  Modal,
-  Platform,
-  Pressable,
   ScrollView,
   Share,
   StyleSheet,
@@ -15,40 +12,14 @@ import {
   TouchableOpacity,
   View,
 } from 'react-native';
-import {
-  NestableDraggableFlatList,
-  NestableScrollContainer,
-  ScaleDecorator,
-} from 'react-native-draggable-flatlist';
-import type { RenderItemParams } from 'react-native-draggable-flatlist';
-import { useFocusEffect, useNavigation } from '@react-navigation/native';
-import type { NativeStackNavigationProp } from '@react-navigation/native-stack';
-import {
-  DEFAULT_PRIORITY,
-  getCustomSources,
-  getPriorityOrder,
-  mergePriorityOrder,
-  setPriorityOrder,
-  getNotifyPriority1,
-  setNotifyPriority1,
-  addCustomSource,
-  removeCustomSource,
-  resetHeadlinesSettings,
-} from '../storage/headlinesSettings';
-import { requestNotificationPermissions } from '../notifications/priority1Notifications';
+import { useFocusEffect } from '@react-navigation/native';
 import {
   isTrackArrivalEnabled,
   requestForegroundLocationPermission,
   setTrackArrivalEnabled,
 } from '../location/trackGeofence';
-import {
-  apiFetch,
-  PRIVACY_POLICY_URL,
-  SOURCES_URL,
-  TERMS_OF_USE_URL,
-} from '../../constants/api';
+import { PRIVACY_POLICY_URL, TERMS_OF_USE_URL } from '../../constants/api';
 import { safeOpenUrl } from '../utils/safeOpenUrl';
-import type { CustomSource, PriorityOrder, Source } from '../types';
 import { AppLogo } from '../components/AppLogo';
 import { SCREEN_LOGO_SIZE } from '../constants/logoSizing';
 import { AvatarFaceAlignModal } from '../components/AvatarFaceAlignModal';
@@ -76,90 +47,20 @@ import { clearTrackWalkSessions } from '../storage/trackWalk';
 import { clearTyreWearAnalysisState } from '../storage/tyreWearAnalysis';
 import { clearBikePhoto } from '../storage/bikePhoto';
 
-type SettingsNav = NativeStackNavigationProp<
-  { HeadlinesList: undefined; HeadlinesSettings: undefined },
-  'HeadlinesSettings'
->;
-
 export function HeadlinesSettingsScreen() {
-  const navigation = useNavigation<SettingsNav>();
   const onboardingReset = useOnboardingReset();
   const [avatarId, setAvatarId] = useState<string | null>(null);
   const [riderNickname, setRiderNickname] = useState('');
   const [favouriteBike, setFavouriteBike] = useState('');
   const [activity, setActivity] = useState<RideActivity>('just_love_bikes');
-  const [newsArchiveOpen, setNewsArchiveOpen] = useState(false);
   const [profileBusy, setProfileBusy] = useState(false);
   const [facePreviewUri, setFacePreviewUri] = useState<string | null>(null);
-  const [builtinSources, setBuiltinSources] = useState<Source[]>([]);
-  const [customSources, setCustomSourcesState] = useState<CustomSource[]>([]);
-  const [priority, setPriorityState] = useState<PriorityOrder>([]);
-  const [sourceSearch, setSourceSearch] = useState('');
-  const [pickerSlot, setPickerSlot] = useState<number | null>(null);
-  const [addUrl, setAddUrl] = useState('');
-  const [addName, setAddName] = useState('');
-  const [adding, setAdding] = useState(false);
-  const [notifyPriority1, setNotifyPriority1State] = useState(false);
   const [trackArrivalReminders, setTrackArrivalRemindersState] = useState(true);
 
-  const allSources: Source[] = [
-    ...builtinSources,
-    ...customSources.map((s) => ({ id: s.id, name: s.name })),
-  ];
-  const visiblePriority = useMemo(() => {
-    const query = sourceSearch.trim().toLocaleLowerCase();
-    return priority
-      .map((sourceId, index) => ({
-        sourceId,
-        index,
-        source: allSources.find((source) => source.id === sourceId),
-      }))
-      .filter(({ sourceId, source }) =>
-        query ? (source?.name ?? sourceId).toLocaleLowerCase().includes(query) : true
-      );
-  }, [priority, allSources, sourceSearch]);
-
   const load = useCallback(async () => {
-    const [order, custom, notify, trackArrival] = await Promise.all([
-      getPriorityOrder(),
-      getCustomSources(),
-      getNotifyPriority1(),
-      isTrackArrivalEnabled(),
-    ]);
-    setCustomSourcesState(custom);
-    setNotifyPriority1State(notify);
+    const trackArrival = await isTrackArrivalEnabled();
     setTrackArrivalRemindersState(trackArrival);
-
-    let builtin: Source[] = [];
-    try {
-      const res = await apiFetch(SOURCES_URL, { signal: AbortSignal.timeout(5000) });
-      if (res.ok) {
-        const data = await res.json();
-        if (Array.isArray(data.sources)) builtin = data.sources;
-      }
-    } catch {
-      builtin = [];
-    }
-    if (builtin.length === 0) {
-      builtin = DEFAULT_PRIORITY.map((id) => ({
-        id,
-        name: id.replace(/_/g, ' '),
-      }));
-    }
-    setBuiltinSources(builtin);
-
-    const builtinIds = builtin.map((s) => s.id);
-    const customIds = custom.map((s) => s.id);
-    const merged = mergePriorityOrder(order, builtinIds, customIds);
-    setPriorityState(merged);
-    if (merged.length > 0 && merged.join(',') !== order.join(',')) {
-      await setPriorityOrder(merged);
-    }
   }, []);
-
-  useEffect(() => {
-    load();
-  }, [load]);
 
   const loadRiderFace = useCallback(async () => {
     const [answers, uri] = await Promise.all([getOnboardingAnswers(), getAvatarFacePhotoUri()]);
@@ -248,7 +149,6 @@ export function HeadlinesSettingsScreen() {
         }
         setActivity(next);
         rememberHomeMode(homeModeFromActivity(next));
-        rememberHomeMode(homeModeFromActivity(next));
       } catch (e) {
         Alert.alert('Error', e instanceof Error ? e.message : 'Could not save how you ride');
       } finally {
@@ -307,144 +207,11 @@ export function HeadlinesSettingsScreen() {
     guardBusy: true,
   });
 
-  const handleSelectSource = useCallback(
-    async (slotIndex: number, sourceId: string) => {
-      const current = priority[slotIndex];
-      if (current === sourceId) {
-        setPickerSlot(null);
-        return;
-      }
-      const next = [...priority];
-      const swapIdx = next.indexOf(sourceId);
-      if (swapIdx >= 0) next[swapIdx] = current;
-      next[slotIndex] = sourceId;
-      setPriorityState(next);
-      await setPriorityOrder(next);
-      setPickerSlot(null);
-    },
-    [priority]
-  );
-
-  const handlePriorityDragEnd = useCallback(
-    async ({ data }: { data: Array<{ key: string; sourceId: string }> }) => {
-      const next = data.map((item) => item.sourceId);
-      setPriorityState(next);
-      await setPriorityOrder(next);
-    },
-    []
-  );
-
-  const priorityDragData = useMemo(
-    () =>
-      priority.map((sourceId) => ({
-        key: sourceId,
-        sourceId,
-      })),
-    [priority]
-  );
-
-  const renderPriorityItem = useCallback(
-    ({ item, drag, isActive, getIndex }: RenderItemParams<{ key: string; sourceId: string }>) => {
-      const index = getIndex() ?? 0;
-      const source = allSources.find((s) => s.id === item.sourceId);
-      return (
-        <ScaleDecorator>
-          <TouchableOpacity
-            style={[styles.priorityRow, isActive && styles.priorityRowActive]}
-            onPress={() => setPickerSlot(index)}
-            onLongPress={drag}
-            delayLongPress={160}
-            disabled={isActive}
-            activeOpacity={0.9}
-            accessibilityLabel={`${source?.name ?? item.sourceId}, position ${index + 1}`}
-            accessibilityHint="Hold and drag to reorder, or tap to swap source"
-          >
-            <Text style={styles.priorityNum}>{index + 1}</Text>
-            <View style={styles.pickerButton}>
-              <Text style={styles.pickerButtonText} numberOfLines={1}>
-                {source?.name ?? item.sourceId}
-              </Text>
-              <Text style={styles.pickerChevron}>▼</Text>
-            </View>
-            <View style={styles.dragHandleHit}>
-              <Text style={styles.dragHandle}>☰</Text>
-            </View>
-          </TouchableOpacity>
-        </ScaleDecorator>
-      );
-    },
-    [allSources]
-  );
-
-  const handleAddCustom = useCallback(async () => {
-    const url = addUrl.trim();
-    if (!url) return;
-    try {
-      const parsed = new URL(url);
-      if (parsed.protocol !== 'http:' && parsed.protocol !== 'https:') {
-        Alert.alert('Invalid URL', 'Feed URL must start with http:// or https://');
-        return;
-      }
-    } catch {
-      Alert.alert('Invalid URL', 'Please enter a valid feed URL.');
-      return;
-    }
-    let name = addName.trim();
-    if (!name) {
-      try {
-        name = new URL(url).hostname.replace(/^www\./, '');
-      } catch {
-        name = url;
-      }
-    }
-    if (customSources.length >= 10) {
-      Alert.alert(
-        'Custom feed limit',
-        'You can add up to 10 custom news feeds. Remove one before adding another.'
-      );
-      return;
-    }
-    setAdding(true);
-    try {
-      const newSource = await addCustomSource(url, name);
-      setCustomSourcesState((prev) => [...prev, newSource]);
-      const nextPriority = [...priority, newSource.id];
-      setPriorityState(nextPriority);
-      await setPriorityOrder(nextPriority);
-      setAddUrl('');
-      setAddName('');
-    } finally {
-      setAdding(false);
-    }
-  }, [addUrl, addName, priority, customSources.length]);
-
-  const handleRemoveCustom = useCallback(
-    (id: string) => {
-      Alert.alert('Remove source', 'Remove this custom source?', [
-        { text: 'Cancel', style: 'cancel' },
-        {
-          text: 'Remove',
-          style: 'destructive',
-          onPress: async () => {
-            await removeCustomSource(id);
-            setCustomSourcesState((prev) => prev.filter((s) => s.id !== id));
-            setPriorityState((prev) => {
-              const next = prev.filter((sid) => sid !== id);
-              void setPriorityOrder(next);
-              return next;
-            });
-          },
-        },
-      ]);
-    },
-    []
-  );
-
   const handleResetOnboarding = useCallback(() => {
     if (!onboardingReset) return;
     Alert.alert(
       'Reset onboarding',
-      'This clears your profile answers and the avatar face photo, then runs the welcome flow again. Headlines settings are kept.',
+      'This clears your profile answers and the avatar face photo, then runs the welcome flow again.',
       [
         { text: 'Cancel', style: 'cancel' },
         {
@@ -467,15 +234,12 @@ export function HeadlinesSettingsScreen() {
 
   const handleExportData = useCallback(async () => {
     try {
-      const [onboarding, setupSheet, setupHistory, bikeBalance, sources, sourcePriority] =
-        await Promise.all([
-          getOnboardingAnswers(),
-          getBikeSetupDaySheet(),
-          getSessionHistory(),
-          loadBikeBalanceState(),
-          getCustomSources(),
-          getPriorityOrder(),
-        ]);
+      const [onboarding, setupSheet, setupHistory, bikeBalance] = await Promise.all([
+        getOnboardingAnswers(),
+        getBikeSetupDaySheet(),
+        getSessionHistory(),
+        loadBikeBalanceState(),
+      ]);
       const json = JSON.stringify(
         {
           exportedAt: new Date().toISOString(),
@@ -483,8 +247,6 @@ export function HeadlinesSettingsScreen() {
           setupSheet,
           setupSessionHistory: setupHistory,
           bikeBalance,
-          customSources: sources,
-          newsPriority: sourcePriority,
         },
         null,
         2
@@ -499,7 +261,7 @@ export function HeadlinesSettingsScreen() {
     if (!onboardingReset) return;
     Alert.alert(
       'Delete all local data?',
-      'This permanently removes your profile, photos, Bike Setup Sheet and saved setups, Bike Balance, Gearing Guide, Tyre Wear, Track Walk notes, and news preferences from this device, then restarts onboarding.',
+      'This permanently removes your profile, photos, Bike Setup Sheet and saved setups, Bike Balance, Gearing Guide, Tyre Wear, and Track Walk notes from this device, then restarts onboarding.',
       [
         { text: 'Cancel', style: 'cancel' },
         {
@@ -513,7 +275,6 @@ export function HeadlinesSettingsScreen() {
                 clearGearingGuideState(),
                 clearTyreWearAnalysisState(),
                 clearTrackWalkSessions(),
-                resetHeadlinesSettings(),
                 clearAvatarFacePhoto(),
                 clearBikePhoto(),
               ]);
@@ -529,28 +290,6 @@ export function HeadlinesSettingsScreen() {
       ]
     );
   }, [onboardingReset]);
-
-  const handleNotifyPriority1Toggle = useCallback(async (value: boolean) => {
-    if (value) {
-      if (Platform.OS === 'web') {
-        Alert.alert(
-          'Notifications',
-          'Priority 1 alerts are available in the iOS and Android apps, not in the browser.'
-        );
-        return;
-      }
-      const granted = await requestNotificationPermissions();
-      if (!granted) {
-        Alert.alert(
-          'Notifications',
-          'Permission was denied. Enable notifications in your device settings to get alerts for Priority 1 news.'
-        );
-        return;
-      }
-    }
-    setNotifyPriority1State(value);
-    await setNotifyPriority1(value);
-  }, []);
 
   const handleTrackArrivalToggle = useCallback(async (value: boolean) => {
     if (value) {
@@ -571,10 +310,8 @@ export function HeadlinesSettingsScreen() {
     await setTrackArrivalEnabled(value);
   }, []);
 
-  const isFilteringSources = sourceSearch.trim().length > 0;
-
   return (
-    <NestableScrollContainer style={styles.container} contentContainerStyle={styles.content}>
+    <ScrollView style={styles.container} contentContainerStyle={styles.content}>
       <View style={styles.logoRow}>
         <AppLogo size={SCREEN_LOGO_SIZE} />
       </View>
@@ -673,10 +410,7 @@ export function HeadlinesSettingsScreen() {
                 <Image source={preset.source} style={styles.avatarImage} resizeMode="contain" />
               </View>
               <Text
-                style={[
-                  styles.avatarLabel,
-                  avatarId === preset.id && styles.avatarLabelActive,
-                ]}
+                style={[styles.avatarLabel, avatarId === preset.id && styles.avatarLabelActive]}
                 numberOfLines={2}
               >
                 {preset.label}
@@ -785,155 +519,11 @@ export function HeadlinesSettingsScreen() {
       </View>
 
       <View style={styles.section}>
-        <Text style={styles.sectionTitle}>News (archived)</Text>
-        <Text style={styles.sectionSubtitle}>
-          Headlines are no longer on Home. Open the feed here if you still want it.
-        </Text>
-        <TouchableOpacity
-          style={styles.saveProfileBtn}
-          onPress={() => navigation.navigate('HeadlinesList')}
-          activeOpacity={0.85}
-        >
-          <Text style={styles.saveProfileBtnText}>Open News</Text>
-        </TouchableOpacity>
-        <TouchableOpacity
-          style={styles.archiveToggle}
-          onPress={() => setNewsArchiveOpen((open) => !open)}
-          activeOpacity={0.8}
-        >
-          <Text style={styles.archiveToggleText}>
-            {newsArchiveOpen ? 'Hide news sources' : 'Show news sources'}
-          </Text>
-        </TouchableOpacity>
-      </View>
-
-      {newsArchiveOpen ? (
-        <>
-          {Platform.OS !== 'web' ? (
-            <View style={styles.section}>
-              <Text style={styles.sectionTitle}>Notifications</Text>
-              <Text style={styles.sectionSubtitle}>
-                When new headlines appear from your Priority 1 source (e.g. when you open the app or
-                refresh), show a notification.
-              </Text>
-              <View style={styles.notifyRow}>
-                <Text style={styles.notifyLabel}>Notify for Priority 1 news</Text>
-                <Switch
-                  value={notifyPriority1}
-                  onValueChange={handleNotifyPriority1Toggle}
-                  trackColor={{ false: '#334155', true: '#f59e0b' }}
-                  thumbColor="#f8fafc"
-                />
-              </View>
-            </View>
-          ) : null}
-
-      <View style={styles.section}>
-        <Text style={styles.sectionTitle}>Source order</Text>
-        <Text style={styles.sectionSubtitle}>
-          Hold and drag ☰ to reorder. 1 = Priority 1 for alerts. Tap a name to swap sources.
-        </Text>
-        <TextInput
-          style={styles.prioritySearchInput}
-          placeholder="Filter sources"
-          placeholderTextColor="#94a3b8"
-          value={sourceSearch}
-          onChangeText={setSourceSearch}
-          autoCapitalize="none"
-          autoCorrect={false}
-          returnKeyType="search"
-        />
-        {isFilteringSources ? (
-          <>
-            {visiblePriority.map(({ sourceId, index, source }) => (
-              <View key={`${sourceId}-${index}`} style={styles.priorityRow}>
-                <Text style={styles.priorityNum}>{index + 1}</Text>
-                <TouchableOpacity
-                  style={styles.pickerButton}
-                  onPress={() => setPickerSlot(index)}
-                >
-                  <Text style={styles.pickerButtonText} numberOfLines={1}>
-                    {source?.name ?? sourceId}
-                  </Text>
-                  <Text style={styles.pickerChevron}>▼</Text>
-                </TouchableOpacity>
-              </View>
-            ))}
-            {visiblePriority.length === 0 ? (
-              <Text style={styles.priorityEmpty}>No priority sources match your search.</Text>
-            ) : (
-              <Text style={styles.priorityEmpty}>Clear the filter to drag-reorder sources.</Text>
-            )}
-          </>
-        ) : (
-          <NestableDraggableFlatList
-            data={priorityDragData}
-            keyExtractor={(item) => item.key}
-            onDragEnd={handlePriorityDragEnd}
-            renderItem={renderPriorityItem}
-            scrollEnabled={false}
-            activationDistance={8}
-          />
-        )}
-      </View>
-
-      <View style={styles.section}>
-        <Text style={styles.sectionTitle}>Custom sources</Text>
-        <Text style={styles.sectionSubtitle}>Add an RSS feed URL. It will appear in the priority list above.</Text>
-        <TextInput
-          style={styles.input}
-          placeholder="Feed URL (e.g. https://example.com/feed.xml)"
-          placeholderTextColor="#64748b"
-          value={addUrl}
-          onChangeText={setAddUrl}
-          autoCapitalize="none"
-          autoCorrect={false}
-        />
-        <TextInput
-          style={styles.input}
-          placeholder="Display name (optional)"
-          placeholderTextColor="#64748b"
-          value={addName}
-          onChangeText={setAddName}
-        />
-        <TouchableOpacity
-          style={[styles.addButton, adding && styles.addButtonDisabled]}
-          onPress={handleAddCustom}
-          disabled={adding || !addUrl.trim()}
-        >
-          <Text style={styles.addButtonText}>Add source</Text>
-        </TouchableOpacity>
-
-        {customSources.length > 0 && (
-          <View style={styles.customList}>
-            <Text style={styles.customListTitle}>Your custom sources</Text>
-            {customSources.map((s) => (
-              <View key={s.id} style={styles.customRow}>
-                <View style={styles.customRowText}>
-                  <Text style={styles.customName}>{s.name}</Text>
-                  <Text style={styles.customUrl} numberOfLines={1}>{s.url}</Text>
-                </View>
-                <TouchableOpacity
-                  style={styles.removeButton}
-                  onPress={() => handleRemoveCustom(s.id)}
-                >
-                  <Text style={styles.removeButtonText}>Remove</Text>
-                </TouchableOpacity>
-              </View>
-            ))}
-          </View>
-        )}
-      </View>
-        </>
-      ) : null}
-
-      <View style={styles.section}>
         <Text style={styles.sectionTitle}>Your data & privacy</Text>
         <Text style={styles.sectionSubtitle}>
-          Your profile, avatar, Bike Setup Sheet, saved bike setups, Bike Balance data, Track Walk
-          notes, and news preferences stay private in local storage on this device or browser. They
-          are not stored in an online account. Sharing a setup as text only happens when you choose
-          Messages or another app.
+          Your profile, avatar, Bike Setup Sheet, saved bike setups, Bike Balance data, and Track Walk
+          notes stay private in local storage on this device or browser. They are not stored in an
+          online account. Sharing a setup as text only happens when you choose Messages or another app.
         </Text>
         <Text style={styles.sectionSubtitle}>
           AI Coach, Bike Setup, and Q&amp;A messages you send, including attachments, are transmitted
@@ -976,9 +566,7 @@ export function HeadlinesSettingsScreen() {
       {__DEV__ && onboardingReset ? (
         <View style={styles.section}>
           <Text style={styles.sectionTitle}>Developer</Text>
-          <Text style={styles.sectionSubtitle}>
-            Development tools for testing the welcome flow.
-          </Text>
+          <Text style={styles.sectionSubtitle}>Development tools for testing the welcome flow.</Text>
           <TouchableOpacity style={styles.devResetButton} onPress={handleResetOnboarding} activeOpacity={0.85}>
             <Text style={styles.devResetButtonText}>Reset onboarding</Text>
           </TouchableOpacity>
@@ -1003,44 +591,7 @@ export function HeadlinesSettingsScreen() {
           onClose={() => setAlignImageUri(null)}
         />
       ) : null}
-
-      <Modal
-        visible={pickerSlot !== null}
-        transparent
-        animationType="fade"
-        onRequestClose={() => setPickerSlot(null)}
-      >
-        <View style={styles.modalOverlay}>
-          <Pressable style={styles.modalBackdrop} onPress={() => setPickerSlot(null)} />
-          <View style={styles.modalContent}>
-            <Text style={styles.modalTitle}>Select source for position {(pickerSlot ?? 0) + 1}</Text>
-            <ScrollView style={styles.modalList} keyboardShouldPersistTaps="handled">
-              {allSources.length === 0 ? (
-                <Text style={styles.modalEmptyText}>
-                  Start the API server to load built-in sources, or add a custom RSS feed below.
-                </Text>
-              ) : (
-                allSources.map((s) => (
-                  <TouchableOpacity
-                    key={s.id}
-                    style={styles.modalOption}
-                    onPress={() => {
-                      if (pickerSlot === null) return;
-                      void handleSelectSource(pickerSlot, s.id);
-                    }}
-                  >
-                    <Text style={styles.modalOptionText}>{s.name}</Text>
-                  </TouchableOpacity>
-                ))
-              )}
-            </ScrollView>
-            <TouchableOpacity style={styles.modalClose} onPress={() => setPickerSlot(null)}>
-              <Text style={styles.modalCloseText}>Cancel</Text>
-            </TouchableOpacity>
-          </View>
-        </View>
-      </Modal>
-    </NestableScrollContainer>
+    </ScrollView>
   );
 }
 
@@ -1084,17 +635,6 @@ const styles = StyleSheet.create({
   },
   activityOptionTextActive: {
     color: '#f8fafc',
-  },
-  archiveToggle: {
-    marginTop: 12,
-    paddingVertical: 10,
-    alignItems: 'center',
-  },
-  archiveToggleText: {
-    color: '#38bdf8',
-    fontSize: 14,
-    fontWeight: '600',
-    textDecorationLine: 'underline',
   },
   avatarScroll: { marginBottom: 12, maxHeight: 180 },
   avatarScrollContent: {
@@ -1205,47 +745,6 @@ const styles = StyleSheet.create({
     paddingHorizontal: 4,
   },
   notifyLabel: { fontSize: 16, color: '#e2e8f0', flex: 1 },
-  priorityRow: { flexDirection: 'row', alignItems: 'center', marginBottom: 8 },
-  priorityRowActive: {
-    opacity: 0.92,
-    transform: [{ scale: 1.02 }],
-  },
-  prioritySearchInput: {
-    backgroundColor: '#1e293b',
-    borderRadius: 8,
-    borderWidth: 1,
-    borderColor: '#475569',
-    paddingHorizontal: 14,
-    paddingVertical: 12,
-    fontSize: 15,
-    color: '#e2e8f0',
-    marginBottom: 12,
-  },
-  priorityEmpty: { color: '#cbd5e1', fontSize: 13, lineHeight: 19, marginTop: 4 },
-  priorityNum: { width: 28, fontSize: 16, fontWeight: '600', color: '#f59e0b' },
-  pickerButton: {
-    flex: 1,
-    flexDirection: 'row',
-    alignItems: 'center',
-    justifyContent: 'space-between',
-    paddingVertical: 12,
-    paddingHorizontal: 14,
-    backgroundColor: '#1e293b',
-    borderRadius: 8,
-  },
-  pickerButtonText: { fontSize: 16, color: '#e2e8f0', flex: 1 },
-  pickerChevron: { fontSize: 10, color: '#64748b', marginLeft: 8 },
-  dragHandleHit: {
-    marginLeft: 6,
-    paddingHorizontal: 10,
-    paddingVertical: 10,
-    justifyContent: 'center',
-  },
-  dragHandle: {
-    fontSize: 18,
-    color: '#94a3b8',
-    fontWeight: '700',
-  },
   input: {
     backgroundColor: '#1e293b',
     borderRadius: 8,
@@ -1254,14 +753,6 @@ const styles = StyleSheet.create({
     color: '#e2e8f0',
     marginBottom: 10,
   },
-  addButton: {
-    backgroundColor: '#f59e0b',
-    paddingVertical: 14,
-    borderRadius: 8,
-    alignItems: 'center',
-  },
-  addButtonDisabled: { opacity: 0.6 },
-  addButtonText: { color: '#0f172a', fontWeight: '600', fontSize: 16 },
   legalLinks: {
     flexDirection: 'row',
     flexWrap: 'wrap',
@@ -1297,49 +788,4 @@ const styles = StyleSheet.create({
     backgroundColor: '#1e293b',
   },
   devResetButtonText: { color: '#94a3b8', fontWeight: '600', fontSize: 15 },
-  customList: { marginTop: 16 },
-  customListTitle: { fontSize: 14, fontWeight: '600', color: '#94a3b8', marginBottom: 8 },
-  customRow: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    justifyContent: 'space-between',
-    paddingVertical: 10,
-    paddingHorizontal: 12,
-    backgroundColor: '#1e293b',
-    borderRadius: 8,
-    marginBottom: 8,
-  },
-  customRowText: { flex: 1 },
-  customName: { fontSize: 16, color: '#e2e8f0', fontWeight: '500' },
-  customUrl: { fontSize: 12, color: '#64748b', marginTop: 2 },
-  removeButton: { paddingVertical: 8, paddingHorizontal: 12 },
-  removeButtonText: { color: '#f87171', fontSize: 14 },
-  modalOverlay: {
-    flex: 1,
-    justifyContent: 'center',
-    padding: 24,
-  },
-  modalBackdrop: {
-    ...StyleSheet.absoluteFill,
-    backgroundColor: 'rgba(0,0,0,0.6)',
-  },
-  modalContent: {
-    backgroundColor: '#1e293b',
-    borderRadius: 16,
-    maxHeight: '70%',
-    zIndex: 1,
-    elevation: 4,
-  },
-  modalEmptyText: {
-    padding: 16,
-    fontSize: 14,
-    color: '#94a3b8',
-    lineHeight: 20,
-  },
-  modalTitle: { padding: 16, fontSize: 18, fontWeight: '600', color: '#f8fafc' },
-  modalList: { maxHeight: 320 },
-  modalOption: { paddingVertical: 14, paddingHorizontal: 16, borderTopWidth: 1, borderTopColor: '#334155' },
-  modalOptionText: { fontSize: 16, color: '#e2e8f0' },
-  modalClose: { padding: 16, alignItems: 'center' },
-  modalCloseText: { color: '#94a3b8', fontSize: 16 },
 });

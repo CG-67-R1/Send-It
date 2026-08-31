@@ -6,13 +6,11 @@ import active from './bundled/active.json';
 import registry from './bundled/registry.json';
 import auManifest from './bundled/au/manifest.json';
 import auSeries from './bundled/au/competitions/series.json';
-import auHeadlines from './bundled/au/headlines/sources.json';
 import auOnboarding from './bundled/au/onboarding/areas.json';
 import auTracks from './bundled/au/tracks/tracks.json';
 import auI18n from './bundled/au/i18n/strings.json';
 import ukManifest from './bundled/uk/manifest.json';
 import ukSeries from './bundled/uk/competitions/series.json';
-import ukHeadlines from './bundled/uk/headlines/sources.json';
 import ukOnboarding from './bundled/uk/onboarding/areas.json';
 import ukTracks from './bundled/uk/tracks/tracks.json';
 import ukI18n from './bundled/uk/i18n/strings.json';
@@ -36,11 +34,6 @@ const MANIFESTS: Record<string, Manifest> = {
 const SERIES: Record<string, { series: SeriesEntry[] }> = {
   au: auSeries as { series: SeriesEntry[] },
   uk: ukSeries as { series: SeriesEntry[] },
-};
-
-const HEADLINES: Record<string, { sourceIds: string[] }> = {
-  au: auHeadlines as { sourceIds: string[] },
-  uk: ukHeadlines as { sourceIds: string[] },
 };
 
 const ONBOARDING: Record<string, { areas: RacingArea[] }> = {
@@ -126,14 +119,6 @@ export function getLocalCountryNames(): Set<string> {
     }
   }
   return names;
-}
-
-export function getHeadlineSourceIds(): string[] {
-  const ids = new Set<string>();
-  for (const packId of listActivePacks()) {
-    for (const sid of HEADLINES[packId]?.sourceIds || []) ids.add(sid);
-  }
-  return [...ids];
 }
 
 export function getOnboardingAreas(): RacingArea[] {
