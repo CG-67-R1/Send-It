@@ -51,7 +51,7 @@
         "frequency": "bi_monthly",
         "rrule": "FREQ=MONTHLY;INTERVAL=2;BYMONTHDAY=1;BYHOUR=6;BYMINUTE=0"
       },
-      "lookahead_months": 2
+      "minimum_events": 10
     }
   },
   "sources": [
@@ -131,8 +131,7 @@
       "type": "track_day_calendar",
       "jurisdiction": "AU",
       "url": "https://championsridedays.com.au/event-calender/",
-      "lookahead_months": 2,
-      "notes": "National track-day calendar (FooEvents). Refresh bi-monthly; keep next 2 months."
+      "notes": "National track-day calendar (FooEvents). Refresh bi-monthly; keep events across the catalog period."
     },
     {
       "id": "club_sa_phoenixmcc",

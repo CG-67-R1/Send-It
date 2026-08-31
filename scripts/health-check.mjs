@@ -15,6 +15,7 @@ const APP_DIR = path.join(ROOT, 'app');
 const ANDROID_APP_DIR = path.join(ROOT, 'android-app');
 const API_DIR = path.join(ROOT, 'api');
 const AU_CALENDAR_CACHE = path.join(API_DIR, 'data', 'au-road-race-events.json');
+const AU_CALENDAR_SOURCES = path.join(API_DIR, 'data', 'au-road-race-sources.json');
 
 const API_URL = process.env.API_URL || 'http://localhost:3001';
 const failures = [];
@@ -38,6 +39,15 @@ function run(cmd, args, cwd, label) {
   return false;
 }
 
+function getMinimumTrackDayEvents() {
+  try {
+    const data = JSON.parse(fs.readFileSync(AU_CALENDAR_SOURCES, 'utf8'));
+    return Number(data.meta?.champions_ride_days?.minimum_events ?? 0);
+  } catch {
+    return 0;
+  }
+}
+
 function checkAuCalendarCacheFile() {
   if (!fs.existsSync(AU_CALENDAR_CACHE)) {
     fail('api/data/au-road-race-events.json missing (run: cd api && npm run refresh-au-calendar)');
@@ -58,6 +68,25 @@ function checkAuCalendarCacheFile() {
     fail('AU calendar cache: no governing-body or aggregator source events');
   } else {
     pass('AU calendar cache: aggregator/governing-body source present');
+  }
+
+  const minTrackDays = getMinimumTrackDayEvents();
+  if (minTrackDays > 0) {
+    const trackDays = events.filter((e) => (e.discipline || '').toLowerCase() === 'track_day');
+    if (trackDays.length < minTrackDays) {
+      fail(`AU calendar cache: track_day events too few (${trackDays.length}, expected >= ${minTrackDays})`);
+    } else {
+      pass(`AU calendar cache: ${trackDays.length} track_day events`);
+    }
+  }
+
+  const inverted = events.filter((e) => e.start_date && e.end_date && e.end_date < e.start_date);
+  if (inverted.length > 0) {
+    fail(
+      `AU calendar cache: ${inverted.length} event(s) have end_date before start_date (${inverted[0].name})`
+    );
+  } else {
+    pass('AU calendar cache: date ranges valid');
   }
 }
 
