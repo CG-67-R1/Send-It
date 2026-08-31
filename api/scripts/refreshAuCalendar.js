@@ -16,6 +16,17 @@ const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const OUT_FILE = path.join(__dirname, '..', 'data', 'au-road-race-events.json');
 const STATIC_FILE = path.join(__dirname, '..', 'data', 'calendar-static.json');
 
+async function loadExistingEvents() {
+  try {
+    const raw = await fs.readFile(OUT_FILE, 'utf8');
+    const data = JSON.parse(raw);
+    const list = Array.isArray(data) ? data : (data.events || []);
+    return Array.isArray(list) ? list : [];
+  } catch {
+    return [];
+  }
+}
+
 async function loadStaticDedupeKeys() {
   try {
     const raw = await fs.readFile(STATIC_FILE, 'utf8');
@@ -33,8 +44,49 @@ async function loadStaticDedupeKeys() {
   }
 }
 
+function disciplineCount(events, discipline) {
+  return events.filter((ev) => (ev.discipline || '').toLowerCase() === discipline).length;
+}
+
+function validateRefreshOutput(events, previousEvents, config) {
+  const failures = [];
+  const trackDayCount = disciplineCount(events, 'track_day');
+  const previousTrackDayCount = disciplineCount(previousEvents, 'track_day');
+  const minTrackDays = Number(config.meta?.champions_ride_days?.minimum_events ?? 0);
+
+  if (minTrackDays > 0 && trackDayCount < minTrackDays) {
+    failures.push(`track_day count ${trackDayCount} below minimum ${minTrackDays}`);
+  }
+  if (
+    previousTrackDayCount >= minTrackDays &&
+    previousTrackDayCount > 0 &&
+    trackDayCount < Math.ceil(previousTrackDayCount * 0.5)
+  ) {
+    failures.push(
+      `track_day count dropped from ${previousTrackDayCount} to ${trackDayCount}`
+    );
+  }
+
+  const inverted = events.filter(
+    (ev) => ev.start_date && ev.end_date && ev.end_date < ev.start_date
+  );
+  if (inverted.length > 0) {
+    failures.push(
+      `events with end_date before start_date: ${inverted
+        .slice(0, 3)
+        .map((ev) => `${ev.name} (${ev.start_date} > ${ev.end_date})`)
+        .join('; ')}`
+    );
+  }
+
+  if (failures.length > 0) {
+    throw new Error(`Refusing to overwrite AU calendar cache: ${failures.join('; ')}`);
+  }
+}
+
 async function main() {
   const config = loadSourcesConfig();
+  const previousEvents = await loadExistingEvents();
   const { events: scraped, errors } = await scrapeAllSources();
 
   const staticKeys = await loadStaticDedupeKeys();
@@ -46,6 +98,7 @@ async function main() {
   const deduped = dedupeEvents(withoutStaticDupes);
   const inPeriod = filterByCatalogPeriod(deduped, config);
   inPeriod.sort((a, b) => a.start_date.localeCompare(b.start_date));
+  validateRefreshOutput(inPeriod, previousEvents, config);
 
   const payload = {
     updatedAt: new Date().toISOString(),

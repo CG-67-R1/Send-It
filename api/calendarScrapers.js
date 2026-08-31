@@ -215,16 +215,6 @@ function makeTrackDayEvent(source, fields) {
   };
 }
 
-function filterByLookaheadMonths(events, months = 2) {
-  const start = new Date();
-  start.setHours(0, 0, 0, 0);
-  const end = new Date(start);
-  end.setMonth(end.getMonth() + months);
-  const startStr = start.toISOString().slice(0, 10);
-  const endStr = end.toISOString().slice(0, 10);
-  return events.filter((ev) => ev.start_date >= startStr && ev.start_date <= endStr);
-}
-
 const CHAMPIONS_VENUES = [
   { match: /broadford/i, venue: 'Broadford Raceway', state: 'VIC' },
   { match: /the bend/i, venue: 'The Bend Motorsport Park', state: 'SA' },
@@ -291,10 +281,7 @@ async function scrapeTrackDayCalendar(source) {
       entry_url: item.url || source.url,
     }));
   }
-  const months = source.lookahead_months
-    ?? loadSourcesConfig().meta?.champions_ride_days?.lookahead_months
-    ?? 2;
-  return filterByLookaheadMonths(events, months);
+  return events;
 }
 
 function pushUnique(events, event) {
