@@ -3,8 +3,6 @@ name: Health check
 on:
   push:
     branches: [main]
-    paths-ignore:
-      - 'api/data/au-road-race-events.json'
   pull_request:
     branches: [main]
   schedule:

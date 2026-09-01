@@ -46,6 +46,13 @@ import { clearGearingGuideState } from '../storage/gearingGuide';
 import { clearTrackWalkSessions } from '../storage/trackWalk';
 import { clearTyreWearAnalysisState } from '../storage/tyreWearAnalysis';
 import { clearBikePhoto } from '../storage/bikePhoto';
+import {
+  clearTrackdayPrepData,
+  getTrackPrepSelectedTrack,
+  getTrackdayPrepDraft,
+  getTrackdayPrepHistory,
+} from '../storage/trackdayPrep';
+import { clearAppOwnedLocalStorage } from '../storage/localDataReset';
 
 export function HeadlinesSettingsScreen() {
   const onboardingReset = useOnboardingReset();
@@ -234,11 +241,22 @@ export function HeadlinesSettingsScreen() {
 
   const handleExportData = useCallback(async () => {
     try {
-      const [onboarding, setupSheet, setupHistory, bikeBalance] = await Promise.all([
+      const [
+        onboarding,
+        setupSheet,
+        setupHistory,
+        bikeBalance,
+        trackPrepSelectedTrack,
+        trackdayPrepDraft,
+        trackdayPrepHistory,
+      ] = await Promise.all([
         getOnboardingAnswers(),
         getBikeSetupDaySheet(),
         getSessionHistory(),
         loadBikeBalanceState(),
+        getTrackPrepSelectedTrack(),
+        getTrackdayPrepDraft(),
+        getTrackdayPrepHistory(),
       ]);
       const json = JSON.stringify(
         {
@@ -247,6 +265,9 @@ export function HeadlinesSettingsScreen() {
           setupSheet,
           setupSessionHistory: setupHistory,
           bikeBalance,
+          trackPrepSelectedTrack,
+          trackdayPrepDraft,
+          trackdayPrepHistory,
         },
         null,
         2
@@ -261,7 +282,7 @@ export function HeadlinesSettingsScreen() {
     if (!onboardingReset) return;
     Alert.alert(
       'Delete all local data?',
-      'This permanently removes your profile, photos, Bike Setup Sheet and saved setups, Bike Balance, Gearing Guide, Tyre Wear, and Track Walk notes from this device, then restarts onboarding.',
+      'This permanently removes your profile, photos, Bike Setup Sheet and saved setups, Bike Balance, Gearing Guide, Tyre Wear, Track Walk, and Trackday Prep data from this device, then restarts onboarding.',
       [
         { text: 'Cancel', style: 'cancel' },
         {
@@ -269,15 +290,17 @@ export function HeadlinesSettingsScreen() {
           style: 'destructive',
           onPress: async () => {
             try {
+              // File-backed photo cleaners need the URI keys intact before the generic AsyncStorage wipe.
+              await Promise.all([clearAvatarFacePhoto(), clearBikePhoto()]);
               await Promise.all([
                 clearAllBikeSetupData(),
                 clearBikeBalanceState(),
                 clearGearingGuideState(),
                 clearTyreWearAnalysisState(),
                 clearTrackWalkSessions(),
-                clearAvatarFacePhoto(),
-                clearBikePhoto(),
+                clearTrackdayPrepData(),
               ]);
+              await clearAppOwnedLocalStorage();
               await onboardingReset.resetOnboarding();
             } catch (e) {
               Alert.alert(
@@ -521,9 +544,10 @@ export function HeadlinesSettingsScreen() {
       <View style={styles.section}>
         <Text style={styles.sectionTitle}>Your data & privacy</Text>
         <Text style={styles.sectionSubtitle}>
-          Your profile, avatar, Bike Setup Sheet, saved bike setups, Bike Balance data, and Track Walk
-          notes stay private in local storage on this device or browser. They are not stored in an
-          online account. Sharing a setup as text only happens when you choose Messages or another app.
+          Your profile, avatar, Bike Setup Sheet, saved bike setups, Bike Balance data, Trackday
+          Prep briefings, and Track Walk notes stay private in local storage on this device or
+          browser. They are not stored in an online account. Sharing a setup as text only happens
+          when you choose Messages or another app.
         </Text>
         <Text style={styles.sectionSubtitle}>
           AI Coach, Bike Setup, and Q&amp;A messages you send, including attachments, are transmitted

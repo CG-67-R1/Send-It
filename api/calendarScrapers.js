@@ -260,15 +260,61 @@ function parseChampionsStart(isoStart) {
   return /^\d{4}-\d{2}-\d{2}$/.test(d) ? d : null;
 }
 
-function parseChampionsEndDate(title, startDate) {
-  const range = title.match(/(\d{1,2})\s*(?:Aug|Sep|Oct|Nov|Dec|Jan|Feb|Mar|Apr|May|Jun|Jul)[a-z]*-(\d{1,2})\s/i);
-  if (!range || !startDate) return startDate;
-  const start = new Date(`${startDate}T12:00:00`);
-  const end = new Date(start);
-  if (parseInt(range[2], 10) > parseInt(range[1], 10)) {
-    end.setDate(end.getDate() + 1);
+function monthIndex(name) {
+  if (!name) return undefined;
+  return MONTHS[name.slice(0, 3).toLowerCase()];
+}
+
+function isoDate(year, monthIndexValue, day) {
+  const d = new Date(Date.UTC(year, monthIndexValue, day, 12));
+  return d.toISOString().slice(0, 10);
+}
+
+export function parseChampionsEndDate(title, startDate) {
+  if (!startDate) return startDate;
+  const start = new Date(`${startDate}T12:00:00Z`);
+  if (Number.isNaN(start.getTime())) return startDate;
+
+  const startDay = start.getUTCDate();
+  const startMonth = start.getUTCMonth();
+  const startYear = start.getUTCFullYear();
+
+  const dayMonthToDayMonth = title.match(
+    /\b(\d{1,2})\s*(Jan|Feb|Mar|Apr|May|Jun|Jul|Aug|Sep|Sept|Oct|Nov|Dec)[a-z]*\s*[-–]\s*(\d{1,2})(?:\s*(Jan|Feb|Mar|Apr|May|Jun|Jul|Aug|Sep|Sept|Oct|Nov|Dec)[a-z]*)?/i
+  );
+  const dayToDayMonth = title.match(
+    /\b(\d{1,2})\s*[-–]\s*(\d{1,2})\s*(Jan|Feb|Mar|Apr|May|Jun|Jul|Aug|Sep|Sept|Oct|Nov|Dec)[a-z]*/i
+  );
+
+  let endDay = null;
+  let endMonth = startMonth;
+  let endYear = startYear;
+  let explicitEndMonth = false;
+
+  if (dayMonthToDayMonth) {
+    endDay = parseInt(dayMonthToDayMonth[3], 10);
+    explicitEndMonth = Boolean(dayMonthToDayMonth[4]);
+    const parsedEndMonth = monthIndex(dayMonthToDayMonth[4]) ?? monthIndex(dayMonthToDayMonth[2]);
+    if (parsedEndMonth !== undefined) endMonth = parsedEndMonth;
+  } else if (dayToDayMonth) {
+    endDay = parseInt(dayToDayMonth[2], 10);
+    explicitEndMonth = true;
+    const parsedEndMonth = monthIndex(dayToDayMonth[3]);
+    if (parsedEndMonth !== undefined) endMonth = parsedEndMonth;
   }
-  return end.toISOString().slice(0, 10);
+
+  if (endDay == null || !Number.isFinite(endDay)) return startDate;
+  if (explicitEndMonth && endMonth < startMonth) {
+    endYear += 1;
+  } else if (!explicitEndMonth && endMonth === startMonth && endDay < startDay) {
+    endMonth += 1;
+    if (endMonth > 11) {
+      endMonth = 0;
+      endYear += 1;
+    }
+  }
+  const endDate = isoDate(endYear, endMonth, endDay);
+  return endDate >= startDate ? endDate : startDate;
 }
 
 async function scrapeTrackDayCalendar(source) {

@@ -322,6 +322,8 @@ export function stepGame(
     sessionBestLapMs = nextSessionBest;
     flashedIds = [];
     slowIds = [];
+    slowUntilMs = null;
+    slowCap = 0;
     coachIndex = 0;
     movedAtMs = nowMs;
     flash = { text: `Lap ${lap}`, untilMs: nowMs + 1200 };
