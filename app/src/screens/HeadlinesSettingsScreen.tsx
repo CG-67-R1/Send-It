@@ -52,6 +52,7 @@ import {
   getTrackdayPrepDraft,
   getTrackdayPrepHistory,
 } from '../storage/trackdayPrep';
+import { clearAppOwnedLocalStorage } from '../storage/localDataReset';
 
 export function HeadlinesSettingsScreen() {
   const onboardingReset = useOnboardingReset();
@@ -289,6 +290,8 @@ export function HeadlinesSettingsScreen() {
           style: 'destructive',
           onPress: async () => {
             try {
+              // File-backed photo cleaners need the URI keys intact before the generic AsyncStorage wipe.
+              await Promise.all([clearAvatarFacePhoto(), clearBikePhoto()]);
               await Promise.all([
                 clearAllBikeSetupData(),
                 clearBikeBalanceState(),
@@ -296,9 +299,8 @@ export function HeadlinesSettingsScreen() {
                 clearTyreWearAnalysisState(),
                 clearTrackWalkSessions(),
                 clearTrackdayPrepData(),
-                clearAvatarFacePhoto(),
-                clearBikePhoto(),
               ]);
+              await clearAppOwnedLocalStorage();
               await onboardingReset.resetOnboarding();
             } catch (e) {
               Alert.alert(
