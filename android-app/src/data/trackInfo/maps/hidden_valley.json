@@ -1,0 +1,405 @@
+{
+  "trackId": "hidden_valley",
+  "name": "Hidden Valley Raceway",
+  "direction": "anticlockwise",
+  "lengthM": 2858,
+  "hasElevation": true,
+  "elevSpanM": 11.1,
+  "elevSource": "dem",
+  "polyline": [
+    [
+      16.92,
+      69.37
+    ],
+    [
+      85.82,
+      37.8
+    ],
+    [
+      86.9,
+      36.97
+    ],
+    [
+      87.73,
+      35.56
+    ],
+    [
+      87.86,
+      34.21
+    ],
+    [
+      87.49,
+      32.9
+    ],
+    [
+      86.69,
+      31.79
+    ],
+    [
+      85.53,
+      31.07
+    ],
+    [
+      84.33,
+      30.85
+    ],
+    [
+      82.99,
+      31.11
+    ],
+    [
+      81.4,
+      32.18
+    ],
+    [
+      73.9,
+      39.25
+    ],
+    [
+      71.74,
+      40.72
+    ],
+    [
+      69.31,
+      42.01
+    ],
+    [
+      66.1,
+      43.22
+    ],
+    [
+      60.64,
+      43.69
+    ],
+    [
+      50.09,
+      47.67
+    ],
+    [
+      48.89,
+      47.89
+    ],
+    [
+      47.37,
+      47.34
+    ],
+    [
+      46.33,
+      45.93
+    ],
+    [
+      43.48,
+      31.37
+    ],
+    [
+      43.03,
+      30.7
+    ],
+    [
+      42.46,
+      30.34
+    ],
+    [
+      41.66,
+      30.22
+    ],
+    [
+      40.88,
+      30.44
+    ],
+    [
+      40.23,
+      31.11
+    ],
+    [
+      40,
+      32.17
+    ],
+    [
+      40.46,
+      43.85
+    ],
+    [
+      39.92,
+      45.39
+    ],
+    [
+      38.76,
+      46.73
+    ],
+    [
+      36.6,
+      47.92
+    ],
+    [
+      32.05,
+      49.86
+    ],
+    [
+      23.58,
+      49.09
+    ],
+    [
+      16.21,
+      49.99
+    ],
+    [
+      14.78,
+      50.77
+    ],
+    [
+      12.46,
+      53.48
+    ],
+    [
+      12.13,
+      55.06
+    ],
+    [
+      12.91,
+      60.64
+    ],
+    [
+      12.22,
+      64.84
+    ],
+    [
+      12.26,
+      65.79
+    ],
+    [
+      12.9,
+      67.15
+    ],
+    [
+      14.62,
+      69.45
+    ],
+    [
+      15.63,
+      69.79
+    ],
+    [
+      16.8,
+      69.43
+    ]
+  ],
+  "sisters": [],
+  "corners": [
+    {
+      "id": "hidden_valley_t1",
+      "number": 1,
+      "label": "Turn 1",
+      "direction": "complex",
+      "sNorm": 0.0483,
+      "xPct": 26.25,
+      "yPct": 65.1
+    },
+    {
+      "id": "hidden_valley_t2",
+      "number": 2,
+      "label": "Turn 2",
+      "direction": "complex",
+      "sNorm": 0.0965,
+      "xPct": 35.56,
+      "yPct": 60.83
+    },
+    {
+      "id": "hidden_valley_t3",
+      "number": 3,
+      "label": "Turn 3",
+      "direction": "complex",
+      "sNorm": 0.1448,
+      "xPct": 44.88,
+      "yPct": 56.55
+    },
+    {
+      "id": "hidden_valley_t4",
+      "number": 4,
+      "label": "Turn 4",
+      "direction": "complex",
+      "sNorm": 0.1931,
+      "xPct": 54.21,
+      "yPct": 52.27
+    },
+    {
+      "id": "hidden_valley_t5",
+      "number": 5,
+      "label": "Turn 5",
+      "direction": "complex",
+      "sNorm": 0.2413,
+      "xPct": 63.52,
+      "yPct": 48.01
+    },
+    {
+      "id": "hidden_valley_t6",
+      "number": 6,
+      "label": "Turn 6",
+      "direction": "complex",
+      "sNorm": 0.2896,
+      "xPct": 72.85,
+      "yPct": 43.75
+    },
+    {
+      "id": "hidden_valley_t7",
+      "number": 7,
+      "label": "Turn 7",
+      "direction": "complex",
+      "sNorm": 0.3379,
+      "xPct": 82.18,
+      "yPct": 39.48
+    },
+    {
+      "id": "hidden_valley_t8",
+      "number": 8,
+      "label": "Turn 8",
+      "direction": "complex",
+      "sNorm": 0.3862,
+      "xPct": 87.24,
+      "yPct": 32.47
+    },
+    {
+      "id": "hidden_valley_t9",
+      "number": 9,
+      "label": "Turn 9",
+      "direction": "complex",
+      "sNorm": 0.4994,
+      "xPct": 67.86,
+      "yPct": 42.67
+    },
+    {
+      "id": "hidden_valley_t10",
+      "number": 10,
+      "label": "Turn 10",
+      "direction": "complex",
+      "sNorm": 0.5983,
+      "xPct": 47.78,
+      "yPct": 47.61
+    },
+    {
+      "id": "hidden_valley_t11",
+      "number": 11,
+      "label": "Turn 11",
+      "direction": "complex",
+      "sNorm": 0.6902,
+      "xPct": 41.56,
+      "yPct": 30.23
+    },
+    {
+      "id": "hidden_valley_t12",
+      "number": 12,
+      "label": "Turn 12",
+      "direction": "complex",
+      "sNorm": 0.7658,
+      "xPct": 39.94,
+      "yPct": 45.36
+    },
+    {
+      "id": "hidden_valley_t13",
+      "number": 13,
+      "label": "Turn 13",
+      "direction": "complex",
+      "sNorm": 0.8092,
+      "xPct": 32.08,
+      "yPct": 49.85
+    },
+    {
+      "id": "hidden_valley_t14",
+      "number": 14,
+      "label": "Turn 14",
+      "direction": "complex",
+      "sNorm": 0.9062,
+      "xPct": 12.81,
+      "yPct": 53.01
+    }
+  ],
+  "startFinish": {
+    "xPct": 16.92,
+    "yPct": 69.37
+  },
+  "derivedInfra": [
+    {
+      "id": "pit_lane",
+      "kind": "pit_lane",
+      "label": "Pit lane",
+      "xPct": 16.91,
+      "yPct": 72.11,
+      "polyline": [
+        [
+          10.21,
+          67.53
+        ],
+        [
+          10.63,
+          68.34
+        ],
+        [
+          11.08,
+          69.01
+        ],
+        [
+          11.62,
+          69.79
+        ],
+        [
+          12.52,
+          70.85
+        ],
+        [
+          13.99,
+          71.86
+        ],
+        [
+          15.7,
+          72.22
+        ],
+        [
+          16.91,
+          72.11
+        ],
+        [
+          17.7,
+          71.82
+        ],
+        [
+          18.4,
+          71.5
+        ],
+        [
+          19.09,
+          71.19
+        ],
+        [
+          19.78,
+          70.87
+        ],
+        [
+          20.47,
+          70.55
+        ],
+        [
+          21.16,
+          70.24
+        ],
+        [
+          21.85,
+          69.92
+        ]
+      ]
+    },
+    {
+      "id": "pit_exit",
+      "kind": "pit_exit",
+      "label": "Pit exit",
+      "xPct": 21.85,
+      "yPct": 69.92
+    },
+    {
+      "id": "pit_entry",
+      "kind": "pit_entry",
+      "label": "Pit entry",
+      "xPct": 10.21,
+      "yPct": 67.53
+    }
+  ]
+}

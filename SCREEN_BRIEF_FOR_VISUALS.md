@@ -100,7 +100,7 @@ Use this brief to generate mockups, illustrations, or theme variations in GPT (o
 
 **Layout:**
 - Compact logo at top.
-- Buttons: **RR AI Coach**, **Track Prep**, **Bike Setup Basics**, **Tyre Wear Analysis**, **Track Memory**.
+- Buttons: **RR AI Coach**, **Track Prep**, **Bike Setup Basics**, **Tyre Wear Analysis**, **Track Details**.
 - Feature-request mailto link at bottom.
 
 **Visual/theming ideas:** Pit-board hub; helmet for Coach; circuit for Track Prep.
@@ -155,6 +155,21 @@ Use this brief to generate mockups, illustrations, or theme variations in GPT (o
 - Actions: save session, send to coach, import notes.
 
 **Visual/theming ideas:** Circuit map / corner chips; mic affordance for voice.
+
+---
+
+## 9b. Track Details (layout info)
+
+**Purpose:** Crash-free circuit study page — interactive SVG map, corner dots, facts, and saved Track Walk notes. Replaces the old arcade ride.
+
+**Layout:**
+- Track picker (shared with Track Prep).
+- Top-down facility map: selected layout in red, sister layouts faded, pit entry/exit/lane, water, tunnel/bridge when known.
+- Red dots on each corner (same pattern as Bike Setup Basics). Tap opens a sheet: catalog heading, approach, saved note, Ask coach, open Track Walk.
+- Below: distance, elevation, surface, usual weather, ASBK class records when cited, then reference-point / eye-training copy.
+- Also linked from Track Prep as **Track Details** (catalog tracks only).
+
+**Visual/theming ideas:** Light-green infield; red ribbon; red hotspot dots; amber fact cards.
 
 ---
 
@@ -222,7 +237,7 @@ Use this brief to generate mockups, illustrations, or theme variations in GPT (o
 
 - **Bottom tabs (5):** Home | Events | Rider Coach | Bike Setup | Q & A. Dark bar, amber active, gray inactive.
 - **Home stack:** Home hub → Profile & settings; News list only from Settings → Open News.
-- **Rider Coach stack:** Hub → CoachChat (coach), Track Prep / Walk / Memory, Import notes, Bike Setup Basics, Tyre Wear Analysis.
+- **Rider Coach stack:** Hub → CoachChat (coach), Track Prep / Walk / Memory (layout info), Import notes, Bike Setup Basics, Tyre Wear Analysis.
 - **Bike Setup stack:** Hub → CoachChat (bikesetup), Sheet, Balance, Gearing, Tyre Wear Analysis, Basics.
 - **Stack headers:** Dark background, light title, amber for right-side actions (Settings, Import notes).
 - **Loading/splash:** Dark screen, amber spinner, before onboarding or before main app.

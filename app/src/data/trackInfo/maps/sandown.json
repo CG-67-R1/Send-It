@@ -1,0 +1,280 @@
+{
+  "trackId": "sandown",
+  "name": "Sandown Raceway",
+  "direction": "anticlockwise",
+  "lengthM": 3113,
+  "hasElevation": true,
+  "elevSpanM": 16.7,
+  "elevSource": "dem",
+  "polyline": [
+    [
+      34.3,
+      33.47
+    ],
+    [
+      35.99,
+      79.08
+    ],
+    [
+      36.2,
+      80.59
+    ],
+    [
+      36.77,
+      81.36
+    ],
+    [
+      37.65,
+      81.77
+    ],
+    [
+      49.6,
+      84.48
+    ],
+    [
+      50.3,
+      85.12
+    ],
+    [
+      50.89,
+      86.84
+    ],
+    [
+      51.47,
+      87.29
+    ],
+    [
+      54.49,
+      87.8
+    ],
+    [
+      56.33,
+      87.8
+    ],
+    [
+      56.7,
+      87.5
+    ],
+    [
+      56.79,
+      87
+    ],
+    [
+      56.31,
+      71.36
+    ],
+    [
+      65.31,
+      29.07
+    ],
+    [
+      65.7,
+      26.48
+    ],
+    [
+      65.53,
+      24.74
+    ],
+    [
+      65,
+      23.08
+    ],
+    [
+      62.35,
+      19.34
+    ],
+    [
+      61.34,
+      15.9
+    ],
+    [
+      58.92,
+      12.4
+    ],
+    [
+      58.41,
+      12.12
+    ],
+    [
+      57.87,
+      12.37
+    ],
+    [
+      54.79,
+      15
+    ],
+    [
+      50.87,
+      19.12
+    ],
+    [
+      41.65,
+      25.22
+    ],
+    [
+      40.53,
+      25.51
+    ],
+    [
+      38.05,
+      24.67
+    ],
+    [
+      37.27,
+      24.77
+    ],
+    [
+      36.4,
+      26.49
+    ],
+    [
+      34.83,
+      30.7
+    ],
+    [
+      34.38,
+      32.16
+    ],
+    [
+      34.3,
+      33.36
+    ]
+  ],
+  "sisters": [],
+  "corners": [
+    {
+      "id": "sandown_t1",
+      "number": 1,
+      "label": "Turn 1 (first left hairpin complex)",
+      "direction": "complex",
+      "sNorm": 0.2584,
+      "xPct": 36.4,
+      "yPct": 80.97
+    },
+    {
+      "id": "sandown_t2",
+      "number": 2,
+      "label": "Turn 2 (left kink onto back section)",
+      "direction": "complex",
+      "sNorm": 0.3355,
+      "xPct": 49.96,
+      "yPct": 84.71
+    },
+    {
+      "id": "sandown_t3",
+      "number": 3,
+      "label": "Turn 3 (left sweeper)",
+      "direction": "complex",
+      "sNorm": 0.377,
+      "xPct": 55.95,
+      "yPct": 87.87
+    },
+    {
+      "id": "sandown_t4",
+      "number": 4,
+      "label": "Turn 4 (left kink / Dandenong Road complex)",
+      "direction": "complex",
+      "sNorm": 0.8074,
+      "xPct": 58.58,
+      "yPct": 12.15
+    },
+    {
+      "id": "sandown_t5",
+      "number": 5,
+      "label": "Turn 5 (final complex onto main straight)",
+      "direction": "complex",
+      "sNorm": 0.9484,
+      "xPct": 37.46,
+      "yPct": 24.67
+    }
+  ],
+  "startFinish": {
+    "xPct": 34.3,
+    "yPct": 33.47
+  },
+  "derivedInfra": [
+    {
+      "id": "pit_lane",
+      "kind": "pit_lane",
+      "label": "Pit lane",
+      "xPct": 32.11,
+      "yPct": 32.55,
+      "polyline": [
+        [
+          33.65,
+          27.43
+        ],
+        [
+          33.41,
+          28.07
+        ],
+        [
+          33.19,
+          28.69
+        ],
+        [
+          32.97,
+          29.32
+        ],
+        [
+          32.74,
+          29.98
+        ],
+        [
+          32.48,
+          30.79
+        ],
+        [
+          32.23,
+          31.72
+        ],
+        [
+          32.11,
+          32.55
+        ],
+        [
+          32.09,
+          33.28
+        ],
+        [
+          32.1,
+          33.94
+        ],
+        [
+          32.12,
+          34.6
+        ],
+        [
+          32.14,
+          35.26
+        ],
+        [
+          32.17,
+          35.92
+        ],
+        [
+          32.19,
+          36.58
+        ],
+        [
+          32.22,
+          37.24
+        ]
+      ]
+    },
+    {
+      "id": "pit_exit",
+      "kind": "pit_exit",
+      "label": "Pit exit",
+      "xPct": 32.22,
+      "yPct": 37.24
+    },
+    {
+      "id": "pit_entry",
+      "kind": "pit_entry",
+      "label": "Pit entry",
+      "xPct": 33.65,
+      "yPct": 27.43
+    }
+  ]
+}

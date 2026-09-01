@@ -3,15 +3,22 @@ import { ScrollView, StyleSheet, Text, TouchableOpacity, View } from 'react-nati
 import { useFocusEffect, useNavigation } from '@react-navigation/native';
 import type { NativeStackNavigationProp } from '@react-navigation/native-stack';
 import { AppLogo } from '../components/AppLogo';
+import { TrackCornerSheet } from '../components/TrackCornerSheet';
+import { TrackFacilityMap } from '../components/TrackFacilityMap';
 import { TrackPicker } from '../components/TrackPicker';
 import { COMPACT_LOGO_SIZE } from '../constants/logoSizing';
-import type { TrackDefinition } from '../data/tracks';
-import { getTrackById } from '../data/tracks';
+import { TRACK_INFO_COACHING } from '../data/trackInfo/coaching';
 import {
-  TRACK_MEMORY_TRACK_IDS,
-  getTrackMemoryLayout,
-  listTrackMemoryTracks,
-} from '../trackMemory/layouts';
+  TRACK_INFO_TRACK_IDS,
+  elevationSummary,
+  getTrackInfoFacts,
+  getTrackInfoMap,
+  listTrackInfoTracks,
+} from '../data/trackInfo';
+import type { TrackInfoCorner } from '../data/trackInfo/types';
+import type { CornerDefinition, TrackDefinition } from '../data/tracks';
+import { formatCornerHeading, getCornerById, getTrackById } from '../data/tracks';
+import { getTrackWalkSessions } from '../storage/trackWalk';
 import {
   getTrackPrepSelectedTrack,
   saveTrackPrepSelectedTrack,
@@ -20,12 +27,31 @@ import type { RiderCoachStackParamList } from './RiderCoachScreen';
 
 type Nav = NativeStackNavigationProp<RiderCoachStackParamList, 'TrackMemoryHub'>;
 
+function latestCornerNote(
+  sessions: { trackId: string; createdAt: number; entries: { type: string; cornerId?: string; text: string }[] }[],
+  trackId: string,
+  cornerId: string
+): string | null {
+  const forTrack = sessions
+    .filter((s) => s.trackId === trackId)
+    .sort((a, b) => b.createdAt - a.createdAt);
+  for (const session of forTrack) {
+    const entry = session.entries.find(
+      (e) => e.type === 'corner' && e.cornerId === cornerId && e.text.trim()
+    );
+    if (entry) return entry.text.trim();
+  }
+  return null;
+}
+
 export function TrackMemoryHubScreen() {
   const navigation = useNavigation<Nav>();
-  const memoryTracks = useMemo(() => listTrackMemoryTracks(), []);
+  const infoTracks = useMemo(() => listTrackInfoTracks(), []);
   const [trackId, setTrackId] = useState<string | null>(
-    memoryTracks.length === 1 ? memoryTracks[0].id : null
+    infoTracks.length === 1 ? infoTracks[0].id : null
   );
+  const [selectedMapCorner, setSelectedMapCorner] = useState<TrackInfoCorner | null>(null);
+  const [savedNote, setSavedNote] = useState<string | null>(null);
 
   useFocusEffect(
     useCallback(() => {
@@ -33,7 +59,7 @@ export function TrackMemoryHubScreen() {
       void (async () => {
         const saved = await getTrackPrepSelectedTrack();
         if (cancelled || !saved) return;
-        if (getTrackMemoryLayout(saved.trackId)) {
+        if (getTrackInfoMap(saved.trackId)) {
           setTrackId(saved.trackId);
         }
       })();
@@ -43,21 +69,59 @@ export function TrackMemoryHubScreen() {
     }, [])
   );
 
-  const selectedName = useMemo(() => {
-    if (!trackId) return null;
-    return getTrackMemoryLayout(trackId)?.name ?? getTrackById(trackId)?.name ?? trackId;
-  }, [trackId]);
+  const map = trackId ? getTrackInfoMap(trackId) : undefined;
+  const catalog = trackId ? getTrackById(trackId) : undefined;
+  const facts = trackId ? getTrackInfoFacts(trackId) : undefined;
+  const asbk = facts?.asbkRecords?.filter((r) => r.time) ?? [];
+
+  const selectedCatalogCorner: CornerDefinition | null = useMemo(() => {
+    if (!trackId || !selectedMapCorner) return null;
+    return getCornerById(trackId, selectedMapCorner.id) ?? {
+      id: selectedMapCorner.id,
+      number: selectedMapCorner.number,
+      label: selectedMapCorner.label,
+      direction: selectedMapCorner.direction as CornerDefinition['direction'],
+    };
+  }, [trackId, selectedMapCorner]);
 
   const handleSelectTrack = useCallback((track: TrackDefinition) => {
-    if (!getTrackMemoryLayout(track.id)) return;
+    if (!getTrackInfoMap(track.id)) return;
     setTrackId(track.id);
+    setSelectedMapCorner(null);
     void saveTrackPrepSelectedTrack({
       trackId: track.id,
       trackName: track.name,
     });
   }, []);
 
-  const canPlay = Boolean(trackId && getTrackMemoryLayout(trackId));
+  const openCorner = useCallback(
+    async (corner: TrackInfoCorner) => {
+      if (!trackId) return;
+      setSelectedMapCorner(corner);
+      const sessions = await getTrackWalkSessions();
+      setSavedNote(latestCornerNote(sessions, trackId, corner.id));
+    },
+    [trackId]
+  );
+
+  const askCoach = useCallback(() => {
+    if (!catalog || !selectedCatalogCorner) return;
+    const heading = formatCornerHeading(selectedCatalogCorner);
+    setSelectedMapCorner(null);
+    navigation.navigate('CoachChat', {
+      mode: 'coach',
+      seedDraftMessage: `I'm studying ${catalog.name}, ${heading}. Help me with reference points and where to look on the approach — no invented lap times.`,
+    });
+  }, [catalog, navigation, selectedCatalogCorner]);
+
+  const openWalk = useCallback(() => {
+    if (!trackId || !catalog) return;
+    setSelectedMapCorner(null);
+    navigation.navigate('TrackWalk', {
+      initialTrackId: trackId,
+      initialTrackName: catalog.name,
+    });
+  }, [catalog, navigation, trackId]);
 
   return (
     <ScrollView
@@ -70,41 +134,116 @@ export function TrackMemoryHubScreen() {
       </View>
 
       <Text style={styles.lead}>
-        Pick a circuit with a baked layout, then ride the memory game — accel and brake only;
-        the bike auto-steers the line.
+        Pick a circuit to study the layout, pit entry, pit lane, pit exit, and corners. The map
+        starts zoomed to 2× — pan and use + / − so stacked corners are easier to tap.
       </Text>
 
       <TrackPicker
         selectedTrackId={trackId}
         onSelect={handleSelectTrack}
-        allowedTrackIds={TRACK_MEMORY_TRACK_IDS}
+        allowedTrackIds={TRACK_INFO_TRACK_IDS}
       />
 
-      {memoryTracks.length === 0 ? (
-        <Text style={styles.hint}>No Track Memory layouts are available yet.</Text>
+      {infoTracks.length === 0 ? (
+        <Text style={styles.hint}>No track maps are available yet.</Text>
       ) : (
         <Text style={styles.hint}>
-          {memoryTracks.length} Australian circuits ready — pick one and hit Play.
+          {infoTracks.length} Australian circuits — tap a corner on the map or use the list below.
         </Text>
       )}
 
-      <TouchableOpacity
-        style={[styles.navButton, !canPlay && styles.navButtonDisabled]}
-        disabled={!canPlay}
-        onPress={() => {
-          if (!trackId) return;
-          navigation.navigate('TrackMemory', { initialTrackId: trackId });
-        }}
-        activeOpacity={0.8}
-      >
-        <Text style={styles.navButtonText}>Play Track Memory</Text>
-        <Text style={styles.navSub}>
-          {canPlay && selectedName
-            ? `Start on ${selectedName}`
-            : 'Select a track to play'}
-        </Text>
-      </TouchableOpacity>
+      {map && catalog ? (
+        <>
+          <View style={styles.mapBleed}>
+            <TrackFacilityMap
+              map={map}
+              selectedCornerId={selectedMapCorner?.id ?? null}
+              onSelectCorner={(c) => void openCorner(c)}
+            />
+          </View>
+
+          <View style={styles.card}>
+            <Text style={styles.cardTitle}>{catalog.name}</Text>
+            <FactRow label="Distance" value={catalog.lengthKm ?? `${(map.lengthM / 1000).toFixed(2)} km`} />
+            <FactRow label="Direction" value={catalog.direction} />
+            <FactRow label="Elevation" value={elevationSummary(map)} />
+            <FactRow label="Surface" value={facts?.surface ?? 'Asphalt (details not in the catalog).'} />
+            <FactRow
+              label="Usual weather"
+              value={facts?.weatherUsual ?? 'Use Trackday Prep for a live forecast on the day.'}
+            />
+          </View>
+
+          <View style={styles.card}>
+            <Text style={styles.cardTitle}>ASBK class lap records</Text>
+            {asbk.length > 0 ? (
+              asbk.map((row) => (
+                <View key={`${row.class}-${row.time}`} style={styles.recordRow}>
+                  <Text style={styles.recordClass}>{row.class}</Text>
+                  <Text style={styles.recordTime}>{row.time}</Text>
+                  <Text style={styles.recordMeta}>
+                    {row.rider}
+                    {row.machine ? ` · ${row.machine}` : ''} · {row.date}
+                  </Text>
+                  <Text style={styles.recordSource}>{row.source}</Text>
+                </View>
+              ))
+            ) : (
+              <Text style={styles.body}>No ASBK class record in the app yet.</Text>
+            )}
+          </View>
+
+          <View style={styles.card}>
+            <Text style={styles.cardTitle}>{TRACK_INFO_COACHING.title}</Text>
+            <Text style={styles.body}>{TRACK_INFO_COACHING.intro}</Text>
+            {TRACK_INFO_COACHING.points.map((line) => (
+              <Text key={line} style={styles.bullet}>
+                {'\u2022'} {line}
+              </Text>
+            ))}
+          </View>
+
+          <Text style={styles.listTitle}>Corners</Text>
+          {map.corners.map((corner) => {
+            const cat = getCornerById(catalog.id, corner.id);
+            return (
+              <TouchableOpacity
+                key={corner.id}
+                style={styles.cornerRow}
+                onPress={() => void openCorner(corner)}
+                activeOpacity={0.75}
+                accessibilityRole="button"
+                accessibilityLabel={`Turn ${corner.number} ${corner.label}`}
+              >
+                <View style={styles.cornerDot} />
+                <Text style={styles.cornerLabel}>
+                  {cat ? formatCornerHeading(cat) : `T${corner.number} — ${corner.label}`}
+                </Text>
+              </TouchableOpacity>
+            );
+          })}
+        </>
+      ) : (
+        <Text style={styles.hint}>Select a track to open the map.</Text>
+      )}
+
+      <TrackCornerSheet
+        corner={selectedCatalogCorner}
+        savedNote={savedNote}
+        onClose={() => setSelectedMapCorner(null)}
+        onAskCoach={askCoach}
+        onOpenTrackWalk={openWalk}
+      />
     </ScrollView>
+  );
+}
+
+function FactRow({ label, value }: { label: string; value: string }) {
+  return (
+    <View style={styles.factRow}>
+      <Text style={styles.factLabel}>{label}</Text>
+      <Text style={styles.body}>{value}</Text>
+    </View>
   );
 }
 
@@ -119,23 +258,62 @@ const styles = StyleSheet.create({
     marginBottom: 16,
   },
   hint: { fontSize: 13, color: '#94a3b8', marginBottom: 16, lineHeight: 18 },
-  navButton: {
-    width: '100%',
-    marginBottom: 12,
-    paddingVertical: 16,
-    paddingHorizontal: 18,
-    minHeight: 56,
+  mapBleed: { marginHorizontal: -20 },
+  card: {
+    marginTop: 16,
+    padding: 14,
     backgroundColor: '#1e293b',
     borderRadius: 12,
-    borderWidth: 2,
-    borderColor: '#f59e0b',
+    borderLeftWidth: 4,
+    borderLeftColor: '#f59e0b',
   },
-  navButtonDisabled: { opacity: 0.45, borderColor: '#64748b' },
-  navButtonText: {
-    fontFamily: 'RaceSport',
+  cardTitle: {
     fontSize: 17,
+    fontWeight: '700',
     color: '#f8fafc',
-    marginBottom: 4,
+    marginBottom: 8,
   },
-  navSub: { fontSize: 13, color: '#94a3b8', lineHeight: 18 },
+  factRow: { marginBottom: 10 },
+  factLabel: {
+    fontSize: 12,
+    fontWeight: '700',
+    color: '#f59e0b',
+    textTransform: 'uppercase',
+    letterSpacing: 0.5,
+    marginBottom: 2,
+  },
+  body: { fontSize: 14, color: '#e2e8f0', lineHeight: 20 },
+  bullet: { fontSize: 14, color: '#e2e8f0', lineHeight: 20, marginTop: 8 },
+  recordRow: { marginBottom: 12 },
+  recordClass: { fontSize: 13, fontWeight: '700', color: '#cbd5e1' },
+  recordTime: { fontSize: 20, fontWeight: '700', color: '#f8fafc', marginTop: 2 },
+  recordMeta: { fontSize: 13, color: '#e2e8f0', marginTop: 2 },
+  recordSource: { fontSize: 11, color: '#94a3b8', marginTop: 2 },
+  listTitle: {
+    marginTop: 20,
+    marginBottom: 8,
+    fontSize: 16,
+    fontWeight: '700',
+    color: '#f8fafc',
+  },
+  cornerRow: {
+    minHeight: 48,
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: 12,
+    paddingHorizontal: 14,
+    paddingVertical: 10,
+    marginBottom: 8,
+    borderRadius: 10,
+    backgroundColor: '#1e293b',
+    borderWidth: 1,
+    borderColor: '#334155',
+  },
+  cornerDot: {
+    width: 12,
+    height: 12,
+    borderRadius: 6,
+    backgroundColor: '#ef4444',
+  },
+  cornerLabel: { flex: 1, color: '#e2e8f0', fontSize: 15, fontWeight: '600' },
 });

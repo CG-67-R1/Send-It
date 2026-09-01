@@ -1,0 +1,400 @@
+{
+  "trackId": "morgan_park",
+  "name": "Morgan Park Raceway (Circuit K)",
+  "direction": "clockwise",
+  "lengthM": 2998,
+  "hasElevation": true,
+  "elevSpanM": 26.6,
+  "elevSource": "dem",
+  "polyline": [
+    [
+      72.13,
+      40.82
+    ],
+    [
+      65.09,
+      83.45
+    ],
+    [
+      64.37,
+      84.78
+    ],
+    [
+      59.03,
+      87.62
+    ],
+    [
+      57.98,
+      87.88
+    ],
+    [
+      57.09,
+      87.71
+    ],
+    [
+      56.04,
+      86.84
+    ],
+    [
+      52.67,
+      81.25
+    ],
+    [
+      50.49,
+      78.62
+    ],
+    [
+      47.76,
+      76.86
+    ],
+    [
+      44.87,
+      76.35
+    ],
+    [
+      43.5,
+      76.56
+    ],
+    [
+      41.9,
+      77.17
+    ],
+    [
+      22.64,
+      86.95
+    ],
+    [
+      21.12,
+      87.04
+    ],
+    [
+      19.7,
+      86.16
+    ],
+    [
+      19.02,
+      84.63
+    ],
+    [
+      19.19,
+      82.79
+    ],
+    [
+      23.01,
+      74.98
+    ],
+    [
+      24.37,
+      71.17
+    ],
+    [
+      24.68,
+      69.03
+    ],
+    [
+      24.62,
+      67.01
+    ],
+    [
+      24.14,
+      64.89
+    ],
+    [
+      20.92,
+      57.49
+    ],
+    [
+      20.94,
+      56.27
+    ],
+    [
+      21.54,
+      55.02
+    ],
+    [
+      23.06,
+      54.01
+    ],
+    [
+      24.73,
+      54.1
+    ],
+    [
+      35.42,
+      60.75
+    ],
+    [
+      36.45,
+      60.97
+    ],
+    [
+      37.44,
+      60.59
+    ],
+    [
+      50.02,
+      44.99
+    ],
+    [
+      52.24,
+      41.62
+    ],
+    [
+      53.14,
+      39.47
+    ],
+    [
+      53.84,
+      36.76
+    ],
+    [
+      56.09,
+      23.59
+    ],
+    [
+      57.12,
+      20.99
+    ],
+    [
+      58.66,
+      18.66
+    ],
+    [
+      61.01,
+      16.42
+    ],
+    [
+      65.37,
+      14.39
+    ],
+    [
+      74.78,
+      12.31
+    ],
+    [
+      77.25,
+      12.19
+    ],
+    [
+      78.7,
+      12.72
+    ],
+    [
+      79.79,
+      13.58
+    ],
+    [
+      80.65,
+      14.86
+    ],
+    [
+      81.01,
+      16.2
+    ],
+    [
+      80.89,
+      18.36
+    ],
+    [
+      78.59,
+      32.64
+    ],
+    [
+      78.2,
+      33.97
+    ],
+    [
+      77.49,
+      34.98
+    ],
+    [
+      74.16,
+      36.94
+    ],
+    [
+      73.36,
+      37.66
+    ],
+    [
+      72.62,
+      39.02
+    ],
+    [
+      72.16,
+      40.67
+    ]
+  ],
+  "sisters": [],
+  "corners": [
+    {
+      "id": "morgan_park_t1",
+      "number": 1,
+      "label": "Turns 1 & 2 (Right-Left Sweepers)",
+      "direction": "complex",
+      "sNorm": 0.1757,
+      "xPct": 64.7,
+      "yPct": 84.41
+    },
+    {
+      "id": "morgan_park_t3",
+      "number": 3,
+      "label": "Turn 3 (Blind Left-hander by the Wall)",
+      "direction": "left",
+      "sNorm": 0.2707,
+      "xPct": 47.02,
+      "yPct": 76.62
+    },
+    {
+      "id": "morgan_park_t4",
+      "number": 4,
+      "label": "Turn 4 (Heavy Braking Right-Hairpin)",
+      "direction": "right",
+      "sNorm": 0.3896,
+      "xPct": 19.82,
+      "yPct": 86.29
+    },
+    {
+      "id": "morgan_park_t5",
+      "number": 5,
+      "label": "Turn 5 (Long Sweeping Left)",
+      "direction": "left",
+      "sNorm": 0.4686,
+      "xPct": 24.69,
+      "yPct": 67.78
+    },
+    {
+      "id": "morgan_park_t6",
+      "number": 6,
+      "label": "Turn 6 (Right-Hand Flick)",
+      "direction": "right",
+      "sNorm": 0.5253,
+      "xPct": 21.98,
+      "yPct": 54.58
+    },
+    {
+      "id": "morgan_park_t7",
+      "number": 7,
+      "label": "Turn 7 (Left-hand tight corner)",
+      "direction": "left",
+      "sNorm": 0.5919,
+      "xPct": 36.64,
+      "yPct": 60.94
+    },
+    {
+      "id": "morgan_park_t9",
+      "number": 9,
+      "label": "Turns 8 & 9 (Fast Esses)",
+      "direction": "complex",
+      "sNorm": 0.6942,
+      "xPct": 52.58,
+      "yPct": 40.9
+    },
+    {
+      "id": "morgan_park_t10",
+      "number": 10,
+      "label": "Turn 10 (Fast Banked Right)",
+      "direction": "right",
+      "sNorm": 0.791,
+      "xPct": 59.38,
+      "yPct": 17.84
+    },
+    {
+      "id": "morgan_park_t11",
+      "number": 11,
+      "label": "Turns 11 & 12 (Final Chicane onto Main Straight)",
+      "direction": "complex",
+      "sNorm": 0.8779,
+      "xPct": 79.67,
+      "yPct": 13.46
+    }
+  ],
+  "startFinish": {
+    "xPct": 72.13,
+    "yPct": 40.82
+  },
+  "derivedInfra": [
+    {
+      "id": "pit_lane",
+      "kind": "pit_lane",
+      "label": "Pit lane",
+      "xPct": 75.37,
+      "yPct": 40.21,
+      "polyline": [
+        [
+          75.42,
+          32.82
+        ],
+        [
+          74.65,
+          33.25
+        ],
+        [
+          73.64,
+          33.79
+        ],
+        [
+          76.58,
+          38.92
+        ],
+        [
+          76.27,
+          38.9
+        ],
+        [
+          75.93,
+          39.16
+        ],
+        [
+          75.64,
+          39.6
+        ],
+        [
+          75.37,
+          40.21
+        ],
+        [
+          75.18,
+          40.99
+        ],
+        [
+          75.02,
+          41.85
+        ],
+        [
+          74.87,
+          42.72
+        ],
+        [
+          74.72,
+          43.6
+        ],
+        [
+          74.58,
+          44.48
+        ],
+        [
+          74.44,
+          45.37
+        ],
+        [
+          74.3,
+          46.26
+        ]
+      ]
+    },
+    {
+      "id": "pit_exit",
+      "kind": "pit_exit",
+      "label": "Pit exit",
+      "xPct": 74.3,
+      "yPct": 46.26
+    },
+    {
+      "id": "pit_entry",
+      "kind": "pit_entry",
+      "label": "Pit entry",
+      "xPct": 75.42,
+      "yPct": 32.82
+    }
+  ]
+}

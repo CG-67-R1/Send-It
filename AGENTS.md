@@ -102,7 +102,7 @@ hermes
 # Ask: "Run full-review. Write docs/reviews/MOBILE_OPS_<date>.md. HEALTHY or CURSOR ALERT. Report only."
 # /track-data-analyst
 # Ask: "Run track data review. Include Bend GT/International/West/East lengths. Report only."
-# Ask: "Run track memory review. Geometry + elevation + diagnose + test:track-frames. Report only."
+# Ask: "Run track memory review. Geometry + elevation + diagnose + track-info maps. Report only."
 # /agent-apple
 # Ask: "Review this app before submitting to App Store Connect. Identify iOS issues. Report only."
 # Ask: "Update your skillset. weekly-skills. Refresh CURRENT.md from Apple/Expo sources."
@@ -119,14 +119,16 @@ Track structural gate (also part of mobile-review preflight):
 node scripts/validate-track-data.mjs
 ```
 
-Track Memory gate (weekly / on-demand track-data-analyst — report only, do not bake):
+Track Memory gate (weekly / on-demand track-data-analyst — report only, do not bake). The in-app screen is labelled **Track Details**.
 
 ```powershell
 node scripts/diagnose-track-memory.mjs
+node scripts/build-track-info-maps.mjs
 cd app
-npm run test:track-frames
 npx tsc --noEmit
 ```
+
+Info maps live in `app/src/data/trackInfo/`. After a bake, regenerate compact polylines with `node scripts/build-track-info-maps.mjs` and copy `app/src/data/trackInfo` to `android-app/src/data/trackInfo`. There is no arcade ride and no `test:track-frames`.
 
 **Turn hands are P0:** wrong left/right must not ship. Allowed hands live in `app/src/data/track_turn_verification.json`. After catalog edits run `node scripts/enforce-turn-verification.mjs --write` then the validator. GPX alone must never set turn direction.
 

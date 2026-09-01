@@ -52,9 +52,6 @@ export type RiderCoachStackParamList = {
     otherContext?: OtherTrackContext;
   };
   TrackMemoryHub: undefined;
-  TrackMemory: {
-    initialTrackId?: string;
-  };
   BikeSetupBasics: undefined;
   BikeSetupSheet: undefined;
   BikeBalanceSetup: undefined;
@@ -64,7 +61,7 @@ export type RiderCoachStackParamList = {
 
 type RiderCoachNav = NativeStackNavigationProp<RiderCoachStackParamList, 'RiderCoach'>;
 
-/** Hub: RR AI Coach, Track Prep, Bike Setup Basics, Tyre Wear Analysis, Track Memory. */
+/** Hub: RR AI Coach, Track Prep, Bike Setup Basics, Tyre Wear Analysis, Track Details. */
 export function RiderCoachScreen() {
   const route = useRoute<RouteProp<RiderCoachStackParamList, 'RiderCoach'>>();
   const navigation = useNavigation<RiderCoachNav>();
@@ -99,8 +96,8 @@ export function RiderCoachScreen() {
 
       <Text style={styles.sectionLabel}>Rider Coach</Text>
       <Text style={styles.privacyNote}>
-        Ask the coach when nobody is in the garage. Prep a track, walk corners, or lock in layout
-        memory before the day.
+        Ask the coach when nobody is in the garage. Prep a track, walk corners, or study the
+        layout before the day.
       </Text>
       <TouchableOpacity
         style={styles.navButton}
@@ -135,7 +132,7 @@ export function RiderCoachScreen() {
         onPress={() => navigation.navigate('TrackMemoryHub')}
         activeOpacity={0.8}
       >
-        <Text style={styles.navButtonText}>Track Memory</Text>
+        <Text style={styles.navButtonText}>Track Details</Text>
       </TouchableOpacity>
 
       <TouchableOpacity

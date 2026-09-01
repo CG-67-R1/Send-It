@@ -1,0 +1,111 @@
+{
+  "phillip_island": [
+    {
+      "id": "bass_strait",
+      "kind": "water",
+      "label": "Bass Strait",
+      "xPct": 50,
+      "yPct": 94,
+      "rxPct": 40,
+      "ryPct": 4.5
+    }
+  ],
+  "smp_gardner": [
+    {
+      "id": "infield_lake",
+      "kind": "water",
+      "label": "Lake",
+      "xPct": 58,
+      "yPct": 38,
+      "rxPct": 7,
+      "ryPct": 4.5
+    },
+    {
+      "id": "tunnel",
+      "kind": "bridge",
+      "label": "Tunnel",
+      "xPct": 70,
+      "yPct": 44
+    }
+  ],
+  "smp_brabham": [
+    {
+      "id": "infield_lake",
+      "kind": "water",
+      "label": "Lake",
+      "xPct": 58,
+      "yPct": 38,
+      "rxPct": 7,
+      "ryPct": 4.5
+    },
+    {
+      "id": "tunnel",
+      "kind": "bridge",
+      "label": "Tunnel",
+      "xPct": 68,
+      "yPct": 42
+    }
+  ],
+  "smp_druitt": [
+    {
+      "id": "infield_lake",
+      "kind": "water",
+      "label": "Lake",
+      "xPct": 50,
+      "yPct": 40,
+      "rxPct": 6,
+      "ryPct": 4
+    },
+    {
+      "id": "tunnel",
+      "kind": "bridge",
+      "label": "Tunnel",
+      "xPct": 72,
+      "yPct": 46
+    }
+  ],
+  "lakeside": [
+    {
+      "id": "lakeside_lake",
+      "kind": "water",
+      "label": "Lake",
+      "xPct": 48,
+      "yPct": 52,
+      "rxPct": 11,
+      "ryPct": 8
+    }
+  ],
+  "the_bend_international": [
+    {
+      "id": "bend_lake",
+      "kind": "water",
+      "label": "Lake",
+      "xPct": 62,
+      "yPct": 48,
+      "rxPct": 8,
+      "ryPct": 5
+    }
+  ],
+  "the_bend_gt": [
+    {
+      "id": "bend_lake",
+      "kind": "water",
+      "label": "Lake",
+      "xPct": 58,
+      "yPct": 46,
+      "rxPct": 7,
+      "ryPct": 4.5
+    }
+  ],
+  "morgan_park": [
+    {
+      "id": "morgan_dam",
+      "kind": "water",
+      "label": "Dam",
+      "xPct": 38,
+      "yPct": 62,
+      "rxPct": 6,
+      "ryPct": 4
+    }
+  ]
+}

@@ -29,7 +29,7 @@ RoadRacer first Play upload is a **new app**: after 31 Aug 2026 it **must** targ
 
 ## Expo / EAS watch-outs (this repo)
 
-- `@shopify/react-native-skia` **2.6.2** — native memory is invisible to Hermes GC. Reuse paint kits; do not dispose a kit while a picture is on GPU; landscape Activity recreate is a known first-open crash class (**LMK**).
+- Track Memory is a static SVG info map — `@shopify/react-native-skia` is **not** in the shipping Android app. Do not flag Skia paint-kit / landscape Activity recreate crashes for this feature.
 - `expo-screen-orientation` landscape lock on Track Memory — wait until the surface is landscape before mounting Skia Canvas.
 - `enableProguardInReleaseBuilds` + `enableShrinkResourcesInReleaseBuilds` are on — confirm Skia JNI is not stripped (`-keep` if Play crash is `UnsatisfiedLinkError`).
 - Physical device API: `https://send-it-ke7r.onrender.com`. Emulator-only `10.0.2.2` is **not** the Play binary.

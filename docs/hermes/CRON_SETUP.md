@@ -54,7 +54,7 @@ Create a cron job:
 - schedule: 0 9 * * 1
 - workdir: C:\Users\Administrator\.cursor\Send-It
 - skills: ["send-it/rr-app-expert", "send-it/mobile-review", "send-it/track-data-analyst"]
-- prompt: Run weekly-review mode. Full preflight (includes validate-track-data.mjs), production health-check (API_URL=https://send-it-ke7r.onrender.com), screen audit, track-data-analyst pass (catalog/geofences/corners/Bend+SMP layouts, plus Track Memory geometry + elevation + diagnose-track-memory.mjs + test:track-frames). Write docs/reviews/RR_REVIEW_<today>.md with a Track data section that includes a Track Memory subsection. Compare to prior RR_REVIEW_*.md, TRACK_GPX_ALIGN_*.md, and TRACK_MEMORY_REVIEW_*.md. Report only — no commits, no bake. End with P0/P1/P2 counts and top 3 Cursor fixes.
+- prompt: Run weekly-review mode. Full preflight (includes validate-track-data.mjs), production health-check (API_URL=https://send-it-ke7r.onrender.com), screen audit, track-data-analyst pass (catalog/geofences/corners/Bend+SMP layouts, plus Track Memory geometry + elevation + diagnose-track-memory.mjs + compact info maps). Write docs/reviews/RR_REVIEW_<today>.md with a Track data section that includes a Track Memory subsection. Compare to prior RR_REVIEW_*.md, TRACK_GPX_ALIGN_*.md, and TRACK_MEMORY_REVIEW_*.md. Report only — no commits, no bake. End with P0/P1/P2 counts and top 3 Cursor fixes.
 - continuable: true
 ```
 
@@ -126,11 +126,11 @@ Or for the mobile expert role:
 Run on-demand full-review now. Write docs/reviews/MOBILE_OPS_<today>.md. Notify Cursor if unhealthy; otherwise report HEALTHY.
 ```
 
-Or for Track Memory (geometry + elevation + ride tests):
+Or for Track Memory (geometry + elevation + info maps):
 
 ```
 /track-data-analyst
-Run track memory review. Geometry + elevation + diagnose + test:track-frames. Report only.
+Run track memory review. Geometry + elevation + diagnose + compact info maps. Report only.
 ```
 
 Or for Agent Apple (pre-App Store Connect iOS review):
@@ -163,7 +163,7 @@ Then open the report in Cursor and implement P0/P1 items.
 | Preflight only | `node scripts/mobile-review-preflight.mjs` |
 | Track data validator | `node scripts/validate-track-data.mjs` |
 | Track Memory diagnose | `node scripts/diagnose-track-memory.mjs` |
-| Track Memory golden frames | `cd app && npm run test:track-frames` |
+| Track Memory info maps | `node scripts/build-track-info-maps.mjs` |
 | Daily gate script | `node scripts/hermes-daily-gate.mjs` |
 | Hermes cron setup | `.\scripts\setup-hermes-cron.ps1` |
 | Production verify | `node scripts/verify-production.mjs` |

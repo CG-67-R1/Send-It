@@ -1,0 +1,8 @@
+{
+  "_comment": "Map-only sNorm overrides. Hands stay on tracks.json + track_turn_verification.json. Only stations where geometry hand matches the verified/catalog hand AND the bake was stacked on a neighbour (Hermes 2026-09-01 audit).",
+  "smp_gardner": {
+    "smp_gardner_t1": 0.239,
+    "smp_gardner_t3": 0.41,
+    "smp_gardner_t9": 0.913
+  }
+}

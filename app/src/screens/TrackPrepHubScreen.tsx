@@ -112,7 +112,7 @@ export function TrackPrepHubScreen() {
         <AppLogo size={COMPACT_LOGO_SIZE} />
       </View>
 
-      <PrivateSetupBanner detail="Pick a track once — Trackday Prep and Track Walk Notes both use it." />
+      <PrivateSetupBanner detail="Pick a track once — Trackday Prep, Track Walk Notes, and Track Details all use it." />
 
       <TrackPicker selectedTrackId={trackId} onSelect={handleSelectTrack} />
       {trackId === 'other' ? (
@@ -154,6 +154,22 @@ export function TrackPrepHubScreen() {
       >
         <Text style={styles.navButtonText}>Track Walk Notes</Text>
         <Text style={styles.navSub}>Corner notes and photos for this circuit</Text>
+      </TouchableOpacity>
+
+      <TouchableOpacity
+        style={[styles.navButton, (!trackReady || trackId === 'other') && styles.navButtonDisabled]}
+        disabled={!trackReady || !trackParams || trackId === 'other'}
+        onPress={() => {
+          navigation.navigate('TrackMemoryHub');
+        }}
+        activeOpacity={0.8}
+      >
+        <Text style={styles.navButtonText}>Track Details</Text>
+        <Text style={styles.navSub}>
+          {trackId === 'other'
+            ? 'Maps are for catalog circuits only'
+            : 'Map, pits, records, and saved corner notes'}
+        </Text>
       </TouchableOpacity>
     </ScrollView>
   );

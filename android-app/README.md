@@ -25,25 +25,42 @@ Do not symlink `../app` or `../packs`. Bundled packs live in `src/packs/bundled/
 
 ## Local
 
+Debug builds on an **Android emulator** call `http://10.0.2.2:3001` (this PC’s API). Start the API first, then install onto a **running** AVD. Do not use Vercel to verify Android.
+
+**Terminal 1 — API** (from repo root)
+
+```powershell
+.\scripts\start-local-api.ps1
+```
+
+**Terminal 2 — emulator** (from repo root; start the AVD in Android Studio Device Manager first)
+
+```powershell
+.\android-app\scripts\run-on-emulator.ps1
+```
+
+Or by hand:
+
 ```powershell
 cd android-app
 npm install
 npx tsc --noEmit
-npx expo start --android
+# JAVA_HOME = Android Studio JBR if `java` is missing from PATH
+npx expo run:android
 ```
 
-- **Emulator + local API:** `EXPO_PUBLIC_API_URL=http://10.0.2.2:3001` (see `.env.example`)
-- **Physical device:** default production API; no local `npm start` required
-- **Native run** (needs Android SDK / emulator or device): `npx expo run:android`
+- **Emulator + local API:** automatic in `__DEV__` (`http://10.0.2.2:3001`). Override with `.env` if needed (see `.env.example`).
+- **Physical device:** default production API; no local `npm start` required.
+- Set user `JAVA_HOME` to `C:\Program Files\Android\Android Studio\jbr` so Gradle works outside Studio. JDK 24+ also needs `JAVA_TOOL_OPTIONS=--enable-native-access=ALL-UNNAMED` (the run script sets this) so CMake/NdkLocator does not fail.
 
 ## Android Studio (debug / test)
 
 Studio is for **emulator, USB device, and APK Analyzer**. Play-shaped binaries still come from **EAS** (preview APK / production AAB). Do not commit `android/local.properties` (SDK path).
 
-1. Install [Android Studio](https://developer.android.com/studio). In **SDK Manager**: **Android SDK 36**, Build-Tools, Platform-Tools (`adb`), and a Google APIs emulator image (x86_64 or ARM matching this PC).
-2. JDK **17** — Studio’s bundled JBR is enough. If Gradle cannot find the SDK, set `ANDROID_HOME` to the Sdk folder Studio shows (usually `%LOCALAPPDATA%\Android\Sdk`).
-3. Open the **native** project [`android/`](android/) in Android Studio, **or** from this folder run `npx expo run:android` (Metro + Gradle).
-4. First run: emulator **or** USB debugging. Then the physical-device checklist below.
+1. Install [Android Studio](https://developer.android.com/studio). In **SDK Manager**: **Android SDK 36**, Build-Tools, Platform-Tools (`adb`), and a Google APIs / Play Store emulator image (x86_64 or ARM matching this PC).
+2. JDK — Studio’s bundled JBR (this machine: OpenJDK 25 under `...\Android Studio\jbr`). Set **user** `JAVA_HOME` to that folder and add `%JAVA_HOME%\bin` to PATH. If Gradle cannot find the SDK, set `ANDROID_HOME` to `%LOCALAPPDATA%\Android\Sdk`.
+3. Device Manager: start the AVD from **Android Studio** and leave that window open. **Pixel_10_Pro** works when `adb devices` shows `device`. If install fails with `Can't find service: package`, use **Cold Boot Now**, or start the lighter **RR_API36** AVD (Pixel 6, API 36). Confirm `adb shell service check package` prints `Service package: found`.
+4. Open the **native** project [`android/`](android/) and use Run, **or** `.\android-app\scripts\run-on-emulator.ps1` from the repo root (Metro + Gradle). The script waits for the package manager. Start the AVD in Studio first.
 5. On a release/preview APK or AAB, use **APK Analyzer**: confirm **targetSdk 36** and **16 KB ELF** alignment on native `.so` files.
 
 Play listing / Data safety paste pack: [`docs/play/PLAY_LISTING_COPY.md`](../docs/play/PLAY_LISTING_COPY.md). Console how-to: [`docs/play/PLAY_CONSOLE_SETUP.md`](../docs/play/PLAY_CONSOLE_SETUP.md).
@@ -67,6 +84,6 @@ Confirm each AAB: **targetSdk 36**, 16 KB ELF alignment on native `.so` (APK Ana
 ## Physical-device checklist
 
 - [ ] Cold launch against the production API
-- [ ] Track Memory: lock landscape, one circuit, no first-open crash
+- [ ] Track Details: open a circuit map, tap a corner
 - [ ] Camera / photos / calendar / location / notifications **denied** paths
 - [ ] Coach / Q&A after Render cold start (~30s)

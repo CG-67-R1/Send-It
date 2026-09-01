@@ -1,0 +1,213 @@
+{
+  "phillip_island": {
+    "surface": "Hot-mix asphalt. Abrasive when green; high grip once rubbered in. Coastal salt and wind can polish the line between sessions.",
+    "weatherUsual": "Exposed Bass Strait circuit. Cool, windy, and changeable — a sea breeze on the main straight is common. Mornings can be cold even in summer.",
+    "asbkRecords": [
+      {
+        "class": "ASBK Superbike",
+        "time": "1:30.790",
+        "rider": "Harrison Voight",
+        "machine": "Ducati V4R",
+        "date": "25 Feb 2024",
+        "source": "Computime motorcycle lap records, Jan 2026"
+      },
+      {
+        "class": "WorldSBK",
+        "time": "1:28.564",
+        "rider": "Nicolo Bulega",
+        "machine": "Ducati V4R",
+        "date": "25 Feb 2024",
+        "source": "Computime motorcycle lap records, Jan 2026 (international Superbike)"
+      }
+    ]
+  },
+  "smp_gardner": {
+    "surface": "Permanent asphalt GP circuit. Grip builds with rubber; night meetings under lights change how the surface looks more than how it feels.",
+    "weatherUsual": "Western Sydney. Hot and still in summer; cool, damp mornings in winter. Thunderstorms can sweep through in the afternoon.",
+    "asbkRecords": [
+      {
+        "class": "ASBK Superbike",
+        "time": "1:29.001",
+        "rider": "Josh Waters",
+        "machine": "Ducati V4R",
+        "date": "25 Mar 2023",
+        "source": "Computime motorcycle lap records, Jan 2026 (Gardner GP)"
+      }
+    ]
+  },
+  "smp_brabham": {
+    "surface": "Same complex as Gardner with the eastern Brabham extension. Extra kerbs and a longer lap — treat the added loop as a separate memory.",
+    "weatherUsual": "Western Sydney. Hot and still in summer; cool, damp mornings in winter.",
+    "asbkRecords": []
+  },
+  "smp_druitt": {
+    "surface": "Shorter western loop of Sydney Motorsport Park. Same asphalt family as Gardner; fewer corners, same pit straight.",
+    "weatherUsual": "Western Sydney. Hot and still in summer; cool, damp mornings in winter.",
+    "asbkRecords": []
+  },
+  "queensland_raceway": {
+    "surface": "Smooth National Circuit asphalt. Relatively flat and consistent; grip is high when rubbered in, slippery if dusty or green.",
+    "weatherUsual": "Ipswich. Warm to hot, with summer storms. Winter mornings can be foggy; the track often dries quickly.",
+    "asbkRecords": [
+      {
+        "class": "ASBK Superbike",
+        "time": "1:07.093",
+        "rider": "Harrison Voight",
+        "machine": "Ducati V4R",
+        "date": "28 Jun 2026",
+        "source": "ASBK.com.au race-one report, Queensland Raceway finale (Computime Jan 2026 still listed Josh Waters 1:07.265)"
+      }
+    ]
+  },
+  "the_bend_international": {
+    "surface": "Wide modern asphalt with generous run-off. High-grip when rubbered; dusty off-line after mixed car/bike days.",
+    "weatherUsual": "Tailem Bend, SA. Dry and windy is typical. Summer heat is harsh; winter days are cool and clear more often than wet.",
+    "asbkRecords": [
+      {
+        "class": "ASBK Superbike",
+        "time": "1:50.035",
+        "rider": "Cru Halliday",
+        "machine": "Ducati V4R",
+        "date": "9 Nov 2025",
+        "source": "Computime motorcycle lap records, after 2025 ASBK (International Circuit)"
+      }
+    ]
+  },
+  "the_bend_gt": {
+    "surface": "Longest Australian bitumen layout — International plus the GT extension. Same modern asphalt; more elevation feel over the extra loop than the bake records.",
+    "weatherUsual": "Tailem Bend, SA. Dry and windy is typical. Plan for heat and wind rather than rain.",
+    "asbkRecords": []
+  },
+  "wakefield_park": {
+    "surface": "One Raceway (formerly Wakefield Park). Compact, bumpy in places, with a short lap that rewards a tidy line.",
+    "weatherUsual": "Southern Tablelands. Cooler than the coast; frost or fog is possible in winter. Wind across the hill is common.",
+    "asbkRecords": [
+      {
+        "class": "ASBK Superbike",
+        "time": "58.626",
+        "rider": "Cameron Dunker",
+        "machine": "Yamaha YZF-R1",
+        "date": "5 Oct 2025",
+        "source": "Computime One Raceway sheet (current layout after resurface). ASBK.com.au spectator notes match."
+      }
+    ]
+  },
+  "morgan_park": {
+    "surface": "Layout K asphalt. Mix of slow hairpins and a decent back straight; grip is good when rubbered, greasy when damp under trees.",
+    "weatherUsual": "Warwick, QLD. Warm inland climate. Summer storms; winter mornings can be cold in the valleys.",
+    "asbkRecords": [
+      {
+        "class": "ASBK Superbike",
+        "time": "1:12.251",
+        "rider": "Mike Jones",
+        "machine": "Yamaha YZF-R1",
+        "date": "16 Jul 2023",
+        "source": "Computime motorcycle lap records, Jan 2026"
+      }
+    ]
+  },
+  "hidden_valley": {
+    "surface": "Smooth tropical asphalt. High grip in the dry; monsoon rain makes it very slippery until it dries.",
+    "weatherUsual": "Darwin. Dry season is hot and stable; build-up and wet season bring humidity, storms, and standing water.",
+    "asbkRecords": [
+      {
+        "class": "ASBK Superbike",
+        "time": "1:05.445",
+        "rider": "Oli Bayliss",
+        "machine": "Ducati V4R",
+        "date": "20 Jun 2021",
+        "source": "Computime Hidden Valley sheet, current at June 2022"
+      }
+    ]
+  },
+  "winton": {
+    "surface": "National Circuit asphalt with a few bumps. Short, technical, and often dusty off-line.",
+    "weatherUsual": "North-east Victoria. Hot summers, cold winters. Fog and frost are common early; the afternoon can be much warmer.",
+    "asbkRecords": [
+      {
+        "class": "ASBK Superbike",
+        "time": "1:19.274",
+        "rider": "Troy Herfoss",
+        "machine": "Honda CBR RR",
+        "date": "14 Mar 2021",
+        "source": "Computime Winton motorcycle lap records"
+      }
+    ]
+  },
+  "sandown": {
+    "surface": "Traditional suburban asphalt with a long start/finish straight. Can be bumpier than newer circuits.",
+    "weatherUsual": "Melbourne. Four seasons in a day — take a wet option seriously even if the morning is clear.",
+    "asbkRecords": []
+  },
+  "mallala": {
+    "surface": "Open, relatively flat asphalt. Dusty off-line; the line rubbers in during a meeting.",
+    "weatherUsual": "North of Adelaide. Dry, windy, and exposed. Summer heat and wind are the usual story; rain is less common than heat.",
+    "asbkRecords": [
+      {
+        "class": "ASBK Superbike",
+        "time": "1:06.503",
+        "rider": "Jamie Stauffer",
+        "machine": "Honda CBR RR",
+        "date": "17 May 2015",
+        "source": "Computime Mallala sheet (updated May 2016; last ASBK-era record on file)"
+      }
+    ]
+  },
+  "wanneroo": {
+    "surface": "Wanneroo Raceway asphalt. Short, flowing, and well used; grip is usually good on the line.",
+    "weatherUsual": "Perth. Hot and dry in summer; cool, sometimes wet winters. Sea breeze can arrive in the afternoon.",
+    "asbkRecords": [
+      {
+        "class": "ASBK Superbike",
+        "time": "55.446",
+        "rider": "Daniel Falzon",
+        "machine": "Yamaha YZF-R1",
+        "date": "5 Jun 2016",
+        "source": "Computime Barbagallo sheet (updated Jun 2016). Pre-dates the 2019 motorcycle chicane."
+      }
+    ]
+  },
+  "broadford": {
+    "surface": "State Motorcycle Complex road-race loop. Tight, technical asphalt with limited run-off in places.",
+    "weatherUsual": "Central Victoria. Cooler than Melbourne; fog and damp trees in winter, warm and dry in summer.",
+    "asbkRecords": [
+      {
+        "class": "Superbike",
+        "time": "55.858",
+        "rider": "Jonathan Nahlous",
+        "machine": "Yamaha YZF-R1",
+        "date": "16 Nov 2024",
+        "source": "Computime Broadford (Reg Hunt Park) sheet, Jan 2026 — state/club, not an ASBK round"
+      }
+    ]
+  },
+  "mac_park": {
+    "surface": "Mount Gambier Mac Park asphalt. Short club circuit; grip varies with how recently it has been used.",
+    "weatherUsual": "South-east SA. Cooler and more changeable than Adelaide. Wind and passing showers are common.",
+    "asbkRecords": [
+      {
+        "class": "Superbike",
+        "time": "1:07.846",
+        "rider": "Arthur Sissis",
+        "machine": "Suzuki 1000",
+        "date": "2 Oct 2022",
+        "source": "Computime Mac Park sheet, Jan 2026 — outright superbike, not an ASBK round"
+      }
+    ]
+  },
+  "calder_park": {
+    "surface": "Thunderdome / road-course asphalt. Club-level surface; dusty if the meeting is quiet.",
+    "weatherUsual": "North-west of Melbourne. Hot and dry in summer; similar changeable pattern to the rest of Melbourne in winter.",
+    "asbkRecords": []
+  },
+  "baskerville": {
+    "surface": "Compact Tasmanian asphalt. Bumpy in places; grip is decent on the line, greasy in the trees when damp.",
+    "weatherUsual": "Hobart hinterland. Cooler year-round. Wet and cold is the default planning assumption.",
+    "asbkRecords": []
+  },
+  "lakeside": {
+    "surface": "Old-school asphalt around the lake. Bumpy, technical, and unforgiving off-line.",
+    "weatherUsual": "North of Brisbane. Warm and humid. Summer storms; the lake can add mist on cool mornings.",
+    "asbkRecords": []
+  }
+}

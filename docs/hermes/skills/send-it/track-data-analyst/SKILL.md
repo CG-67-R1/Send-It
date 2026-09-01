@@ -55,14 +55,15 @@ Keep **one skill** with two modes (catalog + Track Memory). Do not invent a seco
 | Enforce allowlist | `scripts/enforce-turn-verification.mjs` |
 | Track Memory layouts | `app/src/data/trackMemory/*.json` |
 | Layout registry | `app/src/trackMemory/layouts.ts` |
+| Info maps | `app/src/data/trackInfo/` |
+| Compact map builder | `scripts/build-track-info-maps.mjs` |
 | Bake mapping (`TRACK_GPX`) | `scripts/bake-track-memory-layout.mjs` |
 | Geometry helpers | `scripts/lib/track-geometry.mjs` |
 | DEM / enriched GPX | `scripts/track-memory-gpx/` |
 | DEM enrich | `scripts/enrich-track-elevation.mjs` |
 | Diagnose | `scripts/diagnose-track-memory.mjs` |
-| Golden ride test | `cd app && npm run test:track-frames` |
+| Compact info maps | `node scripts/build-track-info-maps.mjs` (every bake should refresh `app/src/data/trackInfo/maps`) |
 | Lap-length probe | `scripts/probe-lap-length.mjs` |
-| Sample path (no Catmull-Rom) | `app/src/trackMemory/physics.ts` |
 
 ## Venue list rules
 
@@ -102,7 +103,7 @@ A baked layout is ready when all of these hold:
 1. **Geometry** — one closed lap, length within ~5% of catalog `lengthKm`, no phantom chicane on the pit straight, `s=0` on the start/finish straight (not automatically the longest straight).
 2. **Hands** — left/right only from catalog + `track_turn_verification.json`. GPX never invents L/R.
 3. **Elevation** — real hills use GPX `ele` or DEM, with the source recorded on the bake (`elevSource`: `gpx` | `dem` | omitted if flat). DEM must not replace a clean Emtron centreline.
-4. **Ride test** — `npm run test:track-frames` draws a non-empty finite road on every layout; `node scripts/diagnose-track-memory.mjs` reports remaining hand/kink issues as P1s for Cursor.
+4. **Info map** — compact polyline exists in `app/src/data/trackInfo/maps/<id>.json` with corners on the ribbon; `node scripts/diagnose-track-memory.mjs` reports remaining hand/kink issues as P1s for Cursor. There is no arcade ride.
 
 ## Step 1 — Structural gate (always)
 
@@ -146,10 +147,8 @@ From repo root / `app/`:
 |---------|------|---------|
 | `node scripts/validate-track-data.mjs` | existing catalog gate | **P0** if FAIL |
 | `node scripts/diagnose-track-memory.mjs` | 0 empty layouts; list hand misses and kinks | **P0** extra-lap / self-cross; **P1** verified-hand miss or pit-straight kink |
-| `cd app && npm run test:track-frames` | `PASS` and no `EMPTY ROAD` | **P0** if any layout has 0 quads |
 | `cd app && npx tsc --noEmit` | clean | **P0** if Track Memory types break |
-
-`markerFrames = 0` is **P1** (brake boards never fire), not a golden-test fail.
+| Info maps present | `app/src/data/trackInfo/maps/<id>.json` for every baked layout | **P1** if a bake has no compact map |
 
 ### Geometry rules
 
@@ -168,7 +167,6 @@ Encode these as standing checks, not one-off notes. Source of bake mapping: `TRA
 - Use DEM ([`scripts/enrich-track-elevation.mjs`](scripts/enrich-track-elevation.mjs) → `scripts/track-memory-gpx/`) only when Emtron altitude is zero/noise **and** the centreline is already a single lap. Do not DEM-enrich a double-lap trace.
 - Skip DEM for Queensland Raceway (noise / effectively flat) — already marked in the bake mapping (`Queensland_Raceway.gpx` on Desktop Emtron).
 - Bend International/GT are currently **flat Emtron** after the chicane fix; flag as **P2** “re-sample DEM Z onto Emtron XY” rather than switching back to the DEM path.
-- Flag **P1** wavy-road if elevation slope flips look like DEM stairsteps on a fast descent (Bathurst Dipper) — bake already `smoothElevation` + `smoothPlanar`; do **not** reintroduce uniform Catmull-Rom in [`app/src/trackMemory/physics.ts`](app/src/trackMemory/physics.ts) (`samplePath` is linear position + blended segment headings).
 
 ### Copy-forward diagnose misses
 
@@ -198,7 +196,7 @@ Add a **Track data** section to `docs/reviews/RR_REVIEW_YYYY-MM-DD.md`, includin
 
 ### Track Memory
 - diagnose-track-memory: PASS/FAIL (empty layouts / extra-lap / kinks / hand misses)
-- test:track-frames: PASS/FAIL
+- track-info maps: PASS/FAIL (one compact JSON per baked layout)
 - tsc: PASS/FAIL
 - GPX source per layout: Emtron Desktop vs scripts/track-memory-gpx (DEM)
 - [P0/P1/P2] geometry / elevation / boards
@@ -222,7 +220,7 @@ When the user asks for a track memory review, write `docs/reviews/TRACK_MEMORY_R
 ## Handoff
 
 1. Validator exit status
-2. Track Memory diagnose + `test:track-frames` + tsc results
+2. Track Memory diagnose + compact info maps + tsc results
 3. P0/P1 track-data counts (catalog + Track Memory)
 4. Top 3 Cursor catalog / bake fixes
-5. Re-verify: `node scripts/validate-track-data.mjs`, `node scripts/diagnose-track-memory.mjs`, `cd app && npm run test:track-frames`
+5. Re-verify: `node scripts/validate-track-data.mjs`, `node scripts/diagnose-track-memory.mjs`, `node scripts/build-track-info-maps.mjs`

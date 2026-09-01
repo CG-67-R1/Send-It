@@ -57,7 +57,7 @@ export function getDefaultTrackMemoryLayout(): TrackMemoryLayout {
   return LAYOUTS.mallala ?? LAYOUTS[TRACK_MEMORY_TRACK_IDS[0]];
 }
 
-/** Layouts available for the Track Memory game (id + display name). */
+/** Layouts with baked GPX (id + display name). Used as the map geometry source. */
 export function listTrackMemoryTracks(): { id: string; name: string }[] {
   return TRACK_MEMORY_TRACK_IDS.map((id) => {
     const layout = LAYOUTS[id];

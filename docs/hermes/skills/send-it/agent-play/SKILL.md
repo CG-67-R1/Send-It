@@ -53,7 +53,7 @@ Default when the user asks Agent Play to review the app: **pre-submit**.
 | EAS | `@motorsport-is-life/roadracer` |
 | Marketing version | Keep `1.0.0` unless the user says otherwise; EAS `production` auto-increments **versionCode** |
 | Min Android | 24 (`expo-build-properties` in `android-app/app.json`) |
-| Stack | Expo SDK 57, React Native, Skia (`@shopify/react-native-skia`) for Track Memory |
+| Stack | Expo SDK 57, React Native. Track Memory is a static SVG info map (no Skia). |
 | Play product root | **`android-app/`** (committed Gradle). `app/` is Vercel web + iOS EAS only. |
 | Android submit in eas.json | **Missing** in `android-app/eas.json` — no `submit.production.android`. iOS submit lives in `app/eas.json` only. |
 | Listing paste pack | `docs/play/PLAY_LISTING_COPY.md` |

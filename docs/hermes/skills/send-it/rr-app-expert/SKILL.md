@@ -32,7 +32,7 @@ You are the **standing expert** for the Send-It (RoadRace) Expo mobile app and i
 
 For screen-by-screen audit steps, also follow `send-it/mobile-review` (load that skill for full inventory).
 
-For track catalog / GPX / corner QA on weekly and on-demand reviews, also follow `send-it/track-data-analyst` (load that skill).
+For track catalog / GPX / Track Memory QA on weekly and on-demand reviews, also follow `send-it/track-data-analyst` (load that skill).
 
 ## Policy
 
@@ -86,9 +86,13 @@ Load and follow `send-it/track-data-analyst`:
 
 ```powershell
 node scripts/validate-track-data.mjs
+node scripts/diagnose-track-memory.mjs
+node scripts/build-track-info-maps.mjs
+cd app
+npx tsc --noEmit
 ```
 
-Add a **Track data** section to the weekly report (validator result, catalog vs geofence coverage, corner/layout P0–P2 findings, Bend/SMP multi-layout backlog). Do not edit `tracks.json` unless the user explicitly asks.
+Add a **Track data** section to the weekly report (validator result, catalog vs geofence coverage, corner/layout P0–P2 findings, Bend/SMP multi-layout backlog, **Track Memory** gate: geometry, elevation, diagnose, compact info maps). Do not edit `tracks.json` or bake layouts unless the user explicitly asks.
 
 ## Step 5 — Coding improvements (every full review)
 
@@ -129,6 +133,8 @@ Path: `docs/reviews/RR_REVIEW_YYYY-MM-DD.md`
 
 ## Track data
 (validator + catalog/geofence/corner findings from track-data-analyst)
+### Track Memory
+(diagnose-track-memory + track-info maps + tsc; GPX source per layout; geometry/elevation P0–P2)
 
 ## Per-screen findings
 ### ScreenName
