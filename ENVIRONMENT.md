@@ -127,7 +127,7 @@ cd android-app && npx tsc --noEmit
 
 Live `/health` can stay OK while **new** deploys fail — Render keeps the last good instance and emails every failed build.
 
-Do **not** autodeploy from AU cache commits or from `app/` / `android-app/` changes. Config in repo: [`render.yaml`](render.yaml) (Blueprint, optional). Dashboard equivalent:
+Do **autodeploy AU calendar cache commits** so the live `/calendar` endpoint serves the refreshed JSON. Do not autodeploy from `app/` / `android-app/` changes. Config in repo: [`render.yaml`](render.yaml) (Blueprint, optional). Dashboard equivalent:
 
 | Setting | Value |
 |---------|--------|
@@ -136,14 +136,14 @@ Do **not** autodeploy from AU cache commits or from `app/` / `android-app/` chan
 | Start Command | `npm start` |
 | Health Check Path | `/health` |
 | Auto-Deploy include | `api/**` |
-| Auto-Deploy ignore | `api/data/au-headlines.json`, `api/data/au-road-race-events.json` |
+| Auto-Deploy ignore | none for `api/data/au-road-race-events.json` |
 
-Cache JSON is fallback for failed live scrapes. Refresh it in git weekly; do not redeploy the API just to ship a new JSON file.
+Cache JSON is what the live API reads for AU events. Refresh it in git weekly and let Render redeploy the API after the cache commit.
 
 ## Deploy flow
 
 1. Merge to **`main`** on GitHub.
-2. **Render** redeploys the API only when `api/` code changes (see above), or via **Manual Deploy** in the dashboard.
+2. **Render** redeploys the API when `api/` code or AU calendar cache changes (see above), or via **Manual Deploy** in the dashboard.
 3. **Vercel** auto-deploys `app/` on push to `main` (web only — **not** the Android binary).
 4. Confirm: Vercel deployment **READY**, `GET /health` on Render OK, web app loads headlines.
 5. **Android / Play** is built from [`android-app/`](android-app/) via EAS (`npx eas-cli@latest build -p android`). It is **not** verified on Vercel. Install the APK/AAB on a physical phone or Play Internal testing.

@@ -208,7 +208,7 @@ If you prefer Netlify:
   On Render’s free tier, the service sleeps after inactivity. The first request after a while can take 30–50 seconds; refresh once and wait.
 
 - **Build fails on Render / daily failure emails:**  
-  Set **Root Directory** to `api` (Build `npm install`, Start `npm start`) and auto-deploy **only** `api/**`, ignoring `api/data/au-headlines.json`. Cache-only commits must use `[skip render]`. See [`ENVIRONMENT.md`](ENVIRONMENT.md) and [`render.yaml`](render.yaml).
+  Set **Root Directory** to `api` (Build `npm install`, Start `npm start`) and auto-deploy `api/**`. Do not ignore `api/data/au-road-race-events.json`: the live `/calendar` endpoint reads that JSON from the deployed filesystem. See [`ENVIRONMENT.md`](ENVIRONMENT.md) and [`render.yaml`](render.yaml).
 
 ---
 

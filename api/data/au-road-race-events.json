@@ -1,8 +1,10 @@
 {
-  "updatedAt": "2026-08-31T12:38:56.808Z",
+  "updatedAt": "2026-09-01T11:13:00.000Z",
   "sourceCount": 26,
-  "eventCount": 76,
-  "errors": [],
+  "eventCount": 79,
+  "errors": [
+    "club_sa_phoenixmcc: returned 0 events; retained 3 previous cache event(s)"
+  ],
   "events": [
     {
       "name": "Hartwell Club Championships Round 1",
@@ -175,7 +177,7 @@
     {
       "name": "Morgan Park Raceway 31 Aug-1 Sept 2026 DOUBLE!!",
       "start_date": "2026-08-31",
-      "end_date": "2026-08-31",
+      "end_date": "2026-09-01",
       "state": "QLD",
       "venue": "Morgan Park Raceway",
       "organiser": "Champions Ride Days",
@@ -198,6 +200,20 @@
       "entry_url": "https://championsridedays.com.au/product/morgan-park-raceway-tuesday-6/",
       "discipline": "track_day",
       "notes": "Track day — book via Champions Ride Days",
+      "confidence": "high"
+    },
+    {
+      "name": "State Titles + Cafnix R3",
+      "start_date": "2026-09-01",
+      "end_date": "2026-09-02",
+      "state": "SA",
+      "venue": "The Bend",
+      "organiser": "Phoenix MCC",
+      "source_id": "club_sa_phoenixmcc",
+      "source_url": "https://phoenixmcc.org.au/track-calendar/",
+      "entry_url": "https://phoenixmcc.org.au/track-calendar/",
+      "discipline": "road_race",
+      "notes": null,
       "confidence": "high"
     },
     {
@@ -231,7 +247,7 @@
     {
       "name": "Collie Motorplex 12-13 September, 2026 DOUBLE!!",
       "start_date": "2026-09-12",
-      "end_date": "2026-09-12",
+      "end_date": "2026-09-13",
       "state": "WA",
       "venue": "Collie Motorplex",
       "organiser": "Champions Ride Days",
@@ -315,7 +331,7 @@
     {
       "name": "Morgan Park Raceway 16-17 Sept 2026 DOUBLE!!",
       "start_date": "2026-09-16",
-      "end_date": "2026-09-16",
+      "end_date": "2026-09-17",
       "state": "QLD",
       "venue": "Morgan Park Raceway",
       "organiser": "Champions Ride Days",
@@ -761,6 +777,20 @@
       "confidence": "high"
     },
     {
+      "name": "State Titles + Scooter Race",
+      "start_date": "2026-10-27",
+      "end_date": "2026-10-28",
+      "state": "SA",
+      "venue": "Mt Gambier",
+      "organiser": "Phoenix MCC",
+      "source_id": "club_sa_phoenixmcc",
+      "source_url": "https://phoenixmcc.org.au/track-calendar/",
+      "entry_url": "https://phoenixmcc.org.au/track-calendar/",
+      "discipline": "road_race",
+      "notes": null,
+      "confidence": "high"
+    },
+    {
       "name": "Broadford Raceway",
       "start_date": "2026-10-30",
       "end_date": "2026-10-30",
@@ -791,7 +821,7 @@
     {
       "name": "The Bend Motorsport Park 30-31 Oct, 2026 DOUBLE DAY!!",
       "start_date": "2026-10-30",
-      "end_date": "2026-10-30",
+      "end_date": "2026-10-31",
       "state": "SA",
       "venue": "The Bend Motorsport Park",
       "organiser": "Champions Ride Days",
@@ -896,6 +926,20 @@
       "source_id": "club_vic_computime",
       "source_url": "https://www.computime.com.au/calendar/calendar",
       "entry_url": "https://www.computime.com.au/calendar/calendar",
+      "discipline": "road_race",
+      "notes": null,
+      "confidence": "high"
+    },
+    {
+      "name": "State Titles + Cafnix R4",
+      "start_date": "2026-11-03",
+      "end_date": "2026-11-04",
+      "state": "SA",
+      "venue": "The Bend",
+      "organiser": "Phoenix MCC",
+      "source_id": "club_sa_phoenixmcc",
+      "source_url": "https://phoenixmcc.org.au/track-calendar/",
+      "entry_url": "https://phoenixmcc.org.au/track-calendar/",
       "discipline": "road_race",
       "notes": null,
       "confidence": "high"

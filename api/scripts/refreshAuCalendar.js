@@ -4,7 +4,7 @@
  */
 import fs from 'fs/promises';
 import path from 'path';
-import { fileURLToPath } from 'url';
+import { fileURLToPath, pathToFileURL } from 'url';
 import {
   scrapeAllSources,
   dedupeEvents,
@@ -15,6 +15,17 @@ import {
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const OUT_FILE = path.join(__dirname, '..', 'data', 'au-road-race-events.json');
 const STATIC_FILE = path.join(__dirname, '..', 'data', 'calendar-static.json');
+
+export async function loadPreviousCacheEvents() {
+  try {
+    const raw = await fs.readFile(OUT_FILE, 'utf8');
+    const data = JSON.parse(raw);
+    const events = Array.isArray(data) ? data : (data.events || []);
+    return Array.isArray(events) ? events : [];
+  } catch {
+    return [];
+  }
+}
 
 async function loadStaticDedupeKeys() {
   try {
@@ -33,12 +44,41 @@ async function loadStaticDedupeKeys() {
   }
 }
 
+export function retainMissingSourceEvents(scrapedEvents, previousEvents, config, errors) {
+  const scrapedSourceIds = new Set(
+    scrapedEvents.map((ev) => ev?.source_id).filter((sourceId) => typeof sourceId === 'string')
+  );
+  const today = new Date();
+  today.setHours(0, 0, 0, 0);
+  const todayStr = today.toISOString().slice(0, 10);
+  const retained = [];
+
+  for (const source of config.sources || []) {
+    if (!source?.id || source.type === 'club_directory_reference') continue;
+    if (scrapedSourceIds.has(source.id)) continue;
+
+    const previousForSource = previousEvents.filter(
+      (ev) => ev?.source_id === source.id && (ev.end_date || ev.start_date || '') >= todayStr
+    );
+    if (previousForSource.length === 0) continue;
+
+    retained.push(...previousForSource);
+    errors.push(
+      `${source.id}: returned 0 events; retained ${previousForSource.length} previous cache event(s)`
+    );
+  }
+
+  return [...scrapedEvents, ...retained];
+}
+
 async function main() {
   const config = loadSourcesConfig();
   const { events: scraped, errors } = await scrapeAllSources();
+  const previousEvents = await loadPreviousCacheEvents();
+  const scrapedWithRetained = retainMissingSourceEvents(scraped, previousEvents, config, errors);
 
   const staticKeys = await loadStaticDedupeKeys();
-  const withoutStaticDupes = scraped.filter((ev) => {
+  const withoutStaticDupes = scrapedWithRetained.filter((ev) => {
     const key = `${(ev.name || '').toLowerCase()}|${ev.start_date}|${(ev.venue || '').toLowerCase()}`;
     return !staticKeys.has(key);
   });
@@ -61,7 +101,9 @@ async function main() {
   if (errors.length) console.warn(`Errors (${errors.length}):`, errors.join('; '));
 }
 
-main().catch((e) => {
-  console.error(e);
-  process.exit(1);
-});
+if (process.argv[1] && import.meta.url === pathToFileURL(process.argv[1]).href) {
+  main().catch((e) => {
+    console.error(e);
+    process.exit(1);
+  });
+}

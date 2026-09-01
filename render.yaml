@@ -12,5 +12,3 @@ services:
     buildFilter:
       paths:
         - api/**
-      ignoredPaths:
-        - api/data/au-road-race-events.json
