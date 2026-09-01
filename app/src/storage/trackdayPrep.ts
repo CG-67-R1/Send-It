@@ -6,6 +6,7 @@ import { logStorageError } from './logStorageError';
 const KEY_SELECTED = STORAGE_KEYS.TRACK_PREP_SELECTED_TRACK;
 const KEY_DRAFT = STORAGE_KEYS.TRACKDAY_PREP_DRAFT;
 const KEY_HISTORY = STORAGE_KEYS.TRACKDAY_PREP_HISTORY;
+export const TRACKDAY_PREP_STORAGE_KEYS = [KEY_SELECTED, KEY_DRAFT, KEY_HISTORY] as const;
 
 export type RiderLevel = 'newbie' | 'can_ride' | 'experienced' | 'racer';
 export type TyreType = 'road' | 'race_slicks' | 'wets';
@@ -121,6 +122,10 @@ export async function saveTrackPrepSelectedTrack(sel: TrackPrepSelectedTrack): P
   } catch (e) {
     logStorageError('saveTrackPrepSelectedTrack', e);
   }
+}
+
+export async function clearTrackdayPrepData(): Promise<void> {
+  await AsyncStorage.multiRemove([...TRACKDAY_PREP_STORAGE_KEYS]);
 }
 
 export async function getTrackdayPrepDraft(): Promise<TrackdayPrepDraft | null> {
