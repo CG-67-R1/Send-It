@@ -26,7 +26,7 @@ import { AvatarFaceCameraModal } from '../components/AvatarFaceCameraModal';
 import { AvatarFaceEllipse } from '../components/AvatarFaceEllipse';
 import { useAvatarFacePicker } from '../hooks/useAvatarFacePicker';
 
-type Activity = 'race' | 'track_days' | 'just_love_bikes' | 'race_one_day';
+type Activity = 'race' | 'intermediate' | 'track_days' | 'just_love_bikes' | 'race_one_day';
 
 /** Keep in sync with step UI below — progress dots derive from this list. */
 const ONBOARDING_STEPS = [
@@ -42,6 +42,7 @@ const ONBOARDING_STEPS = [
 
 const ACTIVITY_OPTIONS: { value: Activity; label: string }[] = [
   { value: 'race', label: 'I race 🏁' },
+  { value: 'intermediate', label: 'Intermediate rider' },
   { value: 'track_days', label: 'Track days only 🛞' },
   { value: 'just_love_bikes', label: 'Just love bikes 🏍️' },
   { value: 'race_one_day', label: "I would like to know about local racing" },
@@ -287,7 +288,10 @@ export function OnboardingScreen({ onComplete }: OnboardingScreenProps) {
         {step === 4 && (
           <View style={styles.step}>
             <Text style={styles.title}>How do you ride?</Text>
-            <Text style={styles.subtitle}>We’re here for all of it.</Text>
+            <Text style={styles.subtitle}>
+              We’re here for all of it. Coach and Bike Setup will match this — simpler for track days
+              and getting into racing, more detail if you’re intermediate or already racing.
+            </Text>
             {ACTIVITY_OPTIONS.map((opt) => (
               <TouchableOpacity
                 key={opt.value}
@@ -662,6 +666,13 @@ export function OnboardingScreen({ onComplete }: OnboardingScreenProps) {
             <Text style={styles.summaryClosing}>
               Whether you race, do track days, or just love bikes — RoadRacer is here for coach, bike setup, and Q&A when you don’t have people to ask. Time to send it. 🏁
             </Text>
+            <View style={[styles.justSendItBox, { marginTop: 16 }]}>
+              <Text style={styles.justSendItTitle}>Coach matches how you ride</Text>
+              <Text style={styles.justSendItText}>
+                RoadRacer AI uses your answers so Coach and Bike Setup stay at the right level of
+                detail. You can change how you ride anytime in Settings.
+              </Text>
+            </View>
             <View style={styles.legalBlock}>
               <Text style={styles.legalIntro}>
                 Before you continue, please review how RoadRacer handles your data.

@@ -1,4 +1,6 @@
 import { apiErrorMessage, apiFetch, LLM_API_TIMEOUT_MS, ROADRACE_CHAT_URL } from '../../constants/api';
+import { riderAiSkillFromActivity } from '../navigation/homeMode';
+import { getOnboardingAnswers } from '../storage/onboarding';
 import type { TrackWalkSession } from '../storage/trackWalk';
 import { formatSessionForExport } from '../storage/trackWalk';
 
@@ -56,12 +58,15 @@ export async function sendCoachChat(
   attachments: CoachAttachmentPayload[] = []
 ): Promise<CoachChatResult> {
   try {
+    const answers = await getOnboardingAnswers();
+    const riderSkill = riderAiSkillFromActivity(answers?.activity);
     const res = await apiFetch(ROADRACE_CHAT_URL, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({
         message,
         mode,
+        riderSkill,
         history: history.map((m) => ({ role: m.role, content: m.content })),
         attachments,
       }),

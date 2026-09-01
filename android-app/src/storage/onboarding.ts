@@ -6,10 +6,12 @@ import { logStorageError } from './logStorageError';
 const KEY_ONBOARDING_DONE = STORAGE_KEYS.ONBOARDING_DONE;
 const KEY_ONBOARDING_ANSWERS = STORAGE_KEYS.ONBOARDING_ANSWERS;
 
+export type RideActivity = 'race' | 'intermediate' | 'track_days' | 'just_love_bikes' | 'race_one_day';
+
 export interface OnboardingAnswers {
   favouriteBike: string;
   favouriteRider: string;
-  activity: 'race' | 'track_days' | 'just_love_bikes' | 'race_one_day';
+  activity: RideActivity;
   /** Optional for backward compatibility; prefer avatarId. */
   knowsJustSendIt?: boolean;
   /** Predefined avatar id (e.g. 'devil', 'black_no_face') or 'custom' when using uploaded photo. */

@@ -192,7 +192,7 @@ app.post('/roadrace-ai/ask', async (req, res) => {
 });
 
 app.post('/roadrace-ai/chat', async (req, res) => {
-  const { message, mode = 'coach', history = [], attachments = [] } = req.body || {};
+  const { message, mode = 'coach', history = [], attachments = [], riderSkill } = req.body || {};
   const text = typeof message === 'string' ? message.trim() : '';
   const hasAttachments = Array.isArray(attachments) && attachments.length > 0;
   if (!text && !hasAttachments) {
@@ -220,7 +220,7 @@ app.post('/roadrace-ai/chat', async (req, res) => {
     : [];
   messages.push({ role: 'user', content: text || 'Please review the attached file(s).' });
   try {
-    const result = await roadraceAiChat(messages, validMode, attachments);
+    const result = await roadraceAiChat(messages, validMode, attachments, riderSkill);
     if (result.error) {
       return res.status(500).json({ error: result.error, reply: '' });
     }

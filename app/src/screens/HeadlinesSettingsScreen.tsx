@@ -366,7 +366,10 @@ export function HeadlinesSettingsScreen() {
         <Text style={[styles.fieldLabel, { marginTop: 16 }]}>How you ride</Text>
         <Text style={styles.sectionSubtitle}>
           Home shows setup tools if you race, or coach and track prep if you ride track days.
-          Current home: {homeModeFromActivity(activity) === 'setup' ? 'Setup' : 'Learn'}.
+          Coach and Bike Setup also use this: simpler for track days and getting into racing, more
+          detail if you are intermediate or already racing. Change it anytime — it applies to the
+          next AI reply. Current home:{' '}
+          {homeModeFromActivity(activity) === 'setup' ? 'Setup' : 'Learn'}.
         </Text>
         {RIDE_ACTIVITY_OPTIONS.map((option) => (
           <TouchableOpacity

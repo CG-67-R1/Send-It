@@ -301,9 +301,48 @@ function mapRulesSources(chunks) {
   }));
 }
 
-function getSystemPrompt(mode, faqs) {
+const RIDER_SKILL_LAYERS = {
+  novice: `
+Rider experience: track days or getting into racing. Simplify prompts and replies.
+- Everyday language. Avoid jargon, or explain it in a few words.
+- One main focus. Recommend at most one change at a time.
+- Keep replies short: a few sentences or a short list, not a race-engineer dump.
+- Ask at most two follow-up questions.
+- Coaching: throttle control, braking markers, body position basics, vision.
+- Bike setup: safe basics only (tyre pressures, obvious feel). Do not dive into fine clicker, geometry, or ride-height work unless they ask and have data.`,
+  intermediate: `
+Rider experience: intermediate track rider. Give more coaching and bike-setup detail.
+- Combine technique and setup when relevant.
+- Introduce small, reversible adjustments and say what to check next.
+- Coaching: throttle timing, trail braking, line choice, consistency.
+- Bike setup: pressures, sag, basic damping — explain why, still one change at a time.`,
+  advanced: `
+Rider experience: club or national racer. Use race-engineer depth when they have data.
+- Precise, technical language is OK.
+- Include why a change works and what to check next session.
+- Coaching: fine throttle, edge grip, race craft, corner-specific detail.
+- Bike setup: damping, geometry, tyre windows, gearing — still safety rules and one change at a time. Do not invent click counts or numbers.`,
+};
+
+const SKILL_MAX_TOKENS = {
+  novice: 640,
+  intermediate: 1024,
+  advanced: 1400,
+};
+
+/**
+ * @param {unknown} raw
+ * @returns {'novice' | 'intermediate' | 'advanced'}
+ */
+export function normalizeRiderSkill(raw) {
+  if (raw === 'intermediate' || raw === 'advanced' || raw === 'novice') return raw;
+  return 'novice';
+}
+
+function getSystemPrompt(mode, faqs, riderSkill = 'novice') {
+  const skill = normalizeRiderSkill(riderSkill);
   const base = mode === 'bikesetup' ? BIKESETUP_SYSTEM : COACH_SYSTEM;
-  return base + SHARED_RULES + formatFaqsForPrompt(faqs, mode);
+  return `${base}${SHARED_RULES}${RIDER_SKILL_LAYERS[skill]}${formatFaqsForPrompt(faqs, mode, skill)}`;
 }
 
 /**
@@ -535,6 +574,7 @@ const ALLOWED_FILE_TYPES = [
  * @param {Array<{ role: 'user' | 'assistant', content: string }>} messages - conversation history (newest last)
  * @param {'coach' | 'bikesetup'} mode
  * @param {Array<{ type: 'image'|'file', name: string, mimeType?: string, data?: string, content?: string }>} attachments - only applied to the final user turn
+ * @param {'novice' | 'intermediate' | 'advanced'} [riderSkill]
  * @returns {Promise<{ content: string, error?: string }>}
  */
 function buildUserContent(text, attachments = []) {
@@ -589,14 +629,15 @@ function normalizeAttachments(raw) {
   return out;
 }
 
-export async function chat(messages, mode = 'coach', attachments = []) {
+export async function chat(messages, mode = 'coach', attachments = [], riderSkill = 'novice') {
   const apiKey = process.env.OPENAI_API_KEY;
   if (!apiKey) {
     return { content: '', error: 'RoadRace AI is not configured. Set OPENAI_API_KEY on the server.' };
   }
 
+  const skill = normalizeRiderSkill(riderSkill);
   const faqs = await loadRiderAiFaqs();
-  const systemPrompt = getSystemPrompt(mode, faqs);
+  const systemPrompt = getSystemPrompt(mode, faqs, skill);
   const normalizedAttachments = normalizeAttachments(attachments);
   const openaiMessages = [{ role: 'system', content: systemPrompt }];
 
@@ -623,7 +664,7 @@ export async function chat(messages, mode = 'coach', attachments = []) {
         ? process.env.OPENAI_VISION_MODEL || process.env.OPENAI_MODEL || 'gpt-4o-mini'
         : process.env.OPENAI_MODEL || 'gpt-4o-mini',
       messages: openaiMessages,
-      max_tokens: 1024,
+      max_tokens: SKILL_MAX_TOKENS[skill],
     });
 
     const content = completion.choices?.[0]?.message?.content?.trim() || '';

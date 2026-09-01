@@ -127,7 +127,7 @@ function formatFaqBlock(items) {
     .join('\n\n');
 }
 
-export function formatFaqsForPrompt(faqs, mode) {
+export function formatFaqsForPrompt(faqs, mode, riderSkill = 'novice') {
   const sections = [];
 
   if (faqs.global_principles?.length) {
@@ -136,9 +136,9 @@ export function formatFaqsForPrompt(faqs, mode) {
     );
   }
 
-  if (faqs.novice_guidelines) {
+  if (faqs.novice_guidelines && riderSkill === 'novice') {
     sections.push(
-      `Novice-friendly response guidelines:\n${stripChatMarkdown(faqs.novice_guidelines)}`
+      `Novice-friendly response guidelines (profile already chose simple coaching — do not ask the rider to pick Quick vs Detailed):\n${stripChatMarkdown(faqs.novice_guidelines)}`
     );
   }
 
