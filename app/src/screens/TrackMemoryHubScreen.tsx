@@ -8,11 +8,11 @@ import { TrackFacilityMap } from '../components/TrackFacilityMap';
 import { TrackPicker } from '../components/TrackPicker';
 import { COMPACT_LOGO_SIZE } from '../constants/logoSizing';
 import {
-  TRACK_INFO_TRACK_IDS,
   elevationSummary,
   getTrackInfoFacts,
   getTrackInfoMap,
-  listTrackInfoTracks,
+  getTrackInfoMapProofStatus,
+  listVerifiedTrackInfoTracks,
 } from '../data/trackInfo';
 import type { TrackInfoCorner } from '../data/trackInfo/types';
 import type { CornerDefinition, TrackDefinition } from '../data/tracks';
@@ -48,7 +48,8 @@ function latestCornerNote(
 
 export function TrackMemoryHubScreen() {
   const navigation = useNavigation<Nav>();
-  const infoTracks = useMemo(() => listTrackInfoTracks(), []);
+  const infoTracks = useMemo(() => listVerifiedTrackInfoTracks(), []);
+  const infoTrackIds = useMemo(() => infoTracks.map((track) => track.id), [infoTracks]);
   const [trackId, setTrackId] = useState<string | null>(
     infoTracks.length === 1 ? infoTracks[0].id : null
   );
@@ -68,14 +69,14 @@ export function TrackMemoryHubScreen() {
         if (cancelled) return;
         setRiderSkill(skill);
         if (!saved) return;
-        if (getTrackInfoMap(saved.trackId)) {
+        if (infoTrackIds.includes(saved.trackId)) {
           setTrackId(saved.trackId);
         }
       })();
       return () => {
         cancelled = true;
       };
-    }, [])
+    }, [infoTrackIds])
   );
 
   const map = trackId ? getTrackInfoMap(trackId) : undefined;
@@ -94,14 +95,14 @@ export function TrackMemoryHubScreen() {
   }, [trackId, selectedMapCorner]);
 
   const handleSelectTrack = useCallback((track: TrackDefinition) => {
-    if (!getTrackInfoMap(track.id)) return;
+    if (!infoTrackIds.includes(track.id) || !getTrackInfoMap(track.id)) return;
     setTrackId(track.id);
     setSelectedMapCorner(null);
     void saveTrackPrepSelectedTrack({
       trackId: track.id,
       trackName: track.name,
     });
-  }, []);
+  }, [infoTrackIds]);
 
   const openCorner = useCallback(
     async (corner: TrackInfoCorner) => {
@@ -151,14 +152,19 @@ export function TrackMemoryHubScreen() {
         below so you can add notes.
       </Text>
 
-      <TrackPicker
-        selectedTrackId={trackId}
-        onSelect={handleSelectTrack}
-        allowedTrackIds={TRACK_INFO_TRACK_IDS}
-      />
+      {infoTracks.length > 0 ? (
+        <TrackPicker
+          selectedTrackId={trackId}
+          onSelect={handleSelectTrack}
+          allowedTrackIds={infoTrackIds}
+        />
+      ) : null}
 
       {infoTracks.length === 0 ? (
-        <Text style={styles.hint}>No track maps are available yet.</Text>
+        <Text style={styles.hint}>
+          Track Details maps are temporarily hidden while official board numbers and pit locations
+          are owner-verified. Current proof status: {getTrackInfoMapProofStatus('phillip_island')}.
+        </Text>
       ) : (
         <Text style={styles.hint}>
           {infoTracks.length} Australian circuits — zoom the map, then tap a corner in the list.

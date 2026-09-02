@@ -20,6 +20,7 @@ import winton from './maps/winton.json';
 import extraInfra from './infrastructure.json';
 import factsDoc from './facts.json';
 import type { TrackInfoFacts, TrackInfoInfra, TrackInfoMap } from './types';
+import { areTrackInfoCornersVerified, getTrackInfoMapProofStatus } from './mapProofStatus';
 export {
   areTrackInfoCornersVerified,
   getTrackInfoMapProofStatus,
@@ -58,6 +59,14 @@ export function getTrackInfoMap(trackId: string): TrackInfoMap | undefined {
 
 export function listTrackInfoTracks(): { id: string; name: string }[] {
   return TRACK_INFO_TRACK_IDS.map((id) => ({ id, name: MAPS[id].name }));
+}
+
+export function listVerifiedTrackInfoTracks(): { id: string; name: string }[] {
+  return listTrackInfoTracks().filter((track) => areTrackInfoCornersVerified(track.id));
+}
+
+export function hasVerifiedTrackInfoTracks(): boolean {
+  return TRACK_INFO_TRACK_IDS.some((id) => areTrackInfoCornersVerified(id));
 }
 
 export function getTrackInfoFacts(trackId: string): TrackInfoFacts | undefined {

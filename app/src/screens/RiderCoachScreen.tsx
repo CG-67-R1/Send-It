@@ -4,6 +4,7 @@ import { useNavigation, useRoute, type RouteProp } from '@react-navigation/nativ
 import type { NativeStackNavigationProp } from '@react-navigation/native-stack';
 import { AppLogo } from '../components/AppLogo';
 import { COMPACT_LOGO_SIZE } from '../constants/logoSizing';
+import { hasVerifiedTrackInfoTracks } from '../data/trackInfo';
 import type { OtherTrackContext } from '../data/tracks';
 import type { CoachChatDisplayMessage, CoachChatMessage, CoachMode } from '../utils/coachChat';
 import { safeOpenUrl } from '../utils/safeOpenUrl';
@@ -65,6 +66,7 @@ type RiderCoachNav = NativeStackNavigationProp<RiderCoachStackParamList, 'RiderC
 export function RiderCoachScreen() {
   const route = useRoute<RouteProp<RiderCoachStackParamList, 'RiderCoach'>>();
   const navigation = useNavigation<RiderCoachNav>();
+  const trackDetailsAvailable = hasVerifiedTrackInfoTracks();
 
   // Deep-link / seed handoff: open the dedicated chat screen with clear dialog space
   useEffect(() => {
@@ -128,11 +130,15 @@ export function RiderCoachScreen() {
         <Text style={styles.navButtonText}>Tyre Wear Analysis</Text>
       </TouchableOpacity>
       <TouchableOpacity
-        style={styles.navButton}
+        style={[styles.navButton, !trackDetailsAvailable && styles.navButtonDisabled]}
         onPress={() => navigation.navigate('TrackMemoryHub')}
+        disabled={!trackDetailsAvailable}
         activeOpacity={0.8}
       >
         <Text style={styles.navButtonText}>Track Details</Text>
+        {!trackDetailsAvailable ? (
+          <Text style={styles.navSub}>Official board maps and pit locations awaiting verification</Text>
+        ) : null}
       </TouchableOpacity>
 
       <TouchableOpacity
@@ -190,11 +196,13 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
   },
+  navButtonDisabled: { opacity: 0.45, borderColor: '#64748b' },
   navButtonText: {
     fontFamily: 'RaceSport',
     fontSize: 17,
     color: '#f8fafc',
   },
+  navSub: { marginTop: 4, fontSize: 13, color: '#94a3b8', lineHeight: 18, textAlign: 'center' },
   featureRequestLink: {
     marginTop: 8,
     paddingVertical: 12,

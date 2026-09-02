@@ -7,6 +7,7 @@ import { OtherTrackContextForm } from '../components/OtherTrackContextForm';
 import { PrivateSetupBanner } from '../components/PrivateSetupBanner';
 import { TrackPicker } from '../components/TrackPicker';
 import { COMPACT_LOGO_SIZE } from '../constants/logoSizing';
+import { areTrackInfoCornersVerified } from '../data/trackInfo';
 import type { OtherTrackContext, TrackDefinition } from '../data/tracks';
 import { getTrackById, isOtherTrackComplete } from '../data/tracks';
 import {
@@ -58,6 +59,12 @@ export function TrackPrepHubScreen() {
     trackId &&
       selectedTrack &&
       (trackId !== 'other' || isOtherTrackComplete(otherContext))
+  );
+  const trackDetailsAvailable = Boolean(
+    trackReady &&
+      trackId &&
+      trackId !== 'other' &&
+      areTrackInfoCornersVerified(trackId)
   );
 
   const persistSelection = useCallback(
@@ -157,8 +164,8 @@ export function TrackPrepHubScreen() {
       </TouchableOpacity>
 
       <TouchableOpacity
-        style={[styles.navButton, (!trackReady || trackId === 'other') && styles.navButtonDisabled]}
-        disabled={!trackReady || !trackParams || trackId === 'other'}
+        style={[styles.navButton, !trackDetailsAvailable && styles.navButtonDisabled]}
+        disabled={!trackDetailsAvailable || !trackParams}
         onPress={() => {
           navigation.navigate('TrackMemoryHub');
         }}
@@ -168,6 +175,8 @@ export function TrackPrepHubScreen() {
         <Text style={styles.navSub}>
           {trackId === 'other'
             ? 'Maps are for catalog circuits only'
+            : trackId && !areTrackInfoCornersVerified(trackId)
+              ? 'Official board maps and pit locations awaiting verification'
             : 'Map, pits, records, and saved corner notes'}
         </Text>
       </TouchableOpacity>
