@@ -826,7 +826,7 @@
     {
       "id": "smp_druitt_t1",
       "number": 1,
-      "label": "Turn 1 (entry / right kink)",
+      "label": "Turn 1",
       "direction": "complex",
       "sNorm": 0.3228,
       "xPct": 28.21,
@@ -835,7 +835,7 @@
     {
       "id": "smp_druitt_t2",
       "number": 2,
-      "label": "Turn 2 (right sweeper)",
+      "label": "Turn 2",
       "direction": "complex",
       "sNorm": 0.4984,
       "xPct": 20.86,
@@ -844,7 +844,7 @@
     {
       "id": "smp_druitt_t3",
       "number": 3,
-      "label": "Turn 3 (left kink)",
+      "label": "Turn 3",
       "direction": "complex",
       "sNorm": 0.5685,
       "xPct": 24.74,
@@ -853,29 +853,56 @@
     {
       "id": "smp_druitt_t4",
       "number": 4,
-      "label": "Turn 4 (left hairpin)",
+      "label": "Turn 4a",
       "direction": "complex",
       "sNorm": 0.6913,
       "xPct": 45.83,
       "yPct": 53.01
     },
     {
-      "id": "smp_druitt_t5",
-      "number": 5,
-      "label": "Turn 5 (right sweeper)",
+      "id": "smp_druitt_t4b",
+      "number": 4,
+      "label": "Turn 4b",
       "direction": "complex",
-      "sNorm": 0.9087,
-      "xPct": 80.25,
-      "yPct": 54.41
+      "sNorm": 0.5,
+      "xPct": 29.29,
+      "yPct": 52.5
     },
     {
-      "id": "smp_druitt_t6",
-      "number": 6,
-      "label": "Turn 6 (left hairpin / final)",
+      "id": "smp_druitt_t15",
+      "number": 15,
+      "label": "Turn 15",
       "direction": "complex",
-      "sNorm": 0.9646,
-      "xPct": 87.88,
-      "yPct": 50.17
+      "sNorm": 0.6,
+      "xPct": 48.87,
+      "yPct": 49.68
+    },
+    {
+      "id": "smp_druitt_t16",
+      "number": 16,
+      "label": "Turn 16",
+      "direction": "complex",
+      "sNorm": 0.7,
+      "xPct": 76.13,
+      "yPct": 50.01
+    },
+    {
+      "id": "smp_druitt_t17",
+      "number": 17,
+      "label": "Turn 17",
+      "direction": "complex",
+      "sNorm": 0.8,
+      "xPct": 82.06,
+      "yPct": 54.42
+    },
+    {
+      "id": "smp_druitt_t18",
+      "number": 18,
+      "label": "Turn 18 (final)",
+      "direction": "complex",
+      "sNorm": 0.9,
+      "xPct": 87.8,
+      "yPct": 50.65
     }
   ],
   "startFinish": {

@@ -46,9 +46,7 @@
     },
     "mallala": {
       "2": "left",
-      "3": "right",
-      "6": "left",
-      "7": "right"
+      "3": "right"
     },
     "mac_park": {
       "3": "right",
@@ -80,8 +78,7 @@
       "1": "right",
       "3": "left",
       "5": "right",
-      "7": "left",
-      "8": "right"
+      "7": "left"
     },
     "the_bend_international": {
       "1": "right",
@@ -172,14 +169,6 @@
         "hand": "right",
         "method": "rider",
         "note": "Rider-view: right hairpin (not map top/bottom-left)."
-      },
-      "6": {
-        "hand": "left",
-        "method": "legacy_lock"
-      },
-      "7": {
-        "hand": "right",
-        "method": "legacy_lock"
       }
     },
     "mac_park": {
@@ -283,10 +272,6 @@
       },
       "7": {
         "hand": "left",
-        "method": "legacy_lock"
-      },
-      "8": {
-        "hand": "right",
         "method": "legacy_lock"
       }
     },

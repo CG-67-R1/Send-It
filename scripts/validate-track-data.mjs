@@ -4,6 +4,7 @@
  * Usage (from repo root): node scripts/validate-track-data.mjs
  * Exit 0 = pass, 1 = fail.
  */
+import { spawnSync } from 'node:child_process';
 import fs from 'node:fs';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
@@ -307,6 +308,22 @@ if (turnPolicy) {
   }
   if (unverifiedLR === 0 && sourceGaps === 0) {
     pass(`turn-hand policy: ${verifiedOk} verified left|right with sources, 0 unverified`);
+  }
+}
+
+console.log('\nMap proof (owner-verified boards + pits)');
+{
+  const proofScript = path.join(ROOT, 'scripts', 'prove-track-maps.mjs');
+  const proof = spawnSync(process.execPath, [proofScript], {
+    cwd: ROOT,
+    encoding: 'utf8',
+  });
+  if (proof.stdout) process.stdout.write(proof.stdout);
+  if (proof.stderr) process.stderr.write(proof.stderr);
+  if (proof.status === 0) {
+    pass('prove-track-maps.mjs');
+  } else {
+    fail('prove-track-maps.mjs — retrieve official board maps and pit marks before baking or rebuilding Track Details');
   }
 }
 

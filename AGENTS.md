@@ -29,10 +29,11 @@ cd app && npm install && npx expo start
 # Android / Play (separate tree)
 cd android-app && npm install && npx tsc --noEmit && npx expo start --android
 
-# Checks before merge to main
+# Checks before merge to main (from repo root for prove-track-maps)
 cd api && npm run health-check
 cd ../app && npx tsc --noEmit
 cd ../android-app && npx tsc --noEmit
+node scripts/prove-track-maps.mjs
 ```
 
 ## Configuration
@@ -122,13 +123,15 @@ node scripts/validate-track-data.mjs
 Track Memory gate (weekly / on-demand track-data-analyst — report only, do not bake). The in-app screen is labelled **Track Details**.
 
 ```powershell
+node scripts/prove-track-maps.mjs
 node scripts/diagnose-track-memory.mjs
-node scripts/build-track-info-maps.mjs
 cd app
 npx tsc --noEmit
 ```
 
-Info maps live in `app/src/data/trackInfo/`. After a bake, regenerate compact polylines with `node scripts/build-track-info-maps.mjs` and copy `app/src/data/trackInfo` to `android-app/src/data/trackInfo`. There is no arcade ride and no `test:track-frames`.
+**Map proof is P0.** `prove-track-maps.mjs` must PASS (`owner_verified` boards + pits in `app/src/data/trackInfo/mapProof.json`) before bake or `build-track-info-maps.mjs`. Do not rebuild maps from GPX heuristics. Copy `app/src/data/trackInfo` to `android-app/src/data/trackInfo` only after proof passes. There is no arcade ride and no `test:track-frames`.
+
+**UI safeguard:** Track Details shows the layout ribbon always; numbered corner dots and heuristic pit marks render only when `areTrackInfoCornersVerified(trackId)` is true (`status === owner_verified` in `mapProof.json`). No board → no numbered map.
 
 **Turn hands are P0:** wrong left/right must not ship. Allowed hands live in `app/src/data/track_turn_verification.json`. After catalog edits run `node scripts/enforce-turn-verification.mjs --write` then the validator. GPX alone must never set turn direction.
 

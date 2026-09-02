@@ -229,11 +229,20 @@
     {
       "id": "morgan_park_t1",
       "number": 1,
-      "label": "Turns 1 & 2 (Right-Left Sweepers)",
+      "label": "Turn 1",
       "direction": "complex",
       "sNorm": 0.1757,
       "xPct": 64.7,
       "yPct": 84.41
+    },
+    {
+      "id": "morgan_park_t2",
+      "number": 2,
+      "label": "Turn 2",
+      "direction": "complex",
+      "sNorm": 0.1538,
+      "xPct": 50.07,
+      "yPct": 78.35
     },
     {
       "id": "morgan_park_t3",
@@ -281,9 +290,18 @@
       "yPct": 60.94
     },
     {
+      "id": "morgan_park_t8",
+      "number": 8,
+      "label": "Turn 8 (Fast Esses)",
+      "direction": "complex",
+      "sNorm": 0.6154,
+      "xPct": 52.79,
+      "yPct": 40.3
+    },
+    {
       "id": "morgan_park_t9",
       "number": 9,
-      "label": "Turns 8 & 9 (Fast Esses)",
+      "label": "Turn 9 (Fast Esses)",
       "direction": "complex",
       "sNorm": 0.6942,
       "xPct": 52.58,
@@ -301,11 +319,20 @@
     {
       "id": "morgan_park_t11",
       "number": 11,
-      "label": "Turns 11 & 12 (Final Chicane onto Main Straight)",
+      "label": "Turn 11 (Final Chicane)",
       "direction": "complex",
       "sNorm": 0.8779,
       "xPct": 79.67,
       "yPct": 13.46
+    },
+    {
+      "id": "morgan_park_t12",
+      "number": 12,
+      "label": "Turn 12 (Final Chicane onto Main Straight)",
+      "direction": "complex",
+      "sNorm": 0.9231,
+      "xPct": 77.54,
+      "yPct": 34.9
     }
   ],
   "startFinish": {

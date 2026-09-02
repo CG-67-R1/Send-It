@@ -103,7 +103,7 @@ A baked layout is ready when all of these hold:
 1. **Geometry** — one closed lap, length within ~5% of catalog `lengthKm`, no phantom chicane on the pit straight, `s=0` on the start/finish straight (not automatically the longest straight).
 2. **Hands** — left/right only from catalog + `track_turn_verification.json`. GPX never invents L/R.
 3. **Elevation** — real hills use GPX `ele` or DEM, with the source recorded on the bake (`elevSource`: `gpx` | `dem` | omitted if flat). DEM must not replace a clean Emtron centreline.
-4. **Info map** — compact polyline exists in `app/src/data/trackInfo/maps/<id>.json` with corners on the ribbon; `node scripts/diagnose-track-memory.mjs` reports remaining hand/kink issues as P1s for Cursor. There is no arcade ride.
+4. **Info map** — compact polyline exists in `app/src/data/trackInfo/maps/<id>.json` **and** `node scripts/prove-track-maps.mjs` is PASS (`owner_verified`). Diagnose SHIFT/UNMATCHED is a P0 for maps, not a note to ignore. There is no arcade ride.
 
 ## Step 1 — Structural gate (always)
 
@@ -112,9 +112,10 @@ From repo root:
 ```powershell
 cd C:\Users\Administrator\.cursor\Send-It
 node scripts/validate-track-data.mjs
+node scripts/prove-track-maps.mjs
 ```
 
-Record PASS/FAIL lines in the weekly report under **Track data**. **P0** if FAIL.
+Record PASS/FAIL lines in the weekly report under **Track data**. **P0** if FAIL. Map proof FAIL is a **CURSOR ALERT** — do not bake.
 
 ## Step 2 — Catalog vs geofence coverage (weekly)
 
@@ -145,7 +146,8 @@ From repo root / `app/`:
 
 | Command | Pass | Fail as |
 |---------|------|---------|
-| `node scripts/validate-track-data.mjs` | existing catalog gate | **P0** if FAIL |
+| `node scripts/validate-track-data.mjs` | existing catalog gate **plus map proof** | **P0** if FAIL |
+| `node scripts/prove-track-maps.mjs` | every layout `owner_verified` | **P0** if any layout is `needs_owner_data` or still has SHIFT/UNMATCHED |
 | `node scripts/diagnose-track-memory.mjs` | 0 empty layouts; list hand misses and kinks | **P0** extra-lap / self-cross; **P1** verified-hand miss or pit-straight kink |
 | `cd app && npx tsc --noEmit` | clean | **P0** if Track Memory types break |
 | Info maps present | `app/src/data/trackInfo/maps/<id>.json` for every baked layout | **P1** if a bake has no compact map |
@@ -168,9 +170,25 @@ Encode these as standing checks, not one-off notes. Source of bake mapping: `TRA
 - Skip DEM for Queensland Raceway (noise / effectively flat) — already marked in the bake mapping (`Queensland_Raceway.gpx` on Desktop Emtron).
 - Bend International/GT are currently **flat Emtron** after the chicane fix; flag as **P2** “re-sample DEM Z onto Emtron XY” rather than switching back to the DEM path.
 
+### Map proof (P0 — blocks bake and map rebuild)
+
+Run **before** claiming Track Details maps are ready:
+
+```powershell
+node scripts/prove-track-maps.mjs
+```
+
+**FAIL** unless every baked layout in `app/src/data/trackInfo/mapProof.json` is `owner_verified` with `ownerBoardCount`, `ownerBoardSource`, and `pitVerified: true`. Diagnose SHIFT/UNMATCHED also fails the proof.
+
+Do **not** copy-forward unverified maps as “tracks still run.” That policy is what shipped wrong Track Details maps on 2026-09-01.
+
+`node scripts/bake-track-memory-layout.mjs` and `node scripts/build-track-info-maps.mjs` refuse to write until the proof passes.
+
+Until the owner retrieves venue/ASBK board maps and pit marks, report **P0 CURSOR ALERT: Track Details maps unproven** and list the RETRIEVE lines from the proof script.
+
 ### Copy-forward diagnose misses
 
-Until Cursor clears them, copy these verified-hand / baked-station mismatches forward as **P1** (tracks still run):
+Until Cursor clears them after owner-verified maps exist, copy these verified-hand mismatches forward as **P1**:
 
 - Broadford T12
 - Mac Park T2 / T12
@@ -196,7 +214,7 @@ Add a **Track data** section to `docs/reviews/RR_REVIEW_YYYY-MM-DD.md`, includin
 
 ### Track Memory
 - diagnose-track-memory: PASS/FAIL (empty layouts / extra-lap / kinks / hand misses)
-- track-info maps: PASS/FAIL (one compact JSON per baked layout)
+- track-info maps: PASS/FAIL (`prove-track-maps` owner_verified; one compact JSON per baked layout)
 - tsc: PASS/FAIL
 - GPX source per layout: Emtron Desktop vs scripts/track-memory-gpx (DEM)
 - [P0/P1/P2] geometry / elevation / boards
@@ -215,12 +233,12 @@ When the user asks for a track memory review, write `docs/reviews/TRACK_MEMORY_R
 - No Expo Go / device GPS overlay testing.
 - No inventing coaching tip text for corners.
 - Report only unless the user explicitly requests edits.
-- Do **not** run `node scripts/bake-track-memory-layout.mjs` (single or `--all`) unless the user explicitly asks to fix.
+- Do **not** run `node scripts/bake-track-memory-layout.mjs` (single or `--all`) unless the user explicitly asks to fix **and** `prove-track-maps.mjs` is PASS for that layout.
 
 ## Handoff
 
-1. Validator exit status
+1. Validator + map-proof exit status
 2. Track Memory diagnose + compact info maps + tsc results
-3. P0/P1 track-data counts (catalog + Track Memory)
-4. Top 3 Cursor catalog / bake fixes
-5. Re-verify: `node scripts/validate-track-data.mjs`, `node scripts/diagnose-track-memory.mjs`, `node scripts/build-track-info-maps.mjs`
+3. P0/P1 track-data counts (catalog + Track Memory). Map proof FAIL is P0 CURSOR ALERT.
+4. Top 3 Cursor catalog / bake fixes — do not rebuild maps until owner_verified
+5. Re-verify: `node scripts/validate-track-data.mjs`, `node scripts/prove-track-maps.mjs`, `node scripts/diagnose-track-memory.mjs`

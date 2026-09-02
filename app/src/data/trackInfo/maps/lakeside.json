@@ -225,7 +225,7 @@
     {
       "id": "lakeside_t1",
       "number": 1,
-      "label": "Turn 1",
+      "label": "BP Bend",
       "direction": "complex",
       "sNorm": 0.1096,
       "xPct": 55.76,
@@ -234,7 +234,7 @@
     {
       "id": "lakeside_t2",
       "number": 2,
-      "label": "Karrussell",
+      "label": "The Karrussell",
       "direction": "complex",
       "sNorm": 0.2192,
       "xPct": 36.62,
@@ -252,7 +252,7 @@
     {
       "id": "lakeside_t4",
       "number": 4,
-      "label": "Turn 4",
+      "label": "The Bus Stop",
       "direction": "complex",
       "sNorm": 0.4712,
       "xPct": 27.04,
@@ -261,7 +261,7 @@
     {
       "id": "lakeside_t5",
       "number": 5,
-      "label": "Hungry",
+      "label": "The Bus Stop",
       "direction": "complex",
       "sNorm": 0.5736,
       "xPct": 44.88,
@@ -270,7 +270,7 @@
     {
       "id": "lakeside_t6",
       "number": 6,
-      "label": "Shell Bridge",
+      "label": "Dunlop Bridge",
       "direction": "complex",
       "sNorm": 0.6704,
       "xPct": 59.58,
@@ -279,7 +279,7 @@
     {
       "id": "lakeside_t7",
       "number": 7,
-      "label": "Turn 7",
+      "label": "Hungry Corner",
       "direction": "complex",
       "sNorm": 0.7488,
       "xPct": 73.14,
@@ -288,11 +288,20 @@
     {
       "id": "lakeside_t8",
       "number": 8,
-      "label": "Turn 8",
+      "label": "Eastern Loop",
       "direction": "complex",
       "sNorm": 0.8656,
       "xPct": 87.19,
       "yPct": 42.71
+    },
+    {
+      "id": "lakeside_t9",
+      "number": 9,
+      "label": "Ford Corner",
+      "direction": "complex",
+      "sNorm": 0.9,
+      "xPct": 87.02,
+      "yPct": 49.23
     }
   ],
   "startFinish": {

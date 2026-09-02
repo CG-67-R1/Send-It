@@ -3,6 +3,7 @@
  *
  * Usage: node scripts/build-track-info-maps.mjs
  */
+import { spawnSync } from 'node:child_process';
 import fs from 'node:fs';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
@@ -193,6 +194,19 @@ function stationFor(trackId, cornerId, bakeS) {
 }
 
 function main() {
+  const proof = spawnSync(process.execPath, [path.join(ROOT, 'scripts', 'prove-track-maps.mjs')], {
+    cwd: ROOT,
+    encoding: 'utf8',
+  });
+  if (proof.stdout) process.stdout.write(proof.stdout);
+  if (proof.stderr) process.stderr.write(proof.stderr);
+  if (proof.status !== 0) {
+    console.error(
+      'Map rebuild blocked: retrieve official board maps and pit marks, then set mapProof.json status to owner_verified.'
+    );
+    process.exit(1);
+  }
+
   fs.mkdirSync(OUT_DIR, { recursive: true });
   const files = fs.readdirSync(LAYOUT_DIR).filter((f) => f.endsWith('.json'));
   const ids = files.map((f) => f.replace(/\.json$/, ''));

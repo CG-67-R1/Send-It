@@ -286,11 +286,20 @@
     {
       "id": "wakefield_park_t6",
       "number": 6,
-      "label": "Turns 6 & 7 (The Fish Hook)",
+      "label": "Turn 6 (The Fish Hook)",
       "direction": "complex",
       "sNorm": 0.8524,
       "xPct": 62.32,
       "yPct": 26.31
+    },
+    {
+      "id": "wakefield_park_t7",
+      "number": 7,
+      "label": "Turn 7 (The Fish Hook)",
+      "direction": "complex",
+      "sNorm": 0.6364,
+      "xPct": 82.71,
+      "yPct": 61.2
     },
     {
       "id": "wakefield_park_t8",

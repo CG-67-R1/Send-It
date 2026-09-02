@@ -257,7 +257,7 @@
     {
       "id": "mallala_t1",
       "number": 1,
-      "label": "Turn 1 kink / lead-in to Turn 2",
+      "label": "Turn 1",
       "direction": "complex",
       "sNorm": 0.1501,
       "xPct": 41.67,
@@ -284,16 +284,16 @@
     {
       "id": "mallala_t4",
       "number": 4,
-      "label": "Turn 4 (long sweeper)",
+      "label": "Turn 4 (straight / not a corner)",
       "direction": "complex",
-      "sNorm": 0.721,
-      "xPct": 84.41,
-      "yPct": 40.41
+      "sNorm": 0.4,
+      "xPct": 34.28,
+      "yPct": 19.33
     },
     {
       "id": "mallala_t5",
       "number": 5,
-      "label": "Turn 5 (medium bend)",
+      "label": "Turn 5 (northern hairpin)",
       "direction": "complex",
       "sNorm": 0.7343,
       "xPct": 81.55,
@@ -302,8 +302,8 @@
     {
       "id": "mallala_t6",
       "number": 6,
-      "label": "Turn 6 (left kink / setup for hairpin)",
-      "direction": "left",
+      "label": "Turn 6",
+      "direction": "complex",
       "sNorm": 0.7477,
       "xPct": 78.53,
       "yPct": 45.09
@@ -311,8 +311,8 @@
     {
       "id": "mallala_t7",
       "number": 7,
-      "label": "Turn 7 (right hairpin)",
-      "direction": "right",
+      "label": "Turn 7",
+      "direction": "complex",
       "sNorm": 0.7777,
       "xPct": 76.26,
       "yPct": 53.15
@@ -320,7 +320,7 @@
     {
       "id": "mallala_t8",
       "number": 8,
-      "label": "Turn 8 (kink / connector)",
+      "label": "Turn 8",
       "direction": "complex",
       "sNorm": 0.9042,
       "xPct": 40.44,
@@ -329,7 +329,7 @@
     {
       "id": "mallala_t9",
       "number": 9,
-      "label": "Turn 9 (final corner onto main straight)",
+      "label": "Turn 9 (onto main straight)",
       "direction": "complex",
       "sNorm": 0.9721,
       "xPct": 26.37,

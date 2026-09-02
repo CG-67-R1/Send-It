@@ -86,11 +86,13 @@ Load and follow `send-it/track-data-analyst`:
 
 ```powershell
 node scripts/validate-track-data.mjs
+node scripts/prove-track-maps.mjs
 node scripts/diagnose-track-memory.mjs
-node scripts/build-track-info-maps.mjs
 cd app
 npx tsc --noEmit
 ```
+
+If prove-track-maps fails, write **P0 CURSOR ALERT: Track Details maps unproven**. Do not run `build-track-info-maps.mjs` until the owner has retrieved board maps and pits — the builder now refuses anyway.
 
 Add a **Track data** section to the weekly report (validator result, catalog vs geofence coverage, corner/layout P0–P2 findings, Bend/SMP multi-layout backlog, **Track Memory** gate: geometry, elevation, diagnose, compact info maps). Do not edit `tracks.json` or bake layouts unless the user explicitly asks.
 

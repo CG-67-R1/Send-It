@@ -223,11 +223,20 @@
     {
       "id": "queensland_raceway_t3",
       "number": 3,
-      "label": "Turns 3/4 (The Switchback / esses)",
+      "label": "Turn 3 (The Switchback)",
       "direction": "complex",
       "sNorm": 0.786,
       "xPct": 51.05,
       "yPct": 67.26
+    },
+    {
+      "id": "queensland_raceway_t4",
+      "number": 4,
+      "label": "Turn 4 (The Switchback)",
+      "direction": "complex",
+      "sNorm": 0.5714,
+      "xPct": 45.1,
+      "yPct": 58.23
     },
     {
       "id": "queensland_raceway_t5",

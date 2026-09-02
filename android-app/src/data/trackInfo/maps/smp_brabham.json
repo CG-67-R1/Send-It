@@ -826,7 +826,7 @@
     {
       "id": "smp_brabham_t1",
       "number": 1,
-      "label": "Turn 1 (entry kink)",
+      "label": "Turn 1",
       "direction": "complex",
       "sNorm": 0.3155,
       "xPct": 14.93,
@@ -835,7 +835,7 @@
     {
       "id": "smp_brabham_t2",
       "number": 2,
-      "label": "Turn 2 (hairpin complex)",
+      "label": "Turn 2",
       "direction": "complex",
       "sNorm": 0.3595,
       "xPct": 18.76,
@@ -844,7 +844,7 @@
     {
       "id": "smp_brabham_t3",
       "number": 3,
-      "label": "Turn 3 (right sweeper)",
+      "label": "Turn 3",
       "direction": "complex",
       "sNorm": 0.4409,
       "xPct": 40.18,
@@ -853,7 +853,7 @@
     {
       "id": "smp_brabham_t4",
       "number": 4,
-      "label": "Turn 4 (left sweeper)",
+      "label": "Turn 4",
       "direction": "complex",
       "sNorm": 0.4909,
       "xPct": 39.11,
@@ -862,7 +862,7 @@
     {
       "id": "smp_brabham_t5",
       "number": 5,
-      "label": "Turn 5 (left hairpin complex)",
+      "label": "Turn 5",
       "direction": "complex",
       "sNorm": 0.5886,
       "xPct": 62.54,
@@ -871,7 +871,7 @@
     {
       "id": "smp_brabham_t6",
       "number": 6,
-      "label": "Turn 6 (left hairpin)",
+      "label": "Turn 6",
       "direction": "complex",
       "sNorm": 0.6064,
       "xPct": 67.33,
@@ -880,7 +880,7 @@
     {
       "id": "smp_brabham_t7",
       "number": 7,
-      "label": "Turn 7 (right hairpin)",
+      "label": "Turn 7",
       "direction": "complex",
       "sNorm": 0.6473,
       "xPct": 75.46,
@@ -889,7 +889,7 @@
     {
       "id": "smp_brabham_t8",
       "number": 8,
-      "label": "Turn 8 (left kink)",
+      "label": "Turn 8",
       "direction": "complex",
       "sNorm": 0.6964,
       "xPct": 67.23,
@@ -898,7 +898,7 @@
     {
       "id": "smp_brabham_t9",
       "number": 9,
-      "label": "Turn 9 (right hairpin)",
+      "label": "Turn 9",
       "direction": "complex",
       "sNorm": 0.73,
       "xPct": 69.41,
@@ -907,7 +907,7 @@
     {
       "id": "smp_brabham_t10",
       "number": 10,
-      "label": "Turn 10 (right kink)",
+      "label": "Turn 10",
       "direction": "complex",
       "sNorm": 0.83,
       "xPct": 46.44,
@@ -916,11 +916,74 @@
     {
       "id": "smp_brabham_t11",
       "number": 11,
-      "label": "Turn 11 (left hairpin / final)",
+      "label": "Turn 11",
       "direction": "complex",
       "sNorm": 0.9777,
       "xPct": 82.01,
       "yPct": 44.32
+    },
+    {
+      "id": "smp_brabham_t12",
+      "number": 12,
+      "label": "Turn 12",
+      "direction": "complex",
+      "sNorm": 0.6316,
+      "xPct": 66.93,
+      "yPct": 48.66
+    },
+    {
+      "id": "smp_brabham_t13",
+      "number": 13,
+      "label": "Turn 13",
+      "direction": "complex",
+      "sNorm": 0.6842,
+      "xPct": 69.03,
+      "yPct": 56.66
+    },
+    {
+      "id": "smp_brabham_t14",
+      "number": 14,
+      "label": "Turn 14",
+      "direction": "complex",
+      "sNorm": 0.7368,
+      "xPct": 58.77,
+      "yPct": 48.58
+    },
+    {
+      "id": "smp_brabham_t15",
+      "number": 15,
+      "label": "Turn 15",
+      "direction": "complex",
+      "sNorm": 0.7895,
+      "xPct": 46.48,
+      "yPct": 45.03
+    },
+    {
+      "id": "smp_brabham_t16",
+      "number": 16,
+      "label": "Turn 16",
+      "direction": "complex",
+      "sNorm": 0.8421,
+      "xPct": 65.32,
+      "yPct": 42.78
+    },
+    {
+      "id": "smp_brabham_t17",
+      "number": 17,
+      "label": "Turn 17",
+      "direction": "complex",
+      "sNorm": 0.8947,
+      "xPct": 73.57,
+      "yPct": 47.91
+    },
+    {
+      "id": "smp_brabham_t18",
+      "number": 18,
+      "label": "Turn 18",
+      "direction": "complex",
+      "sNorm": 0.9474,
+      "xPct": 81.48,
+      "yPct": 46.3
     }
   ],
   "startFinish": {

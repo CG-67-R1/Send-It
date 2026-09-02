@@ -391,11 +391,20 @@
     {
       "id": "phillip_island_t11",
       "number": 11,
-      "label": "Turn 11 (Gardner's)",
+      "label": "Turn 11",
       "direction": "complex",
       "sNorm": 0.9568,
       "xPct": 34.87,
       "yPct": 15.77
+    },
+    {
+      "id": "phillip_island_t12",
+      "number": 12,
+      "label": "Gardner's",
+      "direction": "complex",
+      "sNorm": 0.9231,
+      "xPct": 39.05,
+      "yPct": 12.9
     }
   ],
   "startFinish": {

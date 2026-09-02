@@ -147,8 +147,8 @@ export function TrackMemoryHubScreen() {
       </View>
 
       <Text style={styles.lead}>
-        Pick a circuit to study the layout ribbon. Numbered corner markers appear only after the
-        map is verified against an official board — wrong dots are not shown.
+        Pick a circuit to open the track map. The picture is the track. Each number on it has a row
+        below so you can add notes.
       </Text>
 
       <TrackPicker
@@ -161,7 +161,7 @@ export function TrackMemoryHubScreen() {
         <Text style={styles.hint}>No track maps are available yet.</Text>
       ) : (
         <Text style={styles.hint}>
-          {infoTracks.length} Australian circuits — tap a corner on the map or use the list below.
+          {infoTracks.length} Australian circuits — zoom the map, then tap a corner in the list.
         </Text>
       )}
 

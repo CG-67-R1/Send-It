@@ -261,20 +261,38 @@
     {
       "id": "broadford_t1",
       "number": 1,
-      "label": "Turns 1 & 2 (Big Left Honda Corner double-apex)",
+      "label": "Turn 1 (Honda Corner)",
       "direction": "left",
       "sNorm": 0.245,
       "xPct": 56.9,
       "yPct": 74.12
     },
     {
+      "id": "broadford_t2",
+      "number": 2,
+      "label": "Turn 2 (Honda Corner)",
+      "direction": "complex",
+      "sNorm": 0.1538,
+      "xPct": 41.62,
+      "yPct": 60.19
+    },
+    {
       "id": "broadford_t3",
       "number": 3,
-      "label": "Turns 3 & 4 (Back Kink and Straight)",
+      "label": "Turn 3 (Back Kink)",
       "direction": "complex",
       "sNorm": 0.3735,
       "xPct": 42.12,
       "yPct": 45.66
+    },
+    {
+      "id": "broadford_t4",
+      "number": 4,
+      "label": "Turn 4 (Back Straight)",
+      "direction": "complex",
+      "sNorm": 0.3077,
+      "xPct": 52.62,
+      "yPct": 77.86
     },
     {
       "id": "broadford_t5",
@@ -297,20 +315,47 @@
     {
       "id": "broadford_t7",
       "number": 7,
-      "label": "Turns 7/8/9 (Flip-Flop Esses / Motorcross Flip Flop)",
+      "label": "Turn 7 (Flip-Flop)",
       "direction": "complex",
       "sNorm": 0.7493,
       "xPct": 64.14,
       "yPct": 54.79
     },
     {
+      "id": "broadford_t8",
+      "number": 8,
+      "label": "Turn 8 (Flip-Flop)",
+      "direction": "complex",
+      "sNorm": 0.6154,
+      "xPct": 37.7,
+      "yPct": 12.83
+    },
+    {
+      "id": "broadford_t9",
+      "number": 9,
+      "label": "Turn 9 (Flip-Flop)",
+      "direction": "complex",
+      "sNorm": 0.6923,
+      "xPct": 62.71,
+      "yPct": 52.34
+    },
+    {
       "id": "broadford_t10",
       "number": 10,
-      "label": "Turns 10 & 11 (Twin Apex Rights)",
+      "label": "Turn 10 (Twin Apex Rights)",
       "direction": "right",
       "sNorm": 0.8414,
       "xPct": 73.1,
       "yPct": 76.25
+    },
+    {
+      "id": "broadford_t11",
+      "number": 11,
+      "label": "Turn 11 (Twin Apex Rights)",
+      "direction": "complex",
+      "sNorm": 0.8462,
+      "xPct": 63.01,
+      "yPct": 86.58
     },
     {
       "id": "broadford_t12",

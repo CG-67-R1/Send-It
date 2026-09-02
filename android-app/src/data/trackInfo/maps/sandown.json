@@ -145,7 +145,7 @@
     {
       "id": "sandown_t1",
       "number": 1,
-      "label": "Turn 1 (first left hairpin complex)",
+      "label": "Turn 1",
       "direction": "complex",
       "sNorm": 0.2584,
       "xPct": 36.4,
@@ -154,7 +154,7 @@
     {
       "id": "sandown_t2",
       "number": 2,
-      "label": "Turn 2 (left kink onto back section)",
+      "label": "Turn 2",
       "direction": "complex",
       "sNorm": 0.3355,
       "xPct": 49.96,
@@ -163,7 +163,7 @@
     {
       "id": "sandown_t3",
       "number": 3,
-      "label": "Turn 3 (left sweeper)",
+      "label": "Turn 3",
       "direction": "complex",
       "sNorm": 0.377,
       "xPct": 55.95,
@@ -172,7 +172,7 @@
     {
       "id": "sandown_t4",
       "number": 4,
-      "label": "Turn 4 (left kink / Dandenong Road complex)",
+      "label": "Turn 4",
       "direction": "complex",
       "sNorm": 0.8074,
       "xPct": 58.58,
@@ -181,11 +181,83 @@
     {
       "id": "sandown_t5",
       "number": 5,
-      "label": "Turn 5 (final complex onto main straight)",
+      "label": "Turn 5",
       "direction": "complex",
       "sNorm": 0.9484,
       "xPct": 37.46,
       "yPct": 24.67
+    },
+    {
+      "id": "sandown_t6",
+      "number": 6,
+      "label": "Turn 6",
+      "direction": "complex",
+      "sNorm": 0.4286,
+      "xPct": 62.74,
+      "yPct": 41.15
+    },
+    {
+      "id": "sandown_t7",
+      "number": 7,
+      "label": "Turn 7",
+      "direction": "complex",
+      "sNorm": 0.5,
+      "xPct": 65.53,
+      "yPct": 24.74
+    },
+    {
+      "id": "sandown_t8",
+      "number": 8,
+      "label": "Turn 8",
+      "direction": "complex",
+      "sNorm": 0.5714,
+      "xPct": 62.06,
+      "yPct": 18.36
+    },
+    {
+      "id": "sandown_t9",
+      "number": 9,
+      "label": "Turn 9",
+      "direction": "complex",
+      "sNorm": 0.6429,
+      "xPct": 58.63,
+      "yPct": 12.24
+    },
+    {
+      "id": "sandown_t10",
+      "number": 10,
+      "label": "Turn 10",
+      "direction": "complex",
+      "sNorm": 0.7143,
+      "xPct": 55.23,
+      "yPct": 14.62
+    },
+    {
+      "id": "sandown_t11",
+      "number": 11,
+      "label": "Turn 11",
+      "direction": "complex",
+      "sNorm": 0.7857,
+      "xPct": 41.49,
+      "yPct": 25.26
+    },
+    {
+      "id": "sandown_t12",
+      "number": 12,
+      "label": "Turn 12",
+      "direction": "complex",
+      "sNorm": 0.8571,
+      "xPct": 37.72,
+      "yPct": 24.71
+    },
+    {
+      "id": "sandown_t13",
+      "number": 13,
+      "label": "Turn 13",
+      "direction": "complex",
+      "sNorm": 0.9286,
+      "xPct": 35.28,
+      "yPct": 29.5
     }
   ],
   "startFinish": {

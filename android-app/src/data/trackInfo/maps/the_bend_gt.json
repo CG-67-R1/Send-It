@@ -937,6 +937,240 @@
       "sNorm": 0.956,
       "xPct": 36.24,
       "yPct": 82.94
+    },
+    {
+      "id": "the_bend_gt_t10",
+      "number": 10,
+      "label": "Turn 10",
+      "direction": "complex",
+      "sNorm": 0.2778,
+      "xPct": 64.35,
+      "yPct": 25.33
+    },
+    {
+      "id": "the_bend_gt_t11",
+      "number": 11,
+      "label": "Turn 11",
+      "direction": "complex",
+      "sNorm": 0.3056,
+      "xPct": 56.08,
+      "yPct": 22.23
+    },
+    {
+      "id": "the_bend_gt_t12",
+      "number": 12,
+      "label": "Turn 12",
+      "direction": "complex",
+      "sNorm": 0.3333,
+      "xPct": 54.77,
+      "yPct": 16.34
+    },
+    {
+      "id": "the_bend_gt_t13",
+      "number": 13,
+      "label": "Turn 13",
+      "direction": "complex",
+      "sNorm": 0.3611,
+      "xPct": 58.21,
+      "yPct": 12.41
+    },
+    {
+      "id": "the_bend_gt_t14",
+      "number": 14,
+      "label": "Turn 14",
+      "direction": "complex",
+      "sNorm": 0.3889,
+      "xPct": 67.51,
+      "yPct": 13.75
+    },
+    {
+      "id": "the_bend_gt_t15",
+      "number": 15,
+      "label": "Turn 15",
+      "direction": "complex",
+      "sNorm": 0.4167,
+      "xPct": 72.81,
+      "yPct": 22.35
+    },
+    {
+      "id": "the_bend_gt_t16",
+      "number": 16,
+      "label": "Turn 16",
+      "direction": "complex",
+      "sNorm": 0.4444,
+      "xPct": 77.85,
+      "yPct": 37.64
+    },
+    {
+      "id": "the_bend_gt_t17",
+      "number": 17,
+      "label": "Turn 17",
+      "direction": "complex",
+      "sNorm": 0.4722,
+      "xPct": 79.45,
+      "yPct": 42.29
+    },
+    {
+      "id": "the_bend_gt_t18",
+      "number": 18,
+      "label": "Turn 18",
+      "direction": "complex",
+      "sNorm": 0.5,
+      "xPct": 76.12,
+      "yPct": 51.04
+    },
+    {
+      "id": "the_bend_gt_t19",
+      "number": 19,
+      "label": "Turn 19",
+      "direction": "complex",
+      "sNorm": 0.5278,
+      "xPct": 78.48,
+      "yPct": 57.27
+    },
+    {
+      "id": "the_bend_gt_t20",
+      "number": 20,
+      "label": "Turn 20",
+      "direction": "complex",
+      "sNorm": 0.5556,
+      "xPct": 77.11,
+      "yPct": 64.46
+    },
+    {
+      "id": "the_bend_gt_t21",
+      "number": 21,
+      "label": "Turn 21",
+      "direction": "complex",
+      "sNorm": 0.5833,
+      "xPct": 69.5,
+      "yPct": 77.22
+    },
+    {
+      "id": "the_bend_gt_t22",
+      "number": 22,
+      "label": "Turn 22",
+      "direction": "complex",
+      "sNorm": 0.6111,
+      "xPct": 65.56,
+      "yPct": 87.79
+    },
+    {
+      "id": "the_bend_gt_t23",
+      "number": 23,
+      "label": "Turn 23",
+      "direction": "complex",
+      "sNorm": 0.6389,
+      "xPct": 63.29,
+      "yPct": 83.58
+    },
+    {
+      "id": "the_bend_gt_t24",
+      "number": 24,
+      "label": "Turn 24",
+      "direction": "complex",
+      "sNorm": 0.6667,
+      "xPct": 45.55,
+      "yPct": 75.95
+    },
+    {
+      "id": "the_bend_gt_t25",
+      "number": 25,
+      "label": "Turn 25",
+      "direction": "complex",
+      "sNorm": 0.6944,
+      "xPct": 49.97,
+      "yPct": 66.49
+    },
+    {
+      "id": "the_bend_gt_t26",
+      "number": 26,
+      "label": "Turn 26",
+      "direction": "complex",
+      "sNorm": 0.7222,
+      "xPct": 56.66,
+      "yPct": 66.71
+    },
+    {
+      "id": "the_bend_gt_t27",
+      "number": 27,
+      "label": "Turn 27",
+      "direction": "complex",
+      "sNorm": 0.75,
+      "xPct": 61.63,
+      "yPct": 71.96
+    },
+    {
+      "id": "the_bend_gt_t28",
+      "number": 28,
+      "label": "Turn 28",
+      "direction": "complex",
+      "sNorm": 0.7778,
+      "xPct": 64.01,
+      "yPct": 62.59
+    },
+    {
+      "id": "the_bend_gt_t29",
+      "number": 29,
+      "label": "Turn 29",
+      "direction": "complex",
+      "sNorm": 0.8056,
+      "xPct": 58.33,
+      "yPct": 60.71
+    },
+    {
+      "id": "the_bend_gt_t30",
+      "number": 30,
+      "label": "Turn 30",
+      "direction": "complex",
+      "sNorm": 0.8333,
+      "xPct": 42.38,
+      "yPct": 65.18
+    },
+    {
+      "id": "the_bend_gt_t31",
+      "number": 31,
+      "label": "Turn 31",
+      "direction": "complex",
+      "sNorm": 0.8611,
+      "xPct": 34.25,
+      "yPct": 51.29
+    },
+    {
+      "id": "the_bend_gt_t32",
+      "number": 32,
+      "label": "Turn 32",
+      "direction": "complex",
+      "sNorm": 0.8889,
+      "xPct": 28.86,
+      "yPct": 55.68
+    },
+    {
+      "id": "the_bend_gt_t33",
+      "number": 33,
+      "label": "Turn 33",
+      "direction": "complex",
+      "sNorm": 0.9167,
+      "xPct": 32.67,
+      "yPct": 60.44
+    },
+    {
+      "id": "the_bend_gt_t34",
+      "number": 34,
+      "label": "Turn 34",
+      "direction": "complex",
+      "sNorm": 0.9444,
+      "xPct": 36.5,
+      "yPct": 82.26
+    },
+    {
+      "id": "the_bend_gt_t35",
+      "number": 35,
+      "label": "Turn 35",
+      "direction": "complex",
+      "sNorm": 0.9722,
+      "xPct": 22.03,
+      "yPct": 79.44
     }
   ],
   "startFinish": {

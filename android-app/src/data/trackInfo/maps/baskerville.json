@@ -258,7 +258,7 @@
     {
       "id": "baskerville_t2",
       "number": 2,
-      "label": "Turn 2",
+      "label": "Turn 2 (Esses)",
       "direction": "complex",
       "sNorm": 0.1151,
       "xPct": 40.47,
@@ -267,7 +267,7 @@
     {
       "id": "baskerville_t3",
       "number": 3,
-      "label": "Turn 3",
+      "label": "Turn 3 (Esses)",
       "direction": "complex",
       "sNorm": 0.1727,
       "xPct": 28.97,
@@ -285,7 +285,7 @@
     {
       "id": "baskerville_t5",
       "number": 5,
-      "label": "Turn 5",
+      "label": "Turn 5 (Dunlop)",
       "direction": "complex",
       "sNorm": 0.2879,
       "xPct": 14.05,
@@ -294,7 +294,7 @@
     {
       "id": "baskerville_t6",
       "number": 6,
-      "label": "Turn 6",
+      "label": "Turn 6 (Dunlop)",
       "direction": "complex",
       "sNorm": 0.5654,
       "xPct": 65.24,
@@ -303,7 +303,7 @@
     {
       "id": "baskerville_t7",
       "number": 7,
-      "label": "Turn 7",
+      "label": "Turn 7 (Calvins)",
       "direction": "complex",
       "sNorm": 0.667,
       "xPct": 56.06,
@@ -312,7 +312,7 @@
     {
       "id": "baskerville_t8",
       "number": 8,
-      "label": "Turn 8",
+      "label": "Turn 8 (Shell Corner)",
       "direction": "complex",
       "sNorm": 0.8363,
       "xPct": 87.78,
@@ -321,11 +321,20 @@
     {
       "id": "baskerville_t9",
       "number": 9,
-      "label": "Turn 9",
+      "label": "Turn 9 (Holden)",
       "direction": "complex",
       "sNorm": 0.9661,
       "xPct": 70.96,
       "yPct": 26.81
+    },
+    {
+      "id": "baskerville_t10",
+      "number": 10,
+      "label": "Turn 10",
+      "direction": "complex",
+      "sNorm": 0.9091,
+      "xPct": 74.51,
+      "yPct": 28.65
     }
   ],
   "startFinish": {

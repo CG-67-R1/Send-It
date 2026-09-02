@@ -313,7 +313,7 @@
     {
       "id": "winton_t1",
       "number": 1,
-      "label": "Turn 1 (entry complex / left kink)",
+      "label": "Turn 1",
       "direction": "complex",
       "sNorm": 0.3093,
       "xPct": 15.83,
@@ -322,7 +322,7 @@
     {
       "id": "winton_t2",
       "number": 2,
-      "label": "Turn 2 (right sweeper)",
+      "label": "Turn 2",
       "direction": "complex",
       "sNorm": 0.3643,
       "xPct": 29.85,
@@ -331,7 +331,7 @@
     {
       "id": "winton_t3",
       "number": 3,
-      "label": "Turn 3 (right sweeper)",
+      "label": "Turn 3",
       "direction": "complex",
       "sNorm": 0.4786,
       "xPct": 53.37,
@@ -340,7 +340,7 @@
     {
       "id": "winton_t4",
       "number": 4,
-      "label": "Turn 4 (left sweeper / infield)",
+      "label": "Turn 4",
       "direction": "complex",
       "sNorm": 0.5789,
       "xPct": 73.75,
@@ -349,7 +349,7 @@
     {
       "id": "winton_t5",
       "number": 5,
-      "label": "Turn 5 (right hairpin)",
+      "label": "Turn 5",
       "direction": "complex",
       "sNorm": 0.6326,
       "xPct": 71.59,
@@ -358,7 +358,7 @@
     {
       "id": "winton_t6",
       "number": 6,
-      "label": "Turn 6 (complex / back section kinks)",
+      "label": "Turn 6",
       "direction": "complex",
       "sNorm": 0.6785,
       "xPct": 83.62,
@@ -367,7 +367,7 @@
     {
       "id": "winton_t7",
       "number": 7,
-      "label": "Turn 7 (left sweeper)",
+      "label": "Turn 7 (often grouped with 8–9)",
       "direction": "complex",
       "sNorm": 0.8013,
       "xPct": 55.34,
@@ -376,11 +376,47 @@
     {
       "id": "winton_t8",
       "number": 8,
-      "label": "Turn 8 (right hairpin / final)",
+      "label": "Turn 8 (often grouped with 7–9)",
       "direction": "complex",
       "sNorm": 0.9474,
       "xPct": 84.39,
       "yPct": 80.44
+    },
+    {
+      "id": "winton_t9",
+      "number": 9,
+      "label": "Turn 9 (often grouped with 7–8)",
+      "direction": "complex",
+      "sNorm": 0.6923,
+      "xPct": 80.9,
+      "yPct": 28.51
+    },
+    {
+      "id": "winton_t10",
+      "number": 10,
+      "label": "Turn 10",
+      "direction": "complex",
+      "sNorm": 0.7692,
+      "xPct": 82.73,
+      "yPct": 34.22
+    },
+    {
+      "id": "winton_t11",
+      "number": 11,
+      "label": "Turn 11",
+      "direction": "complex",
+      "sNorm": 0.8462,
+      "xPct": 55.92,
+      "yPct": 51.18
+    },
+    {
+      "id": "winton_t12",
+      "number": 12,
+      "label": "Turn 12",
+      "direction": "complex",
+      "sNorm": 0.9231,
+      "xPct": 83.22,
+      "yPct": 82.69
     }
   ],
   "startFinish": {

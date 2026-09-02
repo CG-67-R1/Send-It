@@ -1,0 +1,227 @@
+{
+  "version": 1,
+  "rule": "Track Details maps must not be baked or rebuilt until every layout is owner_verified. Wikipedia/ASBK counts are research only — they do not replace a venue or ASBK board map you retrieve.",
+  "layouts": {
+    "phillip_island": {
+      "status": "needs_owner_data",
+      "catalogDotCount": 12,
+      "publishedBoardCount": 12,
+      "publishedBoardCountSource": "https://en.wikipedia.org/wiki/Phillip_Island_circuit",
+      "pitPlacement": "unverified_heuristic",
+      "retrieve": [
+        "North-up PI GP map with official T1–T12 boards (venue or ASBK/WorldSBK graphic)",
+        "Confirm MG is the left hairpin board number (guides say T10, not catalog T9 right)",
+        "Mark pit entry, pit lane, pit exit vs S/F on Gardner Straight"
+      ]
+    },
+    "mallala": {
+      "status": "needs_owner_data",
+      "catalogDotCount": 9,
+      "publishedBoardCount": 9,
+      "publishedBoardCountSource": "https://en.wikipedia.org/wiki/Mallala_Motor_Sport_Park",
+      "pitPlacement": "unverified_heuristic",
+      "retrieve": [
+        "Mallala full-circuit board map (some guides say 10 turns — pick the bike/ASBK numbering)",
+        "T4 and T5 positions: bake has them unmatched/stacked on T3–T6",
+        "Pit entry/exit vs S/F"
+      ]
+    },
+    "mac_park": {
+      "status": "needs_owner_data",
+      "catalogDotCount": 12,
+      "publishedBoardCount": null,
+      "pitPlacement": "unverified_heuristic",
+      "retrieve": [
+        "Mac Park official/club board map with T1–T12",
+        "T1, T2, T6, T12 have no geometry match; T8 and T11 are shifted",
+        "Pit entry/exit vs S/F"
+      ]
+    },
+    "morgan_park": {
+      "status": "needs_owner_data",
+      "catalogDotCount": 12,
+      "publishedBoardCount": 12,
+      "publishedBoardCountSource": "Morgan Park grouped T1-2, T8-9, T11-12 in catalog vs typical 12 boards",
+      "pitPlacement": "unverified_heuristic",
+      "retrieve": [
+        "Morgan Park Raceway official 12-turn map (not grouped esses)",
+        "Separate dots for Turns 8/9 and 11/12",
+        "Pit entry/exit vs S/F"
+      ]
+    },
+    "wakefield_park": {
+      "status": "needs_owner_data",
+      "catalogDotCount": 10,
+      "publishedBoardCount": 10,
+      "pitPlacement": "unverified_heuristic",
+      "retrieve": [
+        "Current One Raceway / Wakefield bike layout board map (layout changed vs old Wakefield)",
+        "T3 shift; T6 and T9 unmatched; catalog skips a standalone T7",
+        "Pit entry/exit vs S/F"
+      ]
+    },
+    "wanneroo": {
+      "status": "needs_owner_data",
+      "catalogDotCount": 7,
+      "publishedBoardCount": 7,
+      "pitPlacement": "unverified_heuristic",
+      "retrieve": [
+        "Wanneroo / Barbagallo bike layout including the bike chicane (catalog may be pre-chicane)",
+        "T3 shifted ~10% of lap; T6 unmatched",
+        "Pit entry/exit vs S/F (longest straight is not at s=0)"
+      ]
+    },
+    "the_bend_international": {
+      "status": "needs_owner_data",
+      "catalogDotCount": 18,
+      "publishedBoardCount": 18,
+      "publishedBoardCountSource": "The Bend International Superbike/Supercars 18-turn layout",
+      "pitPlacement": "unverified_heuristic",
+      "retrieve": [
+        "The Bend International official T1–T18 map",
+        "Ungroup T4+T5, T7–T10, T15–T16 so each board is one dot",
+        "Pit entry/exit vs S/F"
+      ]
+    },
+    "the_bend_gt": {
+      "status": "needs_owner_data",
+      "catalogDotCount": 35,
+      "publishedBoardCount": 35,
+      "publishedBoardCountSource": "The Bend GT is a long layout; geometry finds ~31 turns vs 9 catalog blobs",
+      "pitPlacement": "unverified_heuristic",
+      "retrieve": [
+        "The Bend GT official board map (do not reuse International numbering)",
+        "T2 and T3 are shifted 9–13% of the lap",
+        "Pit entry/exit vs S/F"
+      ]
+    },
+    "smp_gardner": {
+      "status": "needs_owner_data",
+      "catalogDotCount": 11,
+      "publishedBoardCount": 11,
+      "publishedBoardCountSource": "https://en.wikipedia.org/wiki/Sydney_Motorsport_Park",
+      "pitPlacement": "unverified_heuristic",
+      "retrieve": [
+        "SMP Gardner GP north-up map with T1–T11 (official direction is anticlockwise — ignore the catalog-skill CW note)",
+        "T1, T3, T7, T9 sit off geometry; T7 verified right vs geom left",
+        "Pit entry/exit vs S/F (not a 3% wrap around s=0)"
+      ]
+    },
+    "smp_brabham": {
+      "status": "needs_owner_data",
+      "catalogDotCount": 18,
+      "publishedBoardCount": 18,
+      "publishedBoardCountSource": "https://en.wikipedia.org/wiki/Sydney_Motorsport_Park",
+      "pitPlacement": "unverified_heuristic",
+      "retrieve": [
+        "SMP Brabham official 18-turn map",
+        "Catalog has 11 grouped blobs vs 17 geometry events",
+        "Pit entry/exit vs S/F"
+      ]
+    },
+    "smp_druitt": {
+      "status": "needs_owner_data",
+      "catalogDotCount": 9,
+      "publishedBoardCount": 9,
+      "pitPlacement": "unverified_heuristic",
+      "retrieve": [
+        "SMP Druitt / North Circuit official board map",
+        "Catalog 6 dots vs 8 geometry turns",
+        "Pit entry/exit vs S/F"
+      ]
+    },
+    "queensland_raceway": {
+      "status": "needs_owner_data",
+      "catalogDotCount": 6,
+      "publishedBoardCount": 6,
+      "publishedBoardCountSource": "https://motorsportradar.com/tracks/queensland-raceway/",
+      "pitPlacement": "unverified_heuristic",
+      "retrieve": [
+        "QR National (Paperclip) 6-turn board map",
+        "T3 unmatched; T5 shifted 15% and hand disagrees (catalog right vs geom left)",
+        "S/F and pits: longest straight is at s=0.33, so the s=0 pit heuristic is wrong"
+      ]
+    },
+    "broadford": {
+      "status": "needs_owner_data",
+      "catalogDotCount": 12,
+      "publishedBoardCount": 12,
+      "publishedBoardCountSource": "State circuit commonly numbered T1–T12; catalog groups several boards",
+      "pitPlacement": "unverified_heuristic",
+      "retrieve": [
+        "Broadford State motorcycle circuit board map T1–T12",
+        "T12 verified left vs geom right; T3/T6/T7 unmatched",
+        "Pit entry/exit vs S/F"
+      ]
+    },
+    "sandown": {
+      "status": "needs_owner_data",
+      "catalogDotCount": 13,
+      "publishedBoardCount": 13,
+      "publishedBoardCountSource": "https://en.wikipedia.org/wiki/Sandown_Raceway",
+      "pitPlacement": "unverified_heuristic",
+      "retrieve": [
+        "Sandown National 13-turn map",
+        "Catalog has 5 blobs vs 10 geometry events",
+        "Pit entry/exit vs S/F"
+      ]
+    },
+    "winton": {
+      "status": "needs_owner_data",
+      "catalogDotCount": 12,
+      "publishedBoardCount": 12,
+      "publishedBoardCountSource": "https://www.wintonraceway.com.au/about-winton-raceway",
+      "pitPlacement": "unverified_heuristic",
+      "retrieve": [
+        "Winton National Circuit 12-turn map (not Club)",
+        "T2–T8 are all shifted onto the next geometry event",
+        "Pit entry/exit vs S/F"
+      ]
+    },
+    "calder_park": {
+      "status": "needs_owner_data",
+      "catalogDotCount": 10,
+      "publishedBoardCount": 10,
+      "pitPlacement": "unverified_heuristic",
+      "retrieve": [
+        "Calder Park road-course board map (not Thunderdome oval)",
+        "Catalog 3 blobs vs 9 geometry turns",
+        "Pit entry/exit vs S/F"
+      ]
+    },
+    "hidden_valley": {
+      "status": "needs_owner_data",
+      "catalogDotCount": 14,
+      "publishedBoardCount": 14,
+      "publishedBoardCountSource": "https://en.wikipedia.org/wiki/Hidden_Valley_Raceway",
+      "pitPlacement": "unverified_heuristic",
+      "retrieve": [
+        "Hidden Valley T1–T14 board map",
+        "T1–T6 unmatched (dots sit on the opening sector, not corners); T7–T14 all shifted",
+        "Pit entry/exit vs S/F"
+      ]
+    },
+    "baskerville": {
+      "status": "needs_owner_data",
+      "catalogDotCount": 10,
+      "publishedBoardCount": 10,
+      "pitPlacement": "unverified_heuristic",
+      "retrieve": [
+        "Baskerville official/club board map",
+        "T1–T4 unmatched; catalog 9 vs 5 geometry turns",
+        "Pit entry/exit vs S/F"
+      ]
+    },
+    "lakeside": {
+      "status": "needs_owner_data",
+      "catalogDotCount": 9,
+      "publishedBoardCount": 9,
+      "pitPlacement": "unverified_heuristic",
+      "retrieve": [
+        "Lakeside Park official board map (Karrussell / Hungry / Shell Bridge named)",
+        "T1 unmatched; catalog 8 vs 7 geometry turns",
+        "Pit entry/exit vs S/F"
+      ]
+    }
+  }
+}

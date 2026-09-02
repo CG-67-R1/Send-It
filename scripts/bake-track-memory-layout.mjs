@@ -8,6 +8,7 @@
  * Corner hands/labels always come from app/src/data/tracks.json (and turn
  * verification where present). GPX is geometry only — never invents L/R.
  */
+import { spawnSync } from 'node:child_process';
 import fs from 'node:fs';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
@@ -923,6 +924,17 @@ function main() {
   }
 
   const ids = all ? BAKEABLE : [trackId];
+  const proofArgs = all
+    ? [path.join(__dirname, 'prove-track-maps.mjs')]
+    : [path.join(__dirname, 'prove-track-maps.mjs'), trackId];
+  const proof = spawnSync(process.execPath, proofArgs, { cwd: ROOT, encoding: 'utf8' });
+  if (proof.stdout) process.stdout.write(proof.stdout);
+  if (proof.stderr) process.stderr.write(proof.stderr);
+  if (proof.status !== 0) {
+    console.error('Bake blocked: map proof is not owner_verified. Retrieve the listed board maps and pit marks first.');
+    process.exit(1);
+  }
+
   const baked = [];
   let failed = 0;
   for (const id of ids) {

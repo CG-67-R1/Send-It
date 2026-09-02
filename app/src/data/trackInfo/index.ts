@@ -20,6 +20,10 @@ import winton from './maps/winton.json';
 import extraInfra from './infrastructure.json';
 import factsDoc from './facts.json';
 import type { TrackInfoFacts, TrackInfoInfra, TrackInfoMap } from './types';
+export {
+  areTrackInfoCornersVerified,
+  getTrackInfoMapProofStatus,
+} from './mapProofStatus';
 
 const MAPS: Record<string, TrackInfoMap> = {
   baskerville: baskerville as TrackInfoMap,

@@ -887,11 +887,20 @@
     {
       "id": "the_bend_international_t4",
       "number": 4,
-      "label": "Turn 4 (right kink) + Turn 5 (left sweeper)",
+      "label": "Turn 4",
       "direction": "complex",
       "sNorm": 0.3,
       "xPct": 47.67,
       "yPct": 26.53
+    },
+    {
+      "id": "the_bend_international_t5",
+      "number": 5,
+      "label": "Turn 5",
+      "direction": "complex",
+      "sNorm": 0.2632,
+      "xPct": 44.55,
+      "yPct": 39.78
     },
     {
       "id": "the_bend_international_t6",
@@ -905,11 +914,38 @@
     {
       "id": "the_bend_international_t7",
       "number": 7,
-      "label": "Turns 7-10 (high-speed esses, blind entry)",
+      "label": "Turn 7",
       "direction": "complex",
       "sNorm": 0.4232,
       "xPct": 55.62,
       "yPct": 54.74
+    },
+    {
+      "id": "the_bend_international_t8",
+      "number": 8,
+      "label": "Turn 8",
+      "direction": "complex",
+      "sNorm": 0.4211,
+      "xPct": 58.32,
+      "yPct": 37.24
+    },
+    {
+      "id": "the_bend_international_t9",
+      "number": 9,
+      "label": "Turn 9",
+      "direction": "complex",
+      "sNorm": 0.4737,
+      "xPct": 64.66,
+      "yPct": 33.59
+    },
+    {
+      "id": "the_bend_international_t10",
+      "number": 10,
+      "label": "Turn 10",
+      "direction": "complex",
+      "sNorm": 0.5263,
+      "xPct": 73.42,
+      "yPct": 37.01
     },
     {
       "id": "the_bend_international_t11",
@@ -950,11 +986,20 @@
     {
       "id": "the_bend_international_t15",
       "number": 15,
-      "label": "Turns 15-16 (S-bends / medium-speed complex)",
+      "label": "Turn 15",
       "direction": "complex",
       "sNorm": 0.7982,
       "xPct": 43.55,
       "yPct": 52.14
+    },
+    {
+      "id": "the_bend_international_t16",
+      "number": 16,
+      "label": "Turn 16",
+      "direction": "complex",
+      "sNorm": 0.8421,
+      "xPct": 38.12,
+      "yPct": 59.59
     },
     {
       "id": "the_bend_international_t17",

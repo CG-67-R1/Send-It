@@ -23,7 +23,7 @@
           "label": "Southern Loop",
           "shape": "Hairpin",
           "direction": "left",
-          "approachFrom": "T1 (Doohan Corner) exit"
+          "approachFrom": "T1 exit"
         },
         {
           "id": "phillip_island_t3",
@@ -31,7 +31,7 @@
           "label": "Stoner Corner",
           "shape": "Kink",
           "direction": "left",
-          "approachFrom": "T2 (Southern Loop) exit"
+          "approachFrom": "T2 exit"
         },
         {
           "id": "phillip_island_t4",
@@ -39,7 +39,7 @@
           "label": "Miller Corner (formerly Honda Corner)",
           "shape": "Hairpin",
           "direction": "right",
-          "approachFrom": "T3 (Stoner Corner) exit"
+          "approachFrom": "T3 exit"
         },
         {
           "id": "phillip_island_t5",
@@ -47,7 +47,7 @@
           "label": "Siberia",
           "shape": "Kink",
           "direction": "left",
-          "approachFrom": "T4 (Miller Corner) exit"
+          "approachFrom": "T4 exit"
         },
         {
           "id": "phillip_island_t6",
@@ -55,7 +55,7 @@
           "label": "Hayshed",
           "shape": "Kink",
           "direction": "complex",
-          "approachFrom": "T5 (Siberia) exit"
+          "approachFrom": "T5 exit"
         },
         {
           "id": "phillip_island_t7",
@@ -63,7 +63,7 @@
           "label": "Lukey Heights entry",
           "shape": "Corner / complex",
           "direction": "complex",
-          "approachFrom": "T6 (Hayshed) exit"
+          "approachFrom": "T6 exit"
         },
         {
           "id": "phillip_island_t8",
@@ -71,7 +71,7 @@
           "label": "Lukey Heights proper",
           "shape": "Corner / complex",
           "direction": "complex",
-          "approachFrom": "T7 (Lukey Heights entry) exit"
+          "approachFrom": "T7 exit"
         },
         {
           "id": "phillip_island_t9",
@@ -79,7 +79,7 @@
           "label": "MG Hairpin",
           "shape": "Hairpin",
           "direction": "right",
-          "approachFrom": "T8 (Lukey Heights proper) exit"
+          "approachFrom": "T8 exit"
         },
         {
           "id": "phillip_island_t10",
@@ -87,15 +87,23 @@
           "label": "Turn 10",
           "shape": "Kink",
           "direction": "complex",
-          "approachFrom": "T9 (MG Hairpin) exit"
+          "approachFrom": "T9 exit"
         },
         {
           "id": "phillip_island_t11",
           "number": 11,
-          "label": "Turn 11 (Gardner's)",
+          "label": "Turn 11",
           "shape": "Sweeper",
           "direction": "complex",
-          "approachFrom": "T10 (Turn 10) exit"
+          "approachFrom": "T10 exit"
+        },
+        {
+          "id": "phillip_island_t12",
+          "number": 12,
+          "label": "Gardner's",
+          "shape": "Sweeper",
+          "direction": "complex",
+          "approachFrom": "T11 exit"
         },
         {
           "id": "phillip_island_t_finish",
@@ -103,7 +111,7 @@
           "label": "T-Finish",
           "shape": "Straight",
           "direction": "straight",
-          "approachFrom": "T11 exit onto main straight",
+          "approachFrom": "T12 exit onto main straight",
           "isFinish": true
         }
       ]
@@ -119,8 +127,8 @@
         {
           "id": "mallala_t1",
           "number": 1,
-          "label": "Turn 1 kink / lead-in to Turn 2",
-          "shape": "Kink / lead-in complex",
+          "label": "Turn 1",
+          "shape": "Kink",
           "direction": "complex",
           "approachFrom": "main straight / start-finish"
         },
@@ -128,9 +136,9 @@
           "id": "mallala_t2",
           "number": 2,
           "label": "Turn 2 (tight left)",
-          "shape": "Tight left / hairpin-ish",
+          "shape": "Hairpin",
           "direction": "left",
-          "approachFrom": "T1 (Turn 1 kink) exit"
+          "approachFrom": "T1 exit"
         },
         {
           "id": "mallala_t3",
@@ -138,55 +146,55 @@
           "label": "Turn 3 (right hairpin)",
           "shape": "Hairpin",
           "direction": "right",
-          "approachFrom": "T2 (Turn 2) exit"
+          "approachFrom": "T2 exit"
         },
         {
           "id": "mallala_t4",
           "number": 4,
-          "label": "Turn 4 (long sweeper)",
-          "shape": "Fast sweeper / long radius",
+          "label": "Turn 4 (straight / not a corner)",
+          "shape": "Straight",
           "direction": "complex",
-          "approachFrom": "T3 (Turn 3) exit"
+          "approachFrom": "T3 exit"
         },
         {
           "id": "mallala_t5",
           "number": 5,
-          "label": "Turn 5 (medium bend)",
-          "shape": "Medium-speed bend / direction change",
+          "label": "Turn 5 (northern hairpin)",
+          "shape": "Hairpin",
           "direction": "complex",
-          "approachFrom": "T4 (Turn 4) exit"
+          "approachFrom": "T4 exit"
         },
         {
           "id": "mallala_t6",
           "number": 6,
-          "label": "Turn 6 (left kink / setup for hairpin)",
-          "shape": "Fast kink / setup",
-          "direction": "left",
-          "approachFrom": "T5 (Turn 5) exit"
+          "label": "Turn 6",
+          "shape": "Sweeper",
+          "direction": "complex",
+          "approachFrom": "T5 exit"
         },
         {
           "id": "mallala_t7",
           "number": 7,
-          "label": "Turn 7 (right hairpin)",
-          "shape": "Tight hairpin / major braking",
-          "direction": "right",
-          "approachFrom": "T6 (Turn 6) exit"
+          "label": "Turn 7",
+          "shape": "Corner / complex",
+          "direction": "complex",
+          "approachFrom": "T6 exit"
         },
         {
           "id": "mallala_t8",
           "number": 8,
-          "label": "Turn 8 (kink / connector)",
-          "shape": "Kink / transition",
+          "label": "Turn 8",
+          "shape": "Corner / complex",
           "direction": "complex",
-          "approachFrom": "T7 (Turn 7) exit"
+          "approachFrom": "T7 exit"
         },
         {
           "id": "mallala_t9",
           "number": 9,
-          "label": "Turn 9 (final corner onto main straight)",
-          "shape": "Final turn / drive corner",
+          "label": "Turn 9 (onto main straight)",
+          "shape": "Corner / complex",
           "direction": "complex",
-          "approachFrom": "T8 (Turn 8) exit"
+          "approachFrom": "T8 exit"
         },
         {
           "id": "mallala_t_finish",
@@ -325,10 +333,18 @@
         {
           "id": "morgan_park_t1",
           "number": 1,
-          "label": "Turns 1 & 2 (Right-Left Sweepers)",
-          "shape": "Kink",
+          "label": "Turn 1",
+          "shape": "Sweeper",
           "direction": "complex",
           "approachFrom": "main straight / start-finish"
+        },
+        {
+          "id": "morgan_park_t2",
+          "number": 2,
+          "label": "Turn 2",
+          "shape": "Sweeper",
+          "direction": "complex",
+          "approachFrom": "T1 exit"
         },
         {
           "id": "morgan_park_t3",
@@ -336,7 +352,7 @@
           "label": "Turn 3 (Blind Left-hander by the Wall)",
           "shape": "Corner / complex",
           "direction": "left",
-          "approachFrom": "T1 (Turns 1 & 2) exit"
+          "approachFrom": "T2 exit"
         },
         {
           "id": "morgan_park_t4",
@@ -344,7 +360,7 @@
           "label": "Turn 4 (Heavy Braking Right-Hairpin)",
           "shape": "Hairpin",
           "direction": "right",
-          "approachFrom": "T3 (Turn 3) exit"
+          "approachFrom": "T3 exit"
         },
         {
           "id": "morgan_park_t5",
@@ -352,7 +368,7 @@
           "label": "Turn 5 (Long Sweeping Left)",
           "shape": "Sweeper",
           "direction": "left",
-          "approachFrom": "T4 (Turn 4) exit"
+          "approachFrom": "T4 exit"
         },
         {
           "id": "morgan_park_t6",
@@ -360,7 +376,7 @@
           "label": "Turn 6 (Right-Hand Flick)",
           "shape": "Kink",
           "direction": "right",
-          "approachFrom": "T5 (Turn 5) exit"
+          "approachFrom": "T5 exit"
         },
         {
           "id": "morgan_park_t7",
@@ -368,15 +384,23 @@
           "label": "Turn 7 (Left-hand tight corner)",
           "shape": "Hairpin",
           "direction": "left",
-          "approachFrom": "T6 (Turn 6) exit"
+          "approachFrom": "T6 exit"
+        },
+        {
+          "id": "morgan_park_t8",
+          "number": 8,
+          "label": "Turn 8 (Fast Esses)",
+          "shape": "Esses / S",
+          "direction": "complex",
+          "approachFrom": "T7 exit"
         },
         {
           "id": "morgan_park_t9",
           "number": 9,
-          "label": "Turns 8 & 9 (Fast Esses)",
+          "label": "Turn 9 (Fast Esses)",
           "shape": "Esses / S",
           "direction": "complex",
-          "approachFrom": "T7 (Turn 7) exit"
+          "approachFrom": "T8 exit"
         },
         {
           "id": "morgan_park_t10",
@@ -384,15 +408,23 @@
           "label": "Turn 10 (Fast Banked Right)",
           "shape": "Sweeper",
           "direction": "right",
-          "approachFrom": "T8/9 (Fast Esses) exit"
+          "approachFrom": "T9 exit"
         },
         {
           "id": "morgan_park_t11",
           "number": 11,
-          "label": "Turns 11 & 12 (Final Chicane onto Main Straight)",
+          "label": "Turn 11 (Final Chicane)",
           "shape": "Chicane",
           "direction": "complex",
-          "approachFrom": "T10 (Turn 10) exit"
+          "approachFrom": "T10 exit"
+        },
+        {
+          "id": "morgan_park_t12",
+          "number": 12,
+          "label": "Turn 12 (Final Chicane onto Main Straight)",
+          "shape": "Chicane",
+          "direction": "complex",
+          "approachFrom": "T11 exit"
         },
         {
           "id": "morgan_park_t_finish",
@@ -400,7 +432,7 @@
           "label": "T-Finish",
           "shape": "Straight",
           "direction": "straight",
-          "approachFrom": "T11 exit onto main straight",
+          "approachFrom": "T12 exit onto main straight",
           "isFinish": true
         }
       ]
@@ -427,7 +459,7 @@
           "label": "Turn 2 (Right Hairpin)",
           "shape": "Hairpin",
           "direction": "right",
-          "approachFrom": "T1 (Turn 1) exit"
+          "approachFrom": "T1 exit"
         },
         {
           "id": "wakefield_park_t3",
@@ -435,7 +467,7 @@
           "label": "Turn 3 (Left Bend over Crest)",
           "shape": "Corner / complex",
           "direction": "left",
-          "approachFrom": "T2 (Turn 2) exit"
+          "approachFrom": "T2 exit"
         },
         {
           "id": "wakefield_park_t4",
@@ -443,7 +475,7 @@
           "label": "Turn 4 (Left-hander)",
           "shape": "Corner / complex",
           "direction": "left",
-          "approachFrom": "T3 (Turn 3) exit"
+          "approachFrom": "T3 exit"
         },
         {
           "id": "wakefield_park_t5",
@@ -451,15 +483,23 @@
           "label": "Turn 5 (Right-hander)",
           "shape": "Corner / complex",
           "direction": "right",
-          "approachFrom": "T4 (Turn 4) exit"
+          "approachFrom": "T4 exit"
         },
         {
           "id": "wakefield_park_t6",
           "number": 6,
-          "label": "Turns 6 & 7 (The Fish Hook)",
+          "label": "Turn 6 (The Fish Hook)",
           "shape": "Hairpin",
           "direction": "complex",
-          "approachFrom": "T5 (Turn 5) exit"
+          "approachFrom": "T5 exit"
+        },
+        {
+          "id": "wakefield_park_t7",
+          "number": 7,
+          "label": "Turn 7 (The Fish Hook)",
+          "shape": "Hairpin",
+          "direction": "complex",
+          "approachFrom": "T6 exit"
         },
         {
           "id": "wakefield_park_t8",
@@ -467,7 +507,7 @@
           "label": "Turn 8 (Left kink)",
           "shape": "Kink",
           "direction": "left",
-          "approachFrom": "T6 (Turns 6 & 7) exit"
+          "approachFrom": "T7 exit"
         },
         {
           "id": "wakefield_park_t9",
@@ -475,7 +515,7 @@
           "label": "Turn 9 (Fast Right Sweeper)",
           "shape": "Sweeper",
           "direction": "complex",
-          "approachFrom": "T8 (Turn 8) exit"
+          "approachFrom": "T8 exit"
         },
         {
           "id": "wakefield_park_t10",
@@ -483,7 +523,7 @@
           "label": "Turn 10 (Final Hairpin, The Sweeper)",
           "shape": "Hairpin",
           "direction": "left",
-          "approachFrom": "T9 (Turn 9) exit"
+          "approachFrom": "T9 exit"
         },
         {
           "id": "wakefield_park_t_finish",
@@ -508,7 +548,7 @@
           "id": "wanneroo_t1",
           "number": 1,
           "label": "Cat Corner",
-          "shape": "Kink",
+          "shape": "Hairpin",
           "direction": "right",
           "approachFrom": "main straight / start-finish"
         },
@@ -518,7 +558,7 @@
           "label": "Turn 2",
           "shape": "Kink",
           "direction": "complex",
-          "approachFrom": "T1 (Cat Corner) exit"
+          "approachFrom": "T1 exit"
         },
         {
           "id": "wanneroo_t3",
@@ -526,23 +566,23 @@
           "label": "Turn 3",
           "shape": "Kink",
           "direction": "left",
-          "approachFrom": "T2 (Turn 2) exit"
+          "approachFrom": "T2 exit"
         },
         {
           "id": "wanneroo_t4",
           "number": 4,
           "label": "Turn 4",
-          "shape": "Hairpin",
+          "shape": "Corner / complex",
           "direction": "complex",
-          "approachFrom": "T3 (Turn 3) exit"
+          "approachFrom": "T3 exit"
         },
         {
           "id": "wanneroo_t5",
           "number": 5,
           "label": "Turn 5",
-          "shape": "Hairpin",
+          "shape": "Corner / complex",
           "direction": "right",
-          "approachFrom": "T4 (Turn 4) exit"
+          "approachFrom": "T4 exit"
         },
         {
           "id": "wanneroo_t6",
@@ -550,23 +590,15 @@
           "label": "Kolb Corner (The Basin)",
           "shape": "Hairpin",
           "direction": "complex",
-          "approachFrom": "T5 (Turn 5) exit"
+          "approachFrom": "T5 exit"
         },
         {
           "id": "wanneroo_t7",
           "number": 7,
-          "label": "Turn 7",
+          "label": "Turn 7 (final onto main straight)",
           "shape": "Kink",
           "direction": "left",
-          "approachFrom": "T6 (Kolb Corner) exit"
-        },
-        {
-          "id": "wanneroo_t8",
-          "number": 8,
-          "label": "Final Corner",
-          "shape": "Sweeper",
-          "direction": "right",
-          "approachFrom": "T7 (Turn 7) exit"
+          "approachFrom": "T6 exit"
         },
         {
           "id": "wanneroo_t_finish",
@@ -574,7 +606,7 @@
           "label": "T-Finish",
           "shape": "Straight",
           "direction": "straight",
-          "approachFrom": "T8 exit onto main straight",
+          "approachFrom": "T7 exit onto main straight",
           "isFinish": true
         }
       ]
@@ -614,10 +646,18 @@
         {
           "id": "the_bend_international_t4",
           "number": 4,
-          "label": "Turn 4 (right kink) + Turn 5 (left sweeper)",
-          "shape": "Sweeper",
+          "label": "Turn 4",
+          "shape": "Kink",
           "direction": "complex",
           "approachFrom": "T3 exit"
+        },
+        {
+          "id": "the_bend_international_t5",
+          "number": 5,
+          "label": "Turn 5",
+          "shape": "Sweeper",
+          "direction": "complex",
+          "approachFrom": "T4 exit"
         },
         {
           "id": "the_bend_international_t6",
@@ -625,15 +665,39 @@
           "label": "Turn 6 (long left hairpin, off-camber)",
           "shape": "Hairpin",
           "direction": "left",
-          "approachFrom": "T4-5 exit"
+          "approachFrom": "T5 exit"
         },
         {
           "id": "the_bend_international_t7",
           "number": 7,
-          "label": "Turns 7-10 (high-speed esses, blind entry)",
+          "label": "Turn 7",
           "shape": "Esses / S",
           "direction": "complex",
           "approachFrom": "T6 exit"
+        },
+        {
+          "id": "the_bend_international_t8",
+          "number": 8,
+          "label": "Turn 8",
+          "shape": "Esses / S",
+          "direction": "complex",
+          "approachFrom": "T7 exit"
+        },
+        {
+          "id": "the_bend_international_t9",
+          "number": 9,
+          "label": "Turn 9",
+          "shape": "Esses / S",
+          "direction": "complex",
+          "approachFrom": "T8 exit"
+        },
+        {
+          "id": "the_bend_international_t10",
+          "number": 10,
+          "label": "Turn 10",
+          "shape": "Esses / S",
+          "direction": "complex",
+          "approachFrom": "T9 exit"
         },
         {
           "id": "the_bend_international_t11",
@@ -641,7 +705,7 @@
           "label": "Turn 11 (fast right after crest)",
           "shape": "Sweeper",
           "direction": "right",
-          "approachFrom": "T7-10 exit"
+          "approachFrom": "T10 exit"
         },
         {
           "id": "the_bend_international_t12",
@@ -657,7 +721,7 @@
           "label": "Turn 13 (hairpin end of back straight)",
           "shape": "Hairpin",
           "direction": "right",
-          "approachFrom": "T12 exit / back straight"
+          "approachFrom": "T12 exit"
         },
         {
           "id": "the_bend_international_t14",
@@ -670,10 +734,18 @@
         {
           "id": "the_bend_international_t15",
           "number": 15,
-          "label": "Turns 15-16 (S-bends / medium-speed complex)",
+          "label": "Turn 15",
           "shape": "Esses / S",
           "direction": "complex",
           "approachFrom": "T14 exit"
+        },
+        {
+          "id": "the_bend_international_t16",
+          "number": 16,
+          "label": "Turn 16",
+          "shape": "Esses / S",
+          "direction": "complex",
+          "approachFrom": "T15 exit"
         },
         {
           "id": "the_bend_international_t17",
@@ -681,7 +753,7 @@
           "label": "Turn 17 (right hairpin, heavy braking)",
           "shape": "Hairpin",
           "direction": "right",
-          "approachFrom": "T15-16 exit"
+          "approachFrom": "T16 exit"
         },
         {
           "id": "the_bend_international_t18",
@@ -714,7 +786,7 @@
           "id": "the_bend_gt_t1",
           "number": 1,
           "label": "Turn 1 (right sweeper / entry)",
-          "shape": "Sweeper",
+          "shape": "Corner / complex",
           "direction": "right",
           "approachFrom": "main straight / start-finish"
         },
@@ -722,7 +794,7 @@
           "id": "the_bend_gt_t2",
           "number": 2,
           "label": "Turn 2 (left hairpin)",
-          "shape": "Hairpin",
+          "shape": "Corner / complex",
           "direction": "left",
           "approachFrom": "T1 exit"
         },
@@ -730,7 +802,7 @@
           "id": "the_bend_gt_t3",
           "number": 3,
           "label": "Turn 3 (right hairpin)",
-          "shape": "Hairpin",
+          "shape": "Corner / complex",
           "direction": "right",
           "approachFrom": "T2 exit"
         },
@@ -738,7 +810,7 @@
           "id": "the_bend_gt_t4",
           "number": 4,
           "label": "Turn 4 (right sweeper / infield loop)",
-          "shape": "Sweeper",
+          "shape": "Corner / complex",
           "direction": "right",
           "approachFrom": "T3 exit"
         },
@@ -746,7 +818,7 @@
           "id": "the_bend_gt_t5",
           "number": 5,
           "label": "Turn 5 (left hairpin)",
-          "shape": "Hairpin",
+          "shape": "Corner / complex",
           "direction": "left",
           "approachFrom": "T4 exit"
         },
@@ -754,7 +826,7 @@
           "id": "the_bend_gt_t6",
           "number": 6,
           "label": "Turn 6 (infield complex / esses)",
-          "shape": "Esses / S",
+          "shape": "Corner / complex",
           "direction": "complex",
           "approachFrom": "T5 exit"
         },
@@ -762,7 +834,7 @@
           "id": "the_bend_gt_t7",
           "number": 7,
           "label": "Turn 7 (right hairpin / back section)",
-          "shape": "Hairpin",
+          "shape": "Corner / complex",
           "direction": "right",
           "approachFrom": "T6 exit"
         },
@@ -770,7 +842,7 @@
           "id": "the_bend_gt_t8",
           "number": 8,
           "label": "Turn 8 (left hairpin)",
-          "shape": "Hairpin",
+          "shape": "Corner / complex",
           "direction": "left",
           "approachFrom": "T7 exit"
         },
@@ -778,9 +850,217 @@
           "id": "the_bend_gt_t9",
           "number": 9,
           "label": "Turn 9 (right sweeper)",
-          "shape": "Sweeper",
+          "shape": "Corner / complex",
           "direction": "right",
           "approachFrom": "T8 exit"
+        },
+        {
+          "id": "the_bend_gt_t10",
+          "number": 10,
+          "label": "Turn 10",
+          "shape": "Corner / complex",
+          "direction": "complex",
+          "approachFrom": "T9 exit"
+        },
+        {
+          "id": "the_bend_gt_t11",
+          "number": 11,
+          "label": "Turn 11",
+          "shape": "Corner / complex",
+          "direction": "complex",
+          "approachFrom": "T10 exit"
+        },
+        {
+          "id": "the_bend_gt_t12",
+          "number": 12,
+          "label": "Turn 12",
+          "shape": "Corner / complex",
+          "direction": "complex",
+          "approachFrom": "T11 exit"
+        },
+        {
+          "id": "the_bend_gt_t13",
+          "number": 13,
+          "label": "Turn 13",
+          "shape": "Corner / complex",
+          "direction": "complex",
+          "approachFrom": "T12 exit"
+        },
+        {
+          "id": "the_bend_gt_t14",
+          "number": 14,
+          "label": "Turn 14",
+          "shape": "Corner / complex",
+          "direction": "complex",
+          "approachFrom": "T13 exit"
+        },
+        {
+          "id": "the_bend_gt_t15",
+          "number": 15,
+          "label": "Turn 15",
+          "shape": "Corner / complex",
+          "direction": "complex",
+          "approachFrom": "T14 exit"
+        },
+        {
+          "id": "the_bend_gt_t16",
+          "number": 16,
+          "label": "Turn 16",
+          "shape": "Corner / complex",
+          "direction": "complex",
+          "approachFrom": "T15 exit"
+        },
+        {
+          "id": "the_bend_gt_t17",
+          "number": 17,
+          "label": "Turn 17",
+          "shape": "Corner / complex",
+          "direction": "complex",
+          "approachFrom": "T16 exit"
+        },
+        {
+          "id": "the_bend_gt_t18",
+          "number": 18,
+          "label": "Turn 18",
+          "shape": "Corner / complex",
+          "direction": "complex",
+          "approachFrom": "T17 exit"
+        },
+        {
+          "id": "the_bend_gt_t19",
+          "number": 19,
+          "label": "Turn 19",
+          "shape": "Corner / complex",
+          "direction": "complex",
+          "approachFrom": "T18 exit"
+        },
+        {
+          "id": "the_bend_gt_t20",
+          "number": 20,
+          "label": "Turn 20",
+          "shape": "Corner / complex",
+          "direction": "complex",
+          "approachFrom": "T19 exit"
+        },
+        {
+          "id": "the_bend_gt_t21",
+          "number": 21,
+          "label": "Turn 21",
+          "shape": "Corner / complex",
+          "direction": "complex",
+          "approachFrom": "T20 exit"
+        },
+        {
+          "id": "the_bend_gt_t22",
+          "number": 22,
+          "label": "Turn 22",
+          "shape": "Corner / complex",
+          "direction": "complex",
+          "approachFrom": "T21 exit"
+        },
+        {
+          "id": "the_bend_gt_t23",
+          "number": 23,
+          "label": "Turn 23",
+          "shape": "Corner / complex",
+          "direction": "complex",
+          "approachFrom": "T22 exit"
+        },
+        {
+          "id": "the_bend_gt_t24",
+          "number": 24,
+          "label": "Turn 24",
+          "shape": "Corner / complex",
+          "direction": "complex",
+          "approachFrom": "T23 exit"
+        },
+        {
+          "id": "the_bend_gt_t25",
+          "number": 25,
+          "label": "Turn 25",
+          "shape": "Corner / complex",
+          "direction": "complex",
+          "approachFrom": "T24 exit"
+        },
+        {
+          "id": "the_bend_gt_t26",
+          "number": 26,
+          "label": "Turn 26",
+          "shape": "Corner / complex",
+          "direction": "complex",
+          "approachFrom": "T25 exit"
+        },
+        {
+          "id": "the_bend_gt_t27",
+          "number": 27,
+          "label": "Turn 27",
+          "shape": "Corner / complex",
+          "direction": "complex",
+          "approachFrom": "T26 exit"
+        },
+        {
+          "id": "the_bend_gt_t28",
+          "number": 28,
+          "label": "Turn 28",
+          "shape": "Corner / complex",
+          "direction": "complex",
+          "approachFrom": "T27 exit"
+        },
+        {
+          "id": "the_bend_gt_t29",
+          "number": 29,
+          "label": "Turn 29",
+          "shape": "Corner / complex",
+          "direction": "complex",
+          "approachFrom": "T28 exit"
+        },
+        {
+          "id": "the_bend_gt_t30",
+          "number": 30,
+          "label": "Turn 30",
+          "shape": "Corner / complex",
+          "direction": "complex",
+          "approachFrom": "T29 exit"
+        },
+        {
+          "id": "the_bend_gt_t31",
+          "number": 31,
+          "label": "Turn 31",
+          "shape": "Corner / complex",
+          "direction": "complex",
+          "approachFrom": "T30 exit"
+        },
+        {
+          "id": "the_bend_gt_t32",
+          "number": 32,
+          "label": "Turn 32",
+          "shape": "Corner / complex",
+          "direction": "complex",
+          "approachFrom": "T31 exit"
+        },
+        {
+          "id": "the_bend_gt_t33",
+          "number": 33,
+          "label": "Turn 33",
+          "shape": "Corner / complex",
+          "direction": "complex",
+          "approachFrom": "T32 exit"
+        },
+        {
+          "id": "the_bend_gt_t34",
+          "number": 34,
+          "label": "Turn 34",
+          "shape": "Corner / complex",
+          "direction": "complex",
+          "approachFrom": "T33 exit"
+        },
+        {
+          "id": "the_bend_gt_t35",
+          "number": 35,
+          "label": "Turn 35",
+          "shape": "Corner / complex",
+          "direction": "complex",
+          "approachFrom": "T34 exit"
         },
         {
           "id": "the_bend_gt_t_finish",
@@ -788,7 +1068,7 @@
           "label": "T-Finish",
           "shape": "Straight",
           "direction": "straight",
-          "approachFrom": "final corner exit onto main straight",
+          "approachFrom": "T35 exit onto main straight",
           "isFinish": true
         }
       ]
@@ -805,7 +1085,7 @@
           "id": "smp_gardner_t1",
           "number": 1,
           "label": "Turn 1",
-          "shape": "Kink",
+          "shape": "Corner / complex",
           "direction": "left",
           "approachFrom": "main straight / start-finish"
         },
@@ -845,7 +1125,7 @@
           "id": "smp_gardner_t6",
           "number": 6,
           "label": "Turn 6 (BMW / MotoRide corner)",
-          "shape": "Kink",
+          "shape": "Corner / complex",
           "direction": "left",
           "approachFrom": "T5 exit"
         },
@@ -885,7 +1165,7 @@
           "id": "smp_gardner_t11",
           "number": 11,
           "label": "Turn 11 (final corner)",
-          "shape": "Hairpin",
+          "shape": "Corner / complex",
           "direction": "left",
           "approachFrom": "T10 exit"
         },
@@ -911,90 +1191,146 @@
         {
           "id": "smp_brabham_t1",
           "number": 1,
-          "label": "Turn 1 (entry kink)",
-          "shape": "Kink",
+          "label": "Turn 1",
+          "shape": "Corner / complex",
           "direction": "complex",
           "approachFrom": "main straight / start-finish"
         },
         {
           "id": "smp_brabham_t2",
           "number": 2,
-          "label": "Turn 2 (hairpin complex)",
-          "shape": "Hairpin",
+          "label": "Turn 2",
+          "shape": "Corner / complex",
           "direction": "complex",
           "approachFrom": "T1 exit"
         },
         {
           "id": "smp_brabham_t3",
           "number": 3,
-          "label": "Turn 3 (right sweeper)",
-          "shape": "Sweeper",
+          "label": "Turn 3",
+          "shape": "Corner / complex",
           "direction": "complex",
           "approachFrom": "T2 exit"
         },
         {
           "id": "smp_brabham_t4",
           "number": 4,
-          "label": "Turn 4 (left sweeper)",
-          "shape": "Sweeper",
+          "label": "Turn 4",
+          "shape": "Corner / complex",
           "direction": "complex",
           "approachFrom": "T3 exit"
         },
         {
           "id": "smp_brabham_t5",
           "number": 5,
-          "label": "Turn 5 (left hairpin complex)",
-          "shape": "Hairpin",
+          "label": "Turn 5",
+          "shape": "Corner / complex",
           "direction": "complex",
           "approachFrom": "T4 exit"
         },
         {
           "id": "smp_brabham_t6",
           "number": 6,
-          "label": "Turn 6 (left hairpin)",
-          "shape": "Hairpin",
+          "label": "Turn 6",
+          "shape": "Corner / complex",
           "direction": "complex",
           "approachFrom": "T5 exit"
         },
         {
           "id": "smp_brabham_t7",
           "number": 7,
-          "label": "Turn 7 (right hairpin)",
-          "shape": "Hairpin",
+          "label": "Turn 7",
+          "shape": "Corner / complex",
           "direction": "complex",
           "approachFrom": "T6 exit"
         },
         {
           "id": "smp_brabham_t8",
           "number": 8,
-          "label": "Turn 8 (left kink)",
-          "shape": "Kink",
+          "label": "Turn 8",
+          "shape": "Corner / complex",
           "direction": "complex",
           "approachFrom": "T7 exit"
         },
         {
           "id": "smp_brabham_t9",
           "number": 9,
-          "label": "Turn 9 (right hairpin)",
-          "shape": "Hairpin",
+          "label": "Turn 9",
+          "shape": "Corner / complex",
           "direction": "complex",
           "approachFrom": "T8 exit"
         },
         {
           "id": "smp_brabham_t10",
           "number": 10,
-          "label": "Turn 10 (right kink)",
-          "shape": "Kink",
+          "label": "Turn 10",
+          "shape": "Corner / complex",
           "direction": "complex",
           "approachFrom": "T9 exit"
         },
         {
           "id": "smp_brabham_t11",
           "number": 11,
-          "label": "Turn 11 (left hairpin / final)",
-          "shape": "Hairpin",
+          "label": "Turn 11",
+          "shape": "Corner / complex",
           "direction": "complex",
           "approachFrom": "T10 exit"
+        },
+        {
+          "id": "smp_brabham_t12",
+          "number": 12,
+          "label": "Turn 12",
+          "shape": "Corner / complex",
+          "direction": "complex",
+          "approachFrom": "T11 exit"
+        },
+        {
+          "id": "smp_brabham_t13",
+          "number": 13,
+          "label": "Turn 13",
+          "shape": "Corner / complex",
+          "direction": "complex",
+          "approachFrom": "T12 exit"
+        },
+        {
+          "id": "smp_brabham_t14",
+          "number": 14,
+          "label": "Turn 14",
+          "shape": "Corner / complex",
+          "direction": "complex",
+          "approachFrom": "T13 exit"
+        },
+        {
+          "id": "smp_brabham_t15",
+          "number": 15,
+          "label": "Turn 15",
+          "shape": "Corner / complex",
+          "direction": "complex",
+          "approachFrom": "T14 exit"
+        },
+        {
+          "id": "smp_brabham_t16",
+          "number": 16,
+          "label": "Turn 16",
+          "shape": "Corner / complex",
+          "direction": "complex",
+          "approachFrom": "T15 exit"
+        },
+        {
+          "id": "smp_brabham_t17",
+          "number": 17,
+          "label": "Turn 17",
+          "shape": "Corner / complex",
+          "direction": "complex",
+          "approachFrom": "T16 exit"
+        },
+        {
+          "id": "smp_brabham_t18",
+          "number": 18,
+          "label": "Turn 18",
+          "shape": "Corner / complex",
+          "direction": "complex",
+          "approachFrom": "T17 exit"
         },
         {
           "id": "smp_brabham_t_finish",
@@ -1002,7 +1338,7 @@
           "label": "T-Finish",
           "shape": "Straight",
           "direction": "straight",
-          "approachFrom": "T11 exit onto main straight",
+          "approachFrom": "T18 exit onto main straight",
           "isFinish": true
         }
       ]
@@ -1018,50 +1354,74 @@
         {
           "id": "smp_druitt_t1",
           "number": 1,
-          "label": "Turn 1 (entry / right kink)",
-          "shape": "Kink",
+          "label": "Turn 1",
+          "shape": "Corner / complex",
           "direction": "complex",
           "approachFrom": "main straight / start-finish"
         },
         {
           "id": "smp_druitt_t2",
           "number": 2,
-          "label": "Turn 2 (right sweeper)",
-          "shape": "Sweeper",
+          "label": "Turn 2",
+          "shape": "Corner / complex",
           "direction": "complex",
           "approachFrom": "T1 exit"
         },
         {
           "id": "smp_druitt_t3",
           "number": 3,
-          "label": "Turn 3 (left kink)",
-          "shape": "Kink",
+          "label": "Turn 3",
+          "shape": "Corner / complex",
           "direction": "complex",
           "approachFrom": "T2 exit"
         },
         {
           "id": "smp_druitt_t4",
           "number": 4,
-          "label": "Turn 4 (left hairpin)",
-          "shape": "Hairpin",
+          "label": "Turn 4a",
+          "shape": "Corner / complex",
           "direction": "complex",
           "approachFrom": "T3 exit"
         },
         {
-          "id": "smp_druitt_t5",
-          "number": 5,
-          "label": "Turn 5 (right sweeper)",
-          "shape": "Sweeper",
+          "id": "smp_druitt_t4b",
+          "number": 4,
+          "label": "Turn 4b",
+          "shape": "Corner / complex",
           "direction": "complex",
-          "approachFrom": "T4 exit"
+          "approachFrom": "T4a exit"
         },
         {
-          "id": "smp_druitt_t6",
-          "number": 6,
-          "label": "Turn 6 (left hairpin / final)",
-          "shape": "Hairpin",
+          "id": "smp_druitt_t15",
+          "number": 15,
+          "label": "Turn 15",
+          "shape": "Corner / complex",
           "direction": "complex",
-          "approachFrom": "T5 exit"
+          "approachFrom": "T4b exit"
+        },
+        {
+          "id": "smp_druitt_t16",
+          "number": 16,
+          "label": "Turn 16",
+          "shape": "Corner / complex",
+          "direction": "complex",
+          "approachFrom": "T15 exit"
+        },
+        {
+          "id": "smp_druitt_t17",
+          "number": 17,
+          "label": "Turn 17",
+          "shape": "Corner / complex",
+          "direction": "complex",
+          "approachFrom": "T16 exit"
+        },
+        {
+          "id": "smp_druitt_t18",
+          "number": 18,
+          "label": "Turn 18 (final)",
+          "shape": "Corner / complex",
+          "direction": "complex",
+          "approachFrom": "T17 exit"
         },
         {
           "id": "smp_druitt_t_finish",
@@ -1069,7 +1429,7 @@
           "label": "T-Finish",
           "shape": "Straight",
           "direction": "straight",
-          "approachFrom": "T6 exit onto main straight",
+          "approachFrom": "T18 exit onto main straight",
           "isFinish": true
         }
       ]
@@ -1086,7 +1446,7 @@
           "id": "queensland_raceway_t1",
           "number": 1,
           "label": "Turn 1 (Kitty's Corner)",
-          "shape": "Kink",
+          "shape": "Corner / complex",
           "direction": "right",
           "approachFrom": "main straight / start-finish"
         },
@@ -1101,10 +1461,18 @@
         {
           "id": "queensland_raceway_t3",
           "number": 3,
-          "label": "Turns 3/4 (The Switchback / esses)",
+          "label": "Turn 3 (The Switchback)",
           "shape": "Esses / S",
           "direction": "complex",
           "approachFrom": "T2 exit"
+        },
+        {
+          "id": "queensland_raceway_t4",
+          "number": 4,
+          "label": "Turn 4 (The Switchback)",
+          "shape": "Esses / S",
+          "direction": "complex",
+          "approachFrom": "T3 exit"
         },
         {
           "id": "queensland_raceway_t5",
@@ -1112,13 +1480,13 @@
           "label": "Turn 5 (Spitfire / Thunderbolt hairpin)",
           "shape": "Hairpin",
           "direction": "right",
-          "approachFrom": "T3 exit"
+          "approachFrom": "T4 exit"
         },
         {
           "id": "queensland_raceway_t6",
           "number": 6,
           "label": "Turn 6 (final corner onto main straight)",
-          "shape": "Kink",
+          "shape": "Corner / complex",
           "direction": "right",
           "approachFrom": "T5 exit"
         },
@@ -1144,18 +1512,34 @@
         {
           "id": "broadford_t1",
           "number": 1,
-          "label": "Turns 1 & 2 (Big Left Honda Corner double-apex)",
-          "shape": "Double-apex",
+          "label": "Turn 1 (Honda Corner)",
+          "shape": "Corner / complex",
           "direction": "left",
           "approachFrom": "main straight / start-finish"
         },
         {
+          "id": "broadford_t2",
+          "number": 2,
+          "label": "Turn 2 (Honda Corner)",
+          "shape": "Corner / complex",
+          "direction": "complex",
+          "approachFrom": "T1 exit"
+        },
+        {
           "id": "broadford_t3",
           "number": 3,
-          "label": "Turns 3 & 4 (Back Kink and Straight)",
-          "shape": "Kink",
+          "label": "Turn 3 (Back Kink)",
+          "shape": "Corner / complex",
           "direction": "complex",
-          "approachFrom": "T1 (Turns 1 & 2) exit"
+          "approachFrom": "T2 exit"
+        },
+        {
+          "id": "broadford_t4",
+          "number": 4,
+          "label": "Turn 4 (Back Straight)",
+          "shape": "Corner / complex",
+          "direction": "complex",
+          "approachFrom": "T3 exit"
         },
         {
           "id": "broadford_t5",
@@ -1163,31 +1547,55 @@
           "label": "Turn 5 (Uphill Hairpin)",
           "shape": "Hairpin",
           "direction": "right",
-          "approachFrom": "T3 (Turns 3 & 4) exit"
+          "approachFrom": "T4 exit"
         },
         {
           "id": "broadford_t6",
           "number": 6,
           "label": "Turn 6 (The Kink)",
-          "shape": "Kink",
+          "shape": "Corner / complex",
           "direction": "complex",
-          "approachFrom": "T5 (Turn 5) exit"
+          "approachFrom": "T5 exit"
         },
         {
           "id": "broadford_t7",
           "number": 7,
-          "label": "Turns 7/8/9 (Flip-Flop Esses / Motorcross Flip Flop)",
-          "shape": "Chicane",
+          "label": "Turn 7 (Flip-Flop)",
+          "shape": "Esses / S",
           "direction": "complex",
-          "approachFrom": "T6 (Turn 6) exit"
+          "approachFrom": "T6 exit"
+        },
+        {
+          "id": "broadford_t8",
+          "number": 8,
+          "label": "Turn 8 (Flip-Flop)",
+          "shape": "Esses / S",
+          "direction": "complex",
+          "approachFrom": "T7 exit"
+        },
+        {
+          "id": "broadford_t9",
+          "number": 9,
+          "label": "Turn 9 (Flip-Flop)",
+          "shape": "Esses / S",
+          "direction": "complex",
+          "approachFrom": "T8 exit"
         },
         {
           "id": "broadford_t10",
           "number": 10,
-          "label": "Turns 10 & 11 (Twin Apex Rights)",
-          "shape": "Double-apex",
+          "label": "Turn 10 (Twin Apex Rights)",
+          "shape": "Corner / complex",
           "direction": "right",
-          "approachFrom": "T7 (Turns 7/8/9) exit"
+          "approachFrom": "T9 exit"
+        },
+        {
+          "id": "broadford_t11",
+          "number": 11,
+          "label": "Turn 11 (Twin Apex Rights)",
+          "shape": "Corner / complex",
+          "direction": "complex",
+          "approachFrom": "T10 exit"
         },
         {
           "id": "broadford_t12",
@@ -1195,7 +1603,7 @@
           "label": "Turn 12 (final left onto straight)",
           "shape": "Corner / complex",
           "direction": "left",
-          "approachFrom": "T10 (Turns 10 & 11) exit"
+          "approachFrom": "T11 exit"
         },
         {
           "id": "broadford_t_finish",
@@ -1219,42 +1627,106 @@
         {
           "id": "sandown_t1",
           "number": 1,
-          "label": "Turn 1 (first left hairpin complex)",
-          "shape": "Hairpin",
+          "label": "Turn 1",
+          "shape": "Corner / complex",
           "direction": "complex",
           "approachFrom": "main straight / start-finish"
         },
         {
           "id": "sandown_t2",
           "number": 2,
-          "label": "Turn 2 (left kink onto back section)",
-          "shape": "Kink",
+          "label": "Turn 2",
+          "shape": "Corner / complex",
           "direction": "complex",
           "approachFrom": "T1 exit"
         },
         {
           "id": "sandown_t3",
           "number": 3,
-          "label": "Turn 3 (left sweeper)",
-          "shape": "Sweeper",
+          "label": "Turn 3",
+          "shape": "Corner / complex",
           "direction": "complex",
           "approachFrom": "T2 exit"
         },
         {
           "id": "sandown_t4",
           "number": 4,
-          "label": "Turn 4 (left kink / Dandenong Road complex)",
-          "shape": "Kink",
+          "label": "Turn 4",
+          "shape": "Corner / complex",
           "direction": "complex",
           "approachFrom": "T3 exit"
         },
         {
           "id": "sandown_t5",
           "number": 5,
-          "label": "Turn 5 (final complex onto main straight)",
+          "label": "Turn 5",
           "shape": "Corner / complex",
           "direction": "complex",
           "approachFrom": "T4 exit"
+        },
+        {
+          "id": "sandown_t6",
+          "number": 6,
+          "label": "Turn 6",
+          "shape": "Corner / complex",
+          "direction": "complex",
+          "approachFrom": "T5 exit"
+        },
+        {
+          "id": "sandown_t7",
+          "number": 7,
+          "label": "Turn 7",
+          "shape": "Corner / complex",
+          "direction": "complex",
+          "approachFrom": "T6 exit"
+        },
+        {
+          "id": "sandown_t8",
+          "number": 8,
+          "label": "Turn 8",
+          "shape": "Corner / complex",
+          "direction": "complex",
+          "approachFrom": "T7 exit"
+        },
+        {
+          "id": "sandown_t9",
+          "number": 9,
+          "label": "Turn 9",
+          "shape": "Corner / complex",
+          "direction": "complex",
+          "approachFrom": "T8 exit"
+        },
+        {
+          "id": "sandown_t10",
+          "number": 10,
+          "label": "Turn 10",
+          "shape": "Corner / complex",
+          "direction": "complex",
+          "approachFrom": "T9 exit"
+        },
+        {
+          "id": "sandown_t11",
+          "number": 11,
+          "label": "Turn 11",
+          "shape": "Corner / complex",
+          "direction": "complex",
+          "approachFrom": "T10 exit"
+        },
+        {
+          "id": "sandown_t12",
+          "number": 12,
+          "label": "Turn 12",
+          "shape": "Corner / complex",
+          "direction": "complex",
+          "approachFrom": "T11 exit"
+        },
+        {
+          "id": "sandown_t13",
+          "number": 13,
+          "label": "Turn 13",
+          "shape": "Corner / complex",
+          "direction": "complex",
+          "approachFrom": "T12 exit"
         },
         {
           "id": "sandown_t_finish",
@@ -1262,7 +1734,7 @@
           "label": "T-Finish",
           "shape": "Straight",
           "direction": "straight",
-          "approachFrom": "T5 exit onto main straight",
+          "approachFrom": "T13 exit onto main straight",
           "isFinish": true
         }
       ]
@@ -1278,47 +1750,47 @@
         {
           "id": "winton_t1",
           "number": 1,
-          "label": "Turn 1 (entry complex / left kink)",
-          "shape": "Kink",
+          "label": "Turn 1",
+          "shape": "Corner / complex",
           "direction": "complex",
           "approachFrom": "main straight / start-finish"
         },
         {
           "id": "winton_t2",
           "number": 2,
-          "label": "Turn 2 (right sweeper)",
-          "shape": "Sweeper",
+          "label": "Turn 2",
+          "shape": "Corner / complex",
           "direction": "complex",
           "approachFrom": "T1 exit"
         },
         {
           "id": "winton_t3",
           "number": 3,
-          "label": "Turn 3 (right sweeper)",
-          "shape": "Sweeper",
+          "label": "Turn 3",
+          "shape": "Corner / complex",
           "direction": "complex",
           "approachFrom": "T2 exit"
         },
         {
           "id": "winton_t4",
           "number": 4,
-          "label": "Turn 4 (left sweeper / infield)",
-          "shape": "Sweeper",
+          "label": "Turn 4",
+          "shape": "Corner / complex",
           "direction": "complex",
           "approachFrom": "T3 exit"
         },
         {
           "id": "winton_t5",
           "number": 5,
-          "label": "Turn 5 (right hairpin)",
-          "shape": "Hairpin",
+          "label": "Turn 5",
+          "shape": "Corner / complex",
           "direction": "complex",
           "approachFrom": "T4 exit"
         },
         {
           "id": "winton_t6",
           "number": 6,
-          "label": "Turn 6 (complex / back section kinks)",
+          "label": "Turn 6",
           "shape": "Corner / complex",
           "direction": "complex",
           "approachFrom": "T5 exit"
@@ -1326,18 +1798,50 @@
         {
           "id": "winton_t7",
           "number": 7,
-          "label": "Turn 7 (left sweeper)",
-          "shape": "Sweeper",
+          "label": "Turn 7 (often grouped with 8–9)",
+          "shape": "Corner / complex",
           "direction": "complex",
           "approachFrom": "T6 exit"
         },
         {
           "id": "winton_t8",
           "number": 8,
-          "label": "Turn 8 (right hairpin / final)",
-          "shape": "Hairpin",
+          "label": "Turn 8 (often grouped with 7–9)",
+          "shape": "Corner / complex",
           "direction": "complex",
           "approachFrom": "T7 exit"
+        },
+        {
+          "id": "winton_t9",
+          "number": 9,
+          "label": "Turn 9 (often grouped with 7–8)",
+          "shape": "Corner / complex",
+          "direction": "complex",
+          "approachFrom": "T8 exit"
+        },
+        {
+          "id": "winton_t10",
+          "number": 10,
+          "label": "Turn 10",
+          "shape": "Corner / complex",
+          "direction": "complex",
+          "approachFrom": "T9 exit"
+        },
+        {
+          "id": "winton_t11",
+          "number": 11,
+          "label": "Turn 11",
+          "shape": "Corner / complex",
+          "direction": "complex",
+          "approachFrom": "T10 exit"
+        },
+        {
+          "id": "winton_t12",
+          "number": 12,
+          "label": "Turn 12",
+          "shape": "Corner / complex",
+          "direction": "complex",
+          "approachFrom": "T11 exit"
         },
         {
           "id": "winton_t_finish",
@@ -1345,7 +1849,7 @@
           "label": "T-Finish",
           "shape": "Straight",
           "direction": "straight",
-          "approachFrom": "T8 exit onto main straight",
+          "approachFrom": "T12 exit onto main straight",
           "isFinish": true
         }
       ]
@@ -1361,15 +1865,15 @@
         {
           "id": "calder_park_t1",
           "number": 1,
-          "label": "Turn 1 (right hairpin / main hairpin)",
-          "shape": "Hairpin",
+          "label": "Turn 1",
+          "shape": "Corner / complex",
           "direction": "complex",
           "approachFrom": "main straight / start-finish"
         },
         {
           "id": "calder_park_t2",
           "number": 2,
-          "label": "Turn 2 (complex infield section)",
+          "label": "Turn 2",
           "shape": "Corner / complex",
           "direction": "complex",
           "approachFrom": "T1 exit"
@@ -1377,10 +1881,66 @@
         {
           "id": "calder_park_t3",
           "number": 3,
-          "label": "Turn 3 (right hairpin / back section)",
-          "shape": "Hairpin",
+          "label": "Turn 3",
+          "shape": "Corner / complex",
           "direction": "complex",
           "approachFrom": "T2 exit"
+        },
+        {
+          "id": "calder_park_t4",
+          "number": 4,
+          "label": "Turn 4",
+          "shape": "Corner / complex",
+          "direction": "complex",
+          "approachFrom": "T3 exit"
+        },
+        {
+          "id": "calder_park_t5",
+          "number": 5,
+          "label": "Turn 5",
+          "shape": "Corner / complex",
+          "direction": "complex",
+          "approachFrom": "T4 exit"
+        },
+        {
+          "id": "calder_park_t6",
+          "number": 6,
+          "label": "Turn 6",
+          "shape": "Corner / complex",
+          "direction": "complex",
+          "approachFrom": "T5 exit"
+        },
+        {
+          "id": "calder_park_t7",
+          "number": 7,
+          "label": "Turn 7",
+          "shape": "Corner / complex",
+          "direction": "complex",
+          "approachFrom": "T6 exit"
+        },
+        {
+          "id": "calder_park_t8",
+          "number": 8,
+          "label": "Turn 8",
+          "shape": "Corner / complex",
+          "direction": "complex",
+          "approachFrom": "T7 exit"
+        },
+        {
+          "id": "calder_park_t9",
+          "number": 9,
+          "label": "Turn 9",
+          "shape": "Corner / complex",
+          "direction": "complex",
+          "approachFrom": "T8 exit"
+        },
+        {
+          "id": "calder_park_t10",
+          "number": 10,
+          "label": "Turn 10",
+          "shape": "Corner / complex",
+          "direction": "complex",
+          "approachFrom": "T9 exit"
         },
         {
           "id": "calder_park_t_finish",
@@ -1388,7 +1948,7 @@
           "label": "T-Finish",
           "shape": "Straight",
           "direction": "straight",
-          "approachFrom": "T3 exit onto main straight",
+          "approachFrom": "T10 exit onto main straight",
           "isFinish": true
         }
       ]
@@ -1543,7 +2103,7 @@
         {
           "id": "baskerville_t2",
           "number": 2,
-          "label": "Turn 2",
+          "label": "Turn 2 (Esses)",
           "shape": "Corner / complex",
           "direction": "complex",
           "approachFrom": "T1 exit"
@@ -1551,7 +2111,7 @@
         {
           "id": "baskerville_t3",
           "number": 3,
-          "label": "Turn 3",
+          "label": "Turn 3 (Esses)",
           "shape": "Corner / complex",
           "direction": "complex",
           "approachFrom": "T2 exit"
@@ -1567,7 +2127,7 @@
         {
           "id": "baskerville_t5",
           "number": 5,
-          "label": "Turn 5",
+          "label": "Turn 5 (Dunlop)",
           "shape": "Corner / complex",
           "direction": "complex",
           "approachFrom": "T4 exit"
@@ -1575,7 +2135,7 @@
         {
           "id": "baskerville_t6",
           "number": 6,
-          "label": "Turn 6",
+          "label": "Turn 6 (Dunlop)",
           "shape": "Corner / complex",
           "direction": "complex",
           "approachFrom": "T5 exit"
@@ -1583,7 +2143,7 @@
         {
           "id": "baskerville_t7",
           "number": 7,
-          "label": "Turn 7",
+          "label": "Turn 7 (Calvins)",
           "shape": "Corner / complex",
           "direction": "complex",
           "approachFrom": "T6 exit"
@@ -1591,7 +2151,7 @@
         {
           "id": "baskerville_t8",
           "number": 8,
-          "label": "Turn 8",
+          "label": "Turn 8 (Shell Corner)",
           "shape": "Corner / complex",
           "direction": "complex",
           "approachFrom": "T7 exit"
@@ -1599,10 +2159,18 @@
         {
           "id": "baskerville_t9",
           "number": 9,
-          "label": "Turn 9",
+          "label": "Turn 9 (Holden)",
           "shape": "Corner / complex",
           "direction": "complex",
           "approachFrom": "T8 exit"
+        },
+        {
+          "id": "baskerville_t10",
+          "number": 10,
+          "label": "Turn 10",
+          "shape": "Corner / complex",
+          "direction": "complex",
+          "approachFrom": "T9 exit"
         },
         {
           "id": "baskerville_t_finish",
@@ -1610,7 +2178,7 @@
           "label": "T-Finish",
           "shape": "Straight",
           "direction": "straight",
-          "approachFrom": "T9 exit onto main straight",
+          "approachFrom": "T10 exit onto main straight",
           "isFinish": true
         }
       ]
@@ -1626,7 +2194,7 @@
         {
           "id": "lakeside_t1",
           "number": 1,
-          "label": "Turn 1",
+          "label": "BP Bend",
           "shape": "Corner / complex",
           "direction": "complex",
           "approachFrom": "main straight / start-finish"
@@ -1634,7 +2202,7 @@
         {
           "id": "lakeside_t2",
           "number": 2,
-          "label": "Karrussell",
+          "label": "The Karrussell",
           "shape": "Corner / complex",
           "direction": "complex",
           "approachFrom": "T1 exit"
@@ -1645,12 +2213,12 @@
           "label": "Turn 3",
           "shape": "Corner / complex",
           "direction": "complex",
-          "approachFrom": "T2 (Karrussell) exit"
+          "approachFrom": "T2 exit"
         },
         {
           "id": "lakeside_t4",
           "number": 4,
-          "label": "Turn 4",
+          "label": "The Bus Stop",
           "shape": "Corner / complex",
           "direction": "complex",
           "approachFrom": "T3 exit"
@@ -1658,7 +2226,7 @@
         {
           "id": "lakeside_t5",
           "number": 5,
-          "label": "Hungry",
+          "label": "The Bus Stop",
           "shape": "Corner / complex",
           "direction": "complex",
           "approachFrom": "T4 exit"
@@ -1666,26 +2234,34 @@
         {
           "id": "lakeside_t6",
           "number": 6,
-          "label": "Shell Bridge",
+          "label": "Dunlop Bridge",
           "shape": "Corner / complex",
           "direction": "complex",
-          "approachFrom": "T5 (Hungry) exit"
+          "approachFrom": "T5 exit"
         },
         {
           "id": "lakeside_t7",
           "number": 7,
-          "label": "Turn 7",
+          "label": "Hungry Corner",
           "shape": "Corner / complex",
           "direction": "complex",
-          "approachFrom": "T6 (Shell Bridge) exit"
+          "approachFrom": "T6 exit"
         },
         {
           "id": "lakeside_t8",
           "number": 8,
-          "label": "Turn 8",
+          "label": "Eastern Loop",
           "shape": "Corner / complex",
           "direction": "complex",
           "approachFrom": "T7 exit"
+        },
+        {
+          "id": "lakeside_t9",
+          "number": 9,
+          "label": "Ford Corner",
+          "shape": "Corner / complex",
+          "direction": "complex",
+          "approachFrom": "T8 exit"
         },
         {
           "id": "lakeside_t_finish",
@@ -1693,7 +2269,7 @@
           "label": "T-Finish",
           "shape": "Straight",
           "direction": "straight",
-          "approachFrom": "T8 exit onto main straight",
+          "approachFrom": "T9 exit onto main straight",
           "isFinish": true
         }
       ]

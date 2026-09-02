@@ -315,20 +315,11 @@
     {
       "id": "wanneroo_t7",
       "number": 7,
-      "label": "Turn 7",
+      "label": "Turn 7 (final onto main straight)",
       "direction": "left",
       "sNorm": 0.922,
       "xPct": 72.79,
       "yPct": 72.17
-    },
-    {
-      "id": "wanneroo_t8",
-      "number": 8,
-      "label": "Final Corner",
-      "direction": "right",
-      "sNorm": 0.9777,
-      "xPct": 70.5,
-      "yPct": 86.31
     }
   ],
   "startFinish": {
