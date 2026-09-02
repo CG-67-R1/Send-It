@@ -2,6 +2,9 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 import { STORAGE_KEYS } from '../constants/storageKeys';
 import type { OtherTrackContext } from '../data/tracks';
 import { logStorageError } from './logStorageError';
+import { trackPrepBriefingInstruction, trackPrepLevelFromActivity } from '../utils/riderSkillCopy';
+
+export { trackPrepLevelFromActivity };
 
 const KEY_SELECTED = STORAGE_KEYS.TRACK_PREP_SELECTED_TRACK;
 const KEY_DRAFT = STORAGE_KEYS.TRACKDAY_PREP_DRAFT;
@@ -214,8 +217,12 @@ export function formatTrackdayPrepForAi(draft: TrackdayPrepDraft): string {
 
   return [
     'Create a Trackday Prep briefing for this rider. Be practical, calm, and specific.',
-    'Frame coaching detail for their rider level. Infer power type / character from the bike string.',
+    trackPrepBriefingInstruction(draft.riderLevel),
+    'Infer power type / character from the bike string.',
     'Cover mindset, session structure, tyre warm-up / grip expectations for type + condition, and weather implications.',
+    draft.riderLevel === 'racer' || draft.riderLevel === 'experienced'
+      ? 'Include what to log on the Bike Setup Sheet after each session.'
+      : 'Keep the briefing short (about one screen). Do not dump a race-engineer checklist.',
     '',
     'Rider inputs',
     formatTrackdayPrepSummary(draft),

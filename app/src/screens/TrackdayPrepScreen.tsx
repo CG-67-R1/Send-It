@@ -22,6 +22,7 @@ import {
   formatTrackdayPrepForAi,
   RIDER_LEVEL_OPTIONS,
   saveTrackdayPrepDraft,
+  trackPrepLevelFromActivity,
   trackdayPrepIsComplete,
   TYRE_CONDITION_OPTIONS,
   TYRE_TYPE_OPTIONS,
@@ -93,8 +94,12 @@ export function TrackdayPrepScreen() {
     let cancelled = false;
     void (async () => {
       const answers = await getOnboardingAnswers();
-      if (cancelled || !answers?.favouriteBike?.trim()) return;
-      setDraft((prev) => (prev.bike.trim() ? prev : { ...prev, bike: answers.favouriteBike }));
+      if (cancelled || !answers) return;
+      setDraft((prev) => ({
+        ...prev,
+        bike: prev.bike.trim() ? prev.bike : answers.favouriteBike?.trim() || prev.bike,
+        riderLevel: prev.riderLevel || trackPrepLevelFromActivity(answers.activity),
+      }));
     })();
     return () => {
       cancelled = true;
@@ -202,6 +207,10 @@ export function TrackdayPrepScreen() {
           value={draft.riderLevel}
           onChange={(riderLevel: RiderLevel) => patch({ riderLevel })}
         />
+        <Text style={styles.levelHint}>
+          Filled from how you ride so the briefing matches you. Change it for this day, or anytime
+          in Settings.
+        </Text>
 
         <View style={styles.field}>
           <Text style={styles.label}>Bike</Text>
@@ -288,6 +297,7 @@ const styles = StyleSheet.create({
   },
   inputMultiline: { minHeight: 96 },
   forecast: { marginTop: 8, fontSize: 13, color: '#93c5fd', lineHeight: 18 },
+  levelHint: { marginTop: -8, marginBottom: 16, fontSize: 13, color: '#94a3b8', lineHeight: 18 },
   chipRow: { flexDirection: 'row', flexWrap: 'wrap', gap: 8 },
   chip: {
     paddingVertical: 10,

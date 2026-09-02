@@ -6,6 +6,7 @@ import { formatSessionForExport } from '../storage/trackWalk';
 
 import { stripChatMarkdown } from './chatMarkdown';
 import type { CoachAttachmentPayload } from './coachAttachments';
+import { riderSkillReplyInstruction } from './riderSkillCopy';
 
 export type CoachMode = 'coach' | 'bikesetup';
 
@@ -60,11 +61,13 @@ export async function sendCoachChat(
   try {
     const answers = await getOnboardingAnswers();
     const riderSkill = riderAiSkillFromActivity(answers?.activity);
+    const text = (message || '').trim();
+    const outbound = [text, riderSkillReplyInstruction(riderSkill)].filter(Boolean).join('\n\n');
     const res = await apiFetch(ROADRACE_CHAT_URL, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({
-        message,
+        message: outbound || 'Please review the attached file(s).',
         mode,
         riderSkill,
         history: history.map((m) => ({ role: m.role, content: m.content })),

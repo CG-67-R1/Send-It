@@ -14,9 +14,14 @@ import type { NativeStackNavigationProp } from '@react-navigation/native-stack';
 import { BikeSetupHotspotSheet } from '../components/BikeSetupHotspotSheet';
 import {
   BIKE_SETUP_HOTSPOTS,
-  BIKE_SETUP_INTRO,
   type BikeSetupHotspot,
 } from '../data/bikeSetupBasics';
+import type { RiderAiSkill } from '../navigation/homeMode';
+import {
+  bikeSetupIntroForSkill,
+  showDetailedSetupTips,
+} from '../utils/riderSkillCopy';
+import { getSavedRiderAiSkill } from '../utils/riderSkillSaved';
 
 const DIAGRAM = require('../assets/bike-setup/suspension-bike.png');
 
@@ -47,7 +52,13 @@ export function BikeSetupBasicsScreen() {
   const [selectedHotspotId, setSelectedHotspotId] = useState<string | null>(null);
   const [hoveredHotspotId, setHoveredHotspotId] = useState<string | null>(null);
   const [diagramSize, setDiagramSize] = useState({ width: 0, height: 0 });
+  const [riderSkill, setRiderSkill] = useState<RiderAiSkill>('novice');
   const labelTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
+  const intro = bikeSetupIntroForSkill(riderSkill);
+
+  useEffect(() => {
+    void getSavedRiderAiSkill().then(setRiderSkill);
+  }, []);
 
   useEffect(() => {
     return () => {
@@ -63,12 +74,18 @@ export function BikeSetupBasicsScreen() {
   const openAi = useCallback(
     (hotspot: BikeSetupHotspot) => {
       setSelected(null);
+      const extra =
+        riderSkill === 'novice'
+          ? ' Keep it simple: everyday language, one change, no clicker-chasing unless I ask.'
+          : riderSkill === 'advanced'
+            ? ' Include technical detail and what to check after the next session.'
+            : '';
       navigation.navigate('CoachChat', {
         mode: 'bikesetup',
-        seedDraftMessage: hotspot.aiPrompt,
+        seedDraftMessage: `${hotspot.aiPrompt}${extra}`,
       });
     },
-    [navigation]
+    [navigation, riderSkill]
   );
 
   const selectHotspot = useCallback((hotspot: BikeSetupHotspot) => {
@@ -91,8 +108,8 @@ export function BikeSetupBasicsScreen() {
         showsVerticalScrollIndicator={false}
         keyboardShouldPersistTaps="handled"
       >
-        <Text style={styles.intro}>{BIKE_SETUP_INTRO.whyBase}</Text>
-        <Text style={styles.caveat}>{BIKE_SETUP_INTRO.capabilityCaveat}</Text>
+        <Text style={styles.intro}>{intro.whyBase}</Text>
+        <Text style={styles.caveat}>{intro.capabilityCaveat}</Text>
         <Text style={styles.hint}>
           Tap a red point, or choose a part below. Labels appear when selected.
         </Text>
@@ -184,6 +201,7 @@ export function BikeSetupBasicsScreen() {
         hotspot={selected}
         onClose={() => setSelected(null)}
         onAskAi={openAi}
+        simpleTips={!showDetailedSetupTips(riderSkill)}
       />
     </View>
   );

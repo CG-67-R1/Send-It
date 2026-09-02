@@ -33,6 +33,7 @@ import {
   type CoachMode,
 } from '../utils/coachChat';
 import { buildCoachGoalsPrompt, getBikeSetupDaySheet } from '../storage/bikeSetupSheet';
+import { getSavedRiderAiSkill } from '../utils/riderSkillSaved';
 import type { RiderCoachStackParamList } from './RiderCoachScreen';
 
 type ChatMessage = CoachChatDisplayMessage;
@@ -97,7 +98,7 @@ export function CoachChatScreen() {
     if (goalsSeededRef.current) return;
     let cancelled = false;
     (async () => {
-      const sheet = await getBikeSetupDaySheet();
+      const [sheet, skill] = await Promise.all([getBikeSetupDaySheet(), getSavedRiderAiSkill()]);
       if (cancelled) return;
       goalsSeededRef.current = true;
       setMessages((prev) => {
@@ -105,7 +106,7 @@ export function CoachChatScreen() {
         return [
           createChatMessage({
             role: 'assistant',
-            content: buildCoachGoalsPrompt(sheet.goalsForToday),
+            content: buildCoachGoalsPrompt(sheet.goalsForToday, skill),
           }),
         ];
       });
@@ -142,20 +143,22 @@ export function CoachChatScreen() {
 
             if (mode === 'coach') {
               goalsSeededRef.current = true;
-              void getBikeSetupDaySheet().then((sheet) => {
-                if (
-                  clearedGeneration !== conversationGenerationRef.current ||
-                  modeRef.current !== 'coach'
-                ) {
-                  return;
+              void Promise.all([getBikeSetupDaySheet(), getSavedRiderAiSkill()]).then(
+                ([sheet, skill]) => {
+                  if (
+                    clearedGeneration !== conversationGenerationRef.current ||
+                    modeRef.current !== 'coach'
+                  ) {
+                    return;
+                  }
+                  setMessages([
+                    createChatMessage({
+                      role: 'assistant',
+                      content: buildCoachGoalsPrompt(sheet.goalsForToday, skill),
+                    }),
+                  ]);
                 }
-                setMessages([
-                  createChatMessage({
-                    role: 'assistant',
-                    content: buildCoachGoalsPrompt(sheet.goalsForToday),
-                  }),
-                ]);
-              });
+              );
             } else {
               goalsSeededRef.current = false;
             }

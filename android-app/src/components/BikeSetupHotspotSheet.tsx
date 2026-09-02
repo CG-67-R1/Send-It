@@ -6,9 +6,10 @@ type Props = {
   hotspot: BikeSetupHotspot | null;
   onClose: () => void;
   onAskAi: (hotspot: BikeSetupHotspot) => void;
+  simpleTips?: boolean;
 };
 
-export function BikeSetupHotspotSheet({ hotspot, onClose, onAskAi }: Props) {
+export function BikeSetupHotspotSheet({ hotspot, onClose, onAskAi, simpleTips = false }: Props) {
   const open = hotspot != null;
 
   return (
@@ -39,13 +40,23 @@ export function BikeSetupHotspotSheet({ hotspot, onClose, onAskAi }: Props) {
               >
                 <Text style={styles.body}>{hotspot.summary}</Text>
 
-                <Text style={styles.sectionLabel}>Road riding base</Text>
+                <Text style={styles.sectionLabel}>
+                  {simpleTips ? 'Simple starting point' : 'Road riding base'}
+                </Text>
                 <Text style={styles.body}>{hotspot.roadBase}</Text>
 
-                <Text style={styles.sectionLabel}>Race track base</Text>
-                <Text style={styles.body}>{hotspot.trackBase}</Text>
-
-                <Text style={styles.note}>{hotspot.capabilityNote}</Text>
+                {simpleTips ? (
+                  <Text style={styles.note}>
+                    Skip fine clicker chasing for now. Ask Bike Setup AI if you want one change to
+                    try next — and change how you ride in Settings if you want more detail.
+                  </Text>
+                ) : (
+                  <>
+                    <Text style={styles.sectionLabel}>Race track base</Text>
+                    <Text style={styles.body}>{hotspot.trackBase}</Text>
+                    <Text style={styles.note}>{hotspot.capabilityNote}</Text>
+                  </>
+                )}
               </ScrollView>
 
               <TouchableOpacity

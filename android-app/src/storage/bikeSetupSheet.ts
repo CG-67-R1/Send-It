@@ -444,9 +444,16 @@ export function formatBikeSetupSheetForAi(sheet: BikeSetupDaySheet): string {
 export const COACH_GOALS_PROMPT_BASE =
   'What are your goals for today — lap times, consistency, a specific corner, or bike feel? Tell me what you want to work on and we will start there.';
 
+const COACH_GOALS_PROMPT_NOVICE =
+  'What do you want to work on today — a corner, braking, or feeling smoother? One thing is enough.';
+
 /** Build the Coach empty-state opener, optionally including saved goals. */
-export function buildCoachGoalsPrompt(goalsForToday?: string): string {
+export function buildCoachGoalsPrompt(
+  goalsForToday?: string,
+  skill?: 'novice' | 'intermediate' | 'advanced'
+): string {
+  const base = skill === 'novice' ? COACH_GOALS_PROMPT_NOVICE : COACH_GOALS_PROMPT_BASE;
   const goals = goalsForToday?.trim();
-  if (!goals) return COACH_GOALS_PROMPT_BASE;
-  return `${COACH_GOALS_PROMPT_BASE}\n\nI see you already noted goals on your Bike Setup Sheet:\n"${goals}"\n\nWant to refine those, or shall we dig into the first one?`;
+  if (!goals) return base;
+  return `${base}\n\nI see you already noted goals on your Bike Setup Sheet:\n"${goals}"\n\nWant to refine those, or shall we dig into the first one?`;
 }

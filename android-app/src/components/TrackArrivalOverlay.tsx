@@ -16,6 +16,7 @@ import {
 } from '../location/trackGeofence';
 import { fetchTrackWeather, type TrackWeatherSummary } from '../location/trackWeather';
 import { buildArrivalCoachDraft } from '../utils/arrivalCoachDraft';
+import { getSavedRiderAiSkill } from '../utils/riderSkillSaved';
 import { navigateToCoachWithDraft } from '../navigation/rootNavigation';
 
 export function TrackArrivalOverlay() {
@@ -77,7 +78,8 @@ export function TrackArrivalOverlay() {
         weatherSummary = await fetchTrackWeather(arrival.userLat, arrival.userLng);
         setWeather(weatherSummary);
       }
-      const draft = buildArrivalCoachDraft(arrival.match.name, weatherSummary);
+      const skill = await getSavedRiderAiSkill();
+      const draft = buildArrivalCoachDraft(arrival.match.name, weatherSummary, new Date(), skill);
       await markRemindedForTrack(arrival.match.trackId);
       dismissedSessionRef.current = arrival.match.trackId;
       setArrival(null);

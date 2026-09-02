@@ -7,7 +7,6 @@ import { TrackCornerSheet } from '../components/TrackCornerSheet';
 import { TrackFacilityMap } from '../components/TrackFacilityMap';
 import { TrackPicker } from '../components/TrackPicker';
 import { COMPACT_LOGO_SIZE } from '../constants/logoSizing';
-import { TRACK_INFO_COACHING } from '../data/trackInfo/coaching';
 import {
   TRACK_INFO_TRACK_IDS,
   elevationSummary,
@@ -18,11 +17,14 @@ import {
 import type { TrackInfoCorner } from '../data/trackInfo/types';
 import type { CornerDefinition, TrackDefinition } from '../data/tracks';
 import { formatCornerHeading, getCornerById, getTrackById } from '../data/tracks';
+import type { RiderAiSkill } from '../navigation/homeMode';
 import { getTrackWalkSessions } from '../storage/trackWalk';
 import {
   getTrackPrepSelectedTrack,
   saveTrackPrepSelectedTrack,
 } from '../storage/trackdayPrep';
+import { getSavedRiderAiSkill } from '../utils/riderSkillSaved';
+import { trackInfoCoachingForSkill } from '../utils/riderSkillCopy';
 import type { RiderCoachStackParamList } from './RiderCoachScreen';
 
 type Nav = NativeStackNavigationProp<RiderCoachStackParamList, 'TrackMemoryHub'>;
@@ -52,13 +54,20 @@ export function TrackMemoryHubScreen() {
   );
   const [selectedMapCorner, setSelectedMapCorner] = useState<TrackInfoCorner | null>(null);
   const [savedNote, setSavedNote] = useState<string | null>(null);
+  const [riderSkill, setRiderSkill] = useState<RiderAiSkill>('novice');
+  const coaching = useMemo(() => trackInfoCoachingForSkill(riderSkill), [riderSkill]);
 
   useFocusEffect(
     useCallback(() => {
       let cancelled = false;
       void (async () => {
-        const saved = await getTrackPrepSelectedTrack();
-        if (cancelled || !saved) return;
+        const [saved, skill] = await Promise.all([
+          getTrackPrepSelectedTrack(),
+          getSavedRiderAiSkill(),
+        ]);
+        if (cancelled) return;
+        setRiderSkill(skill);
+        if (!saved) return;
         if (getTrackInfoMap(saved.trackId)) {
           setTrackId(saved.trackId);
         }
@@ -107,12 +116,16 @@ export function TrackMemoryHubScreen() {
   const askCoach = useCallback(() => {
     if (!catalog || !selectedCatalogCorner) return;
     const heading = formatCornerHeading(selectedCatalogCorner);
+    const draft =
+      riderSkill === 'novice'
+        ? `I'm studying ${catalog.name}, ${heading}. Give me one or two simple things to look for on the approach — everyday language, no invented lap times.`
+        : `I'm studying ${catalog.name}, ${heading}. Help me with reference points and where to look on the approach — no invented lap times.`;
     setSelectedMapCorner(null);
     navigation.navigate('CoachChat', {
       mode: 'coach',
-      seedDraftMessage: `I'm studying ${catalog.name}, ${heading}. Help me with reference points and where to look on the approach — no invented lap times.`,
+      seedDraftMessage: draft,
     });
-  }, [catalog, navigation, selectedCatalogCorner]);
+  }, [catalog, navigation, riderSkill, selectedCatalogCorner]);
 
   const openWalk = useCallback(() => {
     if (!trackId || !catalog) return;
@@ -134,8 +147,8 @@ export function TrackMemoryHubScreen() {
       </View>
 
       <Text style={styles.lead}>
-        Pick a circuit to study the layout, pit entry, pit lane, pit exit, and corners. The map
-        starts zoomed to 2× — pan and use + / − so stacked corners are easier to tap.
+        Pick a circuit to study the layout ribbon. Numbered corner markers appear only after the
+        map is verified against an official board — wrong dots are not shown.
       </Text>
 
       <TrackPicker
@@ -194,9 +207,9 @@ export function TrackMemoryHubScreen() {
           </View>
 
           <View style={styles.card}>
-            <Text style={styles.cardTitle}>{TRACK_INFO_COACHING.title}</Text>
-            <Text style={styles.body}>{TRACK_INFO_COACHING.intro}</Text>
-            {TRACK_INFO_COACHING.points.map((line) => (
+            <Text style={styles.cardTitle}>{coaching.title}</Text>
+            <Text style={styles.body}>{coaching.intro}</Text>
+            {coaching.points.map((line) => (
               <Text key={line} style={styles.bullet}>
                 {'\u2022'} {line}
               </Text>
