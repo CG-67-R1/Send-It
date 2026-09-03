@@ -13,6 +13,7 @@
     "build-trivia": "node buildTriviaBank.js",
     "refresh-au-calendar": "node scripts/refreshAuCalendar.js",
     "health-check": "node ../scripts/health-check.mjs",
+    "test-calendar-scrapers": "node scripts/testCalendarScrapers.mjs",
     "test-moms-rules": "node scripts/testMomsRulesRetrieval.mjs",
     "test-trivia": "node scripts/testTriviaSelection.mjs",
     "build-rider-ai-knowledge": "node ../scripts/build-rider-ai-knowledge.mjs",
