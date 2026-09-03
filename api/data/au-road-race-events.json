@@ -1057,7 +1057,7 @@
     {
       "name": "2027 Australian Superbike Championship - Round 5",
       "start_date": "2027-02-01",
-      "end_date": "2027-02-28",
+      "end_date": "2027-02-01",
       "state": null,
       "venue": "Phillip Island Grand Prix Circuit",
       "organiser": "Motorcycling Australia (MA) - National Calendar",
@@ -1065,8 +1065,8 @@
       "source_url": "https://www.ma.org.au/ma-calendar/",
       "entry_url": "https://calendar.time.ly/lom2ukea/event/78314654/20270201000000",
       "discipline": "road_race",
-      "notes": "Timely: Road Race",
-      "confidence": "high"
+      "notes": "Timely: Road Race · Timely month placeholder collapsed; confirm exact dates with organiser",
+      "confidence": "low"
     }
   ]
 }

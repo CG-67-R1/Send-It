@@ -169,7 +169,7 @@ export function CalendarScreen() {
         ? 'Could not reach the server. Check your connection and that the API is running.'
         : raw;
       setError(message);
-      setEvents([]);
+      setEvents((current) => (current.length > 0 ? current : []));
     } finally {
       setLoading(false);
       setRefreshing(false);

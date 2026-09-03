@@ -374,6 +374,43 @@ function icsEndDateInclusive(dtend, dtstart) {
   return d.toISOString().slice(0, 10);
 }
 
+function isDateOnlyIcsValue(value) {
+  return /^\d{8}$/.test((value || '').trim());
+}
+
+function addUtcMonths(isoDate, months) {
+  const [year, month, day] = isoDate.split('-').map((part) => parseInt(part, 10));
+  if (!year || !month || !day) return null;
+  const d = new Date(Date.UTC(year, month - 1 + months, day, 12));
+  return d.toISOString().slice(0, 10);
+}
+
+function inclusiveDateSpanDays(startDate, endDate) {
+  const start = new Date(`${startDate}T12:00:00Z`);
+  const end = new Date(`${endDate}T12:00:00Z`);
+  if (Number.isNaN(start.getTime()) || Number.isNaN(end.getTime())) return 0;
+  return Math.floor((end.getTime() - start.getTime()) / 86400000) + 1;
+}
+
+export function resolveIcsDateRange(dtstart, dtend) {
+  const start_date = parseIcsDateValue(dtstart);
+  if (!start_date) return null;
+  const end_date = icsEndDateInclusive(dtend, dtstart) || start_date;
+  const exclusiveEndDate = parseIcsDateValue(dtend);
+  const isMonthPlaceholder =
+    isDateOnlyIcsValue(dtstart) &&
+    isDateOnlyIcsValue(dtend) &&
+    start_date.endsWith('-01') &&
+    exclusiveEndDate === addUtcMonths(start_date, 1) &&
+    inclusiveDateSpanDays(start_date, end_date) >= 27;
+
+  return {
+    start_date,
+    end_date: isMonthPlaceholder ? start_date : end_date,
+    isMonthPlaceholder,
+  };
+}
+
 function parseIcsField(block, field) {
   const re = new RegExp(`^${field}[^:]*:(.+)$`, 'm');
   const raw = block.match(re)?.[1];
@@ -418,22 +455,29 @@ function parseIcsEvents(icsText, source) {
     const location = parseIcsField(block, 'LOCATION');
     const url = parseIcsField(block, 'URL');
     const categories = parseIcsField(block, 'CATEGORIES');
-    const start_date = parseIcsDateValue(dtstart);
-    if (!summary || !start_date) continue;
+    const dateRange = resolveIcsDateRange(dtstart, dtend);
+    if (!summary || !dateRange) continue;
 
     const { venue, state } = parseIcsLocation(location, source);
-    const end_date = icsEndDateInclusive(dtend, dtstart) || start_date;
+    const notes = [
+      categories ? `Timely: ${categories}` : null,
+      dateRange.isMonthPlaceholder
+        ? 'Timely month placeholder collapsed; confirm exact dates with organiser'
+        : null,
+    ]
+      .filter(Boolean)
+      .join(' · ') || null;
 
     pushUnique(events, makeEvent(source, {
       name: summary,
-      start_date,
-      end_date,
+      start_date: dateRange.start_date,
+      end_date: dateRange.end_date,
       state,
       venue,
       organiser: source.name,
       entry_url: url || source.url,
-      notes: categories ? `Timely: ${categories}` : null,
-      confidence: 'high',
+      notes,
+      confidence: dateRange.isMonthPlaceholder ? 'low' : 'high',
     }));
   }
   return events;
