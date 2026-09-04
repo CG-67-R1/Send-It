@@ -10,6 +10,17 @@ import { spawnSync } from 'node:child_process';
 
 const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
 
+const wording = spawnSync(
+  process.execPath,
+  [path.join(ROOT, 'scripts/test-format-corner-orientation.mjs')],
+  { cwd: ROOT, encoding: 'utf8' }
+);
+if (wording.status !== 0) {
+  console.error(wording.stdout);
+  console.error(wording.stderr);
+  process.exit(1);
+}
+
 const built = spawnSync(process.execPath, [path.join(ROOT, 'scripts/build-track-turn-gpt-review.mjs')], {
   cwd: ROOT,
   encoding: 'utf8',
