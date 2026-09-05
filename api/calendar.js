@@ -159,9 +159,9 @@ async function fetchWorldSBK(season) {
       headers: { 'User-Agent': 'RoadRaceCalendar/1.0' },
       signal: AbortSignal.timeout(10000),
     });
-    if (!res.ok) return [];
+    if (!res.ok) return null;
     const data = await res.json();
-    const events = data.events || [];
+    const events = Array.isArray(data.events) ? data.events : [];
     // Group by intRound: same round = same weekend
     const byRound = new Map();
     for (const e of events) {
@@ -192,18 +192,19 @@ async function fetchWorldSBK(season) {
     }
     return rounds.sort((a, b) => (a.startDate || '').localeCompare(b.startDate || ''));
   } catch (e) {
-    console.error('Calendar: WorldSBK fetch failed', e.message);
-    return [];
+    console.error('Calendar: WorldSBK fetch failed', e?.message || e);
+    return null;
   }
 }
 
 /**
  * Returns all calendar events (MotoGP, WorldSBK, Australia) sorted by startDate.
  */
-export async function getCalendarEvents(bypassCache = false) {
+export async function getCalendarEvents(bypassCache = false, options = {}) {
   if (!bypassCache && cache.data && Date.now() - cache.ts < CACHE_TTL_MS) {
     return cache.data;
   }
+  const fetchWorldSBKEvents = options.fetchWorldSBK || fetchWorldSBK;
   const staticData = loadStatic();
   const motogp = (staticData.motogp || []).map((e) =>
     normalizeStaticEvent('motogp', { ...e, seriesLabel: 'MotoGP' })
@@ -216,7 +217,14 @@ export async function getCalendarEvents(bypassCache = false) {
     normalizeStaticEvent(e.series || 'au_club', { ...e, seriesLabel: e.seriesLabel || 'AU Road Race' })
   );
   const auClub = [...auClubFromFile, ...auClubStatic];
-  const worldsbk = await fetchWorldSBK();
+  let fetchedWorldsbk = null;
+  try {
+    fetchedWorldsbk = await fetchWorldSBKEvents();
+  } catch (e) {
+    console.error('Calendar: WorldSBK fetch failed', e?.message || e);
+  }
+  const previousWorldsbk = cache.data?.filter((e) => e.series === 'worldsbk') ?? [];
+  const worldsbk = fetchedWorldsbk ?? previousWorldsbk;
   const all = [
     // Highest interest: Aussie national + club/state road-race events
     ...auClub,
@@ -234,6 +242,10 @@ export async function getCalendarEvents(bypassCache = false) {
     if (pa !== pb) return pa - pb;
     return (a.title || '').localeCompare(b.title || '');
   });
+  if (fetchedWorldsbk === null && previousWorldsbk.length === 0) {
+    console.warn('Calendar: serving without WorldSBK; upstream failed and no previous cache is available');
+    return all;
+  }
   cache = { data: all, ts: Date.now() };
   return all;
 }

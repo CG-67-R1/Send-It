@@ -791,16 +791,20 @@ export function dedupeEvents(events) {
   return [...bestByKey.values()];
 }
 
-export function filterByCatalogPeriod(events, config) {
+export function filterByCatalogPeriod(events, config, now = new Date()) {
   const start = config.meta?.period?.start_date;
-  const end = config.meta?.period?.end_date;
-  if (!start || !end) return filterFutureEvents(events);
-  return events.filter((ev) => ev.start_date >= start && ev.start_date <= end);
+  const cutoff = futureEventsCutoff(now);
+  const lowerBound = start && start > cutoff ? start : cutoff;
+  return events.filter((ev) => ev.start_date >= lowerBound);
 }
 
-export function filterFutureEvents(events, lookbackDays = 30) {
-  const cutoff = new Date();
+function futureEventsCutoff(now = new Date(), lookbackDays = 30) {
+  const cutoff = new Date(now);
   cutoff.setDate(cutoff.getDate() - lookbackDays);
-  const cutoffStr = cutoff.toISOString().slice(0, 10);
+  return cutoff.toISOString().slice(0, 10);
+}
+
+export function filterFutureEvents(events, lookbackDays = 30, now = new Date()) {
+  const cutoffStr = futureEventsCutoff(now, lookbackDays);
   return events.filter((ev) => ev.start_date >= cutoffStr);
 }
