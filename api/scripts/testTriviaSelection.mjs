@@ -4,6 +4,9 @@
  * Usage: node api/scripts/testTriviaSelection.mjs
  * Exit 0 on pass, 1 on fail.
  */
+import fs from 'fs';
+import path from 'path';
+import { fileURLToPath } from 'url';
 import {
   filterAvailableIndices,
   pickTriviaIndex,
@@ -13,6 +16,8 @@ import {
 } from '../triviaSelect.js';
 import { AU_EXTRA_TRIVIA } from '../triviaAuExtra.js';
 import { getTriviaQuestion } from '../qa.js';
+
+const AUS_QA_FILE = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..', '..', 'Q&A', 'AUS_Q&A.json');
 
 let failed = 0;
 
@@ -85,6 +90,22 @@ function shuffleKeepsAnswer() {
   assert('shuffled options keep the correct text', options[correctIndex] === 'right');
 }
 
+function ausQuestionsReadAsHuman() {
+  const data = JSON.parse(fs.readFileSync(AUS_QA_FILE, 'utf8'));
+  const qa = data['Q&A'] || data;
+  const bank = [...(qa.easy || []), ...(qa.hard || []), ...AU_EXTRA_TRIVIA];
+  const machine = /lap_record|pole_record|race_lap_record|computime sheet|the what circuit|listed lap_record/i;
+  const bad = [];
+  for (const item of bank) {
+    const q = item.question || item.q || '';
+    if (machine.test(q)) bad.push(q);
+  }
+  assert('AU questions do not use sheet-field names or Computime jargon', bad.length === 0);
+  if (bad.length) {
+    for (const q of [...new Set(bad)].slice(0, 8)) console.error('  jargon:', q);
+  }
+}
+
 function extraBankHasSpread() {
   const keys = new Set(AU_EXTRA_TRIVIA.map((item) => uniqueQuestionKey(item.question)));
   assert('AU extra bank has 80+ unique questions', keys.size >= 80);
@@ -118,6 +139,7 @@ paraphraseKeys();
 uniquePickSkipsDuplicates();
 difficultyWindowExpands();
 shuffleKeepsAnswer();
+ausQuestionsReadAsHuman();
 extraBankHasSpread();
 await liveUniqueDraw();
 
