@@ -10,6 +10,8 @@ export interface CornerDefinition {
   shape?: string;
   direction: CornerDirection;
   approachFrom?: string | null;
+  /** Rider-facing heading note. Prefer reviewed GPT copy; say from memory, not catalog. */
+  orientation?: string | null;
   isFinish?: boolean;
 }
 
@@ -92,6 +94,17 @@ export function getTrackById(id: string | null | undefined): TrackDefinition | u
 export function getCornerById(trackId: string, cornerId: string): CornerDefinition | undefined {
   const track = getTrackById(trackId);
   return track?.corners.find((c) => c.id === cornerId);
+}
+
+export function formatCornerOrientation(
+  corner: Pick<CornerDefinition, 'number' | 'direction' | 'orientation'>
+): string {
+  const reviewed = corner.orientation?.trim();
+  if (reviewed) return reviewed;
+  if (corner.number != null) {
+    return `Turn ${corner.number} is a ${corner.direction} from memory. Use the map dots and your own markers — do not invent a racing line from this page.`;
+  }
+  return 'Use the map and your own markers for orientation.';
 }
 
 export function formatCornerHeading(
