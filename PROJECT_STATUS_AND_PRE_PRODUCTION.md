@@ -46,7 +46,7 @@ No other unused or discarded files were found that are referenced by the app or 
   - **Change Avatar** — Predefined avatars or “Upload my photo” (frame + camera/library); persisted via onboarding + avatar photo storage.
   - **Calendar** — Events from API + optional static fallback.
   - **Q&A** — “Ask” tab: `POST /roadrace-ai/ask` (OpenAI + PDF knowledge base); “Trivia” tab: `GET /qa/trivia` (quiz from API).
-  - **Rider Coach** — Coach & Bike Setup tabs; in-app chat via `/roadrace-ai/chat`.
+  - **Rider Coach** — hub (RR AI Coach, Track Prep, Bike Setup Basics, Tyre Wear, Track Details); chat via `/roadrace-ai/chat`.
   - **Track Walk** — Track notes (local storage); optional speech; share.
   - **Import Track Notes** — Shared/import flow for track notes.
 - **Config:** `app/constants/api.ts` — If `EXPO_PUBLIC_API_URL` is set, it is used (dev and prod); else dev uses LAN IP or Android emulator URL.

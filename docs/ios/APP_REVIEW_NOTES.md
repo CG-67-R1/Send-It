@@ -19,7 +19,7 @@ Record on the **same TestFlight build** attached to 1.0.0 (or a newer production
 - **No IAP / subscriptions / paid unlocks.**
 - **No App Tracking Transparency** prompt (no tracking).
 - **No public social feed.** Track Walk “Private / Team / Community” is a **local label** on device storage — nothing is published to other users, so there is no report/block UI. Leave visibility on **Private** in the video.
-- **Track Memory is in this build.** Rider Coach → Track Memory → pick a catalog circuit → Play. Landscape first-person Skia road with on-screen throttle/brake; coaching boards appear at named corners. On-device only (no account, not multiplayer).
+- **Track Details is in this build** (route name `TrackMemoryHub`). Rider Coach → **Track Details** → pick a catalog circuit. Zoomable static circuit picture (not a game): distance, weather, ASBK records where we have them, and a row per corner for notes. No Play mode, no throttle/brake, no `@shopify/react-native-skia`. On-device only (no account, not multiplayer). Numbered board marks stay off until that layout is `owner_verified`.
 - **Permissions that can appear:** camera (avatar), photos (bike / notes / avatar library), calendar (Events → Add reminder), location (Settings → track arrival), notifications (Priority 1 news), speech/mic (Track Walk voice note if the native module is present).
 - **Network:** headlines, calendar, Coach / Bike Setup AI / Q&A via `https://send-it-ke7r.onrender.com` (Render) and OpenAI. First API call after idle can take ~30s (cold start) — wait rather than showing an error.
 - **`expo-speech-recognition` is pinned at `56.0.1`.** Expo SDK 57’s `~57.0.x` package is not published yet; keep 56 until a 57 release exists. Do not invent a 57 pin.
@@ -48,7 +48,7 @@ Aim for **3–5 minutes**. Pause briefly on each screen.
 | 4 | **Settings** → Open News → scroll 2–3 headlines → tap one so Safari/publisher opens → back to app | Core news; third-party content is links |
 | 5 | Tab **Events** → scroll calendar → **Add reminder** on one event → **Allow Calendar** | Calendar prompt |
 | 6 | Tab **Rider Coach** → **Track Prep** or **Track Walk** (pick a catalog track, add one short note, keep **Private**) → **RR AI Coach**, send e.g. “How should I approach a slow hairpin?” and wait for a reply | Core coach flow + AI |
-| 6b | Rider Coach → **Track Memory** → pick a circuit (e.g. Phillip Island) → **Play**. Confirm landscape lock, road renders, throttle/brake respond. Rotate back after | Track Memory ships in this binary |
+| 6b | Rider Coach → **Track Details** → pick a circuit (e.g. Phillip Island). Confirm the layout outline (or numbered board if verified), facts, and corner list. Do **not** look for Play / throttle / landscape lock | Track Details ships in this binary |
 | 7 | Tab **Bike Setup** → open **Bike Setup Sheet** (scroll fields) → **Bike Balance** (show first inputs, no need to finish) | Core setup tools; data stays on device |
 | 8 | Tab **Q & A** → Ask e.g. “What is a track day?” → wait for reply → open **Trivia**, start one question | Q&A core |
 | 9 | **Settings** → enable **track arrival** → **Allow Location While Using** | Location prompt |
@@ -69,7 +69,7 @@ Fill the device line first, then paste this entire block.
 RoadRacer — App Review notes (version 1.0.0)
 
 1) SCREEN RECORDING
-Attached in this Resolution Center reply: physical-device recording starting at app launch, then onboarding/Home, News, Events, Rider Coach (Track Walk + AI Coach + Track Memory Play), Bike Setup, Q&A, and permission prompts (camera/photos/calendar/location as they appear).
+Attached in this Resolution Center reply: physical-device recording starting at app launch, then onboarding/Home, News, Events, Rider Coach (Track Walk + AI Coach + Track Details), Bike Setup, Q&A, and permission prompts (camera/photos/calendar/location as they appear).
 
 No account registration, login, or account deletion — there is no user account.
 No paid content, IAP, or subscriptions.
@@ -90,7 +90,7 @@ Target audience: adults interested in motorcycle road racing (not children). Inf
 - Home: identity (bike photo/avatar) and shortcuts.
 - Settings → Open News: headlines. Articles open on the publisher site.
 - Events: race calendar. Add reminder uses the device calendar (permission).
-- Rider Coach: RR AI Coach, Track Prep/Walk, Track Memory. Needs network for AI. Track Memory is on-device: pick a circuit → Play (landscape Skia road, throttle/brake). Not a multiplayer game.
+- Rider Coach: RR AI Coach, Track Prep/Walk, Track Details. Needs network for AI. Track Details is on-device: pick a circuit to see a static zoomable layout, facts, and corner notes. Not a game and not multiplayer.
 - Bike Setup: Bike Setup AI, Day Setup Sheet, Bike Balance (local). Needs network for AI only.
 - Q & A: Ask, Official rule check, Trivia, FAQs. Needs network for Ask/rules.
 - Settings → track arrival: optional foreground location near a known circuit.

@@ -9,6 +9,7 @@ import { TrackPicker } from '../components/TrackPicker';
 import { COMPACT_LOGO_SIZE } from '../constants/logoSizing';
 import {
   TRACK_INFO_TRACK_IDS,
+  areTrackInfoCornersVerified,
   elevationSummary,
   getTrackInfoFacts,
   getTrackInfoMap,
@@ -81,6 +82,7 @@ export function TrackMemoryHubScreen() {
   const map = trackId ? getTrackInfoMap(trackId) : undefined;
   const catalog = trackId ? getTrackById(trackId) : undefined;
   const facts = trackId ? getTrackInfoFacts(trackId) : undefined;
+  const cornersVerified = trackId ? areTrackInfoCornersVerified(trackId) : false;
   const asbk = facts?.asbkRecords?.filter((r) => r.time) ?? [];
 
   const selectedCatalogCorner: CornerDefinition | null = useMemo(() => {
@@ -147,8 +149,9 @@ export function TrackMemoryHubScreen() {
       </View>
 
       <Text style={styles.lead}>
-        Pick a circuit to open the track map. The picture is the track. Each number on it has a row
-        below so you can add notes.
+        {cornersVerified
+          ? 'Pick a circuit to open the track map. The picture is the track. Each number on it has a row below so you can add notes.'
+          : 'Pick a circuit to open the layout outline. Official corner numbers stay off the picture until the map is checked against the venue board. Use the list below for notes.'}
       </Text>
 
       <TrackPicker
