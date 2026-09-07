@@ -28,6 +28,12 @@ const EDGE_UNITS = 2;
 const SURFACE_UNITS = 1.2;
 const GUIDE_UNITS = 0.15;
 
+const MAP_HINT =
+  'Track map from the circuit GPS trace, drawn to the real width of the road — zoom in to read it.';
+// The line is a suggestion, never instruction, so the wording must stay hedged.
+const GUIDE_HINT = 'The red line is a suggested line, not instruction.';
+const NOTES_HINT = 'Use the list below to add notes.';
+
 type Props = {
   map: GpxTrackMap;
   racingLine?: RacingLine;
@@ -149,9 +155,7 @@ export function TrackFacilityMap({ map, racingLine }: Props) {
         </View>
       </View>
       <Text style={styles.hint}>
-        Track map from the circuit GPS trace, drawn to the real width of the road — zoom in to read
-        it.{guide ? ' The red line is a suggested line, not instruction.' : ''} Use the list below
-        to add notes.
+        {[MAP_HINT, guide ? GUIDE_HINT : null, NOTES_HINT].filter(Boolean).join(' ')}
       </Text>
     </View>
   );

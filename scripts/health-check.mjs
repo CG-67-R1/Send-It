@@ -17,6 +17,9 @@ const API_DIR = path.join(ROOT, 'api');
 const AU_CALENDAR_CACHE = path.join(API_DIR, 'data', 'au-road-race-events.json');
 
 const API_URL = process.env.API_URL || 'http://localhost:3001';
+// The hosted API sleeps on Render's free tier and takes 15-30 s to wake, so a
+// shorter probe reports a live API as unreachable.
+const HEALTH_TIMEOUT_MS = 45_000;
 const failures = [];
 
 function pass(msg) {
@@ -80,7 +83,9 @@ async function checkCalendarModule() {
 
 async function checkLiveApi() {
   try {
-    const health = await fetch(`${API_URL}/health`, { signal: AbortSignal.timeout(8000) });
+    const health = await fetch(`${API_URL}/health`, {
+      signal: AbortSignal.timeout(HEALTH_TIMEOUT_MS),
+    });
     if (!health.ok) {
       fail(`API /health HTTP ${health.status} at ${API_URL}`);
       return;

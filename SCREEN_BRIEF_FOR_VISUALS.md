@@ -160,16 +160,17 @@ Use this brief to generate mockups, illustrations, or theme variations in GPT (o
 
 ## 9b. Track Details (layout info)
 
-**Purpose:** Crash-free circuit study page — interactive SVG map, corner dots, facts, and saved Track Walk notes. Replaces the old arcade ride.
+**Purpose:** Crash-free circuit study page — a zoomable GPX map of the layout, facts, and corner notes from Track Walk. Replaces the old arcade ride.
 
 **Layout:**
-- Track picker (shared with Track Prep).
-- Top-down facility map: selected layout in red, sister layouts faded, pit entry/exit/lane, water, tunnel/bridge when known.
-- Red dots on each corner (same pattern as Bike Setup Basics). Tap opens a sheet: catalog heading, approach, saved note, Ask coach, open Track Walk.
-- Below: distance, elevation, surface, usual weather, ASBK class records when cited, then reference-point / eye-training copy.
-- Also linked from Track Prep as **Track Details** (catalog tracks only).
+- Track picker (shared with Track Prep), limited to layouts that have a GPX map.
+- Top-down GPX map: green infield, grey asphalt with white edges, drawn to the real width of the road. Zoom by pinch or the − / + buttons. A red suggested racing line is drawn over the asphalt when that layout has one.
+- Nothing else goes on the picture — no sister layouts, no pit lane, no corner markers. See the UI safeguard in `AGENTS.md`.
+- Below the map: distance, direction, elevation, surface, usual weather, ASBK class records when cited, then reference-point / eye-training copy pitched at the rider's skill.
+- Corner list below that, one row per catalog corner with a red dot and heading. Tap opens a sheet: catalog heading, approach, latest saved Track Walk note, Ask coach, open Track Walk.
+- Also linked from Track Prep as **Track Details**.
 
-**Visual/theming ideas:** Light-green infield; red ribbon; red hotspot dots; amber fact cards.
+**Visual/theming ideas:** Green infield; grey-and-white road ribbon; red suggested line; red dots on the corner *rows*; amber fact cards.
 
 ---
 

@@ -8,6 +8,7 @@ import { spawnSync } from 'node:child_process';
 import fs from 'node:fs';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
+import { TRACK_DETAILS_IDS, TRACK_DETAILS_EXCLUSIONS } from './lib/track-details-ids.mjs';
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const ROOT = path.resolve(__dirname, '..');
@@ -308,6 +309,31 @@ if (turnPolicy) {
   }
   if (unverifiedLR === 0 && sourceGaps === 0) {
     pass(`turn-hand policy: ${verifiedOk} verified left|right with sources, 0 unverified`);
+  }
+}
+
+// prove-track-maps only checks the layouts it is told about, so a catalog track
+// dropped from TRACK_DETAILS_IDS would vanish from the app with every gate green.
+console.log('\nTrack Details coverage');
+{
+  const drawn = new Set(TRACK_DETAILS_IDS);
+  let unexplained = 0;
+  for (const id of trackIds) {
+    if (drawn.has(id)) continue;
+    const reason = TRACK_DETAILS_EXCLUSIONS[id];
+    if (reason) {
+      warn(`${id}: no Track Details map — ${reason}`);
+    } else {
+      fail(`${id}: in catalog but has no Track Details map; add a GPX map or record why in TRACK_DETAILS_EXCLUSIONS`);
+      unexplained += 1;
+    }
+  }
+  for (const id of drawn) {
+    if (!trackIds.has(id)) fail(`${id}: drawn in Track Details but missing from the catalog`);
+    if (TRACK_DETAILS_EXCLUSIONS[id]) fail(`${id}: listed as a Track Details exclusion but also drawn`);
+  }
+  if (unexplained === 0) {
+    pass(`Track Details covers ${drawn.size} of ${trackIds.size} catalog tracks`);
   }
 }
 
