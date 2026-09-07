@@ -1,7 +1,7 @@
 {
-  "updatedAt": "2026-08-31T12:38:56.808Z",
+  "updatedAt": "2026-09-07T11:32:20.464Z",
   "sourceCount": 26,
-  "eventCount": 76,
+  "eventCount": 77,
   "errors": [],
   "events": [
     {
@@ -156,48 +156,6 @@
       "entry_url": "https://www.computime.com.au/calendar/calendar",
       "discipline": "road_race",
       "notes": null,
-      "confidence": "high"
-    },
-    {
-      "name": "Morgan Park Raceway Monday",
-      "start_date": "2026-08-31",
-      "end_date": "2026-08-31",
-      "state": "QLD",
-      "venue": "Morgan Park Raceway",
-      "organiser": "Champions Ride Days",
-      "source_id": "club_au_champions_ride_days",
-      "source_url": "https://championsridedays.com.au/event-calender/",
-      "entry_url": "https://championsridedays.com.au/product/morgan-park-raceway-tuesday-5/",
-      "discipline": "track_day",
-      "notes": "Track day — book via Champions Ride Days",
-      "confidence": "high"
-    },
-    {
-      "name": "Morgan Park Raceway 31 Aug-1 Sept 2026 DOUBLE!!",
-      "start_date": "2026-08-31",
-      "end_date": "2026-08-31",
-      "state": "QLD",
-      "venue": "Morgan Park Raceway",
-      "organiser": "Champions Ride Days",
-      "source_id": "club_au_champions_ride_days",
-      "source_url": "https://championsridedays.com.au/event-calender/",
-      "entry_url": "https://championsridedays.com.au/product/morgan-park-raceway-31-aug-1-sept-2026-double/",
-      "discipline": "track_day",
-      "notes": "Track day — book via Champions Ride Days",
-      "confidence": "high"
-    },
-    {
-      "name": "Morgan Park Raceway Tuesday",
-      "start_date": "2026-09-01",
-      "end_date": "2026-09-01",
-      "state": "QLD",
-      "venue": "Morgan Park Raceway",
-      "organiser": "Champions Ride Days",
-      "source_id": "club_au_champions_ride_days",
-      "source_url": "https://championsridedays.com.au/event-calender/",
-      "entry_url": "https://championsridedays.com.au/product/morgan-park-raceway-tuesday-6/",
-      "discipline": "track_day",
-      "notes": "Track day — book via Champions Ride Days",
       "confidence": "high"
     },
     {
@@ -898,6 +856,62 @@
       "entry_url": "https://www.computime.com.au/calendar/calendar",
       "discipline": "road_race",
       "notes": null,
+      "confidence": "high"
+    },
+    {
+      "name": "Morgan Park Raceway 2-3 November 2026 DOUBLE!!",
+      "start_date": "2026-11-02",
+      "end_date": "2026-11-02",
+      "state": "QLD",
+      "venue": "Morgan Park Raceway",
+      "organiser": "Champions Ride Days",
+      "source_id": "club_au_champions_ride_days",
+      "source_url": "https://championsridedays.com.au/event-calender/",
+      "entry_url": "https://championsridedays.com.au/product/morgan-park-raceway-2-3-november-2026-double/",
+      "discipline": "track_day",
+      "notes": "Track day — book via Champions Ride Days",
+      "confidence": "high"
+    },
+    {
+      "name": "Morgan Park Raceway Monday",
+      "start_date": "2026-11-02",
+      "end_date": "2026-11-02",
+      "state": "QLD",
+      "venue": "Morgan Park Raceway",
+      "organiser": "Champions Ride Days",
+      "source_id": "club_au_champions_ride_days",
+      "source_url": "https://championsridedays.com.au/event-calender/",
+      "entry_url": "https://championsridedays.com.au/product/morgan-park-raceway-monday-2/",
+      "discipline": "track_day",
+      "notes": "Track day — book via Champions Ride Days",
+      "confidence": "high"
+    },
+    {
+      "name": "Morgan Park Raceway Tuesday",
+      "start_date": "2026-11-03",
+      "end_date": "2026-11-03",
+      "state": "QLD",
+      "venue": "Morgan Park Raceway",
+      "organiser": "Champions Ride Days",
+      "source_id": "club_au_champions_ride_days",
+      "source_url": "https://championsridedays.com.au/event-calender/",
+      "entry_url": "https://championsridedays.com.au/product/morgan-park-raceway-monday/",
+      "discipline": "track_day",
+      "notes": "Track day — book via Champions Ride Days",
+      "confidence": "high"
+    },
+    {
+      "name": "Broadford Raceway",
+      "start_date": "2026-11-06",
+      "end_date": "2026-11-06",
+      "state": "VIC",
+      "venue": "Broadford Raceway",
+      "organiser": "Champions Ride Days",
+      "source_id": "club_au_champions_ride_days",
+      "source_url": "https://championsridedays.com.au/event-calender/",
+      "entry_url": "https://championsridedays.com.au/product/broadford-raceway-160/",
+      "discipline": "track_day",
+      "notes": "Track day — book via Champions Ride Days",
       "confidence": "high"
     },
     {
