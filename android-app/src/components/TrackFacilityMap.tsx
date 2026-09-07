@@ -1,6 +1,5 @@
 import React, { useCallback, useEffect, useMemo, useState } from 'react';
 import {
-  Image,
   LayoutChangeEvent,
   ScrollView,
   StyleSheet,
@@ -9,52 +8,58 @@ import {
   View,
 } from 'react-native';
 import Svg, { Polyline } from 'react-native-svg';
-import { areTrackInfoCornersVerified } from '../data/trackInfo';
-import { getTrackBoardMap } from '../data/trackInfo/boardMaps';
-import type { TrackInfoCorner, TrackInfoMap } from '../data/trackInfo/types';
+import type { GpxTrackMap } from '../data/gpxTrackMaps/types';
+import type { RacingLine } from '../data/racingLines/types';
 
 const MIN_ZOOM = 1;
-const MAX_ZOOM = 4;
-const DEFAULT_ZOOM = 1.5;
+const MAX_ZOOM = 6;
+const DEFAULT_ZOOM = 2;
 const ZOOM_STEP = 0.5;
 const GRASS = '#6d9a46';
-const RIBBON_ASPECT = { width: 16, height: 9 };
+const TRACK_GREY = '#9ca3af';
+const TRACK_EDGE = '#ffffff';
+const GUIDE_RED = '#dc2626';
+
+// Stroke widths are in map units, not device pixels, so the asphalt is the same
+// width of road on every screen. The racing line is solved against this exact
+// width, so a device-derived stroke would put the line on a road it never saw.
+// Values match scripts/lib/gpx_track_preview.py at its 2000 px canvas.
+const EDGE_UNITS = 2;
+const SURFACE_UNITS = 1.2;
+const GUIDE_UNITS = 0.15;
 
 type Props = {
-  map: TrackInfoMap;
-  selectedCornerId: string | null;
-  onSelectCorner: (corner: TrackInfoCorner) => void;
+  map: GpxTrackMap;
+  racingLine?: RacingLine;
 };
 
 function clampZoom(value: number): number {
   return Math.min(MAX_ZOOM, Math.max(MIN_ZOOM, Math.round(value * 2) / 2));
 }
 
-function polylinePoints(map: TrackInfoMap): string {
-  return map.polyline.map(([x, y]) => `${x},${y}`).join(' ');
-}
-
-export function TrackFacilityMap({ map }: Props) {
-  const cornersVerified = areTrackInfoCornersVerified(map.trackId);
-  const board = cornersVerified ? getTrackBoardMap(map.trackId) : undefined;
+export function TrackFacilityMap({ map, racingLine }: Props) {
   const [box, setBox] = useState({ width: 0, height: 0 });
-  const [natural, setNatural] = useState(RIBBON_ASPECT);
   const [zoom, setZoom] = useState(DEFAULT_ZOOM);
-  const ribbon = useMemo(() => polylinePoints(map), [map]);
+  const ribbon = useMemo(
+    () => map.polyline.map(([x, y]) => `${x},${y}`).join(' '),
+    [map]
+  );
+  const guide = useMemo(
+    () => racingLine?.polyline.map(([x, y]) => `${x},${y}`).join(' '),
+    [racingLine]
+  );
 
   useEffect(() => {
     setZoom(DEFAULT_ZOOM);
-    if (!board) setNatural(RIBBON_ASPECT);
-  }, [map.trackId, board]);
+  }, [map.trackId]);
 
   const onLayout = useCallback((e: LayoutChangeEvent) => {
     const { width, height } = e.nativeEvent.layout;
     setBox({ width, height });
   }, []);
 
-  const aspect = natural.height / Math.max(natural.width, 1);
   const baseW = box.width;
-  const baseH = baseW > 0 ? baseW * aspect : 0;
+  const baseH = box.height;
   const innerW = baseW * zoom;
   const innerH = baseH * zoom;
 
@@ -78,34 +83,41 @@ export function TrackFacilityMap({ map }: Props) {
             bounces={false}
             showsHorizontalScrollIndicator
           >
-            {board && innerW > 0 ? (
-              <Image
-                source={board}
-                onLoad={(e) => {
-                  const { width, height } = e.nativeEvent.source;
-                  if (width > 0 && height > 0) setNatural({ width, height });
-                }}
-                style={{ width: innerW, height: innerH }}
-                resizeMode="contain"
-                accessibilityLabel={`${map.name} circuit map`}
-              />
-            ) : innerW > 0 ? (
+            {innerW > 0 ? (
               <View style={{ width: innerW, height: innerH, backgroundColor: GRASS }}>
                 <Svg
                   width={innerW}
                   height={innerH}
                   viewBox="0 0 100 100"
                   preserveAspectRatio="xMidYMid meet"
-                  accessibilityLabel={`${map.name} layout outline`}
+                  accessibilityLabel={`${map.name} circuit map`}
                 >
                   <Polyline
                     points={ribbon}
                     fill="none"
-                    stroke="#0f172a"
-                    strokeWidth={2.4}
+                    stroke={TRACK_EDGE}
+                    strokeWidth={EDGE_UNITS}
                     strokeLinejoin="round"
                     strokeLinecap="round"
                   />
+                  <Polyline
+                    points={ribbon}
+                    fill="none"
+                    stroke={TRACK_GREY}
+                    strokeWidth={SURFACE_UNITS}
+                    strokeLinejoin="round"
+                    strokeLinecap="round"
+                  />
+                  {guide ? (
+                    <Polyline
+                      points={guide}
+                      fill="none"
+                      stroke={GUIDE_RED}
+                      strokeWidth={GUIDE_UNITS}
+                      strokeLinejoin="round"
+                      strokeLinecap="round"
+                    />
+                  ) : null}
                 </Svg>
               </View>
             ) : (
@@ -137,9 +149,9 @@ export function TrackFacilityMap({ map }: Props) {
         </View>
       </View>
       <Text style={styles.hint}>
-        {cornersVerified
-          ? 'Track map — the line and corner numbers are in the picture. Pinch or use + / −. Use the list below to add notes.'
-          : 'Layout outline only — official corner numbers stay off until this map is checked against the venue board. Pinch or use + / −. Use the list below to add notes.'}
+        Track map from the circuit GPS trace, drawn to the real width of the road — zoom in to read
+        it.{guide ? ' The red line is a suggested line, not instruction.' : ''} Use the list below
+        to add notes.
       </Text>
     </View>
   );
@@ -148,7 +160,7 @@ export function TrackFacilityMap({ map }: Props) {
 const styles = StyleSheet.create({
   mapWrap: {
     width: '100%',
-    aspectRatio: 1.55,
+    aspectRatio: 1,
     backgroundColor: GRASS,
     overflow: 'hidden',
     borderWidth: 1,

@@ -25,6 +25,7 @@ docs/ios/apple-setup-status.json
 app/.vercel/
 
 # IDE / editor
+.vscode/
 .cursor/*
 !.cursor/mcp.json
 !.cursor/rules/
@@ -38,6 +39,10 @@ Thumbs.db
 *.log
 npm-debug.log*
 tmp/
+__pycache__/
 
 # Marketing build tooling (installed locally; see marketing/promo/.gitignore)
 marketing/promo/tools/
+
+# Internal DigiMark client pack — never ship in app / EAS / Vercel
+DigiMark_Response/

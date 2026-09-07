@@ -129,9 +129,24 @@ cd app
 npx tsc --noEmit
 ```
 
-**Map proof is P0.** `prove-track-maps.mjs` must PASS (`owner_verified` boards + pits in `app/src/data/trackInfo/mapProof.json`) before bake or `build-track-info-maps.mjs`. Do not rebuild maps from GPX heuristics. Copy `app/src/data/trackInfo` to `android-app/src/data/trackInfo` only after proof passes. There is no arcade ride and no `test:track-frames`.
+**Track Details maps are GPX-only.** `prove-track-maps.mjs` must PASS when every layout has a repo GPX in `scripts/track-memory-gpx/` and a polyline-only JSON in `app/src/data/gpxTrackMaps/` (mirrored to android-app). Rebuild with `node scripts/build-gpx-track-maps.mjs`. Do not restore board PNGs, `boardMaps.ts`, or `mapProof.json`. The picture has no corner or pit markers. There is no arcade ride and no `test:track-frames`.
 
-**UI safeguard:** Track Details shows the layout ribbon always; numbered corner dots and heuristic pit marks render only when `areTrackInfoCornersVerified(trackId)` is true (`status === owner_verified` in `mapProof.json`). No board → no numbered map.
+**UI safeguard:** Track Details draws the GPX ribbon (green grass, grey asphalt, white edges) plus the suggested racing line. Nothing else goes on the picture — corner notes stay in the list below the map, and there are still no corner or pit markers.
+
+**Racing line overlay.** A red guide line per layout lives in `app/src/data/racingLines/` (mirrored to android-app), built from the frozen GPX map by the quasi-steady solver:
+
+```powershell
+python scripts/build-racing-lines.py
+```
+
+It solves every layout in `gpxTrackMaps/`; named ids rebuild a subset and leave `index.ts` alone, and `--exclude <id>` skips one. A full run takes about half an hour, and the gates reject a layout rather than ship a bad line.
+
+Invariants:
+
+- The line is an **overlay**. It never edits the GPX map, and GPX alone must never set turn direction.
+- `TrackFacilityMap` must stroke the ribbon in **map units, not device pixels**. The line is solved against the drawn asphalt half-width (0.6 map units), so a device-derived stroke would draw the line on a road it was never solved for, differently on every screen.
+- The line is presented as a suggestion, never as instruction, and no modelled lap time is shown to riders.
+- `prove-track-maps.mjs` fails a line that self-intersects, fails to close, or would draw off the asphalt; a missing line is a warning.
 
 **Turn hands are P0:** wrong left/right must not ship. Allowed hands live in `app/src/data/track_turn_verification.json`. After catalog edits run `node scripts/enforce-turn-verification.mjs --write` then the validator. GPX alone must never set turn direction.
 

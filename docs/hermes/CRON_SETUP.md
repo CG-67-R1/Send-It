@@ -163,7 +163,7 @@ Then open the report in Cursor and implement P0/P1 items.
 | Preflight only | `node scripts/mobile-review-preflight.mjs` |
 | Track data validator | `node scripts/validate-track-data.mjs` |
 | Track Memory diagnose | `node scripts/diagnose-track-memory.mjs` |
-| Track Memory info maps | `node scripts/build-track-info-maps.mjs` |
+| Track Details GPX maps | `node scripts/build-gpx-track-maps.mjs` |
 | Daily gate script | `node scripts/hermes-daily-gate.mjs` |
 | Hermes cron setup | `.\scripts\setup-hermes-cron.ps1` |
 | Production verify | `node scripts/verify-production.mjs` |

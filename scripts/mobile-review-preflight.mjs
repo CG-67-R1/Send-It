@@ -91,7 +91,7 @@ if (trackVal.status === 0) {
   fail('validate-track-data.mjs (see FAIL lines above)');
 }
 
-section('Track Details map proof');
+section('Track Details GPX maps');
 const mapProof = spawnSync('node', [path.join(ROOT, 'scripts', 'prove-track-maps.mjs')], {
   cwd: ROOT,
   encoding: 'utf8',
@@ -102,7 +102,7 @@ if (mapProof.stderr) process.stderr.write(mapProof.stderr);
 if (mapProof.status === 0) {
   pass('prove-track-maps.mjs');
 } else {
-  fail('prove-track-maps.mjs — P0: do not bake or ship Track Details maps until owner retrieves official boards + pits');
+  fail('prove-track-maps.mjs — every Track Details layout needs a repo GPX and a generated polyline');
 }
 
 section('Dependency security (npm audit)');

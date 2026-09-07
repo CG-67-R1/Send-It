@@ -16,7 +16,7 @@
 ## MACPARK_S01 — Turn 1 (Hairpin aka “The Hairpin”)
 **Shape:** Hairpin
 **Priority / what matters:** hand hairpin (nearly 180°). It’s very slow – likely 2nd gear on most bikes, maybe 1st on a big bike. Small bikes can be very aggressive here – you might not even need first gear as their corner speed is higher; focus on a late apex to carry speed out.
-**Hazards / surface:** Heavy braking is needed but the braking zone is slightly uphill, which helps slow the bike (use the incline to your advantage). Mid-size 600s should brake hard and deep (watch for slightly uneven pavement transitions at the turn-in – the new surface is smooth but there’s often dust off-line from the nearby camping area).
+**Hazards / surface:** Heavy braking is needed but the braking zone is slightly uphill then downhill(use the incline to your advantage). Mid-size 600s should brake hard and deep (watch for slightly uneven pavement transitions at the turn-in – the new surface is smooth but there’s often dust off-line from the nearby camping area).
 **Bike-class notes:**
 - **SBK/1000:** Superbikes must square off this hairpin: get the bike stopped, quick steering input to snap it around, and then drive out.
 - **600/midsize:** Mid-size 600s should brake hard and deep (watch for slightly uneven pavement transitions at the turn-in – the new surface is smooth but there’s often dust off-line from the nearby camping area).
@@ -91,8 +91,7 @@
 **Confidence:** Medium (auto-extracted summary; validate exact markers/lines).
 **Source notes:** Source: Motorcycle Track Guides_ Mallala, Mac Park, One (Wakefield), Morgan Park, Wanneroo (1).pdf. Extracted from guide text for: Turn 9 (Hairpin.
 
-## MACPARK_S08 — Turns 10–11 (Esses)
-**Shape:** Chicane
+## MACPARK_S08 — Turns 10–11 
 **Priority / what matters:** chute out of T9 – not much time to breathe. Turn 10 is blind entry (it goes over a small crest). Aim for a late turn-in once you crest; that sets you up for immediate Turn 11 right.
 **Stable reference points:** chute out of T9 – not much time to breathe.; The surface here is smooth, and the curbs are low if you need to use them.; Most riders will clip a bit of inside curb on both 10 and 11.
 **Hazards / surface:** Turn 10 is blind entry (it goes over a small crest). Aim for a late turn-in once you crest; that sets you up for immediate Turn 11 right.
@@ -103,7 +102,7 @@
 **Source notes:** Source: Motorcycle Track Guides_ Mallala, Mac Park, One (Wakefield), Morgan Park, Wanneroo (1).pdf. Extracted from guide text for: Turns 10–11 (Esses).
 
 ## MACPARK_S09 — Turn 12 (Final corner)
-**Shape:** Hairpin
+**Shape:** Tight right
 **Priority / what matters:** the main straight. Turn 12 is critical for lap time. Line: Try to late-apex Turn 12 so that you can stand the bike up on the exit.
 **Stable reference points:** 600s: roll in with medium throttle, find the apex (there’s usually a cone or tire mark as a reference), then once you see the straight, pour on the gas.; Use all the exit width – there’s extra pavement on the exit curb, which is forgiving.; Liter bikes could consider standard gearing; they have plenty of power for the short chutes, and too short gearing will just cause wheelies.
 **Hazards / surface:** It’s a long constant-radius left with some slight positive camber. Entry is slightly downhill, then it levels out through the turn.

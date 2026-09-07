@@ -7,17 +7,17 @@ import { TrackCornerSheet } from '../components/TrackCornerSheet';
 import { TrackFacilityMap } from '../components/TrackFacilityMap';
 import { TrackPicker } from '../components/TrackPicker';
 import { COMPACT_LOGO_SIZE } from '../constants/logoSizing';
+import { getGpxTrackMap } from '../data/gpxTrackMaps';
+import { getRacingLine } from '../data/racingLines';
 import {
   TRACK_INFO_TRACK_IDS,
-  areTrackInfoCornersVerified,
   elevationSummary,
   getTrackInfoFacts,
-  getTrackInfoMap,
+  hasTrackInfoMap,
   listTrackInfoTracks,
 } from '../data/trackInfo';
-import type { TrackInfoCorner } from '../data/trackInfo/types';
 import type { CornerDefinition, TrackDefinition } from '../data/tracks';
-import { formatCornerHeading, getCornerById, getTrackById } from '../data/tracks';
+import { formatCornerHeading, getTrackById } from '../data/tracks';
 import type { RiderAiSkill } from '../navigation/homeMode';
 import { getTrackWalkSessions } from '../storage/trackWalk';
 import {
@@ -53,7 +53,7 @@ export function TrackMemoryHubScreen() {
   const [trackId, setTrackId] = useState<string | null>(
     infoTracks.length === 1 ? infoTracks[0].id : null
   );
-  const [selectedMapCorner, setSelectedMapCorner] = useState<TrackInfoCorner | null>(null);
+  const [selectedCorner, setSelectedCorner] = useState<CornerDefinition | null>(null);
   const [savedNote, setSavedNote] = useState<string | null>(null);
   const [riderSkill, setRiderSkill] = useState<RiderAiSkill>('novice');
   const coaching = useMemo(() => trackInfoCoachingForSkill(riderSkill), [riderSkill]);
@@ -69,7 +69,7 @@ export function TrackMemoryHubScreen() {
         if (cancelled) return;
         setRiderSkill(skill);
         if (!saved) return;
-        if (getTrackInfoMap(saved.trackId)) {
+        if (hasTrackInfoMap(saved.trackId)) {
           setTrackId(saved.trackId);
         }
       })();
@@ -79,26 +79,17 @@ export function TrackMemoryHubScreen() {
     }, [])
   );
 
-  const map = trackId ? getTrackInfoMap(trackId) : undefined;
+  const map = trackId ? getGpxTrackMap(trackId) : undefined;
+  const racingLine = trackId ? getRacingLine(trackId) : undefined;
   const catalog = trackId ? getTrackById(trackId) : undefined;
   const facts = trackId ? getTrackInfoFacts(trackId) : undefined;
-  const cornersVerified = trackId ? areTrackInfoCornersVerified(trackId) : false;
   const asbk = facts?.asbkRecords?.filter((r) => r.time) ?? [];
-
-  const selectedCatalogCorner: CornerDefinition | null = useMemo(() => {
-    if (!trackId || !selectedMapCorner) return null;
-    return getCornerById(trackId, selectedMapCorner.id) ?? {
-      id: selectedMapCorner.id,
-      number: selectedMapCorner.number,
-      label: selectedMapCorner.label,
-      direction: selectedMapCorner.direction as CornerDefinition['direction'],
-    };
-  }, [trackId, selectedMapCorner]);
+  const corners = (catalog?.corners ?? []).filter((c) => c.number != null);
 
   const handleSelectTrack = useCallback((track: TrackDefinition) => {
-    if (!getTrackInfoMap(track.id)) return;
+    if (!hasTrackInfoMap(track.id)) return;
     setTrackId(track.id);
-    setSelectedMapCorner(null);
+    setSelectedCorner(null);
     void saveTrackPrepSelectedTrack({
       trackId: track.id,
       trackName: track.name,
@@ -106,9 +97,9 @@ export function TrackMemoryHubScreen() {
   }, []);
 
   const openCorner = useCallback(
-    async (corner: TrackInfoCorner) => {
+    async (corner: CornerDefinition) => {
       if (!trackId) return;
-      setSelectedMapCorner(corner);
+      setSelectedCorner(corner);
       const sessions = await getTrackWalkSessions();
       setSavedNote(latestCornerNote(sessions, trackId, corner.id));
     },
@@ -116,22 +107,22 @@ export function TrackMemoryHubScreen() {
   );
 
   const askCoach = useCallback(() => {
-    if (!catalog || !selectedCatalogCorner) return;
-    const heading = formatCornerHeading(selectedCatalogCorner);
+    if (!catalog || !selectedCorner) return;
+    const heading = formatCornerHeading(selectedCorner);
     const draft =
       riderSkill === 'novice'
         ? `I'm studying ${catalog.name}, ${heading}. Give me one or two simple things to look for on the approach — everyday language, no invented lap times.`
         : `I'm studying ${catalog.name}, ${heading}. Help me with reference points and where to look on the approach — no invented lap times.`;
-    setSelectedMapCorner(null);
+    setSelectedCorner(null);
     navigation.navigate('CoachChat', {
       mode: 'coach',
       seedDraftMessage: draft,
     });
-  }, [catalog, navigation, riderSkill, selectedCatalogCorner]);
+  }, [catalog, navigation, riderSkill, selectedCorner]);
 
   const openWalk = useCallback(() => {
     if (!trackId || !catalog) return;
-    setSelectedMapCorner(null);
+    setSelectedCorner(null);
     navigation.navigate('TrackWalk', {
       initialTrackId: trackId,
       initialTrackName: catalog.name,
@@ -149,9 +140,7 @@ export function TrackMemoryHubScreen() {
       </View>
 
       <Text style={styles.lead}>
-        {cornersVerified
-          ? 'Pick a circuit to open the track map. The picture is the track. Each number on it has a row below so you can add notes.'
-          : 'Pick a circuit to open the layout outline. Official corner numbers stay off the picture until the map is checked against the venue board. Use the list below for notes.'}
+        Pick a circuit to open the track map. The picture is the GPS layout. Use the list below to add notes.
       </Text>
 
       <TrackPicker
@@ -171,18 +160,14 @@ export function TrackMemoryHubScreen() {
       {map && catalog ? (
         <>
           <View style={styles.mapBleed}>
-            <TrackFacilityMap
-              map={map}
-              selectedCornerId={selectedMapCorner?.id ?? null}
-              onSelectCorner={(c) => void openCorner(c)}
-            />
+            <TrackFacilityMap map={map} racingLine={racingLine} />
           </View>
 
           <View style={styles.card}>
             <Text style={styles.cardTitle}>{catalog.name}</Text>
-            <FactRow label="Distance" value={catalog.lengthKm ?? `${(map.lengthM / 1000).toFixed(2)} km`} />
+            <FactRow label="Distance" value={catalog.lengthKm ?? 'Length not in the catalog.'} />
             <FactRow label="Direction" value={catalog.direction} />
-            <FactRow label="Elevation" value={elevationSummary(map)} />
+            <FactRow label="Elevation" value={elevationSummary(catalog.id)} />
             <FactRow label="Surface" value={facts?.surface ?? 'Asphalt (details not in the catalog).'} />
             <FactRow
               label="Usual weather"
@@ -220,33 +205,28 @@ export function TrackMemoryHubScreen() {
           </View>
 
           <Text style={styles.listTitle}>Corners</Text>
-          {map.corners.map((corner) => {
-            const cat = getCornerById(catalog.id, corner.id);
-            return (
-              <TouchableOpacity
-                key={corner.id}
-                style={styles.cornerRow}
-                onPress={() => void openCorner(corner)}
-                activeOpacity={0.75}
-                accessibilityRole="button"
-                accessibilityLabel={`Turn ${corner.number} ${corner.label}`}
-              >
-                <View style={styles.cornerDot} />
-                <Text style={styles.cornerLabel}>
-                  {cat ? formatCornerHeading(cat) : `T${corner.number} — ${corner.label}`}
-                </Text>
-              </TouchableOpacity>
-            );
-          })}
+          {corners.map((corner) => (
+            <TouchableOpacity
+              key={corner.id}
+              style={styles.cornerRow}
+              onPress={() => void openCorner(corner)}
+              activeOpacity={0.75}
+              accessibilityRole="button"
+              accessibilityLabel={`Turn ${corner.number} ${corner.label}`}
+            >
+              <View style={styles.cornerDot} />
+              <Text style={styles.cornerLabel}>{formatCornerHeading(corner)}</Text>
+            </TouchableOpacity>
+          ))}
         </>
       ) : (
         <Text style={styles.hint}>Select a track to open the map.</Text>
       )}
 
       <TrackCornerSheet
-        corner={selectedCatalogCorner}
+        corner={selectedCorner}
         savedNote={savedNote}
-        onClose={() => setSelectedMapCorner(null)}
+        onClose={() => setSelectedCorner(null)}
         onAskCoach={askCoach}
         onOpenTrackWalk={openWalk}
       />

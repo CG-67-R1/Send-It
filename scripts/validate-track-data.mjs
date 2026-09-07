@@ -311,7 +311,7 @@ if (turnPolicy) {
   }
 }
 
-console.log('\nMap proof (owner-verified boards + pits)');
+console.log('\nTrack Details GPX maps');
 {
   const proofScript = path.join(ROOT, 'scripts', 'prove-track-maps.mjs');
   const proof = spawnSync(process.execPath, [proofScript], {
@@ -323,7 +323,7 @@ console.log('\nMap proof (owner-verified boards + pits)');
   if (proof.status === 0) {
     pass('prove-track-maps.mjs');
   } else {
-    fail('prove-track-maps.mjs — retrieve official board maps and pit marks before baking or rebuilding Track Details');
+    fail('prove-track-maps.mjs — every Track Details layout needs a repo GPX and a generated polyline');
   }
 }
 

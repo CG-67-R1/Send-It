@@ -55,14 +55,15 @@ Keep **one skill** with two modes (catalog + Track Memory). Do not invent a seco
 | Enforce allowlist | `scripts/enforce-turn-verification.mjs` |
 | Track Memory layouts | `app/src/data/trackMemory/*.json` |
 | Layout registry | `app/src/trackMemory/layouts.ts` |
-| Info maps | `app/src/data/trackInfo/` |
-| Compact map builder | `scripts/build-track-info-maps.mjs` |
+| Info facts | `app/src/data/trackInfo/` |
+| GPX Track Details maps | `app/src/data/gpxTrackMaps/` |
+| GPX map builder | `scripts/build-gpx-track-maps.mjs` |
 | Bake mapping (`TRACK_GPX`) | `scripts/bake-track-memory-layout.mjs` |
 | Geometry helpers | `scripts/lib/track-geometry.mjs` |
 | DEM / enriched GPX | `scripts/track-memory-gpx/` |
 | DEM enrich | `scripts/enrich-track-elevation.mjs` |
 | Diagnose | `scripts/diagnose-track-memory.mjs` |
-| Compact info maps | `node scripts/build-track-info-maps.mjs` (every bake should refresh `app/src/data/trackInfo/maps`) |
+| GPX info maps | `node scripts/build-gpx-track-maps.mjs` (refresh `app/src/data/gpxTrackMaps` from repo GPX) |
 | Lap-length probe | `scripts/probe-lap-length.mjs` |
 
 ## Venue list rules
@@ -103,7 +104,7 @@ A baked layout is ready when all of these hold:
 1. **Geometry** — one closed lap, length within ~5% of catalog `lengthKm`, no phantom chicane on the pit straight, `s=0` on the start/finish straight (not automatically the longest straight).
 2. **Hands** — left/right only from catalog + `track_turn_verification.json`. GPX never invents L/R.
 3. **Elevation** — real hills use GPX `ele` or DEM, with the source recorded on the bake (`elevSource`: `gpx` | `dem` | omitted if flat). DEM must not replace a clean Emtron centreline.
-4. **Info map** — compact polyline exists in `app/src/data/trackInfo/maps/<id>.json` **and** `node scripts/prove-track-maps.mjs` is PASS (`owner_verified`). Diagnose SHIFT/UNMATCHED is a P0 for maps, not a note to ignore. There is no arcade ride.
+4. **Info map** — GPX polyline exists in `app/src/data/gpxTrackMaps/<id>.json` **and** `node scripts/prove-track-maps.mjs` is PASS (repo GPX + polyline only, no board PNGs). There is no arcade ride.
 
 ## Step 1 — Structural gate (always)
 
@@ -146,11 +147,11 @@ From repo root / `app/`:
 
 | Command | Pass | Fail as |
 |---------|------|---------|
-| `node scripts/validate-track-data.mjs` | existing catalog gate **plus map proof** | **P0** if FAIL |
-| `node scripts/prove-track-maps.mjs` | every layout `owner_verified` | **P0** if any layout is `needs_owner_data` or still has SHIFT/UNMATCHED |
+| `node scripts/validate-track-data.mjs` | existing catalog gate **plus GPX map proof** | **P0** if FAIL |
+| `node scripts/prove-track-maps.mjs` | every layout has repo GPX + polyline JSON | **P0** if a GPX or polyline is missing, or old board assets return |
 | `node scripts/diagnose-track-memory.mjs` | 0 empty layouts; list hand misses and kinks | **P0** extra-lap / self-cross; **P1** verified-hand miss or pit-straight kink |
 | `cd app && npx tsc --noEmit` | clean | **P0** if Track Memory types break |
-| Info maps present | `app/src/data/trackInfo/maps/<id>.json` for every baked layout | **P1** if a bake has no compact map |
+| Info maps present | `app/src/data/gpxTrackMaps/<id>.json` for every Track Details layout | **P1** if a layout has no GPX map |
 
 ### Geometry rules
 
@@ -170,7 +171,7 @@ Encode these as standing checks, not one-off notes. Source of bake mapping: `TRA
 - Skip DEM for Queensland Raceway (noise / effectively flat) — already marked in the bake mapping (`Queensland_Raceway.gpx` on Desktop Emtron).
 - Bend International/GT are currently **flat Emtron** after the chicane fix; flag as **P2** “re-sample DEM Z onto Emtron XY” rather than switching back to the DEM path.
 
-### Map proof (P0 — blocks bake and map rebuild)
+### Map proof (P0 — GPX ribbon only)
 
 Run **before** claiming Track Details maps are ready:
 
@@ -178,13 +179,9 @@ Run **before** claiming Track Details maps are ready:
 node scripts/prove-track-maps.mjs
 ```
 
-**FAIL** unless every baked layout in `app/src/data/trackInfo/mapProof.json` is `owner_verified` with `ownerBoardCount`, `ownerBoardSource`, and `pitVerified: true`. Diagnose SHIFT/UNMATCHED also fails the proof.
+**FAIL** unless every Track Details layout has a repo GPX in `scripts/track-memory-gpx/` and a polyline-only JSON in `app/src/data/gpxTrackMaps/` (and the android-app copy). Old board PNGs, `boardMaps.ts`, and `mapProof.json` must stay deleted.
 
-Do **not** copy-forward unverified maps as “tracks still run.” That policy is what shipped wrong Track Details maps on 2026-09-01.
-
-`node scripts/bake-track-memory-layout.mjs` and `node scripts/build-track-info-maps.mjs` refuse to write until the proof passes.
-
-Until the owner retrieves venue/ASBK board maps and pit marks, report **P0 CURSOR ALERT: Track Details maps unproven** and list the RETRIEVE lines from the proof script.
+Rebuild maps with `node scripts/build-gpx-track-maps.mjs`. Do not restore venue-board images or numbered markers on the picture.
 
 ### Copy-forward diagnose misses
 
@@ -214,10 +211,10 @@ Add a **Track data** section to `docs/reviews/RR_REVIEW_YYYY-MM-DD.md`, includin
 
 ### Track Memory
 - diagnose-track-memory: PASS/FAIL (empty layouts / extra-lap / kinks / hand misses)
-- track-info maps: PASS/FAIL (`prove-track-maps` owner_verified; one compact JSON per baked layout)
+- track-info maps: PASS/FAIL (`prove-track-maps` GPX + polyline JSON per layout)
 - tsc: PASS/FAIL
-- GPX source per layout: Emtron Desktop vs scripts/track-memory-gpx (DEM)
-- [P0/P1/P2] geometry / elevation / boards
+- GPX source per layout: scripts/track-memory-gpx
+- [P0/P1/P2] geometry / elevation / GPX maps
 ```
 
 ### Standalone / deep GPX audit
@@ -240,5 +237,5 @@ When the user asks for a track memory review, write `docs/reviews/TRACK_MEMORY_R
 1. Validator + map-proof exit status
 2. Track Memory diagnose + compact info maps + tsc results
 3. P0/P1 track-data counts (catalog + Track Memory). Map proof FAIL is P0 CURSOR ALERT.
-4. Top 3 Cursor catalog / bake fixes — do not rebuild maps until owner_verified
+4. Top 3 Cursor catalog / bake fixes — rebuild Track Details pictures with `build-gpx-track-maps.mjs` only
 5. Re-verify: `node scripts/validate-track-data.mjs`, `node scripts/prove-track-maps.mjs`, `node scripts/diagnose-track-memory.mjs`
