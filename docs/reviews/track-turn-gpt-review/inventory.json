@@ -1,0 +1,3563 @@
+{
+  "generatedAt": "2026-09-04T10:12:14.114Z",
+  "source": "app/src/data/trackInfo/maps",
+  "trackCount": 19,
+  "turnCount": 239,
+  "tracks": [
+    {
+      "trackId": "baskerville",
+      "name": "Baskerville Raceway",
+      "direction": "anticlockwise",
+      "lengthM": 1964,
+      "catalogName": "Baskerville Raceway",
+      "catalogCornerCount": 9,
+      "mapCornerCount": 10,
+      "turns": [
+        {
+          "id": "baskerville_t1",
+          "number": 1,
+          "label": "Turn 1",
+          "direction": "complex",
+          "catalogMatch": true,
+          "current": {
+            "shape": "Corner / complex",
+            "approachFrom": "main straight / start-finish",
+            "orientation": null,
+            "catalogLabel": "Turn 1",
+            "catalogDirection": "complex"
+          }
+        },
+        {
+          "id": "baskerville_t2",
+          "number": 2,
+          "label": "Turn 2 (Esses)",
+          "direction": "complex",
+          "catalogMatch": true,
+          "current": {
+            "shape": "Corner / complex",
+            "approachFrom": "T1 exit",
+            "orientation": null,
+            "catalogLabel": "Turn 2",
+            "catalogDirection": "complex"
+          }
+        },
+        {
+          "id": "baskerville_t3",
+          "number": 3,
+          "label": "Turn 3 (Esses)",
+          "direction": "complex",
+          "catalogMatch": true,
+          "current": {
+            "shape": "Corner / complex",
+            "approachFrom": "T2 exit",
+            "orientation": null,
+            "catalogLabel": "Turn 3",
+            "catalogDirection": "complex"
+          }
+        },
+        {
+          "id": "baskerville_t4",
+          "number": 4,
+          "label": "Turn 4",
+          "direction": "complex",
+          "catalogMatch": true,
+          "current": {
+            "shape": "Corner / complex",
+            "approachFrom": "T3 exit",
+            "orientation": null,
+            "catalogLabel": "Turn 4",
+            "catalogDirection": "complex"
+          }
+        },
+        {
+          "id": "baskerville_t5",
+          "number": 5,
+          "label": "Turn 5 (Dunlop)",
+          "direction": "complex",
+          "catalogMatch": true,
+          "current": {
+            "shape": "Corner / complex",
+            "approachFrom": "T4 exit",
+            "orientation": null,
+            "catalogLabel": "Turn 5",
+            "catalogDirection": "complex"
+          }
+        },
+        {
+          "id": "baskerville_t6",
+          "number": 6,
+          "label": "Turn 6 (Dunlop)",
+          "direction": "complex",
+          "catalogMatch": true,
+          "current": {
+            "shape": "Corner / complex",
+            "approachFrom": "T5 exit",
+            "orientation": null,
+            "catalogLabel": "Turn 6",
+            "catalogDirection": "complex"
+          }
+        },
+        {
+          "id": "baskerville_t7",
+          "number": 7,
+          "label": "Turn 7 (Calvins)",
+          "direction": "complex",
+          "catalogMatch": true,
+          "current": {
+            "shape": "Corner / complex",
+            "approachFrom": "T6 exit",
+            "orientation": null,
+            "catalogLabel": "Turn 7",
+            "catalogDirection": "complex"
+          }
+        },
+        {
+          "id": "baskerville_t8",
+          "number": 8,
+          "label": "Turn 8 (Shell Corner)",
+          "direction": "complex",
+          "catalogMatch": true,
+          "current": {
+            "shape": "Corner / complex",
+            "approachFrom": "T7 exit",
+            "orientation": null,
+            "catalogLabel": "Turn 8",
+            "catalogDirection": "complex"
+          }
+        },
+        {
+          "id": "baskerville_t9",
+          "number": 9,
+          "label": "Turn 9 (Holden)",
+          "direction": "complex",
+          "catalogMatch": true,
+          "current": {
+            "shape": "Corner / complex",
+            "approachFrom": "T8 exit",
+            "orientation": null,
+            "catalogLabel": "Turn 9",
+            "catalogDirection": "complex"
+          }
+        },
+        {
+          "id": "baskerville_t10",
+          "number": 10,
+          "label": "Turn 10",
+          "direction": "complex",
+          "catalogMatch": false,
+          "current": {
+            "shape": null,
+            "approachFrom": null,
+            "orientation": null,
+            "catalogLabel": null,
+            "catalogDirection": null
+          }
+        }
+      ]
+    },
+    {
+      "trackId": "broadford",
+      "name": "Broadford State Motorcycle Complex",
+      "direction": "clockwise",
+      "lengthM": 2103,
+      "catalogName": "Broadford State Motorcycle Complex",
+      "catalogCornerCount": 7,
+      "mapCornerCount": 12,
+      "turns": [
+        {
+          "id": "broadford_t1",
+          "number": 1,
+          "label": "Turn 1 (Honda Corner)",
+          "direction": "left",
+          "catalogMatch": true,
+          "current": {
+            "shape": "Double-apex",
+            "approachFrom": "main straight / start-finish",
+            "orientation": null,
+            "catalogLabel": "Turns 1 & 2 (Big Left Honda Corner double-apex)",
+            "catalogDirection": "left"
+          }
+        },
+        {
+          "id": "broadford_t2",
+          "number": 2,
+          "label": "Turn 2 (Honda Corner)",
+          "direction": "complex",
+          "catalogMatch": false,
+          "current": {
+            "shape": null,
+            "approachFrom": null,
+            "orientation": null,
+            "catalogLabel": null,
+            "catalogDirection": null
+          }
+        },
+        {
+          "id": "broadford_t3",
+          "number": 3,
+          "label": "Turn 3 (Back Kink)",
+          "direction": "complex",
+          "catalogMatch": true,
+          "current": {
+            "shape": "Kink",
+            "approachFrom": "T1 (Turns 1 & 2) exit",
+            "orientation": null,
+            "catalogLabel": "Turns 3 & 4 (Back Kink and Straight)",
+            "catalogDirection": "complex"
+          }
+        },
+        {
+          "id": "broadford_t4",
+          "number": 4,
+          "label": "Turn 4 (Back Straight)",
+          "direction": "complex",
+          "catalogMatch": false,
+          "current": {
+            "shape": null,
+            "approachFrom": null,
+            "orientation": null,
+            "catalogLabel": null,
+            "catalogDirection": null
+          }
+        },
+        {
+          "id": "broadford_t5",
+          "number": 5,
+          "label": "Turn 5 (Uphill Hairpin)",
+          "direction": "right",
+          "catalogMatch": true,
+          "current": {
+            "shape": "Hairpin",
+            "approachFrom": "T3 (Turns 3 & 4) exit",
+            "orientation": null,
+            "catalogLabel": "Turn 5 (Uphill Hairpin)",
+            "catalogDirection": "right"
+          }
+        },
+        {
+          "id": "broadford_t6",
+          "number": 6,
+          "label": "Turn 6 (The Kink)",
+          "direction": "complex",
+          "catalogMatch": true,
+          "current": {
+            "shape": "Kink",
+            "approachFrom": "T5 (Turn 5) exit",
+            "orientation": null,
+            "catalogLabel": "Turn 6 (The Kink)",
+            "catalogDirection": "complex"
+          }
+        },
+        {
+          "id": "broadford_t7",
+          "number": 7,
+          "label": "Turn 7 (Flip-Flop)",
+          "direction": "complex",
+          "catalogMatch": true,
+          "current": {
+            "shape": "Chicane",
+            "approachFrom": "T6 (Turn 6) exit",
+            "orientation": null,
+            "catalogLabel": "Turns 7/8/9 (Flip-Flop Esses / Motorcross Flip Flop)",
+            "catalogDirection": "complex"
+          }
+        },
+        {
+          "id": "broadford_t8",
+          "number": 8,
+          "label": "Turn 8 (Flip-Flop)",
+          "direction": "complex",
+          "catalogMatch": false,
+          "current": {
+            "shape": null,
+            "approachFrom": null,
+            "orientation": null,
+            "catalogLabel": null,
+            "catalogDirection": null
+          }
+        },
+        {
+          "id": "broadford_t9",
+          "number": 9,
+          "label": "Turn 9 (Flip-Flop)",
+          "direction": "complex",
+          "catalogMatch": false,
+          "current": {
+            "shape": null,
+            "approachFrom": null,
+            "orientation": null,
+            "catalogLabel": null,
+            "catalogDirection": null
+          }
+        },
+        {
+          "id": "broadford_t10",
+          "number": 10,
+          "label": "Turn 10 (Twin Apex Rights)",
+          "direction": "right",
+          "catalogMatch": true,
+          "current": {
+            "shape": "Double-apex",
+            "approachFrom": "T7 (Turns 7/8/9) exit",
+            "orientation": null,
+            "catalogLabel": "Turns 10 & 11 (Twin Apex Rights)",
+            "catalogDirection": "right"
+          }
+        },
+        {
+          "id": "broadford_t11",
+          "number": 11,
+          "label": "Turn 11 (Twin Apex Rights)",
+          "direction": "complex",
+          "catalogMatch": false,
+          "current": {
+            "shape": null,
+            "approachFrom": null,
+            "orientation": null,
+            "catalogLabel": null,
+            "catalogDirection": null
+          }
+        },
+        {
+          "id": "broadford_t12",
+          "number": 12,
+          "label": "Turn 12 (final left onto straight)",
+          "direction": "left",
+          "catalogMatch": true,
+          "current": {
+            "shape": "Corner / complex",
+            "approachFrom": "T10 (Turns 10 & 11) exit",
+            "orientation": null,
+            "catalogLabel": "Turn 12 (final left onto straight)",
+            "catalogDirection": "left"
+          }
+        }
+      ]
+    },
+    {
+      "trackId": "calder_park",
+      "name": "Calder Park Raceway",
+      "direction": "clockwise",
+      "lengthM": 2334,
+      "catalogName": "Calder Park Raceway",
+      "catalogCornerCount": 3,
+      "mapCornerCount": 10,
+      "turns": [
+        {
+          "id": "calder_park_t1",
+          "number": 1,
+          "label": "Turn 1",
+          "direction": "complex",
+          "catalogMatch": true,
+          "current": {
+            "shape": "Hairpin",
+            "approachFrom": "main straight / start-finish",
+            "orientation": null,
+            "catalogLabel": "Turn 1 (right hairpin / main hairpin)",
+            "catalogDirection": "complex"
+          }
+        },
+        {
+          "id": "calder_park_t2",
+          "number": 2,
+          "label": "Turn 2",
+          "direction": "complex",
+          "catalogMatch": true,
+          "current": {
+            "shape": "Corner / complex",
+            "approachFrom": "T1 exit",
+            "orientation": null,
+            "catalogLabel": "Turn 2 (complex infield section)",
+            "catalogDirection": "complex"
+          }
+        },
+        {
+          "id": "calder_park_t3",
+          "number": 3,
+          "label": "Turn 3",
+          "direction": "complex",
+          "catalogMatch": true,
+          "current": {
+            "shape": "Hairpin",
+            "approachFrom": "T2 exit",
+            "orientation": null,
+            "catalogLabel": "Turn 3 (right hairpin / back section)",
+            "catalogDirection": "complex"
+          }
+        },
+        {
+          "id": "calder_park_t4",
+          "number": 4,
+          "label": "Turn 4",
+          "direction": "complex",
+          "catalogMatch": false,
+          "current": {
+            "shape": null,
+            "approachFrom": null,
+            "orientation": null,
+            "catalogLabel": null,
+            "catalogDirection": null
+          }
+        },
+        {
+          "id": "calder_park_t5",
+          "number": 5,
+          "label": "Turn 5",
+          "direction": "complex",
+          "catalogMatch": false,
+          "current": {
+            "shape": null,
+            "approachFrom": null,
+            "orientation": null,
+            "catalogLabel": null,
+            "catalogDirection": null
+          }
+        },
+        {
+          "id": "calder_park_t6",
+          "number": 6,
+          "label": "Turn 6",
+          "direction": "complex",
+          "catalogMatch": false,
+          "current": {
+            "shape": null,
+            "approachFrom": null,
+            "orientation": null,
+            "catalogLabel": null,
+            "catalogDirection": null
+          }
+        },
+        {
+          "id": "calder_park_t7",
+          "number": 7,
+          "label": "Turn 7",
+          "direction": "complex",
+          "catalogMatch": false,
+          "current": {
+            "shape": null,
+            "approachFrom": null,
+            "orientation": null,
+            "catalogLabel": null,
+            "catalogDirection": null
+          }
+        },
+        {
+          "id": "calder_park_t8",
+          "number": 8,
+          "label": "Turn 8",
+          "direction": "complex",
+          "catalogMatch": false,
+          "current": {
+            "shape": null,
+            "approachFrom": null,
+            "orientation": null,
+            "catalogLabel": null,
+            "catalogDirection": null
+          }
+        },
+        {
+          "id": "calder_park_t9",
+          "number": 9,
+          "label": "Turn 9",
+          "direction": "complex",
+          "catalogMatch": false,
+          "current": {
+            "shape": null,
+            "approachFrom": null,
+            "orientation": null,
+            "catalogLabel": null,
+            "catalogDirection": null
+          }
+        },
+        {
+          "id": "calder_park_t10",
+          "number": 10,
+          "label": "Turn 10",
+          "direction": "complex",
+          "catalogMatch": false,
+          "current": {
+            "shape": null,
+            "approachFrom": null,
+            "orientation": null,
+            "catalogLabel": null,
+            "catalogDirection": null
+          }
+        }
+      ]
+    },
+    {
+      "trackId": "hidden_valley",
+      "name": "Hidden Valley Raceway",
+      "direction": "anticlockwise",
+      "lengthM": 2858,
+      "catalogName": "Hidden Valley Raceway",
+      "catalogCornerCount": 14,
+      "mapCornerCount": 14,
+      "turns": [
+        {
+          "id": "hidden_valley_t1",
+          "number": 1,
+          "label": "Turn 1",
+          "direction": "complex",
+          "catalogMatch": true,
+          "current": {
+            "shape": "Corner / complex",
+            "approachFrom": "main straight / start-finish",
+            "orientation": null,
+            "catalogLabel": "Turn 1",
+            "catalogDirection": "complex"
+          }
+        },
+        {
+          "id": "hidden_valley_t2",
+          "number": 2,
+          "label": "Turn 2",
+          "direction": "complex",
+          "catalogMatch": true,
+          "current": {
+            "shape": "Corner / complex",
+            "approachFrom": "T1 exit",
+            "orientation": null,
+            "catalogLabel": "Turn 2",
+            "catalogDirection": "complex"
+          }
+        },
+        {
+          "id": "hidden_valley_t3",
+          "number": 3,
+          "label": "Turn 3",
+          "direction": "complex",
+          "catalogMatch": true,
+          "current": {
+            "shape": "Corner / complex",
+            "approachFrom": "T2 exit",
+            "orientation": null,
+            "catalogLabel": "Turn 3",
+            "catalogDirection": "complex"
+          }
+        },
+        {
+          "id": "hidden_valley_t4",
+          "number": 4,
+          "label": "Turn 4",
+          "direction": "complex",
+          "catalogMatch": true,
+          "current": {
+            "shape": "Corner / complex",
+            "approachFrom": "T3 exit",
+            "orientation": null,
+            "catalogLabel": "Turn 4",
+            "catalogDirection": "complex"
+          }
+        },
+        {
+          "id": "hidden_valley_t5",
+          "number": 5,
+          "label": "Turn 5",
+          "direction": "complex",
+          "catalogMatch": true,
+          "current": {
+            "shape": "Corner / complex",
+            "approachFrom": "T4 exit",
+            "orientation": null,
+            "catalogLabel": "Turn 5",
+            "catalogDirection": "complex"
+          }
+        },
+        {
+          "id": "hidden_valley_t6",
+          "number": 6,
+          "label": "Turn 6",
+          "direction": "complex",
+          "catalogMatch": true,
+          "current": {
+            "shape": "Corner / complex",
+            "approachFrom": "T5 exit",
+            "orientation": null,
+            "catalogLabel": "Turn 6",
+            "catalogDirection": "complex"
+          }
+        },
+        {
+          "id": "hidden_valley_t7",
+          "number": 7,
+          "label": "Turn 7",
+          "direction": "complex",
+          "catalogMatch": true,
+          "current": {
+            "shape": "Corner / complex",
+            "approachFrom": "T6 exit",
+            "orientation": null,
+            "catalogLabel": "Turn 7",
+            "catalogDirection": "complex"
+          }
+        },
+        {
+          "id": "hidden_valley_t8",
+          "number": 8,
+          "label": "Turn 8",
+          "direction": "complex",
+          "catalogMatch": true,
+          "current": {
+            "shape": "Corner / complex",
+            "approachFrom": "T7 exit",
+            "orientation": null,
+            "catalogLabel": "Turn 8",
+            "catalogDirection": "complex"
+          }
+        },
+        {
+          "id": "hidden_valley_t9",
+          "number": 9,
+          "label": "Turn 9",
+          "direction": "complex",
+          "catalogMatch": true,
+          "current": {
+            "shape": "Corner / complex",
+            "approachFrom": "T8 exit",
+            "orientation": null,
+            "catalogLabel": "Turn 9",
+            "catalogDirection": "complex"
+          }
+        },
+        {
+          "id": "hidden_valley_t10",
+          "number": 10,
+          "label": "Turn 10",
+          "direction": "complex",
+          "catalogMatch": true,
+          "current": {
+            "shape": "Corner / complex",
+            "approachFrom": "T9 exit",
+            "orientation": null,
+            "catalogLabel": "Turn 10",
+            "catalogDirection": "complex"
+          }
+        },
+        {
+          "id": "hidden_valley_t11",
+          "number": 11,
+          "label": "Turn 11",
+          "direction": "complex",
+          "catalogMatch": true,
+          "current": {
+            "shape": "Corner / complex",
+            "approachFrom": "T10 exit",
+            "orientation": null,
+            "catalogLabel": "Turn 11",
+            "catalogDirection": "complex"
+          }
+        },
+        {
+          "id": "hidden_valley_t12",
+          "number": 12,
+          "label": "Turn 12",
+          "direction": "complex",
+          "catalogMatch": true,
+          "current": {
+            "shape": "Corner / complex",
+            "approachFrom": "T11 exit",
+            "orientation": null,
+            "catalogLabel": "Turn 12",
+            "catalogDirection": "complex"
+          }
+        },
+        {
+          "id": "hidden_valley_t13",
+          "number": 13,
+          "label": "Turn 13",
+          "direction": "complex",
+          "catalogMatch": true,
+          "current": {
+            "shape": "Corner / complex",
+            "approachFrom": "T12 exit",
+            "orientation": null,
+            "catalogLabel": "Turn 13",
+            "catalogDirection": "complex"
+          }
+        },
+        {
+          "id": "hidden_valley_t14",
+          "number": 14,
+          "label": "Turn 14",
+          "direction": "complex",
+          "catalogMatch": true,
+          "current": {
+            "shape": "Corner / complex",
+            "approachFrom": "T13 exit",
+            "orientation": null,
+            "catalogLabel": "Turn 14",
+            "catalogDirection": "complex"
+          }
+        }
+      ]
+    },
+    {
+      "trackId": "lakeside",
+      "name": "Lakeside Park",
+      "direction": "anticlockwise",
+      "lengthM": 2311,
+      "catalogName": "Lakeside Park",
+      "catalogCornerCount": 8,
+      "mapCornerCount": 9,
+      "turns": [
+        {
+          "id": "lakeside_t1",
+          "number": 1,
+          "label": "BP Bend",
+          "direction": "complex",
+          "catalogMatch": true,
+          "current": {
+            "shape": "Corner / complex",
+            "approachFrom": "main straight / start-finish",
+            "orientation": null,
+            "catalogLabel": "Turn 1",
+            "catalogDirection": "complex"
+          }
+        },
+        {
+          "id": "lakeside_t2",
+          "number": 2,
+          "label": "The Karrussell",
+          "direction": "complex",
+          "catalogMatch": true,
+          "current": {
+            "shape": "Corner / complex",
+            "approachFrom": "T1 exit",
+            "orientation": null,
+            "catalogLabel": "Karrussell",
+            "catalogDirection": "complex"
+          }
+        },
+        {
+          "id": "lakeside_t3",
+          "number": 3,
+          "label": "Turn 3",
+          "direction": "complex",
+          "catalogMatch": true,
+          "current": {
+            "shape": "Corner / complex",
+            "approachFrom": "T2 (Karrussell) exit",
+            "orientation": null,
+            "catalogLabel": "Turn 3",
+            "catalogDirection": "complex"
+          }
+        },
+        {
+          "id": "lakeside_t4",
+          "number": 4,
+          "label": "The Bus Stop",
+          "direction": "complex",
+          "catalogMatch": true,
+          "current": {
+            "shape": "Corner / complex",
+            "approachFrom": "T3 exit",
+            "orientation": null,
+            "catalogLabel": "Turn 4",
+            "catalogDirection": "complex"
+          }
+        },
+        {
+          "id": "lakeside_t5",
+          "number": 5,
+          "label": "The Bus Stop",
+          "direction": "complex",
+          "catalogMatch": true,
+          "current": {
+            "shape": "Corner / complex",
+            "approachFrom": "T4 exit",
+            "orientation": null,
+            "catalogLabel": "Hungry",
+            "catalogDirection": "complex"
+          }
+        },
+        {
+          "id": "lakeside_t6",
+          "number": 6,
+          "label": "Dunlop Bridge",
+          "direction": "complex",
+          "catalogMatch": true,
+          "current": {
+            "shape": "Corner / complex",
+            "approachFrom": "T5 (Hungry) exit",
+            "orientation": null,
+            "catalogLabel": "Shell Bridge",
+            "catalogDirection": "complex"
+          }
+        },
+        {
+          "id": "lakeside_t7",
+          "number": 7,
+          "label": "Hungry Corner",
+          "direction": "complex",
+          "catalogMatch": true,
+          "current": {
+            "shape": "Corner / complex",
+            "approachFrom": "T6 (Shell Bridge) exit",
+            "orientation": null,
+            "catalogLabel": "Turn 7",
+            "catalogDirection": "complex"
+          }
+        },
+        {
+          "id": "lakeside_t8",
+          "number": 8,
+          "label": "Eastern Loop",
+          "direction": "complex",
+          "catalogMatch": true,
+          "current": {
+            "shape": "Corner / complex",
+            "approachFrom": "T7 exit",
+            "orientation": null,
+            "catalogLabel": "Turn 8",
+            "catalogDirection": "complex"
+          }
+        },
+        {
+          "id": "lakeside_t9",
+          "number": 9,
+          "label": "Ford Corner",
+          "direction": "complex",
+          "catalogMatch": false,
+          "current": {
+            "shape": null,
+            "approachFrom": null,
+            "orientation": null,
+            "catalogLabel": null,
+            "catalogDirection": null
+          }
+        }
+      ]
+    },
+    {
+      "trackId": "mac_park",
+      "name": "McNamara Park Raceway (Mac Park)",
+      "direction": "clockwise",
+      "lengthM": 2354,
+      "catalogName": "McNamara Park Raceway (Mac Park)",
+      "catalogCornerCount": 12,
+      "mapCornerCount": 12,
+      "turns": [
+        {
+          "id": "mac_park_t1",
+          "number": 1,
+          "label": "The Hairpin",
+          "direction": "complex",
+          "catalogMatch": true,
+          "current": {
+            "shape": "Hairpin",
+            "approachFrom": "main straight / start-finish",
+            "orientation": null,
+            "catalogLabel": "The Hairpin",
+            "catalogDirection": "complex"
+          }
+        },
+        {
+          "id": "mac_park_t2",
+          "number": 2,
+          "label": "Turn 2 (blind crest)",
+          "direction": "complex",
+          "catalogMatch": true,
+          "current": {
+            "shape": "Corner / complex",
+            "approachFrom": "T1 (The Hairpin) exit",
+            "orientation": null,
+            "catalogLabel": "Turn 2 (blind crest)",
+            "catalogDirection": "complex"
+          }
+        },
+        {
+          "id": "mac_park_t3",
+          "number": 3,
+          "label": "Turn 3",
+          "direction": "right",
+          "catalogMatch": true,
+          "current": {
+            "shape": "Kink",
+            "approachFrom": "T2 (Turn 2) exit",
+            "orientation": null,
+            "catalogLabel": "Turn 3",
+            "catalogDirection": "right"
+          }
+        },
+        {
+          "id": "mac_park_t4",
+          "number": 4,
+          "label": "Turn 4 (Left-hander)",
+          "direction": "left",
+          "catalogMatch": true,
+          "current": {
+            "shape": "Corner / complex",
+            "approachFrom": "T3 (Turn 3) exit",
+            "orientation": null,
+            "catalogLabel": "Turn 4 (Left-hander)",
+            "catalogDirection": "left"
+          }
+        },
+        {
+          "id": "mac_park_t5",
+          "number": 5,
+          "label": "Turn 5 (Right-hand sweeper)",
+          "direction": "right",
+          "catalogMatch": true,
+          "current": {
+            "shape": "Sweeper",
+            "approachFrom": "T4 (Turn 4) exit",
+            "orientation": null,
+            "catalogLabel": "Turn 5 (Right-hand sweeper)",
+            "catalogDirection": "right"
+          }
+        },
+        {
+          "id": "mac_park_t6",
+          "number": 6,
+          "label": "Turn 6 (chicane entry)",
+          "direction": "complex",
+          "catalogMatch": true,
+          "current": {
+            "shape": "Kink",
+            "approachFrom": "T5 (Turn 5) exit",
+            "orientation": null,
+            "catalogLabel": "Turn 6 (chicane entry)",
+            "catalogDirection": "complex"
+          }
+        },
+        {
+          "id": "mac_park_t7",
+          "number": 7,
+          "label": "Turn 7 (fast left sweeper / crest)",
+          "direction": "left",
+          "catalogMatch": true,
+          "current": {
+            "shape": "Sweeper",
+            "approachFrom": "T6 (Turn 6) exit",
+            "orientation": null,
+            "catalogLabel": "Turn 7 (fast left sweeper / crest)",
+            "catalogDirection": "left"
+          }
+        },
+        {
+          "id": "mac_park_t8",
+          "number": 8,
+          "label": "Turn 8 (Fast Right)",
+          "direction": "right",
+          "catalogMatch": true,
+          "current": {
+            "shape": "Sweeper",
+            "approachFrom": "T7 (Turn 7) exit",
+            "orientation": null,
+            "catalogLabel": "Turn 8 (Fast Right)",
+            "catalogDirection": "right"
+          }
+        },
+        {
+          "id": "mac_park_t9",
+          "number": 9,
+          "label": "Turn 9 (Clubhouse Hairpin)",
+          "direction": "complex",
+          "catalogMatch": true,
+          "current": {
+            "shape": "Hairpin",
+            "approachFrom": "T8 (Turn 8) exit",
+            "orientation": null,
+            "catalogLabel": "Turn 9 (Clubhouse Hairpin)",
+            "catalogDirection": "complex"
+          }
+        },
+        {
+          "id": "mac_park_t10",
+          "number": 10,
+          "label": "Turn 10 (esses / blind crest)",
+          "direction": "left",
+          "catalogMatch": true,
+          "current": {
+            "shape": "Esses / S",
+            "approachFrom": "T9 (Turn 9) exit",
+            "orientation": null,
+            "catalogLabel": "Turn 10 (esses / blind crest)",
+            "catalogDirection": "left"
+          }
+        },
+        {
+          "id": "mac_park_t11",
+          "number": 11,
+          "label": "Turn 11 (esses right)",
+          "direction": "right",
+          "catalogMatch": true,
+          "current": {
+            "shape": "Esses / S",
+            "approachFrom": "T10 (Turn 10) exit",
+            "orientation": null,
+            "catalogLabel": "Turn 11 (esses right)",
+            "catalogDirection": "right"
+          }
+        },
+        {
+          "id": "mac_park_t12",
+          "number": 12,
+          "label": "Turn 12 (final left onto main straight)",
+          "direction": "complex",
+          "catalogMatch": true,
+          "current": {
+            "shape": "Hairpin",
+            "approachFrom": "T11 (Turn 11) exit",
+            "orientation": null,
+            "catalogLabel": "Turn 12 (final left onto main straight)",
+            "catalogDirection": "complex"
+          }
+        }
+      ]
+    },
+    {
+      "trackId": "mallala",
+      "name": "Mallala Motorsport Park",
+      "direction": "clockwise",
+      "lengthM": 2585,
+      "catalogName": "Mallala Motorsport Park",
+      "catalogCornerCount": 9,
+      "mapCornerCount": 9,
+      "turns": [
+        {
+          "id": "mallala_t1",
+          "number": 1,
+          "label": "Turn 1",
+          "direction": "complex",
+          "catalogMatch": true,
+          "current": {
+            "shape": "Kink / lead-in complex",
+            "approachFrom": "main straight / start-finish",
+            "orientation": null,
+            "catalogLabel": "Turn 1 kink / lead-in to Turn 2",
+            "catalogDirection": "complex"
+          }
+        },
+        {
+          "id": "mallala_t2",
+          "number": 2,
+          "label": "Turn 2 (tight left)",
+          "direction": "left",
+          "catalogMatch": true,
+          "current": {
+            "shape": "Tight left / hairpin-ish",
+            "approachFrom": "T1 (Turn 1 kink) exit",
+            "orientation": null,
+            "catalogLabel": "Turn 2 (tight left)",
+            "catalogDirection": "left"
+          }
+        },
+        {
+          "id": "mallala_t3",
+          "number": 3,
+          "label": "Turn 3 (right hairpin)",
+          "direction": "right",
+          "catalogMatch": true,
+          "current": {
+            "shape": "Hairpin",
+            "approachFrom": "T2 (Turn 2) exit",
+            "orientation": null,
+            "catalogLabel": "Turn 3 (right hairpin)",
+            "catalogDirection": "right"
+          }
+        },
+        {
+          "id": "mallala_t4",
+          "number": 4,
+          "label": "Turn 4 (straight / not a corner)",
+          "direction": "complex",
+          "catalogMatch": true,
+          "current": {
+            "shape": "Fast sweeper / long radius",
+            "approachFrom": "T3 (Turn 3) exit",
+            "orientation": null,
+            "catalogLabel": "Turn 4 (long sweeper)",
+            "catalogDirection": "complex"
+          }
+        },
+        {
+          "id": "mallala_t5",
+          "number": 5,
+          "label": "Turn 5 (northern hairpin)",
+          "direction": "complex",
+          "catalogMatch": true,
+          "current": {
+            "shape": "Medium-speed bend / direction change",
+            "approachFrom": "T4 (Turn 4) exit",
+            "orientation": null,
+            "catalogLabel": "Turn 5 (medium bend)",
+            "catalogDirection": "complex"
+          }
+        },
+        {
+          "id": "mallala_t6",
+          "number": 6,
+          "label": "Turn 6",
+          "direction": "complex",
+          "catalogMatch": true,
+          "current": {
+            "shape": "Fast kink / setup",
+            "approachFrom": "T5 (Turn 5) exit",
+            "orientation": null,
+            "catalogLabel": "Turn 6 (left kink / setup for hairpin)",
+            "catalogDirection": "left"
+          }
+        },
+        {
+          "id": "mallala_t7",
+          "number": 7,
+          "label": "Turn 7",
+          "direction": "complex",
+          "catalogMatch": true,
+          "current": {
+            "shape": "Tight hairpin / major braking",
+            "approachFrom": "T6 (Turn 6) exit",
+            "orientation": null,
+            "catalogLabel": "Turn 7 (right hairpin)",
+            "catalogDirection": "right"
+          }
+        },
+        {
+          "id": "mallala_t8",
+          "number": 8,
+          "label": "Turn 8",
+          "direction": "complex",
+          "catalogMatch": true,
+          "current": {
+            "shape": "Kink / transition",
+            "approachFrom": "T7 (Turn 7) exit",
+            "orientation": null,
+            "catalogLabel": "Turn 8 (kink / connector)",
+            "catalogDirection": "complex"
+          }
+        },
+        {
+          "id": "mallala_t9",
+          "number": 9,
+          "label": "Turn 9 (onto main straight)",
+          "direction": "complex",
+          "catalogMatch": true,
+          "current": {
+            "shape": "Final turn / drive corner",
+            "approachFrom": "T8 (Turn 8) exit",
+            "orientation": null,
+            "catalogLabel": "Turn 9 (final corner onto main straight)",
+            "catalogDirection": "complex"
+          }
+        }
+      ]
+    },
+    {
+      "trackId": "morgan_park",
+      "name": "Morgan Park Raceway (Circuit K)",
+      "direction": "clockwise",
+      "lengthM": 2998,
+      "catalogName": "Morgan Park Raceway (Circuit K)",
+      "catalogCornerCount": 9,
+      "mapCornerCount": 12,
+      "turns": [
+        {
+          "id": "morgan_park_t1",
+          "number": 1,
+          "label": "Turn 1",
+          "direction": "complex",
+          "catalogMatch": true,
+          "current": {
+            "shape": "Kink",
+            "approachFrom": "main straight / start-finish",
+            "orientation": null,
+            "catalogLabel": "Turns 1 & 2 (Right-Left Sweepers)",
+            "catalogDirection": "complex"
+          }
+        },
+        {
+          "id": "morgan_park_t2",
+          "number": 2,
+          "label": "Turn 2",
+          "direction": "complex",
+          "catalogMatch": false,
+          "current": {
+            "shape": null,
+            "approachFrom": null,
+            "orientation": null,
+            "catalogLabel": null,
+            "catalogDirection": null
+          }
+        },
+        {
+          "id": "morgan_park_t3",
+          "number": 3,
+          "label": "Turn 3 (Blind Left-hander by the Wall)",
+          "direction": "left",
+          "catalogMatch": true,
+          "current": {
+            "shape": "Corner / complex",
+            "approachFrom": "T1 (Turns 1 & 2) exit",
+            "orientation": null,
+            "catalogLabel": "Turn 3 (Blind Left-hander by the Wall)",
+            "catalogDirection": "left"
+          }
+        },
+        {
+          "id": "morgan_park_t4",
+          "number": 4,
+          "label": "Turn 4 (Heavy Braking Right-Hairpin)",
+          "direction": "right",
+          "catalogMatch": true,
+          "current": {
+            "shape": "Hairpin",
+            "approachFrom": "T3 (Turn 3) exit",
+            "orientation": null,
+            "catalogLabel": "Turn 4 (Heavy Braking Right-Hairpin)",
+            "catalogDirection": "right"
+          }
+        },
+        {
+          "id": "morgan_park_t5",
+          "number": 5,
+          "label": "Turn 5 (Long Sweeping Left)",
+          "direction": "left",
+          "catalogMatch": true,
+          "current": {
+            "shape": "Sweeper",
+            "approachFrom": "T4 (Turn 4) exit",
+            "orientation": null,
+            "catalogLabel": "Turn 5 (Long Sweeping Left)",
+            "catalogDirection": "left"
+          }
+        },
+        {
+          "id": "morgan_park_t6",
+          "number": 6,
+          "label": "Turn 6 (Right-Hand Flick)",
+          "direction": "right",
+          "catalogMatch": true,
+          "current": {
+            "shape": "Kink",
+            "approachFrom": "T5 (Turn 5) exit",
+            "orientation": null,
+            "catalogLabel": "Turn 6 (Right-Hand Flick)",
+            "catalogDirection": "right"
+          }
+        },
+        {
+          "id": "morgan_park_t7",
+          "number": 7,
+          "label": "Turn 7 (Left-hand tight corner)",
+          "direction": "left",
+          "catalogMatch": true,
+          "current": {
+            "shape": "Hairpin",
+            "approachFrom": "T6 (Turn 6) exit",
+            "orientation": null,
+            "catalogLabel": "Turn 7 (Left-hand tight corner)",
+            "catalogDirection": "left"
+          }
+        },
+        {
+          "id": "morgan_park_t8",
+          "number": 8,
+          "label": "Turn 8 (Fast Esses)",
+          "direction": "complex",
+          "catalogMatch": false,
+          "current": {
+            "shape": null,
+            "approachFrom": null,
+            "orientation": null,
+            "catalogLabel": null,
+            "catalogDirection": null
+          }
+        },
+        {
+          "id": "morgan_park_t9",
+          "number": 9,
+          "label": "Turn 9 (Fast Esses)",
+          "direction": "complex",
+          "catalogMatch": true,
+          "current": {
+            "shape": "Esses / S",
+            "approachFrom": "T7 (Turn 7) exit",
+            "orientation": null,
+            "catalogLabel": "Turns 8 & 9 (Fast Esses)",
+            "catalogDirection": "complex"
+          }
+        },
+        {
+          "id": "morgan_park_t10",
+          "number": 10,
+          "label": "Turn 10 (Fast Banked Right)",
+          "direction": "right",
+          "catalogMatch": true,
+          "current": {
+            "shape": "Sweeper",
+            "approachFrom": "T8/9 (Fast Esses) exit",
+            "orientation": null,
+            "catalogLabel": "Turn 10 (Fast Banked Right)",
+            "catalogDirection": "right"
+          }
+        },
+        {
+          "id": "morgan_park_t11",
+          "number": 11,
+          "label": "Turn 11 (Final Chicane)",
+          "direction": "complex",
+          "catalogMatch": true,
+          "current": {
+            "shape": "Chicane",
+            "approachFrom": "T10 (Turn 10) exit",
+            "orientation": null,
+            "catalogLabel": "Turns 11 & 12 (Final Chicane onto Main Straight)",
+            "catalogDirection": "complex"
+          }
+        },
+        {
+          "id": "morgan_park_t12",
+          "number": 12,
+          "label": "Turn 12 (Final Chicane onto Main Straight)",
+          "direction": "complex",
+          "catalogMatch": false,
+          "current": {
+            "shape": null,
+            "approachFrom": null,
+            "orientation": null,
+            "catalogLabel": null,
+            "catalogDirection": null
+          }
+        }
+      ]
+    },
+    {
+      "trackId": "phillip_island",
+      "name": "Phillip Island Grand Prix Circuit",
+      "direction": "anticlockwise",
+      "lengthM": 4419,
+      "catalogName": "Phillip Island Grand Prix Circuit",
+      "catalogCornerCount": 11,
+      "mapCornerCount": 12,
+      "turns": [
+        {
+          "id": "phillip_island_t1",
+          "number": 1,
+          "label": "Doohan Corner",
+          "direction": "right",
+          "catalogMatch": true,
+          "current": {
+            "shape": "Sweeper",
+            "approachFrom": "main straight / start-finish",
+            "orientation": null,
+            "catalogLabel": "Doohan Corner",
+            "catalogDirection": "right"
+          }
+        },
+        {
+          "id": "phillip_island_t2",
+          "number": 2,
+          "label": "Southern Loop",
+          "direction": "left",
+          "catalogMatch": true,
+          "current": {
+            "shape": "Hairpin",
+            "approachFrom": "T1 (Doohan Corner) exit",
+            "orientation": null,
+            "catalogLabel": "Southern Loop",
+            "catalogDirection": "left"
+          }
+        },
+        {
+          "id": "phillip_island_t3",
+          "number": 3,
+          "label": "Stoner Corner",
+          "direction": "left",
+          "catalogMatch": true,
+          "current": {
+            "shape": "Kink",
+            "approachFrom": "T2 (Southern Loop) exit",
+            "orientation": null,
+            "catalogLabel": "Stoner Corner",
+            "catalogDirection": "left"
+          }
+        },
+        {
+          "id": "phillip_island_t4",
+          "number": 4,
+          "label": "Miller Corner (formerly Honda Corner)",
+          "direction": "right",
+          "catalogMatch": true,
+          "current": {
+            "shape": "Hairpin",
+            "approachFrom": "T3 (Stoner Corner) exit",
+            "orientation": null,
+            "catalogLabel": "Miller Corner (formerly Honda Corner)",
+            "catalogDirection": "right"
+          }
+        },
+        {
+          "id": "phillip_island_t5",
+          "number": 5,
+          "label": "Siberia",
+          "direction": "left",
+          "catalogMatch": true,
+          "current": {
+            "shape": "Kink",
+            "approachFrom": "T4 (Miller Corner) exit",
+            "orientation": null,
+            "catalogLabel": "Siberia",
+            "catalogDirection": "left"
+          }
+        },
+        {
+          "id": "phillip_island_t6",
+          "number": 6,
+          "label": "Hayshed",
+          "direction": "complex",
+          "catalogMatch": true,
+          "current": {
+            "shape": "Kink",
+            "approachFrom": "T5 (Siberia) exit",
+            "orientation": null,
+            "catalogLabel": "Hayshed",
+            "catalogDirection": "complex"
+          }
+        },
+        {
+          "id": "phillip_island_t7",
+          "number": 7,
+          "label": "Lukey Heights entry",
+          "direction": "complex",
+          "catalogMatch": true,
+          "current": {
+            "shape": "Corner / complex",
+            "approachFrom": "T6 (Hayshed) exit",
+            "orientation": null,
+            "catalogLabel": "Lukey Heights entry",
+            "catalogDirection": "complex"
+          }
+        },
+        {
+          "id": "phillip_island_t8",
+          "number": 8,
+          "label": "Lukey Heights proper",
+          "direction": "complex",
+          "catalogMatch": true,
+          "current": {
+            "shape": "Corner / complex",
+            "approachFrom": "T7 (Lukey Heights entry) exit",
+            "orientation": null,
+            "catalogLabel": "Lukey Heights proper",
+            "catalogDirection": "complex"
+          }
+        },
+        {
+          "id": "phillip_island_t9",
+          "number": 9,
+          "label": "MG Hairpin",
+          "direction": "right",
+          "catalogMatch": true,
+          "current": {
+            "shape": "Hairpin",
+            "approachFrom": "T8 (Lukey Heights proper) exit",
+            "orientation": null,
+            "catalogLabel": "MG Hairpin",
+            "catalogDirection": "right"
+          }
+        },
+        {
+          "id": "phillip_island_t10",
+          "number": 10,
+          "label": "Turn 10",
+          "direction": "complex",
+          "catalogMatch": true,
+          "current": {
+            "shape": "Kink",
+            "approachFrom": "T9 (MG Hairpin) exit",
+            "orientation": null,
+            "catalogLabel": "Turn 10",
+            "catalogDirection": "complex"
+          }
+        },
+        {
+          "id": "phillip_island_t11",
+          "number": 11,
+          "label": "Turn 11",
+          "direction": "complex",
+          "catalogMatch": true,
+          "current": {
+            "shape": "Sweeper",
+            "approachFrom": "T10 (Turn 10) exit",
+            "orientation": null,
+            "catalogLabel": "Turn 11 (Gardner's)",
+            "catalogDirection": "complex"
+          }
+        },
+        {
+          "id": "phillip_island_t12",
+          "number": 12,
+          "label": "Gardner's",
+          "direction": "complex",
+          "catalogMatch": false,
+          "current": {
+            "shape": null,
+            "approachFrom": null,
+            "orientation": null,
+            "catalogLabel": null,
+            "catalogDirection": null
+          }
+        }
+      ]
+    },
+    {
+      "trackId": "queensland_raceway",
+      "name": "Queensland Raceway (National Circuit)",
+      "direction": "clockwise",
+      "lengthM": 3175,
+      "catalogName": "Queensland Raceway (National Circuit)",
+      "catalogCornerCount": 5,
+      "mapCornerCount": 6,
+      "turns": [
+        {
+          "id": "queensland_raceway_t1",
+          "number": 1,
+          "label": "Turn 1 (Kitty's Corner)",
+          "direction": "right",
+          "catalogMatch": true,
+          "current": {
+            "shape": "Kink",
+            "approachFrom": "main straight / start-finish",
+            "orientation": null,
+            "catalogLabel": "Turn 1 (Kitty's Corner)",
+            "catalogDirection": "right"
+          }
+        },
+        {
+          "id": "queensland_raceway_t2",
+          "number": 2,
+          "label": "Turn 2 (left hairpin)",
+          "direction": "left",
+          "catalogMatch": true,
+          "current": {
+            "shape": "Hairpin",
+            "approachFrom": "T1 exit",
+            "orientation": null,
+            "catalogLabel": "Turn 2 (left hairpin)",
+            "catalogDirection": "left"
+          }
+        },
+        {
+          "id": "queensland_raceway_t3",
+          "number": 3,
+          "label": "Turn 3 (The Switchback)",
+          "direction": "complex",
+          "catalogMatch": true,
+          "current": {
+            "shape": "Esses / S",
+            "approachFrom": "T2 exit",
+            "orientation": null,
+            "catalogLabel": "Turns 3/4 (The Switchback / esses)",
+            "catalogDirection": "complex"
+          }
+        },
+        {
+          "id": "queensland_raceway_t4",
+          "number": 4,
+          "label": "Turn 4 (The Switchback)",
+          "direction": "complex",
+          "catalogMatch": false,
+          "current": {
+            "shape": null,
+            "approachFrom": null,
+            "orientation": null,
+            "catalogLabel": null,
+            "catalogDirection": null
+          }
+        },
+        {
+          "id": "queensland_raceway_t5",
+          "number": 5,
+          "label": "Turn 5 (Spitfire / Thunderbolt hairpin)",
+          "direction": "right",
+          "catalogMatch": true,
+          "current": {
+            "shape": "Hairpin",
+            "approachFrom": "T3 exit",
+            "orientation": null,
+            "catalogLabel": "Turn 5 (Spitfire / Thunderbolt hairpin)",
+            "catalogDirection": "right"
+          }
+        },
+        {
+          "id": "queensland_raceway_t6",
+          "number": 6,
+          "label": "Turn 6 (final corner onto main straight)",
+          "direction": "right",
+          "catalogMatch": true,
+          "current": {
+            "shape": "Kink",
+            "approachFrom": "T5 exit",
+            "orientation": null,
+            "catalogLabel": "Turn 6 (final corner onto main straight)",
+            "catalogDirection": "right"
+          }
+        }
+      ]
+    },
+    {
+      "trackId": "sandown",
+      "name": "Sandown Raceway",
+      "direction": "anticlockwise",
+      "lengthM": 3113,
+      "catalogName": "Sandown Raceway",
+      "catalogCornerCount": 5,
+      "mapCornerCount": 13,
+      "turns": [
+        {
+          "id": "sandown_t1",
+          "number": 1,
+          "label": "Turn 1",
+          "direction": "complex",
+          "catalogMatch": true,
+          "current": {
+            "shape": "Hairpin",
+            "approachFrom": "main straight / start-finish",
+            "orientation": null,
+            "catalogLabel": "Turn 1 (first left hairpin complex)",
+            "catalogDirection": "complex"
+          }
+        },
+        {
+          "id": "sandown_t2",
+          "number": 2,
+          "label": "Turn 2",
+          "direction": "complex",
+          "catalogMatch": true,
+          "current": {
+            "shape": "Kink",
+            "approachFrom": "T1 exit",
+            "orientation": null,
+            "catalogLabel": "Turn 2 (left kink onto back section)",
+            "catalogDirection": "complex"
+          }
+        },
+        {
+          "id": "sandown_t3",
+          "number": 3,
+          "label": "Turn 3",
+          "direction": "complex",
+          "catalogMatch": true,
+          "current": {
+            "shape": "Sweeper",
+            "approachFrom": "T2 exit",
+            "orientation": null,
+            "catalogLabel": "Turn 3 (left sweeper)",
+            "catalogDirection": "complex"
+          }
+        },
+        {
+          "id": "sandown_t4",
+          "number": 4,
+          "label": "Turn 4",
+          "direction": "complex",
+          "catalogMatch": true,
+          "current": {
+            "shape": "Kink",
+            "approachFrom": "T3 exit",
+            "orientation": null,
+            "catalogLabel": "Turn 4 (left kink / Dandenong Road complex)",
+            "catalogDirection": "complex"
+          }
+        },
+        {
+          "id": "sandown_t5",
+          "number": 5,
+          "label": "Turn 5",
+          "direction": "complex",
+          "catalogMatch": true,
+          "current": {
+            "shape": "Corner / complex",
+            "approachFrom": "T4 exit",
+            "orientation": null,
+            "catalogLabel": "Turn 5 (final complex onto main straight)",
+            "catalogDirection": "complex"
+          }
+        },
+        {
+          "id": "sandown_t6",
+          "number": 6,
+          "label": "Turn 6",
+          "direction": "complex",
+          "catalogMatch": false,
+          "current": {
+            "shape": null,
+            "approachFrom": null,
+            "orientation": null,
+            "catalogLabel": null,
+            "catalogDirection": null
+          }
+        },
+        {
+          "id": "sandown_t7",
+          "number": 7,
+          "label": "Turn 7",
+          "direction": "complex",
+          "catalogMatch": false,
+          "current": {
+            "shape": null,
+            "approachFrom": null,
+            "orientation": null,
+            "catalogLabel": null,
+            "catalogDirection": null
+          }
+        },
+        {
+          "id": "sandown_t8",
+          "number": 8,
+          "label": "Turn 8",
+          "direction": "complex",
+          "catalogMatch": false,
+          "current": {
+            "shape": null,
+            "approachFrom": null,
+            "orientation": null,
+            "catalogLabel": null,
+            "catalogDirection": null
+          }
+        },
+        {
+          "id": "sandown_t9",
+          "number": 9,
+          "label": "Turn 9",
+          "direction": "complex",
+          "catalogMatch": false,
+          "current": {
+            "shape": null,
+            "approachFrom": null,
+            "orientation": null,
+            "catalogLabel": null,
+            "catalogDirection": null
+          }
+        },
+        {
+          "id": "sandown_t10",
+          "number": 10,
+          "label": "Turn 10",
+          "direction": "complex",
+          "catalogMatch": false,
+          "current": {
+            "shape": null,
+            "approachFrom": null,
+            "orientation": null,
+            "catalogLabel": null,
+            "catalogDirection": null
+          }
+        },
+        {
+          "id": "sandown_t11",
+          "number": 11,
+          "label": "Turn 11",
+          "direction": "complex",
+          "catalogMatch": false,
+          "current": {
+            "shape": null,
+            "approachFrom": null,
+            "orientation": null,
+            "catalogLabel": null,
+            "catalogDirection": null
+          }
+        },
+        {
+          "id": "sandown_t12",
+          "number": 12,
+          "label": "Turn 12",
+          "direction": "complex",
+          "catalogMatch": false,
+          "current": {
+            "shape": null,
+            "approachFrom": null,
+            "orientation": null,
+            "catalogLabel": null,
+            "catalogDirection": null
+          }
+        },
+        {
+          "id": "sandown_t13",
+          "number": 13,
+          "label": "Turn 13",
+          "direction": "complex",
+          "catalogMatch": false,
+          "current": {
+            "shape": null,
+            "approachFrom": null,
+            "orientation": null,
+            "catalogLabel": null,
+            "catalogDirection": null
+          }
+        }
+      ]
+    },
+    {
+      "trackId": "smp_brabham",
+      "name": "Sydney Motorsport Park (Brabham Circuit)",
+      "direction": "anticlockwise",
+      "lengthM": 4530,
+      "catalogName": "Sydney Motorsport Park (Brabham Circuit)",
+      "catalogCornerCount": 11,
+      "mapCornerCount": 18,
+      "turns": [
+        {
+          "id": "smp_brabham_t1",
+          "number": 1,
+          "label": "Turn 1",
+          "direction": "complex",
+          "catalogMatch": true,
+          "current": {
+            "shape": "Kink",
+            "approachFrom": "main straight / start-finish",
+            "orientation": null,
+            "catalogLabel": "Turn 1 (entry kink)",
+            "catalogDirection": "complex"
+          }
+        },
+        {
+          "id": "smp_brabham_t2",
+          "number": 2,
+          "label": "Turn 2",
+          "direction": "complex",
+          "catalogMatch": true,
+          "current": {
+            "shape": "Hairpin",
+            "approachFrom": "T1 exit",
+            "orientation": null,
+            "catalogLabel": "Turn 2 (hairpin complex)",
+            "catalogDirection": "complex"
+          }
+        },
+        {
+          "id": "smp_brabham_t3",
+          "number": 3,
+          "label": "Turn 3",
+          "direction": "complex",
+          "catalogMatch": true,
+          "current": {
+            "shape": "Sweeper",
+            "approachFrom": "T2 exit",
+            "orientation": null,
+            "catalogLabel": "Turn 3 (right sweeper)",
+            "catalogDirection": "complex"
+          }
+        },
+        {
+          "id": "smp_brabham_t4",
+          "number": 4,
+          "label": "Turn 4",
+          "direction": "complex",
+          "catalogMatch": true,
+          "current": {
+            "shape": "Sweeper",
+            "approachFrom": "T3 exit",
+            "orientation": null,
+            "catalogLabel": "Turn 4 (left sweeper)",
+            "catalogDirection": "complex"
+          }
+        },
+        {
+          "id": "smp_brabham_t5",
+          "number": 5,
+          "label": "Turn 5",
+          "direction": "complex",
+          "catalogMatch": true,
+          "current": {
+            "shape": "Hairpin",
+            "approachFrom": "T4 exit",
+            "orientation": null,
+            "catalogLabel": "Turn 5 (left hairpin complex)",
+            "catalogDirection": "complex"
+          }
+        },
+        {
+          "id": "smp_brabham_t6",
+          "number": 6,
+          "label": "Turn 6",
+          "direction": "complex",
+          "catalogMatch": true,
+          "current": {
+            "shape": "Hairpin",
+            "approachFrom": "T5 exit",
+            "orientation": null,
+            "catalogLabel": "Turn 6 (left hairpin)",
+            "catalogDirection": "complex"
+          }
+        },
+        {
+          "id": "smp_brabham_t7",
+          "number": 7,
+          "label": "Turn 7",
+          "direction": "complex",
+          "catalogMatch": true,
+          "current": {
+            "shape": "Hairpin",
+            "approachFrom": "T6 exit",
+            "orientation": null,
+            "catalogLabel": "Turn 7 (right hairpin)",
+            "catalogDirection": "complex"
+          }
+        },
+        {
+          "id": "smp_brabham_t8",
+          "number": 8,
+          "label": "Turn 8",
+          "direction": "complex",
+          "catalogMatch": true,
+          "current": {
+            "shape": "Kink",
+            "approachFrom": "T7 exit",
+            "orientation": null,
+            "catalogLabel": "Turn 8 (left kink)",
+            "catalogDirection": "complex"
+          }
+        },
+        {
+          "id": "smp_brabham_t9",
+          "number": 9,
+          "label": "Turn 9",
+          "direction": "complex",
+          "catalogMatch": true,
+          "current": {
+            "shape": "Hairpin",
+            "approachFrom": "T8 exit",
+            "orientation": null,
+            "catalogLabel": "Turn 9 (right hairpin)",
+            "catalogDirection": "complex"
+          }
+        },
+        {
+          "id": "smp_brabham_t10",
+          "number": 10,
+          "label": "Turn 10",
+          "direction": "complex",
+          "catalogMatch": true,
+          "current": {
+            "shape": "Kink",
+            "approachFrom": "T9 exit",
+            "orientation": null,
+            "catalogLabel": "Turn 10 (right kink)",
+            "catalogDirection": "complex"
+          }
+        },
+        {
+          "id": "smp_brabham_t11",
+          "number": 11,
+          "label": "Turn 11",
+          "direction": "complex",
+          "catalogMatch": true,
+          "current": {
+            "shape": "Hairpin",
+            "approachFrom": "T10 exit",
+            "orientation": null,
+            "catalogLabel": "Turn 11 (left hairpin / final)",
+            "catalogDirection": "complex"
+          }
+        },
+        {
+          "id": "smp_brabham_t12",
+          "number": 12,
+          "label": "Turn 12",
+          "direction": "complex",
+          "catalogMatch": false,
+          "current": {
+            "shape": null,
+            "approachFrom": null,
+            "orientation": null,
+            "catalogLabel": null,
+            "catalogDirection": null
+          }
+        },
+        {
+          "id": "smp_brabham_t13",
+          "number": 13,
+          "label": "Turn 13",
+          "direction": "complex",
+          "catalogMatch": false,
+          "current": {
+            "shape": null,
+            "approachFrom": null,
+            "orientation": null,
+            "catalogLabel": null,
+            "catalogDirection": null
+          }
+        },
+        {
+          "id": "smp_brabham_t14",
+          "number": 14,
+          "label": "Turn 14",
+          "direction": "complex",
+          "catalogMatch": false,
+          "current": {
+            "shape": null,
+            "approachFrom": null,
+            "orientation": null,
+            "catalogLabel": null,
+            "catalogDirection": null
+          }
+        },
+        {
+          "id": "smp_brabham_t15",
+          "number": 15,
+          "label": "Turn 15",
+          "direction": "complex",
+          "catalogMatch": false,
+          "current": {
+            "shape": null,
+            "approachFrom": null,
+            "orientation": null,
+            "catalogLabel": null,
+            "catalogDirection": null
+          }
+        },
+        {
+          "id": "smp_brabham_t16",
+          "number": 16,
+          "label": "Turn 16",
+          "direction": "complex",
+          "catalogMatch": false,
+          "current": {
+            "shape": null,
+            "approachFrom": null,
+            "orientation": null,
+            "catalogLabel": null,
+            "catalogDirection": null
+          }
+        },
+        {
+          "id": "smp_brabham_t17",
+          "number": 17,
+          "label": "Turn 17",
+          "direction": "complex",
+          "catalogMatch": false,
+          "current": {
+            "shape": null,
+            "approachFrom": null,
+            "orientation": null,
+            "catalogLabel": null,
+            "catalogDirection": null
+          }
+        },
+        {
+          "id": "smp_brabham_t18",
+          "number": 18,
+          "label": "Turn 18",
+          "direction": "complex",
+          "catalogMatch": false,
+          "current": {
+            "shape": null,
+            "approachFrom": null,
+            "orientation": null,
+            "catalogLabel": null,
+            "catalogDirection": null
+          }
+        }
+      ]
+    },
+    {
+      "trackId": "smp_druitt",
+      "name": "Sydney Motorsport Park (Druitt Circuit)",
+      "direction": "anticlockwise",
+      "lengthM": 2875,
+      "catalogName": "Sydney Motorsport Park (Druitt Circuit)",
+      "catalogCornerCount": 6,
+      "mapCornerCount": 9,
+      "turns": [
+        {
+          "id": "smp_druitt_t1",
+          "number": 1,
+          "label": "Turn 1",
+          "direction": "complex",
+          "catalogMatch": true,
+          "current": {
+            "shape": "Kink",
+            "approachFrom": "main straight / start-finish",
+            "orientation": null,
+            "catalogLabel": "Turn 1 (entry / right kink)",
+            "catalogDirection": "complex"
+          }
+        },
+        {
+          "id": "smp_druitt_t2",
+          "number": 2,
+          "label": "Turn 2",
+          "direction": "complex",
+          "catalogMatch": true,
+          "current": {
+            "shape": "Sweeper",
+            "approachFrom": "T1 exit",
+            "orientation": null,
+            "catalogLabel": "Turn 2 (right sweeper)",
+            "catalogDirection": "complex"
+          }
+        },
+        {
+          "id": "smp_druitt_t3",
+          "number": 3,
+          "label": "Turn 3",
+          "direction": "complex",
+          "catalogMatch": true,
+          "current": {
+            "shape": "Kink",
+            "approachFrom": "T2 exit",
+            "orientation": null,
+            "catalogLabel": "Turn 3 (left kink)",
+            "catalogDirection": "complex"
+          }
+        },
+        {
+          "id": "smp_druitt_t4",
+          "number": 4,
+          "label": "Turn 4a",
+          "direction": "complex",
+          "catalogMatch": true,
+          "current": {
+            "shape": "Hairpin",
+            "approachFrom": "T3 exit",
+            "orientation": null,
+            "catalogLabel": "Turn 4 (left hairpin)",
+            "catalogDirection": "complex"
+          }
+        },
+        {
+          "id": "smp_druitt_t4b",
+          "number": 4,
+          "label": "Turn 4b",
+          "direction": "complex",
+          "catalogMatch": false,
+          "current": {
+            "shape": null,
+            "approachFrom": null,
+            "orientation": null,
+            "catalogLabel": null,
+            "catalogDirection": null
+          }
+        },
+        {
+          "id": "smp_druitt_t15",
+          "number": 15,
+          "label": "Turn 15",
+          "direction": "complex",
+          "catalogMatch": false,
+          "current": {
+            "shape": null,
+            "approachFrom": null,
+            "orientation": null,
+            "catalogLabel": null,
+            "catalogDirection": null
+          }
+        },
+        {
+          "id": "smp_druitt_t16",
+          "number": 16,
+          "label": "Turn 16",
+          "direction": "complex",
+          "catalogMatch": false,
+          "current": {
+            "shape": null,
+            "approachFrom": null,
+            "orientation": null,
+            "catalogLabel": null,
+            "catalogDirection": null
+          }
+        },
+        {
+          "id": "smp_druitt_t17",
+          "number": 17,
+          "label": "Turn 17",
+          "direction": "complex",
+          "catalogMatch": false,
+          "current": {
+            "shape": null,
+            "approachFrom": null,
+            "orientation": null,
+            "catalogLabel": null,
+            "catalogDirection": null
+          }
+        },
+        {
+          "id": "smp_druitt_t18",
+          "number": 18,
+          "label": "Turn 18 (final)",
+          "direction": "complex",
+          "catalogMatch": false,
+          "current": {
+            "shape": null,
+            "approachFrom": null,
+            "orientation": null,
+            "catalogLabel": null,
+            "catalogDirection": null
+          }
+        }
+      ]
+    },
+    {
+      "trackId": "smp_gardner",
+      "name": "Sydney Motorsport Park (Gardner GP Circuit)",
+      "direction": "anticlockwise",
+      "lengthM": 3861,
+      "catalogName": "Sydney Motorsport Park (Gardner GP Circuit)",
+      "catalogCornerCount": 11,
+      "mapCornerCount": 11,
+      "turns": [
+        {
+          "id": "smp_gardner_t1",
+          "number": 1,
+          "label": "Turn 1",
+          "direction": "left",
+          "catalogMatch": true,
+          "current": {
+            "shape": "Kink",
+            "approachFrom": "main straight / start-finish",
+            "orientation": null,
+            "catalogLabel": "Turn 1",
+            "catalogDirection": "left"
+          }
+        },
+        {
+          "id": "smp_gardner_t2",
+          "number": 2,
+          "label": "Turn 2 (Southern Hairpin)",
+          "direction": "left",
+          "catalogMatch": true,
+          "current": {
+            "shape": "Hairpin",
+            "approachFrom": "T1 exit",
+            "orientation": null,
+            "catalogLabel": "Turn 2 (Southern Hairpin)",
+            "catalogDirection": "left"
+          }
+        },
+        {
+          "id": "smp_gardner_t3",
+          "number": 3,
+          "label": "Turn 3 (medium-speed right over tunnel)",
+          "direction": "right",
+          "catalogMatch": true,
+          "current": {
+            "shape": "Corner / complex",
+            "approachFrom": "T2 exit",
+            "orientation": null,
+            "catalogLabel": "Turn 3 (medium-speed right over tunnel)",
+            "catalogDirection": "right"
+          }
+        },
+        {
+          "id": "smp_gardner_t4",
+          "number": 4,
+          "label": "Turn 4 (right-hand sweeper, Corporate Hill entry)",
+          "direction": "right",
+          "catalogMatch": true,
+          "current": {
+            "shape": "Sweeper",
+            "approachFrom": "T3 exit",
+            "orientation": null,
+            "catalogLabel": "Turn 4 (right-hand sweeper, Corporate Hill entry)",
+            "catalogDirection": "right"
+          }
+        },
+        {
+          "id": "smp_gardner_t5",
+          "number": 5,
+          "label": "Turn 5",
+          "direction": "left",
+          "catalogMatch": true,
+          "current": {
+            "shape": "Corner / complex",
+            "approachFrom": "T4 exit",
+            "orientation": null,
+            "catalogLabel": "Turn 5",
+            "catalogDirection": "left"
+          }
+        },
+        {
+          "id": "smp_gardner_t6",
+          "number": 6,
+          "label": "Turn 6 (BMW / MotoRide corner)",
+          "direction": "left",
+          "catalogMatch": true,
+          "current": {
+            "shape": "Kink",
+            "approachFrom": "T5 exit",
+            "orientation": null,
+            "catalogLabel": "Turn 6 (BMW / MotoRide corner)",
+            "catalogDirection": "left"
+          }
+        },
+        {
+          "id": "smp_gardner_t7",
+          "number": 7,
+          "label": "Turn 7 (Corporate Hill)",
+          "direction": "right",
+          "catalogMatch": true,
+          "current": {
+            "shape": "Corner / complex",
+            "approachFrom": "T6 exit",
+            "orientation": null,
+            "catalogLabel": "Turn 7 (Corporate Hill)",
+            "catalogDirection": "right"
+          }
+        },
+        {
+          "id": "smp_gardner_t8",
+          "number": 8,
+          "label": "Turn 8 (right kink / chute to T9)",
+          "direction": "right",
+          "catalogMatch": true,
+          "current": {
+            "shape": "Kink",
+            "approachFrom": "T7 exit",
+            "orientation": null,
+            "catalogLabel": "Turn 8 (right kink / chute to T9)",
+            "catalogDirection": "right"
+          }
+        },
+        {
+          "id": "smp_gardner_t9",
+          "number": 9,
+          "label": "Turn 9 (Hairpin)",
+          "direction": "right",
+          "catalogMatch": true,
+          "current": {
+            "shape": "Hairpin",
+            "approachFrom": "T8 exit",
+            "orientation": null,
+            "catalogLabel": "Turn 9 (Hairpin)",
+            "catalogDirection": "right"
+          }
+        },
+        {
+          "id": "smp_gardner_t10",
+          "number": 10,
+          "label": "Turn 10",
+          "direction": "left",
+          "catalogMatch": true,
+          "current": {
+            "shape": "Corner / complex",
+            "approachFrom": "T9 exit",
+            "orientation": null,
+            "catalogLabel": "Turn 10",
+            "catalogDirection": "left"
+          }
+        },
+        {
+          "id": "smp_gardner_t11",
+          "number": 11,
+          "label": "Turn 11 (final corner)",
+          "direction": "left",
+          "catalogMatch": true,
+          "current": {
+            "shape": "Hairpin",
+            "approachFrom": "T10 exit",
+            "orientation": null,
+            "catalogLabel": "Turn 11 (final corner)",
+            "catalogDirection": "left"
+          }
+        }
+      ]
+    },
+    {
+      "trackId": "the_bend_gt",
+      "name": "The Bend Motorsport Park (GT Circuit)",
+      "direction": "clockwise",
+      "lengthM": 7802,
+      "catalogName": "The Bend Motorsport Park (GT Circuit)",
+      "catalogCornerCount": 9,
+      "mapCornerCount": 35,
+      "turns": [
+        {
+          "id": "the_bend_gt_t1",
+          "number": 1,
+          "label": "Turn 1 (right sweeper / entry)",
+          "direction": "right",
+          "catalogMatch": true,
+          "current": {
+            "shape": "Sweeper",
+            "approachFrom": "main straight / start-finish",
+            "orientation": null,
+            "catalogLabel": "Turn 1 (right sweeper / entry)",
+            "catalogDirection": "right"
+          }
+        },
+        {
+          "id": "the_bend_gt_t2",
+          "number": 2,
+          "label": "Turn 2 (left hairpin)",
+          "direction": "left",
+          "catalogMatch": true,
+          "current": {
+            "shape": "Hairpin",
+            "approachFrom": "T1 exit",
+            "orientation": null,
+            "catalogLabel": "Turn 2 (left hairpin)",
+            "catalogDirection": "left"
+          }
+        },
+        {
+          "id": "the_bend_gt_t3",
+          "number": 3,
+          "label": "Turn 3 (right hairpin)",
+          "direction": "right",
+          "catalogMatch": true,
+          "current": {
+            "shape": "Hairpin",
+            "approachFrom": "T2 exit",
+            "orientation": null,
+            "catalogLabel": "Turn 3 (right hairpin)",
+            "catalogDirection": "right"
+          }
+        },
+        {
+          "id": "the_bend_gt_t4",
+          "number": 4,
+          "label": "Turn 4 (right sweeper / infield loop)",
+          "direction": "right",
+          "catalogMatch": true,
+          "current": {
+            "shape": "Sweeper",
+            "approachFrom": "T3 exit",
+            "orientation": null,
+            "catalogLabel": "Turn 4 (right sweeper / infield loop)",
+            "catalogDirection": "right"
+          }
+        },
+        {
+          "id": "the_bend_gt_t5",
+          "number": 5,
+          "label": "Turn 5 (left hairpin)",
+          "direction": "left",
+          "catalogMatch": true,
+          "current": {
+            "shape": "Hairpin",
+            "approachFrom": "T4 exit",
+            "orientation": null,
+            "catalogLabel": "Turn 5 (left hairpin)",
+            "catalogDirection": "left"
+          }
+        },
+        {
+          "id": "the_bend_gt_t6",
+          "number": 6,
+          "label": "Turn 6 (infield complex / esses)",
+          "direction": "complex",
+          "catalogMatch": true,
+          "current": {
+            "shape": "Esses / S",
+            "approachFrom": "T5 exit",
+            "orientation": null,
+            "catalogLabel": "Turn 6 (infield complex / esses)",
+            "catalogDirection": "complex"
+          }
+        },
+        {
+          "id": "the_bend_gt_t7",
+          "number": 7,
+          "label": "Turn 7 (right hairpin / back section)",
+          "direction": "right",
+          "catalogMatch": true,
+          "current": {
+            "shape": "Hairpin",
+            "approachFrom": "T6 exit",
+            "orientation": null,
+            "catalogLabel": "Turn 7 (right hairpin / back section)",
+            "catalogDirection": "right"
+          }
+        },
+        {
+          "id": "the_bend_gt_t8",
+          "number": 8,
+          "label": "Turn 8 (left hairpin)",
+          "direction": "left",
+          "catalogMatch": true,
+          "current": {
+            "shape": "Hairpin",
+            "approachFrom": "T7 exit",
+            "orientation": null,
+            "catalogLabel": "Turn 8 (left hairpin)",
+            "catalogDirection": "left"
+          }
+        },
+        {
+          "id": "the_bend_gt_t9",
+          "number": 9,
+          "label": "Turn 9 (right sweeper)",
+          "direction": "right",
+          "catalogMatch": true,
+          "current": {
+            "shape": "Sweeper",
+            "approachFrom": "T8 exit",
+            "orientation": null,
+            "catalogLabel": "Turn 9 (right sweeper)",
+            "catalogDirection": "right"
+          }
+        },
+        {
+          "id": "the_bend_gt_t10",
+          "number": 10,
+          "label": "Turn 10",
+          "direction": "complex",
+          "catalogMatch": false,
+          "current": {
+            "shape": null,
+            "approachFrom": null,
+            "orientation": null,
+            "catalogLabel": null,
+            "catalogDirection": null
+          }
+        },
+        {
+          "id": "the_bend_gt_t11",
+          "number": 11,
+          "label": "Turn 11",
+          "direction": "complex",
+          "catalogMatch": false,
+          "current": {
+            "shape": null,
+            "approachFrom": null,
+            "orientation": null,
+            "catalogLabel": null,
+            "catalogDirection": null
+          }
+        },
+        {
+          "id": "the_bend_gt_t12",
+          "number": 12,
+          "label": "Turn 12",
+          "direction": "complex",
+          "catalogMatch": false,
+          "current": {
+            "shape": null,
+            "approachFrom": null,
+            "orientation": null,
+            "catalogLabel": null,
+            "catalogDirection": null
+          }
+        },
+        {
+          "id": "the_bend_gt_t13",
+          "number": 13,
+          "label": "Turn 13",
+          "direction": "complex",
+          "catalogMatch": false,
+          "current": {
+            "shape": null,
+            "approachFrom": null,
+            "orientation": null,
+            "catalogLabel": null,
+            "catalogDirection": null
+          }
+        },
+        {
+          "id": "the_bend_gt_t14",
+          "number": 14,
+          "label": "Turn 14",
+          "direction": "complex",
+          "catalogMatch": false,
+          "current": {
+            "shape": null,
+            "approachFrom": null,
+            "orientation": null,
+            "catalogLabel": null,
+            "catalogDirection": null
+          }
+        },
+        {
+          "id": "the_bend_gt_t15",
+          "number": 15,
+          "label": "Turn 15",
+          "direction": "complex",
+          "catalogMatch": false,
+          "current": {
+            "shape": null,
+            "approachFrom": null,
+            "orientation": null,
+            "catalogLabel": null,
+            "catalogDirection": null
+          }
+        },
+        {
+          "id": "the_bend_gt_t16",
+          "number": 16,
+          "label": "Turn 16",
+          "direction": "complex",
+          "catalogMatch": false,
+          "current": {
+            "shape": null,
+            "approachFrom": null,
+            "orientation": null,
+            "catalogLabel": null,
+            "catalogDirection": null
+          }
+        },
+        {
+          "id": "the_bend_gt_t17",
+          "number": 17,
+          "label": "Turn 17",
+          "direction": "complex",
+          "catalogMatch": false,
+          "current": {
+            "shape": null,
+            "approachFrom": null,
+            "orientation": null,
+            "catalogLabel": null,
+            "catalogDirection": null
+          }
+        },
+        {
+          "id": "the_bend_gt_t18",
+          "number": 18,
+          "label": "Turn 18",
+          "direction": "complex",
+          "catalogMatch": false,
+          "current": {
+            "shape": null,
+            "approachFrom": null,
+            "orientation": null,
+            "catalogLabel": null,
+            "catalogDirection": null
+          }
+        },
+        {
+          "id": "the_bend_gt_t19",
+          "number": 19,
+          "label": "Turn 19",
+          "direction": "complex",
+          "catalogMatch": false,
+          "current": {
+            "shape": null,
+            "approachFrom": null,
+            "orientation": null,
+            "catalogLabel": null,
+            "catalogDirection": null
+          }
+        },
+        {
+          "id": "the_bend_gt_t20",
+          "number": 20,
+          "label": "Turn 20",
+          "direction": "complex",
+          "catalogMatch": false,
+          "current": {
+            "shape": null,
+            "approachFrom": null,
+            "orientation": null,
+            "catalogLabel": null,
+            "catalogDirection": null
+          }
+        },
+        {
+          "id": "the_bend_gt_t21",
+          "number": 21,
+          "label": "Turn 21",
+          "direction": "complex",
+          "catalogMatch": false,
+          "current": {
+            "shape": null,
+            "approachFrom": null,
+            "orientation": null,
+            "catalogLabel": null,
+            "catalogDirection": null
+          }
+        },
+        {
+          "id": "the_bend_gt_t22",
+          "number": 22,
+          "label": "Turn 22",
+          "direction": "complex",
+          "catalogMatch": false,
+          "current": {
+            "shape": null,
+            "approachFrom": null,
+            "orientation": null,
+            "catalogLabel": null,
+            "catalogDirection": null
+          }
+        },
+        {
+          "id": "the_bend_gt_t23",
+          "number": 23,
+          "label": "Turn 23",
+          "direction": "complex",
+          "catalogMatch": false,
+          "current": {
+            "shape": null,
+            "approachFrom": null,
+            "orientation": null,
+            "catalogLabel": null,
+            "catalogDirection": null
+          }
+        },
+        {
+          "id": "the_bend_gt_t24",
+          "number": 24,
+          "label": "Turn 24",
+          "direction": "complex",
+          "catalogMatch": false,
+          "current": {
+            "shape": null,
+            "approachFrom": null,
+            "orientation": null,
+            "catalogLabel": null,
+            "catalogDirection": null
+          }
+        },
+        {
+          "id": "the_bend_gt_t25",
+          "number": 25,
+          "label": "Turn 25",
+          "direction": "complex",
+          "catalogMatch": false,
+          "current": {
+            "shape": null,
+            "approachFrom": null,
+            "orientation": null,
+            "catalogLabel": null,
+            "catalogDirection": null
+          }
+        },
+        {
+          "id": "the_bend_gt_t26",
+          "number": 26,
+          "label": "Turn 26",
+          "direction": "complex",
+          "catalogMatch": false,
+          "current": {
+            "shape": null,
+            "approachFrom": null,
+            "orientation": null,
+            "catalogLabel": null,
+            "catalogDirection": null
+          }
+        },
+        {
+          "id": "the_bend_gt_t27",
+          "number": 27,
+          "label": "Turn 27",
+          "direction": "complex",
+          "catalogMatch": false,
+          "current": {
+            "shape": null,
+            "approachFrom": null,
+            "orientation": null,
+            "catalogLabel": null,
+            "catalogDirection": null
+          }
+        },
+        {
+          "id": "the_bend_gt_t28",
+          "number": 28,
+          "label": "Turn 28",
+          "direction": "complex",
+          "catalogMatch": false,
+          "current": {
+            "shape": null,
+            "approachFrom": null,
+            "orientation": null,
+            "catalogLabel": null,
+            "catalogDirection": null
+          }
+        },
+        {
+          "id": "the_bend_gt_t29",
+          "number": 29,
+          "label": "Turn 29",
+          "direction": "complex",
+          "catalogMatch": false,
+          "current": {
+            "shape": null,
+            "approachFrom": null,
+            "orientation": null,
+            "catalogLabel": null,
+            "catalogDirection": null
+          }
+        },
+        {
+          "id": "the_bend_gt_t30",
+          "number": 30,
+          "label": "Turn 30",
+          "direction": "complex",
+          "catalogMatch": false,
+          "current": {
+            "shape": null,
+            "approachFrom": null,
+            "orientation": null,
+            "catalogLabel": null,
+            "catalogDirection": null
+          }
+        },
+        {
+          "id": "the_bend_gt_t31",
+          "number": 31,
+          "label": "Turn 31",
+          "direction": "complex",
+          "catalogMatch": false,
+          "current": {
+            "shape": null,
+            "approachFrom": null,
+            "orientation": null,
+            "catalogLabel": null,
+            "catalogDirection": null
+          }
+        },
+        {
+          "id": "the_bend_gt_t32",
+          "number": 32,
+          "label": "Turn 32",
+          "direction": "complex",
+          "catalogMatch": false,
+          "current": {
+            "shape": null,
+            "approachFrom": null,
+            "orientation": null,
+            "catalogLabel": null,
+            "catalogDirection": null
+          }
+        },
+        {
+          "id": "the_bend_gt_t33",
+          "number": 33,
+          "label": "Turn 33",
+          "direction": "complex",
+          "catalogMatch": false,
+          "current": {
+            "shape": null,
+            "approachFrom": null,
+            "orientation": null,
+            "catalogLabel": null,
+            "catalogDirection": null
+          }
+        },
+        {
+          "id": "the_bend_gt_t34",
+          "number": 34,
+          "label": "Turn 34",
+          "direction": "complex",
+          "catalogMatch": false,
+          "current": {
+            "shape": null,
+            "approachFrom": null,
+            "orientation": null,
+            "catalogLabel": null,
+            "catalogDirection": null
+          }
+        },
+        {
+          "id": "the_bend_gt_t35",
+          "number": 35,
+          "label": "Turn 35",
+          "direction": "complex",
+          "catalogMatch": false,
+          "current": {
+            "shape": null,
+            "approachFrom": null,
+            "orientation": null,
+            "catalogLabel": null,
+            "catalogDirection": null
+          }
+        }
+      ]
+    },
+    {
+      "trackId": "the_bend_international",
+      "name": "The Bend Motorsport Park (International Circuit)",
+      "direction": "clockwise",
+      "lengthM": 4900,
+      "catalogName": "The Bend Motorsport Park (International Circuit)",
+      "catalogCornerCount": 13,
+      "mapCornerCount": 18,
+      "turns": [
+        {
+          "id": "the_bend_international_t1",
+          "number": 1,
+          "label": "Turn 1 (Big Stop hairpin)",
+          "direction": "right",
+          "catalogMatch": true,
+          "current": {
+            "shape": "Hairpin",
+            "approachFrom": "main straight / start-finish",
+            "orientation": null,
+            "catalogLabel": "Turn 1 (Big Stop hairpin)",
+            "catalogDirection": "right"
+          }
+        },
+        {
+          "id": "the_bend_international_t2",
+          "number": 2,
+          "label": "Turn 2",
+          "direction": "left",
+          "catalogMatch": true,
+          "current": {
+            "shape": "Kink",
+            "approachFrom": "T1 exit",
+            "orientation": null,
+            "catalogLabel": "Turn 2",
+            "catalogDirection": "left"
+          }
+        },
+        {
+          "id": "the_bend_international_t3",
+          "number": 3,
+          "label": "Turn 3",
+          "direction": "right",
+          "catalogMatch": true,
+          "current": {
+            "shape": "Corner / complex",
+            "approachFrom": "T2 exit",
+            "orientation": null,
+            "catalogLabel": "Turn 3",
+            "catalogDirection": "right"
+          }
+        },
+        {
+          "id": "the_bend_international_t4",
+          "number": 4,
+          "label": "Turn 4",
+          "direction": "complex",
+          "catalogMatch": true,
+          "current": {
+            "shape": "Sweeper",
+            "approachFrom": "T3 exit",
+            "orientation": null,
+            "catalogLabel": "Turn 4 (right kink) + Turn 5 (left sweeper)",
+            "catalogDirection": "complex"
+          }
+        },
+        {
+          "id": "the_bend_international_t5",
+          "number": 5,
+          "label": "Turn 5",
+          "direction": "complex",
+          "catalogMatch": false,
+          "current": {
+            "shape": null,
+            "approachFrom": null,
+            "orientation": null,
+            "catalogLabel": null,
+            "catalogDirection": null
+          }
+        },
+        {
+          "id": "the_bend_international_t6",
+          "number": 6,
+          "label": "Turn 6 (long left hairpin, off-camber)",
+          "direction": "left",
+          "catalogMatch": true,
+          "current": {
+            "shape": "Hairpin",
+            "approachFrom": "T4-5 exit",
+            "orientation": null,
+            "catalogLabel": "Turn 6 (long left hairpin, off-camber)",
+            "catalogDirection": "left"
+          }
+        },
+        {
+          "id": "the_bend_international_t7",
+          "number": 7,
+          "label": "Turn 7",
+          "direction": "complex",
+          "catalogMatch": true,
+          "current": {
+            "shape": "Esses / S",
+            "approachFrom": "T6 exit",
+            "orientation": null,
+            "catalogLabel": "Turns 7-10 (high-speed esses, blind entry)",
+            "catalogDirection": "complex"
+          }
+        },
+        {
+          "id": "the_bend_international_t8",
+          "number": 8,
+          "label": "Turn 8",
+          "direction": "complex",
+          "catalogMatch": false,
+          "current": {
+            "shape": null,
+            "approachFrom": null,
+            "orientation": null,
+            "catalogLabel": null,
+            "catalogDirection": null
+          }
+        },
+        {
+          "id": "the_bend_international_t9",
+          "number": 9,
+          "label": "Turn 9",
+          "direction": "complex",
+          "catalogMatch": false,
+          "current": {
+            "shape": null,
+            "approachFrom": null,
+            "orientation": null,
+            "catalogLabel": null,
+            "catalogDirection": null
+          }
+        },
+        {
+          "id": "the_bend_international_t10",
+          "number": 10,
+          "label": "Turn 10",
+          "direction": "complex",
+          "catalogMatch": false,
+          "current": {
+            "shape": null,
+            "approachFrom": null,
+            "orientation": null,
+            "catalogLabel": null,
+            "catalogDirection": null
+          }
+        },
+        {
+          "id": "the_bend_international_t11",
+          "number": 11,
+          "label": "Turn 11 (fast right after crest)",
+          "direction": "right",
+          "catalogMatch": true,
+          "current": {
+            "shape": "Sweeper",
+            "approachFrom": "T7-10 exit",
+            "orientation": null,
+            "catalogLabel": "Turn 11 (fast right after crest)",
+            "catalogDirection": "right"
+          }
+        },
+        {
+          "id": "the_bend_international_t12",
+          "number": 12,
+          "label": "Turn 12 (left, leads to back straight)",
+          "direction": "left",
+          "catalogMatch": true,
+          "current": {
+            "shape": "Corner / complex",
+            "approachFrom": "T11 exit",
+            "orientation": null,
+            "catalogLabel": "Turn 12 (left, leads to back straight)",
+            "catalogDirection": "left"
+          }
+        },
+        {
+          "id": "the_bend_international_t13",
+          "number": 13,
+          "label": "Turn 13 (hairpin end of back straight)",
+          "direction": "right",
+          "catalogMatch": true,
+          "current": {
+            "shape": "Hairpin",
+            "approachFrom": "T12 exit / back straight",
+            "orientation": null,
+            "catalogLabel": "Turn 13 (hairpin end of back straight)",
+            "catalogDirection": "right"
+          }
+        },
+        {
+          "id": "the_bend_international_t14",
+          "number": 14,
+          "label": "Turn 14 (right hairpin)",
+          "direction": "right",
+          "catalogMatch": true,
+          "current": {
+            "shape": "Hairpin",
+            "approachFrom": "T13 exit",
+            "orientation": null,
+            "catalogLabel": "Turn 14 (right hairpin)",
+            "catalogDirection": "right"
+          }
+        },
+        {
+          "id": "the_bend_international_t15",
+          "number": 15,
+          "label": "Turn 15",
+          "direction": "complex",
+          "catalogMatch": true,
+          "current": {
+            "shape": "Esses / S",
+            "approachFrom": "T14 exit",
+            "orientation": null,
+            "catalogLabel": "Turns 15-16 (S-bends / medium-speed complex)",
+            "catalogDirection": "complex"
+          }
+        },
+        {
+          "id": "the_bend_international_t16",
+          "number": 16,
+          "label": "Turn 16",
+          "direction": "complex",
+          "catalogMatch": false,
+          "current": {
+            "shape": null,
+            "approachFrom": null,
+            "orientation": null,
+            "catalogLabel": null,
+            "catalogDirection": null
+          }
+        },
+        {
+          "id": "the_bend_international_t17",
+          "number": 17,
+          "label": "Turn 17 (right hairpin, heavy braking)",
+          "direction": "right",
+          "catalogMatch": true,
+          "current": {
+            "shape": "Hairpin",
+            "approachFrom": "T15-16 exit",
+            "orientation": null,
+            "catalogLabel": "Turn 17 (right hairpin, heavy braking)",
+            "catalogDirection": "right"
+          }
+        },
+        {
+          "id": "the_bend_international_t18",
+          "number": 18,
+          "label": "Turn 18 (final left onto main straight)",
+          "direction": "complex",
+          "catalogMatch": true,
+          "current": {
+            "shape": "Corner / complex",
+            "approachFrom": "T17 exit",
+            "orientation": null,
+            "catalogLabel": "Turn 18 (final left onto main straight)",
+            "catalogDirection": "complex"
+          }
+        }
+      ]
+    },
+    {
+      "trackId": "wakefield_park",
+      "name": "One Raceway (Wakefield Park)",
+      "direction": "clockwise",
+      "lengthM": 2165,
+      "catalogName": "One Raceway (Wakefield Park)",
+      "catalogCornerCount": 9,
+      "mapCornerCount": 10,
+      "turns": [
+        {
+          "id": "wakefield_park_t1",
+          "number": 1,
+          "label": "Turn 1 (Left Kink)",
+          "direction": "left",
+          "catalogMatch": true,
+          "current": {
+            "shape": "Kink",
+            "approachFrom": "main straight / start-finish",
+            "orientation": null,
+            "catalogLabel": "Turn 1 (Left Kink)",
+            "catalogDirection": "left"
+          }
+        },
+        {
+          "id": "wakefield_park_t2",
+          "number": 2,
+          "label": "Turn 2 (Right Hairpin)",
+          "direction": "right",
+          "catalogMatch": true,
+          "current": {
+            "shape": "Hairpin",
+            "approachFrom": "T1 (Turn 1) exit",
+            "orientation": null,
+            "catalogLabel": "Turn 2 (Right Hairpin)",
+            "catalogDirection": "right"
+          }
+        },
+        {
+          "id": "wakefield_park_t3",
+          "number": 3,
+          "label": "Turn 3 (Left Bend over Crest)",
+          "direction": "left",
+          "catalogMatch": true,
+          "current": {
+            "shape": "Corner / complex",
+            "approachFrom": "T2 (Turn 2) exit",
+            "orientation": null,
+            "catalogLabel": "Turn 3 (Left Bend over Crest)",
+            "catalogDirection": "left"
+          }
+        },
+        {
+          "id": "wakefield_park_t4",
+          "number": 4,
+          "label": "Turn 4 (Left-hander)",
+          "direction": "left",
+          "catalogMatch": true,
+          "current": {
+            "shape": "Corner / complex",
+            "approachFrom": "T3 (Turn 3) exit",
+            "orientation": null,
+            "catalogLabel": "Turn 4 (Left-hander)",
+            "catalogDirection": "left"
+          }
+        },
+        {
+          "id": "wakefield_park_t5",
+          "number": 5,
+          "label": "Turn 5 (Right-hander)",
+          "direction": "right",
+          "catalogMatch": true,
+          "current": {
+            "shape": "Corner / complex",
+            "approachFrom": "T4 (Turn 4) exit",
+            "orientation": null,
+            "catalogLabel": "Turn 5 (Right-hander)",
+            "catalogDirection": "right"
+          }
+        },
+        {
+          "id": "wakefield_park_t6",
+          "number": 6,
+          "label": "Turn 6 (The Fish Hook)",
+          "direction": "complex",
+          "catalogMatch": true,
+          "current": {
+            "shape": "Hairpin",
+            "approachFrom": "T5 (Turn 5) exit",
+            "orientation": null,
+            "catalogLabel": "Turns 6 & 7 (The Fish Hook)",
+            "catalogDirection": "complex"
+          }
+        },
+        {
+          "id": "wakefield_park_t7",
+          "number": 7,
+          "label": "Turn 7 (The Fish Hook)",
+          "direction": "complex",
+          "catalogMatch": false,
+          "current": {
+            "shape": null,
+            "approachFrom": null,
+            "orientation": null,
+            "catalogLabel": null,
+            "catalogDirection": null
+          }
+        },
+        {
+          "id": "wakefield_park_t8",
+          "number": 8,
+          "label": "Turn 8 (Left kink)",
+          "direction": "left",
+          "catalogMatch": true,
+          "current": {
+            "shape": "Kink",
+            "approachFrom": "T6 (Turns 6 & 7) exit",
+            "orientation": null,
+            "catalogLabel": "Turn 8 (Left kink)",
+            "catalogDirection": "left"
+          }
+        },
+        {
+          "id": "wakefield_park_t9",
+          "number": 9,
+          "label": "Turn 9 (Fast Right Sweeper)",
+          "direction": "complex",
+          "catalogMatch": true,
+          "current": {
+            "shape": "Sweeper",
+            "approachFrom": "T8 (Turn 8) exit",
+            "orientation": null,
+            "catalogLabel": "Turn 9 (Fast Right Sweeper)",
+            "catalogDirection": "complex"
+          }
+        },
+        {
+          "id": "wakefield_park_t10",
+          "number": 10,
+          "label": "Turn 10 (Final Hairpin, The Sweeper)",
+          "direction": "left",
+          "catalogMatch": true,
+          "current": {
+            "shape": "Hairpin",
+            "approachFrom": "T9 (Turn 9) exit",
+            "orientation": null,
+            "catalogLabel": "Turn 10 (Final Hairpin, The Sweeper)",
+            "catalogDirection": "left"
+          }
+        }
+      ]
+    },
+    {
+      "trackId": "wanneroo",
+      "name": "Wanneroo Raceway (Barbagallo)",
+      "direction": "clockwise",
+      "lengthM": 1761,
+      "catalogName": "Wanneroo Raceway (Barbagallo)",
+      "catalogCornerCount": 8,
+      "mapCornerCount": 7,
+      "turns": [
+        {
+          "id": "wanneroo_t1",
+          "number": 1,
+          "label": "Cat Corner",
+          "direction": "right",
+          "catalogMatch": true,
+          "current": {
+            "shape": "Kink",
+            "approachFrom": "main straight / start-finish",
+            "orientation": null,
+            "catalogLabel": "Cat Corner",
+            "catalogDirection": "right"
+          }
+        },
+        {
+          "id": "wanneroo_t2",
+          "number": 2,
+          "label": "Turn 2",
+          "direction": "complex",
+          "catalogMatch": true,
+          "current": {
+            "shape": "Kink",
+            "approachFrom": "T1 (Cat Corner) exit",
+            "orientation": null,
+            "catalogLabel": "Turn 2",
+            "catalogDirection": "complex"
+          }
+        },
+        {
+          "id": "wanneroo_t3",
+          "number": 3,
+          "label": "Turn 3",
+          "direction": "left",
+          "catalogMatch": true,
+          "current": {
+            "shape": "Kink",
+            "approachFrom": "T2 (Turn 2) exit",
+            "orientation": null,
+            "catalogLabel": "Turn 3",
+            "catalogDirection": "left"
+          }
+        },
+        {
+          "id": "wanneroo_t4",
+          "number": 4,
+          "label": "Turn 4",
+          "direction": "complex",
+          "catalogMatch": true,
+          "current": {
+            "shape": "Hairpin",
+            "approachFrom": "T3 (Turn 3) exit",
+            "orientation": null,
+            "catalogLabel": "Turn 4",
+            "catalogDirection": "complex"
+          }
+        },
+        {
+          "id": "wanneroo_t5",
+          "number": 5,
+          "label": "Turn 5",
+          "direction": "right",
+          "catalogMatch": true,
+          "current": {
+            "shape": "Hairpin",
+            "approachFrom": "T4 (Turn 4) exit",
+            "orientation": null,
+            "catalogLabel": "Turn 5",
+            "catalogDirection": "right"
+          }
+        },
+        {
+          "id": "wanneroo_t6",
+          "number": 6,
+          "label": "Kolb Corner (The Basin)",
+          "direction": "complex",
+          "catalogMatch": true,
+          "current": {
+            "shape": "Hairpin",
+            "approachFrom": "T5 (Turn 5) exit",
+            "orientation": null,
+            "catalogLabel": "Kolb Corner (The Basin)",
+            "catalogDirection": "complex"
+          }
+        },
+        {
+          "id": "wanneroo_t7",
+          "number": 7,
+          "label": "Turn 7 (final onto main straight)",
+          "direction": "left",
+          "catalogMatch": true,
+          "current": {
+            "shape": "Kink",
+            "approachFrom": "T6 (Kolb Corner) exit",
+            "orientation": null,
+            "catalogLabel": "Turn 7",
+            "catalogDirection": "left"
+          }
+        }
+      ]
+    },
+    {
+      "trackId": "winton",
+      "name": "Winton Motor Raceway",
+      "direction": "clockwise",
+      "lengthM": 3022,
+      "catalogName": "Winton Motor Raceway",
+      "catalogCornerCount": 8,
+      "mapCornerCount": 12,
+      "turns": [
+        {
+          "id": "winton_t1",
+          "number": 1,
+          "label": "Turn 1",
+          "direction": "complex",
+          "catalogMatch": true,
+          "current": {
+            "shape": "Kink",
+            "approachFrom": "main straight / start-finish",
+            "orientation": null,
+            "catalogLabel": "Turn 1 (entry complex / left kink)",
+            "catalogDirection": "complex"
+          }
+        },
+        {
+          "id": "winton_t2",
+          "number": 2,
+          "label": "Turn 2",
+          "direction": "complex",
+          "catalogMatch": true,
+          "current": {
+            "shape": "Sweeper",
+            "approachFrom": "T1 exit",
+            "orientation": null,
+            "catalogLabel": "Turn 2 (right sweeper)",
+            "catalogDirection": "complex"
+          }
+        },
+        {
+          "id": "winton_t3",
+          "number": 3,
+          "label": "Turn 3",
+          "direction": "complex",
+          "catalogMatch": true,
+          "current": {
+            "shape": "Sweeper",
+            "approachFrom": "T2 exit",
+            "orientation": null,
+            "catalogLabel": "Turn 3 (right sweeper)",
+            "catalogDirection": "complex"
+          }
+        },
+        {
+          "id": "winton_t4",
+          "number": 4,
+          "label": "Turn 4",
+          "direction": "complex",
+          "catalogMatch": true,
+          "current": {
+            "shape": "Sweeper",
+            "approachFrom": "T3 exit",
+            "orientation": null,
+            "catalogLabel": "Turn 4 (left sweeper / infield)",
+            "catalogDirection": "complex"
+          }
+        },
+        {
+          "id": "winton_t5",
+          "number": 5,
+          "label": "Turn 5",
+          "direction": "complex",
+          "catalogMatch": true,
+          "current": {
+            "shape": "Hairpin",
+            "approachFrom": "T4 exit",
+            "orientation": null,
+            "catalogLabel": "Turn 5 (right hairpin)",
+            "catalogDirection": "complex"
+          }
+        },
+        {
+          "id": "winton_t6",
+          "number": 6,
+          "label": "Turn 6",
+          "direction": "complex",
+          "catalogMatch": true,
+          "current": {
+            "shape": "Corner / complex",
+            "approachFrom": "T5 exit",
+            "orientation": null,
+            "catalogLabel": "Turn 6 (complex / back section kinks)",
+            "catalogDirection": "complex"
+          }
+        },
+        {
+          "id": "winton_t7",
+          "number": 7,
+          "label": "Turn 7 (often grouped with 8–9)",
+          "direction": "complex",
+          "catalogMatch": true,
+          "current": {
+            "shape": "Sweeper",
+            "approachFrom": "T6 exit",
+            "orientation": null,
+            "catalogLabel": "Turn 7 (left sweeper)",
+            "catalogDirection": "complex"
+          }
+        },
+        {
+          "id": "winton_t8",
+          "number": 8,
+          "label": "Turn 8 (often grouped with 7–9)",
+          "direction": "complex",
+          "catalogMatch": true,
+          "current": {
+            "shape": "Hairpin",
+            "approachFrom": "T7 exit",
+            "orientation": null,
+            "catalogLabel": "Turn 8 (right hairpin / final)",
+            "catalogDirection": "complex"
+          }
+        },
+        {
+          "id": "winton_t9",
+          "number": 9,
+          "label": "Turn 9 (often grouped with 7–8)",
+          "direction": "complex",
+          "catalogMatch": false,
+          "current": {
+            "shape": null,
+            "approachFrom": null,
+            "orientation": null,
+            "catalogLabel": null,
+            "catalogDirection": null
+          }
+        },
+        {
+          "id": "winton_t10",
+          "number": 10,
+          "label": "Turn 10",
+          "direction": "complex",
+          "catalogMatch": false,
+          "current": {
+            "shape": null,
+            "approachFrom": null,
+            "orientation": null,
+            "catalogLabel": null,
+            "catalogDirection": null
+          }
+        },
+        {
+          "id": "winton_t11",
+          "number": 11,
+          "label": "Turn 11",
+          "direction": "complex",
+          "catalogMatch": false,
+          "current": {
+            "shape": null,
+            "approachFrom": null,
+            "orientation": null,
+            "catalogLabel": null,
+            "catalogDirection": null
+          }
+        },
+        {
+          "id": "winton_t12",
+          "number": 12,
+          "label": "Turn 12",
+          "direction": "complex",
+          "catalogMatch": false,
+          "current": {
+            "shape": null,
+            "approachFrom": null,
+            "orientation": null,
+            "catalogLabel": null,
+            "catalogDirection": null
+          }
+        }
+      ]
+    }
+  ]
+}

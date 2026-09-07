@@ -1,7 +1,7 @@
 import React from 'react';
 import { Modal, ScrollView, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 import type { CornerDefinition } from '../data/tracks';
-import { formatCornerHeading } from '../data/tracks';
+import { formatCornerHeading, formatCornerOrientation } from '../data/tracks';
 
 type Props = {
   corner: CornerDefinition | null;
@@ -49,11 +49,7 @@ export function TrackCornerSheet({
                   </>
                 ) : null}
                 <Text style={styles.sectionLabel}>Orientation</Text>
-                <Text style={styles.body}>
-                  {corner.number != null
-                    ? `Turn ${corner.number} is a ${corner.direction} from the catalog. Use the map dots and your own markers — do not invent a racing line from this page.`
-                    : 'Use the map and your own markers for orientation.'}
-                </Text>
+                <Text style={styles.body}>{formatCornerOrientation(corner)}</Text>
 
                 <Text style={styles.sectionLabel}>Saved track note</Text>
                 {savedNote ? (
