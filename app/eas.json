@@ -1,4 +1,4 @@
-{
+﻿{
   "cli": {
     "version": ">= 16.0.0",
     "appVersionSource": "remote"
@@ -9,7 +9,7 @@
       "distribution": "internal",
       "ios": {
         "resourceClass": "m-medium",
-        "image": "macos-sequoia-15.6-xcode-26.2"
+        "image": "sdk-57"
       },
       "env": {
         "SENTRY_DISABLE_AUTO_UPLOAD": "true"
@@ -20,7 +20,7 @@
       "ios": {
         "resourceClass": "large",
         "credentialsSource": "remote",
-        "image": "macos-sequoia-15.6-xcode-26.2"
+        "image": "sdk-57"
       },
       "android": {
         "resourceClass": "large"
@@ -34,7 +34,7 @@
       "ios": {
         "resourceClass": "large",
         "credentialsSource": "remote",
-        "image": "macos-sequoia-15.6-xcode-26.2"
+        "image": "sdk-57"
       },
       "android": {
         "resourceClass": "large"
