@@ -20,6 +20,7 @@ import {
 import type { TrackDefinition } from '../data/tracks';
 import { getTrackById } from '../data/tracks';
 import type { RiderAiSkill } from '../navigation/homeMode';
+import { trackWalkCornerIdMatches } from '../storage/trackWalkCornerAliases';
 import { getTrackWalkSessions } from '../storage/trackWalk';
 import {
   getTrackPrepSelectedTrack,
@@ -42,7 +43,10 @@ function latestCornerNote(
     .sort((a, b) => b.createdAt - a.createdAt);
   for (const session of forTrack) {
     const entry = session.entries.find(
-      (e) => e.type === 'corner' && e.cornerId === cornerId && e.text.trim()
+      (e) =>
+        e.type === 'corner' &&
+        trackWalkCornerIdMatches(trackId, cornerId, e.cornerId) &&
+        e.text.trim()
     );
     if (entry) return entry.text.trim();
   }
