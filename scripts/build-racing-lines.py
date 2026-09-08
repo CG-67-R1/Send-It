@@ -25,8 +25,9 @@ from PIL import Image, ImageDraw
 
 REPO = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(Path(__file__).resolve().parent))
-from lib.gpx_track_preview import EDGE_WIDTH, GRASS, SIZE, SURFACE_WIDTH, draw_ribbon
+from lib.gpx_track_preview import GRASS, SIZE, SURFACE_WIDTH, draw_ribbon
 from lib.quasi_steady_line import BIKES, densify_closed, optimize
+from lib.racing_line_colors import band_rgba, bands_for, palette
 
 MAPS_DIR = REPO / "app" / "src" / "data" / "gpxTrackMaps"
 APP_OUT = REPO / "app" / "src" / "data" / "racingLines"
@@ -71,15 +72,6 @@ def metres_to_json(pts: list[tuple[float, float]], scale: float) -> list[list[fl
 def ribbon_half_width_m(scale: float, width_px: float) -> float:
     """Half-width of a preview stroke, in metres."""
     return (width_px / 2.0) / SIZE * 100.0 * scale
-
-
-def speed_color(v: float, vmin: float, vmax: float) -> tuple[int, int, int, int]:
-    t = 0.0 if vmax <= vmin else max(0.0, min(1.0, (v - vmin) / (vmax - vmin)))
-    if t < 0.5:
-        u = t * 2.0
-        return (int(30 + 20 * u), int(80 + 140 * u), int(200 - 40 * u), 255)
-    u = (t - 0.5) * 2.0
-    return (int(50 + 190 * u), int(220 - 160 * u), int(40), 255)
 
 
 def _seg_intersect(
@@ -146,19 +138,14 @@ def max_distance_to_road(
     return worst
 
 
-def write_preview(track_id: str, source: list[list[float]], json_line, speeds) -> None:
+def write_preview(track_id: str, source: list[list[float]], json_line, bands) -> None:
+    """Same palette the app draws, so the picture and the phone agree."""
     px = [(x / 100.0 * SIZE, y / 100.0 * SIZE) for x, y in json_line]
     img = Image.new("RGBA", (SIZE, SIZE), GRASS)
     draw = ImageDraw.Draw(img)
     draw_ribbon(draw, source)
-    vmin, vmax = min(speeds), max(speeds)
     for i in range(len(px) - 1):
-        draw.line(
-            [px[i], px[i + 1]],
-            fill=speed_color(speeds[i % len(speeds)], vmin, vmax),
-            width=3,
-            joint="curve",
-        )
+        draw.line([px[i], px[i + 1]], fill=band_rgba(bands[i]), width=3, joint="curve")
     PREVIEW_DIR.mkdir(parents=True, exist_ok=True)
     img.save(PREVIEW_DIR / f"{track_id}.png", "PNG")
 
@@ -197,8 +184,11 @@ def build_one(track_id: str, track: dict, bike) -> dict:
     if json_crossings != model_crossings:
         raise RuntimeError("racing line topology changes when converted to map space")
 
+    # Both arrays close the loop, so bands stays parallel to polyline.
     closed = json_line + [json_line[0]]
-    write_preview(track_id, source, closed, result["v"])
+    bands = bands_for(result["v"], result["ds"], result["kappa"], bike)
+    bands = bands + [bands[0]]
+    write_preview(track_id, source, closed, bands)
     print(
         f"  {track_id:<24} pts {len(closed):>4}  road +/-{half_w:.1f} m  "
         f"model lap {result['time']:.1f} s  apexes {len(result['apexes'])}"
@@ -207,6 +197,8 @@ def build_one(track_id: str, track: dict, bike) -> dict:
         "trackId": track_id,
         "name": track.get("name") or track_id,
         "polyline": closed,
+        "palette": palette(),
+        "bands": bands,
     }
 
 
@@ -286,6 +278,10 @@ def main() -> None:
   trackId: string;
   name: string;
   polyline: number[][];
+  /** Hex colour per band; see scripts/lib/racing_line_colors.py. */
+  palette: string[];
+  /** Band index per polyline point, parallel to polyline. */
+  bands: number[];
 };
 """
     for out_dir in (APP_OUT, ANDROID_OUT):

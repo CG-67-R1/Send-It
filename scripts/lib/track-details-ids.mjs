@@ -19,6 +19,7 @@ export const TRACK_DETAILS_IDS = [
   'the_bend_gt',
   'the_bend_international',
   'wakefield_park',
+  'wanneroo',
   'winton',
 ];
 
@@ -27,10 +28,4 @@ export const TRACK_DETAILS_IDS = [
  * catalog but absent from both lists is an accident, so validate-track-data
  * fails it; these warn instead, staying visible until the blocker clears.
  */
-export const TRACK_DETAILS_EXCLUSIONS = {
-  wanneroo:
-    'scripts/track-memory-gpx/wanneroo.gpx traces the decommissioned 1.76 km short ' +
-    'circuit, not the 2.411 km layout raced today, so drawing it would show riders the ' +
-    'wrong track. Add it back only with a GPX that passes prove-track-maps against the ' +
-    'catalog length.',
-};
+export const TRACK_DETAILS_EXCLUSIONS = {};

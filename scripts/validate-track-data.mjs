@@ -211,6 +211,25 @@ for (const group of MULTI_LAYOUT_GROUPS) {
   }
 }
 
+if (turnPolicy?.lockedCornerCounts) {
+  for (const [id, want] of Object.entries(turnPolicy.lockedCornerCounts)) {
+    const t = tracks.find((x) => x.id === id);
+    if (!t) {
+      fail(`${id}: lockedCornerCounts entry but track is missing from catalog`);
+      continue;
+    }
+    const numbered = (t.corners || []).filter((c) => c.number != null);
+    const nums = numbered.map((c) => c.number);
+    if (numbered.length !== want) {
+      fail(`${id}: ${numbered.length} numbered corners, locked count is ${want}`);
+    }
+    const expected = Array.from({ length: want }, (_, i) => i + 1);
+    if (JSON.stringify(nums) !== JSON.stringify(expected)) {
+      fail(`${id}: numbered corners must be sequential T1–T${want} (got ${nums.join(',')})`);
+    }
+  }
+}
+
 // Soft expectations for planned layouts (warn only)
 for (const id of ['the_bend_east', 'the_bend_west', 'smp_amaroo', 'collingrove_hillclimb']) {
   if (!trackIds.has(id)) {

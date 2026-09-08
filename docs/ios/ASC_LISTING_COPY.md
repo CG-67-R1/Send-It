@@ -20,9 +20,9 @@ Also complete the **App Privacy** questionnaire to match reality:
 | Field | Value |
 |--------|--------|
 | Primary Category | **Sports** |
-| Secondary Category (optional) | **News** |
+| Secondary Category (optional) | Leave **blank**, or **Utilities** (setup sheets, track notes). **Not News** — the news feature was removed, so that category no longer describes the app. |
 | Copyright | Paste exactly as below (no URL; Apple adds ©). |
-| Content Rights | Does your app contain, display, or access third-party content? → **Yes** (news headlines / links to publisher sites). Do you have the rights? → **Yes** (linking/aggregation; articles open on publisher sites). |
+| Content Rights | Does your app contain, display, or access third-party content? → **Yes**. The reason changed: it is no longer news headlines or publisher links, which are gone. What remains is cited reference material — ASBK lap records and the rule text behind Q&A's Official rule check. Confirm your rights basis for that material before answering, since quoting a rulebook is a different position from linking articles. |
 | Age Rating | Complete the questionnaire (no unrestricted web, mild competition themes — typically 4+ or 12+ depending on answers). |
 
 ### Copyright (required)
@@ -65,11 +65,15 @@ If a build still asks every upload, confirm the production Info.plist includes `
 ### Description
 
 ```
-RoadRacer is your motorcycle road-racing companion — news, calendar, track notes, and AI coaching in one place.
+RoadRacer is your motorcycle road-racing companion — circuit study, race calendar, track notes, and AI coaching in one place.
 
-Stay across MotoGP, WorldSBK, and more with a headlines feed you can prioritise. Check the race calendar, walk the track with notes and photos, and keep Day Setup Sheets and bike balance tools on your device.
+Learn a circuit before you ride it. Track Details draws each layout from its real GPS trace, at the true width of the road, with numbered turns and a suggested racing line. Tap a turn to zoom that corner. The list below uses the same numbers and holds your own notes. Walk the track with typed or spoken notes and photos, then send them straight to your coach.
 
-Ask the Rider Coach or Bike Setup AI for practical guidance, or use Q&A and trivia to sharpen your knowledge. Your profile, avatar, setups, and track notes stay private on your device. AI chats you send go to the RoadRacer API and may be processed by OpenAI; chat history is not kept on our server after the reply.
+Check the race calendar and add reminders to your own calendar. Keep Day Setup Sheets, bike balance, gearing, and tyre-wear notes on your device. Ask the Rider Coach or Bike Setup AI for practical guidance pitched at how you actually ride, or use Q&A and trivia to sharpen your knowledge.
+
+Your profile, avatar, setups, and track notes stay private on your device. AI chats you send go to the RoadRacer API and may be processed by OpenAI; chat history is not kept on our server after the reply.
+
+Everything here is informational: the suggested line is a suggestion, not instruction, and we do not model lap times for you.
 
 Built for track-day riders and race fans who live motorsport.
 ```
@@ -93,7 +97,7 @@ motorcycle,racing,motogp,superbike,track day,bike setup,coach,calendar
 ### Promotional Text (optional, 170 chars)
 
 ```
-News, calendar, track walk, and AI coach for motorcycle road racing — setups stay on your device.
+GPS circuit maps, calendar, track walk, and AI coach for motorcycle road racing — setups stay on your device.
 ```
 
 ## Version 1.0 — United Kingdom localization (English / en-GB)
@@ -103,11 +107,15 @@ News, calendar, track walk, and AI coach for motorcycle road racing — setups s
 ### Description (UK)
 
 ```
-RoadRacer is your motorcycle road-racing companion — news, calendar, track notes, and AI coaching in one place.
+RoadRacer is your motorcycle road-racing companion — circuit study, race calendar, track notes, and AI coaching in one place.
 
-Follow MotoGP, WorldSBK, BSB, and UK headlines you can prioritise. Check the race calendar, walk Brands Hatch, Donington, Cadwell and more with notes and photos, and keep Day Setup Sheets and bike balance tools on your device.
+Learn a circuit before you ride it. Track Details draws each layout from its real GPS trace, at the true width of the road, with a suggested racing line you can zoom into and a corner-by-corner list to hold your own notes. Walk Brands Hatch, Donington, Cadwell and more with typed or spoken notes and photos, then send them straight to your coach.
 
-Ask the Rider Coach or Bike Setup AI for practical guidance for UK track days and club racing, or use Q&A and trivia to sharpen your knowledge. Your profile, avatar, setups, and track notes stay private on your device. AI chats you send go to the RoadRacer API and may be processed by OpenAI; chat history is not kept on our server after the reply.
+Check the race calendar and add reminders to your own calendar. Keep Day Setup Sheets, bike balance, gearing, and tyre-wear notes on your device. Ask the Rider Coach or Bike Setup AI for practical guidance for UK track days and club racing, or use Q&A and trivia to sharpen your knowledge.
+
+Your profile, avatar, setups, and track notes stay private on your device. AI chats you send go to the RoadRacer API and may be processed by OpenAI; chat history is not kept on our server after the reply.
+
+Everything here is informational: the suggested line is a suggestion, not instruction, and we do not model lap times for you.
 
 Built for UK track-day riders and club racers who live motorsport.
 ```
@@ -123,7 +131,7 @@ motorcycle,racing,BSB,superbike,track day,bike setup,coach,calendar
 ### Promotional Text (UK, optional, 170 chars)
 
 ```
-News, BSB calendar, UK track walk, and AI coach for motorcycle road racing — setups stay on your device.
+GPS circuit maps, BSB calendar, UK track walk, and AI coach for motorcycle road racing — setups stay on your device.
 ```
 
 UK review contact: same as AU (`projectapex@outlook.com.au`; phone may remain +61).
@@ -161,9 +169,11 @@ Required sizes include:
 
 Upload **at least 3** screenshots for iPhone 6.5" Display. Ready files (all **1284 × 2778**):
 
+> **Slot 1 must be recaptured before the next submission.** The `-01-news` files show the removed News feature. Uploading them with a build that has no News is a Guideline 2.3 rejection. Replace with **Track Details** (the GPX map with its suggested line) — it is the strongest screen in the build and the one the description now leads on. Screenshots are locked while the version is in review or Pending Developer Release, so pull the version back first.
+
 | Order | File | Screen |
 |-------|------|--------|
-| 1 | [`docs/ios/screenshots/iphone-6.5/asc-iphone65-01-news.png`](screenshots/iphone-6.5/asc-iphone65-01-news.png) | News & Events |
+| 1 | ~~`asc-iphone65-01-news.png`~~ — **recapture as Track Details** | Track Details GPX map |
 | 2 | [`docs/ios/screenshots/iphone-6.5/asc-iphone65-02-track.png`](screenshots/iphone-6.5/asc-iphone65-02-track.png) | Track walk / Bend |
 | 3 | [`docs/ios/screenshots/iphone-6.5/asc-iphone65-03-setup.png`](screenshots/iphone-6.5/asc-iphone65-03-setup.png) | Bike Setup |
 | 4 | [`docs/ios/screenshots/iphone-6.5/asc-iphone65-04-tyre.png`](screenshots/iphone-6.5/asc-iphone65-04-tyre.png) | Tyre Wear Analysis |
@@ -178,7 +188,7 @@ Ready files (portrait **2064 × 2752**):
 
 | Order | File | Screen |
 |-------|------|--------|
-| 1 | [`docs/ios/screenshots/ipad-13/asc-ipad13-01-news.png`](screenshots/ipad-13/asc-ipad13-01-news.png) | News & Events |
+| 1 | ~~`asc-ipad13-01-news.png`~~ — **recapture as Track Details** | Track Details GPX map |
 | 2 | [`docs/ios/screenshots/ipad-13/asc-ipad13-02-track.png`](screenshots/ipad-13/asc-ipad13-02-track.png) | Track walk / Bend |
 | 3 | [`docs/ios/screenshots/ipad-13/asc-ipad13-03-setup.png`](screenshots/ipad-13/asc-ipad13-03-setup.png) | Bike Setup |
 | 4 | [`docs/ios/screenshots/ipad-13/asc-ipad13-04-tyre.png`](screenshots/ipad-13/asc-ipad13-04-tyre.png) | Tyre Wear Analysis |
@@ -193,7 +203,7 @@ Ready files (Ultra 3 portrait **422 × 514**):
 
 | Order | File | Screen |
 |-------|------|--------|
-| 1 | [`docs/ios/screenshots/apple-watch-ultra3/asc-watch-01-news.png`](screenshots/apple-watch-ultra3/asc-watch-01-news.png) | News |
+| 1 | ~~`asc-watch-01-news.png`~~ — **recapture or drop this slot** | Track Details or Calendar |
 | 2 | [`docs/ios/screenshots/apple-watch-ultra3/asc-watch-02-calendar.png`](screenshots/apple-watch-ultra3/asc-watch-02-calendar.png) | Calendar / next event |
 | 3 | [`docs/ios/screenshots/apple-watch-ultra3/asc-watch-03-coach.png`](screenshots/apple-watch-ultra3/asc-watch-03-coach.png) | Corner coach tip |
 | 4 | [`docs/ios/screenshots/apple-watch-ultra3/asc-watch-04-tyre.png`](screenshots/apple-watch-ultra3/asc-watch-04-tyre.png) | Tyre wear |

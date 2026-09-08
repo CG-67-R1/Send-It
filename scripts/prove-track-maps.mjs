@@ -17,6 +17,8 @@ const APP_MAP_DIR = path.join(ROOT, 'app', 'src', 'data', 'gpxTrackMaps');
 const ANDROID_MAP_DIR = path.join(ROOT, 'android-app', 'src', 'data', 'gpxTrackMaps');
 const APP_LINE_DIR = path.join(ROOT, 'app', 'src', 'data', 'racingLines');
 const ANDROID_LINE_DIR = path.join(ROOT, 'android-app', 'src', 'data', 'racingLines');
+const APP_CORNER_DIR = path.join(ROOT, 'app', 'src', 'data', 'trackDetailsCorners');
+const ANDROID_CORNER_DIR = path.join(ROOT, 'android-app', 'src', 'data', 'trackDetailsCorners');
 // Half the asphalt width the app draws, in map units; see TrackFacilityMap.
 const SURFACE_HALF_UNITS = 0.6;
 const CATALOG_PATH = path.join(ROOT, 'app', 'src', 'data', 'tracks.json');
@@ -244,6 +246,70 @@ for (const id of ids) {
   }
 
   proveRacingLine(id, variants.app);
+  proveCorners(id, variants.app);
+}
+
+function inMap(p) {
+  return (
+    Array.isArray(p) &&
+    p.length === 2 &&
+    Number.isFinite(p[0]) &&
+    Number.isFinite(p[1]) &&
+    p[0] >= -5 &&
+    p[0] <= 105 &&
+    p[1] >= -5 &&
+    p[1] <= 105
+  );
+}
+
+/** Numbered turns baked from the locked detector onto the GPX map. */
+function proveCorners(id, map) {
+  const copies = {};
+  for (const [label, dir] of [
+    ['app', APP_CORNER_DIR],
+    ['android-app', ANDROID_CORNER_DIR],
+  ]) {
+    const file = path.join(dir, `${id}.json`);
+    if (!fs.existsSync(file)) {
+      fail(id, `missing ${label} trackDetailsCorners/${id}.json`);
+      continue;
+    }
+    copies[label] = JSON.parse(fs.readFileSync(file, 'utf8'));
+  }
+  if (!copies.app || !copies['android-app']) return;
+  if (JSON.stringify(copies.app) !== JSON.stringify(copies['android-app'])) {
+    fail(id, 'app and android-app corner JSON differ; rebuild both copies together');
+    return;
+  }
+
+  const doc = copies.app;
+  if (doc.trackId !== id) fail(id, 'corner overlay trackId mismatch');
+  if (!Array.isArray(doc.corners) || doc.corners.length < 1) {
+    fail(id, 'corner overlay has no turns');
+    return;
+  }
+  if (!inMap(doc.startFinish)) fail(id, 'start/finish is off the map');
+  for (const [i, corner] of doc.corners.entries()) {
+    if (corner.number !== i + 1) {
+      fail(id, `corner numbering is not sequential at ${corner.number}`);
+      break;
+    }
+    if (corner.direction != null && corner.direction !== 'left' && corner.direction !== 'right') {
+      fail(id, `T${corner.number} has an invalid hand`);
+    }
+    if (!inMap(corner.apex) || !inMap(corner.label) || !inMap(corner.entry) || !inMap(corner.exit)) {
+      fail(id, `T${corner.number} has a point off the map`);
+    }
+    if (map) {
+      const stray = maxStrayUnits([corner.apex], map.polyline);
+      if (stray > 4) {
+        fail(id, `T${corner.number} apex is ${stray.toFixed(2)} map units off the ribbon`);
+      }
+    }
+    if (!corner.summary || !corner.approachFrom) {
+      fail(id, `T${corner.number} is missing rider copy`);
+    }
+  }
 }
 
 /** A racing line is optional, but a broken one must never ship. */
@@ -272,8 +338,32 @@ function proveRacingLine(id, map) {
 
   const line = lines.app;
   if (line.trackId !== id) fail(id, 'racing line trackId mismatch');
-  const extra = Object.keys(line).filter((k) => !['trackId', 'name', 'polyline'].includes(k));
+  const extra = Object.keys(line).filter(
+    (k) => !['trackId', 'name', 'polyline', 'palette', 'bands'].includes(k)
+  );
   if (extra.length) fail(id, `racing line extra keys: ${extra.join(', ')}`);
+  if (line.palette || line.bands) {
+    if (!Array.isArray(line.palette) || line.palette.length < 2) {
+      fail(id, 'racing line palette missing');
+    } else {
+      for (const [i, hex] of line.palette.entries()) {
+        if (typeof hex !== 'string' || !/^#[0-9a-fA-F]{6}$/.test(hex)) {
+          fail(id, `racing line palette[${i}] is not a six-digit hex colour`);
+        }
+      }
+    }
+    if (!Array.isArray(line.bands) || line.bands.length !== line.polyline.length) {
+      fail(id, 'racing line bands must be parallel to polyline');
+    } else {
+      const maxBand = Array.isArray(line.palette) ? line.palette.length - 1 : -1;
+      for (const [i, b] of line.bands.entries()) {
+        if (!Number.isInteger(b) || b < 0 || b > maxBand) {
+          fail(id, `racing line band ${i} is out of range`);
+          break;
+        }
+      }
+    }
+  }
   if (!Array.isArray(line.polyline) || line.polyline.length < 32) {
     fail(id, 'racing line polyline too short');
     return;

@@ -1,7 +1,20 @@
 {
   "version": 2,
   "policy": "left|right only with handSources evidence. Prefer complex over a wrong hand. Never set turn hand from GPX bearings or from circuit clockwise/anticlockwise alone.",
-  "updated": "2026-08-26",
+  "updated": "2026-09-07",
+  "lockedCornerCounts": {
+    "phillip_island": 12,
+    "mac_park": 12,
+    "the_bend_international": 18,
+    "the_bend_gt": 35,
+    "smp_brabham": 18,
+    "smp_druitt": 8,
+    "sandown": 13,
+    "winton": 12,
+    "calder_park": 10,
+    "hidden_valley": 14,
+    "baskerville": 10
+  },
   "allowedSourceMethods": [
     "rider",
     "official_map",
@@ -50,12 +63,15 @@
     },
     "mac_park": {
       "3": "right",
-      "4": "left",
-      "5": "right",
+      "4": "right",
+      "5": "left",
+      "6": "right",
       "7": "left",
       "8": "right",
-      "10": "left",
-      "11": "right"
+      "9": "right",
+      "10": "right",
+      "11": "left",
+      "12": "right"
     },
     "morgan_park": {
       "3": "left",
@@ -79,17 +95,6 @@
       "3": "left",
       "5": "right",
       "7": "left"
-    },
-    "the_bend_international": {
-      "1": "right",
-      "2": "left",
-      "3": "right",
-      "6": "left",
-      "11": "right",
-      "12": "left",
-      "13": "right",
-      "14": "right",
-      "17": "right"
     },
     "the_bend_gt": {
       "1": "right",
@@ -177,12 +182,19 @@
         "method": "legacy_lock"
       },
       "4": {
-        "hand": "left",
-        "method": "legacy_lock"
+        "hand": "right",
+        "method": "rider",
+        "note": "Rider lock 2026-09-07."
       },
       "5": {
+        "hand": "left",
+        "method": "rider",
+        "note": "Rider lock 2026-09-07."
+      },
+      "6": {
         "hand": "right",
-        "method": "legacy_lock"
+        "method": "rider",
+        "note": "Rider lock 2026-09-07."
       },
       "7": {
         "hand": "left",
@@ -192,13 +204,25 @@
         "hand": "right",
         "method": "legacy_lock"
       },
+      "9": {
+        "hand": "right",
+        "method": "rider",
+        "note": "90° right. Not Clubhouse."
+      },
       "10": {
-        "hand": "left",
-        "method": "legacy_lock"
+        "hand": "right",
+        "method": "rider",
+        "note": "Fast right leading to uphill blind crest."
       },
       "11": {
+        "hand": "left",
+        "method": "rider",
+        "note": "Sweeping left into downhill."
+      },
+      "12": {
         "hand": "right",
-        "method": "legacy_lock"
+        "method": "rider",
+        "note": "Final right onto the main straight."
       }
     },
     "morgan_park": {
@@ -272,44 +296,6 @@
       },
       "7": {
         "hand": "left",
-        "method": "legacy_lock"
-      }
-    },
-    "the_bend_international": {
-      "1": {
-        "hand": "right",
-        "method": "legacy_lock"
-      },
-      "2": {
-        "hand": "left",
-        "method": "legacy_lock"
-      },
-      "3": {
-        "hand": "right",
-        "method": "legacy_lock"
-      },
-      "6": {
-        "hand": "left",
-        "method": "legacy_lock"
-      },
-      "11": {
-        "hand": "right",
-        "method": "legacy_lock"
-      },
-      "12": {
-        "hand": "left",
-        "method": "legacy_lock"
-      },
-      "13": {
-        "hand": "right",
-        "method": "legacy_lock"
-      },
-      "14": {
-        "hand": "right",
-        "method": "legacy_lock"
-      },
-      "17": {
-        "hand": "right",
         "method": "legacy_lock"
       }
     },
@@ -432,15 +418,8 @@
     }
   },
   "demotedHands": {
-    "mac_park": {
-      "2": "Blind crest: GPX is straight between neighbours; prefer complex over a wrong left.",
-      "12": "No left after T11 in the GPX (close is a pit-entry right)."
-    },
     "wakefield_park": {
       "9": "No right between T8 and T10 in the GPX; prefer complex over a wrong right."
-    },
-    "the_bend_international": {
-      "18": "GPX close is pit-entry right, not the official final left; prefer complex over a wrong hand."
     }
   }
 }

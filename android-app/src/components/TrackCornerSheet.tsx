@@ -1,24 +1,52 @@
-import React from 'react';
-import { Modal, ScrollView, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
-import type { CornerDefinition } from '../data/tracks';
-import { formatCornerHeading } from '../data/tracks';
+import React, { useCallback, useState } from 'react';
+import {
+  LayoutChangeEvent,
+  Modal,
+  ScrollView,
+  StyleSheet,
+  Text,
+  TouchableOpacity,
+  View,
+} from 'react-native';
+import type { GpxTrackMap } from '../data/gpxTrackMaps/types';
+import type { RacingLine } from '../data/racingLines/types';
+import type { TrackDetailsCorner } from '../data/trackDetailsCorners/types';
+import { TrackMapView, cornerViewBox } from './TrackMapView';
+import { GRASS } from './trackMapTheme';
 
 type Props = {
-  corner: CornerDefinition | null;
+  corner: TrackDetailsCorner | null;
+  map?: GpxTrackMap;
+  racingLine?: RacingLine;
+  startFinish?: [number, number];
   savedNote: string | null;
   onClose: () => void;
   onAskCoach: () => void;
   onOpenTrackWalk: () => void;
 };
 
+export function formatDetailsCornerHeading(corner: TrackDetailsCorner): string {
+  const hand = corner.direction ? ` (${corner.direction})` : '';
+  return `T${corner.number}${hand}`;
+}
+
 export function TrackCornerSheet({
   corner,
+  map,
+  racingLine,
+  startFinish,
   savedNote,
   onClose,
   onAskCoach,
   onOpenTrackWalk,
 }: Props) {
   const open = corner != null;
+  const viewBox = corner ? cornerViewBox(corner) : null;
+  const [zoomSize, setZoomSize] = useState(280);
+  const onZoomLayout = useCallback((e: LayoutChangeEvent) => {
+    const w = e.nativeEvent.layout.width;
+    if (w > 0) setZoomSize(w);
+  }, []);
 
   return (
     <Modal visible={open} transparent animationType="slide" onRequestClose={onClose}>
@@ -27,8 +55,10 @@ export function TrackCornerSheet({
           {corner ? (
             <>
               <View style={styles.sheetHeader}>
-                <Text style={styles.kindLabel}>{corner.direction}</Text>
-                <Text style={styles.sheetTitle}>{formatCornerHeading(corner)}</Text>
+                {corner.direction ? (
+                  <Text style={styles.kindLabel}>{corner.direction}</Text>
+                ) : null}
+                <Text style={styles.sheetTitle}>{formatDetailsCornerHeading(corner)}</Text>
               </View>
 
               <ScrollView
@@ -36,24 +66,26 @@ export function TrackCornerSheet({
                 contentContainerStyle={styles.scrollContent}
                 showsVerticalScrollIndicator={false}
               >
-                {corner.shape ? (
-                  <>
-                    <Text style={styles.sectionLabel}>Shape</Text>
-                    <Text style={styles.body}>{corner.shape}</Text>
-                  </>
+                {map && viewBox ? (
+                  <View style={styles.zoomWrap} onLayout={onZoomLayout}>
+                    <TrackMapView
+                      map={map}
+                      racingLine={racingLine}
+                      width={zoomSize}
+                      height={zoomSize}
+                      viewBox={viewBox}
+                      highlight={corner}
+                      startFinish={startFinish}
+                      showNumbers
+                    />
+                  </View>
                 ) : null}
-                {corner.approachFrom ? (
-                  <>
-                    <Text style={styles.sectionLabel}>Approach</Text>
-                    <Text style={styles.body}>{corner.approachFrom}</Text>
-                  </>
-                ) : null}
-                <Text style={styles.sectionLabel}>Orientation</Text>
-                <Text style={styles.body}>
-                  {corner.number != null
-                    ? `Turn ${corner.number} is a ${corner.direction} from the catalog. Use the map dots and your own markers — do not invent a racing line from this page.`
-                    : 'Use the map and your own markers for orientation.'}
-                </Text>
+
+                <Text style={styles.sectionLabel}>This turn</Text>
+                <Text style={styles.body}>{corner.summary}</Text>
+
+                <Text style={styles.sectionLabel}>Approach</Text>
+                <Text style={styles.body}>{corner.approachFrom}</Text>
 
                 <Text style={styles.sectionLabel}>Saved track note</Text>
                 {savedNote ? (
@@ -97,7 +129,7 @@ const styles = StyleSheet.create({
     paddingHorizontal: 20,
     paddingTop: 16,
     paddingBottom: 28,
-    maxHeight: '78%',
+    maxHeight: '86%',
   },
   sheetHeader: {
     marginBottom: 8,
@@ -114,6 +146,16 @@ const styles = StyleSheet.create({
     fontSize: 20,
     fontWeight: '700',
     color: '#f8fafc',
+  },
+  zoomWrap: {
+    alignSelf: 'stretch',
+    aspectRatio: 1,
+    backgroundColor: GRASS,
+    borderRadius: 12,
+    overflow: 'hidden',
+    borderWidth: 1,
+    borderColor: '#334155',
+    marginBottom: 4,
   },
   scroll: {
     flexGrow: 0,

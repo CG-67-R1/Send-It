@@ -74,6 +74,7 @@ export function turnEvents(points, lengthM, opts = {}) {
   const rate = turnRate(points, opts.windowM ?? 15);
   const perPoint = lengthM / n;
   const floor = opts.rateFloor ?? CORNER_DEG_PER_M;
+  const mergeGapM = opts.mergeGapM ?? MERGE_GAP_M;
 
   const handOf = (i) => (rate[i] <= -floor ? 'left' : rate[i] >= floor ? 'right' : null);
 
@@ -104,7 +105,7 @@ export function turnEvents(points, lengthM, opts = {}) {
       gap.hand === null &&
       before.hand &&
       before.hand === after.hand &&
-      gap.idx.length * perPoint < MERGE_GAP_M
+      gap.idx.length * perPoint < mergeGapM
     ) {
       before.idx.push(...gap.idx, ...after.idx);
       runs.splice(i, 2);

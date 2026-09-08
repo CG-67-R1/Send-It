@@ -1,0 +1,236 @@
+{
+  "trackId": "lakeside",
+  "name": "Lakeside Park",
+  "lengthM": 2313.2,
+  "startFinish": [
+    57.64,
+    55.09
+  ],
+  "countSource": "autonomous",
+  "corners": [
+    {
+      "id": "lakeside_t1",
+      "number": 1,
+      "apex": [
+        35.22,
+        49.14
+      ],
+      "label": [
+        30.02,
+        49.25
+      ],
+      "entry": [
+        39.13,
+        49.67
+      ],
+      "exit": [
+        29.59,
+        49.86
+      ],
+      "classification": "opening",
+      "headingChangeDeg": 27,
+      "minimumRadiusM": 122.1,
+      "lengthM": 114,
+      "previousStraightM": 427.8,
+      "direction": null,
+      "summary": "Turn 1 is a opening corner after a 428 m straight. About 27° of heading change, 122 m minimum radius.",
+      "approachFrom": "start/finish straight"
+    },
+    {
+      "id": "lakeside_t2",
+      "number": 2,
+      "apex": [
+        8.33,
+        48.35
+      ],
+      "label": [
+        3.13,
+        48.29
+      ],
+      "entry": [
+        15.61,
+        53.53
+      ],
+      "exit": [
+        17.2,
+        43.73
+      ],
+      "classification": "hairpin",
+      "headingChangeDeg": 203,
+      "minimumRadiusM": 48.9,
+      "lengthM": 261.9,
+      "previousStraightM": 167.9,
+      "direction": null,
+      "summary": "Turn 2 is a hairpin after a 168 m straight. About 203° of heading change, 49 m minimum radius.",
+      "approachFrom": "T1 exit"
+    },
+    {
+      "id": "lakeside_t3",
+      "number": 3,
+      "apex": [
+        24.89,
+        44.36
+      ],
+      "label": [
+        19.76,
+        43.5
+      ],
+      "entry": [
+        19.41,
+        44.14
+      ],
+      "exit": [
+        30.33,
+        42.78
+      ],
+      "classification": "chicane_element",
+      "headingChangeDeg": 33,
+      "minimumRadiusM": 176.2,
+      "lengthM": 132,
+      "previousStraightM": 26,
+      "direction": null,
+      "summary": "Turn 3 is a chicane after a 26 m run. About 33° of heading change, 176 m minimum radius.",
+      "approachFrom": "T2 exit"
+    },
+    {
+      "id": "lakeside_t4",
+      "number": 4,
+      "apex": [
+        44.27,
+        39.74
+      ],
+      "label": [
+        41.05,
+        35.66
+      ],
+      "entry": [
+        32.38,
+        41.89
+      ],
+      "exit": [
+        52.23,
+        43.57
+      ],
+      "classification": "chicane_element",
+      "headingChangeDeg": 62,
+      "minimumRadiusM": 142.8,
+      "lengthM": 247.9,
+      "previousStraightM": 26,
+      "direction": null,
+      "summary": "Turn 4 is a chicane after a 26 m run. About 62° of heading change, 143 m minimum radius.",
+      "approachFrom": "T3 exit"
+    },
+    {
+      "id": "lakeside_t5",
+      "number": 5,
+      "apex": [
+        60.6,
+        49.87
+      ],
+      "label": [
+        65.77,
+        50.47
+      ],
+      "entry": [
+        57.14,
+        47.62
+      ],
+      "exit": [
+        65.89,
+        51.93
+      ],
+      "classification": "kink",
+      "headingChangeDeg": 22,
+      "minimumRadiusM": 202.5,
+      "lengthM": 116,
+      "previousStraightM": 74,
+      "direction": null,
+      "summary": "Turn 5 is a kink after a 74 m run. About 22° of heading change, 203 m minimum radius.",
+      "approachFrom": "T4 exit"
+    },
+    {
+      "id": "lakeside_t6",
+      "number": 6,
+      "apex": [
+        75.42,
+        52.8
+      ],
+      "label": [
+        80.55,
+        53.65
+      ],
+      "entry": [
+        69.21,
+        52.85
+      ],
+      "exit": [
+        79.95,
+        47.16
+      ],
+      "classification": "constant_radius",
+      "headingChangeDeg": 82,
+      "minimumRadiusM": 72.5,
+      "lengthM": 161.9,
+      "previousStraightM": 40,
+      "direction": null,
+      "summary": "Turn 6 is a corner after a 40 m run. About 82° of heading change, 73 m minimum radius.",
+      "approachFrom": "T5 exit"
+    },
+    {
+      "id": "lakeside_t7",
+      "number": 7,
+      "apex": [
+        88.72,
+        40
+      ],
+      "label": [
+        93.78,
+        38.8
+      ],
+      "entry": [
+        80.85,
+        44.92
+      ],
+      "exit": [
+        89.51,
+        52.43
+      ],
+      "classification": "chicane_element",
+      "headingChangeDeg": 182,
+      "minimumRadiusM": 50.9,
+      "lengthM": 285.9,
+      "previousStraightM": 28,
+      "direction": null,
+      "summary": "Turn 7 is a chicane after a 28 m run. About 182° of heading change, 51 m minimum radius.",
+      "approachFrom": "T6 exit"
+    },
+    {
+      "id": "lakeside_t8",
+      "number": 8,
+      "apex": [
+        83.98,
+        59.42
+      ],
+      "label": [
+        88.92,
+        61.03
+      ],
+      "entry": [
+        88.79,
+        53.99
+      ],
+      "exit": [
+        74.53,
+        59.87
+      ],
+      "classification": "triple_apex",
+      "headingChangeDeg": 76,
+      "minimumRadiusM": 96.7,
+      "lengthM": 199.9,
+      "previousStraightM": 20,
+      "direction": null,
+      "summary": "Turn 8 is a triple-apex corner. About 76° of heading change, 97 m minimum radius.",
+      "approachFrom": "T7 exit"
+    }
+  ]
+}

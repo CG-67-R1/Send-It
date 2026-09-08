@@ -1,0 +1,45 @@
+{
+  "version": 1,
+  "note": "Hand-maintained. Rider-confirmed corner-numbering offsets, which outrank the offsets derived from verified hands in gpx-start-finish-alignment.json. Testing-only; not read by the app.",
+  "layouts": {
+    "baskerville": {
+      "cornerShift": 1,
+      "mainStraight": "164m straight into Turn 1; the 465m straight the detector picks unaided is the back straight",
+      "note": "Was offset 2 on the 8-corner numbering. Review now yields 7 corners, so the same main straight is offset 1.",
+      "source": "rider correction on the corner map, 2026-09-08, remapped after GPX review"
+    },
+    "winton": {
+      "cornerShift": 0,
+      "mainStraight": "512m Kitome straight into the Motorsport News Esses",
+      "note": "Needed offset 2 until the out-and-back spur was cut from the GPX. The spur split the main straight in two, so the longest-straight heuristic picked the Falken straight instead; with the trace clean, geometry finds Turn 1 unaided.",
+      "source": "rider correction on the corner map, cross-checked against the official Winton map, 2026-09-08"
+    },
+    "mallala": {
+      "cornerShift": 0,
+      "mainStraight": "Start/finish on the Will Pittenger checkered line; Turn 1 is the first right after that line",
+      "turn1": "Right tightening off the main straight, matching the author-assigned Turn 1 on the 2010 map",
+      "note": "Rebuilt from the Wikimedia SVG. The previous GeoJSON-derived GPX was the wrong shape (two flattened laps, 108m RMS against the map). Start/finish is a waypoint on the checkered line, so the offset is 0.",
+      "source": "Will Pittenger Mallala Motorsport Park map, Wikimedia Commons, 2010; start/finish taken from the map's checkered line, 2026-09-08"
+    },
+    "queensland_raceway": {
+      "cornerShift": 4,
+      "mainStraight": "528m eastern straight into Turn 1; the 668m straight the detector picked is the western back straight",
+      "note": "The source GPX carries the start/finish line as a 32m two-point segment lying perpendicular across the track, 1.5m from the trace's first point. That line agrees with the rider's mark, so the offset has two independent sources.",
+      "source": "rider correction on the corner map, cross-checked against the start/finish line embedded in the source GPX, 2026-09-08"
+    },
+    "mac_park": {
+      "cornerShift": 4,
+      "mainStraight": "176m straight into the 177deg hairpin (detector's T4 exit -> T5 entry)",
+      "turn1": "177deg hairpin, 16m minimum radius, matching the track guide's description of Turn 1",
+      "supersedes": "offset -1 derived from verifiedHands, which scored 10/10 on hands but placed start/finish in a sub-60m infield gap",
+      "source": "rider confirmation, 2026-09-07"
+    },
+    "smp_druitt": {
+      "cornerShift": 0,
+      "mainStraight": "Shared Gardner pit straight into Turn 1; start/finish is the official Emtron start tick on that straight",
+      "turn1": "First left after the start/finish line, matching the Lapmeta Druitt map and Emtron C1",
+      "note": "Rebuilt from Emtron trackinner only. The previous DEM GPX concatenated start/sector/corner ticks with inner and outer edges into one 10 km open scribble.",
+      "source": "Emtron Australia Sydney Motorsport Park Druitt GeoJSON start tick, projected onto trackinner, 2026-09-08"
+    }
+  }
+}

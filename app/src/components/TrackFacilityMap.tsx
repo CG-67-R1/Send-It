@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useMemo, useState } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 import {
   LayoutChangeEvent,
   ScrollView,
@@ -7,53 +7,36 @@ import {
   TouchableOpacity,
   View,
 } from 'react-native';
-import Svg, { Polyline } from 'react-native-svg';
 import type { GpxTrackMap } from '../data/gpxTrackMaps/types';
 import type { RacingLine } from '../data/racingLines/types';
+import type { TrackDetailsCorner, TrackDetailsCorners } from '../data/trackDetailsCorners/types';
+import { TrackMapView } from './TrackMapView';
+import { GRASS } from './trackMapTheme';
 
 const MIN_ZOOM = 1;
 const MAX_ZOOM = 6;
 const DEFAULT_ZOOM = 2;
 const ZOOM_STEP = 0.5;
-const GRASS = '#6d9a46';
-const TRACK_GREY = '#9ca3af';
-const TRACK_EDGE = '#ffffff';
-const GUIDE_RED = '#dc2626';
-
-// Stroke widths are in map units, not device pixels, so the asphalt is the same
-// width of road on every screen. The racing line is solved against this exact
-// width, so a device-derived stroke would put the line on a road it never saw.
-// Values match scripts/lib/gpx_track_preview.py at its 2000 px canvas.
-const EDGE_UNITS = 2;
-const SURFACE_UNITS = 1.2;
-const GUIDE_UNITS = 0.15;
 
 const MAP_HINT =
   'Track map from the circuit GPS trace, drawn to the real width of the road — zoom in to read it.';
-// The line is a suggestion, never instruction, so the wording must stay hedged.
 const GUIDE_HINT = 'The red line is a suggested line, not instruction.';
-const NOTES_HINT = 'Use the list below to add notes.';
+const NOTES_HINT = 'Tap a turn number on the map, or the same number in the list.';
 
 type Props = {
   map: GpxTrackMap;
   racingLine?: RacingLine;
+  corners?: TrackDetailsCorners;
+  onCornerPress?: (corner: TrackDetailsCorner) => void;
 };
 
 function clampZoom(value: number): number {
   return Math.min(MAX_ZOOM, Math.max(MIN_ZOOM, Math.round(value * 2) / 2));
 }
 
-export function TrackFacilityMap({ map, racingLine }: Props) {
+export function TrackFacilityMap({ map, racingLine, corners, onCornerPress }: Props) {
   const [box, setBox] = useState({ width: 0, height: 0 });
   const [zoom, setZoom] = useState(DEFAULT_ZOOM);
-  const ribbon = useMemo(
-    () => map.polyline.map(([x, y]) => `${x},${y}`).join(' '),
-    [map]
-  );
-  const guide = useMemo(
-    () => racingLine?.polyline.map(([x, y]) => `${x},${y}`).join(' '),
-    [racingLine]
-  );
 
   useEffect(() => {
     setZoom(DEFAULT_ZOOM);
@@ -64,10 +47,8 @@ export function TrackFacilityMap({ map, racingLine }: Props) {
     setBox({ width, height });
   }, []);
 
-  const baseW = box.width;
-  const baseH = box.height;
-  const innerW = baseW * zoom;
-  const innerH = baseH * zoom;
+  const innerW = box.width * zoom;
+  const innerH = box.height * zoom;
 
   return (
     <View>
@@ -91,40 +72,16 @@ export function TrackFacilityMap({ map, racingLine }: Props) {
           >
             {innerW > 0 ? (
               <View style={{ width: innerW, height: innerH, backgroundColor: GRASS }}>
-                <Svg
+                <TrackMapView
+                  map={map}
+                  racingLine={racingLine}
                   width={innerW}
                   height={innerH}
-                  viewBox="0 0 100 100"
-                  preserveAspectRatio="xMidYMid meet"
-                  accessibilityLabel={`${map.name} circuit map`}
-                >
-                  <Polyline
-                    points={ribbon}
-                    fill="none"
-                    stroke={TRACK_EDGE}
-                    strokeWidth={EDGE_UNITS}
-                    strokeLinejoin="round"
-                    strokeLinecap="round"
-                  />
-                  <Polyline
-                    points={ribbon}
-                    fill="none"
-                    stroke={TRACK_GREY}
-                    strokeWidth={SURFACE_UNITS}
-                    strokeLinejoin="round"
-                    strokeLinecap="round"
-                  />
-                  {guide ? (
-                    <Polyline
-                      points={guide}
-                      fill="none"
-                      stroke={GUIDE_RED}
-                      strokeWidth={GUIDE_UNITS}
-                      strokeLinejoin="round"
-                      strokeLinecap="round"
-                    />
-                  ) : null}
-                </Svg>
+                  corners={corners?.corners}
+                  startFinish={corners?.startFinish}
+                  showNumbers
+                  onCornerPress={onCornerPress}
+                />
               </View>
             ) : (
               <View style={styles.missing}>
@@ -155,7 +112,7 @@ export function TrackFacilityMap({ map, racingLine }: Props) {
         </View>
       </View>
       <Text style={styles.hint}>
-        {[MAP_HINT, guide ? GUIDE_HINT : null, NOTES_HINT].filter(Boolean).join(' ')}
+        {[MAP_HINT, racingLine ? GUIDE_HINT : null, NOTES_HINT].filter(Boolean).join(' ')}
       </Text>
     </View>
   );

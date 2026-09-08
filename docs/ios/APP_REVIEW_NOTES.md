@@ -19,11 +19,12 @@ Record on the **same TestFlight build** attached to 1.0.0 (or a newer production
 - **No IAP / subscriptions / paid unlocks.**
 - **No App Tracking Transparency** prompt (no tracking).
 - **No public social feed.** Track Walk “Private / Team / Community” is a **local label** on device storage — nothing is published to other users, so there is no report/block UI. Leave visibility on **Private** in the video.
-- **Track Details is in this build** (route name `TrackMemoryHub`). Rider Coach → **Track Details** → pick a catalog circuit. Zoomable static circuit picture (not a game): distance, weather, ASBK records where we have them, and a row per corner for notes. No Play mode, no throttle/brake, no `@shopify/react-native-skia`. On-device only (no account, not multiplayer). Numbered board marks stay off until that layout is `owner_verified`.
-- **Permissions that can appear:** camera (avatar), photos (bike / notes / avatar library), calendar (Events → Add reminder), location (Settings → track arrival), notifications (Priority 1 news), speech/mic (Track Walk voice note if the native module is present).
-- **Network:** headlines, calendar, Coach / Bike Setup AI / Q&A via `https://send-it-ke7r.onrender.com` (Render) and OpenAI. First API call after idle can take ~30s (cold start) — wait rather than showing an error.
+- **There is no News feature in this build.** The headlines feed, its list screen, and news notifications were removed. The first tab is **Home** (identity and shortcuts only). Do not describe news anywhere in the notes.
+- **Track Details is in this build** (route name `TrackMemoryHub`). Rider Coach → **Track Details** → pick a catalog circuit. Zoomable circuit picture drawn from the circuit's GPS trace (not a game): green infield, grey asphalt at the real width of the road, a red **suggested** racing line on layouts that have one, and numbered turns that match the list below. Tap a number to open a zoomed view of that corner with the line still on the road. Below the map: distance, direction, surface, weather, ASBK records where we have them, and the same numbered turns with short notes. No Play mode, no throttle/brake, no `@shopify/react-native-skia`. No pit markers. On-device only (no account, not multiplayer). The line is presented as a suggestion, never instruction, and no modelled lap time is shown.
+- **Permissions that can appear:** camera (avatar), photos (bike / notes / avatar library), calendar (Events → Add reminder), location (Settings → track arrival), speech/mic (Track Walk voice note if the native module is present). The app no longer requests notifications, so no notification prompt appears.
+- **Network:** calendar, Coach / Bike Setup AI / Q&A via `https://send-it-ke7r.onrender.com` (Render) and OpenAI. First API call after idle can take ~30s (cold start) — wait rather than showing an error.
 - **`expo-speech-recognition` is pinned at `56.0.1`.** Expo SDK 57’s `~57.0.x` package is not published yet; keep 56 until a 57 release exists. Do not invent a 57 pin.
-- **Regions:** AU + UK packs. Same features; headlines, calendar, and track catalogs differ by locale. Not a regulated industry. News is headlines + links to publisher sites ([`COPYRIGHT.md`](../legal/COPYRIGHT.md)).
+- **Regions:** AU + UK packs. Same features; calendar and track catalogs differ by locale. Not a regulated industry.
 
 ---
 
@@ -45,17 +46,17 @@ Aim for **3–5 minutes**. Pause briefly on each screen.
 | 1 | Cold launch from Home Screen | “Recording must begin with launching the app” |
 | 2 | Onboarding: Welcome → favourite bike/rider → **Track days** → nickname. If avatar **Take photo** appears, **Allow Camera**, then Cancel/Align enough to show the prompt | Camera purpose string |
 | 3 | Home: tap bike photo area → **Allow Photos** (or Don’t Allow if already granted — still tap the control) | Photos prompt |
-| 4 | **Settings** → Open News → scroll 2–3 headlines → tap one so Safari/publisher opens → back to app | Core news; third-party content is links |
+| 4 | **Settings** → scroll the profile, ride-activity chip, and **Your data & privacy** section | Settings is the second screen of the Home tab; there is no News to show |
 | 5 | Tab **Events** → scroll calendar → **Add reminder** on one event → **Allow Calendar** | Calendar prompt |
 | 6 | Tab **Rider Coach** → **Track Prep** or **Track Walk** (pick a catalog track, add one short note, keep **Private**) → **RR AI Coach**, send e.g. “How should I approach a slow hairpin?” and wait for a reply | Core coach flow + AI |
-| 6b | Rider Coach → **Track Details** → pick a circuit (e.g. Phillip Island). Confirm the layout outline (or numbered board if verified), facts, and corner list. Do **not** look for Play / throttle / landscape lock | Track Details ships in this binary |
+| 6b | Rider Coach → **Track Details** → pick a circuit (e.g. Phillip Island). Zoom the map with pinch or **+ / −**; show the road ribbon, the red suggested line, and the numbered turns. Tap a number on the map or in the list to open the zoomed corner sheet. Do **not** look for Play / throttle / landscape lock | Track Details ships in this binary and is the headline feature |
 | 7 | Tab **Bike Setup** → open **Bike Setup Sheet** (scroll fields) → **Bike Balance** (show first inputs, no need to finish) | Core setup tools; data stays on device |
 | 8 | Tab **Q & A** → Ask e.g. “What is a track day?” → wait for reply → open **Trivia**, start one question | Q&A core |
 | 9 | **Settings** → enable **track arrival** → **Allow Location While Using** | Location prompt |
 | 10 | **Settings → Your data & privacy**: show Privacy Policy link, **Delete all local data** (you do not have to confirm delete on camera) | No-account “access” story |
 | 11 | Stop recording. Trim to launch → end. Export **.mov** or **.mp4**. | Attach in Resolution Center |
 
-**Do not** invent login, payments, or a report/block screen. **Do** keep the phone online so Coach/Q&A/News work.
+**Do not** invent login, payments, a report/block screen, or a News feature. **Do** keep the phone online so Coach and Q&A work.
 
 Replace `[MODEL]` and `[VERSION]` in the notes below with the phone you used, e.g. `iPhone 16, iOS 18.6`.
 
@@ -69,7 +70,7 @@ Fill the device line first, then paste this entire block.
 RoadRacer — App Review notes (version 1.0.0)
 
 1) SCREEN RECORDING
-Attached in this Resolution Center reply: physical-device recording starting at app launch, then onboarding/Home, News, Events, Rider Coach (Track Walk + AI Coach + Track Details), Bike Setup, Q&A, and permission prompts (camera/photos/calendar/location as they appear).
+Attached in this Resolution Center reply: physical-device recording starting at app launch, then onboarding/Home, Settings, Events, Rider Coach (Track Walk + AI Coach + Track Details), Bike Setup, Q&A, and permission prompts (camera/photos/calendar/location as they appear).
 
 No account registration, login, or account deletion — there is no user account.
 No paid content, IAP, or subscriptions.
@@ -82,37 +83,35 @@ Minimum iOS: 16.4. iPad is supported (same binary); primary testing is iPhone.
 
 3) WHAT THE APP DOES AND WHO IT IS FOR
 RoadRacer is a motorcycle road-racing companion for track-day riders, club racers, and fans.
-It solves scattered prep: race news, a calendar, on-device track notes and setup sheets, and optional AI coaching.
+It solves scattered prep: circuit study from real GPS traces, a race calendar, on-device track notes and setup sheets, and optional AI coaching.
 Target audience: adults interested in motorcycle road racing (not children). Informational only — not professional race or mechanical advice.
 
 4) HOW TO ACCESS MAIN FEATURES (NO LOGIN)
 - No demo account. Open the app; complete or skip through onboarding (any bike/rider names; choose Track days or Race).
-- Home: identity (bike photo/avatar) and shortcuts.
-- Settings → Open News: headlines. Articles open on the publisher site.
+- Home: identity (bike photo/avatar) and shortcuts. Settings is reached from Home.
 - Events: race calendar. Add reminder uses the device calendar (permission).
-- Rider Coach: RR AI Coach, Track Prep/Walk, Track Details. Needs network for AI. Track Details is on-device: pick a circuit to see a static zoomable layout, facts, and corner notes. Not a game and not multiplayer.
+- Rider Coach: RR AI Coach, Track Prep/Walk, Track Details. Needs network for AI. Track Details is on-device: pick a circuit to see a zoomable map drawn from its GPS trace, a red suggested racing line where we have one, facts, and corner notes. Not a game and not multiplayer. The line is a suggestion only and no lap times are modelled for riders.
 - Bike Setup: Bike Setup AI, Day Setup Sheet, Bike Balance (local). Needs network for AI only.
 - Q & A: Ask, Official rule check, Trivia, FAQs. Needs network for Ask/rules.
 - Settings → track arrival: optional foreground location near a known circuit.
 - Settings → Your data & privacy: export/delete local data; Privacy Policy and Terms.
-If AI/news is slow after idle, wait ~30s for the API to wake (Render). Privacy: https://github.com/CG-67-R1/Send-It/blob/main/docs/legal/PRIVACY.md
+If AI is slow after idle, wait ~30s for the API to wake (Render). Privacy: https://github.com/CG-67-R1/Send-It/blob/main/docs/legal/PRIVACY.md
 
 5) EXTERNAL SERVICES
-- RoadRacer API (Render): https://send-it-ke7r.onrender.com — headlines, calendar, Q&A, Coach/Bike Setup proxy
+- RoadRacer API (Render): https://send-it-ke7r.onrender.com — calendar, Q&A, Coach/Bike Setup proxy
 - OpenAI — AI replies; chat is not kept on our server after the response
-- Third-party publishers via RSS/scraped headlines (e.g. AMCN, ASBK, MotoGP, MCN, BikeSocial); full articles on their sites
 - Sentry — crash diagnostics only if configured in the build
-- Apple: calendar, camera, photos, location, notifications, speech recognition as the user enables them
+- Apple: calendar, camera, photos, location, speech recognition as the user enables them
 No authentication provider. No payment processor.
 
 6) REGIONAL DIFFERENCES
-Same features worldwide. Bundled content packs are Australia and United Kingdom (headlines mix, calendar series, track catalogs). No geo-locked paid features. Primary listing locale: English (Australia).
+Same features worldwide. Bundled content packs are Australia and United Kingdom (calendar series, track catalogs). No geo-locked paid features. Primary listing locale: English (Australia).
 
 7) REGULATED INDUSTRY / PROTECTED MATERIAL
 Not a regulated industry (not finance, health, gambling, or legal practice).
-Not official championship software. Series names are used for identification/news.
-Third-party news: headlines and links only; copyright stays with publishers (see in-app Content Rights / COPYRIGHT.md).
-Coach, Bike Setup, and Official rule check are informational aids, not a licensed rule book substitute.
+Not official championship software. Series names are used for identification only.
+Circuit maps are drawn from GPS traces of the layouts; ASBK lap records are cited with their source.
+Coach, Bike Setup, and Official rule check are informational aids, not a licensed rule book substitute. The suggested racing line is a suggestion, not instruction.
 No extra credentials to attach.
 ```
 
@@ -121,10 +120,10 @@ No extra credentials to attach.
 ## App Store Connect steps
 
 1. Open [App Store Connect](https://appstoreconnect.apple.com) → **Apps** → **RoadRacer - Motorsport_Is_Life**.
-2. If status is **Waiting for Review** / **In Review** and you need to change Notes or the build: **Remove from Review** first.
+2. The version must be out of review before you can change the build or the screenshots. From **Waiting for Review**, **In Review**, or **Pending Developer Release** (the state that shows a **Release this Version** button), click “remove this version from review” in the banner at the top, or go **General → App Review → Submissions**, open the iOS submission, hover the version row and click the red **−**. Status becomes **Developer Rejected**, which is self-inflicted and not a real rejection. Screenshots stay locked until this is done.
 3. Version **1.0.0** → **App Review Information** → **Notes**: paste the block. Sign-in required: **No**.
 4. **Resolution Center** (the 2.1 message): **Reply**, paste the same notes, **attach the video**.
-5. Confirm the **Build** is the one you recorded. Do not create 1.0.1.
+5. Confirm the **Build** is the one you recorded. Do not create 1.0.1. To change it, scroll to **Build**, hover the attached build until a red **−** appears to the right of the upload date, click it, then use **+** to add the build you want and **Save**. The **+** only appears once no build is attached.
 6. **Add for Review** → **Submit to App Review**.
 
 A new EAS build is **not required** to answer 2.1. Only rebuild if you want newer code in this review — then record **that** TestFlight and keep version `1.0.0` in [`app/app.json`](../../app/app.json) (`autoIncrement` already bumps the build number).

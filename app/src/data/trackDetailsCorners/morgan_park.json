@@ -1,0 +1,376 @@
+{
+  "trackId": "morgan_park",
+  "name": "Morgan Park Raceway (Circuit K)",
+  "lengthM": 3049.9,
+  "startFinish": [
+    27.51,
+    86.29
+  ],
+  "countSource": "autonomous",
+  "corners": [
+    {
+      "id": "morgan_park_t1",
+      "number": 1,
+      "apex": [
+        16.32,
+        86.75
+      ],
+      "label": [
+        12.48,
+        90.25
+      ],
+      "entry": [
+        17.63,
+        90.6
+      ],
+      "exit": [
+        19.06,
+        81.41
+      ],
+      "classification": "hairpin",
+      "headingChangeDeg": 146,
+      "minimumRadiusM": 29.5,
+      "lengthM": 118,
+      "previousStraightM": 236,
+      "direction": null,
+      "summary": "Turn 1 is a hairpin after a 236 m straight. About 146° of heading change, 30 m minimum radius.",
+      "approachFrom": "start/finish straight"
+    },
+    {
+      "id": "morgan_park_t2",
+      "number": 2,
+      "apex": [
+        21.89,
+        66.64
+      ],
+      "label": [
+        17.01,
+        68.45
+      ],
+      "entry": [
+        22.49,
+        71.13
+      ],
+      "exit": [
+        19.51,
+        61.14
+      ],
+      "classification": "triple_apex",
+      "headingChangeDeg": 44,
+      "minimumRadiusM": 90.4,
+      "lengthM": 118,
+      "previousStraightM": 120,
+      "direction": null,
+      "summary": "Turn 2 is a triple-apex corner after a 120 m straight. About 44° of heading change, 90 m minimum radius.",
+      "approachFrom": "T1 exit"
+    },
+    {
+      "id": "morgan_park_t3",
+      "number": 3,
+      "apex": [
+        22.36,
+        55.96
+      ],
+      "label": [
+        17.16,
+        55.89
+      ],
+      "entry": [
+        18.15,
+        57.79
+      ],
+      "exit": [
+        26.64,
+        58.73
+      ],
+      "classification": "chicane_element",
+      "headingChangeDeg": 149,
+      "minimumRadiusM": 31,
+      "lengthM": 122,
+      "previousStraightM": 40,
+      "direction": "left",
+      "summary": "Turn 3 is a left chicane after a 40 m run. About 149° of heading change, 31 m minimum radius.",
+      "approachFrom": "T2 exit"
+    },
+    {
+      "id": "morgan_park_t4",
+      "number": 4,
+      "apex": [
+        37.59,
+        61.24
+      ],
+      "label": [
+        32.77,
+        63.2
+      ],
+      "entry": [
+        36.11,
+        62.84
+      ],
+      "exit": [
+        39.08,
+        59.4
+      ],
+      "classification": "constant_radius",
+      "headingChangeDeg": 85,
+      "minimumRadiusM": 21.5,
+      "lengthM": 52,
+      "previousStraightM": 120,
+      "direction": "right",
+      "summary": "Turn 4 is a right corner after a 120 m straight. About 85° of heading change, 22 m minimum radius.",
+      "approachFrom": "T3 exit"
+    },
+    {
+      "id": "morgan_park_t5",
+      "number": 5,
+      "apex": [
+        54.07,
+        39.35
+      ],
+      "label": [
+        55.37,
+        34.31
+      ],
+      "entry": [
+        51.91,
+        43.34
+      ],
+      "exit": [
+        55.03,
+        36.03
+      ],
+      "classification": "kink",
+      "headingChangeDeg": 23,
+      "minimumRadiusM": 150.5,
+      "lengthM": 90,
+      "previousStraightM": 226,
+      "direction": "left",
+      "summary": "Turn 5 is a left kink after a 226 m straight. About 23° of heading change, 151 m minimum radius.",
+      "approachFrom": "T4 exit"
+    },
+    {
+      "id": "morgan_park_t6",
+      "number": 6,
+      "apex": [
+        60.53,
+        15.19
+      ],
+      "label": [
+        61.85,
+        10.16
+      ],
+      "entry": [
+        57.37,
+        21.85
+      ],
+      "exit": [
+        65.19,
+        11.85
+      ],
+      "classification": "tightening",
+      "headingChangeDeg": 56,
+      "minimumRadiusM": 76.5,
+      "lengthM": 148,
+      "previousStraightM": 158,
+      "direction": "right",
+      "summary": "Turn 6 is a right tightening corner after a 158 m straight. About 56° of heading change, 77 m minimum radius.",
+      "approachFrom": "T5 exit"
+    },
+    {
+      "id": "morgan_park_t7",
+      "number": 7,
+      "apex": [
+        83.5,
+        10.54
+      ],
+      "label": [
+        86.59,
+        6.36
+      ],
+      "entry": [
+        77.83,
+        8.54
+      ],
+      "exit": [
+        83.36,
+        16.8
+      ],
+      "classification": "triple_apex",
+      "headingChangeDeg": 111,
+      "minimumRadiusM": 45.4,
+      "lengthM": 144,
+      "previousStraightM": 144,
+      "direction": "left",
+      "summary": "Turn 7 is a left triple-apex corner after a 144 m straight. About 111° of heading change, 45 m minimum radius.",
+      "approachFrom": "T6 exit"
+    },
+    {
+      "id": "morgan_park_t8",
+      "number": 8,
+      "apex": [
+        79.26,
+        33.14
+      ],
+      "label": [
+        83.35,
+        29.93
+      ],
+      "entry": [
+        81.07,
+        30.99
+      ],
+      "exit": [
+        76.99,
+        34.3
+      ],
+      "classification": "tightening",
+      "headingChangeDeg": 54,
+      "minimumRadiusM": 43,
+      "lengthM": 62,
+      "previousStraightM": 158,
+      "direction": null,
+      "summary": "Turn 8 is a tightening corner after a 158 m straight. About 54° of heading change, 43 m minimum radius.",
+      "approachFrom": "T7 exit"
+    },
+    {
+      "id": "morgan_park_t9",
+      "number": 9,
+      "apex": [
+        74.75,
+        36.84
+      ],
+      "label": [
+        78.85,
+        33.65
+      ],
+      "entry": [
+        76.09,
+        34.92
+      ],
+      "exit": [
+        73.8,
+        40.34
+      ],
+      "classification": "chicane_element",
+      "headingChangeDeg": 53,
+      "minimumRadiusM": 39.4,
+      "lengthM": 68,
+      "previousStraightM": 12,
+      "direction": null,
+      "summary": "Turn 9 is a chicane. About 53° of heading change, 39 m minimum radius.",
+      "approachFrom": "T8 exit"
+    },
+    {
+      "id": "morgan_park_t10",
+      "number": 10,
+      "apex": [
+        69.41,
+        66.92
+      ],
+      "label": [
+        73.99,
+        69.38
+      ],
+      "entry": [
+        69.77,
+        64.76
+      ],
+      "exit": [
+        68.66,
+        71.77
+      ],
+      "classification": "hairpin",
+      "headingChangeDeg": 219,
+      "minimumRadiusM": 2,
+      "lengthM": 80,
+      "previousStraightM": 272,
+      "direction": "right",
+      "summary": "Turn 10 is a right hairpin after a 272 m straight. About 219° of heading change, 2 m minimum radius.",
+      "approachFrom": "T9 exit"
+    },
+    {
+      "id": "morgan_park_t11",
+      "number": 11,
+      "apex": [
+        62.55,
+        90.11
+      ],
+      "label": [
+        64.4,
+        94.97
+      ],
+      "entry": [
+        64,
+        89.36
+      ],
+      "exit": [
+        60.28,
+        91.27
+      ],
+      "classification": "opening",
+      "headingChangeDeg": 55,
+      "minimumRadiusM": 26.6,
+      "lengthM": 48,
+      "previousStraightM": 206,
+      "direction": null,
+      "summary": "Turn 11 is a opening corner after a 206 m straight. About 55° of heading change, 27 m minimum radius.",
+      "approachFrom": "T10 exit"
+    },
+    {
+      "id": "morgan_park_t12",
+      "number": 12,
+      "apex": [
+        55.79,
+        87.91
+      ],
+      "label": [
+        56.78,
+        93.02
+      ],
+      "entry": [
+        57.2,
+        90.46
+      ],
+      "exit": [
+        54.28,
+        85.43
+      ],
+      "classification": "constant_radius",
+      "headingChangeDeg": 88,
+      "minimumRadiusM": 24.5,
+      "lengthM": 66,
+      "previousStraightM": 40,
+      "direction": null,
+      "summary": "Turn 12 is a corner after a 40 m run. About 88° of heading change, 25 m minimum radius.",
+      "approachFrom": "T11 exit"
+    },
+    {
+      "id": "morgan_park_t13",
+      "number": 13,
+      "apex": [
+        42.72,
+        78.94
+      ],
+      "label": [
+        41.19,
+        83.91
+      ],
+      "entry": [
+        50.13,
+        80.66
+      ],
+      "exit": [
+        36.93,
+        81.53
+      ],
+      "classification": "double_apex",
+      "headingChangeDeg": 83,
+      "minimumRadiusM": 65,
+      "lengthM": 158,
+      "previousStraightM": 70,
+      "direction": null,
+      "summary": "Turn 13 is a double-apex corner after a 70 m run. About 83° of heading change, 65 m minimum radius.",
+      "approachFrom": "T12 exit"
+    }
+  ]
+}

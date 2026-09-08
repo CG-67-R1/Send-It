@@ -1,0 +1,16 @@
+GPX corner detector is LOCKED as of 2026-09-08.
+
+Do not change:
+- scripts/lib/gpx-corner-detector.mjs
+- scripts/lib/gpx-trace-review.mjs
+- scripts/detect-gpx-corners.mjs
+- scripts/gate-gpx-corner-detector.mjs
+- scripts/compare-gpx-corners-to-catalog.mjs
+- scripts/export-gpx-corner-maps.mjs
+- scripts/render-gpx-corner-maps.py
+- RIDER_PROFILE or any detection / numbering threshold
+
+Unlock only if the user explicitly says to unlock the corner detector.
+Reviewing a GPX (multiple laps, start/finish stubs, seam defects) happens
+inside the detector before corners are numbered. Do not add a second cleaner
+in front of it.

@@ -3,21 +3,22 @@ import { ScrollView, StyleSheet, Text, TouchableOpacity, View } from 'react-nati
 import { useFocusEffect, useNavigation } from '@react-navigation/native';
 import type { NativeStackNavigationProp } from '@react-navigation/native-stack';
 import { AppLogo } from '../components/AppLogo';
-import { TrackCornerSheet } from '../components/TrackCornerSheet';
+import { TrackCornerSheet, formatDetailsCornerHeading } from '../components/TrackCornerSheet';
 import { TrackFacilityMap } from '../components/TrackFacilityMap';
 import { TrackPicker } from '../components/TrackPicker';
 import { COMPACT_LOGO_SIZE } from '../constants/logoSizing';
 import { getGpxTrackMap } from '../data/gpxTrackMaps';
 import { getRacingLine } from '../data/racingLines';
+import { getTrackDetailsCorners } from '../data/trackDetailsCorners';
+import type { TrackDetailsCorner } from '../data/trackDetailsCorners/types';
 import {
   TRACK_INFO_TRACK_IDS,
-  elevationSummary,
   getTrackInfoFacts,
   hasTrackInfoMap,
   listTrackInfoTracks,
 } from '../data/trackInfo';
-import type { CornerDefinition, TrackDefinition } from '../data/tracks';
-import { formatCornerHeading, getTrackById } from '../data/tracks';
+import type { TrackDefinition } from '../data/tracks';
+import { getTrackById } from '../data/tracks';
 import type { RiderAiSkill } from '../navigation/homeMode';
 import { getTrackWalkSessions } from '../storage/trackWalk';
 import {
@@ -27,6 +28,7 @@ import {
 import { getSavedRiderAiSkill } from '../utils/riderSkillSaved';
 import { trackInfoCoachingForSkill } from '../utils/riderSkillCopy';
 import type { RiderCoachStackParamList } from './RiderCoachScreen';
+import { CORNER_BLUE, CORNER_PAPER } from '../components/trackMapTheme';
 
 type Nav = NativeStackNavigationProp<RiderCoachStackParamList, 'TrackMemoryHub'>;
 
@@ -47,13 +49,17 @@ function latestCornerNote(
   return null;
 }
 
+function shapeLabel(classification: string): string {
+  return classification.replaceAll('_', ' ');
+}
+
 export function TrackMemoryHubScreen() {
   const navigation = useNavigation<Nav>();
   const infoTracks = useMemo(() => listTrackInfoTracks(), []);
   const [trackId, setTrackId] = useState<string | null>(
     infoTracks.length === 1 ? infoTracks[0].id : null
   );
-  const [selectedCorner, setSelectedCorner] = useState<CornerDefinition | null>(null);
+  const [selectedCorner, setSelectedCorner] = useState<TrackDetailsCorner | null>(null);
   const [savedNote, setSavedNote] = useState<string | null>(null);
   const [riderSkill, setRiderSkill] = useState<RiderAiSkill>('novice');
   const coaching = useMemo(() => trackInfoCoachingForSkill(riderSkill), [riderSkill]);
@@ -81,10 +87,14 @@ export function TrackMemoryHubScreen() {
 
   const map = trackId ? getGpxTrackMap(trackId) : undefined;
   const racingLine = trackId ? getRacingLine(trackId) : undefined;
+  const layout = trackId ? getTrackDetailsCorners(trackId) : undefined;
   const catalog = trackId ? getTrackById(trackId) : undefined;
   const facts = trackId ? getTrackInfoFacts(trackId) : undefined;
   const asbk = facts?.asbkRecords?.filter((r) => r.time) ?? [];
-  const corners = (catalog?.corners ?? []).filter((c) => c.number != null);
+  const corners = layout?.corners ?? [];
+  const lengthLabel = layout
+    ? `${(layout.lengthM / 1000).toFixed(2)} km`
+    : catalog?.lengthKm ?? 'Length not available.';
 
   const handleSelectTrack = useCallback((track: TrackDefinition) => {
     if (!hasTrackInfoMap(track.id)) return;
@@ -97,7 +107,7 @@ export function TrackMemoryHubScreen() {
   }, []);
 
   const openCorner = useCallback(
-    async (corner: CornerDefinition) => {
+    async (corner: TrackDetailsCorner) => {
       if (!trackId) return;
       setSelectedCorner(corner);
       const sessions = await getTrackWalkSessions();
@@ -108,11 +118,11 @@ export function TrackMemoryHubScreen() {
 
   const askCoach = useCallback(() => {
     if (!catalog || !selectedCorner) return;
-    const heading = formatCornerHeading(selectedCorner);
+    const heading = formatDetailsCornerHeading(selectedCorner);
     const draft =
       riderSkill === 'novice'
-        ? `I'm studying ${catalog.name}, ${heading}. Give me one or two simple things to look for on the approach — everyday language, no invented lap times.`
-        : `I'm studying ${catalog.name}, ${heading}. Help me with reference points and where to look on the approach — no invented lap times.`;
+        ? `I'm studying ${catalog.name}, ${heading}. ${selectedCorner.summary} Give me one or two simple things to look for on the approach — everyday language, no invented lap times.`
+        : `I'm studying ${catalog.name}, ${heading}. ${selectedCorner.summary} Help me with reference points and where to look on the approach — no invented lap times.`;
     setSelectedCorner(null);
     navigation.navigate('CoachChat', {
       mode: 'coach',
@@ -140,7 +150,8 @@ export function TrackMemoryHubScreen() {
       </View>
 
       <Text style={styles.lead}>
-        Pick a circuit to open the track map. The picture is the GPS layout. Use the list below to add notes.
+        Pick a circuit. The map is the GPS layout with numbered turns. Tap a number to open that
+        corner.
       </Text>
 
       <TrackPicker
@@ -153,21 +164,33 @@ export function TrackMemoryHubScreen() {
         <Text style={styles.hint}>No track maps are available yet.</Text>
       ) : (
         <Text style={styles.hint}>
-          {infoTracks.length} Australian circuits — zoom the map, then tap a corner in the list.
+          {infoTracks.length} Australian circuits — zoom the map, then tap a turn number.
         </Text>
       )}
 
       {map && catalog ? (
         <>
           <View style={styles.mapBleed}>
-            <TrackFacilityMap map={map} racingLine={racingLine} />
+            <TrackFacilityMap
+              map={map}
+              racingLine={racingLine}
+              corners={layout}
+              onCornerPress={(corner) => void openCorner(corner)}
+            />
           </View>
 
           <View style={styles.card}>
-            <Text style={styles.cardTitle}>{catalog.name}</Text>
-            <FactRow label="Distance" value={catalog.lengthKm ?? 'Length not in the catalog.'} />
+            <Text style={styles.cardTitle}>{layout?.name ?? catalog.name}</Text>
+            <FactRow label="Distance" value={lengthLabel} />
             <FactRow label="Direction" value={catalog.direction} />
-            <FactRow label="Elevation" value={elevationSummary(catalog.id)} />
+            <FactRow
+              label="Turns"
+              value={
+                layout
+                  ? `${layout.corners.length} numbered from the GPS trace`
+                  : 'Corners have not been baked for this layout yet.'
+              }
+            />
             <FactRow label="Surface" value={facts?.surface ?? 'Asphalt (details not in the catalog).'} />
             <FactRow
               label="Usual weather"
@@ -204,7 +227,7 @@ export function TrackMemoryHubScreen() {
             ))}
           </View>
 
-          <Text style={styles.listTitle}>Corners</Text>
+          <Text style={styles.listTitle}>Turns</Text>
           {corners.map((corner) => (
             <TouchableOpacity
               key={corner.id}
@@ -212,10 +235,20 @@ export function TrackMemoryHubScreen() {
               onPress={() => void openCorner(corner)}
               activeOpacity={0.75}
               accessibilityRole="button"
-              accessibilityLabel={`Turn ${corner.number} ${corner.label}`}
+              accessibilityLabel={`Turn ${corner.number}`}
             >
-              <View style={styles.cornerDot} />
-              <Text style={styles.cornerLabel}>{formatCornerHeading(corner)}</Text>
+              <View style={styles.cornerBadge}>
+                <Text style={styles.cornerBadgeText}>{corner.number}</Text>
+              </View>
+              <View style={styles.cornerCopy}>
+                <Text style={styles.cornerLabel}>
+                  {formatDetailsCornerHeading(corner)}
+                  {` · ${shapeLabel(corner.classification)}`}
+                </Text>
+                <Text style={styles.cornerSummary} numberOfLines={2}>
+                  {corner.summary}
+                </Text>
+              </View>
             </TouchableOpacity>
           ))}
         </>
@@ -225,6 +258,9 @@ export function TrackMemoryHubScreen() {
 
       <TrackCornerSheet
         corner={selectedCorner}
+        map={map}
+        racingLine={racingLine}
+        startFinish={layout?.startFinish}
         savedNote={savedNote}
         onClose={() => setSelectedCorner(null)}
         onAskCoach={askCoach}
@@ -293,7 +329,7 @@ const styles = StyleSheet.create({
     color: '#f8fafc',
   },
   cornerRow: {
-    minHeight: 48,
+    minHeight: 56,
     flexDirection: 'row',
     alignItems: 'center',
     gap: 12,
@@ -305,11 +341,22 @@ const styles = StyleSheet.create({
     borderWidth: 1,
     borderColor: '#334155',
   },
-  cornerDot: {
-    width: 12,
-    height: 12,
-    borderRadius: 6,
-    backgroundColor: '#ef4444',
+  cornerBadge: {
+    width: 32,
+    height: 32,
+    borderRadius: 16,
+    backgroundColor: CORNER_BLUE,
+    borderWidth: 2,
+    borderColor: CORNER_PAPER,
+    alignItems: 'center',
+    justifyContent: 'center',
   },
-  cornerLabel: { flex: 1, color: '#e2e8f0', fontSize: 15, fontWeight: '600' },
+  cornerBadgeText: {
+    color: CORNER_PAPER,
+    fontSize: 14,
+    fontWeight: '700',
+  },
+  cornerCopy: { flex: 1 },
+  cornerLabel: { color: '#e2e8f0', fontSize: 15, fontWeight: '600' },
+  cornerSummary: { color: '#94a3b8', fontSize: 13, lineHeight: 18, marginTop: 2 },
 });

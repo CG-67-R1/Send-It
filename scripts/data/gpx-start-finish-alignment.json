@@ -1,0 +1,78 @@
+{
+  "version": 1,
+  "generatedAt": "2026-09-08T06:55:52.650Z",
+  "note": "Testing-only. Corner-numbering offsets derived from verifiedHands in app/src/data/track_turn_verification.json. Not read by the app. Review before trusting.",
+  "source": "app/src/data/track_turn_verification.json",
+  "minVerifiedHands": 3,
+  "minAgreement": 0.75,
+  "minShiftGainShare": 0.4,
+  "layouts": {
+    "morgan_park": {
+      "cornerShift": 0,
+      "verifiedHands": 6,
+      "agreementAsNumbered": "6/6",
+      "agreementAligned": "6/6"
+    },
+    "queensland_raceway": {
+      "cornerShift": 0,
+      "verifiedHands": 4,
+      "agreementAsNumbered": "4/4",
+      "agreementAligned": "4/4"
+    },
+    "smp_gardner": {
+      "cornerShift": 0,
+      "verifiedHands": 11,
+      "agreementAsNumbered": "10/11",
+      "agreementAligned": "10/11"
+    },
+    "the_bend_gt": {
+      "cornerShift": 0,
+      "verifiedHands": 8,
+      "agreementAsNumbered": "6/8",
+      "agreementAligned": "6/8"
+    }
+  },
+  "needsReview": [
+    {
+      "id": "broadford",
+      "suggestedShift": -1,
+      "reason": "corner shift -1 names a Turn 1 with only 0m of straight before it (need 60m for a start/finish line), so the offset is wrong"
+    },
+    {
+      "id": "mac_park",
+      "suggestedShift": -1,
+      "reason": "rider confirmed offset 4, hands suggest -1"
+    },
+    {
+      "id": "mallala",
+      "suggestedShift": -2,
+      "reason": "too few verified hands"
+    },
+    {
+      "id": "phillip_island",
+      "suggestedShift": 4,
+      "reason": "offset 4 gains only 2 hands; likely a repeating hand pattern"
+    },
+    {
+      "id": "wakefield_park",
+      "suggestedShift": 4,
+      "reason": "no offset explains most verified hands"
+    },
+    {
+      "id": "wanneroo",
+      "suggestedShift": 2,
+      "reason": "corner shift 2 names a Turn 1 with only 10m of straight before it (need 60m for a start/finish line), so the offset is wrong"
+    }
+  ],
+  "alignmentUnknown": [
+    "baskerville",
+    "calder_park",
+    "hidden_valley",
+    "lakeside",
+    "sandown",
+    "smp_brabham",
+    "smp_druitt",
+    "the_bend_international",
+    "winton"
+  ]
+}

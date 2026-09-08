@@ -1,0 +1,180 @@
+{
+  "trackId": "queensland_raceway",
+  "name": "Queensland Raceway (National Circuit)",
+  "lengthM": 3178.7,
+  "startFinish": [
+    68.98,
+    50.86
+  ],
+  "countSource": "autonomous",
+  "corners": [
+    {
+      "id": "queensland_raceway_t1",
+      "number": 1,
+      "apex": [
+        66.17,
+        84.31
+      ],
+      "label": [
+        68.49,
+        88.96
+      ],
+      "entry": [
+        68.55,
+        77.43
+      ],
+      "exit": [
+        60.62,
+        87.71
+      ],
+      "classification": "triple_apex",
+      "headingChangeDeg": 73,
+      "minimumRadiusM": 72.5,
+      "lengthM": 142,
+      "previousStraightM": 528.1,
+      "direction": "right",
+      "summary": "Turn 1 is a right triple-apex corner after a 528 m straight. About 73° of heading change, 73 m minimum radius.",
+      "approachFrom": "start/finish straight"
+    },
+    {
+      "id": "queensland_raceway_t2",
+      "number": 2,
+      "apex": [
+        34.1,
+        88.52
+      ],
+      "label": [
+        31.81,
+        93.19
+      ],
+      "entry": [
+        44.33,
+        91.38
+      ],
+      "exit": [
+        30.91,
+        77.81
+      ],
+      "classification": "triple_apex",
+      "headingChangeDeg": 111,
+      "minimumRadiusM": 85.7,
+      "lengthM": 228.1,
+      "previousStraightM": 166,
+      "direction": "left",
+      "summary": "Turn 2 is a left triple-apex corner after a 166 m straight. About 111° of heading change, 86 m minimum radius.",
+      "approachFrom": "T1 exit"
+    },
+    {
+      "id": "queensland_raceway_t3",
+      "number": 3,
+      "apex": [
+        46.14,
+        8.4
+      ],
+      "label": [
+        45.59,
+        3.23
+      ],
+      "entry": [
+        41.85,
+        11.91
+      ],
+      "exit": [
+        51.07,
+        20.26
+      ],
+      "classification": "hairpin",
+      "headingChangeDeg": 181,
+      "minimumRadiusM": 29.3,
+      "lengthM": 210,
+      "previousStraightM": 664.1,
+      "direction": null,
+      "summary": "Turn 3 is a hairpin after a 664 m straight. About 181° of heading change, 29 m minimum radius.",
+      "approachFrom": "T2 exit"
+    },
+    {
+      "id": "queensland_raceway_t4",
+      "number": 4,
+      "apex": [
+        44.71,
+        69.13
+      ],
+      "label": [
+        42.71,
+        73.93
+      ],
+      "entry": [
+        43.61,
+        64.92
+      ],
+      "exit": [
+        48.46,
+        69.68
+      ],
+      "classification": "triple_apex",
+      "headingChangeDeg": 114,
+      "minimumRadiusM": 27.8,
+      "lengthM": 88,
+      "previousStraightM": 450.1,
+      "direction": null,
+      "summary": "Turn 4 is a triple-apex corner after a 450 m straight. About 114° of heading change, 28 m minimum radius.",
+      "approachFrom": "T3 exit"
+    },
+    {
+      "id": "queensland_raceway_t5",
+      "number": 5,
+      "apex": [
+        57.29,
+        66.26
+      ],
+      "label": [
+        59.66,
+        70.89
+      ],
+      "entry": [
+        53.91,
+        68.24
+      ],
+      "exit": [
+        58.41,
+        61.08
+      ],
+      "classification": "triple_apex",
+      "headingChangeDeg": 74,
+      "minimumRadiusM": 41.8,
+      "lengthM": 96,
+      "previousStraightM": 56,
+      "direction": "right",
+      "summary": "Turn 5 is a right triple-apex corner after a 56 m run. About 74° of heading change, 42 m minimum radius.",
+      "approachFrom": "T4 exit"
+    },
+    {
+      "id": "queensland_raceway_t6",
+      "number": 6,
+      "apex": [
+        63.73,
+        17.5
+      ],
+      "label": [
+        65.44,
+        12.59
+      ],
+      "entry": [
+        59.04,
+        22.25
+      ],
+      "exit": [
+        69.32,
+        24.3
+      ],
+      "classification": "hairpin",
+      "headingChangeDeg": 180,
+      "minimumRadiusM": 37.1,
+      "lengthM": 176,
+      "previousStraightM": 386.1,
+      "direction": "right",
+      "summary": "Turn 6 is a right hairpin after a 386 m straight. About 180° of heading change, 37 m minimum radius.",
+      "approachFrom": "T5 exit"
+    }
+  ]
+}

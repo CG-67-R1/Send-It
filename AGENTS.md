@@ -129,9 +129,9 @@ cd app
 npx tsc --noEmit
 ```
 
-**Track Details maps are GPX-only.** `prove-track-maps.mjs` must PASS when every layout has a repo GPX in `scripts/track-memory-gpx/` and a polyline-only JSON in `app/src/data/gpxTrackMaps/` (mirrored to android-app). Rebuild with `node scripts/build-gpx-track-maps.mjs`. Do not restore board PNGs, `boardMaps.ts`, or `mapProof.json`. The picture has no corner or pit markers. There is no arcade ride and no `test:track-frames`.
+**Track Details is baked from repo GPX.** Every layout needs a GPX in `scripts/track-memory-gpx/`, a polyline-only ribbon in `app/src/data/gpxTrackMaps/`, numbered turns in `app/src/data/trackDetailsCorners/`, and (when solved) a racing line in `app/src/data/racingLines/` — all mirrored to android-app. Rebuild with `node scripts/build-track-details.mjs` (add `--with-lines` to run the racing-line solver). Do not restore board PNGs, `boardMaps.ts`, or `mapProof.json`. Diagnostic corner-map PNGs in `tests/` are review-only and are not shipped in the app. The detector and racing-line tools stay in `scripts/`; they are not app runtime.
 
-**UI safeguard:** Track Details draws the GPX ribbon (green grass, grey asphalt, white edges) plus the suggested racing line. Nothing else goes on the picture — corner notes stay in the list below the map, and there are still no corner or pit markers.
+**UI:** Track Details draws the GPX ribbon (green grass, grey asphalt, white edges), the suggested racing line, start/finish, and the detector turn numbers (same blue badges as the review maps). The list below uses those same numbers. Tapping a number opens a zoomed corner with the racing line. Corner notes stay out of the picture itself. There is no arcade ride and no `test:track-frames`.
 
 **Racing line overlay.** A red guide line per layout lives in `app/src/data/racingLines/` (mirrored to android-app), built from the frozen GPX map by the quasi-steady solver:
 

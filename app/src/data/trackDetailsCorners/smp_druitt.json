@@ -1,0 +1,236 @@
+{
+  "trackId": "smp_druitt",
+  "name": "Sydney Motorsport Park (Druitt Circuit)",
+  "lengthM": 2800.8,
+  "startFinish": [
+    47.77,
+    37.37
+  ],
+  "countSource": "autonomous",
+  "corners": [
+    {
+      "id": "smp_druitt_t1",
+      "number": 1,
+      "apex": [
+        20.23,
+        35.7
+      ],
+      "label": [
+        15.49,
+        33.57
+      ],
+      "entry": [
+        31.05,
+        33.96
+      ],
+      "exit": [
+        14,
+        43.82
+      ],
+      "classification": "triple_apex",
+      "headingChangeDeg": 85,
+      "minimumRadiusM": 117.9,
+      "lengthM": 292.1,
+      "previousStraightM": 760.2,
+      "direction": null,
+      "summary": "Turn 1 is a triple-apex corner after a 760 m straight. About 85° of heading change, 118 m minimum radius.",
+      "approachFrom": "start/finish straight"
+    },
+    {
+      "id": "smp_druitt_t2",
+      "number": 2,
+      "apex": [
+        11.02,
+        66.41
+      ],
+      "label": [
+        6.48,
+        68.95
+      ],
+      "entry": [
+        8.64,
+        62.54
+      ],
+      "exit": [
+        13.47,
+        62.46
+      ],
+      "classification": "hairpin",
+      "headingChangeDeg": 209,
+      "minimumRadiusM": 27.1,
+      "lengthM": 148,
+      "previousStraightM": 260.1,
+      "direction": null,
+      "summary": "Turn 2 is a hairpin after a 260 m straight. About 209° of heading change, 27 m minimum radius.",
+      "approachFrom": "T1 exit"
+    },
+    {
+      "id": "smp_druitt_t3",
+      "number": 3,
+      "apex": [
+        14.97,
+        54.27
+      ],
+      "label": [
+        9.91,
+        55.46
+      ],
+      "entry": [
+        13.27,
+        61.43
+      ],
+      "exit": [
+        21.8,
+        51.57
+      ],
+      "classification": "chicane_element",
+      "headingChangeDeg": 104,
+      "minimumRadiusM": 90.6,
+      "lengthM": 206.1,
+      "previousStraightM": 14,
+      "direction": null,
+      "summary": "Turn 3 is a chicane. About 104° of heading change, 91 m minimum radius.",
+      "approachFrom": "T2 exit"
+    },
+    {
+      "id": "smp_druitt_t4",
+      "number": 4,
+      "apex": [
+        40.9,
+        52.31
+      ],
+      "label": [
+        37.45,
+        56.2
+      ],
+      "entry": [
+        38.84,
+        52.49
+      ],
+      "exit": [
+        42.16,
+        50.86
+      ],
+      "classification": "tightening",
+      "headingChangeDeg": 62,
+      "minimumRadiusM": 27.8,
+      "lengthM": 56,
+      "previousStraightM": 228.1,
+      "direction": null,
+      "summary": "Turn 4 is a tightening corner after a 228 m straight. About 62° of heading change, 28 m minimum radius.",
+      "approachFrom": "T3 exit"
+    },
+    {
+      "id": "smp_druitt_t5",
+      "number": 5,
+      "apex": [
+        44.64,
+        48.13
+      ],
+      "label": [
+        41.24,
+        52.07
+      ],
+      "entry": [
+        42.31,
+        50.6
+      ],
+      "exit": [
+        48.08,
+        47.26
+      ],
+      "classification": "chicane_element",
+      "headingChangeDeg": 57,
+      "minimumRadiusM": 76.2,
+      "lengthM": 96,
+      "previousStraightM": 4,
+      "direction": null,
+      "summary": "Turn 5 is a chicane. About 57° of heading change, 76 m minimum radius.",
+      "approachFrom": "T4 exit"
+    },
+    {
+      "id": "smp_druitt_t6",
+      "number": 6,
+      "apex": [
+        77.93,
+        48.11
+      ],
+      "label": [
+        83.13,
+        48.27
+      ],
+      "entry": [
+        71.13,
+        46.69
+      ],
+      "exit": [
+        82.19,
+        52.22
+      ],
+      "classification": "triple_apex",
+      "headingChangeDeg": 59,
+      "minimumRadiusM": 120,
+      "lengthM": 176.1,
+      "previousStraightM": 308.1,
+      "direction": null,
+      "summary": "Turn 6 is a triple-apex corner after a 308 m straight. About 59° of heading change, 120 m minimum radius.",
+      "approachFrom": "T5 exit"
+    },
+    {
+      "id": "smp_druitt_t7",
+      "number": 7,
+      "apex": [
+        83.71,
+        53.99
+      ],
+      "label": [
+        88.83,
+        54.91
+      ],
+      "entry": [
+        82.42,
+        52.61
+      ],
+      "exit": [
+        85.76,
+        53.85
+      ],
+      "classification": "chicane_element",
+      "headingChangeDeg": 73,
+      "minimumRadiusM": 23.8,
+      "lengthM": 56,
+      "previousStraightM": 6,
+      "direction": null,
+      "summary": "Turn 7 is a chicane. About 73° of heading change, 24 m minimum radius.",
+      "approachFrom": "T6 exit"
+    },
+    {
+      "id": "smp_druitt_t8",
+      "number": 8,
+      "apex": [
+        91.66,
+        49.63
+      ],
+      "label": [
+        96.85,
+        49.92
+      ],
+      "entry": [
+        88.67,
+        53.14
+      ],
+      "exit": [
+        86.81,
+        45.24
+      ],
+      "classification": "hairpin",
+      "headingChangeDeg": 157,
+      "minimumRadiusM": 38.5,
+      "lengthM": 166,
+      "previousStraightM": 40,
+      "direction": null,
+      "summary": "Turn 8 is a hairpin after a 40 m run. About 157° of heading change, 39 m minimum radius.",
+      "approachFrom": "T7 exit"
+    }
+  ]
+}

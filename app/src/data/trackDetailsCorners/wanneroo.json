@@ -1,0 +1,208 @@
+{
+  "trackId": "wanneroo",
+  "name": "Wanneroo Raceway (Barbagallo)",
+  "lengthM": 2467.9,
+  "startFinish": [
+    45.58,
+    77.04
+  ],
+  "countSource": "autonomous",
+  "corners": [
+    {
+      "id": "wanneroo_t1",
+      "number": 1,
+      "apex": [
+        9.13,
+        69.95
+      ],
+      "label": [
+        4.2,
+        71.61
+      ],
+      "entry": [
+        12.99,
+        71.88
+      ],
+      "exit": [
+        8.58,
+        65.05
+      ],
+      "classification": "constant_radius",
+      "headingChangeDeg": 90,
+      "minimumRadiusM": 36.6,
+      "lengthM": 92,
+      "previousStraightM": 596,
+      "direction": "right",
+      "summary": "Turn 1 is a right corner after a 596 m straight. About 90° of heading change, 37 m minimum radius.",
+      "approachFrom": "start/finish straight"
+    },
+    {
+      "id": "wanneroo_t2",
+      "number": 2,
+      "apex": [
+        22.7,
+        18.51
+      ],
+      "label": [
+        20.46,
+        13.82
+      ],
+      "entry": [
+        16.07,
+        24.71
+      ],
+      "exit": [
+        28.24,
+        28.84
+      ],
+      "classification": "hairpin",
+      "headingChangeDeg": 176,
+      "minimumRadiusM": 42.6,
+      "lengthM": 220,
+      "previousStraightM": 388,
+      "direction": null,
+      "summary": "Turn 2 is a hairpin after a 388 m straight. About 176° of heading change, 43 m minimum radius.",
+      "approachFrom": "T1 exit"
+    },
+    {
+      "id": "wanneroo_t3",
+      "number": 3,
+      "apex": [
+        28.16,
+        33.26
+      ],
+      "label": [
+        25.69,
+        28.68
+      ],
+      "entry": [
+        28.16,
+        29.47
+      ],
+      "exit": [
+        29.2,
+        36.25
+      ],
+      "classification": "chicane_element",
+      "headingChangeDeg": 32,
+      "minimumRadiusM": 84.2,
+      "lengthM": 68,
+      "previousStraightM": 6,
+      "direction": "left",
+      "summary": "Turn 3 is a left chicane. About 32° of heading change, 84 m minimum radius.",
+      "approachFrom": "T2 exit"
+    },
+    {
+      "id": "wanneroo_t4",
+      "number": 4,
+      "apex": [
+        30.91,
+        42.95
+      ],
+      "label": [
+        27.94,
+        38.68
+      ],
+      "entry": [
+        29.39,
+        36.62
+      ],
+      "exit": [
+        29.65,
+        49.54
+      ],
+      "classification": "chicane_element",
+      "headingChangeDeg": 46,
+      "minimumRadiusM": 103.9,
+      "lengthM": 128,
+      "previousStraightM": 4,
+      "direction": null,
+      "summary": "Turn 4 is a chicane. About 46° of heading change, 104 m minimum radius.",
+      "approachFrom": "T3 exit"
+    },
+    {
+      "id": "wanneroo_t5",
+      "number": 5,
+      "apex": [
+        31.17,
+        62.73
+      ],
+      "label": [
+        26.27,
+        64.47
+      ],
+      "entry": [
+        28.9,
+        51.52
+      ],
+      "exit": [
+        43.02,
+        61.36
+      ],
+      "classification": "chicane_element",
+      "headingChangeDeg": 152,
+      "minimumRadiusM": 59.7,
+      "lengthM": 242,
+      "previousStraightM": 20,
+      "direction": "right",
+      "summary": "Turn 5 is a right chicane. About 152° of heading change, 60 m minimum radius.",
+      "approachFrom": "T4 exit"
+    },
+    {
+      "id": "wanneroo_t6",
+      "number": 6,
+      "apex": [
+        49.22,
+        57.44
+      ],
+      "label": [
+        54.32,
+        56.42
+      ],
+      "entry": [
+        43.64,
+        60.79
+      ],
+      "exit": [
+        55.28,
+        57.87
+      ],
+      "classification": "chicane_element",
+      "headingChangeDeg": 54,
+      "minimumRadiusM": 63.9,
+      "lengthM": 122,
+      "previousStraightM": 8,
+      "direction": null,
+      "summary": "Turn 6 is a chicane. About 54° of heading change, 64 m minimum radius.",
+      "approachFrom": "T5 exit"
+    },
+    {
+      "id": "wanneroo_t7",
+      "number": 7,
+      "apex": [
+        91.52,
+        73.71
+      ],
+      "label": [
+        96.5,
+        75.2
+      ],
+      "entry": [
+        83.59,
+        64.94
+      ],
+      "exit": [
+        75.29,
+        81.41
+      ],
+      "classification": "hairpin",
+      "headingChangeDeg": 172,
+      "minimumRadiusM": 43.5,
+      "lengthM": 312,
+      "previousStraightM": 276,
+      "direction": "left",
+      "summary": "Turn 7 is a left hairpin after a 276 m straight. About 172° of heading change, 44 m minimum radius.",
+      "approachFrom": "T6 exit"
+    }
+  ]
+}

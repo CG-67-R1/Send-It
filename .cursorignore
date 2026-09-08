@@ -1,0 +1,23 @@
+﻿# Generated and temporary artifacts
+tmp/
+tests/gpx-corner-detector/
+**/__pycache__/
+
+# Dependency trees and native build caches
+**/node_modules/
+android-app/node_modules/**/android/build/
+android-app/node_modules/**/android/.cxx/
+android-app/android/.gradle/
+android-app/android/**/build/
+android-app/android/**/.cxx/
+
+# Expo outputs
+app/.expo/
+app/dist/
+android-app/.expo/
+android-app/dist/
+
+# Local tooling scratch
+marketing/promo/tools/
+marketing/promo/tmp/
+DigiMark_Response/

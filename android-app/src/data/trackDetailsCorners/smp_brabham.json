@@ -1,0 +1,516 @@
+{
+  "trackId": "smp_brabham",
+  "name": "Sydney Motorsport Park (Brabham Circuit)",
+  "lengthM": 4541.1,
+  "startFinish": [
+    48,
+    30.68
+  ],
+  "countSource": "autonomous",
+  "corners": [
+    {
+      "id": "smp_brabham_t1",
+      "number": 1,
+      "apex": [
+        20.5,
+        29.32
+      ],
+      "label": [
+        16.08,
+        26.57
+      ],
+      "entry": [
+        31.49,
+        27.31
+      ],
+      "exit": [
+        13.86,
+        38.09
+      ],
+      "classification": "triple_apex",
+      "headingChangeDeg": 85,
+      "minimumRadiusM": 116.9,
+      "lengthM": 311.9,
+      "previousStraightM": 771.8,
+      "direction": null,
+      "summary": "Turn 1 is a triple-apex corner after a 772 m straight. About 85° of heading change, 117 m minimum radius.",
+      "approachFrom": "start/finish straight"
+    },
+    {
+      "id": "smp_brabham_t2",
+      "number": 2,
+      "apex": [
+        11.81,
+        61.04
+      ],
+      "label": [
+        6.76,
+        62.28
+      ],
+      "entry": [
+        8.59,
+        56.55
+      ],
+      "exit": [
+        15.16,
+        56.39
+      ],
+      "classification": "hairpin",
+      "headingChangeDeg": 207,
+      "minimumRadiusM": 35.5,
+      "lengthM": 182,
+      "previousStraightM": 261.9,
+      "direction": null,
+      "summary": "Turn 2 is a hairpin after a 262 m straight. About 207° of heading change, 36 m minimum radius.",
+      "approachFrom": "T1 exit"
+    },
+    {
+      "id": "smp_brabham_t3",
+      "number": 3,
+      "apex": [
+        16.42,
+        48.78
+      ],
+      "label": [
+        11.23,
+        48.54
+      ],
+      "entry": [
+        14.89,
+        54.95
+      ],
+      "exit": [
+        22.17,
+        46.46
+      ],
+      "classification": "chicane_element",
+      "headingChangeDeg": 103,
+      "minimumRadiusM": 72.7,
+      "lengthM": 180,
+      "previousStraightM": 20,
+      "direction": null,
+      "summary": "Turn 3 is a chicane. About 103° of heading change, 73 m minimum radius.",
+      "approachFrom": "T2 exit"
+    },
+    {
+      "id": "smp_brabham_t4",
+      "number": 4,
+      "apex": [
+        41.9,
+        49.55
+      ],
+      "label": [
+        36.72,
+        49.15
+      ],
+      "entry": [
+        37.39,
+        47.25
+      ],
+      "exit": [
+        42.63,
+        54.7
+      ],
+      "classification": "triple_apex",
+      "headingChangeDeg": 105,
+      "minimumRadiusM": 58.4,
+      "lengthM": 148,
+      "previousStraightM": 208,
+      "direction": null,
+      "summary": "Turn 4 is a triple-apex corner after a 208 m straight. About 105° of heading change, 58 m minimum radius.",
+      "approachFrom": "T3 exit"
+    },
+    {
+      "id": "smp_brabham_t5",
+      "number": 5,
+      "apex": [
+        40.69,
+        65.59
+      ],
+      "label": [
+        37.16,
+        69.4
+      ],
+      "entry": [
+        40.5,
+        61.09
+      ],
+      "exit": [
+        44.35,
+        68.01
+      ],
+      "classification": "triple_apex",
+      "headingChangeDeg": 94,
+      "minimumRadiusM": 49.7,
+      "lengthM": 128,
+      "previousStraightM": 92,
+      "direction": null,
+      "summary": "Turn 5 is a triple-apex corner after a 92 m straight. About 94° of heading change, 50 m minimum radius.",
+      "approachFrom": "T4 exit"
+    },
+    {
+      "id": "smp_brabham_t6",
+      "number": 6,
+      "apex": [
+        65.25,
+        72.73
+      ],
+      "label": [
+        67.49,
+        77.42
+      ],
+      "entry": [
+        63.12,
+        72.67
+      ],
+      "exit": [
+        66.95,
+        69.89
+      ],
+      "classification": "opening",
+      "headingChangeDeg": 87,
+      "minimumRadiusM": 21.3,
+      "lengthM": 78,
+      "previousStraightM": 263.9,
+      "direction": null,
+      "summary": "Turn 6 is a opening corner after a 264 m straight. About 87° of heading change, 21 m minimum radius.",
+      "approachFrom": "T5 exit"
+    },
+    {
+      "id": "smp_brabham_t7",
+      "number": 7,
+      "apex": [
+        68.66,
+        67.66
+      ],
+      "label": [
+        71.96,
+        71.68
+      ],
+      "entry": [
+        67.04,
+        69.61
+      ],
+      "exit": [
+        71.2,
+        67.76
+      ],
+      "classification": "chicane_element",
+      "headingChangeDeg": 95,
+      "minimumRadiusM": 37,
+      "lengthM": 74,
+      "previousStraightM": 4,
+      "direction": null,
+      "summary": "Turn 7 is a chicane. About 95° of heading change, 37 m minimum radius.",
+      "approachFrom": "T6 exit"
+    },
+    {
+      "id": "smp_brabham_t8",
+      "number": 8,
+      "apex": [
+        74.3,
+        67.99
+      ],
+      "label": [
+        78.19,
+        71.44
+      ],
+      "entry": [
+        71.47,
+        67.88
+      ],
+      "exit": [
+        76.33,
+        65.81
+      ],
+      "classification": "chicane_element",
+      "headingChangeDeg": 87,
+      "minimumRadiusM": 42.4,
+      "lengthM": 84,
+      "previousStraightM": 4,
+      "direction": null,
+      "summary": "Turn 8 is a chicane. About 87° of heading change, 42 m minimum radius.",
+      "approachFrom": "T7 exit"
+    },
+    {
+      "id": "smp_brabham_t9",
+      "number": 9,
+      "apex": [
+        77.84,
+        63.5
+      ],
+      "label": [
+        82.38,
+        66.03
+      ],
+      "entry": [
+        76.59,
+        65.28
+      ],
+      "exit": [
+        79.4,
+        62.71
+      ],
+      "classification": "chicane_element",
+      "headingChangeDeg": 45,
+      "minimumRadiusM": 48.2,
+      "lengthM": 56,
+      "previousStraightM": 8,
+      "direction": null,
+      "summary": "Turn 9 is a chicane. About 45° of heading change, 48 m minimum radius.",
+      "approachFrom": "T8 exit"
+    },
+    {
+      "id": "smp_brabham_t10",
+      "number": 10,
+      "apex": [
+        83.9,
+        59.15
+      ],
+      "label": [
+        88.89,
+        60.62
+      ],
+      "entry": [
+        79.68,
+        62.64
+      ],
+      "exit": [
+        82.86,
+        55.09
+      ],
+      "classification": "chicane_element",
+      "headingChangeDeg": 111,
+      "minimumRadiusM": 51,
+      "lengthM": 140,
+      "previousStraightM": 4,
+      "direction": null,
+      "summary": "Turn 10 is a chicane. About 111° of heading change, 51 m minimum radius.",
+      "approachFrom": "T9 exit"
+    },
+    {
+      "id": "smp_brabham_t11",
+      "number": 11,
+      "apex": [
+        73.98,
+        48.38
+      ],
+      "label": [
+        79.15,
+        47.8
+      ],
+      "entry": [
+        79.54,
+        50.99
+      ],
+      "exit": [
+        73.79,
+        51.07
+      ],
+      "classification": "hairpin",
+      "headingChangeDeg": 174,
+      "minimumRadiusM": 20.2,
+      "lengthM": 134,
+      "previousStraightM": 72,
+      "direction": null,
+      "summary": "Turn 11 is a hairpin after a 72 m run. About 174° of heading change, 20 m minimum radius.",
+      "approachFrom": "T10 exit"
+    },
+    {
+      "id": "smp_brabham_t12",
+      "number": 12,
+      "apex": [
+        76.95,
+        57.89
+      ],
+      "label": [
+        81.89,
+        59.52
+      ],
+      "entry": [
+        76.58,
+        55.88
+      ],
+      "exit": [
+        74.96,
+        58.19
+      ],
+      "classification": "tightening",
+      "headingChangeDeg": 140,
+      "minimumRadiusM": 15.4,
+      "lengthM": 62,
+      "previousStraightM": 76,
+      "direction": null,
+      "summary": "Turn 12 is a tightening corner after a 76 m run. About 140° of heading change, 15 m minimum radius.",
+      "approachFrom": "T11 exit"
+    },
+    {
+      "id": "smp_brabham_t13",
+      "number": 13,
+      "apex": [
+        71.19,
+        57.07
+      ],
+      "label": [
+        76.03,
+        58.98
+      ],
+      "entry": [
+        72.41,
+        57.51
+      ],
+      "exit": [
+        70.46,
+        56.16
+      ],
+      "classification": "constant_radius",
+      "headingChangeDeg": 39,
+      "minimumRadiusM": 27.2,
+      "lengthM": 36,
+      "previousStraightM": 36,
+      "direction": null,
+      "summary": "Turn 13 is a corner after a 36 m run. About 39° of heading change, 27 m minimum radius.",
+      "approachFrom": "T12 exit"
+    },
+    {
+      "id": "smp_brabham_t14",
+      "number": 14,
+      "apex": [
+        64.05,
+        48.61
+      ],
+      "label": [
+        69.14,
+        47.56
+      ],
+      "entry": [
+        66.69,
+        51.11
+      ],
+      "exit": [
+        60.72,
+        47.58
+      ],
+      "classification": "triple_apex",
+      "headingChangeDeg": 47,
+      "minimumRadiusM": 85.4,
+      "lengthM": 100,
+      "previousStraightM": 86,
+      "direction": null,
+      "summary": "Turn 14 is a triple-apex corner after a 86 m straight. About 47° of heading change, 85 m minimum radius.",
+      "approachFrom": "T13 exit"
+    },
+    {
+      "id": "smp_brabham_t15",
+      "number": 15,
+      "apex": [
+        49.24,
+        44.23
+      ],
+      "label": [
+        45.86,
+        40.28
+      ],
+      "entry": [
+        51.84,
+        46.56
+      ],
+      "exit": [
+        52.05,
+        42.15
+      ],
+      "classification": "hairpin",
+      "headingChangeDeg": 173,
+      "minimumRadiusM": 26.7,
+      "lengthM": 110,
+      "previousStraightM": 122,
+      "direction": null,
+      "summary": "Turn 15 is a hairpin after a 122 m straight. About 173° of heading change, 27 m minimum radius.",
+      "approachFrom": "T14 exit"
+    },
+    {
+      "id": "smp_brabham_t16",
+      "number": 16,
+      "apex": [
+        77.03,
+        43.01
+      ],
+      "label": [
+        81.96,
+        41.35
+      ],
+      "entry": [
+        70.95,
+        41.68
+      ],
+      "exit": [
+        80.68,
+        46.52
+      ],
+      "classification": "triple_apex",
+      "headingChangeDeg": 60,
+      "minimumRadiusM": 93.2,
+      "lengthM": 158,
+      "previousStraightM": 257.9,
+      "direction": null,
+      "summary": "Turn 16 is a triple-apex corner after a 258 m straight. About 60° of heading change, 93 m minimum radius.",
+      "approachFrom": "T15 exit"
+    },
+    {
+      "id": "smp_brabham_t17",
+      "number": 17,
+      "apex": [
+        82.66,
+        48.78
+      ],
+      "label": [
+        87.85,
+        48.45
+      ],
+      "entry": [
+        81.06,
+        47.14
+      ],
+      "exit": [
+        85.53,
+        48.6
+      ],
+      "classification": "chicane_element",
+      "headingChangeDeg": 72,
+      "minimumRadiusM": 33.8,
+      "lengthM": 74,
+      "previousStraightM": 10,
+      "direction": null,
+      "summary": "Turn 17 is a chicane. About 72° of heading change, 34 m minimum radius.",
+      "approachFrom": "T16 exit"
+    },
+    {
+      "id": "smp_brabham_t18",
+      "number": 18,
+      "apex": [
+        91.67,
+        43.66
+      ],
+      "label": [
+        96.78,
+        42.71
+      ],
+      "entry": [
+        87.8,
+        48.04
+      ],
+      "exit": [
+        86.89,
+        38.73
+      ],
+      "classification": "hairpin",
+      "headingChangeDeg": 154,
+      "minimumRadiusM": 43.2,
+      "lengthM": 192,
+      "previousStraightM": 32,
+      "direction": null,
+      "summary": "Turn 18 is a hairpin after a 32 m run. About 154° of heading change, 43 m minimum radius.",
+      "approachFrom": "T17 exit"
+    }
+  ]
+}

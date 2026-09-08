@@ -1,0 +1,432 @@
+{
+  "trackId": "sandown",
+  "name": "Sandown Raceway",
+  "lengthM": 3199.3,
+  "startFinish": [
+    61.84,
+    50.16
+  ],
+  "countSource": "autonomous",
+  "corners": [
+    {
+      "id": "sandown_t1",
+      "number": 1,
+      "apex": [
+        67.06,
+        22.33
+      ],
+      "label": [
+        70.09,
+        18.11
+      ],
+      "entry": [
+        66.87,
+        26.86
+      ],
+      "exit": [
+        65.12,
+        18.4
+      ],
+      "classification": "double_apex",
+      "headingChangeDeg": 52,
+      "minimumRadiusM": 91.1,
+      "lengthM": 144,
+      "previousStraightM": 735.8,
+      "direction": null,
+      "summary": "Turn 1 is a double-apex corner after a 736 m straight. About 52° of heading change, 91 m minimum radius.",
+      "approachFrom": "start/finish straight"
+    },
+    {
+      "id": "sandown_t2",
+      "number": 2,
+      "apex": [
+        63.76,
+        16.73
+      ],
+      "label": [
+        65.96,
+        12.02
+      ],
+      "entry": [
+        64.71,
+        17.92
+      ],
+      "exit": [
+        63.21,
+        15.59
+      ],
+      "classification": "chicane_element",
+      "headingChangeDeg": 31,
+      "minimumRadiusM": 55.2,
+      "lengthM": 46,
+      "previousStraightM": 10,
+      "direction": null,
+      "summary": "Turn 2 is a chicane. About 31° of heading change, 55 m minimum radius.",
+      "approachFrom": "T1 exit"
+    },
+    {
+      "id": "sandown_t3",
+      "number": 3,
+      "apex": [
+        62.77,
+        13.36
+      ],
+      "label": [
+        64.65,
+        8.51
+      ],
+      "entry": [
+        63.13,
+        15.22
+      ],
+      "exit": [
+        62.11,
+        11.99
+      ],
+      "classification": "chicane_element",
+      "headingChangeDeg": 25,
+      "minimumRadiusM": 65.5,
+      "lengthM": 56,
+      "previousStraightM": 6,
+      "direction": null,
+      "summary": "Turn 3 is a chicane. About 25° of heading change, 66 m minimum radius.",
+      "approachFrom": "T2 exit"
+    },
+    {
+      "id": "sandown_t4",
+      "number": 4,
+      "apex": [
+        59.5,
+        8.42
+      ],
+      "label": [
+        60.76,
+        3.37
+      ],
+      "entry": [
+        60.42,
+        9.62
+      ],
+      "exit": [
+        58.15,
+        9.13
+      ],
+      "classification": "constant_radius",
+      "headingChangeDeg": 97,
+      "minimumRadiusM": 15.9,
+      "lengthM": 52,
+      "previousStraightM": 46,
+      "direction": null,
+      "summary": "Turn 4 is a corner after a 46 m run. About 97° of heading change, 16 m minimum radius.",
+      "approachFrom": "T3 exit"
+    },
+    {
+      "id": "sandown_t5",
+      "number": 5,
+      "apex": [
+        51.29,
+        15.87
+      ],
+      "label": [
+        51.49,
+        10.67
+      ],
+      "entry": [
+        52.35,
+        14.78
+      ],
+      "exit": [
+        50.07,
+        16.78
+      ],
+      "classification": "kink",
+      "headingChangeDeg": 16,
+      "minimumRadiusM": 114.7,
+      "lengthM": 50,
+      "previousStraightM": 128,
+      "direction": null,
+      "summary": "Turn 5 is a kink after a 128 m straight. About 16° of heading change, 115 m minimum radius.",
+      "approachFrom": "T4 exit"
+    },
+    {
+      "id": "sandown_t6",
+      "number": 6,
+      "apex": [
+        40.52,
+        23.04
+      ],
+      "label": [
+        38.5,
+        18.25
+      ],
+      "entry": [
+        41.59,
+        22.35
+      ],
+      "exit": [
+        39.41,
+        23.18
+      ],
+      "classification": "tightening",
+      "headingChangeDeg": 55,
+      "minimumRadiusM": 20.3,
+      "lengthM": 40,
+      "previousStraightM": 160,
+      "direction": null,
+      "summary": "Turn 6 is a tightening corner after a 160 m straight. About 55° of heading change, 20 m minimum radius.",
+      "approachFrom": "T5 exit"
+    },
+    {
+      "id": "sandown_t7",
+      "number": 7,
+      "apex": [
+        36.55,
+        22.13
+      ],
+      "label": [
+        33.96,
+        17.62
+      ],
+      "entry": [
+        37.99,
+        22.64
+      ],
+      "exit": [
+        35.4,
+        23.41
+      ],
+      "classification": "chicane_element",
+      "headingChangeDeg": 93,
+      "minimumRadiusM": 15.3,
+      "lengthM": 56,
+      "previousStraightM": 24,
+      "direction": null,
+      "summary": "Turn 7 is a chicane. About 93° of heading change, 15 m minimum radius.",
+      "approachFrom": "T6 exit"
+    },
+    {
+      "id": "sandown_t8",
+      "number": 8,
+      "apex": [
+        32.77,
+        30.8
+      ],
+      "label": [
+        28.84,
+        27.4
+      ],
+      "entry": [
+        33.63,
+        28.02
+      ],
+      "exit": [
+        32.78,
+        32.83
+      ],
+      "classification": "double_apex",
+      "headingChangeDeg": 29,
+      "minimumRadiusM": 94.5,
+      "lengthM": 80,
+      "previousStraightM": 78,
+      "direction": null,
+      "summary": "Turn 8 is a double-apex corner after a 78 m run. About 29° of heading change, 95 m minimum radius.",
+      "approachFrom": "T7 exit"
+    },
+    {
+      "id": "sandown_t9",
+      "number": 9,
+      "apex": [
+        33.03,
+        39.29
+      ],
+      "label": [
+        28.17,
+        37.43
+      ],
+      "entry": [
+        33,
+        38.41
+      ],
+      "exit": [
+        33.05,
+        39.8
+      ],
+      "classification": "tightening",
+      "headingChangeDeg": 86,
+      "minimumRadiusM": 7.9,
+      "lengthM": 24,
+      "previousStraightM": 88,
+      "direction": null,
+      "summary": "Turn 9 is a tightening corner after a 88 m straight. About 86° of heading change, 8 m minimum radius.",
+      "approachFrom": "T8 exit"
+    },
+    {
+      "id": "sandown_t10",
+      "number": 10,
+      "apex": [
+        33.07,
+        40.31
+      ],
+      "label": [
+        28.12,
+        38.71
+      ],
+      "entry": [
+        33.06,
+        39.93
+      ],
+      "exit": [
+        33.1,
+        41.2
+      ],
+      "classification": "chicane_element",
+      "headingChangeDeg": 76,
+      "minimumRadiusM": 8.9,
+      "lengthM": 22,
+      "previousStraightM": 2,
+      "direction": null,
+      "summary": "Turn 10 is a chicane. About 76° of heading change, 9 m minimum radius.",
+      "approachFrom": "T9 exit"
+    },
+    {
+      "id": "sandown_t11",
+      "number": 11,
+      "apex": [
+        35.37,
+        84.45
+      ],
+      "label": [
+        33.51,
+        89.31
+      ],
+      "entry": [
+        34.62,
+        82.26
+      ],
+      "exit": [
+        37.37,
+        85.17
+      ],
+      "classification": "double_apex",
+      "headingChangeDeg": 75,
+      "minimumRadiusM": 37.5,
+      "lengthM": 74,
+      "previousStraightM": 647.9,
+      "direction": null,
+      "summary": "Turn 11 is a double-apex corner after a 648 m straight. About 75° of heading change, 38 m minimum radius.",
+      "approachFrom": "T10 exit"
+    },
+    {
+      "id": "sandown_t12",
+      "number": 12,
+      "apex": [
+        50.12,
+        88.29
+      ],
+      "label": [
+        50.12,
+        93.49
+      ],
+      "entry": [
+        48.77,
+        87.67
+      ],
+      "exit": [
+        50.52,
+        89.06
+      ],
+      "classification": "tightening",
+      "headingChangeDeg": 68,
+      "minimumRadiusM": 18.8,
+      "lengthM": 40,
+      "previousStraightM": 184,
+      "direction": null,
+      "summary": "Turn 12 is a tightening corner after a 184 m straight. About 68° of heading change, 19 m minimum radius.",
+      "approachFrom": "T11 exit"
+    },
+    {
+      "id": "sandown_t13",
+      "number": 13,
+      "apex": [
+        50.99,
+        90.62
+      ],
+      "label": [
+        51.09,
+        95.82
+      ],
+      "entry": [
+        50.56,
+        89.31
+      ],
+      "exit": [
+        52.73,
+        91.25
+      ],
+      "classification": "chicane_element",
+      "headingChangeDeg": 70,
+      "minimumRadiusM": 30.2,
+      "lengthM": 54,
+      "previousStraightM": 4,
+      "direction": null,
+      "summary": "Turn 13 is a chicane. About 70° of heading change, 30 m minimum radius.",
+      "approachFrom": "T12 exit"
+    },
+    {
+      "id": "sandown_t14",
+      "number": 14,
+      "apex": [
+        57.47,
+        90.83
+      ],
+      "label": [
+        58.3,
+        95.96
+      ],
+      "entry": [
+        55.62,
+        91.64
+      ],
+      "exit": [
+        57.39,
+        89.06
+      ],
+      "classification": "tightening",
+      "headingChangeDeg": 100,
+      "minimumRadiusM": 17.7,
+      "lengthM": 68,
+      "previousStraightM": 46,
+      "direction": null,
+      "summary": "Turn 14 is a tightening corner after a 46 m run. About 100° of heading change, 18 m minimum radius.",
+      "approachFrom": "T13 exit"
+    },
+    {
+      "id": "sandown_t15",
+      "number": 15,
+      "apex": [
+        56.93,
+        73.35
+      ],
+      "label": [
+        58.17,
+        78.4
+      ],
+      "entry": [
+        56.84,
+        74.36
+      ],
+      "exit": [
+        57.13,
+        72.49
+      ],
+      "classification": "tightening",
+      "headingChangeDeg": 15,
+      "minimumRadiusM": 75.1,
+      "lengthM": 32,
+      "previousStraightM": 232,
+      "direction": null,
+      "summary": "Turn 15 is a tightening corner after a 232 m straight. About 15° of heading change, 75 m minimum radius.",
+      "approachFrom": "T14 exit"
+    }
+  ]
+}

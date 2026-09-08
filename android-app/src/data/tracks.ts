@@ -94,6 +94,10 @@ export function getCornerById(trackId: string, cornerId: string): CornerDefiniti
   return track?.corners.find((c) => c.id === cornerId);
 }
 
+function isGenericTurnLabel(label: string, number: number): boolean {
+  return new RegExp(`^Turn\\s*${number}$`, 'i').test(label.trim());
+}
+
 export function formatCornerHeading(
   corner: Pick<CornerDefinition, 'number' | 'label' | 'direction' | 'isFinish'>,
   userNickname?: string
@@ -102,8 +106,13 @@ export function formatCornerHeading(
     const nick = userNickname?.trim();
     return nick ? `T-Finish — straight (${nick})` : 'T-Finish — straight';
   }
-  const name = userNickname?.trim() || corner.label;
-  return `T${corner.number} — ${name} (${corner.direction})`;
+  const nick = userNickname?.trim();
+  const name = nick || corner.label?.trim() || '';
+  const hand = corner.direction === 'left' || corner.direction === 'right' ? ` (${corner.direction})` : '';
+  if (!name || isGenericTurnLabel(name, corner.number)) {
+    return `T${corner.number}${hand}`;
+  }
+  return `T${corner.number} — ${name}${hand}`;
 }
 
 export function isOtherTrackComplete(ctx: OtherTrackContext | undefined): boolean {

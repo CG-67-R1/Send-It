@@ -1,0 +1,320 @@
+{
+  "trackId": "mac_park",
+  "name": "McNamara Park Raceway (Mac Park)",
+  "lengthM": 2356,
+  "startFinish": [
+    38.77,
+    48.64
+  ],
+  "countSource": "autonomous",
+  "corners": [
+    {
+      "id": "mac_park_t1",
+      "number": 1,
+      "apex": [
+        22.78,
+        49.82
+      ],
+      "label": [
+        17.59,
+        50.2
+      ],
+      "entry": [
+        27.68,
+        47.84
+      ],
+      "exit": [
+        26.66,
+        52.96
+      ],
+      "classification": "hairpin",
+      "headingChangeDeg": 177,
+      "minimumRadiusM": 16,
+      "lengthM": 100,
+      "previousStraightM": 190,
+      "direction": null,
+      "summary": "Turn 1 is a hairpin after a 190 m straight. About 177° of heading change, 16 m minimum radius.",
+      "approachFrom": "start/finish straight"
+    },
+    {
+      "id": "mac_park_t2",
+      "number": 2,
+      "apex": [
+        35.5,
+        55.56
+      ],
+      "label": [
+        31.32,
+        58.66
+      ],
+      "entry": [
+        29.84,
+        53.59
+      ],
+      "exit": [
+        41.09,
+        60.02
+      ],
+      "classification": "chicane_element",
+      "headingChangeDeg": 34,
+      "minimumRadiusM": 115.1,
+      "lengthM": 116,
+      "previousStraightM": 28,
+      "direction": null,
+      "summary": "Turn 2 is a chicane after a 28 m run. About 34° of heading change, 115 m minimum radius.",
+      "approachFrom": "T1 exit"
+    },
+    {
+      "id": "mac_park_t3",
+      "number": 3,
+      "apex": [
+        48,
+        70.76
+      ],
+      "label": [
+        48.57,
+        75.93
+      ],
+      "entry": [
+        46.13,
+        65.44
+      ],
+      "exit": [
+        42.42,
+        70.71
+      ],
+      "classification": "hairpin",
+      "headingChangeDeg": 155,
+      "minimumRadiusM": 16.4,
+      "lengthM": 106,
+      "previousStraightM": 64,
+      "direction": "right",
+      "summary": "Turn 3 is a right hairpin after a 64 m run. About 155° of heading change, 16 m minimum radius.",
+      "approachFrom": "T2 exit"
+    },
+    {
+      "id": "mac_park_t4",
+      "number": 4,
+      "apex": [
+        31.27,
+        65.67
+      ],
+      "label": [
+        27.99,
+        69.71
+      ],
+      "entry": [
+        34.9,
+        67.72
+      ],
+      "exit": [
+        28.18,
+        63.24
+      ],
+      "classification": "kink",
+      "headingChangeDeg": 16,
+      "minimumRadiusM": 142.9,
+      "lengthM": 72,
+      "previousStraightM": 70,
+      "direction": "right",
+      "summary": "Turn 4 is a right kink after a 70 m run. About 16° of heading change, 143 m minimum radius.",
+      "approachFrom": "T3 exit"
+    },
+    {
+      "id": "mac_park_t5",
+      "number": 5,
+      "apex": [
+        19.57,
+        56.26
+      ],
+      "label": [
+        14.61,
+        57.81
+      ],
+      "entry": [
+        22.8,
+        58.49
+      ],
+      "exit": [
+        15.38,
+        54.98
+      ],
+      "classification": "double_apex",
+      "headingChangeDeg": 30,
+      "minimumRadiusM": 100.6,
+      "lengthM": 74,
+      "previousStraightM": 62,
+      "direction": "left",
+      "summary": "Turn 5 is a left double-apex corner after a 62 m run. About 30° of heading change, 101 m minimum radius.",
+      "approachFrom": "T4 exit"
+    },
+    {
+      "id": "mac_park_t6",
+      "number": 6,
+      "apex": [
+        9.87,
+        52.88
+      ],
+      "label": [
+        4.72,
+        53.57
+      ],
+      "entry": [
+        13.57,
+        54.61
+      ],
+      "exit": [
+        8.52,
+        47.36
+      ],
+      "classification": "chicane_element",
+      "headingChangeDeg": 75,
+      "minimumRadiusM": 33.2,
+      "lengthM": 88,
+      "previousStraightM": 16,
+      "direction": "right",
+      "summary": "Turn 6 is a right chicane. About 75° of heading change, 33 m minimum radius.",
+      "approachFrom": "T5 exit"
+    },
+    {
+      "id": "mac_park_t7",
+      "number": 7,
+      "apex": [
+        11.55,
+        34.53
+      ],
+      "label": [
+        6.72,
+        32.59
+      ],
+      "entry": [
+        8.39,
+        45.05
+      ],
+      "exit": [
+        20.39,
+        31.43
+      ],
+      "classification": "triple_apex",
+      "headingChangeDeg": 96,
+      "minimumRadiusM": 64.5,
+      "lengthM": 184,
+      "previousStraightM": 20,
+      "direction": "left",
+      "summary": "Turn 7 is a left triple-apex corner. About 96° of heading change, 65 m minimum radius.",
+      "approachFrom": "T6 exit"
+    },
+    {
+      "id": "mac_park_t8",
+      "number": 8,
+      "apex": [
+        88.78,
+        31.07
+      ],
+      "label": [
+        93.62,
+        29.16
+      ],
+      "entry": [
+        81.74,
+        28.55
+      ],
+      "exit": [
+        91.36,
+        38.6
+      ],
+      "classification": "constant_radius",
+      "headingChangeDeg": 80,
+      "minimumRadiusM": 49.7,
+      "lengthM": 138,
+      "previousStraightM": 532,
+      "direction": "right",
+      "summary": "Turn 8 is a right corner after a 532 m straight. About 80° of heading change, 50 m minimum radius.",
+      "approachFrom": "T7 exit"
+    },
+    {
+      "id": "mac_park_t9",
+      "number": 9,
+      "apex": [
+        89.03,
+        48.43
+      ],
+      "label": [
+        94.23,
+        48.46
+      ],
+      "entry": [
+        91.56,
+        40.67
+      ],
+      "exit": [
+        69.36,
+        43.5
+      ],
+      "classification": "opening",
+      "headingChangeDeg": 139,
+      "minimumRadiusM": 33.8,
+      "lengthM": 262,
+      "previousStraightM": 18,
+      "direction": "right",
+      "summary": "Turn 9 is a right opening corner. About 139° of heading change, 34 m minimum radius.",
+      "approachFrom": "T8 exit"
+    },
+    {
+      "id": "mac_park_t10",
+      "number": 10,
+      "apex": [
+        60.14,
+        38.79
+      ],
+      "label": [
+        64.52,
+        35.99
+      ],
+      "entry": [
+        66.82,
+        41.13
+      ],
+      "exit": [
+        56.38,
+        43.69
+      ],
+      "classification": "chicane_element",
+      "headingChangeDeg": 117,
+      "minimumRadiusM": 35.8,
+      "lengthM": 122,
+      "previousStraightM": 30,
+      "direction": "right",
+      "summary": "Turn 10 is a right chicane after a 30 m run. About 117° of heading change, 36 m minimum radius.",
+      "approachFrom": "T9 exit"
+    },
+    {
+      "id": "mac_park_t11",
+      "number": 11,
+      "apex": [
+        54.31,
+        47.58
+      ],
+      "label": [
+        59.5,
+        47.25
+      ],
+      "entry": [
+        56.24,
+        44.37
+      ],
+      "exit": [
+        49.57,
+        48.64
+      ],
+      "classification": "chicane_element",
+      "headingChangeDeg": 71,
+      "minimumRadiusM": 32.3,
+      "lengthM": 80,
+      "previousStraightM": 6,
+      "direction": "left",
+      "summary": "Turn 11 is a left chicane. About 71° of heading change, 32 m minimum radius.",
+      "approachFrom": "T10 exit"
+    }
+  ]
+}

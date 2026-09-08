@@ -1,0 +1,376 @@
+{
+  "trackId": "hidden_valley",
+  "name": "Hidden Valley Raceway",
+  "lengthM": 2510.1,
+  "startFinish": [
+    86.15,
+    38.08
+  ],
+  "countSource": "autonomous",
+  "corners": [
+    {
+      "id": "hidden_valley_t1",
+      "number": 1,
+      "apex": [
+        60.4,
+        43.5
+      ],
+      "label": [
+        65.58,
+        43.09
+      ],
+      "entry": [
+        70.2,
+        41.7
+      ],
+      "exit": [
+        53.1,
+        46.3
+      ],
+      "classification": "hairpin",
+      "headingChangeDeg": 202,
+      "minimumRadiusM": 35.1,
+      "lengthM": 194,
+      "previousStraightM": 780,
+      "direction": null,
+      "summary": "Turn 1 is a hairpin after a 780 m straight. About 202° of heading change, 35 m minimum radius.",
+      "approachFrom": "start/finish straight"
+    },
+    {
+      "id": "hidden_valley_t2",
+      "number": 2,
+      "apex": [
+        44.18,
+        35.79
+      ],
+      "label": [
+        43.52,
+        30.63
+      ],
+      "entry": [
+        45.76,
+        44.78
+      ],
+      "exit": [
+        43.36,
+        31.58
+      ],
+      "classification": "double_apex",
+      "headingChangeDeg": 49,
+      "minimumRadiusM": 85.8,
+      "lengthM": 146,
+      "previousStraightM": 98,
+      "direction": null,
+      "summary": "Turn 2 is a double-apex corner after a 98 m straight. About 49° of heading change, 86 m minimum radius.",
+      "approachFrom": "T1 exit"
+    },
+    {
+      "id": "hidden_valley_t3",
+      "number": 3,
+      "apex": [
+        42.4,
+        28.8
+      ],
+      "label": [
+        41.46,
+        23.69
+      ],
+      "entry": [
+        43.21,
+        30.85
+      ],
+      "exit": [
+        40.16,
+        28.37
+      ],
+      "classification": "chicane_element",
+      "headingChangeDeg": 23,
+      "minimumRadiusM": 71.4,
+      "lengthM": 52,
+      "previousStraightM": 8,
+      "direction": null,
+      "summary": "Turn 3 is a chicane. About 23° of heading change, 71 m minimum radius.",
+      "approachFrom": "T2 exit"
+    },
+    {
+      "id": "hidden_valley_t4",
+      "number": 4,
+      "apex": [
+        39.5,
+        41.3
+      ],
+      "label": [
+        35.01,
+        38.68
+      ],
+      "entry": [
+        39.34,
+        37.95
+      ],
+      "exit": [
+        38.52,
+        45.53
+      ],
+      "classification": "double_apex",
+      "headingChangeDeg": 109,
+      "minimumRadiusM": 28.8,
+      "lengthM": 86,
+      "previousStraightM": 108,
+      "direction": null,
+      "summary": "Turn 4 is a double-apex corner after a 108 m straight. About 109° of heading change, 29 m minimum radius.",
+      "approachFrom": "T3 exit"
+    },
+    {
+      "id": "hidden_valley_t5",
+      "number": 5,
+      "apex": [
+        19.07,
+        49.18
+      ],
+      "label": [
+        13.94,
+        50.05
+      ],
+      "entry": [
+        23.88,
+        49.28
+      ],
+      "exit": [
+        15,
+        49.68
+      ],
+      "classification": "hairpin",
+      "headingChangeDeg": 190,
+      "minimumRadiusM": 17.3,
+      "lengthM": 98,
+      "previousStraightM": 170,
+      "direction": null,
+      "summary": "Turn 5 is a hairpin after a 170 m straight. About 190° of heading change, 17 m minimum radius.",
+      "approachFrom": "T4 exit"
+    },
+    {
+      "id": "hidden_valley_t6",
+      "number": 6,
+      "apex": [
+        9.15,
+        60.66
+      ],
+      "label": [
+        4.39,
+        62.76
+      ],
+      "entry": [
+        8.59,
+        57.17
+      ],
+      "exit": [
+        8.74,
+        64.71
+      ],
+      "classification": "double_apex",
+      "headingChangeDeg": 75,
+      "minimumRadiusM": 44,
+      "lengthM": 84,
+      "previousStraightM": 122,
+      "direction": null,
+      "summary": "Turn 6 is a double-apex corner after a 122 m straight. About 75° of heading change, 44 m minimum radius.",
+      "approachFrom": "T5 exit"
+    },
+    {
+      "id": "hidden_valley_t7",
+      "number": 7,
+      "apex": [
+        10.11,
+        70.19
+      ],
+      "label": [
+        5.9,
+        73.24
+      ],
+      "entry": [
+        9.06,
+        68.65
+      ],
+      "exit": [
+        11.5,
+        71.65
+      ],
+      "classification": "constant_radius",
+      "headingChangeDeg": 35,
+      "minimumRadiusM": 40.5,
+      "lengthM": 44,
+      "previousStraightM": 44,
+      "direction": null,
+      "summary": "Turn 7 is a corner after a 44 m run. About 35° of heading change, 41 m minimum radius.",
+      "approachFrom": "T6 exit"
+    },
+    {
+      "id": "hidden_valley_t8",
+      "number": 8,
+      "apex": [
+        18.37,
+        69.14
+      ],
+      "label": [
+        14.52,
+        72.63
+      ],
+      "entry": [
+        17.18,
+        69.68
+      ],
+      "exit": [
+        19.72,
+        68.51
+      ],
+      "classification": "constant_radius",
+      "headingChangeDeg": 15,
+      "minimumRadiusM": 79.4,
+      "lengthM": 32,
+      "previousStraightM": 66,
+      "direction": null,
+      "summary": "Turn 8 is a corner after a 66 m run. About 15° of heading change, 79 m minimum radius.",
+      "approachFrom": "T7 exit"
+    },
+    {
+      "id": "hidden_valley_t9",
+      "number": 9,
+      "apex": [
+        26.67,
+        65.33
+      ],
+      "label": [
+        23.18,
+        69.19
+      ],
+      "entry": [
+        24.81,
+        66.18
+      ],
+      "exit": [
+        28.7,
+        64.39
+      ],
+      "classification": "constant_radius",
+      "headingChangeDeg": 48,
+      "minimumRadiusM": 33,
+      "lengthM": 48,
+      "previousStraightM": 60,
+      "direction": null,
+      "summary": "Turn 9 is a corner after a 60 m run. About 48° of heading change, 33 m minimum radius.",
+      "approachFrom": "T8 exit"
+    },
+    {
+      "id": "hidden_valley_t10",
+      "number": 10,
+      "apex": [
+        31.75,
+        63
+      ],
+      "label": [
+        28.65,
+        67.18
+      ],
+      "entry": [
+        29.89,
+        63.85
+      ],
+      "exit": [
+        33.95,
+        61.99
+      ],
+      "classification": "constant_radius",
+      "headingChangeDeg": 54,
+      "minimumRadiusM": 30.1,
+      "lengthM": 50,
+      "previousStraightM": 14,
+      "direction": null,
+      "summary": "Turn 10 is a corner. About 54° of heading change, 30 m minimum radius.",
+      "approachFrom": "T9 exit"
+    },
+    {
+      "id": "hidden_valley_t11",
+      "number": 11,
+      "apex": [
+        39.2,
+        59.58
+      ],
+      "label": [
+        37.22,
+        64.39
+      ],
+      "entry": [
+        37.34,
+        60.43
+      ],
+      "exit": [
+        40.56,
+        58.95
+      ],
+      "classification": "tightening",
+      "headingChangeDeg": 20,
+      "minimumRadiusM": 65.7,
+      "lengthM": 40,
+      "previousStraightM": 40,
+      "direction": null,
+      "summary": "Turn 11 is a tightening corner after a 40 m run. About 20° of heading change, 66 m minimum radius.",
+      "approachFrom": "T10 exit"
+    },
+    {
+      "id": "hidden_valley_t12",
+      "number": 12,
+      "apex": [
+        44.79,
+        57.01
+      ],
+      "label": [
+        44.56,
+        62.21
+      ],
+      "entry": [
+        42.93,
+        57.87
+      ],
+      "exit": [
+        47.16,
+        55.92
+      ],
+      "classification": "chicane_element",
+      "headingChangeDeg": 45,
+      "minimumRadiusM": 34.1,
+      "lengthM": 52,
+      "previousStraightM": 28,
+      "direction": null,
+      "summary": "Turn 12 is a chicane after a 28 m run. About 45° of heading change, 34 m minimum radius.",
+      "approachFrom": "T11 exit"
+    },
+    {
+      "id": "hidden_valley_t13",
+      "number": 13,
+      "apex": [
+        50.72,
+        54.29
+      ],
+      "label": [
+        53.27,
+        58.82
+      ],
+      "entry": [
+        48.35,
+        55.38
+      ],
+      "exit": [
+        53.09,
+        53.2
+      ],
+      "classification": "constant_radius",
+      "headingChangeDeg": 74,
+      "minimumRadiusM": 26.4,
+      "lengthM": 58,
+      "previousStraightM": 14,
+      "direction": null,
+      "summary": "Turn 13 is a corner. About 74° of heading change, 26 m minimum radius.",
+      "approachFrom": "T12 exit"
+    }
+  ]
+}

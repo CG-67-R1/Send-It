@@ -1,0 +1,292 @@
+{
+  "trackId": "wakefield_park",
+  "name": "One Raceway (Wakefield Park)",
+  "lengthM": 2169.4,
+  "startFinish": [
+    27.95,
+    41.25
+  ],
+  "countSource": "autonomous",
+  "corners": [
+    {
+      "id": "wakefield_park_t1",
+      "number": 1,
+      "apex": [
+        34.13,
+        22.08
+      ],
+      "label": [
+        31.42,
+        17.64
+      ],
+      "entry": [
+        33.23,
+        24.42
+      ],
+      "exit": [
+        38.06,
+        17.01
+      ],
+      "classification": "opening",
+      "headingChangeDeg": 25,
+      "minimumRadiusM": 59.6,
+      "lengthM": 66,
+      "previousStraightM": 453.9,
+      "direction": "left",
+      "summary": "Turn 1 is a left opening corner after a 454 m straight. About 25° of heading change, 60 m minimum radius.",
+      "approachFrom": "start/finish straight"
+    },
+    {
+      "id": "wakefield_park_t2",
+      "number": 2,
+      "apex": [
+        48.32,
+        8.33
+      ],
+      "label": [
+        47.98,
+        3.14
+      ],
+      "entry": [
+        44.35,
+        10.63
+      ],
+      "exit": [
+        53.15,
+        10.91
+      ],
+      "classification": "tightening",
+      "headingChangeDeg": 88,
+      "minimumRadiusM": 24.6,
+      "lengthM": 76,
+      "previousStraightM": 64,
+      "direction": "right",
+      "summary": "Turn 2 is a right tightening corner after a 64 m run. About 88° of heading change, 25 m minimum radius.",
+      "approachFrom": "T1 exit"
+    },
+    {
+      "id": "wakefield_park_t3",
+      "number": 3,
+      "apex": [
+        59.11,
+        16.81
+      ],
+      "label": [
+        60.35,
+        11.76
+      ],
+      "entry": [
+        57.39,
+        14.98
+      ],
+      "exit": [
+        60.35,
+        18.67
+      ],
+      "classification": "constant_radius",
+      "headingChangeDeg": 15,
+      "minimumRadiusM": 96.8,
+      "lengthM": 36,
+      "previousStraightM": 42,
+      "direction": "left",
+      "summary": "Turn 3 is a left corner after a 42 m run. About 15° of heading change, 97 m minimum radius.",
+      "approachFrom": "T2 exit"
+    },
+    {
+      "id": "wakefield_park_t4",
+      "number": 4,
+      "apex": [
+        73.06,
+        44.11
+      ],
+      "label": [
+        78.1,
+        42.82
+      ],
+      "entry": [
+        71.31,
+        40.63
+      ],
+      "exit": [
+        76.89,
+        46.36
+      ],
+      "classification": "opening",
+      "headingChangeDeg": 46,
+      "minimumRadiusM": 35.4,
+      "lengthM": 62,
+      "previousStraightM": 175.9,
+      "direction": "left",
+      "summary": "Turn 4 is a left opening corner after a 176 m straight. About 46° of heading change, 35 m minimum radius.",
+      "approachFrom": "T3 exit"
+    },
+    {
+      "id": "wakefield_park_t5",
+      "number": 5,
+      "apex": [
+        86.12,
+        62.01
+      ],
+      "label": [
+        91.03,
+        63.72
+      ],
+      "entry": [
+        83.06,
+        49.01
+      ],
+      "exit": [
+        80.12,
+        64.62
+      ],
+      "classification": "hairpin",
+      "headingChangeDeg": 172,
+      "minimumRadiusM": 23,
+      "lengthM": 162,
+      "previousStraightM": 48,
+      "direction": "right",
+      "summary": "Turn 5 is a right hairpin after a 48 m run. About 172° of heading change, 23 m minimum radius.",
+      "approachFrom": "T4 exit"
+    },
+    {
+      "id": "wakefield_park_t6",
+      "number": 6,
+      "apex": [
+        65.6,
+        59.6
+      ],
+      "label": [
+        69.91,
+        62.51
+      ],
+      "entry": [
+        69.78,
+        62.14
+      ],
+      "exit": [
+        62.76,
+        51.89
+      ],
+      "classification": "double_apex",
+      "headingChangeDeg": 75,
+      "minimumRadiusM": 38.2,
+      "lengthM": 98,
+      "previousStraightM": 76,
+      "direction": null,
+      "summary": "Turn 6 is a double-apex corner after a 76 m run. About 75° of heading change, 38 m minimum radius.",
+      "approachFrom": "T5 exit"
+    },
+    {
+      "id": "wakefield_park_t7",
+      "number": 7,
+      "apex": [
+        62.11,
+        46.06
+      ],
+      "label": [
+        67.04,
+        44.41
+      ],
+      "entry": [
+        62.76,
+        51.33
+      ],
+      "exit": [
+        59.88,
+        40.94
+      ],
+      "classification": "chicane_element",
+      "headingChangeDeg": 27,
+      "minimumRadiusM": 67.3,
+      "lengthM": 80,
+      "previousStraightM": 4,
+      "direction": null,
+      "summary": "Turn 7 is a chicane. About 27° of heading change, 67 m minimum radius.",
+      "approachFrom": "T6 exit"
+    },
+    {
+      "id": "wakefield_park_t8",
+      "number": 8,
+      "apex": [
+        48.79,
+        30.63
+      ],
+      "label": [
+        48.19,
+        25.46
+      ],
+      "entry": [
+        56.98,
+        35.83
+      ],
+      "exit": [
+        44.12,
+        49.27
+      ],
+      "classification": "hairpin",
+      "headingChangeDeg": 175,
+      "minimumRadiusM": 27,
+      "lengthM": 229.9,
+      "previousStraightM": 42,
+      "direction": "left",
+      "summary": "Turn 8 is a left hairpin after a 42 m run. About 175° of heading change, 27 m minimum radius.",
+      "approachFrom": "T7 exit"
+    },
+    {
+      "id": "wakefield_park_t9",
+      "number": 9,
+      "apex": [
+        47.97,
+        60.24
+      ],
+      "label": [
+        46.52,
+        65.23
+      ],
+      "entry": [
+        47.23,
+        56.47
+      ],
+      "exit": [
+        45.92,
+        64.45
+      ],
+      "classification": "double_apex",
+      "headingChangeDeg": 62,
+      "minimumRadiusM": 39.4,
+      "lengthM": 64,
+      "previousStraightM": 56,
+      "direction": null,
+      "summary": "Turn 9 is a double-apex corner after a 56 m run. About 62° of heading change, 39 m minimum radius.",
+      "approachFrom": "T8 exit"
+    },
+    {
+      "id": "wakefield_park_t10",
+      "number": 10,
+      "apex": [
+        14.24,
+        91.13
+      ],
+      "label": [
+        10.79,
+        95.02
+      ],
+      "entry": [
+        19.14,
+        89.79
+      ],
+      "exit": [
+        13.7,
+        84.9
+      ],
+      "classification": "hairpin",
+      "headingChangeDeg": 153,
+      "minimumRadiusM": 18,
+      "lengthM": 90,
+      "previousStraightM": 263.9,
+      "direction": "left",
+      "summary": "Turn 10 is a left hairpin after a 264 m straight. About 153° of heading change, 18 m minimum radius.",
+      "approachFrom": "T9 exit"
+    }
+  ]
+}
