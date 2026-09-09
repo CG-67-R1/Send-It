@@ -1,4 +1,4 @@
-import React, { useCallback, useMemo, useState } from 'react';
+import React, { useCallback, useMemo, useRef, useState } from 'react';
 import { ScrollView, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 import { useFocusEffect, useNavigation } from '@react-navigation/native';
 import type { NativeStackNavigationProp } from '@react-navigation/native-stack';
@@ -9,7 +9,7 @@ import { TrackPicker } from '../components/TrackPicker';
 import { COMPACT_LOGO_SIZE } from '../constants/logoSizing';
 import { getGpxTrackMap } from '../data/gpxTrackMaps';
 import { getRacingLine } from '../data/racingLines';
-import { getTrackDetailsCorners } from '../data/trackDetailsCorners';
+import { getTrackDetailsCorners, getTrackDetailsLayoutRevision } from '../data/trackDetailsCorners';
 import type { TrackDetailsCorner } from '../data/trackDetailsCorners/types';
 import {
   TRACK_INFO_TRACK_IDS,
@@ -27,31 +27,20 @@ import {
 } from '../storage/trackdayPrep';
 import { getSavedRiderAiSkill } from '../utils/riderSkillSaved';
 import { trackInfoCoachingForSkill } from '../utils/riderSkillCopy';
+import {
+  findLatestTrackDetailsNote,
+  type TrackDetailsNoteMatch,
+} from '../utils/trackDetailsNotes';
 import type { RiderCoachStackParamList } from './RiderCoachScreen';
 import { CORNER_BLUE, CORNER_PAPER } from '../components/trackMapTheme';
 
 type Nav = NativeStackNavigationProp<RiderCoachStackParamList, 'TrackMemoryHub'>;
 
-function latestCornerNote(
-  sessions: { trackId: string; createdAt: number; entries: { type: string; cornerId?: string; text: string }[] }[],
-  trackId: string,
-  cornerId: string
-): string | null {
-  const forTrack = sessions
-    .filter((s) => s.trackId === trackId)
-    .sort((a, b) => b.createdAt - a.createdAt);
-  for (const session of forTrack) {
-    const entry = session.entries.find(
-      (e) => e.type === 'corner' && e.cornerId === cornerId && e.text.trim()
-    );
-    if (entry) return entry.text.trim();
-  }
-  return null;
-}
-
 function shapeLabel(classification: string): string {
   return classification.replaceAll('_', ' ');
 }
+
+const EMPTY_NOTE_MATCH: TrackDetailsNoteMatch = { savedNote: null, unpinnedNotes: [] };
 
 export function TrackMemoryHubScreen() {
   const navigation = useNavigation<Nav>();
@@ -60,7 +49,8 @@ export function TrackMemoryHubScreen() {
     infoTracks.length === 1 ? infoTracks[0].id : null
   );
   const [selectedCorner, setSelectedCorner] = useState<TrackDetailsCorner | null>(null);
-  const [savedNote, setSavedNote] = useState<string | null>(null);
+  const [noteMatch, setNoteMatch] = useState<TrackDetailsNoteMatch>(EMPTY_NOTE_MATCH);
+  const noteRequestSeq = useRef(0);
   const [riderSkill, setRiderSkill] = useState<RiderAiSkill>('novice');
   const coaching = useMemo(() => trackInfoCoachingForSkill(riderSkill), [riderSkill]);
 
@@ -88,6 +78,7 @@ export function TrackMemoryHubScreen() {
   const map = trackId ? getGpxTrackMap(trackId) : undefined;
   const racingLine = trackId ? getRacingLine(trackId) : undefined;
   const layout = trackId ? getTrackDetailsCorners(trackId) : undefined;
+  const layoutRevision = trackId ? getTrackDetailsLayoutRevision(trackId) : undefined;
   const catalog = trackId ? getTrackById(trackId) : undefined;
   const facts = trackId ? getTrackInfoFacts(trackId) : undefined;
   const asbk = facts?.asbkRecords?.filter((r) => r.time) ?? [];
@@ -108,12 +99,24 @@ export function TrackMemoryHubScreen() {
 
   const openCorner = useCallback(
     async (corner: TrackDetailsCorner) => {
-      if (!trackId) return;
+      if (!trackId || !layout) return;
+      const seq = noteRequestSeq.current + 1;
+      noteRequestSeq.current = seq;
       setSelectedCorner(corner);
+      setNoteMatch(EMPTY_NOTE_MATCH);
       const sessions = await getTrackWalkSessions();
-      setSavedNote(latestCornerNote(sessions, trackId, corner.id));
+      if (noteRequestSeq.current !== seq) return;
+      setNoteMatch(
+        findLatestTrackDetailsNote(
+          sessions,
+          trackId,
+          corner,
+          new Set(layout.corners.map((c) => c.id)),
+          layoutRevision
+        )
+      );
     },
-    [trackId]
+    [layout, layoutRevision, trackId]
   );
 
   const askCoach = useCallback(() => {
@@ -261,7 +264,8 @@ export function TrackMemoryHubScreen() {
         map={map}
         racingLine={racingLine}
         startFinish={layout?.startFinish}
-        savedNote={savedNote}
+        savedNote={noteMatch.savedNote}
+        unpinnedNotes={noteMatch.unpinnedNotes}
         onClose={() => setSelectedCorner(null)}
         onAskCoach={askCoach}
         onOpenTrackWalk={openWalk}
