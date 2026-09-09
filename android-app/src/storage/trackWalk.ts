@@ -16,6 +16,7 @@ export interface TrackWalkEntry {
   cornerNumber?: number | null;
   cornerLabel?: string;
   direction?: CornerDirection;
+  trackDetailsLayoutRevision?: string;
   text: string;
   photoUris?: string[];
 }
@@ -51,6 +52,10 @@ function normalizeEntry(raw: Record<string, unknown>): TrackWalkEntry {
         : undefined,
     cornerLabel: typeof raw.cornerLabel === 'string' ? raw.cornerLabel : undefined,
     direction: raw.direction as CornerDirection | undefined,
+    trackDetailsLayoutRevision:
+      typeof raw.trackDetailsLayoutRevision === 'string'
+        ? raw.trackDetailsLayoutRevision
+        : undefined,
     text: typeof raw.text === 'string' ? raw.text : '',
     photoUris: Array.isArray(raw.photoUris) ? (raw.photoUris as string[]) : undefined,
   };

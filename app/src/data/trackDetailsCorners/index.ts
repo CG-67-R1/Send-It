@@ -46,3 +46,16 @@ export const TRACK_DETAILS_CORNER_IDS = Object.keys(LAYOUTS);
 export function getTrackDetailsCorners(trackId: string): TrackDetailsCorners | undefined {
   return LAYOUTS[trackId];
 }
+
+export function getTrackDetailsLayoutRevision(trackId: string): string | undefined {
+  const layout = getTrackDetailsCorners(trackId);
+  if (!layout) return undefined;
+  const source = layout.corners
+    .map((c) => `${c.id}:${c.apex[0]},${c.apex[1]}:${c.entry[0]},${c.entry[1]}:${c.exit[0]},${c.exit[1]}`)
+    .join('|');
+  let hash = 5381;
+  for (let i = 0; i < source.length; i += 1) {
+    hash = (hash * 33) ^ source.charCodeAt(i);
+  }
+  return `gpx-${layout.corners.length}-${(hash >>> 0).toString(36)}`;
+}

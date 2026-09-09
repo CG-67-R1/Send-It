@@ -31,6 +31,7 @@ import {
   OTHER_TRACK,
   withDetectorCorners,
 } from '../data/tracks';
+import { getTrackDetailsLayoutRevision } from '../data/trackDetailsCorners';
 import { persistTrackWalkPhotos } from '../storage/trackWalkPhotos';
 import {
   saveTrackWalkSession,
@@ -384,6 +385,7 @@ export function TrackWalkScreen() {
         Alert.alert('Direction', 'Select turn direction for this corner.');
         return;
       }
+      const trackDetailsLayoutRevision = trackId ? getTrackDetailsLayoutRevision(trackId) : undefined;
       const photoUris = draftPhotos.length ? await persistTrackWalkPhotos(draftPhotos) : undefined;
       setEntries((prev) => [
         ...prev,
@@ -393,6 +395,7 @@ export function TrackWalkScreen() {
           cornerNumber: corner.number,
           cornerLabel: draftNickname.trim() || corner.label,
           direction,
+          trackDetailsLayoutRevision,
           text,
           photoUris,
         },

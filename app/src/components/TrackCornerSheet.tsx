@@ -20,6 +20,7 @@ type Props = {
   racingLine?: RacingLine;
   startFinish?: [number, number];
   savedNote: string | null;
+  unpinnedNotes?: string[];
   onClose: () => void;
   onAskCoach: () => void;
   onOpenTrackWalk: () => void;
@@ -36,6 +37,7 @@ export function TrackCornerSheet({
   racingLine,
   startFinish,
   savedNote,
+  unpinnedNotes = [],
   onClose,
   onAskCoach,
   onOpenTrackWalk,
@@ -95,6 +97,23 @@ export function TrackCornerSheet({
                     No saved note yet for this corner. Add one in Track Walk Notes.
                   </Text>
                 )}
+                {unpinnedNotes.length ? (
+                  <View>
+                    <Text style={styles.empty}>
+                      Older notes exist for this track, but they were saved against a previous map
+                      version or a turn that is no longer pinned. Review them in Track Walk before
+                      using them for this corner.
+                    </Text>
+                    {unpinnedNotes.slice(0, 3).map((note, index) => (
+                      <Text key={`${index}-${note}`} style={styles.unpinnedNote} numberOfLines={3}>
+                        {note}
+                      </Text>
+                    ))}
+                    {unpinnedNotes.length > 3 ? (
+                      <Text style={styles.empty}>+{unpinnedNotes.length - 3} more in Track Walk.</Text>
+                    ) : null}
+                  </View>
+                ) : null}
               </ScrollView>
 
               <TouchableOpacity style={styles.aiBtn} onPress={onAskCoach} activeOpacity={0.85}>
@@ -180,6 +199,15 @@ const styles = StyleSheet.create({
     color: '#94a3b8',
     lineHeight: 22,
     fontStyle: 'italic',
+  },
+  unpinnedNote: {
+    marginTop: 8,
+    padding: 10,
+    borderRadius: 8,
+    backgroundColor: '#0f172a',
+    color: '#cbd5e1',
+    fontSize: 13,
+    lineHeight: 18,
   },
   aiBtn: {
     marginTop: 8,
