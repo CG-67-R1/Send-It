@@ -83,13 +83,13 @@
         50.89,
         90.09
       ],
-      "classification": "triple_apex",
+      "classification": "constant_radius",
       "headingChangeDeg": 60,
       "minimumRadiusM": 105.1,
       "lengthM": 144.1,
       "previousStraightM": 12,
       "direction": null,
-      "summary": "Turn 3 is a triple-apex corner. About 60° of heading change, 105 m minimum radius.",
+      "summary": "Turn 3 is a corner. About 60° of heading change, 105 m minimum radius.",
       "approachFrom": "T2 exit"
     },
     {
@@ -111,13 +111,13 @@
         36.05,
         78.77
       ],
-      "classification": "triple_apex",
+      "classification": "tightening",
       "headingChangeDeg": 116,
       "minimumRadiusM": 62.3,
       "lengthM": 290.2,
       "previousStraightM": 1772.9,
       "direction": null,
-      "summary": "Turn 4 is a triple-apex corner after a 1773 m straight. About 116° of heading change, 62 m minimum radius.",
+      "summary": "Turn 4 is a tightening corner after a 1773 m straight. About 116° of heading change, 62 m minimum radius.",
       "approachFrom": "T3 exit"
     },
     {

@@ -55,13 +55,13 @@
         20.7,
         63.71
       ],
-      "classification": "triple_apex",
+      "classification": "opening",
       "headingChangeDeg": 44,
       "minimumRadiusM": 90.4,
       "lengthM": 118,
       "previousStraightM": 120,
       "direction": null,
-      "summary": "Turn 2 is a triple-apex corner after a 120 m straight. About 44° of heading change, 90 m minimum radius.",
+      "summary": "Turn 2 is a opening corner after a 120 m straight. About 44° of heading change, 90 m minimum radius.",
       "approachFrom": "T1 exit"
     },
     {
@@ -195,13 +195,13 @@
         83.53,
         15.81
       ],
-      "classification": "triple_apex",
+      "classification": "opening",
       "headingChangeDeg": 111,
       "minimumRadiusM": 45.4,
       "lengthM": 144,
       "previousStraightM": 144,
       "direction": null,
-      "summary": "Turn 7 is a triple-apex corner after a 144 m straight. About 111° of heading change, 45 m minimum radius.",
+      "summary": "Turn 7 is a opening corner after a 144 m straight. About 111° of heading change, 45 m minimum radius.",
       "approachFrom": "T6 exit"
     },
     {

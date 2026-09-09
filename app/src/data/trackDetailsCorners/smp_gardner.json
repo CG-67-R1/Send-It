@@ -27,13 +27,13 @@
         13.74,
         38.78
       ],
-      "classification": "triple_apex",
+      "classification": "sweeper",
       "headingChangeDeg": 89,
       "minimumRadiusM": 109.9,
       "lengthM": 308,
       "previousStraightM": 712.1,
       "direction": "left",
-      "summary": "Turn 1 is a left triple-apex corner after a 712 m straight. About 89° of heading change, 110 m minimum radius.",
+      "summary": "Turn 1 is a left sweeper after a 712 m straight. About 89° of heading change, 110 m minimum radius.",
       "approachFrom": "start/finish straight"
     },
     {
@@ -111,13 +111,13 @@
         43.21,
         55.29
       ],
-      "classification": "triple_apex",
+      "classification": "constant_radius",
       "headingChangeDeg": 106,
       "minimumRadiusM": 75.3,
       "lengthM": 176,
       "previousStraightM": 206,
       "direction": "right",
-      "summary": "Turn 4 is a right triple-apex corner after a 206 m straight. About 106° of heading change, 75 m minimum radius.",
+      "summary": "Turn 4 is a right corner after a 206 m straight. About 106° of heading change, 75 m minimum radius.",
       "approachFrom": "T3 exit"
     },
     {
@@ -139,13 +139,13 @@
         45.01,
         67.67
       ],
-      "classification": "triple_apex",
+      "classification": "constant_radius",
       "headingChangeDeg": 93,
       "minimumRadiusM": 41.6,
       "lengthM": 100,
       "previousStraightM": 92,
       "direction": "left",
-      "summary": "Turn 5 is a left triple-apex corner after a 92 m straight. About 93° of heading change, 42 m minimum radius.",
+      "summary": "Turn 5 is a left corner after a 92 m straight. About 93° of heading change, 42 m minimum radius.",
       "approachFrom": "T4 exit"
     },
     {
@@ -195,13 +195,13 @@
         62.18,
         48.56
       ],
-      "classification": "triple_apex",
+      "classification": "constant_radius",
       "headingChangeDeg": 91,
       "minimumRadiusM": 73.2,
       "lengthM": 158,
       "previousStraightM": 152,
       "direction": "right",
-      "summary": "Turn 7 is a right triple-apex corner after a 152 m straight. About 91° of heading change, 73 m minimum radius.",
+      "summary": "Turn 7 is a right corner after a 152 m straight. About 91° of heading change, 73 m minimum radius.",
       "approachFrom": "T6 exit"
     },
     {

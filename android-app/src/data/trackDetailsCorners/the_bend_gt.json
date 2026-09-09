@@ -55,13 +55,13 @@
         30.89,
         13.26
       ],
-      "classification": "triple_apex",
+      "classification": "constant_radius",
       "headingChangeDeg": 62,
       "minimumRadiusM": 55.8,
       "lengthM": 82,
       "previousStraightM": 50,
       "direction": null,
-      "summary": "Turn 2 is a triple-apex corner after a 50 m run. About 62° of heading change, 56 m minimum radius.",
+      "summary": "Turn 2 is a corner after a 50 m run. About 62° of heading change, 56 m minimum radius.",
       "approachFrom": "T1 exit"
     },
     {
@@ -139,13 +139,13 @@
         35.2,
         38.76
       ],
-      "classification": "triple_apex",
+      "classification": "constant_radius",
       "headingChangeDeg": 54,
       "minimumRadiusM": 96.2,
       "lengthM": 134,
       "previousStraightM": 144,
       "direction": null,
-      "summary": "Turn 5 is a triple-apex corner after a 144 m straight. About 54° of heading change, 96 m minimum radius.",
+      "summary": "Turn 5 is a corner after a 144 m straight. About 54° of heading change, 96 m minimum radius.",
       "approachFrom": "T4 exit"
     },
     {
@@ -195,13 +195,13 @@
         46.2,
         38.92
       ],
-      "classification": "triple_apex",
+      "classification": "constant_radius",
       "headingChangeDeg": 33,
       "minimumRadiusM": 164.3,
       "lengthM": 122,
       "previousStraightM": 52,
       "direction": null,
-      "summary": "Turn 7 is a triple-apex corner after a 52 m run. About 33° of heading change, 164 m minimum radius.",
+      "summary": "Turn 7 is a corner after a 52 m run. About 33° of heading change, 164 m minimum radius.",
       "approachFrom": "T6 exit"
     },
     {
@@ -223,13 +223,13 @@
         55.4,
         29.52
       ],
-      "classification": "triple_apex",
+      "classification": "constant_radius",
       "headingChangeDeg": 64,
       "minimumRadiusM": 108.8,
       "lengthM": 172,
       "previousStraightM": 60,
       "direction": null,
-      "summary": "Turn 8 is a triple-apex corner after a 60 m run. About 64° of heading change, 109 m minimum radius.",
+      "summary": "Turn 8 is a corner after a 60 m run. About 64° of heading change, 109 m minimum radius.",
       "approachFrom": "T7 exit"
     },
     {
@@ -307,13 +307,13 @@
         70.52,
         11.1
       ],
-      "classification": "triple_apex",
+      "classification": "tightening",
       "headingChangeDeg": 35,
       "minimumRadiusM": 107.5,
       "lengthM": 98,
       "previousStraightM": 32,
       "direction": null,
-      "summary": "Turn 11 is a triple-apex corner after a 32 m run. About 35° of heading change, 108 m minimum radius.",
+      "summary": "Turn 11 is a tightening corner after a 32 m run. About 35° of heading change, 108 m minimum radius.",
       "approachFrom": "T10 exit"
     },
     {
@@ -615,13 +615,13 @@
         45.02,
         77.85
       ],
-      "classification": "triple_apex",
+      "classification": "tightening",
       "headingChangeDeg": 69,
       "minimumRadiusM": 55.7,
       "lengthM": 92,
       "previousStraightM": 230,
       "direction": null,
-      "summary": "Turn 22 is a triple-apex corner after a 230 m straight. About 69° of heading change, 56 m minimum radius.",
+      "summary": "Turn 22 is a tightening corner after a 230 m straight. About 69° of heading change, 56 m minimum radius.",
       "approachFrom": "T21 exit"
     },
     {
@@ -727,13 +727,13 @@
         61.19,
         60.92
       ],
-      "classification": "triple_apex",
+      "classification": "tightening",
       "headingChangeDeg": 118,
       "minimumRadiusM": 33.6,
       "lengthM": 114,
       "previousStraightM": 110,
       "direction": null,
-      "summary": "Turn 26 is a triple-apex corner after a 110 m straight. About 118° of heading change, 34 m minimum radius.",
+      "summary": "Turn 26 is a tightening corner after a 110 m straight. About 118° of heading change, 34 m minimum radius.",
       "approachFrom": "T25 exit"
     },
     {
@@ -755,13 +755,13 @@
         40.36,
         65.1
       ],
-      "classification": "triple_apex",
+      "classification": "constant_radius",
       "headingChangeDeg": 86,
       "minimumRadiusM": 59.1,
       "lengthM": 110,
       "previousStraightM": 268,
       "direction": null,
-      "summary": "Turn 27 is a triple-apex corner after a 268 m straight. About 86° of heading change, 59 m minimum radius.",
+      "summary": "Turn 27 is a corner after a 268 m straight. About 86° of heading change, 59 m minimum radius.",
       "approachFrom": "T26 exit"
     },
     {
@@ -783,13 +783,13 @@
         30.36,
         52
       ],
-      "classification": "triple_apex",
+      "classification": "constant_radius",
       "headingChangeDeg": 101,
       "minimumRadiusM": 32.2,
       "lengthM": 78,
       "previousStraightM": 224,
       "direction": null,
-      "summary": "Turn 28 is a triple-apex corner after a 224 m straight. About 101° of heading change, 32 m minimum radius.",
+      "summary": "Turn 28 is a corner after a 224 m straight. About 101° of heading change, 32 m minimum radius.",
       "approachFrom": "T27 exit"
     },
     {
@@ -811,13 +811,13 @@
         28.6,
         59.57
       ],
-      "classification": "triple_apex",
+      "classification": "constant_radius",
       "headingChangeDeg": 113,
       "minimumRadiusM": 49.9,
       "lengthM": 124,
       "previousStraightM": 40,
       "direction": null,
-      "summary": "Turn 29 is a triple-apex corner after a 40 m run. About 113° of heading change, 50 m minimum radius.",
+      "summary": "Turn 29 is a corner after a 40 m run. About 113° of heading change, 50 m minimum radius.",
       "approachFrom": "T28 exit"
     },
     {

@@ -223,13 +223,13 @@
         74.53,
         59.87
       ],
-      "classification": "triple_apex",
+      "classification": "sweeper",
       "headingChangeDeg": 76,
       "minimumRadiusM": 96.7,
       "lengthM": 199.9,
       "previousStraightM": 20,
       "direction": null,
-      "summary": "Turn 8 is a triple-apex corner. About 76° of heading change, 97 m minimum radius.",
+      "summary": "Turn 8 is a sweeper. About 76° of heading change, 97 m minimum radius.",
       "approachFrom": "T7 exit"
     }
   ]

@@ -37,7 +37,6 @@ const SHAPE_PHRASE = {
   sweeper: 'sweeper',
   kink: 'kink',
   chicane_element: 'chicane',
-  triple_apex: 'triple-apex corner',
   double_apex: 'double-apex corner',
   tightening: 'tightening corner',
   opening: 'opening corner',

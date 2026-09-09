@@ -195,13 +195,13 @@
         20.31,
         31.42
       ],
-      "classification": "triple_apex",
+      "classification": "tightening",
       "headingChangeDeg": 96,
       "minimumRadiusM": 64.5,
       "lengthM": 184,
       "previousStraightM": 20,
       "direction": null,
-      "summary": "Turn 7 is a triple-apex corner. About 96° of heading change, 65 m minimum radius.",
+      "summary": "Turn 7 is a tightening corner. About 96° of heading change, 65 m minimum radius.",
       "approachFrom": "T6 exit"
     },
     {

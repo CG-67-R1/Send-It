@@ -27,13 +27,13 @@
         13.85,
         38.1
       ],
-      "classification": "triple_apex",
+      "classification": "sweeper",
       "headingChangeDeg": 85,
       "minimumRadiusM": 116.9,
       "lengthM": 311.9,
       "previousStraightM": 771.8,
       "direction": null,
-      "summary": "Turn 1 is a triple-apex corner after a 772 m straight. About 85° of heading change, 117 m minimum radius.",
+      "summary": "Turn 1 is a sweeper after a 772 m straight. About 85° of heading change, 117 m minimum radius.",
       "approachFrom": "start/finish straight"
     },
     {
@@ -111,13 +111,13 @@
         42.63,
         54.7
       ],
-      "classification": "triple_apex",
+      "classification": "constant_radius",
       "headingChangeDeg": 105,
       "minimumRadiusM": 58.4,
       "lengthM": 148,
       "previousStraightM": 208,
       "direction": null,
-      "summary": "Turn 4 is a triple-apex corner after a 208 m straight. About 105° of heading change, 58 m minimum radius.",
+      "summary": "Turn 4 is a corner after a 208 m straight. About 105° of heading change, 58 m minimum radius.",
       "approachFrom": "T3 exit"
     },
     {
@@ -139,13 +139,13 @@
         44.34,
         68.01
       ],
-      "classification": "triple_apex",
+      "classification": "constant_radius",
       "headingChangeDeg": 94,
       "minimumRadiusM": 49.7,
       "lengthM": 128,
       "previousStraightM": 92,
       "direction": null,
-      "summary": "Turn 5 is a triple-apex corner after a 92 m straight. About 94° of heading change, 50 m minimum radius.",
+      "summary": "Turn 5 is a corner after a 92 m straight. About 94° of heading change, 50 m minimum radius.",
       "approachFrom": "T4 exit"
     },
     {
@@ -391,13 +391,13 @@
         60.73,
         47.58
       ],
-      "classification": "triple_apex",
+      "classification": "tightening",
       "headingChangeDeg": 47,
       "minimumRadiusM": 85.4,
       "lengthM": 100,
       "previousStraightM": 86,
       "direction": null,
-      "summary": "Turn 14 is a triple-apex corner after a 86 m straight. About 47° of heading change, 85 m minimum radius.",
+      "summary": "Turn 14 is a tightening corner after a 86 m straight. About 47° of heading change, 85 m minimum radius.",
       "approachFrom": "T13 exit"
     },
     {
@@ -447,13 +447,13 @@
         80.68,
         46.52
       ],
-      "classification": "triple_apex",
+      "classification": "tightening",
       "headingChangeDeg": 60,
       "minimumRadiusM": 93.2,
       "lengthM": 158,
       "previousStraightM": 257.9,
       "direction": null,
-      "summary": "Turn 16 is a triple-apex corner after a 258 m straight. About 60° of heading change, 93 m minimum radius.",
+      "summary": "Turn 16 is a tightening corner after a 258 m straight. About 60° of heading change, 93 m minimum radius.",
       "approachFrom": "T15 exit"
     },
     {

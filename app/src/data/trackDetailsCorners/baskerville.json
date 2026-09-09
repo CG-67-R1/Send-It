@@ -139,13 +139,13 @@
         89,
         43
       ],
-      "classification": "triple_apex",
+      "classification": "opening",
       "headingChangeDeg": 86,
       "minimumRadiusM": 51.9,
       "lengthM": 126,
       "previousStraightM": 172,
       "direction": null,
-      "summary": "Turn 5 is a triple-apex corner after a 172 m straight. About 86° of heading change, 52 m minimum radius.",
+      "summary": "Turn 5 is a opening corner after a 172 m straight. About 86° of heading change, 52 m minimum radius.",
       "approachFrom": "T4 exit"
     },
     {
@@ -167,13 +167,13 @@
         63.43,
         27.68
       ],
-      "classification": "triple_apex",
+      "classification": "opening",
       "headingChangeDeg": 88,
       "minimumRadiusM": 51.1,
       "lengthM": 138,
       "previousStraightM": 120,
       "direction": null,
-      "summary": "Turn 6 is a triple-apex corner after a 120 m straight. About 88° of heading change, 51 m minimum radius.",
+      "summary": "Turn 6 is a opening corner after a 120 m straight. About 88° of heading change, 51 m minimum radius.",
       "approachFrom": "T5 exit"
     },
     {

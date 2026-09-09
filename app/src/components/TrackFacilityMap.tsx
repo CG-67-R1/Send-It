@@ -15,7 +15,7 @@ import { GRASS } from './trackMapTheme';
 
 const MIN_ZOOM = 1;
 const MAX_ZOOM = 6;
-const DEFAULT_ZOOM = 2;
+const DEFAULT_ZOOM = 1;
 const ZOOM_STEP = 0.5;
 
 const MAP_HINT =

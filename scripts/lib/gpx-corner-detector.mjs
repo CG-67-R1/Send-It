@@ -1008,7 +1008,7 @@ function primaryClassification(metric, shape, profile, isChicane, peakCount) {
   if (metric.headingChangeDeg <= profile.kinkMaxAngleDeg && metric.minimumRadiusM >= profile.kinkMinRadiusM) {
     return 'kink';
   }
-  if (peakCount >= 3) return 'triple_apex';
+  // Extra curvature peaks are not a rider type — there is no "triple apex".
   if (peakCount === 2) return 'double_apex';
   if (metric.lengthM >= profile.sweeperMinLengthM && metric.minimumRadiusM >= profile.sweeperMinRadiusM) {
     return 'sweeper';

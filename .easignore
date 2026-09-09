@@ -1,13 +1,20 @@
 # Keep EAS uploads small. Leading `/` = repo root only (do not exclude app/src/packs).
-# Root .easignore replaces .gitignore for the upload, so Gradle caches must be listed here.
+# Root .easignore replaces .gitignore for the upload, so copy gitignore rules here too.
 /marketing/
 /docs/
 /ST/
 /Q&A/
 /packs/
-/api/data/
+/api/
 /scripts/
+/tests/
 /android-app/
+/BikeTech/
+/DigiMark_Response/
+/tmp/
+/.cursor/
+/.vscode/
+/.github/
 **/*.mp4
 **/*.pdf
 **/node_modules/
@@ -15,6 +22,22 @@
 /app/dist/
 /app/.expo/
 /app/.vercel/
+/app/web-build/
 **/.git/
 **/agent-transcripts/
 **/terminals/
+
+# From .gitignore — secrets and scratch (easignore does not inherit gitignore)
+.env
+.env.local
+*.local
+apple-credentials.env
+AuthKey_*.p8
+*.p8
+*.p12
+*.mobileprovision
+.DS_Store
+Thumbs.db
+*.log
+npm-debug.log*
+__pycache__/
