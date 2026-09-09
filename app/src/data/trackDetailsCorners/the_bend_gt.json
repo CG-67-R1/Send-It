@@ -32,8 +32,8 @@
       "minimumRadiusM": 27.8,
       "lengthM": 70,
       "previousStraightM": 982,
-      "direction": "right",
-      "summary": "Turn 1 is a right double-apex corner after a 982 m straight. About 85° of heading change, 28 m minimum radius.",
+      "direction": null,
+      "summary": "Turn 1 is a double-apex corner after a 982 m straight. About 85° of heading change, 28 m minimum radius.",
       "approachFrom": "start/finish straight"
     },
     {
@@ -48,7 +48,7 @@
         10.88
       ],
       "entry": [
-        27.03,
+        27.02,
         15.74
       ],
       "exit": [
@@ -60,8 +60,8 @@
       "minimumRadiusM": 55.8,
       "lengthM": 82,
       "previousStraightM": 50,
-      "direction": "left",
-      "summary": "Turn 2 is a left triple-apex corner after a 50 m run. About 62° of heading change, 56 m minimum radius.",
+      "direction": null,
+      "summary": "Turn 2 is a triple-apex corner after a 50 m run. About 62° of heading change, 56 m minimum radius.",
       "approachFrom": "T1 exit"
     },
     {
@@ -81,31 +81,31 @@
       ],
       "exit": [
         38.12,
-        13.64
+        13.63
       ],
       "classification": "chicane_element",
       "headingChangeDeg": 150,
       "minimumRadiusM": 35.5,
       "lengthM": 180,
       "previousStraightM": 10,
-      "direction": "right",
-      "summary": "Turn 3 is a right chicane. About 150° of heading change, 36 m minimum radius.",
+      "direction": null,
+      "summary": "Turn 3 is a chicane. About 150° of heading change, 36 m minimum radius.",
       "approachFrom": "T2 exit"
     },
     {
       "id": "the_bend_gt_t4",
       "number": 4,
       "apex": [
-        38.36,
+        38.37,
         20.49
       ],
       "label": [
-        36.14,
+        36.16,
         15.79
       ],
       "entry": [
         38.43,
-        18.17
+        18.16
       ],
       "exit": [
         37.86,
@@ -116,8 +116,8 @@
       "minimumRadiusM": 163.1,
       "lengthM": 78,
       "previousStraightM": 74,
-      "direction": "right",
-      "summary": "Turn 4 is a right kink after a 74 m run. About 21° of heading change, 163 m minimum radius.",
+      "direction": null,
+      "summary": "Turn 4 is a kink after a 74 m run. About 21° of heading change, 163 m minimum radius.",
       "approachFrom": "T3 exit"
     },
     {
@@ -133,35 +133,35 @@
       ],
       "entry": [
         34.66,
-        30.99
+        31
       ],
       "exit": [
-        35.19,
-        38.75
+        35.2,
+        38.76
       ],
       "classification": "triple_apex",
       "headingChangeDeg": 54,
       "minimumRadiusM": 96.2,
       "lengthM": 134,
       "previousStraightM": 144,
-      "direction": "left",
-      "summary": "Turn 5 is a left triple-apex corner after a 144 m straight. About 54° of heading change, 96 m minimum radius.",
+      "direction": null,
+      "summary": "Turn 5 is a triple-apex corner after a 144 m straight. About 54° of heading change, 96 m minimum radius.",
       "approachFrom": "T4 exit"
     },
     {
       "id": "the_bend_gt_t6",
       "number": 6,
       "apex": [
-        45.65,
+        45.66,
         52.87
       ],
       "label": [
-        41.31,
+        41.33,
         55.74
       ],
       "entry": [
-        42.49,
-        51.12
+        42.5,
+        51.13
       ],
       "exit": [
         46.49,
@@ -181,11 +181,11 @@
       "number": 7,
       "apex": [
         45.49,
-        42.28
+        42.27
       ],
       "label": [
-        41.91,
-        38.51
+        41.92,
+        38.49
       ],
       "entry": [
         45.79,
@@ -193,15 +193,15 @@
       ],
       "exit": [
         46.2,
-        38.93
+        38.92
       ],
       "classification": "triple_apex",
       "headingChangeDeg": 33,
       "minimumRadiusM": 164.3,
       "lengthM": 122,
       "previousStraightM": 52,
-      "direction": "right",
-      "summary": "Turn 7 is a right triple-apex corner after a 52 m run. About 33° of heading change, 164 m minimum radius.",
+      "direction": null,
+      "summary": "Turn 7 is a triple-apex corner after a 52 m run. About 33° of heading change, 164 m minimum radius.",
       "approachFrom": "T6 exit"
     },
     {
@@ -220,7 +220,7 @@
         35.48
       ],
       "exit": [
-        55.39,
+        55.4,
         29.52
       ],
       "classification": "triple_apex",
@@ -228,8 +228,8 @@
       "minimumRadiusM": 108.8,
       "lengthM": 172,
       "previousStraightM": 60,
-      "direction": "left",
-      "summary": "Turn 8 is a left triple-apex corner after a 60 m run. About 64° of heading change, 109 m minimum radius.",
+      "direction": null,
+      "summary": "Turn 8 is a triple-apex corner after a 60 m run. About 64° of heading change, 109 m minimum radius.",
       "approachFrom": "T7 exit"
     },
     {
@@ -244,11 +244,11 @@
         21.52
       ],
       "entry": [
-        63.71,
+        63.72,
         28.89
       ],
       "exit": [
-        59.9,
+        59.91,
         20.49
       ],
       "classification": "hairpin",
@@ -256,8 +256,8 @@
       "minimumRadiusM": 40.8,
       "lengthM": 244,
       "previousStraightM": 136,
-      "direction": "right",
-      "summary": "Turn 9 is a right hairpin after a 136 m straight. About 175° of heading change, 41 m minimum radius.",
+      "direction": null,
+      "summary": "Turn 9 is a hairpin after a 136 m straight. About 175° of heading change, 41 m minimum radius.",
       "approachFrom": "T8 exit"
     },
     {
@@ -272,7 +272,7 @@
         9.42
       ],
       "entry": [
-        59.65,
+        59.66,
         20.49
       ],
       "exit": [
@@ -293,11 +293,11 @@
       "number": 11,
       "apex": [
         68.43,
-        9.61
+        9.62
       ],
       "label": [
         70.47,
-        4.83
+        4.84
       ],
       "entry": [
         65.25,
@@ -332,8 +332,8 @@
         13.74
       ],
       "exit": [
-        75.03,
-        18.35
+        75.04,
+        18.34
       ],
       "classification": "double_apex",
       "headingChangeDeg": 51,
@@ -349,18 +349,18 @@
       "number": 13,
       "apex": [
         77,
-        34.07
+        34.08
       ],
       "label": [
         81.49,
-        31.44
+        31.46
       ],
       "entry": [
         76.33,
         32.13
       ],
       "exit": [
-        78.65,
+        78.66,
         35.3
       ],
       "classification": "double_apex",
@@ -385,11 +385,11 @@
       ],
       "entry": [
         79.21,
-        35.55
+        35.56
       ],
       "exit": [
         80.35,
-        45.34
+        45.33
       ],
       "classification": "chicane_element",
       "headingChangeDeg": 107,
@@ -412,12 +412,12 @@
         46.2
       ],
       "entry": [
-        80.1,
-        45.61
+        80.11,
+        45.6
       ],
       "exit": [
         79.56,
-        47.7
+        47.71
       ],
       "classification": "chicane_element",
       "headingChangeDeg": 57,
@@ -440,7 +440,7 @@
         49.05
       ],
       "entry": [
-        79.6,
+        79.61,
         47.82
       ],
       "exit": [
@@ -472,8 +472,8 @@
         50.46
       ],
       "exit": [
-        79.56,
-        55.17
+        79.57,
+        55.18
       ],
       "classification": "chicane_element",
       "headingChangeDeg": 74,
@@ -489,19 +489,19 @@
       "number": 18,
       "apex": [
         81.73,
-        62.28
+        62.29
       ],
       "label": [
         86.48,
-        64.4
+        64.41
       ],
       "entry": [
-        79.72,
+        79.73,
         55.36
       ],
       "exit": [
         77.27,
-        67.78
+        67.77
       ],
       "classification": "chicane_element",
       "headingChangeDeg": 106,
@@ -517,11 +517,11 @@
       "number": 19,
       "apex": [
         73.16,
-        69.92
+        69.93
       ],
       "label": [
         76.87,
-        73.56
+        73.58
       ],
       "entry": [
         74.38,
@@ -529,7 +529,7 @@
       ],
       "exit": [
         72.73,
-        71.31
+        71.32
       ],
       "classification": "constant_radius",
       "headingChangeDeg": 57,
@@ -544,20 +544,20 @@
       "id": "the_bend_gt_t20",
       "number": 20,
       "apex": [
-        67.53,
+        67.54,
         91.67
       ],
       "label": [
-        69.33,
+        69.34,
         96.55
       ],
       "entry": [
-        69.99,
-        89.15
+        69.98,
+        89.16
       ],
       "exit": [
         65.33,
-        89.19
+        89.2
       ],
       "classification": "hairpin",
       "headingChangeDeg": 171,
@@ -572,19 +572,19 @@
       "id": "the_bend_gt_t21",
       "number": 21,
       "apex": [
-        64.52,
-        86.69
+        64.53,
+        86.7
       ],
       "label": [
-        66.19,
-        91.62
+        66.2,
+        91.63
       ],
       "entry": [
         65.35,
-        88.95
+        88.96
       ],
       "exit": [
-        62.03,
+        62.04,
         85.25
       ],
       "classification": "chicane_element",
@@ -600,20 +600,20 @@
       "id": "the_bend_gt_t22",
       "number": 22,
       "apex": [
-        45.95,
-        80.31
+        45.96,
+        80.32
       ],
       "label": [
-        45.01,
-        85.42
+        45.02,
+        85.43
       ],
       "entry": [
-        48.38,
-        81.63
+        48.39,
+        81.64
       ],
       "exit": [
         45.02,
-        77.84
+        77.85
       ],
       "classification": "triple_apex",
       "headingChangeDeg": 69,
@@ -629,15 +629,15 @@
       "number": 23,
       "apex": [
         44.85,
-        74.79
+        74.8
       ],
       "label": [
         43.52,
-        79.82
+        79.83
       ],
       "entry": [
         44.86,
-        76.37
+        76.38
       ],
       "exit": [
         45.58,
@@ -656,20 +656,20 @@
       "id": "the_bend_gt_t24",
       "number": 24,
       "apex": [
-        54.52,
+        54.53,
         66.8
       ],
       "label": [
-        55.32,
+        55.33,
         71.94
       ],
       "entry": [
         47.1,
-        71
+        71.01
       ],
       "exit": [
         57.84,
-        69.42
+        69.43
       ],
       "classification": "tightening",
       "headingChangeDeg": 127,
@@ -684,16 +684,16 @@
       "id": "the_bend_gt_t25",
       "number": 25,
       "apex": [
-        62.15,
+        62.16,
         74.48
       ],
       "label": [
-        64.11,
+        64.12,
         79.3
       ],
       "entry": [
         58.69,
-        71.85
+        71.86
       ],
       "exit": [
         64.79,
@@ -712,11 +712,11 @@
       "id": "the_bend_gt_t26",
       "number": 26,
       "apex": [
-        64.17,
+        64.18,
         61.28
       ],
       "label": [
-        67.85,
+        67.86,
         64.95
       ],
       "entry": [
@@ -740,11 +740,11 @@
       "id": "the_bend_gt_t27",
       "number": 27,
       "apex": [
-        42.6,
+        42.61,
         67.23
       ],
       "label": [
-        40.29,
+        40.3,
         71.89
       ],
       "entry": [
@@ -753,7 +753,7 @@
       ],
       "exit": [
         40.36,
-        65.09
+        65.1
       ],
       "classification": "triple_apex",
       "headingChangeDeg": 86,
@@ -776,8 +776,8 @@
         51.98
       ],
       "entry": [
-        34.12,
-        52.84
+        34.13,
+        52.85
       ],
       "exit": [
         30.36,
@@ -797,11 +797,11 @@
       "number": 29,
       "apex": [
         26.67,
-        56.77
+        56.78
       ],
       "label": [
         21.71,
-        58.34
+        58.35
       ],
       "entry": [
         28.4,
@@ -825,11 +825,11 @@
       "number": 30,
       "apex": [
         32.07,
-        62.79
+        62.8
       ],
       "label": [
         27.83,
-        65.8
+        65.81
       ],
       "entry": [
         28.81,
@@ -837,7 +837,7 @@
       ],
       "exit": [
         33.53,
-        67.17
+        67.18
       ],
       "classification": "chicane_element",
       "headingChangeDeg": 53,
@@ -852,16 +852,16 @@
       "id": "the_bend_gt_t31",
       "number": 31,
       "apex": [
-        34.69,
-        86.43
+        34.68,
+        86.44
       ],
       "label": [
-        32.54,
-        91.17
+        32.53,
+        91.18
       ],
       "entry": [
         35.19,
-        84.64
+        84.65
       ],
       "exit": [
         32.72,

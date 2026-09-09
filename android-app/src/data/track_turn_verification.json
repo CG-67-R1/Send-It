@@ -1,20 +1,7 @@
 {
   "version": 2,
-  "policy": "left|right only with handSources evidence. Prefer complex over a wrong hand. Never set turn hand from GPX bearings or from circuit clockwise/anticlockwise alone.",
-  "updated": "2026-09-07",
-  "lockedCornerCounts": {
-    "phillip_island": 12,
-    "mac_park": 12,
-    "the_bend_international": 18,
-    "the_bend_gt": 35,
-    "smp_brabham": 18,
-    "smp_druitt": 8,
-    "sandown": 13,
-    "winton": 12,
-    "calder_park": 10,
-    "hidden_valley": 14,
-    "baskerville": 10
-  },
+  "policy": "left|right only with handSources evidence. Prefer complex over a wrong hand. Never set turn hand from GPX bearings or from circuit clockwise/anticlockwise alone. Track Details and Track Walk turn counts come from the GPX corner detector; do not lock them to a previous catalog count.",
+  "updated": "2026-09-09",
   "allowedSourceMethods": [
     "rider",
     "official_map",

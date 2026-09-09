@@ -262,7 +262,7 @@ function inMap(p) {
   );
 }
 
-/** Numbered turns baked from the locked detector onto the GPX map. */
+/** Numbered turns baked from the autonomous detector onto the GPX map. */
 function proveCorners(id, map) {
   const copies = {};
   for (const [label, dir] of [

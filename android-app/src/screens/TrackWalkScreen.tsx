@@ -24,7 +24,13 @@ import { CornerPicker } from '../components/CornerPicker';
 import { OtherTrackContextForm } from '../components/OtherTrackContextForm';
 import { TrackPicker } from '../components/TrackPicker';
 import type { CornerDefinition, CornerDirection, OtherTrackContext, TrackDefinition } from '../data/tracks';
-import { formatCornerHeading, getTrackById, isOtherTrackComplete, OTHER_TRACK } from '../data/tracks';
+import {
+  formatCornerHeading,
+  getTrackById,
+  isOtherTrackComplete,
+  OTHER_TRACK,
+  withDetectorCorners,
+} from '../data/tracks';
 import { persistTrackWalkPhotos } from '../storage/trackWalkPhotos';
 import {
   saveTrackWalkSession,
@@ -145,7 +151,8 @@ export function TrackWalkScreen() {
         direction: otherContext.direction === 'unknown' ? 'unknown' : otherContext.direction,
       };
     }
-    return getTrackById(trackId) ?? null;
+    const catalogTrack = getTrackById(trackId);
+    return catalogTrack ? withDetectorCorners(catalogTrack) : null;
   }, [trackId, otherContext.customName, otherContext.direction]);
 
   const loadSavedSessions = useCallback(async () => {

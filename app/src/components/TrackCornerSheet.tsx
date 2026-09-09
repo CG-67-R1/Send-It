@@ -74,7 +74,7 @@ export function TrackCornerSheet({
                       width={zoomSize}
                       height={zoomSize}
                       viewBox={viewBox}
-                      highlight={corner}
+                      corners={[corner]}
                       startFinish={startFinish}
                       showNumbers
                     />

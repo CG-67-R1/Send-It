@@ -20,7 +20,8 @@ const ZOOM_STEP = 0.5;
 
 const MAP_HINT =
   'Track map from the circuit GPS trace, drawn to the real width of the road — zoom in to read it.';
-const GUIDE_HINT = 'The red line is a suggested line, not instruction.';
+const GUIDE_HINT =
+  'The coloured line is a suggested line — red braking, blue release, green throttle, yellow full drive — not instruction.';
 const NOTES_HINT = 'Tap a turn number on the map, or the same number in the list.';
 
 type Props = {

@@ -3,8 +3,8 @@
   "name": "Hidden Valley Raceway",
   "lengthM": 2510.1,
   "startFinish": [
-    86.15,
-    38.08
+    51.02,
+    54.15
   ],
   "countSource": "autonomous",
   "corners": [
@@ -12,20 +12,20 @@
       "id": "hidden_valley_t1",
       "number": 1,
       "apex": [
-        60.4,
-        43.5
+        91.64,
+        32.61
       ],
       "label": [
-        65.58,
-        43.09
+        96.67,
+        31.3
       ],
       "entry": [
-        70.2,
-        41.7
+        86.03,
+        38.14
       ],
       "exit": [
-        53.1,
-        46.3
+        82.71,
+        32.1
       ],
       "classification": "hairpin",
       "headingChangeDeg": 202,
@@ -40,20 +40,20 @@
       "id": "hidden_valley_t2",
       "number": 2,
       "apex": [
-        44.18,
-        35.79
+        69.19,
+        45.84
       ],
       "label": [
-        43.52,
-        30.63
+        74.38,
+        46.09
       ],
       "entry": [
-        45.76,
-        44.78
+        77.85,
+        41.88
       ],
       "exit": [
-        43.36,
-        31.58
+        65.26,
+        47.64
       ],
       "classification": "double_apex",
       "headingChangeDeg": 49,
@@ -68,20 +68,20 @@
       "id": "hidden_valley_t3",
       "number": 3,
       "apex": [
-        42.4,
-        28.8
+        60.41,
+        43.5
       ],
       "label": [
-        41.46,
-        23.69
+        65.59,
+        43.09
       ],
       "entry": [
-        43.21,
-        30.85
+        64.63,
+        47.93
       ],
       "exit": [
-        40.16,
-        28.37
+        58.03,
+        44.41
       ],
       "classification": "chicane_element",
       "headingChangeDeg": 23,
@@ -96,20 +96,20 @@
       "id": "hidden_valley_t4",
       "number": 4,
       "apex": [
-        39.5,
-        41.3
+        47.45,
+        47.34
       ],
       "label": [
-        35.01,
-        38.68
+        50.71,
+        51.39
       ],
       "entry": [
-        39.34,
-        37.95
+        48.98,
+        47.7
       ],
       "exit": [
-        38.52,
-        45.53
+        45.97,
+        45.6
       ],
       "classification": "double_apex",
       "headingChangeDeg": 109,
@@ -124,20 +124,20 @@
       "id": "hidden_valley_t5",
       "number": 5,
       "apex": [
-        19.07,
-        49.18
+        40.54,
+        28.26
       ],
       "label": [
-        13.94,
-        50.05
+        39.09,
+        23.27
       ],
       "entry": [
-        23.88,
-        49.28
+        42.83,
+        29.46
       ],
       "exit": [
-        15,
-        49.68
+        39.09,
+        29.6
       ],
       "classification": "hairpin",
       "headingChangeDeg": 190,
@@ -152,20 +152,20 @@
       "id": "hidden_valley_t6",
       "number": 6,
       "apex": [
-        9.15,
-        60.66
+        39.19,
+        44.44
       ],
       "label": [
-        4.39,
-        62.76
+        33.99,
+        44.22
       ],
       "entry": [
-        8.59,
-        57.17
+        39.51,
+        41.44
       ],
       "exit": [
-        8.74,
-        64.71
+        36.81,
+        46.97
       ],
       "classification": "double_apex",
       "headingChangeDeg": 75,
@@ -180,20 +180,20 @@
       "id": "hidden_valley_t7",
       "number": 7,
       "apex": [
-        10.11,
-        70.19
+        31.17,
+        49.59
       ],
       "label": [
-        5.9,
-        73.24
+        26.26,
+        51.29
       ],
       "entry": [
-        9.06,
-        68.65
+        32.93,
+        48.79
       ],
       "exit": [
-        11.5,
-        71.65
+        29.32,
+        49.89
       ],
       "classification": "constant_radius",
       "headingChangeDeg": 35,
@@ -208,20 +208,20 @@
       "id": "hidden_valley_t8",
       "number": 8,
       "apex": [
-        18.37,
-        69.14
+        21.52,
+        49.01
       ],
       "label": [
-        14.52,
-        72.63
+        16.4,
+        49.94
       ],
       "entry": [
-        17.18,
-        69.68
+        22.87,
+        49.16
       ],
       "exit": [
-        19.72,
-        68.51
+        20.01,
+        49.06
       ],
       "classification": "constant_radius",
       "headingChangeDeg": 15,
@@ -236,20 +236,20 @@
       "id": "hidden_valley_t9",
       "number": 9,
       "apex": [
-        26.67,
-        65.33
+        12.2,
+        50.19
       ],
       "label": [
-        23.18,
-        69.19
+        7.07,
+        51.04
       ],
       "entry": [
-        24.81,
-        66.18
+        14.13,
+        49.79
       ],
       "exit": [
-        28.7,
-        64.39
+        10.6,
+        51.54
       ],
       "classification": "constant_radius",
       "headingChangeDeg": 48,
@@ -264,20 +264,20 @@
       "id": "hidden_valley_t10",
       "number": 10,
       "apex": [
-        31.75,
-        63
+        8.5,
+        54.26
       ],
       "label": [
-        28.65,
-        67.18
+        3.47,
+        55.57
       ],
       "entry": [
-        29.89,
-        63.85
+        9.71,
+        52.59
       ],
       "exit": [
-        33.95,
-        61.99
+        8.52,
+        56.77
       ],
       "classification": "constant_radius",
       "headingChangeDeg": 54,
@@ -292,20 +292,20 @@
       "id": "hidden_valley_t11",
       "number": 11,
       "apex": [
-        39.2,
-        59.58
+        9.15,
+        62.47
       ],
       "label": [
-        37.22,
-        64.39
+        4.48,
+        64.76
       ],
       "entry": [
-        37.34,
-        60.43
+        9.15,
+        60.62
       ],
       "exit": [
-        40.56,
-        58.95
+        8.87,
+        63.97
       ],
       "classification": "tightening",
       "headingChangeDeg": 20,
@@ -320,20 +320,20 @@
       "id": "hidden_valley_t12",
       "number": 12,
       "apex": [
-        44.79,
-        57.01
+        9.64,
+        69.5
       ],
       "label": [
-        44.56,
-        62.21
+        5.37,
+        72.47
       ],
       "entry": [
-        42.93,
-        57.87
+        8.5,
+        67.42
       ],
       "exit": [
-        47.16,
-        55.92
+        11.7,
+        71.72
       ],
       "classification": "chicane_element",
       "headingChangeDeg": 45,
@@ -348,20 +348,20 @@
       "id": "hidden_valley_t13",
       "number": 13,
       "apex": [
-        50.72,
-        54.29
+        13.63,
+        71.31
       ],
       "label": [
-        53.27,
-        58.82
+        9.65,
+        74.65
       ],
       "entry": [
-        48.35,
-        55.38
+        12.52,
+        71.75
       ],
       "exit": [
-        53.09,
-        53.2
+        16.02,
+        70.21
       ],
       "classification": "constant_radius",
       "headingChangeDeg": 74,

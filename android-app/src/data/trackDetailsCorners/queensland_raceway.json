@@ -40,12 +40,12 @@
       "id": "queensland_raceway_t2",
       "number": 2,
       "apex": [
-        34.1,
-        88.52
+        34.11,
+        88.53
       ],
       "label": [
-        31.81,
-        93.19
+        31.83,
+        93.2
       ],
       "entry": [
         44.33,
@@ -53,7 +53,7 @@
       ],
       "exit": [
         30.91,
-        77.81
+        77.83
       ],
       "classification": "triple_apex",
       "headingChangeDeg": 111,
@@ -68,20 +68,20 @@
       "id": "queensland_raceway_t3",
       "number": 3,
       "apex": [
-        46.14,
+        46.13,
         8.4
       ],
       "label": [
-        45.59,
+        45.58,
         3.23
       ],
       "entry": [
-        41.85,
+        41.86,
         11.91
       ],
       "exit": [
         51.07,
-        20.26
+        20.25
       ],
       "classification": "hairpin",
       "headingChangeDeg": 181,
@@ -97,18 +97,18 @@
       "number": 4,
       "apex": [
         44.71,
-        69.13
+        69.12
       ],
       "label": [
         42.71,
-        73.93
+        73.92
       ],
       "entry": [
         43.61,
         64.92
       ],
       "exit": [
-        48.46,
+        48.45,
         69.68
       ],
       "classification": "triple_apex",
@@ -132,12 +132,12 @@
         70.89
       ],
       "entry": [
-        53.91,
+        53.9,
         68.24
       ],
       "exit": [
         58.41,
-        61.08
+        61.09
       ],
       "classification": "triple_apex",
       "headingChangeDeg": 74,
@@ -152,11 +152,11 @@
       "id": "queensland_raceway_t6",
       "number": 6,
       "apex": [
-        63.73,
+        63.72,
         17.5
       ],
       "label": [
-        65.44,
+        65.43,
         12.59
       ],
       "entry": [

@@ -11,7 +11,6 @@ export const START_YELLOW = '#F5C242';
 export const EDGE_UNITS = 2;
 export const SURFACE_UNITS = 1.2;
 export const GUIDE_UNITS = 0.15;
-export const HIGHLIGHT_UNITS = 2.2;
 export const BADGE_RADIUS = 3.15;
 export const BADGE_HIT_RADIUS = 6;
 export const BADGE_FONT = 3.4;

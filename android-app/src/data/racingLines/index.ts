@@ -15,6 +15,7 @@ import smpGardner from './smp_gardner.json';
 import theBendGt from './the_bend_gt.json';
 import theBendInternational from './the_bend_international.json';
 import wakefieldPark from './wakefield_park.json';
+import wanneroo from './wanneroo.json';
 import winton from './winton.json';
 import type { RacingLine } from './types';
 
@@ -36,6 +37,7 @@ const LINES: Record<string, RacingLine> = {
   the_bend_gt: theBendGt as RacingLine,
   the_bend_international: theBendInternational as RacingLine,
   wakefield_park: wakefieldPark as RacingLine,
+  wanneroo: wanneroo as RacingLine,
   winton: winton as RacingLine,
 };
 

@@ -3,8 +3,8 @@
   "name": "Sandown Raceway",
   "lengthM": 3199.3,
   "startFinish": [
-    61.84,
-    50.16
+    61.85,
+    50.13
   ],
   "countSource": "autonomous",
   "corners": [
@@ -12,20 +12,20 @@
       "id": "sandown_t1",
       "number": 1,
       "apex": [
-        67.06,
-        22.33
+        67.03,
+        22.19
       ],
       "label": [
-        70.09,
-        18.11
+        70.05,
+        17.96
       ],
       "entry": [
-        66.87,
-        26.86
+        66.92,
+        26.59
       ],
       "exit": [
-        65.12,
-        18.4
+        65.06,
+        18.34
       ],
       "classification": "double_apex",
       "headingChangeDeg": 52,
@@ -40,20 +40,20 @@
       "id": "sandown_t2",
       "number": 2,
       "apex": [
-        63.76,
-        16.73
+        63.69,
+        16.62
       ],
       "label": [
-        65.96,
-        12.02
+        65.87,
+        11.9
       ],
       "entry": [
-        64.71,
-        17.92
+        64.65,
+        17.85
       ],
       "exit": [
-        63.21,
-        15.59
+        63.15,
+        15.32
       ],
       "classification": "chicane_element",
       "headingChangeDeg": 31,
@@ -68,20 +68,20 @@
       "id": "sandown_t3",
       "number": 3,
       "apex": [
-        62.77,
-        13.36
+        62.69,
+        13.14
       ],
       "label": [
-        64.65,
-        8.51
+        64.55,
+        8.28
       ],
       "entry": [
-        63.13,
-        15.22
+        63.08,
+        14.92
       ],
       "exit": [
-        62.11,
-        11.99
+        62.02,
+        11.86
       ],
       "classification": "chicane_element",
       "headingChangeDeg": 25,
@@ -96,20 +96,20 @@
       "id": "sandown_t4",
       "number": 4,
       "apex": [
-        59.5,
-        8.42
+        59.4,
+        8.37
       ],
       "label": [
-        60.76,
-        3.37
+        60.64,
+        3.32
       ],
       "entry": [
-        60.42,
-        9.62
+        60.31,
+        9.46
       ],
       "exit": [
-        58.15,
-        9.13
+        58.1,
+        9.17
       ],
       "classification": "constant_radius",
       "headingChangeDeg": 97,
@@ -124,20 +124,20 @@
       "id": "sandown_t5",
       "number": 5,
       "apex": [
-        51.29,
-        15.87
+        51.16,
+        15.98
       ],
       "label": [
-        51.49,
-        10.67
+        51.33,
+        10.78
       ],
       "entry": [
-        52.35,
-        14.78
+        52.27,
+        14.87
       ],
       "exit": [
-        50.07,
-        16.78
+        49.9,
+        16.88
       ],
       "classification": "kink",
       "headingChangeDeg": 16,
@@ -152,20 +152,20 @@
       "id": "sandown_t6",
       "number": 6,
       "apex": [
-        40.52,
-        23.04
+        40.16,
+        23.15
       ],
       "label": [
-        38.5,
-        18.25
+        38.06,
+        18.39
       ],
       "entry": [
-        41.59,
-        22.35
+        41.34,
+        22.52
       ],
       "exit": [
-        39.41,
-        23.18
+        38.89,
+        22.99
       ],
       "classification": "tightening",
       "headingChangeDeg": 55,
@@ -180,20 +180,20 @@
       "id": "sandown_t7",
       "number": 7,
       "apex": [
-        36.55,
-        22.13
+        36.23,
+        22.15
       ],
       "label": [
-        33.96,
-        17.62
+        33.59,
+        17.67
       ],
       "entry": [
-        37.99,
-        22.64
+        37.46,
+        22.43
       ],
       "exit": [
-        35.4,
-        23.41
+        35.33,
+        23.56
       ],
       "classification": "chicane_element",
       "headingChangeDeg": 93,
@@ -208,20 +208,20 @@
       "id": "sandown_t8",
       "number": 8,
       "apex": [
-        32.77,
-        30.8
+        32.76,
+        30.96
       ],
       "label": [
-        28.84,
-        27.4
+        28.81,
+        27.58
       ],
       "entry": [
-        33.63,
-        28.02
+        33.56,
+        28.21
       ],
       "exit": [
         32.78,
-        32.83
+        32.95
       ],
       "classification": "double_apex",
       "headingChangeDeg": 29,
@@ -236,20 +236,20 @@
       "id": "sandown_t9",
       "number": 9,
       "apex": [
-        33.03,
-        39.29
+        33.04,
+        39.38
       ],
       "label": [
-        28.17,
-        37.43
+        28.18,
+        37.54
       ],
       "entry": [
         33,
-        38.41
+        38.55
       ],
       "exit": [
-        33.05,
-        39.8
+        33.04,
+        39.55
       ],
       "classification": "tightening",
       "headingChangeDeg": 86,
@@ -264,20 +264,20 @@
       "id": "sandown_t10",
       "number": 10,
       "apex": [
-        33.07,
-        40.31
+        33.05,
+        39.71
       ],
       "label": [
-        28.12,
-        38.71
+        28.16,
+        37.96
       ],
       "entry": [
-        33.06,
-        39.93
+        33.04,
+        39.57
       ],
       "exit": [
-        33.1,
-        41.2
+        33.08,
+        40.55
       ],
       "classification": "chicane_element",
       "headingChangeDeg": 76,
@@ -292,20 +292,20 @@
       "id": "sandown_t11",
       "number": 11,
       "apex": [
-        35.37,
-        84.45
+        35.1,
+        84.21
       ],
       "label": [
-        33.51,
-        89.31
+        33.2,
+        89.05
       ],
       "entry": [
-        34.62,
-        82.26
+        34.61,
+        82.04
       ],
       "exit": [
-        37.37,
-        85.17
+        36.92,
+        85.07
       ],
       "classification": "double_apex",
       "headingChangeDeg": 75,
@@ -320,20 +320,20 @@
       "id": "sandown_t12",
       "number": 12,
       "apex": [
-        50.12,
-        88.29
+        49.92,
+        88.1
       ],
       "label": [
-        50.12,
-        93.49
+        49.89,
+        93.3
       ],
       "entry": [
-        48.77,
-        87.67
+        48.44,
+        87.6
       ],
       "exit": [
-        50.52,
-        89.06
+        50.51,
+        88.99
       ],
       "classification": "tightening",
       "headingChangeDeg": 68,
@@ -348,20 +348,20 @@
       "id": "sandown_t13",
       "number": 13,
       "apex": [
-        50.99,
-        90.62
+        50.89,
+        90.46
       ],
       "label": [
-        51.09,
-        95.82
+        50.98,
+        95.66
       ],
       "entry": [
-        50.56,
-        89.31
+        50.55,
+        89.25
       ],
       "exit": [
-        52.73,
-        91.25
+        52.51,
+        91.22
       ],
       "classification": "chicane_element",
       "headingChangeDeg": 70,
@@ -377,19 +377,19 @@
       "number": 14,
       "apex": [
         57.47,
-        90.83
+        91.17
       ],
       "label": [
         58.3,
-        95.96
+        96.3
       ],
       "entry": [
-        55.62,
-        91.64
+        55.43,
+        91.62
       ],
       "exit": [
-        57.39,
-        89.06
+        57.42,
+        89.59
       ],
       "classification": "tightening",
       "headingChangeDeg": 100,
@@ -404,20 +404,20 @@
       "id": "sandown_t15",
       "number": 15,
       "apex": [
-        56.93,
-        73.35
+        56.89,
+        73.61
       ],
       "label": [
-        58.17,
-        78.4
+        58.12,
+        78.66
       ],
       "entry": [
-        56.84,
-        74.36
+        56.85,
+        74.72
       ],
       "exit": [
-        57.13,
-        72.49
+        57.08,
+        72.68
       ],
       "classification": "tightening",
       "headingChangeDeg": 15,

@@ -1,0 +1,64 @@
+{
+  "configVersion": 0,
+  "apple": {
+    "version": "1.0.0",
+    "copyright": "2026 Christopher Craig Greene",
+    "categories": ["SPORTS", "UTILITIES"],
+    "release": {
+      "automaticRelease": false
+    },
+    "advisory": {
+      "ageRatingOverride": "NONE",
+      "alcoholTobaccoOrDrugUseOrReferences": "NONE",
+      "contests": "NONE",
+      "gambling": false,
+      "gamblingSimulated": "NONE",
+      "horrorOrFearThemes": "NONE",
+      "kidsAgeBand": null,
+      "koreaAgeRatingOverride": "NONE",
+      "lootBox": false,
+      "matureOrSuggestiveThemes": "NONE",
+      "medicalOrTreatmentInformation": "NONE",
+      "profanityOrCrudeHumor": "NONE",
+      "sexualContentGraphicAndNudity": "NONE",
+      "sexualContentOrNudity": "NONE",
+      "unrestrictedWebAccess": false,
+      "violenceCartoonOrFantasy": "INFREQUENT_OR_MILD",
+      "violenceRealistic": "NONE",
+      "violenceRealisticProlongedGraphicOrSadistic": "NONE",
+      "advertising": false,
+      "ageAssurance": false,
+      "ageRatingOverrideV2": "NONE",
+      "developerAgeRatingInfoUrl": null,
+      "gunsOrOtherWeapons": "NONE",
+      "healthOrWellnessTopics": false,
+      "messagingAndChat": false,
+      "parentalControls": false,
+      "userGeneratedContent": false
+    },
+    "info": {
+      "en-AU": {
+        "title": "RoadRacer - Motorsport_Is_Life",
+        "subtitle": "Motorcycle road-racing support",
+        "description": "RoadRacer is your motorcycle road-racing companion — circuit study, race calendar, track notes, and AI coaching in one place.\n\nLearn a circuit before you ride it. Track Details draws each layout from its real GPS trace, at the true width of the road, with numbered turns and a suggested racing line. Tap a turn to zoom that corner. The list below uses the same numbers and holds your own notes. Walk the track with typed or spoken notes and photos, then send them straight to your coach.\n\nCheck the race calendar and add reminders to your own calendar. Keep Day Setup Sheets, bike balance, gearing, and tyre-wear notes on your device. Ask the Rider Coach or Bike Setup AI for practical guidance pitched at how you actually ride, or use Q&A and trivia to sharpen your knowledge.\n\nYour profile, avatar, setups, and track notes stay private on your device. AI chats you send go to the RoadRacer API and may be processed by OpenAI; chat history is not kept on our server after the reply.\n\nEverything here is informational: the suggested line is a suggestion, not instruction, and we do not model lap times for you.\n\nBuilt for track-day riders and race fans who live motorsport.",
+        "keywords": ["motorcycle", "racing", "motogp", "superbike", "track day", "bike setup", "coach", "calendar"],
+        "releaseNotes": "First App Store release. Track Details shows numbered turns on each GPS circuit map — tap a turn to zoom that corner. Suggested racing line is a guide only; no modelled lap times.",
+        "promoText": "GPS circuit maps, calendar, track walk, and AI coach for motorcycle road racing — setups stay on your device.",
+        "marketingUrl": "https://send-it-cg-67-r1s-projects.vercel.app/promo",
+        "supportUrl": "https://github.com/CG-67-R1/Send-It",
+        "privacyPolicyUrl": "https://github.com/CG-67-R1/Send-It/blob/main/docs/legal/PRIVACY.md"
+      },
+      "en-GB": {
+        "title": "RoadRacer - Motorsport_Is_Life",
+        "subtitle": "Motorcycle road-racing support",
+        "description": "RoadRacer is your motorcycle road-racing companion — circuit study, race calendar, track notes, and AI coaching in one place.\n\nLearn a circuit before you ride it. Track Details draws each layout from its real GPS trace, at the true width of the road, with numbered turns and a suggested racing line. Tap a turn to zoom that corner. The list below uses the same numbers and holds your own notes. Walk Brands Hatch, Donington, Cadwell and more with typed or spoken notes and photos, then send them straight to your coach.\n\nCheck the race calendar and add reminders to your own calendar. Keep Day Setup Sheets, bike balance, gearing, and tyre-wear notes on your device. Ask the Rider Coach or Bike Setup AI for practical guidance for UK track days and club racing, or use Q&A and trivia to sharpen your knowledge.\n\nYour profile, avatar, setups, and track notes stay private on your device. AI chats you send go to the RoadRacer API and may be processed by OpenAI; chat history is not kept on our server after the reply.\n\nEverything here is informational: the suggested line is a suggestion, not instruction, and we do not model lap times for you.\n\nBuilt for UK track-day riders and club racers who live motorsport.",
+        "keywords": ["motorcycle", "racing", "BSB", "superbike", "track day", "bike setup", "coach", "calendar"],
+        "releaseNotes": "First App Store release. Track Details shows numbered turns on each GPS circuit map — tap a turn to zoom that corner. Suggested racing line is a guide only; no modelled lap times.",
+        "promoText": "GPS circuit maps, BSB calendar, UK track walk, and AI coach for motorcycle road racing — setups stay on your device.",
+        "marketingUrl": "https://send-it-cg-67-r1s-projects.vercel.app/promo",
+        "supportUrl": "https://github.com/CG-67-R1/Send-It",
+        "privacyPolicyUrl": "https://github.com/CG-67-R1/Send-It/blob/main/docs/legal/PRIVACY.md"
+      }
+    }
+  }
+}

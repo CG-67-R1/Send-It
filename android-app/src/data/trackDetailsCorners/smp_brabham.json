@@ -3,7 +3,7 @@
   "name": "Sydney Motorsport Park (Brabham Circuit)",
   "lengthM": 4541.1,
   "startFinish": [
-    48,
+    47.99,
     30.68
   ],
   "countSource": "autonomous",
@@ -12,20 +12,20 @@
       "id": "smp_brabham_t1",
       "number": 1,
       "apex": [
-        20.5,
-        29.32
+        20.49,
+        29.33
       ],
       "label": [
-        16.08,
-        26.57
+        16.07,
+        26.59
       ],
       "entry": [
-        31.49,
+        31.48,
         27.31
       ],
       "exit": [
-        13.86,
-        38.09
+        13.85,
+        38.1
       ],
       "classification": "triple_apex",
       "headingChangeDeg": 85,
@@ -40,20 +40,20 @@
       "id": "smp_brabham_t2",
       "number": 2,
       "apex": [
-        11.81,
+        11.78,
         61.04
       ],
       "label": [
-        6.76,
+        6.73,
         62.28
       ],
       "entry": [
         8.59,
-        56.55
+        56.56
       ],
       "exit": [
         15.16,
-        56.39
+        56.4
       ],
       "classification": "hairpin",
       "headingChangeDeg": 207,
@@ -68,19 +68,19 @@
       "id": "smp_brabham_t3",
       "number": 3,
       "apex": [
-        16.42,
-        48.78
+        16.4,
+        48.81
       ],
       "label": [
-        11.23,
-        48.54
+        11.21,
+        48.57
       ],
       "entry": [
         14.89,
-        54.95
+        54.96
       ],
       "exit": [
-        22.17,
+        22.14,
         46.46
       ],
       "classification": "chicane_element",
@@ -96,15 +96,15 @@
       "id": "smp_brabham_t4",
       "number": 4,
       "apex": [
-        41.9,
+        41.89,
         49.55
       ],
       "label": [
-        36.72,
+        36.71,
         49.15
       ],
       "entry": [
-        37.39,
+        37.37,
         47.25
       ],
       "exit": [
@@ -125,18 +125,18 @@
       "number": 5,
       "apex": [
         40.69,
-        65.59
+        65.58
       ],
       "label": [
-        37.16,
-        69.4
+        37.15,
+        69.39
       ],
       "entry": [
-        40.5,
-        61.09
+        40.49,
+        61.1
       ],
       "exit": [
-        44.35,
+        44.34,
         68.01
       ],
       "classification": "triple_apex",
@@ -152,20 +152,20 @@
       "id": "smp_brabham_t6",
       "number": 6,
       "apex": [
-        65.25,
-        72.73
+        65.23,
+        72.74
       ],
       "label": [
-        67.49,
-        77.42
+        67.47,
+        77.43
       ],
       "entry": [
         63.12,
-        72.67
+        72.66
       ],
       "exit": [
-        66.95,
-        69.89
+        66.94,
+        69.92
       ],
       "classification": "opening",
       "headingChangeDeg": 87,
@@ -180,16 +180,16 @@
       "id": "smp_brabham_t7",
       "number": 7,
       "apex": [
-        68.66,
-        67.66
+        68.64,
+        67.67
       ],
       "label": [
-        71.96,
-        71.68
+        71.93,
+        71.7
       ],
       "entry": [
-        67.04,
-        69.61
+        67.03,
+        69.64
       ],
       "exit": [
         71.2,
@@ -208,20 +208,20 @@
       "id": "smp_brabham_t8",
       "number": 8,
       "apex": [
-        74.3,
-        67.99
+        74.29,
+        68
       ],
       "label": [
-        78.19,
-        71.44
+        78.18,
+        71.45
       ],
       "entry": [
         71.47,
         67.88
       ],
       "exit": [
-        76.33,
-        65.81
+        76.32,
+        65.83
       ],
       "classification": "chicane_element",
       "headingChangeDeg": 87,
@@ -236,20 +236,20 @@
       "id": "smp_brabham_t9",
       "number": 9,
       "apex": [
-        77.84,
-        63.5
+        77.83,
+        63.51
       ],
       "label": [
-        82.38,
-        66.03
+        82.37,
+        66.05
       ],
       "entry": [
-        76.59,
-        65.28
+        76.58,
+        65.3
       ],
       "exit": [
-        79.4,
-        62.71
+        79.39,
+        62.72
       ],
       "classification": "chicane_element",
       "headingChangeDeg": 45,
@@ -265,19 +265,19 @@
       "number": 10,
       "apex": [
         83.9,
-        59.15
+        59.17
       ],
       "label": [
         88.89,
-        60.62
+        60.64
       ],
       "entry": [
-        79.68,
+        79.67,
         62.64
       ],
       "exit": [
-        82.86,
-        55.09
+        82.88,
+        55.1
       ],
       "classification": "chicane_element",
       "headingChangeDeg": 111,
@@ -292,20 +292,20 @@
       "id": "smp_brabham_t11",
       "number": 11,
       "apex": [
-        73.98,
-        48.38
+        73.99,
+        48.37
       ],
       "label": [
-        79.15,
-        47.8
+        79.16,
+        47.79
       ],
       "entry": [
-        79.54,
-        50.99
+        79.55,
+        51.01
       ],
       "exit": [
-        73.79,
-        51.07
+        73.78,
+        51.06
       ],
       "classification": "hairpin",
       "headingChangeDeg": 174,
@@ -332,7 +332,7 @@
         55.88
       ],
       "exit": [
-        74.96,
+        74.97,
         58.19
       ],
       "classification": "tightening",
@@ -348,20 +348,20 @@
       "id": "smp_brabham_t13",
       "number": 13,
       "apex": [
-        71.19,
-        57.07
+        71.2,
+        57.08
       ],
       "label": [
-        76.03,
-        58.98
+        76.04,
+        58.99
       ],
       "entry": [
-        72.41,
-        57.51
+        72.43,
+        57.52
       ],
       "exit": [
-        70.46,
-        56.16
+        70.47,
+        56.18
       ],
       "classification": "constant_radius",
       "headingChangeDeg": 39,
@@ -376,19 +376,19 @@
       "id": "smp_brabham_t14",
       "number": 14,
       "apex": [
-        64.05,
-        48.61
+        64.06,
+        48.62
       ],
       "label": [
-        69.14,
-        47.56
+        69.15,
+        47.58
       ],
       "entry": [
-        66.69,
-        51.11
+        66.7,
+        51.12
       ],
       "exit": [
-        60.72,
+        60.73,
         47.58
       ],
       "classification": "triple_apex",
@@ -405,18 +405,18 @@
       "number": 15,
       "apex": [
         49.24,
-        44.23
+        44.25
       ],
       "label": [
         45.86,
-        40.28
+        40.3
       ],
       "entry": [
-        51.84,
+        51.85,
         46.56
       ],
       "exit": [
-        52.05,
+        52.03,
         42.15
       ],
       "classification": "hairpin",
@@ -432,15 +432,15 @@
       "id": "smp_brabham_t16",
       "number": 16,
       "apex": [
-        77.03,
+        77.02,
         43.01
       ],
       "label": [
-        81.96,
+        81.95,
         41.35
       ],
       "entry": [
-        70.95,
+        70.94,
         41.68
       ],
       "exit": [
@@ -469,10 +469,10 @@
       ],
       "entry": [
         81.06,
-        47.14
+        47.15
       ],
       "exit": [
-        85.53,
+        85.52,
         48.6
       ],
       "classification": "chicane_element",
@@ -489,11 +489,11 @@
       "number": 18,
       "apex": [
         91.67,
-        43.66
+        43.67
       ],
       "label": [
         96.78,
-        42.71
+        42.72
       ],
       "entry": [
         87.8,

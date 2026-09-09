@@ -1,5 +1,6 @@
 import catalog from './tracks.json';
 import { getBundledTracksCatalog } from '../packs/loader';
+import { getTrackDetailsCorners } from './trackDetailsCorners';
 
 export type CornerDirection = 'left' | 'right' | 'straight' | 'complex';
 
@@ -91,7 +92,40 @@ export function getTrackById(id: string | null | undefined): TrackDefinition | u
 
 export function getCornerById(trackId: string, cornerId: string): CornerDefinition | undefined {
   const track = getTrackById(trackId);
-  return track?.corners.find((c) => c.id === cornerId);
+  if (!track) return undefined;
+  return withDetectorCorners(track).corners.find((c) => c.id === cornerId);
+}
+
+/** Track Walk / notes use the detector count, not a frozen catalog N. */
+export function withDetectorCorners(track: TrackDefinition): TrackDefinition {
+  if (track.isOther) return track;
+  const layout = getTrackDetailsCorners(track.id);
+  if (!layout) return track;
+  const named = new Map(
+    track.corners.filter((c) => c.number != null).map((c) => [c.number as number, c])
+  );
+  const countsMatch = named.size === layout.corners.length;
+  const finish = track.corners.filter((c) => c.isFinish);
+  return {
+    ...track,
+    corners: [
+      ...layout.corners.map((c) => {
+        const fromCatalog = named.get(c.number);
+        return {
+          id: c.id,
+          number: c.number,
+          label:
+            countsMatch && fromCatalog?.label && !isGenericTurnLabel(fromCatalog.label, c.number)
+              ? fromCatalog.label
+              : `T${c.number}`,
+          shape: fromCatalog?.shape,
+          direction: (c.direction ?? 'complex') as CornerDirection,
+          approachFrom: c.approachFrom,
+        };
+      }),
+      ...finish,
+    ],
+  };
 }
 
 function isGenericTurnLabel(label: string, number: number): boolean {

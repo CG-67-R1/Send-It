@@ -3,8 +3,8 @@
   "name": "Calder Park Raceway",
   "lengthM": 2217.8,
   "startFinish": [
-    56.01,
-    52.83
+    55.45,
+    51.29
   ],
   "countSource": "autonomous",
   "corners": [
@@ -12,20 +12,20 @@
       "id": "calder_park_t1",
       "number": 1,
       "apex": [
-        65.91,
-        91.63
+        67.86,
+        91.19
       ],
       "label": [
-        67.89,
-        96.44
+        70.04,
+        95.91
       ],
       "entry": [
-        69.05,
-        88.66
+        68.65,
+        87.31
       ],
       "exit": [
-        62.7,
-        88.24
+        63.74,
+        89.88
       ],
       "classification": "hairpin",
       "headingChangeDeg": 170,
@@ -40,20 +40,20 @@
       "id": "calder_park_t2",
       "number": 2,
       "apex": [
-        60.13,
-        80.17
+        59.13,
+        81.37
       ],
       "label": [
-        61.96,
-        85.04
+        60.76,
+        86.31
       ],
       "entry": [
-        59.05,
-        81.66
+        59.65,
+        83.37
       ],
       "exit": [
-        60.97,
-        78.69
+        60.25,
+        80.06
       ],
       "classification": "tightening",
       "headingChangeDeg": 79,
@@ -68,20 +68,20 @@
       "id": "calder_park_t3",
       "number": 3,
       "apex": [
-        60.43,
-        76.72
+        60.98,
+        78.3
       ],
       "label": [
-        62.5,
-        81.49
+        63.03,
+        83.08
       ],
       "entry": [
-        60.99,
-        78.52
+        60.38,
+        79.93
       ],
       "exit": [
-        58.82,
-        74.26
+        59.87,
+        75.86
       ],
       "classification": "chicane_element",
       "headingChangeDeg": 80,
@@ -96,20 +96,20 @@
       "id": "calder_park_t4",
       "number": 4,
       "apex": [
-        49.52,
-        56.97
+        49.31,
+        58.59
       ],
       "label": [
-        50.21,
-        62.12
+        49.77,
+        63.77
       ],
       "entry": [
-        49.31,
-        58.69
+        49.71,
+        60.37
       ],
       "exit": [
-        48.98,
-        55.55
+        49.53,
+        57.03
       ],
       "classification": "tightening",
       "headingChangeDeg": 40,
@@ -124,20 +124,20 @@
       "id": "calder_park_t5",
       "number": 5,
       "apex": [
-        48.15,
-        54.23
+        49.08,
+        55.71
       ],
       "label": [
-        47.81,
-        59.42
+        49.56,
+        60.89
       ],
       "entry": [
-        48.8,
-        55.26
+        49.51,
+        56.69
       ],
       "exit": [
-        47.32,
-        52.91
+        48.26,
+        54.41
       ],
       "classification": "chicane_element",
       "headingChangeDeg": 40,
@@ -152,20 +152,20 @@
       "id": "calder_park_t6",
       "number": 6,
       "apex": [
-        33.56,
-        23.51
+        31.54,
+        24.86
       ],
       "label": [
-        30.95,
-        19.01
+        28.57,
+        20.59
       ],
       "entry": [
-        31.69,
-        24.76
+        30.93,
+        25.87
       ],
       "exit": [
-        34.97,
-        22.03
+        32.89,
+        23.96
       ],
       "classification": "constant_radius",
       "headingChangeDeg": 98,
@@ -180,20 +180,20 @@
       "id": "calder_park_t7",
       "number": 7,
       "apex": [
-        34.25,
-        18.17
+        35.17,
+        19.91
       ],
       "label": [
-        32.08,
-        13.44
+        33.02,
+        15.18
       ],
       "entry": [
-        35.25,
-        21.03
+        33.75,
+        23.37
       ],
       "exit": [
-        33.7,
-        15.67
+        33.99,
+        17.69
       ],
       "classification": "chicane_element",
       "headingChangeDeg": 96,
@@ -208,20 +208,20 @@
       "id": "calder_park_t8",
       "number": 8,
       "apex": [
-        33.6,
-        14.46
+        33.76,
+        16.47
       ],
       "label": [
-        31.55,
-        9.68
+        31.63,
+        11.73
       ],
       "entry": [
-        33.68,
-        15.49
+        33.93,
+        17.53
       ],
       "exit": [
-        33.49,
-        13.08
+        33.65,
+        15.09
       ],
       "classification": "chicane_element",
       "headingChangeDeg": 30,
@@ -236,20 +236,20 @@
       "id": "calder_park_t9",
       "number": 9,
       "apex": [
-        36.47,
-        8.77
+        34.8,
+        8.33
       ],
       "label": [
-        34.99,
-        3.79
+        33.15,
+        3.4
       ],
       "entry": [
-        33.64,
-        9.01
+        33.32,
+        10.92
       ],
       "exit": [
-        42.92,
-        17.2
+        42.27,
+        15.44
       ],
       "classification": "hairpin",
       "headingChangeDeg": 166,

@@ -56,5 +56,8 @@
     "@types/react": "~19.2.10",
     "typescript": "~6.0.3"
   },
+  "overrides": {
+    "@xmldom/xmldom": "0.8.15"
+  },
   "private": true
 }

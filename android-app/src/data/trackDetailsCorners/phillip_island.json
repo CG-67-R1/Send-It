@@ -3,8 +3,8 @@
   "name": "Phillip Island Grand Prix Circuit",
   "lengthM": 4482.2,
   "startFinish": [
-    44.15,
-    56.52
+    43.36,
+    54.21
   ],
   "countSource": "autonomous",
   "corners": [
@@ -12,160 +12,160 @@
       "id": "phillip_island_t1",
       "number": 1,
       "apex": [
-        47.78,
-        69.81
+        47.76,
+        67.56
       ],
       "label": [
-        46.46,
-        74.84
+        46.28,
+        72.55
       ],
       "entry": [
-        47.78,
-        69.36
+        47.59,
+        67.15
       ],
       "exit": [
-        47.75,
-        70.47
+        47.76,
+        68.24
       ],
       "classification": "opening",
       "headingChangeDeg": 19,
       "minimumRadiusM": 37.6,
       "lengthM": 22,
       "previousStraightM": 540,
-      "direction": "right",
-      "summary": "Turn 1 is a right opening corner after a 540 m straight. About 19° of heading change, 38 m minimum radius.",
+      "direction": null,
+      "summary": "Turn 1 is a opening corner after a 540 m straight. About 19° of heading change, 38 m minimum radius.",
       "approachFrom": "start/finish straight"
     },
     {
       "id": "phillip_island_t2",
       "number": 2,
       "apex": [
-        45.42,
-        76.01
+        46.62,
+        74.23
       ],
       "label": [
-        43.97,
-        81
+        45.3,
+        79.26
       ],
       "entry": [
-        47.59,
-        71.57
+        47.78,
+        69.36
       ],
       "exit": [
-        41.2,
-        79.24
+        42.95,
+        78.11
       ],
       "classification": "triple_apex",
       "headingChangeDeg": 56,
       "minimumRadiusM": 123,
       "lengthM": 188,
       "previousStraightM": 20,
-      "direction": "left",
-      "summary": "Turn 2 is a left triple-apex corner. About 56° of heading change, 123 m minimum radius.",
+      "direction": null,
+      "summary": "Turn 2 is a triple-apex corner. About 56° of heading change, 123 m minimum radius.",
       "approachFrom": "T1 exit"
     },
     {
       "id": "phillip_island_t3",
       "number": 3,
       "apex": [
-        36.13,
-        91.08
+        34.74,
+        89.85
       ],
       "label": [
-        34.16,
-        95.89
+        32.58,
+        94.58
       ],
       "entry": [
-        35.95,
-        82.57
+        37.57,
+        81.39
       ],
       "exit": [
-        44.52,
-        88.11
+        43.28,
+        89.34
       ],
       "classification": "hairpin",
       "headingChangeDeg": 192,
       "minimumRadiusM": 66.8,
       "lengthM": 358,
       "previousStraightM": 112,
-      "direction": "left",
-      "summary": "Turn 3 is a left hairpin after a 112 m straight. About 192° of heading change, 67 m minimum radius.",
+      "direction": null,
+      "summary": "Turn 3 is a hairpin after a 112 m straight. About 192° of heading change, 67 m minimum radius.",
       "approachFrom": "T2 exit"
     },
     {
       "id": "phillip_island_t4",
       "number": 4,
       "apex": [
-        56.29,
-        71.37
+        56.01,
+        72.81
       ],
       "label": [
-        57.06,
-        76.51
+        56.68,
+        77.97
       ],
       "entry": [
-        54.57,
-        76.27
+        53.72,
+        77.55
       ],
       "exit": [
-        56.12,
-        65.85
+        56.31,
+        67.23
       ],
       "classification": "triple_apex",
       "headingChangeDeg": 44,
       "minimumRadiusM": 179.6,
       "lengthM": 196,
       "previousStraightM": 280,
-      "direction": "right",
-      "summary": "Turn 4 is a right triple-apex corner after a 280 m straight. About 44° of heading change, 180 m minimum radius.",
+      "direction": null,
+      "summary": "Turn 4 is a triple-apex corner after a 280 m straight. About 44° of heading change, 180 m minimum radius.",
       "approachFrom": "T3 exit"
     },
     {
       "id": "phillip_island_t5",
       "number": 5,
       "apex": [
-        56.38,
-        53.45
+        55.21,
+        53.54
       ],
       "label": [
-        59.86,
-        57.31
+        57.79,
+        58.05
       ],
       "entry": [
-        54.01,
-        55.51
+        54.21,
+        56.75
       ],
       "exit": [
-        58.76,
-        55.94
+        58.13,
+        54.99
       ],
       "classification": "hairpin",
       "headingChangeDeg": 161,
       "minimumRadiusM": 31.1,
       "lengthM": 132,
       "previousStraightM": 190,
-      "direction": "left",
-      "summary": "Turn 5 is a left hairpin after a 190 m straight. About 161° of heading change, 31 m minimum radius.",
+      "direction": null,
+      "summary": "Turn 5 is a hairpin after a 190 m straight. About 161° of heading change, 31 m minimum radius.",
       "approachFrom": "T4 exit"
     },
     {
       "id": "phillip_island_t6",
       "number": 6,
       "apex": [
-        61.1,
-        60.08
+        60.69,
+        59.09
       ],
       "label": [
-        64.3,
-        64.18
+        63.98,
+        63.11
       ],
       "entry": [
-        60.37,
-        58.46
+        59.81,
+        57.52
       ],
       "exit": [
-        61.46,
-        61.25
+        61.15,
+        60.24
       ],
       "classification": "kink",
       "headingChangeDeg": 16,
@@ -180,20 +180,20 @@
       "id": "phillip_island_t7",
       "number": 7,
       "apex": [
-        66.31,
-        65.09
+        65.42,
+        65.41
       ],
       "label": [
-        69.71,
-        69.02
+        68.64,
+        69.49
       ],
       "entry": [
-        62.18,
-        63.46
+        61.84,
+        62.5
       ],
       "exit": [
-        68.12,
-        60.18
+        68.1,
+        61.08
       ],
       "classification": "hairpin",
       "headingChangeDeg": 162,
@@ -208,20 +208,20 @@
       "id": "phillip_island_t8",
       "number": 8,
       "apex": [
-        67.5,
-        51.58
+        67.71,
+        52.32
       ],
       "label": [
-        72.66,
-        52.24
+        72.83,
+        53.22
       ],
       "entry": [
-        67.96,
-        53.74
+        68.02,
+        54.55
       ],
       "exit": [
-        66.73,
-        49.73
+        67.04,
+        50.41
       ],
       "classification": "kink",
       "headingChangeDeg": 21,
@@ -236,48 +236,48 @@
       "id": "phillip_island_t9",
       "number": 9,
       "apex": [
-        63.29,
-        39.42
+        63.27,
+        40.01
       ],
       "label": [
-        66.96,
-        35.73
+        67.04,
+        36.43
       ],
       "entry": [
-        64.36,
-        44.59
+        64.64,
+        45.2
       ],
       "exit": [
-        64.5,
-        34.94
+        64.29,
+        35.43
       ],
       "classification": "triple_apex",
       "headingChangeDeg": 48,
       "minimumRadiusM": 133.9,
       "lengthM": 182,
       "previousStraightM": 102,
-      "direction": "right",
-      "summary": "Turn 9 is a right triple-apex corner after a 102 m straight. About 48° of heading change, 134 m minimum radius.",
+      "direction": null,
+      "summary": "Turn 9 is a triple-apex corner after a 102 m straight. About 48° of heading change, 134 m minimum radius.",
       "approachFrom": "T8 exit"
     },
     {
       "id": "phillip_island_t10",
       "number": 10,
       "apex": [
-        65.81,
-        20.76
+        66.03,
+        21
       ],
       "label": [
-        67.91,
-        16
+        68.17,
+        16.26
       ],
       "entry": [
-        66.94,
-        29.22
+        66.78,
+        29.64
       ],
       "exit": [
-        57.28,
-        19.13
+        57.48,
+        19.08
       ],
       "classification": "triple_apex",
       "headingChangeDeg": 124,
@@ -292,20 +292,20 @@
       "id": "phillip_island_t11",
       "number": 11,
       "apex": [
-        50.94,
-        19.46
+        51,
+        19.56
       ],
       "label": [
-        50.58,
-        14.27
+        50.65,
+        14.37
       ],
       "entry": [
-        53.85,
-        20.05
+        54,
+        20.01
       ],
       "exit": [
-        51.62,
-        16.3
+        51.59,
+        16.35
       ],
       "classification": "triple_apex",
       "headingChangeDeg": 140,
@@ -321,19 +321,19 @@
       "number": 12,
       "apex": [
         52.32,
-        11.1
+        11.09
       ],
       "label": [
         52.22,
-        5.9
+        5.89
       ],
       "entry": [
-        51.8,
-        16.02
+        51.77,
+        16.07
       ],
       "exit": [
-        47.26,
-        8.43
+        47.16,
+        8.42
       ],
       "classification": "chicane_element",
       "headingChangeDeg": 119,
@@ -348,20 +348,20 @@
       "id": "phillip_island_t13",
       "number": 13,
       "apex": [
-        33.76,
-        11.82
+        33.58,
+        12.05
       ],
       "label": [
-        31.4,
-        7.18
+        31.19,
+        7.43
       ],
       "entry": [
-        41.82,
-        8.46
+        41.65,
+        8.47
       ],
       "exit": [
-        32.15,
-        20.37
+        32.23,
+        20.76
       ],
       "classification": "triple_apex",
       "headingChangeDeg": 99,
@@ -376,20 +376,20 @@
       "id": "phillip_island_t14",
       "number": 14,
       "apex": [
-        38.76,
-        40.63
+        38.94,
+        41.2
       ],
       "label": [
-        34.38,
-        37.83
+        34.49,
+        38.51
       ],
       "entry": [
-        38.44,
-        39.69
+        38.66,
+        40.33
       ],
       "exit": [
-        38.83,
-        40.85
+        38.96,
+        41.27
       ],
       "classification": "tightening",
       "headingChangeDeg": 94,

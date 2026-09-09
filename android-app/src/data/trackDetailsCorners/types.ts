@@ -10,7 +10,7 @@ export type TrackDetailsCorner = {
   minimumRadiusM: number;
   lengthM: number;
   previousStraightM: number;
-  /** Verified hand only. Never taken from GPX bearings. */
+  /** Verified hand only, and only when the official count still matches. */
   direction: 'left' | 'right' | null;
   summary: string;
   approachFrom: string;

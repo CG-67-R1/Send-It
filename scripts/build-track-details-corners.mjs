@@ -1,9 +1,9 @@
 #!/usr/bin/env node
 /**
- * Bake Track Details corner overlays from repo GPX + the locked detector.
- *
- * The detector and racing-line solver stay in scripts/. This writes only the
- * JSON the app reads: numbered turns in the same 0–100 space as the GPX map.
+ * Bake Track Details corners from the same autonomous detector run as
+ * scripts/export-gpx-corner-maps.mjs (rider profile, catalog length, your
+ * start/finish offsets). Places each turn at the detector index the test PNG
+ * used. Does not force the confirmed catalog count.
  *
  * Usage:
  *   node scripts/build-track-details-corners.mjs
@@ -13,8 +13,13 @@ import fs from 'node:fs';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
 
-import { RIDER_PROFILE, detectCornersFromGpxFile } from './lib/gpx-corner-detector.mjs';
 import { cornerShiftFor, loadCornerShifts } from './lib/start-finish-alignment.mjs';
+import {
+  detectForTrackDetails,
+  fitDetectorToMapUnits,
+  pointOnFitted,
+  snapToRibbon,
+} from './lib/track-details-from-detector.mjs';
 import { TRACK_DETAILS_IDS } from './lib/track-details-ids.mjs';
 
 const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
@@ -40,7 +45,7 @@ const SHAPE_PHRASE = {
 };
 
 function printHelp() {
-  console.log(`Bake Track Details corners from GPX + the locked detector.
+  console.log(`Bake Track Details corners from the test-export detector run.
 
 Usage:
   node scripts/build-track-details-corners.mjs [track-id ...]
@@ -63,40 +68,14 @@ function dropClosedDuplicate(pts) {
   return pts;
 }
 
-function pathLength(pts, closed) {
-  let n = 0;
-  const last = closed ? pts.length : pts.length - 1;
-  for (let i = 0; i < last; i++) {
-    const a = pts[i];
-    const b = pts[(i + 1) % pts.length];
-    n += Math.hypot(b[0] - a[0], b[1] - a[1]);
-  }
-  return n;
+/** Same official count as scripts/export-gpx-corner-maps.mjs. */
+function confirmedCorners(track) {
+  const numbered = (track?.corners || []).filter((c) => c.number != null && !c.isFinish);
+  return numbered.length ? Math.max(...numbered.map((c) => c.number)) : null;
 }
 
-function pointAtAbs(pts, target) {
-  const ring = dropClosedDuplicate(pts);
-  const total = pathLength(ring, true);
-  if (total <= 1e-9) return ring[0];
-  let along = ((target % total) + total) % total;
-  for (let i = 0; i < ring.length; i++) {
-    const a = ring[i];
-    const b = ring[(i + 1) % ring.length];
-    const d = Math.hypot(b[0] - a[0], b[1] - a[1]);
-    if (along <= d || i === ring.length - 1) {
-      const t = d <= 1e-9 ? 0 : along / d;
-      return [round(a[0] + (b[0] - a[0]) * t), round(a[1] + (b[1] - a[1]) * t)];
-    }
-    along -= d;
-  }
-  return ring[0];
-}
-
-function pointFromStartFinish(mapPts, distanceM, lapM, sfFrac) {
-  const ring = dropClosedDuplicate(mapPts);
-  const mapLen = pathLength(ring, true);
-  const target = sfFrac * mapLen + (distanceM / Math.max(lapM, 1e-6)) * mapLen;
-  return pointAtAbs(ring, target);
+function onRibbon(fitted, index, polyline) {
+  return snapToRibbon(pointOnFitted(fitted, index), polyline).map(round);
 }
 
 function centroid(pts) {
@@ -132,7 +111,8 @@ function shapePhrase(classification) {
   return SHAPE_PHRASE[classification] || classification.replaceAll('_', ' ');
 }
 
-function verifiedHand(verify, trackId, number) {
+function verifiedHand(verify, trackId, number, countsMatch) {
+  if (!countsMatch) return null;
   const hand = verify.verifiedHands?.[trackId]?.[String(number)];
   return hand === 'left' || hand === 'right' ? hand : null;
 }
@@ -196,7 +176,7 @@ function writeTypes(outDir) {
   minimumRadiusM: number;
   lengthM: number;
   previousStraightM: number;
-  /** Verified hand only. Never taken from GPX bearings. */
+  /** Verified hand only, and only when the official count still matches. */
   direction: 'left' | 'right' | null;
   summary: string;
   approachFrom: string;
@@ -224,27 +204,22 @@ function buildOne(id, catalog, verify, shifts) {
 
   const map = JSON.parse(fs.readFileSync(mapPath, 'utf8'));
   const track = (catalog.tracks || []).find((t) => t.id === id);
-  const expectedLengthM = parseLengthM(track?.lengthKm);
-  const shift = cornerShiftFor(shifts, id);
-
-  const detected = detectCornersFromGpxFile(gpxPath, {
-    profile: RIDER_PROFILE,
-    expectedLengthM,
-    strictLapIsolation: false,
-    includeGeometry: true,
-    startFinishCornerShift: shift,
+  const detected = detectForTrackDetails(gpxPath, {
+    expectedLengthM: parseLengthM(track?.lengthKm),
+    startFinishCornerShift: cornerShiftFor(shifts, id),
   });
 
   const lapM = detected.track.lengthM;
-  const sfFrac = detected.startFinish.index / detected.track.sampledPointCount;
+  const fitted = fitDetectorToMapUnits(detected.geometry.points);
   const centre = centroid(map.polyline);
-  const startFinish = pointFromStartFinish(map.polyline, 0, lapM, sfFrac);
+  const startFinish = onRibbon(fitted, detected.startFinish.index, map.polyline);
+  const countsMatch = confirmedCorners(track) === detected.corners.length;
 
   const corners = detected.corners.map((corner) => {
-    const apex = pointFromStartFinish(map.polyline, corner.apexDistanceM, lapM, sfFrac);
-    const entry = pointFromStartFinish(map.polyline, corner.entryDistanceM, lapM, sfFrac);
-    const exit = pointFromStartFinish(map.polyline, corner.exitDistanceM, lapM, sfFrac);
-    const hand = verifiedHand(verify, id, corner.number);
+    const apex = onRibbon(fitted, corner.sourceEvent.apexIndex, map.polyline);
+    const entry = onRibbon(fitted, corner.sourceEvent.startIndex, map.polyline);
+    const exit = onRibbon(fitted, corner.sourceEvent.endIndex, map.polyline);
+    const hand = verifiedHand(verify, id, corner.number, countsMatch);
     return {
       id: `${id}_t${corner.number}`,
       number: corner.number,
@@ -309,8 +284,9 @@ function main() {
     const json = `${JSON.stringify(layout, null, 2)}\n`;
     fs.writeFileSync(path.join(APP_OUT, `${layout.trackId}.json`), json);
     fs.writeFileSync(path.join(ANDROID_OUT, `${layout.trackId}.json`), json);
+    const hands = layout.corners.some((c) => c.direction) ? 'verified-hands' : 'hands-open';
     console.log(
-      `  ${layout.trackId}  ${layout.corners.length} corners  ${layout.countSource}  ${(layout.lengthM / 1000).toFixed(3)} km`
+      `  ${layout.trackId}  ${layout.corners.length} corners  ${layout.countSource}  ${hands}  ${(layout.lengthM / 1000).toFixed(3)} km`
     );
   }
 

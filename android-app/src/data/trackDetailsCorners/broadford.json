@@ -3,8 +3,8 @@
   "name": "Broadford State Motorcycle Complex",
   "lengthM": 1915,
   "startFinish": [
-    35.35,
-    35.75
+    37.81,
+    39.64
   ],
   "countSource": "autonomous",
   "corners": [
@@ -12,48 +12,48 @@
       "id": "broadford_t1",
       "number": 1,
       "apex": [
-        32.86,
-        8.36
+        29.48,
+        9.24
       ],
       "label": [
-        31.55,
-        3.33
+        27.83,
+        4.31
       ],
       "entry": [
-        25.24,
-        19.33
+        27.45,
+        23.24
       ],
       "exit": [
-        45.2,
-        20.46
+        43.27,
+        16.68
       ],
       "classification": "hairpin",
       "headingChangeDeg": 183,
       "minimumRadiusM": 47.5,
       "lengthM": 236.1,
       "previousStraightM": 266.1,
-      "direction": "left",
-      "summary": "Turn 1 is a left hairpin after a 266 m straight. About 183° of heading change, 48 m minimum radius.",
+      "direction": null,
+      "summary": "Turn 1 is a hairpin after a 266 m straight. About 183° of heading change, 48 m minimum radius.",
       "approachFrom": "start/finish straight"
     },
     {
       "id": "broadford_t2",
       "number": 2,
       "apex": [
-        72.16,
-        84.21
+        75.24,
+        79.81
       ],
       "label": [
-        75.89,
-        87.84
+        79.46,
+        82.85
       ],
       "entry": [
-        75.28,
-        79.68
+        74.99,
+        75.55
       ],
       "exit": [
-        65.95,
-        89.49
+        70.99,
+        85.42
       ],
       "classification": "opening",
       "headingChangeDeg": 75,
@@ -68,20 +68,20 @@
       "id": "broadford_t3",
       "number": 3,
       "apex": [
-        54.09,
-        91.16
+        60.91,
+        91.32
       ],
       "label": [
-        55.35,
-        96.21
+        63.07,
+        96.05
       ],
       "entry": [
-        64.37,
-        90.25
+        69.74,
+        86.64
       ],
       "exit": [
-        44.1,
-        89.33
+        50.89,
+        90.09
       ],
       "classification": "triple_apex",
       "headingChangeDeg": 60,
@@ -96,20 +96,20 @@
       "id": "broadford_t4",
       "number": 4,
       "apex": [
-        45.24,
-        89.58
+        52.03,
+        90.44
       ],
       "label": [
-        45.11,
-        94.78
+        53,
+        95.55
       ],
       "entry": [
-        64.37,
-        90.25
+        69.74,
+        86.64
       ],
       "exit": [
-        32.7,
-        71.95
+        36.05,
+        78.77
       ],
       "classification": "triple_apex",
       "headingChangeDeg": 116,
@@ -124,48 +124,48 @@
       "id": "broadford_t5",
       "number": 5,
       "apex": [
-        36.05,
-        78.77
+        39.32,
+        85.27
       ],
       "label": [
-        33.74,
-        83.43
+        38.05,
+        90.31
       ],
       "entry": [
-        38.49,
-        83.75
+        42.55,
+        88.71
       ],
       "exit": [
-        32.7,
-        71.95
+        36.05,
+        78.77
       ],
       "classification": "double_apex",
       "headingChangeDeg": 55,
       "minimumRadiusM": 62.3,
       "lengthM": 92,
       "previousStraightM": 1825,
-      "direction": "right",
-      "summary": "Turn 5 is a right double-apex corner after a 1825 m straight. About 55° of heading change, 62 m minimum radius.",
+      "direction": null,
+      "summary": "Turn 5 is a double-apex corner after a 1825 m straight. About 55° of heading change, 62 m minimum radius.",
       "approachFrom": "T4 exit"
     },
     {
       "id": "broadford_t6",
       "number": 6,
       "apex": [
-        44.38,
-        72.99
+        32.97,
+        59.98
       ],
       "label": [
-        43.79,
-        78.16
+        27.79,
+        60.47
       ],
       "entry": [
-        39.29,
-        60.11
+        30.22,
+        63.58
       ],
       "exit": [
-        54.73,
-        79.99
+        36.16,
+        59.31
       ],
       "classification": "hairpin",
       "headingChangeDeg": 206,
@@ -180,20 +180,20 @@
       "id": "broadford_t7",
       "number": 7,
       "apex": [
-        54.36,
-        65.93
+        44.09,
+        69.88
       ],
       "label": [
-        58.3,
-        69.32
+        43.21,
+        75.01
       ],
       "entry": [
-        57.01,
-        77.77
+        36.42,
+        59.32
       ],
       "exit": [
-        45.81,
-        52.32
+        48.31,
+        56.28
       ],
       "classification": "chicane_element",
       "headingChangeDeg": 208,

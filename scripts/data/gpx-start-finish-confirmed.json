@@ -16,10 +16,10 @@
     },
     "mallala": {
       "cornerShift": 0,
-      "mainStraight": "Start/finish on the Will Pittenger checkered line; Turn 1 is the first right after that line",
-      "turn1": "Right tightening off the main straight, matching the author-assigned Turn 1 on the 2010 map",
-      "note": "Rebuilt from the Wikimedia SVG. The previous GeoJSON-derived GPX was the wrong shape (two flattened laps, 108m RMS against the map). Start/finish is a waypoint on the checkered line, so the offset is 0.",
-      "source": "Will Pittenger Mallala Motorsport Park map, Wikimedia Commons, 2010; start/finish taken from the map's checkered line, 2026-09-08"
+      "mainStraight": "Start/finish on the main straight; Turn 1 is the first right after that line",
+      "turn1": "First right after start/finish, matching verifiedHands T2 left / T3 right",
+      "note": "Rebuilt from mallala.ztracks. The source Start/Finish waypoint sits on the main straight, so the offset is 0.",
+      "source": "mallala.ztracks, 2026-09-09"
     },
     "queensland_raceway": {
       "cornerShift": 4,
@@ -38,8 +38,15 @@
       "cornerShift": 0,
       "mainStraight": "Shared Gardner pit straight into Turn 1; start/finish is the official Emtron start tick on that straight",
       "turn1": "First left after the start/finish line, matching the Lapmeta Druitt map and Emtron C1",
-      "note": "Rebuilt from Emtron trackinner only. The previous DEM GPX concatenated start/sector/corner ticks with inner and outer edges into one 10 km open scribble.",
-      "source": "Emtron Australia Sydney Motorsport Park Druitt GeoJSON start tick, projected onto trackinner, 2026-09-08"
+      "note": "Rebuilt from druittsmp.ztracks. The file's own Start/Finish mark sat inside a corner, so the waypoint is the nearest centreline point to the official Emtron start tick.",
+      "source": "druittsmp.ztracks + Emtron start tick, 2026-09-09"
+    },
+    "wanneroo": {
+      "cornerShift": 0,
+      "mainStraight": "590 m main straight into Turn 1",
+      "turn1": "First right after the main straight, matching verifiedHands T1",
+      "note": "Rebuilt from wannero.ztracks. The source Start/Finish mark is 64 m off the centreline, so numbering uses the longest straight.",
+      "source": "wannero.ztracks, 2026-09-09"
     }
   }
 }

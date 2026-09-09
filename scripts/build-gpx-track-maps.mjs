@@ -545,6 +545,17 @@ function closeBestLap(pts, targetM) {
   return pts.slice(best.i, best.j + 1);
 }
 
+/** Old Emtron scribble only. A closed one-lap GPX is already the road. */
+function druittNeedsScribbleClean(pts, targetM) {
+  if (!pts.length) return false;
+  const traced = cumulative(pts)[pts.length - 1];
+  const closeM = dist(pts[0], pts[pts.length - 1]);
+  if (targetM && traced <= targetM * 1.22 && traced >= targetM * 0.9 && closeM < 80) {
+    return false;
+  }
+  return true;
+}
+
 function druittCentreline(pts) {
   if (pts.length < 40) return pts;
   let start = 0;
@@ -675,7 +686,7 @@ function buildOne(trackId, catalogName, targetM) {
   const xml = fs.readFileSync(gpxPath, 'utf8');
   const raw = projectLocal(pickCentreline(extractTrkpts(xml)));
   const prepped =
-    trackId === 'smp_druitt'
+    trackId === 'smp_druitt' && druittNeedsScribbleClean(raw, targetM)
       ? closeBestLap(druittCentreline(skipWidthBarPrefix(dropFarEndJumps(raw))), targetM)
       : raw;
   const lap = extractSingleLap(prepped, targetM);

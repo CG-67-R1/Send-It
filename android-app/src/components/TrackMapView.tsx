@@ -13,7 +13,6 @@ import {
   EDGE_UNITS,
   GUIDE_RED,
   GUIDE_UNITS,
-  HIGHLIGHT_UNITS,
   START_RADIUS,
   START_YELLOW,
   SURFACE_UNITS,
@@ -23,6 +22,8 @@ import {
 
 export type MapViewBox = { x: number; y: number; width: number; height: number };
 
+type LineSeg = { points: string; color: string };
+
 type Props = {
   map: GpxTrackMap;
   racingLine?: RacingLine;
@@ -31,36 +32,38 @@ type Props = {
   viewBox?: MapViewBox;
   corners?: TrackDetailsCorner[];
   startFinish?: [number, number];
-  highlight?: TrackDetailsCorner | null;
   showNumbers?: boolean;
   onCornerPress?: (corner: TrackDetailsCorner) => void;
 };
 
-function nearestIndex(polyline: number[][], point: [number, number]): number {
-  let best = 0;
-  let bestD = Infinity;
-  for (let i = 0; i < polyline.length; i++) {
-    const d = Math.hypot(polyline[i][0] - point[0], polyline[i][1] - point[1]);
-    if (d < bestD) {
-      bestD = d;
-      best = i;
-    }
-  }
-  return best;
+function pointsOf(pts: number[][]): string {
+  return pts.map(([x, y]) => `${x},${y}`).join(' ');
 }
 
-function spanPoints(polyline: number[][], start: number, end: number): string {
-  const n = polyline.length;
-  if (n < 2) return '';
-  const out = [polyline[start % n]];
-  let i = start % n;
-  let guard = 0;
-  while (i !== end % n && guard <= n) {
-    i = (i + 1) % n;
-    out.push(polyline[i]);
-    guard += 1;
+/** One SVG path per contiguous brake/throttle band. Colours come from the bake. */
+function racingLineSegments(line: RacingLine): LineSeg[] {
+  const { polyline, palette, bands } = line;
+  if (polyline.length < 2) return [];
+  const solid = [{ points: pointsOf(polyline), color: GUIDE_RED }];
+  const banded =
+    Array.isArray(palette) &&
+    palette.length > 0 &&
+    Array.isArray(bands) &&
+    bands.length === polyline.length;
+  if (!banded) return solid;
+
+  const segs: LineSeg[] = [];
+  let start = 0;
+  for (let i = 1; i <= polyline.length; i++) {
+    if (i < polyline.length && bands[i] === bands[start]) continue;
+    const join = i < polyline.length ? i + 1 : polyline.length;
+    const pts = polyline.slice(start, join);
+    if (pts.length >= 2) {
+      segs.push({ points: pointsOf(pts), color: palette[bands[start]] ?? GUIDE_RED });
+    }
+    start = i;
   }
-  return out.map(([x, y]) => `${x},${y}`).join(' ');
+  return segs.length ? segs : solid;
 }
 
 export function cornerViewBox(corner: TrackDetailsCorner, pad = 7): MapViewBox {
@@ -87,7 +90,6 @@ export function TrackMapView({
   viewBox,
   corners,
   startFinish,
-  highlight,
   showNumbers = true,
   onCornerPress,
 }: Props) {
@@ -95,19 +97,13 @@ export function TrackMapView({
     () => map.polyline.map(([x, y]) => `${x},${y}`).join(' '),
     [map]
   );
-  const guide = useMemo(
-    () => racingLine?.polyline.map(([x, y]) => `${x},${y}`).join(' '),
+  const guideSegs = useMemo(
+    () => (racingLine ? racingLineSegments(racingLine) : []),
     [racingLine]
   );
-  const highlightPts = useMemo(() => {
-    if (!highlight) return '';
-    const start = nearestIndex(map.polyline, highlight.entry);
-    const end = nearestIndex(map.polyline, highlight.exit);
-    return spanPoints(map.polyline, start, end);
-  }, [highlight, map.polyline]);
 
   const box = viewBox ?? { x: 0, y: 0, width: 100, height: 100 };
-  const marks = highlight && !corners?.length ? [highlight] : corners ?? [];
+  const marks = corners ?? [];
 
   return (
     <Svg
@@ -133,26 +129,17 @@ export function TrackMapView({
         strokeLinejoin="round"
         strokeLinecap="round"
       />
-      {guide ? (
+      {guideSegs.map((seg, i) => (
         <Polyline
-          points={guide}
+          key={`guide-${i}`}
+          points={seg.points}
           fill="none"
-          stroke={GUIDE_RED}
+          stroke={seg.color}
           strokeWidth={GUIDE_UNITS}
           strokeLinejoin="round"
           strokeLinecap="round"
         />
-      ) : null}
-      {highlightPts ? (
-        <Polyline
-          points={highlightPts}
-          fill="none"
-          stroke={CORNER_BLUE}
-          strokeWidth={HIGHLIGHT_UNITS}
-          strokeLinejoin="round"
-          strokeLinecap="round"
-        />
-      ) : null}
+      ))}
       {startFinish ? (
         <Circle
           cx={startFinish[0]}
