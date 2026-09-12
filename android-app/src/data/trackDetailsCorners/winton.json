@@ -6,7 +6,7 @@
     60.87,
     71.05
   ],
-  "countSource": "autonomous",
+  "countSource": "constrained_to_target",
   "corners": [
     {
       "id": "winton_t1",

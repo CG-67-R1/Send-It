@@ -41,6 +41,7 @@ const ids = only ? [only] : TRACK_DETAILS_IDS;
 const failures = [];
 const warnings = [];
 const lengths = catalogLengths();
+const cornerCounts = catalogCornerCounts();
 
 function fail(id, line) {
   failures.push(`${id}: ${line}`);
@@ -97,6 +98,18 @@ function catalogLengths() {
   for (const t of doc.tracks || []) {
     const m = String(t.lengthKm || '').match(/([\d.]+)/);
     if (m) out[t.id] = Number(m[1]) * 1000;
+  }
+  return out;
+}
+
+function catalogCornerCounts() {
+  const doc = JSON.parse(fs.readFileSync(CATALOG_PATH, 'utf8'));
+  const out = {};
+  for (const t of doc.tracks || []) {
+    const numbered = (t.corners || [])
+      .filter((c) => !c.isFinish && Number.isInteger(c.number))
+      .map((c) => c.number);
+    if (numbered.length) out[t.id] = Math.max(...numbered);
   }
   return out;
 }
@@ -287,6 +300,12 @@ function proveCorners(id, map) {
   if (!Array.isArray(doc.corners) || doc.corners.length < 1) {
     fail(id, 'corner overlay has no turns');
     return;
+  }
+  const expectedCount = cornerCounts[id];
+  if (!Number.isInteger(expectedCount)) {
+    fail(id, 'catalog has no confirmed Track Details corner count');
+  } else if (doc.corners.length !== expectedCount) {
+    fail(id, `corner overlay has ${doc.corners.length} turns, catalog has ${expectedCount}`);
   }
   if (!inMap(doc.startFinish)) fail(id, 'start/finish is off the map');
   for (const [i, corner] of doc.corners.entries()) {

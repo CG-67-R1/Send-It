@@ -1,64 +1,64 @@
 {
   "trackId": "mallala",
   "name": "Mallala Motorsport Park",
-  "lengthM": 2453.2,
+  "lengthM": 2540.2,
   "startFinish": [
-    52.33,
-    54.29
+    49.89,
+    54.27
   ],
-  "countSource": "autonomous",
+  "countSource": "constrained_to_target",
   "corners": [
     {
       "id": "mallala_t1",
       "number": 1,
       "apex": [
-        41.01,
-        53.47
+        38.77,
+        52.58
       ],
       "label": [
-        38.41,
-        57.97
+        35.04,
+        56.2
       ],
       "entry": [
-        49.12,
-        54.27
+        46.68,
+        54.25
       ],
       "exit": [
-        34.58,
-        48.96
+        33.61,
+        47.71
       ],
       "classification": "constant_radius",
       "headingChangeDeg": 53,
       "minimumRadiusM": 80.7,
       "lengthM": 126,
-      "previousStraightM": 150,
+      "previousStraightM": 214,
       "direction": null,
-      "summary": "Turn 1 is a corner after a 150 m straight. About 53° of heading change, 81 m minimum radius.",
+      "summary": "Turn 1 is a corner after a 214 m straight. About 53° of heading change, 81 m minimum radius.",
       "approachFrom": "start/finish straight"
     },
     {
       "id": "mallala_t2",
       "number": 2,
       "apex": [
-        25.66,
-        40.97
+        23.23,
+        41.83
       ],
       "label": [
-        20.66,
-        39.53
+        18.15,
+        40.73
       ],
       "entry": [
-        31.98,
-        45.49
+        31.13,
+        44.32
       ],
       "exit": [
-        22.87,
-        53.94
+        22.28,
+        52.91
       ],
       "classification": "chicane_element",
       "headingChangeDeg": 174,
-      "minimumRadiusM": 37.3,
-      "lengthM": 177.9,
+      "minimumRadiusM": 37.4,
+      "lengthM": 178,
       "previousStraightM": 34,
       "direction": "left",
       "summary": "Turn 2 is a left chicane after a 34 m run. About 174° of heading change, 37 m minimum radius.",
@@ -68,82 +68,82 @@
       "id": "mallala_t3",
       "number": 3,
       "apex": [
-        40.85,
-        90.21
+        39.82,
+        91.11
       ],
       "label": [
-        40.36,
-        95.39
+        39.22,
+        96.28
       ],
       "entry": [
-        41.02,
-        83.37
+        40.43,
+        82.34
       ],
       "exit": [
-        26.56,
-        82.21
+        27.71,
+        83.91
       ],
       "classification": "hairpin",
-      "headingChangeDeg": 181,
+      "headingChangeDeg": 177,
       "minimumRadiusM": 31.2,
-      "lengthM": 233.9,
-      "previousStraightM": 279.9,
+      "lengthM": 206,
+      "previousStraightM": 280,
       "direction": "right",
-      "summary": "Turn 3 is a right hairpin after a 280 m straight. About 181° of heading change, 31 m minimum radius.",
+      "summary": "Turn 3 is a right hairpin after a 280 m straight. About 177° of heading change, 31 m minimum radius.",
       "approachFrom": "T2 exit"
     },
     {
       "id": "mallala_t4",
       "number": 4,
       "apex": [
-        11.6,
-        43.81
+        11.58,
+        44.05
       ],
       "label": [
-        6.42,
-        43.39
+        6.39,
+        43.67
       ],
       "entry": [
-        12.76,
-        54.76
+        12.63,
+        54.31
       ],
       "exit": [
-        14.67,
-        32.75
+        14.3,
+        33.59
       ],
       "classification": "constant_radius",
       "headingChangeDeg": 39,
-      "minimumRadiusM": 149.4,
-      "lengthM": 171.9,
-      "previousStraightM": 243.9,
+      "minimumRadiusM": 151.1,
+      "lengthM": 174,
+      "previousStraightM": 270,
       "direction": null,
-      "summary": "Turn 4 is a corner after a 244 m straight. About 39° of heading change, 149 m minimum radius.",
+      "summary": "Turn 4 is a corner after a 270 m straight. About 39° of heading change, 151 m minimum radius.",
       "approachFrom": "T3 exit"
     },
     {
       "id": "mallala_t5",
       "number": 5,
       "apex": [
-        31.49,
-        9.27
+        30.18,
+        8.37
       ],
       "label": [
-        29.72,
-        4.38
+        28.3,
+        3.52
       ],
       "entry": [
-        26.86,
-        10.28
+        26.21,
+        11.41
       ],
       "exit": [
         32.19,
-        13.06
+        13.15
       ],
       "classification": "hairpin",
       "headingChangeDeg": 154,
       "minimumRadiusM": 16.8,
       "lengthM": 92,
-      "previousStraightM": 203.9,
+      "previousStraightM": 204,
       "direction": null,
       "summary": "Turn 5 is a hairpin after a 204 m straight. About 154° of heading change, 17 m minimum radius.",
       "approachFrom": "T4 exit"
@@ -152,25 +152,25 @@
       "id": "mallala_t6",
       "number": 6,
       "apex": [
-        35.71,
-        24.86
+        34.87,
+        23.7
       ],
       "label": [
-        33.66,
-        20.08
+        32.76,
+        18.95
       ],
       "entry": [
         32.18,
-        15.03
+        15.12
       ],
       "exit": [
-        46.32,
-        31.8
+        44.32,
+        30.98
       ],
       "classification": "chicane_element",
       "headingChangeDeg": 68,
-      "minimumRadiusM": 90.1,
-      "lengthM": 173.9,
+      "minimumRadiusM": 90.4,
+      "lengthM": 174,
       "previousStraightM": 16,
       "direction": null,
       "summary": "Turn 6 is a chicane. About 68° of heading change, 90 m minimum radius.",
@@ -180,84 +180,84 @@
       "id": "mallala_t7",
       "number": 7,
       "apex": [
-        86.89,
-        34.11
+        88.34,
+        35.82
       ],
       "label": [
-        91.88,
-        32.63
+        93.39,
+        34.57
       ],
       "entry": [
-        81.58,
-        33.38
+        83.45,
+        33.41
       ],
       "exit": [
-        84.1,
-        42.2
+        85.98,
+        40.75
       ],
-      "classification": "hairpin",
-      "headingChangeDeg": 148,
-      "minimumRadiusM": 22.1,
+      "classification": "constant_radius",
+      "headingChangeDeg": 143,
+      "minimumRadiusM": 24.5,
       "lengthM": 98,
-      "previousStraightM": 285.9,
+      "previousStraightM": 320,
       "direction": null,
-      "summary": "Turn 7 is a hairpin after a 286 m straight. About 148° of heading change, 22 m minimum radius.",
+      "summary": "Turn 7 is a corner after a 320 m straight. About 143° of heading change, 25 m minimum radius.",
       "approachFrom": "T6 exit"
     },
     {
       "id": "mallala_t8",
       "number": 8,
       "apex": [
-        81.12,
-        45.93
+        81.81,
+        44.55
       ],
       "label": [
-        86.32,
-        45.84
+        87,
+        44.27
       ],
       "entry": [
-        82.51,
-        43.6
+        84.22,
+        42.1
       ],
       "exit": [
-        80.41,
-        48.9
+        80.52,
+        48.27
       ],
       "classification": "chicane_element",
-      "headingChangeDeg": 39,
-      "minimumRadiusM": 69.2,
-      "lengthM": 66,
-      "previousStraightM": 20,
+      "headingChangeDeg": 42,
+      "minimumRadiusM": 59.7,
+      "lengthM": 62,
+      "previousStraightM": 18,
       "direction": null,
-      "summary": "Turn 8 is a chicane. About 39° of heading change, 69 m minimum radius.",
+      "summary": "Turn 8 is a chicane. About 42° of heading change, 60 m minimum radius.",
       "approachFrom": "T7 exit"
     },
     {
       "id": "mallala_t9",
       "number": 9,
       "apex": [
-        73.47,
-        54.6
+        78.25,
+        53.27
       ],
       "label": [
-        78.47,
-        56.02
+        83.35,
+        54.3
       ],
       "entry": [
-        80.21,
-        49.98
+        80.4,
+        49
       ],
       "exit": [
-        67.64,
-        54.5
+        73.11,
+        54.6
       ],
       "classification": "chicane_element",
-      "headingChangeDeg": 74,
-      "minimumRadiusM": 48.1,
-      "lengthM": 92,
+      "headingChangeDeg": 81,
+      "minimumRadiusM": 42.1,
+      "lengthM": 86,
       "previousStraightM": 6,
       "direction": null,
-      "summary": "Turn 9 is a chicane. About 74° of heading change, 48 m minimum radius.",
+      "summary": "Turn 9 is a chicane. About 81° of heading change, 42 m minimum radius.",
       "approachFrom": "T8 exit"
     }
   ]

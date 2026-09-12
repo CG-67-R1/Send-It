@@ -1,208 +1,348 @@
 {
   "trackId": "broadford",
   "name": "Broadford State Motorcycle Complex",
-  "lengthM": 1915,
+  "lengthM": 2105.9,
   "startFinish": [
-    37.81,
-    39.64
+    41.65,
+    45.73
   ],
-  "countSource": "autonomous",
+  "countSource": "constrained_to_target",
   "corners": [
     {
       "id": "broadford_t1",
       "number": 1,
       "apex": [
-        29.48,
-        9.24
+        24.75,
+        14.39
       ],
       "label": [
-        27.83,
-        4.31
+        22.5,
+        9.7
       ],
       "entry": [
-        27.45,
-        23.24
+        26.61,
+        21.9
       ],
       "exit": [
-        43.27,
-        16.68
+        28.72,
+        9.64
       ],
-      "classification": "hairpin",
-      "headingChangeDeg": 183,
-      "minimumRadiusM": 47.5,
-      "lengthM": 236.1,
-      "previousStraightM": 266.1,
-      "direction": null,
-      "summary": "Turn 1 is a hairpin after a 266 m straight. About 183° of heading change, 48 m minimum radius.",
+      "classification": "constant_radius",
+      "headingChangeDeg": 93,
+      "minimumRadiusM": 47.6,
+      "lengthM": 110,
+      "previousStraightM": 426,
+      "direction": "left",
+      "summary": "Turn 1 is a left corner after a 426 m straight. About 93° of heading change, 48 m minimum radius.",
       "approachFrom": "start/finish straight"
     },
     {
       "id": "broadford_t2",
       "number": 2,
       "apex": [
-        75.24,
-        79.81
+        35.61,
+        8.69
       ],
       "label": [
-        79.46,
-        82.85
+        34.55,
+        3.6
       ],
       "entry": [
-        74.99,
-        75.55
+        28.72,
+        9.64
       ],
       "exit": [
-        70.99,
-        85.42
+        43.65,
+        17.41
       ],
-      "classification": "opening",
-      "headingChangeDeg": 75,
-      "minimumRadiusM": 35.4,
-      "lengthM": 96.1,
-      "previousStraightM": 458.2,
+      "classification": "double_apex",
+      "headingChangeDeg": 94,
+      "minimumRadiusM": 60.1,
+      "lengthM": 148,
+      "previousStraightM": 0,
       "direction": null,
-      "summary": "Turn 2 is a opening corner after a 458 m straight. About 75° of heading change, 35 m minimum radius.",
+      "summary": "Turn 2 is a double-apex corner. About 94° of heading change, 60 m minimum radius.",
       "approachFrom": "T1 exit"
     },
     {
       "id": "broadford_t3",
       "number": 3,
       "apex": [
-        60.91,
-        91.32
+        75.37,
+        79.24
       ],
       "label": [
-        63.07,
-        96.05
+        79.63,
+        82.22
       ],
       "entry": [
-        69.74,
-        86.64
+        74.29,
+        73.86
       ],
       "exit": [
-        50.89,
-        90.09
+        71.17,
+        85.23
       ],
-      "classification": "constant_radius",
-      "headingChangeDeg": 60,
-      "minimumRadiusM": 105.1,
-      "lengthM": 144.1,
-      "previousStraightM": 12,
+      "classification": "opening",
+      "headingChangeDeg": 69,
+      "minimumRadiusM": 40.9,
+      "lengthM": 100,
+      "previousStraightM": 484,
       "direction": null,
-      "summary": "Turn 3 is a corner. About 60° of heading change, 105 m minimum radius.",
+      "summary": "Turn 3 is a opening corner after a 484 m straight. About 69° of heading change, 41 m minimum radius.",
       "approachFrom": "T2 exit"
     },
     {
       "id": "broadford_t4",
       "number": 4,
       "apex": [
-        52.03,
-        90.44
+        61.36,
+        91.22
       ],
       "label": [
-        53,
-        95.55
+        63.58,
+        95.92
       ],
       "entry": [
-        69.74,
-        86.64
+        69.85,
+        86.54
       ],
       "exit": [
-        36.05,
-        78.77
+        53.26,
+        90.87
       ],
-      "classification": "tightening",
-      "headingChangeDeg": 116,
-      "minimumRadiusM": 62.3,
-      "lengthM": 290.2,
-      "previousStraightM": 1772.9,
+      "classification": "constant_radius",
+      "headingChangeDeg": 63,
+      "minimumRadiusM": 89.5,
+      "lengthM": 138,
+      "previousStraightM": 14,
       "direction": null,
-      "summary": "Turn 4 is a tightening corner after a 1773 m straight. About 116° of heading change, 62 m minimum radius.",
+      "summary": "Turn 4 is a corner. About 63° of heading change, 90 m minimum radius.",
       "approachFrom": "T3 exit"
     },
     {
       "id": "broadford_t5",
       "number": 5,
       "apex": [
-        39.32,
-        85.27
+        49.95,
+        89.89
       ],
       "label": [
-        38.05,
-        90.31
+        50.6,
+        95.05
       ],
       "entry": [
-        42.55,
-        88.71
+        52.26,
+        90.52
       ],
       "exit": [
-        36.05,
-        78.77
+        47.84,
+        89.68
       ],
-      "classification": "double_apex",
-      "headingChangeDeg": 55,
-      "minimumRadiusM": 62.3,
-      "lengthM": 92,
-      "previousStraightM": 1825,
-      "direction": null,
-      "summary": "Turn 5 is a double-apex corner after a 1825 m straight. About 55° of heading change, 62 m minimum radius.",
+      "classification": "chicane_element",
+      "headingChangeDeg": 16,
+      "minimumRadiusM": 90.8,
+      "lengthM": 36,
+      "previousStraightM": 8,
+      "direction": "right",
+      "summary": "Turn 5 is a right chicane. About 16° of heading change, 91 m minimum radius.",
       "approachFrom": "T4 exit"
     },
     {
       "id": "broadford_t6",
       "number": 6,
       "apex": [
-        32.97,
-        59.98
+        42.22,
+        88.5
       ],
       "label": [
-        27.79,
-        60.47
+        41.57,
+        93.66
       ],
       "entry": [
-        30.22,
-        63.58
+        46.78,
+        89.64
       ],
       "exit": [
-        36.16,
-        59.31
+        38.38,
+        83.52
       ],
-      "classification": "hairpin",
-      "headingChangeDeg": 206,
-      "minimumRadiusM": 41.2,
-      "lengthM": 206.1,
-      "previousStraightM": 138.1,
+      "classification": "chicane_element",
+      "headingChangeDeg": 61,
+      "minimumRadiusM": 51,
+      "lengthM": 86,
+      "previousStraightM": 8,
       "direction": null,
-      "summary": "Turn 6 is a hairpin after a 138 m straight. About 206° of heading change, 41 m minimum radius.",
+      "summary": "Turn 6 is a chicane. About 61° of heading change, 51 m minimum radius.",
       "approachFrom": "T5 exit"
     },
     {
       "id": "broadford_t7",
       "number": 7,
       "apex": [
-        44.09,
-        69.88
+        30.49,
+        67.27
       ],
       "label": [
-        43.21,
-        75.01
+        25.93,
+        69.78
       ],
       "entry": [
-        36.42,
-        59.32
+        31.35,
+        69.21
       ],
       "exit": [
-        48.31,
-        56.28
+        30.21,
+        66.24
+      ],
+      "classification": "tightening",
+      "headingChangeDeg": 16,
+      "minimumRadiusM": 55.7,
+      "lengthM": 26,
+      "previousStraightM": 120,
+      "direction": null,
+      "summary": "Turn 7 is a tightening corner after a 120 m straight. About 16° of heading change, 56 m minimum radius.",
+      "approachFrom": "T6 exit"
+    },
+    {
+      "id": "broadford_t8",
+      "number": 8,
+      "apex": [
+        30.9,
+        61.9
+      ],
+      "label": [
+        25.81,
+        62.97
+      ],
+      "entry": [
+        30.17,
+        65.98
+      ],
+      "exit": [
+        34,
+        59.55
+      ],
+      "classification": "constant_radius",
+      "headingChangeDeg": 85,
+      "minimumRadiusM": 38.7,
+      "lengthM": 64,
+      "previousStraightM": 2,
+      "direction": null,
+      "summary": "Turn 8 is a corner. About 85° of heading change, 39 m minimum radius.",
+      "approachFrom": "T7 exit"
+    },
+    {
+      "id": "broadford_t9",
+      "number": 9,
+      "apex": [
+        40.11,
+        60.57
+      ],
+      "label": [
+        35.15,
+        62.12
+      ],
+      "entry": [
+        34,
+        59.55
+      ],
+      "exit": [
+        44.02,
+        69.16
+      ],
+      "classification": "opening",
+      "headingChangeDeg": 102,
+      "minimumRadiusM": 46.4,
+      "lengthM": 124,
+      "previousStraightM": 0,
+      "direction": null,
+      "summary": "Turn 9 is a opening corner. About 102° of heading change, 46 m minimum radius.",
+      "approachFrom": "T8 exit"
+    },
+    {
+      "id": "broadford_t10",
+      "number": 10,
+      "apex": [
+        44.73,
+        75.23
+      ],
+      "label": [
+        44.33,
+        80.41
+      ],
+      "entry": [
+        44.37,
+        72.87
+      ],
+      "exit": [
+        45.39,
+        76.97
       ],
       "classification": "chicane_element",
-      "headingChangeDeg": 208,
-      "minimumRadiusM": 37.8,
-      "lengthM": 200.1,
-      "previousStraightM": 22,
+      "headingChangeDeg": 21,
+      "minimumRadiusM": 69.5,
+      "lengthM": 34,
+      "previousStraightM": 28,
+      "direction": "right",
+      "summary": "Turn 10 is a right chicane after a 28 m run. About 21° of heading change, 70 m minimum radius.",
+      "approachFrom": "T9 exit"
+    },
+    {
+      "id": "broadford_t11",
+      "number": 11,
+      "apex": [
+        48.68,
+        80.27
+      ],
+      "label": [
+        49.32,
+        85.43
+      ],
+      "entry": [
+        45.48,
+        77.21
+      ],
+      "exit": [
+        53.34,
+        80.58
+      ],
+      "classification": "constant_radius",
+      "headingChangeDeg": 82,
+      "minimumRadiusM": 47.3,
+      "lengthM": 72,
+      "previousStraightM": 2,
       "direction": null,
-      "summary": "Turn 7 is a chicane. About 208° of heading change, 38 m minimum radius.",
-      "approachFrom": "T6 exit"
+      "summary": "Turn 11 is a corner. About 82° of heading change, 47 m minimum radius.",
+      "approachFrom": "T10 exit"
+    },
+    {
+      "id": "broadford_t12",
+      "number": 12,
+      "apex": [
+        57.53,
+        76.78
+      ],
+      "label": [
+        60.33,
+        81.16
+      ],
+      "entry": [
+        53.34,
+        80.58
+      ],
+      "exit": [
+        56.57,
+        69.94
+      ],
+      "classification": "opening",
+      "headingChangeDeg": 104,
+      "minimumRadiusM": 45.6,
+      "lengthM": 100,
+      "previousStraightM": 0,
+      "direction": "left",
+      "summary": "Turn 12 is a left opening corner. About 104° of heading change, 46 m minimum radius.",
+      "approachFrom": "T11 exit"
     }
   ]
 }

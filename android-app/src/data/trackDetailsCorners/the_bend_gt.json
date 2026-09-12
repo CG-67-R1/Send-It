@@ -6,7 +6,7 @@
     18.72,
     57.23
   ],
-  "countSource": "autonomous",
+  "countSource": "constrained_to_target",
   "corners": [
     {
       "id": "the_bend_gt_t1",
@@ -32,8 +32,8 @@
       "minimumRadiusM": 27.8,
       "lengthM": 70,
       "previousStraightM": 982,
-      "direction": null,
-      "summary": "Turn 1 is a double-apex corner after a 982 m straight. About 85° of heading change, 28 m minimum radius.",
+      "direction": "right",
+      "summary": "Turn 1 is a right double-apex corner after a 982 m straight. About 85° of heading change, 28 m minimum radius.",
       "approachFrom": "start/finish straight"
     },
     {
@@ -60,41 +60,69 @@
       "minimumRadiusM": 55.8,
       "lengthM": 82,
       "previousStraightM": 50,
-      "direction": null,
-      "summary": "Turn 2 is a corner after a 50 m run. About 62° of heading change, 56 m minimum radius.",
+      "direction": "left",
+      "summary": "Turn 2 is a left corner after a 50 m run. About 62° of heading change, 56 m minimum radius.",
       "approachFrom": "T1 exit"
     },
     {
       "id": "the_bend_gt_t3",
       "number": 3,
       "apex": [
-        35.08,
-        9.53
+        31.92,
+        11.45
       ],
       "label": [
-        33.05,
-        4.74
+        29.49,
+        6.85
       ],
       "entry": [
         31.16,
         12.71
       ],
       "exit": [
-        38.12,
-        13.63
+        32.88,
+        10.34
       ],
       "classification": "chicane_element",
-      "headingChangeDeg": 150,
-      "minimumRadiusM": 35.5,
-      "lengthM": 180,
+      "headingChangeDeg": 20,
+      "minimumRadiusM": 91,
+      "lengthM": 50,
       "previousStraightM": 10,
-      "direction": null,
-      "summary": "Turn 3 is a chicane. About 150° of heading change, 36 m minimum radius.",
+      "direction": "right",
+      "summary": "Turn 3 is a right chicane. About 20° of heading change, 91 m minimum radius.",
       "approachFrom": "T2 exit"
     },
     {
       "id": "the_bend_gt_t4",
       "number": 4,
+      "apex": [
+        35.66,
+        9.72
+      ],
+      "label": [
+        33.69,
+        4.91
+      ],
+      "entry": [
+        32.97,
+        10.25
+      ],
+      "exit": [
+        38.12,
+        13.63
+      ],
+      "classification": "double_apex",
+      "headingChangeDeg": 130,
+      "minimumRadiusM": 35.5,
+      "lengthM": 130,
+      "previousStraightM": 2,
+      "direction": "right",
+      "summary": "Turn 4 is a right double-apex corner. About 130° of heading change, 36 m minimum radius.",
+      "approachFrom": "T3 exit"
+    },
+    {
+      "id": "the_bend_gt_t5",
+      "number": 5,
       "apex": [
         38.37,
         20.49
@@ -116,13 +144,13 @@
       "minimumRadiusM": 163.1,
       "lengthM": 78,
       "previousStraightM": 74,
-      "direction": null,
-      "summary": "Turn 4 is a kink after a 74 m run. About 21° of heading change, 163 m minimum radius.",
-      "approachFrom": "T3 exit"
+      "direction": "left",
+      "summary": "Turn 5 is a left kink after a 74 m run. About 21° of heading change, 163 m minimum radius.",
+      "approachFrom": "T4 exit"
     },
     {
-      "id": "the_bend_gt_t5",
-      "number": 5,
+      "id": "the_bend_gt_t6",
+      "number": 6,
       "apex": [
         33.96,
         34.94
@@ -145,40 +173,68 @@
       "lengthM": 134,
       "previousStraightM": 144,
       "direction": null,
-      "summary": "Turn 5 is a corner after a 144 m straight. About 54° of heading change, 96 m minimum radius.",
-      "approachFrom": "T4 exit"
+      "summary": "Turn 6 is a corner after a 144 m straight. About 54° of heading change, 96 m minimum radius.",
+      "approachFrom": "T5 exit"
     },
     {
-      "id": "the_bend_gt_t6",
-      "number": 6,
+      "id": "the_bend_gt_t7",
+      "number": 7,
       "apex": [
-        45.66,
-        52.87
+        45.42,
+        52.94
       ],
       "label": [
-        41.33,
-        55.74
+        41.06,
+        55.77
       ],
       "entry": [
         42.5,
         51.13
       ],
       "exit": [
+        46.69,
+        51.35
+      ],
+      "classification": "hairpin",
+      "headingChangeDeg": 145,
+      "minimumRadiusM": 24.9,
+      "lengthM": 98,
+      "previousStraightM": 234,
+      "direction": "right",
+      "summary": "Turn 7 is a right hairpin after a 234 m straight. About 145° of heading change, 25 m minimum radius.",
+      "approachFrom": "T6 exit"
+    },
+    {
+      "id": "the_bend_gt_t8",
+      "number": 8,
+      "apex": [
+        46.7,
+        50.62
+      ],
+      "label": [
+        41.79,
+        52.35
+      ],
+      "entry": [
+        46.71,
+        51.23
+      ],
+      "exit": [
         46.49,
         49.29
       ],
-      "classification": "hairpin",
-      "headingChangeDeg": 163,
-      "minimumRadiusM": 24.9,
-      "lengthM": 132,
-      "previousStraightM": 234,
-      "direction": null,
-      "summary": "Turn 6 is a hairpin after a 234 m straight. About 163° of heading change, 25 m minimum radius.",
-      "approachFrom": "T5 exit"
+      "classification": "opening",
+      "headingChangeDeg": 18,
+      "minimumRadiusM": 62.5,
+      "lengthM": 34,
+      "previousStraightM": 2,
+      "direction": "left",
+      "summary": "Turn 8 is a left opening corner. About 18° of heading change, 63 m minimum radius.",
+      "approachFrom": "T7 exit"
     },
     {
-      "id": "the_bend_gt_t7",
-      "number": 7,
+      "id": "the_bend_gt_t9",
+      "number": 9,
       "apex": [
         45.49,
         42.27
@@ -200,13 +256,13 @@
       "minimumRadiusM": 164.3,
       "lengthM": 122,
       "previousStraightM": 52,
-      "direction": null,
-      "summary": "Turn 7 is a corner after a 52 m run. About 33° of heading change, 164 m minimum radius.",
-      "approachFrom": "T6 exit"
+      "direction": "right",
+      "summary": "Turn 9 is a right corner after a 52 m run. About 33° of heading change, 164 m minimum radius.",
+      "approachFrom": "T8 exit"
     },
     {
-      "id": "the_bend_gt_t8",
-      "number": 8,
+      "id": "the_bend_gt_t10",
+      "number": 10,
       "apex": [
         50.44,
         31.49
@@ -229,40 +285,68 @@
       "lengthM": 172,
       "previousStraightM": 60,
       "direction": null,
-      "summary": "Turn 8 is a corner after a 60 m run. About 64° of heading change, 109 m minimum radius.",
-      "approachFrom": "T7 exit"
+      "summary": "Turn 10 is a corner after a 60 m run. About 64° of heading change, 109 m minimum radius.",
+      "approachFrom": "T9 exit"
     },
     {
-      "id": "the_bend_gt_t9",
-      "number": 9,
+      "id": "the_bend_gt_t11",
+      "number": 11,
       "apex": [
-        66.93,
-        25.86
+        66.86,
+        26.84
       ],
       "label": [
-        69.8,
-        21.52
+        69.81,
+        22.56
       ],
       "entry": [
         63.72,
         28.89
       ],
       "exit": [
+        65.08,
+        22.16
+      ],
+      "classification": "opening",
+      "headingChangeDeg": 141,
+      "minimumRadiusM": 40.8,
+      "lengthM": 154,
+      "previousStraightM": 136,
+      "direction": null,
+      "summary": "Turn 11 is a opening corner after a 136 m straight. About 141° of heading change, 41 m minimum radius.",
+      "approachFrom": "T10 exit"
+    },
+    {
+      "id": "the_bend_gt_t12",
+      "number": 12,
+      "apex": [
+        62.45,
+        20.85
+      ],
+      "label": [
+        64.31,
+        15.99
+      ],
+      "entry": [
+        64.98,
+        22.09
+      ],
+      "exit": [
         59.91,
         20.49
       ],
-      "classification": "hairpin",
-      "headingChangeDeg": 175,
-      "minimumRadiusM": 40.8,
-      "lengthM": 244,
-      "previousStraightM": 136,
+      "classification": "double_apex",
+      "headingChangeDeg": 34,
+      "minimumRadiusM": 94.8,
+      "lengthM": 90,
+      "previousStraightM": 2,
       "direction": null,
-      "summary": "Turn 9 is a hairpin after a 136 m straight. About 175° of heading change, 41 m minimum radius.",
-      "approachFrom": "T8 exit"
+      "summary": "Turn 12 is a double-apex corner. About 34° of heading change, 95 m minimum radius.",
+      "approachFrom": "T11 exit"
     },
     {
-      "id": "the_bend_gt_t10",
-      "number": 10,
+      "id": "the_bend_gt_t13",
+      "number": 13,
       "apex": [
         55.03,
         14.6
@@ -285,12 +369,12 @@
       "lengthM": 338,
       "previousStraightM": 4,
       "direction": null,
-      "summary": "Turn 10 is a chicane. About 186° of heading change, 60 m minimum radius.",
-      "approachFrom": "T9 exit"
+      "summary": "Turn 13 is a chicane. About 186° of heading change, 60 m minimum radius.",
+      "approachFrom": "T12 exit"
     },
     {
-      "id": "the_bend_gt_t11",
-      "number": 11,
+      "id": "the_bend_gt_t14",
+      "number": 14,
       "apex": [
         68.43,
         9.62
@@ -313,12 +397,12 @@
       "lengthM": 98,
       "previousStraightM": 32,
       "direction": null,
-      "summary": "Turn 11 is a tightening corner after a 32 m run. About 35° of heading change, 108 m minimum radius.",
-      "approachFrom": "T10 exit"
+      "summary": "Turn 14 is a tightening corner after a 32 m run. About 35° of heading change, 108 m minimum radius.",
+      "approachFrom": "T13 exit"
     },
     {
-      "id": "the_bend_gt_t12",
-      "number": 12,
+      "id": "the_bend_gt_t15",
+      "number": 15,
       "apex": [
         74.77,
         15.93
@@ -341,12 +425,12 @@
       "lengthM": 86,
       "previousStraightM": 62,
       "direction": null,
-      "summary": "Turn 12 is a double-apex corner after a 62 m run. About 51° of heading change, 71 m minimum radius.",
-      "approachFrom": "T11 exit"
+      "summary": "Turn 15 is a double-apex corner after a 62 m run. About 51° of heading change, 71 m minimum radius.",
+      "approachFrom": "T14 exit"
     },
     {
-      "id": "the_bend_gt_t13",
-      "number": 13,
+      "id": "the_bend_gt_t16",
+      "number": 16,
       "apex": [
         77,
         34.08
@@ -369,12 +453,12 @@
       "lengthM": 70,
       "previousStraightM": 226,
       "direction": null,
-      "summary": "Turn 13 is a double-apex corner after a 226 m straight. About 57° of heading change, 48 m minimum radius.",
-      "approachFrom": "T12 exit"
+      "summary": "Turn 16 is a double-apex corner after a 226 m straight. About 57° of heading change, 48 m minimum radius.",
+      "approachFrom": "T15 exit"
     },
     {
-      "id": "the_bend_gt_t14",
-      "number": 14,
+      "id": "the_bend_gt_t17",
+      "number": 17,
       "apex": [
         82.67,
         38.94
@@ -397,12 +481,12 @@
       "lengthM": 198,
       "previousStraightM": 10,
       "direction": null,
-      "summary": "Turn 14 is a chicane. About 107° of heading change, 50 m minimum radius.",
-      "approachFrom": "T13 exit"
+      "summary": "Turn 17 is a chicane. About 107° of heading change, 50 m minimum radius.",
+      "approachFrom": "T16 exit"
     },
     {
-      "id": "the_bend_gt_t15",
-      "number": 15,
+      "id": "the_bend_gt_t18",
+      "number": 18,
       "apex": [
         79.45,
         46.62
@@ -425,12 +509,12 @@
       "lengthM": 40,
       "previousStraightM": 6,
       "direction": null,
-      "summary": "Turn 15 is a chicane. About 57° of heading change, 26 m minimum radius.",
-      "approachFrom": "T14 exit"
+      "summary": "Turn 18 is a chicane. About 57° of heading change, 26 m minimum radius.",
+      "approachFrom": "T17 exit"
     },
     {
-      "id": "the_bend_gt_t16",
-      "number": 16,
+      "id": "the_bend_gt_t19",
+      "number": 19,
       "apex": [
         79.72,
         49.02
@@ -453,12 +537,12 @@
       "lengthM": 44,
       "previousStraightM": 2,
       "direction": null,
-      "summary": "Turn 16 is a chicane. About 47° of heading change, 42 m minimum radius.",
-      "approachFrom": "T15 exit"
+      "summary": "Turn 19 is a chicane. About 47° of heading change, 42 m minimum radius.",
+      "approachFrom": "T18 exit"
     },
     {
-      "id": "the_bend_gt_t17",
-      "number": 17,
+      "id": "the_bend_gt_t20",
+      "number": 20,
       "apex": [
         78.46,
         52.78
@@ -481,12 +565,12 @@
       "lengthM": 86,
       "previousStraightM": 4,
       "direction": null,
-      "summary": "Turn 17 is a chicane. About 74° of heading change, 54 m minimum radius.",
-      "approachFrom": "T16 exit"
+      "summary": "Turn 20 is a chicane. About 74° of heading change, 54 m minimum radius.",
+      "approachFrom": "T19 exit"
     },
     {
-      "id": "the_bend_gt_t18",
-      "number": 18,
+      "id": "the_bend_gt_t21",
+      "number": 21,
       "apex": [
         81.73,
         62.29
@@ -509,12 +593,12 @@
       "lengthM": 244,
       "previousStraightM": 4,
       "direction": null,
-      "summary": "Turn 18 is a chicane. About 106° of heading change, 101 m minimum radius.",
-      "approachFrom": "T17 exit"
+      "summary": "Turn 21 is a chicane. About 106° of heading change, 101 m minimum radius.",
+      "approachFrom": "T20 exit"
     },
     {
-      "id": "the_bend_gt_t19",
-      "number": 19,
+      "id": "the_bend_gt_t22",
+      "number": 22,
       "apex": [
         73.16,
         69.93
@@ -537,12 +621,12 @@
       "lengthM": 50,
       "previousStraightM": 52,
       "direction": null,
-      "summary": "Turn 19 is a corner after a 52 m run. About 57° of heading change, 30 m minimum radius.",
-      "approachFrom": "T18 exit"
+      "summary": "Turn 22 is a corner after a 52 m run. About 57° of heading change, 30 m minimum radius.",
+      "approachFrom": "T21 exit"
     },
     {
-      "id": "the_bend_gt_t20",
-      "number": 20,
+      "id": "the_bend_gt_t23",
+      "number": 23,
       "apex": [
         67.54,
         91.67
@@ -565,12 +649,12 @@
       "lengthM": 126,
       "previousStraightM": 294,
       "direction": null,
-      "summary": "Turn 20 is a hairpin after a 294 m straight. About 171° of heading change, 35 m minimum radius.",
-      "approachFrom": "T19 exit"
+      "summary": "Turn 23 is a hairpin after a 294 m straight. About 171° of heading change, 35 m minimum radius.",
+      "approachFrom": "T22 exit"
     },
     {
-      "id": "the_bend_gt_t21",
-      "number": 21,
+      "id": "the_bend_gt_t24",
+      "number": 24,
       "apex": [
         64.53,
         86.7
@@ -593,12 +677,12 @@
       "lengthM": 90,
       "previousStraightM": 4,
       "direction": null,
-      "summary": "Turn 21 is a chicane. About 73° of heading change, 56 m minimum radius.",
-      "approachFrom": "T20 exit"
+      "summary": "Turn 24 is a chicane. About 73° of heading change, 56 m minimum radius.",
+      "approachFrom": "T23 exit"
     },
     {
-      "id": "the_bend_gt_t22",
-      "number": 22,
+      "id": "the_bend_gt_t25",
+      "number": 25,
       "apex": [
         45.96,
         80.32
@@ -621,12 +705,12 @@
       "lengthM": 92,
       "previousStraightM": 230,
       "direction": null,
-      "summary": "Turn 22 is a tightening corner after a 230 m straight. About 69° of heading change, 56 m minimum radius.",
-      "approachFrom": "T21 exit"
+      "summary": "Turn 25 is a tightening corner after a 230 m straight. About 69° of heading change, 56 m minimum radius.",
+      "approachFrom": "T24 exit"
     },
     {
-      "id": "the_bend_gt_t23",
-      "number": 23,
+      "id": "the_bend_gt_t26",
+      "number": 26,
       "apex": [
         44.85,
         74.8
@@ -649,12 +733,12 @@
       "lengthM": 54,
       "previousStraightM": 24,
       "direction": null,
-      "summary": "Turn 23 is a corner. About 39° of heading change, 43 m minimum radius.",
-      "approachFrom": "T22 exit"
+      "summary": "Turn 26 is a corner. About 39° of heading change, 43 m minimum radius.",
+      "approachFrom": "T25 exit"
     },
     {
-      "id": "the_bend_gt_t24",
-      "number": 24,
+      "id": "the_bend_gt_t27",
+      "number": 27,
       "apex": [
         54.53,
         66.8
@@ -677,12 +761,12 @@
       "lengthM": 222,
       "previousStraightM": 46,
       "direction": null,
-      "summary": "Turn 24 is a tightening corner after a 46 m run. About 127° of heading change, 41 m minimum radius.",
-      "approachFrom": "T23 exit"
+      "summary": "Turn 27 is a tightening corner after a 46 m run. About 127° of heading change, 41 m minimum radius.",
+      "approachFrom": "T26 exit"
     },
     {
-      "id": "the_bend_gt_t25",
-      "number": 25,
+      "id": "the_bend_gt_t28",
+      "number": 28,
       "apex": [
         62.16,
         74.48
@@ -705,12 +789,12 @@
       "lengthM": 154,
       "previousStraightM": 42,
       "direction": null,
-      "summary": "Turn 25 is a hairpin after a 42 m run. About 157° of heading change, 44 m minimum radius.",
-      "approachFrom": "T24 exit"
+      "summary": "Turn 28 is a hairpin after a 42 m run. About 157° of heading change, 44 m minimum radius.",
+      "approachFrom": "T27 exit"
     },
     {
-      "id": "the_bend_gt_t26",
-      "number": 26,
+      "id": "the_bend_gt_t29",
+      "number": 29,
       "apex": [
         64.18,
         61.28
@@ -733,12 +817,12 @@
       "lengthM": 114,
       "previousStraightM": 110,
       "direction": null,
-      "summary": "Turn 26 is a tightening corner after a 110 m straight. About 118° of heading change, 34 m minimum radius.",
-      "approachFrom": "T25 exit"
+      "summary": "Turn 29 is a tightening corner after a 110 m straight. About 118° of heading change, 34 m minimum radius.",
+      "approachFrom": "T28 exit"
     },
     {
-      "id": "the_bend_gt_t27",
-      "number": 27,
+      "id": "the_bend_gt_t30",
+      "number": 30,
       "apex": [
         42.61,
         67.23
@@ -761,12 +845,12 @@
       "lengthM": 110,
       "previousStraightM": 268,
       "direction": null,
-      "summary": "Turn 27 is a corner after a 268 m straight. About 86° of heading change, 59 m minimum radius.",
-      "approachFrom": "T26 exit"
+      "summary": "Turn 30 is a corner after a 268 m straight. About 86° of heading change, 59 m minimum radius.",
+      "approachFrom": "T29 exit"
     },
     {
-      "id": "the_bend_gt_t28",
-      "number": 28,
+      "id": "the_bend_gt_t31",
+      "number": 31,
       "apex": [
         32.5,
         51.32
@@ -789,12 +873,12 @@
       "lengthM": 78,
       "previousStraightM": 224,
       "direction": null,
-      "summary": "Turn 28 is a corner after a 224 m straight. About 101° of heading change, 32 m minimum radius.",
-      "approachFrom": "T27 exit"
+      "summary": "Turn 31 is a corner after a 224 m straight. About 101° of heading change, 32 m minimum radius.",
+      "approachFrom": "T30 exit"
     },
     {
-      "id": "the_bend_gt_t29",
-      "number": 29,
+      "id": "the_bend_gt_t32",
+      "number": 32,
       "apex": [
         26.67,
         56.78
@@ -817,12 +901,12 @@
       "lengthM": 124,
       "previousStraightM": 40,
       "direction": null,
-      "summary": "Turn 29 is a corner after a 40 m run. About 113° of heading change, 50 m minimum radius.",
-      "approachFrom": "T28 exit"
+      "summary": "Turn 32 is a corner after a 40 m run. About 113° of heading change, 50 m minimum radius.",
+      "approachFrom": "T31 exit"
     },
     {
-      "id": "the_bend_gt_t30",
-      "number": 30,
+      "id": "the_bend_gt_t33",
+      "number": 33,
       "apex": [
         32.07,
         62.8
@@ -845,12 +929,12 @@
       "lengthM": 152,
       "previousStraightM": 4,
       "direction": null,
-      "summary": "Turn 30 is a chicane. About 53° of heading change, 126 m minimum radius.",
-      "approachFrom": "T29 exit"
+      "summary": "Turn 33 is a chicane. About 53° of heading change, 126 m minimum radius.",
+      "approachFrom": "T32 exit"
     },
     {
-      "id": "the_bend_gt_t31",
-      "number": 31,
+      "id": "the_bend_gt_t34",
+      "number": 34,
       "apex": [
         34.68,
         86.44
@@ -873,12 +957,12 @@
       "lengthM": 68,
       "previousStraightM": 286,
       "direction": null,
-      "summary": "Turn 31 is a double-apex corner after a 286 m straight. About 112° of heading change, 24 m minimum radius.",
-      "approachFrom": "T30 exit"
+      "summary": "Turn 34 is a double-apex corner after a 286 m straight. About 112° of heading change, 24 m minimum radius.",
+      "approachFrom": "T33 exit"
     },
     {
-      "id": "the_bend_gt_t32",
-      "number": 32,
+      "id": "the_bend_gt_t35",
+      "number": 35,
       "apex": [
         17.93,
         81.34
@@ -901,8 +985,8 @@
       "lengthM": 94,
       "previousStraightM": 216,
       "direction": null,
-      "summary": "Turn 32 is a double-apex corner after a 216 m straight. About 77° of heading change, 49 m minimum radius.",
-      "approachFrom": "T31 exit"
+      "summary": "Turn 35 is a double-apex corner after a 216 m straight. About 77° of heading change, 49 m minimum radius.",
+      "approachFrom": "T34 exit"
     }
   ]
 }

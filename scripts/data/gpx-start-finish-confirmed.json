@@ -3,9 +3,9 @@
   "note": "Hand-maintained. Rider-confirmed corner-numbering offsets, which outrank the offsets derived from verified hands in gpx-start-finish-alignment.json. Testing-only; not read by the app.",
   "layouts": {
     "baskerville": {
-      "cornerShift": 1,
+      "cornerShift": 3,
       "mainStraight": "164m straight into Turn 1; the 465m straight the detector picks unaided is the back straight",
-      "note": "Was offset 2 on the 8-corner numbering. Review now yields 7 corners, so the same main straight is offset 1.",
+      "note": "Was offset 2 on the 8-corner numbering, then 1 on the 7-corner autonomous bake. The constrained 10-corner bake preserves the same main straight at offset 3.",
       "source": "rider correction on the corner map, 2026-09-08, remapped after GPX review"
     },
     "winton": {
@@ -28,10 +28,11 @@
       "source": "rider correction on the corner map, cross-checked against the start/finish line embedded in the source GPX, 2026-09-08"
     },
     "mac_park": {
-      "cornerShift": 4,
+      "cornerShift": 5,
       "mainStraight": "176m straight into the 177deg hairpin (detector's T4 exit -> T5 entry)",
       "turn1": "177deg hairpin, 16m minimum radius, matching the track guide's description of Turn 1",
       "supersedes": "offset -1 derived from verifiedHands, which scored 10/10 on hands but placed start/finish in a sub-60m infield gap",
+      "note": "Was offset 4 on the 11-corner autonomous bake. The constrained 12-corner bake preserves the same Turn 1 hairpin at offset 5.",
       "source": "rider confirmation, 2026-09-07"
     },
     "smp_druitt": {

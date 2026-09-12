@@ -6,7 +6,7 @@
     23.42,
     50.28
   ],
-  "countSource": "autonomous",
+  "countSource": "constrained_to_target",
   "corners": [
     {
       "id": "the_bend_international_t1",

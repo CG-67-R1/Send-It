@@ -1,87 +1,87 @@
 {
   "trackId": "calder_park",
   "name": "Calder Park Raceway",
-  "lengthM": 2217.8,
+  "lengthM": 2275.1,
   "startFinish": [
-    55.45,
-    51.29
+    55.18,
+    50.58
   ],
-  "countSource": "autonomous",
+  "countSource": "constrained_to_target",
   "corners": [
     {
       "id": "calder_park_t1",
       "number": 1,
       "apex": [
-        67.86,
-        91.19
+        67.51,
+        91.41
       ],
       "label": [
-        70.04,
-        95.91
+        69.65,
+        96.15
       ],
       "entry": [
-        68.65,
-        87.31
+        68.62,
+        87.23
       ],
       "exit": [
-        63.74,
-        89.88
+        63.55,
+        89.61
       ],
       "classification": "hairpin",
       "headingChangeDeg": 170,
       "minimumRadiusM": 28.7,
-      "lengthM": 116,
-      "previousStraightM": 877.9,
+      "lengthM": 118,
+      "previousStraightM": 921.6,
       "direction": null,
-      "summary": "Turn 1 is a hairpin after a 878 m straight. About 170° of heading change, 29 m minimum radius.",
+      "summary": "Turn 1 is a hairpin after a 922 m straight. About 170° of heading change, 29 m minimum radius.",
       "approachFrom": "start/finish straight"
     },
     {
       "id": "calder_park_t2",
       "number": 2,
       "apex": [
-        59.13,
-        81.37
+        59.03,
+        81.77
       ],
       "label": [
-        60.76,
-        86.31
+        60.63,
+        86.72
       ],
       "entry": [
-        59.65,
-        83.37
+        59.7,
+        83.44
       ],
       "exit": [
-        60.25,
-        80.06
+        59.89,
+        80.36
       ],
       "classification": "tightening",
       "headingChangeDeg": 79,
       "minimumRadiusM": 20.4,
       "lengthM": 44,
-      "previousStraightM": 88,
+      "previousStraightM": 86,
       "direction": null,
-      "summary": "Turn 2 is a tightening corner after a 88 m straight. About 79° of heading change, 20 m minimum radius.",
+      "summary": "Turn 2 is a tightening corner after a 86 m straight. About 79° of heading change, 20 m minimum radius.",
       "approachFrom": "T1 exit"
     },
     {
       "id": "calder_park_t3",
       "number": 3,
       "apex": [
-        60.98,
-        78.3
+        60.99,
+        78.55
       ],
       "label": [
         63.03,
-        83.08
+        83.33
       ],
       "entry": [
-        60.38,
-        79.93
+        60.02,
+        80.27
       ],
       "exit": [
-        59.87,
-        75.86
+        60.02,
+        76.09
       ],
       "classification": "chicane_element",
       "headingChangeDeg": 80,
@@ -96,26 +96,26 @@
       "id": "calder_park_t4",
       "number": 4,
       "apex": [
-        49.31,
-        58.59
+        49.38,
+        59.63
       ],
       "label": [
-        49.77,
-        63.77
+        49.83,
+        64.81
       ],
       "entry": [
-        49.71,
-        60.37
+        50.19,
+        61.11
       ],
       "exit": [
-        49.53,
-        57.03
+        49.38,
+        58.13
       ],
       "classification": "tightening",
       "headingChangeDeg": 40,
       "minimumRadiusM": 34.5,
       "lengthM": 40,
-      "previousStraightM": 212,
+      "previousStraightM": 211.9,
       "direction": null,
       "summary": "Turn 4 is a tightening corner after a 212 m straight. About 40° of heading change, 35 m minimum radius.",
       "approachFrom": "T3 exit"
@@ -124,24 +124,24 @@
       "id": "calder_park_t5",
       "number": 5,
       "apex": [
-        49.08,
-        55.71
+        49.48,
+        56.45
       ],
       "label": [
-        49.56,
-        60.89
+        50.19,
+        61.6
       ],
       "entry": [
-        49.51,
-        56.69
+        49.43,
+        57.8
       ],
       "exit": [
-        48.26,
-        54.41
+        48.81,
+        55.28
       ],
       "classification": "chicane_element",
       "headingChangeDeg": 40,
-      "minimumRadiusM": 27.2,
+      "minimumRadiusM": 27.3,
       "lengthM": 34,
       "previousStraightM": 4,
       "direction": null,
@@ -152,113 +152,141 @@
       "id": "calder_park_t6",
       "number": 6,
       "apex": [
-        31.54,
-        24.86
+        30.95,
+        25.76
       ],
       "label": [
-        28.57,
-        20.59
+        27.83,
+        21.6
       ],
       "entry": [
-        30.93,
-        25.87
+        31.59,
+        27.78
       ],
       "exit": [
-        32.89,
-        23.96
+        32.44,
+        24.26
       ],
       "classification": "constant_radius",
-      "headingChangeDeg": 98,
-      "minimumRadiusM": 15.9,
-      "lengthM": 52,
-      "previousStraightM": 382,
+      "headingChangeDeg": 90,
+      "minimumRadiusM": 19.2,
+      "lengthM": 54,
+      "previousStraightM": 383.8,
       "direction": null,
-      "summary": "Turn 6 is a corner after a 382 m straight. About 98° of heading change, 16 m minimum radius.",
+      "summary": "Turn 6 is a corner after a 384 m straight. About 90° of heading change, 19 m minimum radius.",
       "approachFrom": "T5 exit"
     },
     {
       "id": "calder_park_t7",
       "number": 7,
       "apex": [
-        35.17,
-        19.91
+        35.22,
+        21.25
       ],
       "label": [
-        33.02,
-        15.18
+        32.99,
+        16.55
       ],
       "entry": [
-        33.75,
-        23.37
+        33.28,
+        23.69
       ],
       "exit": [
-        33.99,
-        17.69
+        34.52,
+        18.53
       ],
       "classification": "chicane_element",
-      "headingChangeDeg": 96,
-      "minimumRadiusM": 28.3,
-      "lengthM": 68,
+      "headingChangeDeg": 88,
+      "minimumRadiusM": 35.6,
+      "lengthM": 74,
       "previousStraightM": 12,
       "direction": null,
-      "summary": "Turn 7 is a chicane. About 96° of heading change, 28 m minimum radius.",
+      "summary": "Turn 7 is a chicane. About 88° of heading change, 36 m minimum radius.",
       "approachFrom": "T6 exit"
     },
     {
       "id": "calder_park_t8",
       "number": 8,
       "apex": [
-        33.76,
-        16.47
+        33.92,
+        17.52
       ],
       "label": [
-        31.63,
-        11.73
+        31.75,
+        12.8
       ],
       "entry": [
-        33.93,
-        17.53
+        34.42,
+        18.4
       ],
       "exit": [
-        33.65,
-        15.09
+        33.72,
+        16.02
       ],
       "classification": "chicane_element",
-      "headingChangeDeg": 30,
-      "minimumRadiusM": 32.6,
-      "lengthM": 30,
+      "headingChangeDeg": 27,
+      "minimumRadiusM": 38.5,
+      "lengthM": 32,
       "previousStraightM": 2,
       "direction": null,
-      "summary": "Turn 8 is a chicane. About 30° of heading change, 33 m minimum radius.",
+      "summary": "Turn 8 is a chicane. About 27° of heading change, 39 m minimum radius.",
       "approachFrom": "T7 exit"
     },
     {
       "id": "calder_park_t9",
       "number": 9,
       "apex": [
-        34.8,
-        8.33
+        33.83,
+        8.79
       ],
       "label": [
-        33.15,
-        3.4
+        32.06,
+        3.9
       ],
       "entry": [
-        33.32,
-        10.92
+        33.34,
+        11.14
       ],
       "exit": [
-        42.27,
-        15.44
+        35.53,
+        8.43
       ],
-      "classification": "hairpin",
-      "headingChangeDeg": 166,
-      "minimumRadiusM": 18.3,
-      "lengthM": 166,
-      "previousStraightM": 48,
+      "classification": "tightening",
+      "headingChangeDeg": 111,
+      "minimumRadiusM": 19.9,
+      "lengthM": 54,
+      "previousStraightM": 58,
       "direction": null,
-      "summary": "Turn 9 is a hairpin after a 48 m run. About 166° of heading change, 18 m minimum radius.",
+      "summary": "Turn 9 is a tightening corner after a 58 m run. About 111° of heading change, 20 m minimum radius.",
       "approachFrom": "T8 exit"
+    },
+    {
+      "id": "calder_park_t10",
+      "number": 10,
+      "apex": [
+        39.48,
+        10.61
+      ],
+      "label": [
+        38.3,
+        5.55
+      ],
+      "entry": [
+        35.69,
+        8.48
+      ],
+      "exit": [
+        41.78,
+        14.09
+      ],
+      "classification": "constant_radius",
+      "headingChangeDeg": 56,
+      "minimumRadiusM": 46.6,
+      "lengthM": 104,
+      "previousStraightM": 2,
+      "direction": null,
+      "summary": "Turn 10 is a corner. About 56° of heading change, 47 m minimum radius.",
+      "approachFrom": "T9 exit"
     }
   ]
 }

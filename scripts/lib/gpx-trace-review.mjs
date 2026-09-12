@@ -155,7 +155,11 @@ export function splitAtReturns(points) {
 
 function dropDuplicateClose(points) {
   if (points.length < 3) return points;
-  if (metres(points[0], points[points.length - 1]) < 1) return points.slice(0, -1);
+  if (metres(points[0], points[points.length - 1]) >= 1) return points;
+
+  const withoutDuplicate = points.slice(0, -1);
+  const remainingClosureM = metres(withoutDuplicate[0], withoutDuplicate[withoutDuplicate.length - 1]);
+  if (remainingClosureM <= MAX_CLOSURE_M) return withoutDuplicate;
   return points;
 }
 

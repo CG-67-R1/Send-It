@@ -1,59 +1,59 @@
 {
   "trackId": "smp_gardner",
   "name": "Sydney Motorsport Park (Gardner GP Circuit)",
-  "lengthM": 3820.6,
+  "lengthM": 3866,
   "startFinish": [
-    58.76,
-    33.56
+    58.93,
+    33.6
   ],
-  "countSource": "autonomous",
+  "countSource": "constrained_to_target",
   "corners": [
     {
       "id": "smp_gardner_t1",
       "number": 1,
       "apex": [
-        20.14,
-        29.7
+        19.75,
+        29.95
       ],
       "label": [
-        15.88,
-        26.72
+        15.45,
+        27.03
       ],
       "entry": [
-        31.32,
-        27.95
+        30.92,
+        27.88
       ],
       "exit": [
-        13.74,
-        38.78
+        13.69,
+        39.04
       ],
       "classification": "sweeper",
       "headingChangeDeg": 89,
-      "minimumRadiusM": 109.9,
+      "minimumRadiusM": 110,
       "lengthM": 308,
-      "previousStraightM": 712.1,
+      "previousStraightM": 750,
       "direction": "left",
-      "summary": "Turn 1 is a left sweeper after a 712 m straight. About 89° of heading change, 110 m minimum radius.",
+      "summary": "Turn 1 is a left sweeper after a 750 m straight. About 89° of heading change, 110 m minimum radius.",
       "approachFrom": "start/finish straight"
     },
     {
       "id": "smp_gardner_t2",
       "number": 2,
       "apex": [
-        10.97,
+        11.05,
         60.36
       ],
       "label": [
-        6,
+        6.08,
         61.89
       ],
       "entry": [
-        8.56,
-        56.71
+        8.61,
+        56.56
       ],
       "exit": [
-        13.65,
-        56.91
+        13.62,
+        56.75
       ],
       "classification": "hairpin",
       "headingChangeDeg": 207,
@@ -68,24 +68,24 @@
       "id": "smp_gardner_t3",
       "number": 3,
       "apex": [
-        15.18,
-        48.05
+        15.08,
+        48.16
       ],
       "label": [
-        9.98,
-        47.89
+        9.88,
+        48.02
       ],
       "entry": [
-        13.28,
-        54.65
+        13.26,
+        54.54
       ],
       "exit": [
-        21.95,
-        45.52
+        21.64,
+        45.5
       ],
       "classification": "chicane_element",
       "headingChangeDeg": 102,
-      "minimumRadiusM": 62.6,
+      "minimumRadiusM": 62.5,
       "lengthM": 192,
       "previousStraightM": 30,
       "direction": "right",
@@ -96,24 +96,24 @@
       "id": "smp_gardner_t4",
       "number": 4,
       "apex": [
-        42.66,
-        49.36
+        42.52,
+        49.14
       ],
       "label": [
-        37.47,
-        49.68
+        37.32,
+        49.24
       ],
       "entry": [
-        37.68,
-        46.36
+        37.03,
+        46.31
       ],
       "exit": [
-        43.21,
-        55.29
+        43.15,
+        55.43
       ],
       "classification": "constant_radius",
       "headingChangeDeg": 106,
-      "minimumRadiusM": 75.3,
+      "minimumRadiusM": 75.4,
       "lengthM": 176,
       "previousStraightM": 206,
       "direction": "right",
@@ -124,20 +124,20 @@
       "id": "smp_gardner_t5",
       "number": 5,
       "apex": [
-        41.6,
-        66.02
+        41.2,
+        65.38
       ],
       "label": [
-        39.81,
-        70.9
+        39.24,
+        70.2
       ],
       "entry": [
-        40.94,
-        62.01
+        40.95,
+        61.95
       ],
       "exit": [
-        45.01,
-        67.67
+        44.13,
+        67.45
       ],
       "classification": "constant_radius",
       "headingChangeDeg": 93,
@@ -152,24 +152,24 @@
       "id": "smp_gardner_t6",
       "number": 6,
       "apex": [
-        65.59,
-        72
+        65.31,
+        72.29
       ],
       "label": [
-        68.77,
-        76.11
+        68.43,
+        76.45
       ],
       "entry": [
-        64.84,
-        72.47
+        63.6,
+        72.25
       ],
       "exit": [
         66.74,
-        68.34
+        67.99
       ],
       "classification": "opening",
       "headingChangeDeg": 105,
-      "minimumRadiusM": 15.9,
+      "minimumRadiusM": 16,
       "lengthM": 88,
       "previousStraightM": 268,
       "direction": "left",
@@ -180,24 +180,24 @@
       "id": "smp_gardner_t7",
       "number": 7,
       "apex": [
-        66.47,
-        51.8
+        66.11,
+        51.27
       ],
       "label": [
-        71.61,
-        52.56
+        71.27,
+        51.9
       ],
       "entry": [
-        67.33,
-        56.59
+        67.32,
+        56.65
       ],
       "exit": [
-        62.18,
-        48.56
+        61.06,
+        48.39
       ],
       "classification": "constant_radius",
       "headingChangeDeg": 91,
-      "minimumRadiusM": 73.2,
+      "minimumRadiusM": 72.8,
       "lengthM": 158,
       "previousStraightM": 152,
       "direction": "right",
@@ -208,25 +208,25 @@
       "id": "smp_gardner_t8",
       "number": 8,
       "apex": [
-        48.39,
-        43.68
+        48.34,
+        44.05
       ],
       "label": [
-        48.92,
-        38.51
+        48.85,
+        38.88
       ],
       "entry": [
-        52.62,
-        47.41
+        51.69,
+        47.3
       ],
       "exit": [
-        53.22,
-        41.07
+        52.34,
+        41.09
       ],
       "classification": "hairpin",
       "headingChangeDeg": 172,
-      "minimumRadiusM": 32.9,
-      "lengthM": 144,
+      "minimumRadiusM": 33,
+      "lengthM": 146,
       "previousStraightM": 126,
       "direction": "right",
       "summary": "Turn 8 is a right hairpin after a 126 m straight. About 172° of heading change, 33 m minimum radius.",
@@ -236,84 +236,84 @@
       "id": "smp_gardner_t9",
       "number": 9,
       "apex": [
-        79.35,
-        43.01
+        77.98,
+        42.08
       ],
       "label": [
-        84.46,
-        42.03
+        83.05,
+        40.91
       ],
       "entry": [
-        72.95,
-        40.66
+        71.64,
+        40.63
       ],
       "exit": [
-        82.48,
-        46.69
+        82.21,
+        46.22
       ],
-      "classification": "double_apex",
-      "headingChangeDeg": 65,
-      "minimumRadiusM": 73.1,
-      "lengthM": 168,
+      "classification": "tightening",
+      "headingChangeDeg": 60,
+      "minimumRadiusM": 112.4,
+      "lengthM": 170,
       "previousStraightM": 258,
       "direction": "right",
-      "summary": "Turn 9 is a right double-apex corner after a 258 m straight. About 65° of heading change, 73 m minimum radius.",
+      "summary": "Turn 9 is a right tightening corner after a 258 m straight. About 60° of heading change, 112 m minimum radius.",
       "approachFrom": "T8 exit"
     },
     {
       "id": "smp_gardner_t10",
       "number": 10,
       "apex": [
-        84.76,
-        48.01
+        83.6,
+        47.92
       ],
       "label": [
-        89.96,
-        47.87
+        88.8,
+        47.76
       ],
       "entry": [
-        82.69,
-        47.05
+        82.43,
+        46.61
       ],
       "exit": [
-        86.79,
-        47.53
+        85.93,
+        47.75
       ],
       "classification": "chicane_element",
-      "headingChangeDeg": 84,
-      "minimumRadiusM": 18.2,
-      "lengthM": 52,
+      "headingChangeDeg": 74,
+      "minimumRadiusM": 22.9,
+      "lengthM": 58,
       "previousStraightM": 6,
       "direction": "left",
-      "summary": "Turn 10 is a left chicane. About 84° of heading change, 18 m minimum radius.",
+      "summary": "Turn 10 is a left chicane. About 74° of heading change, 23 m minimum radius.",
       "approachFrom": "T9 exit"
     },
     {
       "id": "smp_gardner_t11",
       "number": 11,
       "apex": [
-        91.64,
-        43.18
+        91.66,
+        43.41
       ],
       "label": [
-        96.79,
-        42.49
+        96.82,
+        42.75
       ],
       "entry": [
-        89.31,
-        46.89
+        88.83,
+        47.01
       ],
       "exit": [
-        84.74,
-        38.82
+        85.93,
+        39.01
       ],
       "classification": "hairpin",
-      "headingChangeDeg": 154,
-      "minimumRadiusM": 31.4,
-      "lengthM": 184,
-      "previousStraightM": 34,
+      "headingChangeDeg": 158,
+      "minimumRadiusM": 36.2,
+      "lengthM": 176,
+      "previousStraightM": 40,
       "direction": "left",
-      "summary": "Turn 11 is a left hairpin after a 34 m run. About 154° of heading change, 31 m minimum radius.",
+      "summary": "Turn 11 is a left hairpin after a 40 m run. About 158° of heading change, 36 m minimum radius.",
       "approachFrom": "T10 exit"
     }
   ]
