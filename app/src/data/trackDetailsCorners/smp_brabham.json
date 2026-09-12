@@ -6,7 +6,7 @@
     47.99,
     30.68
   ],
-  "countSource": "autonomous",
+  "countSource": "constrained_to_target",
   "corners": [
     {
       "id": "smp_brabham_t1",

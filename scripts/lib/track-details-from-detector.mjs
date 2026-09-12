@@ -15,6 +15,7 @@ export function detectForTrackDetails(gpxPath, options = {}) {
   return detectCornersFromGpxFile(gpxPath, {
     profile: RIDER_PROFILE,
     expectedLengthM: Number.isFinite(options.expectedLengthM) ? options.expectedLengthM : null,
+    targetCornerCount: Number.isFinite(options.targetCornerCount) ? options.targetCornerCount : null,
     strictLapIsolation: false,
     includeGeometry: true,
     startFinishCornerShift: Number.isInteger(options.startFinishCornerShift)

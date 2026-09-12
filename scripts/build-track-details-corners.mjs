@@ -3,7 +3,8 @@
  * Bake Track Details corners from the same autonomous detector run as
  * scripts/export-gpx-corner-maps.mjs (rider profile, catalog length, your
  * start/finish offsets). Places each turn at the detector index the test PNG
- * used. Does not force the confirmed catalog count.
+ * used. The catalog's confirmed count is the source of truth for how many
+ * numbered turns riders see; the detector decides placement.
  *
  * Usage:
  *   node scripts/build-track-details-corners.mjs
@@ -203,16 +204,25 @@ function buildOne(id, catalog, verify, shifts) {
 
   const map = JSON.parse(fs.readFileSync(mapPath, 'utf8'));
   const track = (catalog.tracks || []).find((t) => t.id === id);
+  if (!track) throw new Error(`missing catalog track ${id}`);
+  const confirmed = confirmedCorners(track);
+  if (!Number.isInteger(confirmed) || confirmed < 1) {
+    throw new Error(`${id}: no confirmed catalog corner count`);
+  }
   const detected = detectForTrackDetails(gpxPath, {
     expectedLengthM: parseLengthM(track?.lengthKm),
+    targetCornerCount: confirmed,
     startFinishCornerShift: cornerShiftFor(shifts, id),
   });
+  if (detected.corners.length !== confirmed) {
+    throw new Error(`${id}: detected ${detected.corners.length} corners, expected ${confirmed}`);
+  }
 
   const lapM = detected.track.lengthM;
   const fitted = fitDetectorToMapUnits(detected.geometry.points);
   const centre = centroid(map.polyline);
   const startFinish = onRibbon(fitted, detected.startFinish.index, map.polyline);
-  const countsMatch = confirmedCorners(track) === detected.corners.length;
+  const countsMatch = confirmed === detected.corners.length;
 
   const corners = detected.corners.map((corner) => {
     const apex = onRibbon(fitted, corner.sourceEvent.apexIndex, map.polyline);

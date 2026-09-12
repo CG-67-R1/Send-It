@@ -6,7 +6,7 @@
     38.76,
     48.64
   ],
-  "countSource": "autonomous",
+  "countSource": "constrained_to_target",
   "corners": [
     {
       "id": "mac_park_t1",
@@ -88,8 +88,8 @@
       "minimumRadiusM": 16.4,
       "lengthM": 106,
       "previousStraightM": 64,
-      "direction": null,
-      "summary": "Turn 3 is a hairpin after a 64 m run. About 155° of heading change, 16 m minimum radius.",
+      "direction": "right",
+      "summary": "Turn 3 is a right hairpin after a 64 m run. About 155° of heading change, 16 m minimum radius.",
       "approachFrom": "T2 exit"
     },
     {
@@ -116,8 +116,8 @@
       "minimumRadiusM": 142.9,
       "lengthM": 72,
       "previousStraightM": 70,
-      "direction": null,
-      "summary": "Turn 4 is a kink after a 70 m run. About 16° of heading change, 143 m minimum radius.",
+      "direction": "right",
+      "summary": "Turn 4 is a right kink after a 70 m run. About 16° of heading change, 143 m minimum radius.",
       "approachFrom": "T3 exit"
     },
     {
@@ -144,8 +144,8 @@
       "minimumRadiusM": 100.6,
       "lengthM": 74,
       "previousStraightM": 62,
-      "direction": null,
-      "summary": "Turn 5 is a double-apex corner after a 62 m run. About 30° of heading change, 101 m minimum radius.",
+      "direction": "left",
+      "summary": "Turn 5 is a left double-apex corner after a 62 m run. About 30° of heading change, 101 m minimum radius.",
       "approachFrom": "T4 exit"
     },
     {
@@ -172,8 +172,8 @@
       "minimumRadiusM": 33.2,
       "lengthM": 88,
       "previousStraightM": 16,
-      "direction": null,
-      "summary": "Turn 6 is a chicane. About 75° of heading change, 33 m minimum radius.",
+      "direction": "right",
+      "summary": "Turn 6 is a right chicane. About 75° of heading change, 33 m minimum radius.",
       "approachFrom": "T5 exit"
     },
     {
@@ -200,8 +200,8 @@
       "minimumRadiusM": 64.5,
       "lengthM": 184,
       "previousStraightM": 20,
-      "direction": null,
-      "summary": "Turn 7 is a tightening corner. About 96° of heading change, 65 m minimum radius.",
+      "direction": "left",
+      "summary": "Turn 7 is a left tightening corner. About 96° of heading change, 65 m minimum radius.",
       "approachFrom": "T6 exit"
     },
     {
@@ -228,41 +228,69 @@
       "minimumRadiusM": 49.7,
       "lengthM": 138,
       "previousStraightM": 532,
-      "direction": null,
-      "summary": "Turn 8 is a corner after a 532 m straight. About 80° of heading change, 50 m minimum radius.",
+      "direction": "right",
+      "summary": "Turn 8 is a right corner after a 532 m straight. About 80° of heading change, 50 m minimum radius.",
       "approachFrom": "T7 exit"
     },
     {
       "id": "mac_park_t9",
       "number": 9,
       "apex": [
-        89.12,
-        48.39
+        90.71,
+        47.1
       ],
       "label": [
-        94.32,
-        48.42
+        95.91,
+        46.98
       ],
       "entry": [
         91.56,
         40.59
       ],
       "exit": [
-        69.45,
-        43.58
+        87.36,
+        48.91
       ],
-      "classification": "opening",
-      "headingChangeDeg": 139,
+      "classification": "tightening",
+      "headingChangeDeg": 86,
       "minimumRadiusM": 33.8,
-      "lengthM": 262,
+      "lengthM": 94,
       "previousStraightM": 18,
-      "direction": null,
-      "summary": "Turn 9 is a opening corner. About 139° of heading change, 34 m minimum radius.",
+      "direction": "right",
+      "summary": "Turn 9 is a right tightening corner. About 86° of heading change, 34 m minimum radius.",
       "approachFrom": "T8 exit"
     },
     {
       "id": "mac_park_t10",
       "number": 10,
+      "apex": [
+        77.28,
+        48.33
+      ],
+      "label": [
+        82.48,
+        48.36
+      ],
+      "entry": [
+        87.13,
+        48.95
+      ],
+      "exit": [
+        69.45,
+        43.58
+      ],
+      "classification": "constant_radius",
+      "headingChangeDeg": 52,
+      "minimumRadiusM": 99.7,
+      "lengthM": 168,
+      "previousStraightM": 2,
+      "direction": "right",
+      "summary": "Turn 10 is a right corner. About 52° of heading change, 100 m minimum radius.",
+      "approachFrom": "T9 exit"
+    },
+    {
+      "id": "mac_park_t11",
+      "number": 11,
       "apex": [
         60.25,
         38.77
@@ -284,13 +312,13 @@
       "minimumRadiusM": 35.8,
       "lengthM": 122,
       "previousStraightM": 30,
-      "direction": null,
-      "summary": "Turn 10 is a chicane after a 30 m run. About 117° of heading change, 36 m minimum radius.",
-      "approachFrom": "T9 exit"
+      "direction": "left",
+      "summary": "Turn 11 is a left chicane after a 30 m run. About 117° of heading change, 36 m minimum radius.",
+      "approachFrom": "T10 exit"
     },
     {
-      "id": "mac_park_t11",
-      "number": 11,
+      "id": "mac_park_t12",
+      "number": 12,
       "apex": [
         54.18,
         47.61
@@ -312,9 +340,9 @@
       "minimumRadiusM": 32.3,
       "lengthM": 80,
       "previousStraightM": 6,
-      "direction": null,
-      "summary": "Turn 11 is a chicane. About 71° of heading change, 32 m minimum radius.",
-      "approachFrom": "T10 exit"
+      "direction": "right",
+      "summary": "Turn 12 is a right chicane. About 71° of heading change, 32 m minimum radius.",
+      "approachFrom": "T11 exit"
     }
   ]
 }

@@ -6,7 +6,7 @@
     27.95,
     41.26
   ],
-  "countSource": "autonomous",
+  "countSource": "constrained_to_target",
   "corners": [
     {
       "id": "wakefield_park_t1",

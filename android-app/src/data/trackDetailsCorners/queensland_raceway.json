@@ -6,7 +6,7 @@
     68.98,
     50.86
   ],
-  "countSource": "autonomous",
+  "countSource": "constrained_to_target",
   "corners": [
     {
       "id": "queensland_raceway_t1",

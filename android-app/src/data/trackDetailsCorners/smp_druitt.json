@@ -6,7 +6,7 @@
     47.89,
     36.88
   ],
-  "countSource": "autonomous",
+  "countSource": "constrained_to_target",
   "corners": [
     {
       "id": "smp_druitt_t1",
@@ -40,33 +40,61 @@
       "id": "smp_druitt_t2",
       "number": 2,
       "apex": [
-        11.15,
-        66.49
+        8.53,
+        61.29
       ],
       "label": [
-        6.41,
-        68.62
+        3.5,
+        62.61
       ],
       "entry": [
         8.79,
         60.13
       ],
       "exit": [
-        14.3,
-        62.27
+        8.33,
+        63.07
       ],
-      "classification": "hairpin",
-      "headingChangeDeg": 202,
-      "minimumRadiusM": 34.7,
-      "lengthM": 190,
+      "classification": "opening",
+      "headingChangeDeg": 15,
+      "minimumRadiusM": 72.9,
+      "lengthM": 42,
       "previousStraightM": 278,
       "direction": null,
-      "summary": "Turn 2 is a hairpin after a 278 m straight. About 202° of heading change, 35 m minimum radius.",
+      "summary": "Turn 2 is a opening corner after a 278 m straight. About 15° of heading change, 73 m minimum radius.",
       "approachFrom": "T1 exit"
     },
     {
       "id": "smp_druitt_t3",
       "number": 3,
+      "apex": [
+        11.45,
+        66.5
+      ],
+      "label": [
+        6.71,
+        68.65
+      ],
+      "entry": [
+        8.33,
+        63.22
+      ],
+      "exit": [
+        14.3,
+        62.27
+      ],
+      "classification": "hairpin",
+      "headingChangeDeg": 188,
+      "minimumRadiusM": 34.7,
+      "lengthM": 148,
+      "previousStraightM": 2,
+      "direction": null,
+      "summary": "Turn 3 is a hairpin. About 188° of heading change, 35 m minimum radius.",
+      "approachFrom": "T2 exit"
+    },
+    {
+      "id": "smp_druitt_t4",
+      "number": 4,
       "apex": [
         16.1,
         54.44
@@ -89,12 +117,12 @@
       "lengthM": 190,
       "previousStraightM": 20,
       "direction": null,
-      "summary": "Turn 3 is a chicane. About 95° of heading change, 92 m minimum radius.",
-      "approachFrom": "T2 exit"
+      "summary": "Turn 4 is a chicane. About 95° of heading change, 92 m minimum radius.",
+      "approachFrom": "T3 exit"
     },
     {
-      "id": "smp_druitt_t4",
-      "number": 4,
+      "id": "smp_druitt_t5",
+      "number": 5,
       "apex": [
         40.81,
         52.55
@@ -117,12 +145,12 @@
       "lengthM": 94,
       "previousStraightM": 194,
       "direction": null,
-      "summary": "Turn 4 is a tightening corner after a 194 m straight. About 49° of heading change, 82 m minimum radius.",
-      "approachFrom": "T3 exit"
+      "summary": "Turn 5 is a tightening corner after a 194 m straight. About 49° of heading change, 82 m minimum radius.",
+      "approachFrom": "T4 exit"
     },
     {
-      "id": "smp_druitt_t5",
-      "number": 5,
+      "id": "smp_druitt_t6",
+      "number": 6,
       "apex": [
         46.67,
         48.2
@@ -145,12 +173,12 @@
       "lengthM": 104,
       "previousStraightM": 10,
       "direction": null,
-      "summary": "Turn 5 is a chicane. About 40° of heading change, 111 m minimum radius.",
-      "approachFrom": "T4 exit"
+      "summary": "Turn 6 is a chicane. About 40° of heading change, 111 m minimum radius.",
+      "approachFrom": "T5 exit"
     },
     {
-      "id": "smp_druitt_t6",
-      "number": 6,
+      "id": "smp_druitt_t7",
+      "number": 7,
       "apex": [
         76.26,
         48.08
@@ -173,12 +201,12 @@
       "lengthM": 168,
       "previousStraightM": 248,
       "direction": null,
-      "summary": "Turn 6 is a tightening corner after a 248 m straight. About 48° of heading change, 132 m minimum radius.",
-      "approachFrom": "T5 exit"
+      "summary": "Turn 7 is a tightening corner after a 248 m straight. About 48° of heading change, 132 m minimum radius.",
+      "approachFrom": "T6 exit"
     },
     {
-      "id": "smp_druitt_t7",
-      "number": 7,
+      "id": "smp_druitt_t8",
+      "number": 8,
       "apex": [
         91.14,
         51.76
@@ -201,8 +229,8 @@
       "lengthM": 306.1,
       "previousStraightM": 18,
       "direction": null,
-      "summary": "Turn 7 is a chicane. About 216° of heading change, 54 m minimum radius.",
-      "approachFrom": "T6 exit"
+      "summary": "Turn 8 is a chicane. About 216° of heading change, 54 m minimum radius.",
+      "approachFrom": "T7 exit"
     }
   ]
 }

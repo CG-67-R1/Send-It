@@ -6,7 +6,7 @@
     57.64,
     55.09
   ],
-  "countSource": "autonomous",
+  "countSource": "constrained_to_target",
   "corners": [
     {
       "id": "lakeside_t1",
@@ -180,33 +180,61 @@
       "id": "lakeside_t7",
       "number": 7,
       "apex": [
-        88.73,
-        40.01
+        88.08,
+        39.78
       ],
       "label": [
-        93.79,
-        38.82
+        93.13,
+        38.54
       ],
       "entry": [
         80.85,
         44.91
       ],
       "exit": [
-        89.51,
-        52.43
+        91.62,
+        45.72
       ],
       "classification": "chicane_element",
-      "headingChangeDeg": 182,
+      "headingChangeDeg": 165,
       "minimumRadiusM": 50.9,
-      "lengthM": 285.9,
+      "lengthM": 203.9,
       "previousStraightM": 28,
       "direction": null,
-      "summary": "Turn 7 is a chicane after a 28 m run. About 182° of heading change, 51 m minimum radius.",
+      "summary": "Turn 7 is a chicane after a 28 m run. About 165° of heading change, 51 m minimum radius.",
       "approachFrom": "T6 exit"
     },
     {
       "id": "lakeside_t8",
       "number": 8,
+      "apex": [
+        91.24,
+        47.75
+      ],
+      "label": [
+        96.44,
+        47.61
+      ],
+      "entry": [
+        91.6,
+        45.89
+      ],
+      "exit": [
+        89.51,
+        52.43
+      ],
+      "classification": "kink",
+      "headingChangeDeg": 18,
+      "minimumRadiusM": 113.3,
+      "lengthM": 82,
+      "previousStraightM": 2,
+      "direction": null,
+      "summary": "Turn 8 is a kink. About 18° of heading change, 113 m minimum radius.",
+      "approachFrom": "T7 exit"
+    },
+    {
+      "id": "lakeside_t9",
+      "number": 9,
       "apex": [
         83.99,
         59.42
@@ -229,8 +257,8 @@
       "lengthM": 199.9,
       "previousStraightM": 20,
       "direction": null,
-      "summary": "Turn 8 is a sweeper. About 76° of heading change, 97 m minimum radius.",
-      "approachFrom": "T7 exit"
+      "summary": "Turn 9 is a sweeper. About 76° of heading change, 97 m minimum radius.",
+      "approachFrom": "T8 exit"
     }
   ]
 }
