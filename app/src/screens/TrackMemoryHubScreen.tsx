@@ -1,4 +1,4 @@
-import React, { useCallback, useMemo, useState } from 'react';
+import React, { useCallback, useMemo, useRef, useState } from 'react';
 import { ScrollView, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 import { useFocusEffect, useNavigation } from '@react-navigation/native';
 import type { NativeStackNavigationProp } from '@react-navigation/native-stack';
@@ -25,29 +25,17 @@ import {
   getTrackPrepSelectedTrack,
   saveTrackPrepSelectedTrack,
 } from '../storage/trackdayPrep';
+import {
+  latestTrackDetailsCornerNote,
+  shouldApplyTrackDetailsSavedNote,
+  type TrackDetailsSavedNoteSelection,
+} from '../utils/trackDetailsSavedNote';
 import { getSavedRiderAiSkill } from '../utils/riderSkillSaved';
 import { trackInfoCoachingForSkill } from '../utils/riderSkillCopy';
 import type { RiderCoachStackParamList } from './RiderCoachScreen';
 import { CORNER_BLUE, CORNER_PAPER } from '../components/trackMapTheme';
 
 type Nav = NativeStackNavigationProp<RiderCoachStackParamList, 'TrackMemoryHub'>;
-
-function latestCornerNote(
-  sessions: { trackId: string; createdAt: number; entries: { type: string; cornerId?: string; text: string }[] }[],
-  trackId: string,
-  cornerId: string
-): string | null {
-  const forTrack = sessions
-    .filter((s) => s.trackId === trackId)
-    .sort((a, b) => b.createdAt - a.createdAt);
-  for (const session of forTrack) {
-    const entry = session.entries.find(
-      (e) => e.type === 'corner' && e.cornerId === cornerId && e.text.trim()
-    );
-    if (entry) return entry.text.trim();
-  }
-  return null;
-}
 
 function shapeLabel(classification: string): string {
   return classification.replaceAll('_', ' ');
@@ -56,13 +44,42 @@ function shapeLabel(classification: string): string {
 export function TrackMemoryHubScreen() {
   const navigation = useNavigation<Nav>();
   const infoTracks = useMemo(() => listTrackInfoTracks(), []);
-  const [trackId, setTrackId] = useState<string | null>(
-    infoTracks.length === 1 ? infoTracks[0].id : null
-  );
+  const initialTrackId = infoTracks.length === 1 ? infoTracks[0].id : null;
+  const [trackId, setTrackId] = useState<string | null>(initialTrackId);
   const [selectedCorner, setSelectedCorner] = useState<TrackDetailsCorner | null>(null);
   const [savedNote, setSavedNote] = useState<string | null>(null);
   const [riderSkill, setRiderSkill] = useState<RiderAiSkill>('novice');
+  const activeTrackIdRef = useRef<string | null>(initialTrackId);
+  const savedNoteSelectionRef = useRef<TrackDetailsSavedNoteSelection>({
+    requestId: 0,
+    trackId: initialTrackId,
+    cornerId: null,
+  });
   const coaching = useMemo(() => trackInfoCoachingForSkill(riderSkill), [riderSkill]);
+
+  const resetCornerSelection = useCallback((nextTrackId = activeTrackIdRef.current) => {
+    savedNoteSelectionRef.current = {
+      requestId: savedNoteSelectionRef.current.requestId + 1,
+      trackId: nextTrackId,
+      cornerId: null,
+    };
+    setSelectedCorner(null);
+    setSavedNote(null);
+  }, []);
+
+  const beginSavedNoteRequest = useCallback(
+    (nextTrackId: string, cornerId: string): TrackDetailsSavedNoteSelection => {
+      const request = {
+        requestId: savedNoteSelectionRef.current.requestId + 1,
+        trackId: nextTrackId,
+        cornerId,
+      };
+      savedNoteSelectionRef.current = request;
+      setSavedNote(null);
+      return request;
+    },
+    []
+  );
 
   useFocusEffect(
     useCallback(() => {
@@ -76,13 +93,16 @@ export function TrackMemoryHubScreen() {
         setRiderSkill(skill);
         if (!saved) return;
         if (hasTrackInfoMap(saved.trackId)) {
+          const trackChanged = activeTrackIdRef.current !== saved.trackId;
+          activeTrackIdRef.current = saved.trackId;
           setTrackId(saved.trackId);
+          if (trackChanged) resetCornerSelection(saved.trackId);
         }
       })();
       return () => {
         cancelled = true;
       };
-    }, [])
+    }, [resetCornerSelection])
   );
 
   const map = trackId ? getGpxTrackMap(trackId) : undefined;
@@ -98,22 +118,26 @@ export function TrackMemoryHubScreen() {
 
   const handleSelectTrack = useCallback((track: TrackDefinition) => {
     if (!hasTrackInfoMap(track.id)) return;
+    activeTrackIdRef.current = track.id;
     setTrackId(track.id);
-    setSelectedCorner(null);
+    resetCornerSelection(track.id);
     void saveTrackPrepSelectedTrack({
       trackId: track.id,
       trackName: track.name,
     });
-  }, []);
+  }, [resetCornerSelection]);
 
   const openCorner = useCallback(
     async (corner: TrackDetailsCorner) => {
       if (!trackId) return;
+      const request = beginSavedNoteRequest(trackId, corner.id);
       setSelectedCorner(corner);
       const sessions = await getTrackWalkSessions();
-      setSavedNote(latestCornerNote(sessions, trackId, corner.id));
+      if (shouldApplyTrackDetailsSavedNote(request, savedNoteSelectionRef.current)) {
+        setSavedNote(latestTrackDetailsCornerNote(sessions, trackId, corner.id));
+      }
     },
-    [trackId]
+    [beginSavedNoteRequest, trackId]
   );
 
   const askCoach = useCallback(() => {
@@ -123,21 +147,21 @@ export function TrackMemoryHubScreen() {
       riderSkill === 'novice'
         ? `I'm studying ${catalog.name}, ${heading}. ${selectedCorner.summary} Give me one or two simple things to look for on the approach — everyday language, no invented lap times.`
         : `I'm studying ${catalog.name}, ${heading}. ${selectedCorner.summary} Help me with reference points and where to look on the approach — no invented lap times.`;
-    setSelectedCorner(null);
+    resetCornerSelection();
     navigation.navigate('CoachChat', {
       mode: 'coach',
       seedDraftMessage: draft,
     });
-  }, [catalog, navigation, riderSkill, selectedCorner]);
+  }, [catalog, navigation, resetCornerSelection, riderSkill, selectedCorner]);
 
   const openWalk = useCallback(() => {
     if (!trackId || !catalog) return;
-    setSelectedCorner(null);
+    resetCornerSelection(trackId);
     navigation.navigate('TrackWalk', {
       initialTrackId: trackId,
       initialTrackName: catalog.name,
     });
-  }, [catalog, navigation, trackId]);
+  }, [catalog, navigation, resetCornerSelection, trackId]);
 
   return (
     <ScrollView
@@ -262,7 +286,7 @@ export function TrackMemoryHubScreen() {
         racingLine={racingLine}
         startFinish={layout?.startFinish}
         savedNote={savedNote}
-        onClose={() => setSelectedCorner(null)}
+        onClose={() => resetCornerSelection()}
         onAskCoach={askCoach}
         onOpenTrackWalk={openWalk}
       />
