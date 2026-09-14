@@ -233,25 +233,31 @@ export function CalendarScreen() {
         disabled={!item.url}
         style={styles.itemContent}
       >
-        <View style={styles.itemHeader}>
-          <Text style={[styles.series, { color: getSeriesColor(item.series) }]}>{item.seriesLabel}</Text>
-          <Text style={styles.date}>{formatDateRange(item.startDate, item.endDate)}</Text>
+        <View style={styles.itemMain}>
+          <View style={styles.itemHeader}>
+            <Text style={[styles.series, { color: getSeriesColor(item.series) }]}>{item.seriesLabel}</Text>
+            <Text style={styles.date}>{formatDateRange(item.startDate, item.endDate)}</Text>
+          </View>
+          <Text style={styles.title} numberOfLines={2}>{item.title}</Text>
+          {(item.venue || item.country) && (
+            <Text style={styles.venue} numberOfLines={1}>
+              {[item.venue, item.country].filter(Boolean).join(', ')}
+            </Text>
+          )}
+          {item.detailTier === 'full' && (item.state || item.organiser) && (
+            <Text style={styles.auDetail} numberOfLines={1}>
+              {[item.state, item.organiser].filter(Boolean).join(' • ')}
+            </Text>
+          )}
+          {item.notes ? (
+            <Text style={styles.notes} numberOfLines={2}>{item.notes}</Text>
+          ) : null}
         </View>
-        <Text style={styles.title} numberOfLines={2}>{item.title}</Text>
-        {(item.venue || item.country) && (
-          <Text style={styles.venue} numberOfLines={1}>
-            {[item.venue, item.country].filter(Boolean).join(', ')}
+        {item.url ? (
+          <Text style={styles.itemChevron} accessible={false}>
+            ›
           </Text>
-        )}
-        {item.detailTier === 'full' && (item.state || item.organiser) && (
-          <Text style={styles.auDetail} numberOfLines={1}>
-            {[item.state, item.organiser].filter(Boolean).join(' • ')}
-          </Text>
-        )}
-        {item.notes ? (
-          <Text style={styles.notes} numberOfLines={2}>{item.notes}</Text>
         ) : null}
-        {item.url ? <Text style={styles.tapHint}>Tap to open link →</Text> : null}
       </TouchableOpacity>
       <TouchableOpacity
         style={styles.reminderButton}
@@ -461,15 +467,22 @@ const styles = StyleSheet.create({
     overflow: 'hidden',
   },
   itemContent: {
+    flexDirection: 'row',
+    alignItems: 'center',
     padding: 16,
     paddingBottom: 8,
     minHeight: 60,
   },
-  tapHint: {
-    fontSize: 13,
+  itemMain: {
+    flex: 1,
+    minWidth: 0,
+  },
+  itemChevron: {
+    marginLeft: 8,
     color: '#f59e0b',
-    marginTop: 6,
-    fontWeight: '600',
+    fontSize: 22,
+    fontWeight: '400',
+    lineHeight: 26,
   },
   reminderButton: {
     alignSelf: 'flex-start',
@@ -493,13 +506,13 @@ const styles = StyleSheet.create({
     marginBottom: 6,
   },
   series: {
-    fontSize: 12,
+    fontSize: 13,
     fontWeight: '600',
     textTransform: 'uppercase',
     letterSpacing: 0.5,
   },
   date: {
-    fontSize: 12,
+    fontSize: 13,
     color: '#94a3b8',
   },
   title: {

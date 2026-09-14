@@ -397,6 +397,8 @@ export function CoachChatScreen() {
                   style={styles.pendingRemove}
                   onPress={() => removePendingAttachment(att.id)}
                   hitSlop={{ top: 8, bottom: 8, left: 8, right: 8 }}
+                  accessibilityRole="button"
+                  accessibilityLabel={`Remove ${att.name}`}
                 >
                   <Text style={styles.pendingRemoveText}>×</Text>
                 </TouchableOpacity>
@@ -433,6 +435,9 @@ export function CoachChatScreen() {
             style={[styles.sendBtn, !canSend && styles.sendBtnDisabled]}
             onPress={sendMessage}
             disabled={!canSend}
+            accessibilityRole="button"
+            accessibilityLabel={loading ? 'Sending' : undefined}
+            accessibilityState={{ disabled: !canSend, busy: loading }}
           >
             {loading ? (
               <ActivityIndicator size="small" color="#0f172a" />

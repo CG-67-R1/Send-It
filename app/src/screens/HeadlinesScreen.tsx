@@ -2,7 +2,6 @@ import React, { useCallback, useState } from 'react';
 import {
   ActivityIndicator,
   Alert,
-  Dimensions,
   Image,
   type ImageSourcePropType,
   Linking,
@@ -11,6 +10,7 @@ import {
   StyleSheet,
   Text,
   TouchableOpacity,
+  useWindowDimensions,
   View,
 } from 'react-native';
 import { LinearGradient } from 'expo-linear-gradient';
@@ -137,7 +137,7 @@ export function HeadlinesScreen() {
   const goToSettings = () => navigation.navigate('HeadlinesSettings');
 
   const displayName = nickname.toUpperCase();
-  const { height: windowHeight } = Dimensions.get('window');
+  const { height: windowHeight } = useWindowDimensions();
   const heroHeight = windowHeight * 0.6;
   const buttonsHeight = windowHeight * 0.4;
   const pocBikeImage = require('../../assets/home-poc-bike.png');
@@ -306,9 +306,7 @@ export function HeadlinesScreen() {
               </Text>
             )}
           </TouchableOpacity>
-        ) : (
-          <View style={styles.activityCard} />
-        )}
+        ) : null}
 
         <TouchableOpacity style={styles.navButton} onPress={goToRiderCoach} activeOpacity={0.8}>
           <Text style={styles.navButtonText}>Rider Coach</Text>
