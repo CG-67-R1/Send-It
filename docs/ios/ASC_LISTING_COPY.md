@@ -162,6 +162,10 @@ Then in ASC: Build → **+** → select the processed build.
 
 ## Screenshots (iPhone 6.5")
 
+All screenshot sets (official ASC sizes, Telegram recapture sources, lifestyle/promo):
+[`screenshots/INDEX.md`](screenshots/INDEX.md). The 14 Sep evening drop is lifestyle +
+compressed device previews — **do not upload those files into ASC slots**.
+
 Required sizes include:
 
 - **1242 × 2688** or **1284 × 2778** (portrait)
