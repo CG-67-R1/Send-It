@@ -65,6 +65,17 @@ app.use(
   })
 );
 
+const roadraceAiLimiter = rateLimit({
+  windowMs: 15 * 60 * 1000,
+  max: 10,
+  standardHeaders: true,
+  legacyHeaders: false,
+  message: { error: 'Too many AI requests — try again in a few minutes.' },
+});
+
+// Gate protected AI routes before parsing large chat-upload JSON bodies.
+app.use('/roadrace-ai', requireAppSecret, roadraceAiLimiter);
+
 // Small default body limit; chat allows 8mb for base64 image attachments.
 function isChatJsonUpload(req) {
   if (req.method !== 'POST') return false;
@@ -75,16 +86,6 @@ function isChatJsonUpload(req) {
 app.use((req, res, next) => {
   return express.json({ limit: isChatJsonUpload(req) ? '8mb' : '64kb' })(req, res, next);
 });
-
-const roadraceAiLimiter = rateLimit({
-  windowMs: 15 * 60 * 1000,
-  max: 10,
-  standardHeaders: true,
-  legacyHeaders: false,
-  message: { error: 'Too many AI requests — try again in a few minutes.' },
-});
-
-app.use('/roadrace-ai', requireAppSecret, roadraceAiLimiter);
 
 app.get('/health', (_, res) => {
   res.json({
