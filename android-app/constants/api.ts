@@ -54,7 +54,7 @@ export const DEFAULT_API_TIMEOUT_MS = 60_000;
 export const LLM_API_TIMEOUT_MS = 90_000;
 export const REQUEST_TIMEOUT_MESSAGE = 'Request timed out — please retry';
 export const PHOTOS_TOO_LARGE_MESSAGE =
-  'Photos are too large for Coach. Use one or two closer shots.';
+  'The photo files are too big to send (file size, not how far the camera is from the tyre). Use one or two photos, or pick smaller images.';
 export const HTML_API_RESPONSE_MESSAGE =
   'Coach could not reach the server. Try again in a moment.';
 

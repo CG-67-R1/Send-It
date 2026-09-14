@@ -245,12 +245,13 @@ app.use((err, req, res, next) => {
   if (res.headersSent) return next(err);
   if (err?.type === 'entity.too.large') {
     return res.status(413).json({
-      error: 'Photos are too large for Coach. Use one or two closer shots.',
+      error:
+        'The photo files are too big to send (file size, not how far the camera is from the tyre). Use one or two photos, or pick smaller images.',
     });
   }
   if (err?.type === 'entity.parse.failed') {
     return res.status(400).json({
-      error: 'Could not read that request. Try again with smaller photos.',
+      error: 'Could not read that upload. Try again with one or two smaller photo files.',
     });
   }
   logError('unhandled', err);

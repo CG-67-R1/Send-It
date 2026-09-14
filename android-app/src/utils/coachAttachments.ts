@@ -102,8 +102,8 @@ function makeImageAttachment(
 ): CoachAttachment | null {
   if (estimateBase64Bytes(base64) > MAX_IMAGE_BYTES) {
     Alert.alert(
-      'Image too large',
-      'Choose a closer shot of the tyre so the photo stays small enough for Coach.'
+      'Photo file too large',
+      'This image file is too big to send to Coach. Pick a smaller photo, or send one or two instead of three. This is file size, not how far the camera is from the tyre.'
     );
     return null;
   }
