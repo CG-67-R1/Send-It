@@ -600,20 +600,29 @@ function buildUserContent(text, attachments = []) {
   return parts.length === 1 ? safeText : parts;
 }
 
+function stripImageData(data) {
+  const trimmed = String(data || '').trim();
+  const marker = 'base64,';
+  const idx = trimmed.indexOf(marker);
+  const raw = idx >= 0 ? trimmed.slice(idx + marker.length) : trimmed;
+  return raw.replace(/\s/g, '');
+}
+
 function normalizeAttachments(raw) {
   if (!Array.isArray(raw)) return [];
   const out = [];
   for (const att of raw.slice(0, 3)) {
     if (!att || typeof att !== 'object') continue;
     if (att.type === 'image' && typeof att.data === 'string' && att.data.length > 0) {
-      if (att.data.length > 6_000_000) continue;
+      const data = stripImageData(att.data);
+      if (!data || data.length > 6_000_000) continue;
       const rawMime = String(att.mimeType || 'image/jpeg').slice(0, 80).toLowerCase();
       const mime = ALLOWED_IMAGE_TYPES.includes(rawMime) ? rawMime : 'image/jpeg';
       out.push({
         type: 'image',
         name: String(att.name || 'photo.jpg').slice(0, 120),
         mimeType: mime,
-        data: att.data,
+        data,
       });
     } else if (att.type === 'file' && typeof att.content === 'string' && att.content.trim()) {
       const rawMime = String(att.mimeType || 'text/plain').slice(0, 80).toLowerCase();

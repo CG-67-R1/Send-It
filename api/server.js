@@ -66,9 +66,14 @@ app.use(
 );
 
 // Small default body limit; chat allows 8mb for base64 image attachments.
+function isChatJsonUpload(req) {
+  if (req.method !== 'POST') return false;
+  const path = String(req.originalUrl || req.url || '').split('?')[0];
+  return path === '/roadrace-ai/chat' || path.endsWith('/roadrace-ai/chat');
+}
+
 app.use((req, res, next) => {
-  const isChatUpload = req.method === 'POST' && req.path === '/roadrace-ai/chat';
-  return express.json({ limit: isChatUpload ? '8mb' : '64kb' })(req, res, next);
+  return express.json({ limit: isChatJsonUpload(req) ? '8mb' : '64kb' })(req, res, next);
 });
 
 const roadraceAiLimiter = rateLimit({
@@ -233,6 +238,23 @@ app.post('/roadrace-ai/chat', async (req, res) => {
     logError('roadrace-ai/chat', e);
     res.status(500).json({ error: 'AI request failed', reply: '' });
   }
+});
+
+// Body-parser failures otherwise become HTML, which the app reports as a JSON parse error.
+app.use((err, req, res, next) => {
+  if (res.headersSent) return next(err);
+  if (err?.type === 'entity.too.large') {
+    return res.status(413).json({
+      error: 'Photos are too large for Coach. Use one or two closer shots.',
+    });
+  }
+  if (err?.type === 'entity.parse.failed') {
+    return res.status(400).json({
+      error: 'Could not read that request. Try again with smaller photos.',
+    });
+  }
+  logError('unhandled', err);
+  return res.status(500).json({ error: 'Something went wrong. Please try again.' });
 });
 
 app.listen(PORT, () => {

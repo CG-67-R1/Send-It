@@ -1,4 +1,4 @@
-import { apiErrorMessage, apiFetch, LLM_API_TIMEOUT_MS, ROADRACE_ASK_URL } from '../../constants/api';
+import { apiErrorMessage, apiFetch, LLM_API_TIMEOUT_MS, readApiJson, ROADRACE_ASK_URL } from '../../constants/api';
 import { stripChatMarkdown } from './chatMarkdown';
 
 export type AskSource = {
@@ -69,7 +69,13 @@ export async function sendAskChat(
       body: JSON.stringify(body),
       signal: AbortSignal.timeout(LLM_API_TIMEOUT_MS),
     });
-    const data = await res.json();
+    const data = await readApiJson<{
+      error?: unknown;
+      reply?: unknown;
+      sources?: unknown;
+      fromKb?: unknown;
+      momsOnline?: unknown;
+    }>(res);
 
     if (!res.ok) {
       return { ok: false, error: typeof data?.error === 'string' ? data.error : 'Request failed' };

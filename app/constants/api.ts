@@ -53,6 +53,10 @@ export const TERMS_OF_USE_URL =
 export const DEFAULT_API_TIMEOUT_MS = 60_000;
 export const LLM_API_TIMEOUT_MS = 90_000;
 export const REQUEST_TIMEOUT_MESSAGE = 'Request timed out — please retry';
+export const PHOTOS_TOO_LARGE_MESSAGE =
+  'Photos are too large for Coach. Use one or two closer shots.';
+export const HTML_API_RESPONSE_MESSAGE =
+  'Coach could not reach the server. Try again in a moment.';
 
 export function isRequestTimeoutError(error: unknown): boolean {
   if (typeof error !== 'object' || error === null) return false;
@@ -62,9 +66,34 @@ export function isRequestTimeoutError(error: unknown): boolean {
   return message.includes('timeout') || message.includes('timed out');
 }
 
+/** HTML error pages start with `<` — Safari/RN then throw "Unexpected character: <". */
+export function isHtmlOrJsonParseError(error: unknown): boolean {
+  const message = error instanceof Error ? error.message : String(error ?? '');
+  return /JSON Parse error|Unexpected token|Unexpected character|is not valid JSON|failed to parse|<!doctype|<html/i.test(
+    message
+  );
+}
+
 export function apiErrorMessage(error: unknown, fallback = 'Network error'): string {
   if (isRequestTimeoutError(error)) return REQUEST_TIMEOUT_MESSAGE;
+  if (isHtmlOrJsonParseError(error)) return HTML_API_RESPONSE_MESSAGE;
   return error instanceof Error && error.message ? error.message : fallback;
+}
+
+export async function readApiJson<T extends Record<string, unknown> = Record<string, unknown>>(
+  res: Response
+): Promise<T> {
+  const raw = await res.text();
+  const trimmed = raw.trim();
+  if (!trimmed) return {} as T;
+  if (trimmed.startsWith('<')) {
+    throw new Error(res.status === 413 ? PHOTOS_TOO_LARGE_MESSAGE : HTML_API_RESPONSE_MESSAGE);
+  }
+  try {
+    return JSON.parse(trimmed) as T;
+  } catch {
+    throw new Error(res.status === 413 ? PHOTOS_TOO_LARGE_MESSAGE : HTML_API_RESPONSE_MESSAGE);
+  }
 }
 
 /**

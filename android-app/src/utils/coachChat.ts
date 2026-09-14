@@ -1,4 +1,11 @@
-import { apiErrorMessage, apiFetch, LLM_API_TIMEOUT_MS, ROADRACE_CHAT_URL } from '../../constants/api';
+import {
+  apiErrorMessage,
+  apiFetch,
+  LLM_API_TIMEOUT_MS,
+  PHOTOS_TOO_LARGE_MESSAGE,
+  readApiJson,
+  ROADRACE_CHAT_URL,
+} from '../../constants/api';
 import { riderAiSkillFromActivity } from '../navigation/homeMode';
 import { getOnboardingAnswers } from '../storage/onboarding';
 import type { TrackWalkSession } from '../storage/trackWalk';
@@ -63,19 +70,24 @@ export async function sendCoachChat(
     const riderSkill = riderAiSkillFromActivity(answers?.activity);
     const text = (message || '').trim();
     const outbound = [text, riderSkillReplyInstruction(riderSkill)].filter(Boolean).join('\n\n');
+    const body = JSON.stringify({
+      message: outbound || 'Please review the attached file(s).',
+      mode,
+      riderSkill,
+      history: history.map((m) => ({ role: m.role, content: m.content })),
+      attachments,
+    });
+    // API chat JSON limit is 8mb; stay under it so Express does not return HTML.
+    if (body.length > 7_500_000) {
+      return { ok: false, error: PHOTOS_TOO_LARGE_MESSAGE };
+    }
     const res = await apiFetch(ROADRACE_CHAT_URL, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({
-        message: outbound || 'Please review the attached file(s).',
-        mode,
-        riderSkill,
-        history: history.map((m) => ({ role: m.role, content: m.content })),
-        attachments,
-      }),
+      body,
       signal: AbortSignal.timeout(LLM_API_TIMEOUT_MS),
     });
-    const data = await res.json();
+    const data = await readApiJson<{ error?: unknown; reply?: unknown; suggestMode?: unknown }>(res);
 
     if (!res.ok) {
       return { ok: false, error: typeof data?.error === 'string' ? data.error : 'Request failed' };

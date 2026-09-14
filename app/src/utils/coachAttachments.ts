@@ -1,6 +1,7 @@
 import { Alert, Platform } from 'react-native';
 import * as DocumentPicker from 'expo-document-picker';
 import * as FileSystem from 'expo-file-system/legacy';
+import * as ImageManipulator from 'expo-image-manipulator';
 import * as ImagePicker from 'expo-image-picker';
 
 export type CoachAttachment =
@@ -25,7 +26,9 @@ export type CoachAttachmentPayload =
   | { type: 'file'; name: string; mimeType: string; content: string };
 
 const MAX_ATTACHMENTS = 3;
-const MAX_IMAGE_BYTES = 4 * 1024 * 1024;
+/** Keep 3 photos under the API 8mb JSON limit after base64 (~33% overhead). */
+const MAX_IMAGE_BYTES = 1.5 * 1024 * 1024;
+const COACH_IMAGE_MAX_EDGE = 1280;
 const MAX_TEXT_CHARS = 24_000;
 
 const TEXT_EXTENSIONS = new Set([
@@ -47,6 +50,15 @@ function estimateBase64Bytes(base64: string): number {
   return Math.floor((base64.length * 3) / 4);
 }
 
+/** ImagePicker / web can hand back a data URL instead of raw base64. */
+export function stripCoachImageData(data: string): string {
+  const trimmed = data.trim();
+  const marker = 'base64,';
+  const idx = trimmed.indexOf(marker);
+  const raw = idx >= 0 ? trimmed.slice(idx + marker.length) : trimmed;
+  return raw.replace(/\s/g, '');
+}
+
 function isTextLikeFile(name: string, mimeType?: string | null): boolean {
   const lower = name.toLowerCase();
   if ([...TEXT_EXTENSIONS].some((ext) => lower.endsWith(ext))) return true;
@@ -59,27 +71,70 @@ function isTextLikeFile(name: string, mimeType?: string | null): boolean {
   );
 }
 
+async function compressCoachImage(
+  uri: string,
+  width?: number,
+  height?: number
+): Promise<{ uri: string; base64: string } | null> {
+  const longEdge = Math.max(width ?? 0, height ?? 0);
+  const actions: ImageManipulator.Action[] = [];
+  if (!longEdge || longEdge > COACH_IMAGE_MAX_EDGE) {
+    if ((height ?? 0) > (width ?? 0)) {
+      actions.push({ resize: { height: COACH_IMAGE_MAX_EDGE } });
+    } else {
+      actions.push({ resize: { width: COACH_IMAGE_MAX_EDGE } });
+    }
+  }
+
+  const result = await ImageManipulator.manipulateAsync(uri, actions, {
+    compress: 0.7,
+    format: ImageManipulator.SaveFormat.JPEG,
+    base64: true,
+  });
+  if (!result.base64) return null;
+  return { uri: result.uri, base64: stripCoachImageData(result.base64) };
+}
+
+function makeImageAttachment(
+  uri: string,
+  base64: string,
+  fileName?: string | null
+): CoachAttachment | null {
+  if (estimateBase64Bytes(base64) > MAX_IMAGE_BYTES) {
+    Alert.alert(
+      'Image too large',
+      'Choose a closer shot of the tyre so the photo stays small enough for Coach.'
+    );
+    return null;
+  }
+  return {
+    id: newId(),
+    kind: 'image',
+    name: fileName || `photo_${Date.now()}.jpg`,
+    mimeType: 'image/jpeg',
+    uri,
+    base64,
+  };
+}
+
 async function imageFromPicker(
   result: ImagePicker.ImagePickerResult
 ): Promise<CoachAttachment | null> {
   const asset = result.assets?.[0];
-  if (!asset?.uri || !asset.base64) return null;
+  if (!asset?.uri) return null;
 
-  const bytes = estimateBase64Bytes(asset.base64);
-  if (bytes > MAX_IMAGE_BYTES) {
-    Alert.alert('Image too large', 'Choose a smaller photo (under 4 MB).');
-    return null;
+  try {
+    const compressed = await compressCoachImage(asset.uri, asset.width, asset.height);
+    if (compressed) return makeImageAttachment(compressed.uri, compressed.base64, asset.fileName);
+  } catch {
+    // fall through to picker base64 if the compressor cannot read the URI
   }
 
-  const name = asset.fileName || `photo_${Date.now()}.jpg`;
-  return {
-    id: newId(),
-    kind: 'image',
-    name,
-    mimeType: asset.mimeType || 'image/jpeg',
-    uri: asset.uri,
-    base64: asset.base64,
-  };
+  const fallback = asset.base64 ? stripCoachImageData(asset.base64) : '';
+  if (fallback) return makeImageAttachment(asset.uri, fallback, asset.fileName);
+
+  Alert.alert('Could not read photo', 'Try another shot or a smaller image.');
+  return null;
 }
 
 export async function pickCoachPhotoFromLibrary(): Promise<CoachAttachment | null> {
@@ -94,9 +149,8 @@ export async function pickCoachPhotoFromLibrary(): Promise<CoachAttachment | nul
 
   const result = await ImagePicker.launchImageLibraryAsync({
     mediaTypes: ['images'],
-    quality: 0.65,
+    quality: 0.7,
     exif: false,
-    base64: true,
   });
   if (result.canceled) return null;
   return imageFromPicker(result);
@@ -110,9 +164,8 @@ export async function takeCoachPhoto(): Promise<CoachAttachment | null> {
   }
 
   const result = await ImagePicker.launchCameraAsync({
-    quality: 0.65,
+    quality: 0.7,
     exif: false,
-    base64: true,
   });
   if (result.canceled) return null;
   return imageFromPicker(result);
@@ -208,16 +261,14 @@ export async function photoUrisToCoachPayloads(
   for (const uri of uris.slice(0, max)) {
     if (!uri?.trim()) continue;
     try {
-      const base64 = await FileSystem.readAsStringAsync(uri, {
-        encoding: FileSystem.EncodingType.Base64,
-      });
-      if (estimateBase64Bytes(base64) > MAX_IMAGE_BYTES) continue;
+      const compressed = await compressCoachImage(uri);
+      if (!compressed || estimateBase64Bytes(compressed.base64) > MAX_IMAGE_BYTES) continue;
       const name = uri.split('/').pop() || `photo_${Date.now()}.jpg`;
       payloads.push({
         type: 'image',
         name,
         mimeType: 'image/jpeg',
-        data: base64,
+        data: compressed.base64,
       });
     } catch {
       // skip unreadable URIs
