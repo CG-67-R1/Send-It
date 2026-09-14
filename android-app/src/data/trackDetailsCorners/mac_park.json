@@ -33,7 +33,7 @@
       "lengthM": 100,
       "previousStraightM": 190,
       "direction": null,
-      "summary": "Turn 1 is a hairpin after a 190 m straight. About 177° of heading change, 16 m minimum radius.",
+      "summary": "Turn 1 is a left hairpin after a 190 m straight. About 177° of heading change, 16 m minimum radius.",
       "approachFrom": "start/finish straight"
     },
     {
@@ -55,13 +55,13 @@
         41.08,
         60.01
       ],
-      "classification": "chicane_element",
+      "classification": "opening",
       "headingChangeDeg": 34,
       "minimumRadiusM": 115.1,
       "lengthM": 116,
       "previousStraightM": 28,
       "direction": null,
-      "summary": "Turn 2 is a chicane after a 28 m run. About 34° of heading change, 115 m minimum radius.",
+      "summary": "Turn 2 is a right opening corner after a 28 m run. About 34° of heading change, 115 m minimum radius.",
       "approachFrom": "T1 exit"
     },
     {
@@ -89,7 +89,7 @@
       "lengthM": 106,
       "previousStraightM": 64,
       "direction": null,
-      "summary": "Turn 3 is a hairpin after a 64 m run. About 155° of heading change, 16 m minimum radius.",
+      "summary": "Turn 3 is a right hairpin after a 64 m run. About 155° of heading change, 16 m minimum radius.",
       "approachFrom": "T2 exit"
     },
     {
@@ -117,7 +117,7 @@
       "lengthM": 72,
       "previousStraightM": 70,
       "direction": null,
-      "summary": "Turn 4 is a kink after a 70 m run. About 16° of heading change, 143 m minimum radius.",
+      "summary": "Turn 4 is a right kink after a 70 m run. About 16° of heading change, 143 m minimum radius.",
       "approachFrom": "T3 exit"
     },
     {
@@ -145,7 +145,7 @@
       "lengthM": 74,
       "previousStraightM": 62,
       "direction": null,
-      "summary": "Turn 5 is a double-apex corner after a 62 m run. About 30° of heading change, 101 m minimum radius.",
+      "summary": "Turn 5 is a left double-apex corner after a 62 m run. About 30° of heading change, 101 m minimum radius.",
       "approachFrom": "T4 exit"
     },
     {
@@ -167,13 +167,13 @@
         8.53,
         47.42
       ],
-      "classification": "chicane_element",
+      "classification": "opening",
       "headingChangeDeg": 75,
       "minimumRadiusM": 33.2,
       "lengthM": 88,
       "previousStraightM": 16,
       "direction": null,
-      "summary": "Turn 6 is a chicane. About 75° of heading change, 33 m minimum radius.",
+      "summary": "Turn 6 is a right opening corner. About 75° of heading change, 33 m minimum radius.",
       "approachFrom": "T5 exit"
     },
     {
@@ -201,7 +201,7 @@
       "lengthM": 184,
       "previousStraightM": 20,
       "direction": null,
-      "summary": "Turn 7 is a tightening corner. About 96° of heading change, 65 m minimum radius.",
+      "summary": "Turn 7 is a right tightening corner. About 96° of heading change, 65 m minimum radius.",
       "approachFrom": "T6 exit"
     },
     {
@@ -229,7 +229,7 @@
       "lengthM": 138,
       "previousStraightM": 532,
       "direction": null,
-      "summary": "Turn 8 is a corner after a 532 m straight. About 80° of heading change, 50 m minimum radius.",
+      "summary": "Turn 8 is a right corner after a 532 m straight. About 80° of heading change, 50 m minimum radius.",
       "approachFrom": "T7 exit"
     },
     {
@@ -257,7 +257,7 @@
       "lengthM": 262,
       "previousStraightM": 18,
       "direction": null,
-      "summary": "Turn 9 is a opening corner. About 139° of heading change, 34 m minimum radius.",
+      "summary": "Turn 9 is a right opening corner. About 139° of heading change, 34 m minimum radius.",
       "approachFrom": "T8 exit"
     },
     {
@@ -279,13 +279,13 @@
         56.4,
         43.59
       ],
-      "classification": "chicane_element",
+      "classification": "tightening",
       "headingChangeDeg": 117,
       "minimumRadiusM": 35.8,
       "lengthM": 122,
       "previousStraightM": 30,
       "direction": null,
-      "summary": "Turn 10 is a chicane after a 30 m run. About 117° of heading change, 36 m minimum radius.",
+      "summary": "Turn 10 is a left tightening corner after a 30 m run. About 117° of heading change, 36 m minimum radius.",
       "approachFrom": "T9 exit"
     },
     {

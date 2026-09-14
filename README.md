@@ -1,5 +1,7 @@
 # RoadRace – Rider Coach & Bike Setup
 
+**Website:** [roadracer.info](https://roadracer.info/) · **App Store:** [RoadRacer](https://apps.apple.com/app/id6799806571) · **Web app:** [send-it-cg-67-r1s-projects.vercel.app](https://send-it-cg-67-r1s-projects.vercel.app/)
+
 Mobile app for **trackday learners and club racers**: Rider Coach, Bike Setup (balance calculator, day sheet), track prep, calendar, and Q&A. Home switches Learn vs Setup from how you ride. Headlines stay in the API and behind **Settings → Open News** (not a product tab).
 
 ## Requirements

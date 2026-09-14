@@ -1,0 +1,929 @@
+{
+  "version": 1,
+  "generatedAt": "2026-09-07T10:05:23.599Z",
+  "profile": {
+    "id": "rider",
+    "spacingM": 2,
+    "smoothWindowM": 16,
+    "turnWindowM": 12,
+    "rateFloorDegPerM": 0.1,
+    "mergeGapM": 10,
+    "minSweptDeg": 12,
+    "minCornerLengthM": 10,
+    "minHeadingDeg": 14,
+    "weakEventDegMax": 20,
+    "weakEventLenM": 28,
+    "compoundSplitMinDeg": 170,
+    "underSegDensityMaxPerKm": 3.5
+  },
+  "source": {
+    "file": "the_bend_gt.gpx",
+    "trackName": "Tallem Bend GT segment 1",
+    "expectedLengthM": 7770
+  },
+  "lapIsolation": {
+    "strictLapIsolation": false,
+    "tracedM": 7813.6,
+    "startEndGapM": 0,
+    "method": "full_trace",
+    "selectedTravelM": 7813.6,
+    "selectedGapM": 0,
+    "outputCloseGapM": 0,
+    "candidateCount": 2,
+    "candidateSummary": [
+      "auto_slice:7679m(gap=135m)",
+      "full_trace:7814m(gap=0m)"
+    ],
+    "ambiguity": {
+      "ambiguous": false,
+      "reason": ""
+    }
+  },
+  "track": {
+    "closedLoop": true,
+    "direction": "clockwise",
+    "directionConfidence": 0.99,
+    "lengthM": 7813.6,
+    "sampledPointCount": 3907,
+    "rawPointCount": 779
+  },
+  "startFinish": {
+    "source": "longest_straight",
+    "confidence": 0.9,
+    "index": 72,
+    "straightLengthM": 990
+  },
+  "cornerDetection": {
+    "count": 32,
+    "profile": "rider",
+    "countSource": "autonomous",
+    "refinement": {
+      "rawCount": 32,
+      "filteredCount": 32,
+      "mergeCount": 0,
+      "dropCount": 0,
+      "splitCount": 0,
+      "enrichAdded": 0,
+      "underSegmentedLikely": false,
+      "underSegmentedDensity": 4.1,
+      "underSegmentedLargeEvents": 2,
+      "underSegmentedTinyEvents": 0
+    },
+    "confidence": 0.833
+  },
+  "corners": [
+    {
+      "number": 1,
+      "direction": "right",
+      "entryDistanceM": 492,
+      "apexDistanceM": 528,
+      "exitDistanceM": 560,
+      "headingChangeDeg": 85,
+      "minimumRadiusM": 27.8,
+      "lengthM": 70,
+      "maxCurvatureDegPerM": 2.061,
+      "shape": "constant_radius",
+      "classification": "double_apex",
+      "apexCount": 2,
+      "previousStraightM": 982,
+      "confidence": 0.867,
+      "sourceEvent": {
+        "startIndex": 318,
+        "apexIndex": 336,
+        "endIndex": 352
+      },
+      "shortDescription": "T1: double apex right, 85 deg, ~28m min radius",
+      "description": "Turn 1 is a double apex right-hander. It starts around 492m, peaks near 528m, and exits near 560m. Estimated heading change is 85 deg with minimum radius about 28m. The lead-in straight is about 982m from 0m."
+    },
+    {
+      "number": 2,
+      "direction": "left",
+      "entryDistanceM": 610,
+      "apexDistanceM": 648,
+      "exitDistanceM": 690,
+      "headingChangeDeg": 62,
+      "minimumRadiusM": 55.8,
+      "lengthM": 82,
+      "maxCurvatureDegPerM": 1.027,
+      "shape": "constant_radius",
+      "classification": "triple_apex",
+      "apexCount": 3,
+      "previousStraightM": 50,
+      "confidence": 0.801,
+      "sourceEvent": {
+        "startIndex": 377,
+        "apexIndex": 396,
+        "endIndex": 417
+      },
+      "shortDescription": "T2: triple apex left, 62 deg, ~56m min radius",
+      "description": "Turn 2 is a triple apex left-hander. It starts around 610m, peaks near 648m, and exits near 690m. Estimated heading change is 62 deg with minimum radius about 56m. The lead-in straight is about 50m from 560m."
+    },
+    {
+      "number": 3,
+      "direction": "right",
+      "entryDistanceM": 700,
+      "apexDistanceM": 788,
+      "exitDistanceM": 878,
+      "headingChangeDeg": 150,
+      "minimumRadiusM": 35.5,
+      "lengthM": 180,
+      "maxCurvatureDegPerM": 1.614,
+      "shape": "tightening",
+      "classification": "chicane_element",
+      "apexCount": 2,
+      "previousStraightM": 10,
+      "confidence": 0.944,
+      "sourceEvent": {
+        "startIndex": 422,
+        "apexIndex": 466,
+        "endIndex": 511
+      },
+      "shortDescription": "T3: chicane element right, 150 deg, ~36m min radius",
+      "description": "Turn 3 is a chicane element right-hander. It starts around 700m, peaks near 788m, and exits near 878m. Estimated heading change is 150 deg with minimum radius about 36m. The lead-in straight is about 10m from 690m."
+    },
+    {
+      "number": 4,
+      "direction": "right",
+      "entryDistanceM": 952,
+      "apexDistanceM": 990,
+      "exitDistanceM": 1028,
+      "headingChangeDeg": 21,
+      "minimumRadiusM": 163.1,
+      "lengthM": 78,
+      "maxCurvatureDegPerM": 0.351,
+      "shape": "constant_radius",
+      "classification": "kink",
+      "apexCount": 3,
+      "previousStraightM": 74,
+      "confidence": 0.581,
+      "sourceEvent": {
+        "startIndex": 548,
+        "apexIndex": 567,
+        "endIndex": 586
+      },
+      "shortDescription": "T4: kink right, 21 deg, ~163m min radius",
+      "description": "Turn 4 is a kink right-hander. It starts around 952m, peaks near 990m, and exits near 1028m. Estimated heading change is 21 deg with minimum radius about 163m. The lead-in straight is about 74m from 878m."
+    },
+    {
+      "number": 5,
+      "direction": "left",
+      "entryDistanceM": 1171.9,
+      "apexDistanceM": 1237.9,
+      "exitDistanceM": 1303.9,
+      "headingChangeDeg": 54,
+      "minimumRadiusM": 96.2,
+      "lengthM": 134,
+      "maxCurvatureDegPerM": 0.596,
+      "shape": "constant_radius",
+      "classification": "triple_apex",
+      "apexCount": 4,
+      "previousStraightM": 144,
+      "confidence": 0.757,
+      "sourceEvent": {
+        "startIndex": 658,
+        "apexIndex": 691,
+        "endIndex": 724
+      },
+      "shortDescription": "T5: triple apex left, 54 deg, ~96m min radius",
+      "description": "Turn 5 is a triple apex left-hander. It starts around 1172m, peaks near 1238m, and exits near 1304m. Estimated heading change is 54 deg with minimum radius about 96m. The lead-in straight is about 144m from 1028m."
+    },
+    {
+      "number": 6,
+      "direction": "left",
+      "entryDistanceM": 1537.9,
+      "apexDistanceM": 1601.9,
+      "exitDistanceM": 1667.9,
+      "headingChangeDeg": 163,
+      "minimumRadiusM": 24.9,
+      "lengthM": 132,
+      "maxCurvatureDegPerM": 2.3,
+      "shape": "opening",
+      "classification": "hairpin",
+      "apexCount": 2,
+      "previousStraightM": 234,
+      "confidence": 0.95,
+      "sourceEvent": {
+        "startIndex": 841,
+        "apexIndex": 873,
+        "endIndex": 906
+      },
+      "shortDescription": "T6: hairpin left, 163 deg, ~25m min radius",
+      "description": "Turn 6 is a hairpin left-hander. It starts around 1538m, peaks near 1602m, and exits near 1668m. Estimated heading change is 163 deg with minimum radius about 25m. The lead-in straight is about 234m from 1304m."
+    },
+    {
+      "number": 7,
+      "direction": "right",
+      "entryDistanceM": 1719.9,
+      "apexDistanceM": 1783.9,
+      "exitDistanceM": 1839.9,
+      "headingChangeDeg": 33,
+      "minimumRadiusM": 164.3,
+      "lengthM": 122,
+      "maxCurvatureDegPerM": 0.349,
+      "shape": "constant_radius",
+      "classification": "triple_apex",
+      "apexCount": 6,
+      "previousStraightM": 52,
+      "confidence": 0.633,
+      "sourceEvent": {
+        "startIndex": 932,
+        "apexIndex": 964,
+        "endIndex": 992
+      },
+      "shortDescription": "T7: triple apex right, 33 deg, ~164m min radius",
+      "description": "Turn 7 is a triple apex right-hander. It starts around 1720m, peaks near 1784m, and exits near 1840m. Estimated heading change is 33 deg with minimum radius about 164m. The lead-in straight is about 52m from 1668m."
+    },
+    {
+      "number": 8,
+      "direction": "right",
+      "entryDistanceM": 1899.9,
+      "apexDistanceM": 1981.9,
+      "exitDistanceM": 2069.9,
+      "headingChangeDeg": 64,
+      "minimumRadiusM": 108.8,
+      "lengthM": 172,
+      "maxCurvatureDegPerM": 0.526,
+      "shape": "constant_radius",
+      "classification": "triple_apex",
+      "apexCount": 5,
+      "previousStraightM": 60,
+      "confidence": 0.767,
+      "sourceEvent": {
+        "startIndex": 1022,
+        "apexIndex": 1063,
+        "endIndex": 1107
+      },
+      "shortDescription": "T8: triple apex right, 64 deg, ~109m min radius",
+      "description": "Turn 8 is a triple apex right-hander. It starts around 1900m, peaks near 1982m, and exits near 2070m. Estimated heading change is 64 deg with minimum radius about 109m. The lead-in straight is about 60m from 1840m."
+    },
+    {
+      "number": 9,
+      "direction": "left",
+      "entryDistanceM": 2205.9,
+      "apexDistanceM": 2287.9,
+      "exitDistanceM": 2447.9,
+      "headingChangeDeg": 175,
+      "minimumRadiusM": 40.8,
+      "lengthM": 244,
+      "maxCurvatureDegPerM": 1.403,
+      "shape": "opening",
+      "classification": "hairpin",
+      "apexCount": 3,
+      "previousStraightM": 136,
+      "confidence": 0.938,
+      "sourceEvent": {
+        "startIndex": 1175,
+        "apexIndex": 1216,
+        "endIndex": 1296
+      },
+      "shortDescription": "T9: hairpin left, 175 deg, ~41m min radius",
+      "description": "Turn 9 is a hairpin left-hander. It starts around 2206m, peaks near 2288m, and exits near 2448m. Estimated heading change is 175 deg with minimum radius about 41m. The lead-in straight is about 136m from 2070m."
+    },
+    {
+      "number": 10,
+      "direction": "right",
+      "entryDistanceM": 2451.9,
+      "apexDistanceM": 2591.9,
+      "exitDistanceM": 2787.9,
+      "headingChangeDeg": 186,
+      "minimumRadiusM": 59.7,
+      "lengthM": 338,
+      "maxCurvatureDegPerM": 0.96,
+      "shape": "constant_radius",
+      "classification": "chicane_element",
+      "apexCount": 9,
+      "previousStraightM": 4,
+      "confidence": 0.917,
+      "sourceEvent": {
+        "startIndex": 1298,
+        "apexIndex": 1368,
+        "endIndex": 1466
+      },
+      "shortDescription": "T10: chicane element right, 186 deg, ~60m min radius",
+      "description": "Turn 10 is a chicane element right-hander. It starts around 2452m, peaks near 2592m, and exits near 2788m. Estimated heading change is 186 deg with minimum radius about 60m. The lead-in straight is about 4m from 2448m."
+    },
+    {
+      "number": 11,
+      "direction": "right",
+      "entryDistanceM": 2819.9,
+      "apexDistanceM": 2873.9,
+      "exitDistanceM": 2915.9,
+      "headingChangeDeg": 35,
+      "minimumRadiusM": 107.5,
+      "lengthM": 98,
+      "maxCurvatureDegPerM": 0.533,
+      "shape": "tightening",
+      "classification": "triple_apex",
+      "apexCount": 3,
+      "previousStraightM": 32,
+      "confidence": 0.7,
+      "sourceEvent": {
+        "startIndex": 1482,
+        "apexIndex": 1509,
+        "endIndex": 1530
+      },
+      "shortDescription": "T11: triple apex right, 35 deg, ~108m min radius",
+      "description": "Turn 11 is a triple apex right-hander. It starts around 2820m, peaks near 2874m, and exits near 2916m. Estimated heading change is 35 deg with minimum radius about 108m. The lead-in straight is about 32m from 2788m."
+    },
+    {
+      "number": 12,
+      "direction": "right",
+      "entryDistanceM": 2977.9,
+      "apexDistanceM": 3021.9,
+      "exitDistanceM": 3061.9,
+      "headingChangeDeg": 51,
+      "minimumRadiusM": 70.8,
+      "lengthM": 86,
+      "maxCurvatureDegPerM": 0.81,
+      "shape": "constant_radius",
+      "classification": "double_apex",
+      "apexCount": 2,
+      "previousStraightM": 62,
+      "confidence": 0.765,
+      "sourceEvent": {
+        "startIndex": 1561,
+        "apexIndex": 1583,
+        "endIndex": 1603
+      },
+      "shortDescription": "T12: double apex right, 51 deg, ~71m min radius",
+      "description": "Turn 12 is a double apex right-hander. It starts around 2978m, peaks near 3022m, and exits near 3062m. Estimated heading change is 51 deg with minimum radius about 71m. The lead-in straight is about 62m from 2916m."
+    },
+    {
+      "number": 13,
+      "direction": "left",
+      "entryDistanceM": 3287.8,
+      "apexDistanceM": 3321.8,
+      "exitDistanceM": 3355.8,
+      "headingChangeDeg": 57,
+      "minimumRadiusM": 47.7,
+      "lengthM": 70,
+      "maxCurvatureDegPerM": 1.202,
+      "shape": "constant_radius",
+      "classification": "double_apex",
+      "apexCount": 2,
+      "previousStraightM": 226,
+      "confidence": 0.781,
+      "sourceEvent": {
+        "startIndex": 1716,
+        "apexIndex": 1733,
+        "endIndex": 1750
+      },
+      "shortDescription": "T13: double apex left, 57 deg, ~48m min radius",
+      "description": "Turn 13 is a double apex left-hander. It starts around 3288m, peaks near 3322m, and exits near 3356m. Estimated heading change is 57 deg with minimum radius about 48m. The lead-in straight is about 226m from 3062m."
+    },
+    {
+      "number": 14,
+      "direction": "right",
+      "entryDistanceM": 3365.8,
+      "apexDistanceM": 3447.8,
+      "exitDistanceM": 3561.8,
+      "headingChangeDeg": 107,
+      "minimumRadiusM": 50.3,
+      "lengthM": 198,
+      "maxCurvatureDegPerM": 1.139,
+      "shape": "constant_radius",
+      "classification": "chicane_element",
+      "apexCount": 2,
+      "previousStraightM": 10,
+      "confidence": 0.928,
+      "sourceEvent": {
+        "startIndex": 1755,
+        "apexIndex": 1796,
+        "endIndex": 1853
+      },
+      "shortDescription": "T14: chicane element right, 107 deg, ~50m min radius",
+      "description": "Turn 14 is a chicane element right-hander. It starts around 3366m, peaks near 3448m, and exits near 3562m. Estimated heading change is 107 deg with minimum radius about 50m. The lead-in straight is about 10m from 3356m."
+    },
+    {
+      "number": 15,
+      "direction": "left",
+      "entryDistanceM": 3567.8,
+      "apexDistanceM": 3587.8,
+      "exitDistanceM": 3605.8,
+      "headingChangeDeg": 57,
+      "minimumRadiusM": 25.8,
+      "lengthM": 40,
+      "maxCurvatureDegPerM": 2.218,
+      "shape": "tightening",
+      "classification": "chicane_element",
+      "apexCount": 1,
+      "previousStraightM": 6,
+      "confidence": 0.757,
+      "sourceEvent": {
+        "startIndex": 1856,
+        "apexIndex": 1866,
+        "endIndex": 1875
+      },
+      "shortDescription": "T15: chicane element left, 57 deg, ~26m min radius",
+      "description": "Turn 15 is a chicane element left-hander. It starts around 3568m, peaks near 3588m, and exits near 3606m. Estimated heading change is 57 deg with minimum radius about 26m. The lead-in straight is about 6m from 3562m."
+    },
+    {
+      "number": 16,
+      "direction": "right",
+      "entryDistanceM": 3607.8,
+      "apexDistanceM": 3627.8,
+      "exitDistanceM": 3649.8,
+      "headingChangeDeg": 47,
+      "minimumRadiusM": 41.9,
+      "lengthM": 44,
+      "maxCurvatureDegPerM": 1.367,
+      "shape": "constant_radius",
+      "classification": "chicane_element",
+      "apexCount": 1,
+      "previousStraightM": 2,
+      "confidence": 0.726,
+      "sourceEvent": {
+        "startIndex": 1876,
+        "apexIndex": 1886,
+        "endIndex": 1897
+      },
+      "shortDescription": "T16: chicane element right, 47 deg, ~42m min radius",
+      "description": "Turn 16 is a chicane element right-hander. It starts around 3608m, peaks near 3628m, and exits near 3650m. Estimated heading change is 47 deg with minimum radius about 42m. The lead-in straight is about 2m from 3606m."
+    },
+    {
+      "number": 17,
+      "direction": "left",
+      "entryDistanceM": 3653.8,
+      "apexDistanceM": 3693.8,
+      "exitDistanceM": 3737.8,
+      "headingChangeDeg": 74,
+      "minimumRadiusM": 54.4,
+      "lengthM": 86,
+      "maxCurvatureDegPerM": 1.052,
+      "shape": "constant_radius",
+      "classification": "chicane_element",
+      "apexCount": 4,
+      "previousStraightM": 4,
+      "confidence": 0.837,
+      "sourceEvent": {
+        "startIndex": 1899,
+        "apexIndex": 1919,
+        "endIndex": 1941
+      },
+      "shortDescription": "T17: chicane element left, 74 deg, ~54m min radius",
+      "description": "Turn 17 is a chicane element left-hander. It starts around 3654m, peaks near 3694m, and exits near 3738m. Estimated heading change is 74 deg with minimum radius about 54m. The lead-in straight is about 4m from 3650m."
+    },
+    {
+      "number": 18,
+      "direction": "right",
+      "entryDistanceM": 3741.8,
+      "apexDistanceM": 3863.8,
+      "exitDistanceM": 3983.8,
+      "headingChangeDeg": 106,
+      "minimumRadiusM": 100.6,
+      "lengthM": 244,
+      "maxCurvatureDegPerM": 0.57,
+      "shape": "constant_radius",
+      "classification": "chicane_element",
+      "apexCount": 10,
+      "previousStraightM": 4,
+      "confidence": 0.872,
+      "sourceEvent": {
+        "startIndex": 1943,
+        "apexIndex": 2004,
+        "endIndex": 2064
+      },
+      "shortDescription": "T18: chicane element right, 106 deg, ~101m min radius",
+      "description": "Turn 18 is a chicane element right-hander. It starts around 3742m, peaks near 3864m, and exits near 3984m. Estimated heading change is 106 deg with minimum radius about 101m. The lead-in straight is about 4m from 3738m."
+    },
+    {
+      "number": 19,
+      "direction": "left",
+      "entryDistanceM": 4035.8,
+      "apexDistanceM": 4059.8,
+      "exitDistanceM": 4083.8,
+      "headingChangeDeg": 57,
+      "minimumRadiusM": 29.7,
+      "lengthM": 50,
+      "maxCurvatureDegPerM": 1.932,
+      "shape": "constant_radius",
+      "classification": "constant_radius",
+      "apexCount": 1,
+      "previousStraightM": 52,
+      "confidence": 0.772,
+      "sourceEvent": {
+        "startIndex": 2090,
+        "apexIndex": 2102,
+        "endIndex": 2114
+      },
+      "shortDescription": "T19: constant radius left, 57 deg, ~30m min radius",
+      "description": "Turn 19 is a constant radius left-hander. It starts around 4036m, peaks near 4060m, and exits near 4084m. Estimated heading change is 57 deg with minimum radius about 30m. The lead-in straight is about 52m from 3984m."
+    },
+    {
+      "number": 20,
+      "direction": "right",
+      "entryDistanceM": 4377.8,
+      "apexDistanceM": 4441.8,
+      "exitDistanceM": 4501.8,
+      "headingChangeDeg": 171,
+      "minimumRadiusM": 35.3,
+      "lengthM": 126,
+      "maxCurvatureDegPerM": 1.625,
+      "shape": "constant_radius",
+      "classification": "hairpin",
+      "apexCount": 4,
+      "previousStraightM": 294,
+      "confidence": 0.944,
+      "sourceEvent": {
+        "startIndex": 2261,
+        "apexIndex": 2293,
+        "endIndex": 2323
+      },
+      "shortDescription": "T20: hairpin right, 171 deg, ~35m min radius",
+      "description": "Turn 20 is a hairpin right-hander. It starts around 4378m, peaks near 4442m, and exits near 4502m. Estimated heading change is 171 deg with minimum radius about 35m. The lead-in straight is about 294m from 4084m."
+    },
+    {
+      "number": 21,
+      "direction": "left",
+      "entryDistanceM": 4505.8,
+      "apexDistanceM": 4545.8,
+      "exitDistanceM": 4593.8,
+      "headingChangeDeg": 73,
+      "minimumRadiusM": 56.2,
+      "lengthM": 90,
+      "maxCurvatureDegPerM": 1.02,
+      "shape": "opening",
+      "classification": "chicane_element",
+      "apexCount": 3,
+      "previousStraightM": 4,
+      "confidence": 0.839,
+      "sourceEvent": {
+        "startIndex": 2325,
+        "apexIndex": 2345,
+        "endIndex": 2369
+      },
+      "shortDescription": "T21: chicane element left, 73 deg, ~56m min radius",
+      "description": "Turn 21 is a chicane element left-hander. It starts around 4506m, peaks near 4546m, and exits near 4594m. Estimated heading change is 73 deg with minimum radius about 56m. The lead-in straight is about 4m from 4502m."
+    },
+    {
+      "number": 22,
+      "direction": "right",
+      "entryDistanceM": 4823.8,
+      "apexDistanceM": 4869.8,
+      "exitDistanceM": 4913.8,
+      "headingChangeDeg": 69,
+      "minimumRadiusM": 55.7,
+      "lengthM": 92,
+      "maxCurvatureDegPerM": 1.03,
+      "shape": "tightening",
+      "classification": "triple_apex",
+      "apexCount": 3,
+      "previousStraightM": 230,
+      "confidence": 0.833,
+      "sourceEvent": {
+        "startIndex": 2484,
+        "apexIndex": 2507,
+        "endIndex": 2529
+      },
+      "shortDescription": "T22: triple apex right, 69 deg, ~56m min radius",
+      "description": "Turn 22 is a triple apex right-hander. It starts around 4824m, peaks near 4870m, and exits near 4914m. Estimated heading change is 69 deg with minimum radius about 56m. The lead-in straight is about 230m from 4594m."
+    },
+    {
+      "number": 23,
+      "direction": "right",
+      "entryDistanceM": 4937.8,
+      "apexDistanceM": 4963.8,
+      "exitDistanceM": 4989.8,
+      "headingChangeDeg": 39,
+      "minimumRadiusM": 42.5,
+      "lengthM": 54,
+      "maxCurvatureDegPerM": 1.349,
+      "shape": "constant_radius",
+      "classification": "constant_radius",
+      "apexCount": 1,
+      "previousStraightM": 24,
+      "confidence": 0.721,
+      "sourceEvent": {
+        "startIndex": 2541,
+        "apexIndex": 2554,
+        "endIndex": 2567
+      },
+      "shortDescription": "T23: constant radius right, 39 deg, ~43m min radius",
+      "description": "Turn 23 is a constant radius right-hander. It starts around 4938m, peaks near 4964m, and exits near 4990m. Estimated heading change is 39 deg with minimum radius about 43m. The lead-in straight is about 24m from 4914m."
+    },
+    {
+      "number": 24,
+      "direction": "right",
+      "entryDistanceM": 5035.8,
+      "apexDistanceM": 5181.8,
+      "exitDistanceM": 5255.7,
+      "headingChangeDeg": 127,
+      "minimumRadiusM": 41.3,
+      "lengthM": 222,
+      "maxCurvatureDegPerM": 1.388,
+      "shape": "tightening",
+      "classification": "tightening",
+      "apexCount": 1,
+      "previousStraightM": 46,
+      "confidence": 0.938,
+      "sourceEvent": {
+        "startIndex": 2590,
+        "apexIndex": 2663,
+        "endIndex": 2700
+      },
+      "shortDescription": "T24: tightening right, 127 deg, ~41m min radius",
+      "description": "Turn 24 is a tightening right-hander. It starts around 5036m, peaks near 5182m, and exits near 5256m. Estimated heading change is 127 deg with minimum radius about 41m. The lead-in straight is about 46m from 4990m."
+    },
+    {
+      "number": 25,
+      "direction": "left",
+      "entryDistanceM": 5297.7,
+      "apexDistanceM": 5375.7,
+      "exitDistanceM": 5449.7,
+      "headingChangeDeg": 157,
+      "minimumRadiusM": 43.8,
+      "lengthM": 154,
+      "maxCurvatureDegPerM": 1.307,
+      "shape": "constant_radius",
+      "classification": "hairpin",
+      "apexCount": 5,
+      "previousStraightM": 42,
+      "confidence": 0.935,
+      "sourceEvent": {
+        "startIndex": 2721,
+        "apexIndex": 2760,
+        "endIndex": 2797
+      },
+      "shortDescription": "T25: hairpin left, 157 deg, ~44m min radius",
+      "description": "Turn 25 is a hairpin left-hander. It starts around 5298m, peaks near 5376m, and exits near 5450m. Estimated heading change is 157 deg with minimum radius about 44m. The lead-in straight is about 42m from 5256m."
+    },
+    {
+      "number": 26,
+      "direction": "left",
+      "entryDistanceM": 5559.7,
+      "apexDistanceM": 5619.7,
+      "exitDistanceM": 5671.7,
+      "headingChangeDeg": 118,
+      "minimumRadiusM": 33.6,
+      "lengthM": 114,
+      "maxCurvatureDegPerM": 1.705,
+      "shape": "tightening",
+      "classification": "triple_apex",
+      "apexCount": 4,
+      "previousStraightM": 110,
+      "confidence": 0.946,
+      "sourceEvent": {
+        "startIndex": 2852,
+        "apexIndex": 2882,
+        "endIndex": 2908
+      },
+      "shortDescription": "T26: triple apex left, 118 deg, ~34m min radius",
+      "description": "Turn 26 is a triple apex left-hander. It starts around 5560m, peaks near 5620m, and exits near 5672m. Estimated heading change is 118 deg with minimum radius about 34m. The lead-in straight is about 110m from 5450m."
+    },
+    {
+      "number": 27,
+      "direction": "right",
+      "entryDistanceM": 5939.7,
+      "apexDistanceM": 5995.7,
+      "exitDistanceM": 6047.7,
+      "headingChangeDeg": 86,
+      "minimumRadiusM": 59.1,
+      "lengthM": 110,
+      "maxCurvatureDegPerM": 0.969,
+      "shape": "constant_radius",
+      "classification": "triple_apex",
+      "apexCount": 4,
+      "previousStraightM": 268,
+      "confidence": 0.873,
+      "sourceEvent": {
+        "startIndex": 3042,
+        "apexIndex": 3070,
+        "endIndex": 3096
+      },
+      "shortDescription": "T27: triple apex right, 86 deg, ~59m min radius",
+      "description": "Turn 27 is a triple apex right-hander. It starts around 5940m, peaks near 5996m, and exits near 6048m. Estimated heading change is 86 deg with minimum radius about 59m. The lead-in straight is about 268m from 5672m."
+    },
+    {
+      "number": 28,
+      "direction": "left",
+      "entryDistanceM": 6271.7,
+      "apexDistanceM": 6309.7,
+      "exitDistanceM": 6347.7,
+      "headingChangeDeg": 101,
+      "minimumRadiusM": 32.2,
+      "lengthM": 78,
+      "maxCurvatureDegPerM": 1.779,
+      "shape": "constant_radius",
+      "classification": "triple_apex",
+      "apexCount": 3,
+      "previousStraightM": 224,
+      "confidence": 0.914,
+      "sourceEvent": {
+        "startIndex": 3208,
+        "apexIndex": 3227,
+        "endIndex": 3246
+      },
+      "shortDescription": "T28: triple apex left, 101 deg, ~32m min radius",
+      "description": "Turn 28 is a triple apex left-hander. It starts around 6272m, peaks near 6310m, and exits near 6348m. Estimated heading change is 101 deg with minimum radius about 32m. The lead-in straight is about 224m from 6048m."
+    },
+    {
+      "number": 29,
+      "direction": "left",
+      "entryDistanceM": 6387.7,
+      "apexDistanceM": 6451.7,
+      "exitDistanceM": 6509.7,
+      "headingChangeDeg": 113,
+      "minimumRadiusM": 49.9,
+      "lengthM": 124,
+      "maxCurvatureDegPerM": 1.149,
+      "shape": "constant_radius",
+      "classification": "triple_apex",
+      "apexCount": 4,
+      "previousStraightM": 40,
+      "confidence": 0.928,
+      "sourceEvent": {
+        "startIndex": 3266,
+        "apexIndex": 3298,
+        "endIndex": 3327
+      },
+      "shortDescription": "T29: triple apex left, 113 deg, ~50m min radius",
+      "description": "Turn 29 is a triple apex left-hander. It starts around 6388m, peaks near 6452m, and exits near 6510m. Estimated heading change is 113 deg with minimum radius about 50m. The lead-in straight is about 40m from 6348m."
+    },
+    {
+      "number": 30,
+      "direction": "right",
+      "entryDistanceM": 6513.7,
+      "apexDistanceM": 6587.7,
+      "exitDistanceM": 6663.7,
+      "headingChangeDeg": 53,
+      "minimumRadiusM": 126,
+      "lengthM": 152,
+      "maxCurvatureDegPerM": 0.455,
+      "shape": "constant_radius",
+      "classification": "chicane_element",
+      "apexCount": 5,
+      "previousStraightM": 4,
+      "confidence": 0.722,
+      "sourceEvent": {
+        "startIndex": 3329,
+        "apexIndex": 3366,
+        "endIndex": 3404
+      },
+      "shortDescription": "T30: chicane element right, 53 deg, ~126m min radius",
+      "description": "Turn 30 is a chicane element right-hander. It starts around 6514m, peaks near 6588m, and exits near 6664m. Estimated heading change is 53 deg with minimum radius about 126m. The lead-in straight is about 4m from 6510m."
+    },
+    {
+      "number": 31,
+      "direction": "right",
+      "entryDistanceM": 6949.7,
+      "apexDistanceM": 6981.7,
+      "exitDistanceM": 7015.7,
+      "headingChangeDeg": 112,
+      "minimumRadiusM": 24,
+      "lengthM": 68,
+      "maxCurvatureDegPerM": 2.39,
+      "shape": "constant_radius",
+      "classification": "double_apex",
+      "apexCount": 2,
+      "previousStraightM": 286,
+      "confidence": 0.911,
+      "sourceEvent": {
+        "startIndex": 3547,
+        "apexIndex": 3563,
+        "endIndex": 3580
+      },
+      "shortDescription": "T31: double apex right, 112 deg, ~24m min radius",
+      "description": "Turn 31 is a double apex right-hander. It starts around 6950m, peaks near 6982m, and exits near 7016m. Estimated heading change is 112 deg with minimum radius about 24m. The lead-in straight is about 286m from 6664m."
+    },
+    {
+      "number": 32,
+      "direction": "right",
+      "entryDistanceM": 7231.7,
+      "apexDistanceM": 7273.7,
+      "exitDistanceM": 7323.6,
+      "headingChangeDeg": 77,
+      "minimumRadiusM": 48.5,
+      "lengthM": 94,
+      "maxCurvatureDegPerM": 1.182,
+      "shape": "opening",
+      "classification": "double_apex",
+      "apexCount": 2,
+      "previousStraightM": 216,
+      "confidence": 0.862,
+      "sourceEvent": {
+        "startIndex": 3688,
+        "apexIndex": 3709,
+        "endIndex": 3734
+      },
+      "shortDescription": "T32: double apex right, 77 deg, ~49m min radius",
+      "description": "Turn 32 is a double apex right-hander. It starts around 7232m, peaks near 7274m, and exits near 7324m. Estimated heading change is 77 deg with minimum radius about 49m. The lead-in straight is about 216m from 7016m."
+    }
+  ],
+  "gateReport": [
+    {
+      "stage": "parse_gpx",
+      "status": "pass",
+      "elapsedMs": 4,
+      "details": {
+        "segments": 2,
+        "waypoints": 0
+      }
+    },
+    {
+      "stage": "select_segment",
+      "status": "pass",
+      "elapsedMs": 0,
+      "details": {
+        "points": 779
+      }
+    },
+    {
+      "stage": "project_track",
+      "status": "pass",
+      "elapsedMs": 0,
+      "details": {
+        "points": 779
+      }
+    },
+    {
+      "stage": "isolate_single_lap",
+      "status": "pass",
+      "elapsedMs": 3,
+      "details": {
+        "points": 779,
+        "tracedM": 7813.6,
+        "closeGapM": 0,
+        "method": "full_trace",
+        "candidateCount": 2,
+        "ambiguityFlag": false
+      }
+    },
+    {
+      "stage": "resample",
+      "status": "pass",
+      "elapsedMs": 4,
+      "details": {
+        "points": 3907,
+        "lapLengthM": 7813.6
+      }
+    },
+    {
+      "stage": "smooth",
+      "status": "pass",
+      "elapsedMs": 1,
+      "details": {
+        "points": 3907,
+        "windowM": 16
+      }
+    },
+    {
+      "stage": "direction",
+      "status": "pass",
+      "elapsedMs": 0,
+      "details": {
+        "direction": "clockwise",
+        "confidence": 0.99
+      }
+    },
+    {
+      "stage": "turn_rate",
+      "status": "pass",
+      "elapsedMs": 1,
+      "details": {
+        "sampleCount": 3907
+      }
+    },
+    {
+      "stage": "turn_events",
+      "status": "pass",
+      "elapsedMs": 4,
+      "details": {
+        "eventCount": 32,
+        "droppedSubThreshold": 0,
+        "rawCount": 32,
+        "merges": 0,
+        "drops": 0,
+        "splits": 0,
+        "enrichAdded": 0,
+        "underSegmentedLikely": false
+      }
+    },
+    {
+      "stage": "start_finish",
+      "status": "pass",
+      "elapsedMs": 4,
+      "details": {
+        "index": 72,
+        "source": "longest_straight",
+        "confidence": 0.9,
+        "straightLengthM": 990
+      }
+    },
+    {
+      "stage": "number_and_describe",
+      "status": "pass",
+      "elapsedMs": 1,
+      "details": {
+        "cornerCount": 32
+      }
+    },
+    {
+      "stage": "final_checks",
+      "status": "pass",
+      "elapsedMs": 0,
+      "details": {
+        "cornerCount": 32
+      }
+    }
+  ]
+}

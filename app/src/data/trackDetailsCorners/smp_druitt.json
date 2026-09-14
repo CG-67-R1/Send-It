@@ -33,7 +33,7 @@
       "lengthM": 218,
       "previousStraightM": 774.1,
       "direction": null,
-      "summary": "Turn 1 is a sweeper after a 774 m straight. About 63° of heading change, 120 m minimum radius.",
+      "summary": "Turn 1 is a left sweeper after a 774 m straight. About 63° of heading change, 120 m minimum radius.",
       "approachFrom": "start/finish straight"
     },
     {
@@ -61,7 +61,7 @@
       "lengthM": 190,
       "previousStraightM": 278,
       "direction": null,
-      "summary": "Turn 2 is a hairpin after a 278 m straight. About 202° of heading change, 35 m minimum radius.",
+      "summary": "Turn 2 is a left hairpin after a 278 m straight. About 202° of heading change, 35 m minimum radius.",
       "approachFrom": "T1 exit"
     },
     {
@@ -83,13 +83,13 @@
         22.6,
         52.04
       ],
-      "classification": "chicane_element",
+      "classification": "sweeper",
       "headingChangeDeg": 95,
       "minimumRadiusM": 92.3,
       "lengthM": 190,
       "previousStraightM": 20,
       "direction": null,
-      "summary": "Turn 3 is a chicane. About 95° of heading change, 92 m minimum radius.",
+      "summary": "Turn 3 is a right sweeper. About 95° of heading change, 92 m minimum radius.",
       "approachFrom": "T2 exit"
     },
     {
@@ -117,7 +117,7 @@
       "lengthM": 94,
       "previousStraightM": 194,
       "direction": null,
-      "summary": "Turn 4 is a tightening corner after a 194 m straight. About 49° of heading change, 82 m minimum radius.",
+      "summary": "Turn 4 is a left tightening corner after a 194 m straight. About 49° of heading change, 82 m minimum radius.",
       "approachFrom": "T3 exit"
     },
     {
@@ -173,7 +173,7 @@
       "lengthM": 168,
       "previousStraightM": 248,
       "direction": null,
-      "summary": "Turn 6 is a tightening corner after a 248 m straight. About 48° of heading change, 132 m minimum radius.",
+      "summary": "Turn 6 is a right tightening corner after a 248 m straight. About 48° of heading change, 132 m minimum radius.",
       "approachFrom": "T5 exit"
     },
     {
@@ -195,13 +195,13 @@
         85.62,
         44.26
       ],
-      "classification": "chicane_element",
+      "classification": "hairpin",
       "headingChangeDeg": 216,
       "minimumRadiusM": 53.5,
       "lengthM": 306.1,
       "previousStraightM": 18,
       "direction": null,
-      "summary": "Turn 7 is a chicane. About 216° of heading change, 54 m minimum radius.",
+      "summary": "Turn 7 is a left hairpin. About 216° of heading change, 54 m minimum radius.",
       "approachFrom": "T6 exit"
     }
   ]

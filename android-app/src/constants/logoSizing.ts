@@ -1,6 +1,6 @@
-/** Shared RR logo size across home + all feature screens (~98px). */
+/** Shared RR logo size across home + all feature screens (~112px). */
 export const HERO_LOGO_BASE_SIZE = 85;
-export const HERO_LOGO_SCALE = 1.15;
+export const HERO_LOGO_SCALE = 1.15 * 1.15;
 export const HERO_LOGO_SIZE = Math.round(HERO_LOGO_BASE_SIZE * HERO_LOGO_SCALE);
 
 /** Same as home — Calendar, Q&A, Bike News, Settings. */

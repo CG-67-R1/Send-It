@@ -89,7 +89,7 @@
       "lengthM": 210,
       "previousStraightM": 664.1,
       "direction": null,
-      "summary": "Turn 3 is a hairpin after a 664 m straight. About 181° of heading change, 29 m minimum radius.",
+      "summary": "Turn 3 is a right hairpin after a 664 m straight. About 181° of heading change, 29 m minimum radius.",
       "approachFrom": "T2 exit"
     },
     {
@@ -117,7 +117,7 @@
       "lengthM": 88,
       "previousStraightM": 450.1,
       "direction": null,
-      "summary": "Turn 4 is a tightening corner after a 450 m straight. About 114° of heading change, 28 m minimum radius.",
+      "summary": "Turn 4 is a left tightening corner after a 450 m straight. About 114° of heading change, 28 m minimum radius.",
       "approachFrom": "T3 exit"
     },
     {

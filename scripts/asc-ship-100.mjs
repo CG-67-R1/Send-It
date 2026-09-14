@@ -1,11 +1,12 @@
 #!/usr/bin/env node
 /**
  * Pull 1.0.0 back from Pending Developer Release (build 14), expire that
- * TestFlight build, attach build 26, update review notes, submit for review.
+ * TestFlight build, attach a chosen build (default 30), update review notes, submit for review.
  *
  * Uses the same EAS-stored ASC API key eas-cli already uses. Never prints secrets.
  *
  *   node scripts/asc-ship-100.mjs
+ *   node scripts/asc-ship-100.mjs --build 30
  */
 import crypto from 'node:crypto';
 import fs from 'node:fs';
@@ -18,12 +19,21 @@ const SHOT_DIR = path.join(ROOT, 'docs', 'ios', 'screenshots');
 
 const APP_ID = '6799806571';
 const ACCOUNT = 'motorsport-is-life';
-const WANT_BUILD = '26';
 const EXPIRE_BUILD = '14';
 const ASC = 'https://api.appstoreconnect.apple.com';
 const EXPO_GQL = 'https://api.expo.dev/graphql';
 
-const REVIEW_NOTES = `RoadRacer — App Review notes (version 1.0.0, build 26)
+function cliArg(flag, fallback) {
+  const i = process.argv.indexOf(flag);
+  if (i >= 0 && process.argv[i + 1] && !process.argv[i + 1].startsWith('-')) {
+    return process.argv[i + 1];
+  }
+  return fallback;
+}
+
+const WANT_BUILD = cliArg('--build', '30');
+
+const REVIEW_NOTES = `RoadRacer — App Review notes (version 1.0.0, build ${WANT_BUILD})
 
 1) SCREEN RECORDING
 No account registration, login, or account deletion — there is no user account.
@@ -34,7 +44,7 @@ If a previous Resolution Center reply included a physical-device recording, use 
 
 2) DEVICES AND OS TESTED BEFORE SUBMISSION
 Physical iPhone via TestFlight. Minimum iOS: 16.4. iPad is supported (same binary); primary testing is iPhone.
-This submission attaches build 26 (Track Details with numbered turns and tap-to-zoom). Build 14 is no longer the review binary.
+This submission attaches build ${WANT_BUILD} (Track Details with numbered turns and tap-to-zoom). Build 14 is no longer the review binary.
 
 3) WHAT THE APP DOES AND WHO IT IS FOR
 RoadRacer is a motorcycle road-racing companion for track-day riders, club racers, and fans.
@@ -479,18 +489,18 @@ const LOCALE_COPY = {
       'RoadRacer is your motorcycle road-racing companion — circuit study, race calendar, track notes, and AI coaching in one place.\n\nLearn a circuit before you ride it. Track Details draws each layout from its real GPS trace, at the true width of the road, with numbered turns and a suggested racing line. Tap a turn to zoom that corner. The list below uses the same numbers and holds your own notes. Walk the track with typed or spoken notes and photos, then send them straight to your coach.\n\nCheck the race calendar and add reminders to your own calendar. Keep Day Setup Sheets, bike balance, gearing, and tyre-wear notes on your device. Ask the Rider Coach or Bike Setup AI for practical guidance pitched at how you actually ride, or use Q&A and trivia to sharpen your knowledge.\n\nYour profile, avatar, setups, and track notes stay private on your device. AI chats you send go to the RoadRacer API and may be processed by OpenAI; chat history is not kept on our server after the reply.\n\nEverything here is informational: the suggested line is a suggestion, not instruction, and we do not model lap times for you.\n\nBuilt for track-day riders and race fans who live motorsport.',
     keywords: 'motorcycle,racing,motogp,superbike,track day,bike setup,coach,calendar',
     promotionalText:
-      'GPS circuit maps, calendar, track walk, and AI coach for motorcycle road racing — setups stay on your device.',
-    supportUrl: 'https://github.com/CG-67-R1/Send-It',
-    marketingUrl: 'https://send-it-cg-67-r1s-projects.vercel.app/promo',
+      'Prep the bike in the garage: track briefing, events, gearing, and tyre-wear notes — plus an AI coach. Setups stay on your device.',
+    supportUrl: 'https://roadracer.info',
+    marketingUrl: 'https://roadracer.info',
   },
   'en-GB': {
     description:
       'RoadRacer is your motorcycle road-racing companion — circuit study, race calendar, track notes, and AI coaching in one place.\n\nLearn a circuit before you ride it. Track Details draws each layout from its real GPS trace, at the true width of the road, with numbered turns and a suggested racing line. Tap a turn to zoom that corner. The list below uses the same numbers and holds your own notes. Walk Brands Hatch, Donington, Cadwell and more with typed or spoken notes and photos, then send them straight to your coach.\n\nCheck the race calendar and add reminders to your own calendar. Keep Day Setup Sheets, bike balance, gearing, and tyre-wear notes on your device. Ask the Rider Coach or Bike Setup AI for practical guidance for UK track days and club racing, or use Q&A and trivia to sharpen your knowledge.\n\nYour profile, avatar, setups, and track notes stay private on your device. AI chats you send go to the RoadRacer API and may be processed by OpenAI; chat history is not kept on our server after the reply.\n\nEverything here is informational: the suggested line is a suggestion, not instruction, and we do not model lap times for you.\n\nBuilt for UK track-day riders and club racers who live motorsport.',
     keywords: 'motorcycle,racing,BSB,superbike,track day,bike setup,coach,calendar',
     promotionalText:
-      'GPS circuit maps, BSB calendar, UK track walk, and AI coach for motorcycle road racing — setups stay on your device.',
-    supportUrl: 'https://github.com/CG-67-R1/Send-It',
-    marketingUrl: 'https://send-it-cg-67-r1s-projects.vercel.app/promo',
+      'Prep the bike in the garage: track briefing, BSB events, gearing, and tyre-wear notes — plus an AI coach. Setups stay on your device.',
+    supportUrl: 'https://roadracer.info',
+    marketingUrl: 'https://roadracer.info',
   },
 };
 

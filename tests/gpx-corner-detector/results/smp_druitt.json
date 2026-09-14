@@ -1,0 +1,376 @@
+{
+  "version": 1,
+  "generatedAt": "2026-09-07T10:05:23.562Z",
+  "profile": {
+    "id": "rider",
+    "spacingM": 2,
+    "smoothWindowM": 16,
+    "turnWindowM": 12,
+    "rateFloorDegPerM": 0.1,
+    "mergeGapM": 10,
+    "minSweptDeg": 12,
+    "minCornerLengthM": 10,
+    "minHeadingDeg": 14,
+    "weakEventDegMax": 20,
+    "weakEventLenM": 28,
+    "compoundSplitMinDeg": 170,
+    "underSegDensityMaxPerKm": 3.5
+  },
+  "source": {
+    "file": "smp_druitt.gpx",
+    "trackName": "smp_druitt",
+    "expectedLengthM": 2800
+  },
+  "lapIsolation": {
+    "strictLapIsolation": false,
+    "tracedM": 7297.6,
+    "startEndGapM": 1058.9,
+    "method": "expected_length_slice",
+    "selectedTravelM": 2801.5,
+    "selectedGapM": 0,
+    "outputCloseGapM": 0,
+    "candidateCount": 1,
+    "candidateSummary": [
+      "expected_length_slice:2801m(gap=0m)"
+    ],
+    "ambiguity": {
+      "ambiguous": false,
+      "reason": ""
+    }
+  },
+  "track": {
+    "closedLoop": true,
+    "direction": "anticlockwise",
+    "directionConfidence": 0.957,
+    "lengthM": 2801.5,
+    "sampledPointCount": 1401,
+    "rawPointCount": 519
+  },
+  "startFinish": {
+    "source": "longest_straight",
+    "confidence": 0.9,
+    "index": 1207,
+    "straightLengthM": 771.9
+  },
+  "cornerDetection": {
+    "count": 8,
+    "profile": "rider",
+    "countSource": "autonomous",
+    "refinement": {
+      "rawCount": 8,
+      "filteredCount": 8,
+      "mergeCount": 0,
+      "dropCount": 0,
+      "splitCount": 0,
+      "enrichAdded": 0,
+      "underSegmentedLikely": false,
+      "underSegmentedDensity": 2.86,
+      "underSegmentedLargeEvents": 1,
+      "underSegmentedTinyEvents": 0
+    },
+    "confidence": 0.84
+  },
+  "corners": [
+    {
+      "number": 1,
+      "direction": "left",
+      "entryDistanceM": 381.9,
+      "apexDistanceM": 531.9,
+      "exitDistanceM": 671.9,
+      "headingChangeDeg": 85,
+      "minimumRadiusM": 118.5,
+      "lengthM": 291.9,
+      "maxCurvatureDegPerM": 0.483,
+      "shape": "tightening",
+      "classification": "triple_apex",
+      "apexCount": 6,
+      "previousStraightM": 759.9,
+      "confidence": 0.806,
+      "sourceEvent": {
+        "startIndex": 1398,
+        "apexIndex": 72,
+        "endIndex": 142
+      },
+      "shortDescription": "T1: triple apex left, 85 deg, ~119m min radius",
+      "description": "Turn 1 is a triple apex left-hander. It starts around 382m, peaks near 532m, and exits near 672m. Estimated heading change is 85 deg with minimum radius about 119m. The lead-in straight is about 760m from 0m."
+    },
+    {
+      "number": 2,
+      "direction": "left",
+      "entryDistanceM": 933.8,
+      "apexDistanceM": 1003.8,
+      "exitDistanceM": 1077.8,
+      "headingChangeDeg": 209,
+      "minimumRadiusM": 27.1,
+      "lengthM": 146,
+      "maxCurvatureDegPerM": 2.113,
+      "shape": "constant_radius",
+      "classification": "hairpin",
+      "apexCount": 4,
+      "previousStraightM": 261.9,
+      "confidence": 0.95,
+      "sourceEvent": {
+        "startIndex": 273,
+        "apexIndex": 308,
+        "endIndex": 345
+      },
+      "shortDescription": "T2: hairpin left, 209 deg, ~27m min radius",
+      "description": "Turn 2 is a hairpin left-hander. It starts around 934m, peaks near 1004m, and exits near 1078m. Estimated heading change is 209 deg with minimum radius about 27m. The lead-in straight is about 262m from 672m."
+    },
+    {
+      "number": 3,
+      "direction": "right",
+      "entryDistanceM": 1091.8,
+      "apexDistanceM": 1195.8,
+      "exitDistanceM": 1295.7,
+      "headingChangeDeg": 104,
+      "minimumRadiusM": 86,
+      "lengthM": 206,
+      "maxCurvatureDegPerM": 0.666,
+      "shape": "constant_radius",
+      "classification": "chicane_element",
+      "apexCount": 6,
+      "previousStraightM": 14,
+      "confidence": 0.886,
+      "sourceEvent": {
+        "startIndex": 352,
+        "apexIndex": 404,
+        "endIndex": 454
+      },
+      "shortDescription": "T3: chicane element right, 104 deg, ~86m min radius",
+      "description": "Turn 3 is a chicane element right-hander. It starts around 1092m, peaks near 1196m, and exits near 1296m. Estimated heading change is 104 deg with minimum radius about 86m. The lead-in straight is about 14m from 1078m."
+    },
+    {
+      "number": 4,
+      "direction": "left",
+      "entryDistanceM": 1525.7,
+      "apexDistanceM": 1551.7,
+      "exitDistanceM": 1577.7,
+      "headingChangeDeg": 63,
+      "minimumRadiusM": 27.1,
+      "lengthM": 54,
+      "maxCurvatureDegPerM": 2.113,
+      "shape": "tightening",
+      "classification": "tightening",
+      "apexCount": 1,
+      "previousStraightM": 230,
+      "confidence": 0.792,
+      "sourceEvent": {
+        "startIndex": 569,
+        "apexIndex": 582,
+        "endIndex": 595
+      },
+      "shortDescription": "T4: tightening left, 63 deg, ~27m min radius",
+      "description": "Turn 4 is a tightening left-hander. It starts around 1526m, peaks near 1552m, and exits near 1578m. Estimated heading change is 63 deg with minimum radius about 27m. The lead-in straight is about 230m from 1296m."
+    },
+    {
+      "number": 5,
+      "direction": "right",
+      "entryDistanceM": 1583.7,
+      "apexDistanceM": 1627.7,
+      "exitDistanceM": 1675.7,
+      "headingChangeDeg": 57,
+      "minimumRadiusM": 75.8,
+      "lengthM": 94,
+      "maxCurvatureDegPerM": 0.755,
+      "shape": "constant_radius",
+      "classification": "chicane_element",
+      "apexCount": 3,
+      "previousStraightM": 6,
+      "confidence": 0.785,
+      "sourceEvent": {
+        "startIndex": 598,
+        "apexIndex": 620,
+        "endIndex": 644
+      },
+      "shortDescription": "T5: chicane element right, 57 deg, ~76m min radius",
+      "description": "Turn 5 is a chicane element right-hander. It starts around 1584m, peaks near 1628m, and exits near 1676m. Estimated heading change is 57 deg with minimum radius about 76m. The lead-in straight is about 6m from 1578m."
+    },
+    {
+      "number": 6,
+      "direction": "right",
+      "entryDistanceM": 1985.6,
+      "apexDistanceM": 2077.6,
+      "exitDistanceM": 2157.6,
+      "headingChangeDeg": 59,
+      "minimumRadiusM": 117,
+      "lengthM": 174,
+      "maxCurvatureDegPerM": 0.49,
+      "shape": "tightening",
+      "classification": "triple_apex",
+      "apexCount": 4,
+      "previousStraightM": 309.9,
+      "confidence": 0.746,
+      "sourceEvent": {
+        "startIndex": 799,
+        "apexIndex": 845,
+        "endIndex": 885
+      },
+      "shortDescription": "T6: triple apex right, 59 deg, ~117m min radius",
+      "description": "Turn 6 is a triple apex right-hander. It starts around 1986m, peaks near 2078m, and exits near 2158m. Estimated heading change is 59 deg with minimum radius about 117m. The lead-in straight is about 310m from 1676m."
+    },
+    {
+      "number": 7,
+      "direction": "left",
+      "entryDistanceM": 2165.6,
+      "apexDistanceM": 2189.6,
+      "exitDistanceM": 2217.6,
+      "headingChangeDeg": 73,
+      "minimumRadiusM": 23.7,
+      "lengthM": 54,
+      "maxCurvatureDegPerM": 2.422,
+      "shape": "opening",
+      "classification": "chicane_element",
+      "apexCount": 1,
+      "previousStraightM": 8,
+      "confidence": 0.815,
+      "sourceEvent": {
+        "startIndex": 889,
+        "apexIndex": 901,
+        "endIndex": 915
+      },
+      "shortDescription": "T7: chicane element left, 73 deg, ~24m min radius",
+      "description": "Turn 7 is a chicane element left-hander. It starts around 2166m, peaks near 2190m, and exits near 2218m. Estimated heading change is 73 deg with minimum radius about 24m. The lead-in straight is about 8m from 2158m."
+    },
+    {
+      "number": 8,
+      "direction": "left",
+      "entryDistanceM": 2257.6,
+      "apexDistanceM": 2327.5,
+      "exitDistanceM": 2423.5,
+      "headingChangeDeg": 157,
+      "minimumRadiusM": 38.4,
+      "lengthM": 168,
+      "maxCurvatureDegPerM": 1.492,
+      "shape": "opening",
+      "classification": "hairpin",
+      "apexCount": 5,
+      "previousStraightM": 40,
+      "confidence": 0.941,
+      "sourceEvent": {
+        "startIndex": 935,
+        "apexIndex": 970,
+        "endIndex": 1018
+      },
+      "shortDescription": "T8: hairpin left, 157 deg, ~38m min radius",
+      "description": "Turn 8 is a hairpin left-hander. It starts around 2258m, peaks near 2328m, and exits near 2424m. Estimated heading change is 157 deg with minimum radius about 38m. The lead-in straight is about 40m from 2218m."
+    }
+  ],
+  "gateReport": [
+    {
+      "stage": "parse_gpx",
+      "status": "pass",
+      "elapsedMs": 2,
+      "details": {
+        "segments": 1,
+        "waypoints": 0
+      }
+    },
+    {
+      "stage": "select_segment",
+      "status": "pass",
+      "elapsedMs": 0,
+      "details": {
+        "points": 519
+      }
+    },
+    {
+      "stage": "project_track",
+      "status": "pass",
+      "elapsedMs": 0,
+      "details": {
+        "points": 519
+      }
+    },
+    {
+      "stage": "isolate_single_lap",
+      "status": "pass",
+      "elapsedMs": 9,
+      "details": {
+        "points": 263,
+        "tracedM": 7297.6,
+        "closeGapM": 0,
+        "method": "expected_length_slice",
+        "candidateCount": 1,
+        "ambiguityFlag": false
+      }
+    },
+    {
+      "stage": "resample",
+      "status": "pass",
+      "elapsedMs": 2,
+      "details": {
+        "points": 1401,
+        "lapLengthM": 2801.5
+      }
+    },
+    {
+      "stage": "smooth",
+      "status": "pass",
+      "elapsedMs": 1,
+      "details": {
+        "points": 1401,
+        "windowM": 16
+      }
+    },
+    {
+      "stage": "direction",
+      "status": "pass",
+      "elapsedMs": 0,
+      "details": {
+        "direction": "anticlockwise",
+        "confidence": 0.957
+      }
+    },
+    {
+      "stage": "turn_rate",
+      "status": "pass",
+      "elapsedMs": 1,
+      "details": {
+        "sampleCount": 1401
+      }
+    },
+    {
+      "stage": "turn_events",
+      "status": "pass",
+      "elapsedMs": 2,
+      "details": {
+        "eventCount": 8,
+        "droppedSubThreshold": 0,
+        "rawCount": 8,
+        "merges": 0,
+        "drops": 0,
+        "splits": 0,
+        "enrichAdded": 0,
+        "underSegmentedLikely": false
+      }
+    },
+    {
+      "stage": "start_finish",
+      "status": "pass",
+      "elapsedMs": 2,
+      "details": {
+        "index": 1207,
+        "source": "longest_straight",
+        "confidence": 0.9,
+        "straightLengthM": 771.9
+      }
+    },
+    {
+      "stage": "number_and_describe",
+      "status": "pass",
+      "elapsedMs": 1,
+      "details": {
+        "cornerCount": 8
+      }
+    },
+    {
+      "stage": "final_checks",
+      "status": "pass",
+      "elapsedMs": 0,
+      "details": {
+        "cornerCount": 8
+      }
+    }
+  ]
+}

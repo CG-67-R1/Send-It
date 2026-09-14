@@ -6,7 +6,9 @@ Single reference for GitHub, Render (API), and Vercel (web). Update this file wh
 
 | Service | URL | Health |
 |---------|-----|--------|
-| **GitHub** | [CG-67-R1/Send-It](https://github.com/CG-67-R1/Send-It) | Default branch: `main` |
+| **Website** | [roadracer.info](https://roadracer.info/) | Public marketing site (LiteSpeed). App Store button lives in **Get the app**. Source to upload: [`docs/website/`](docs/website/). |
+| **GitHub** | [CG-67-R1/Send-It](https://github.com/CG-67-R1/Send-It) | Default branch: `main`. This URL cannot HTTP-redirect. |
+| **GitHub Pages** | [cg-67-r1.github.io/Send-It](https://cg-67-r1.github.io/Send-It/) | `docs/index.html` sends browsers to [roadracer.info](https://roadracer.info/). Enable: Settings → Pages → Deploy from `main` / `docs`. |
 | **API (Render)** | https://send-it-ke7r.onrender.com | `GET /health` → `{"ok":true,"roadraceAi":true}` when OpenAI configured |
 | **Web (Vercel)** | https://send-it-cg-67-r1s-projects.vercel.app | Public production URL for testers (no Vercel login) |
 

@@ -1,0 +1,387 @@
+{
+  "generatedAt": "2026-09-07T09:46:28.558Z",
+  "profile": "rider",
+  "mode": "constrained_to_catalog",
+  "gpxDir": "C:\\Users\\Administrator\\.cursor\\Send-It\\scripts\\track-memory-gpx",
+  "catalogPath": "C:\\Users\\Administrator\\.cursor\\Send-It\\app\\src\\data\\tracks.json",
+  "totalTracks": 19,
+  "matchedTracks": 19,
+  "mismatchedTracks": 0,
+  "rows": [
+    {
+      "trackId": "baskerville",
+      "confirmedCorners": 10,
+      "detectedCorners": 10,
+      "delta": 0,
+      "status": "MATCH",
+      "countSource": "constrained_to_target",
+      "startFinishSource": "longest_straight",
+      "detectorConfidence": 0.844,
+      "excludedTrackDetailsLayout": false,
+      "autonomousCount": 8,
+      "constraintActions": [
+        {
+          "type": "split",
+          "hand": "left",
+          "fromLengthM": 112,
+          "intoRadiiM": [
+            39.9,
+            85.8
+          ],
+          "radiusRatio": 2.15,
+          "varianceGain": 0.812
+        },
+        {
+          "type": "split",
+          "hand": "left",
+          "fromLengthM": 194,
+          "intoRadiiM": [
+            68.5,
+            129.9
+          ],
+          "radiusRatio": 1.9,
+          "varianceGain": 0.745
+        }
+      ]
+    },
+    {
+      "trackId": "broadford",
+      "confirmedCorners": 12,
+      "detectedCorners": 12,
+      "delta": 0,
+      "status": "MATCH",
+      "countSource": "constrained_to_target",
+      "startFinishSource": "longest_straight",
+      "detectorConfidence": 0.801,
+      "excludedTrackDetailsLayout": false,
+      "autonomousCount": 10,
+      "constraintActions": [
+        {
+          "type": "split",
+          "hand": "right",
+          "fromLengthM": 90,
+          "intoRadiiM": [
+            92.5,
+            43
+          ],
+          "radiusRatio": 2.15,
+          "varianceGain": 0.743
+        },
+        {
+          "type": "split",
+          "hand": "left",
+          "fromLengthM": 106,
+          "intoRadiiM": [
+            94.9,
+            50.2
+          ],
+          "radiusRatio": 1.89,
+          "varianceGain": 0.822
+        }
+      ]
+    },
+    {
+      "trackId": "calder_park",
+      "confirmedCorners": 10,
+      "detectedCorners": 10,
+      "delta": 0,
+      "status": "MATCH",
+      "countSource": "constrained_to_target",
+      "startFinishSource": "longest_straight",
+      "detectorConfidence": 0.809,
+      "excludedTrackDetailsLayout": false,
+      "autonomousCount": 10,
+      "constraintActions": []
+    },
+    {
+      "trackId": "hidden_valley",
+      "confirmedCorners": 14,
+      "detectedCorners": 14,
+      "delta": 0,
+      "status": "MATCH",
+      "countSource": "constrained_to_target",
+      "startFinishSource": "longest_straight",
+      "detectorConfidence": 0.749,
+      "excludedTrackDetailsLayout": false,
+      "autonomousCount": 13,
+      "constraintActions": [
+        {
+          "type": "split",
+          "hand": "left",
+          "fromLengthM": 104,
+          "intoRadiiM": [
+            63.7,
+            29.5
+          ],
+          "radiusRatio": 2.16,
+          "varianceGain": 0.283
+        }
+      ]
+    },
+    {
+      "trackId": "lakeside",
+      "confirmedCorners": 9,
+      "detectedCorners": 9,
+      "delta": 0,
+      "status": "MATCH",
+      "countSource": "constrained_to_target",
+      "startFinishSource": "longest_straight",
+      "detectorConfidence": 0.749,
+      "excludedTrackDetailsLayout": false,
+      "autonomousCount": 8,
+      "constraintActions": [
+        {
+          "type": "split",
+          "hand": "right",
+          "fromLengthM": 285.9,
+          "intoRadiiM": [
+            71,
+            262.4
+          ],
+          "radiusRatio": 3.7,
+          "varianceGain": 0.574
+        }
+      ]
+    },
+    {
+      "trackId": "mac_park",
+      "confirmedCorners": 12,
+      "detectedCorners": 12,
+      "delta": 0,
+      "status": "MATCH",
+      "countSource": "constrained_to_target",
+      "startFinishSource": "longest_straight",
+      "detectorConfidence": 0.833,
+      "excludedTrackDetailsLayout": false,
+      "autonomousCount": 11,
+      "constraintActions": [
+        {
+          "type": "split",
+          "hand": "right",
+          "fromLengthM": 261.9,
+          "intoRadiiM": [
+            62.7,
+            182.5
+          ],
+          "radiusRatio": 2.91,
+          "varianceGain": 0.436
+        }
+      ]
+    },
+    {
+      "trackId": "mallala",
+      "confirmedCorners": 9,
+      "detectedCorners": 9,
+      "delta": 0,
+      "status": "MATCH",
+      "countSource": "constrained_to_target",
+      "startFinishSource": "longest_straight",
+      "detectorConfidence": 0.867,
+      "excludedTrackDetailsLayout": false,
+      "autonomousCount": 9,
+      "constraintActions": []
+    },
+    {
+      "trackId": "morgan_park",
+      "confirmedCorners": 12,
+      "detectedCorners": 12,
+      "delta": 0,
+      "status": "MATCH",
+      "countSource": "constrained_to_target",
+      "startFinishSource": "longest_straight",
+      "detectorConfidence": 0.82,
+      "excludedTrackDetailsLayout": false,
+      "autonomousCount": 12,
+      "constraintActions": []
+    },
+    {
+      "trackId": "phillip_island",
+      "confirmedCorners": 12,
+      "detectedCorners": 12,
+      "delta": 0,
+      "status": "MATCH",
+      "countSource": "constrained_to_target",
+      "startFinishSource": "longest_straight",
+      "detectorConfidence": 0.813,
+      "excludedTrackDetailsLayout": false,
+      "autonomousCount": 12,
+      "constraintActions": []
+    },
+    {
+      "trackId": "queensland_raceway",
+      "confirmedCorners": 6,
+      "detectedCorners": 6,
+      "delta": 0,
+      "status": "MATCH",
+      "countSource": "constrained_to_target",
+      "startFinishSource": "longest_straight",
+      "detectorConfidence": 0.902,
+      "excludedTrackDetailsLayout": false,
+      "autonomousCount": 6,
+      "constraintActions": []
+    },
+    {
+      "trackId": "sandown",
+      "confirmedCorners": 13,
+      "detectedCorners": 13,
+      "delta": 0,
+      "status": "MATCH",
+      "countSource": "constrained_to_target",
+      "startFinishSource": "longest_straight",
+      "detectorConfidence": 0.746,
+      "excludedTrackDetailsLayout": false,
+      "autonomousCount": 13,
+      "constraintActions": []
+    },
+    {
+      "trackId": "smp_brabham",
+      "confirmedCorners": 18,
+      "detectedCorners": 18,
+      "delta": 0,
+      "status": "MATCH",
+      "countSource": "constrained_to_target",
+      "startFinishSource": "longest_straight",
+      "detectorConfidence": 0.866,
+      "excludedTrackDetailsLayout": false,
+      "autonomousCount": 18,
+      "constraintActions": []
+    },
+    {
+      "trackId": "smp_druitt",
+      "confirmedCorners": 8,
+      "detectedCorners": 8,
+      "delta": 0,
+      "status": "MATCH",
+      "countSource": "constrained_to_target",
+      "startFinishSource": "longest_straight",
+      "detectorConfidence": 0.84,
+      "excludedTrackDetailsLayout": false,
+      "autonomousCount": 8,
+      "constraintActions": []
+    },
+    {
+      "trackId": "smp_gardner",
+      "confirmedCorners": 11,
+      "detectedCorners": 11,
+      "delta": 0,
+      "status": "MATCH",
+      "countSource": "constrained_to_target",
+      "startFinishSource": "longest_straight",
+      "detectorConfidence": 0.888,
+      "excludedTrackDetailsLayout": false,
+      "autonomousCount": 11,
+      "constraintActions": []
+    },
+    {
+      "trackId": "the_bend_gt",
+      "confirmedCorners": 35,
+      "detectedCorners": 35,
+      "delta": 0,
+      "status": "MATCH",
+      "countSource": "constrained_to_target",
+      "startFinishSource": "longest_straight",
+      "detectorConfidence": 0.817,
+      "excludedTrackDetailsLayout": false,
+      "autonomousCount": 32,
+      "constraintActions": [
+        {
+          "type": "split",
+          "hand": "left",
+          "fromLengthM": 244,
+          "intoRadiiM": [
+            62.4,
+            151.6
+          ],
+          "radiusRatio": 2.43,
+          "varianceGain": 0.492
+        },
+        {
+          "type": "split",
+          "hand": "right",
+          "fromLengthM": 180,
+          "intoRadiiM": [
+            144.3,
+            57.3
+          ],
+          "radiusRatio": 2.52,
+          "varianceGain": 0.439
+        },
+        {
+          "type": "split",
+          "hand": "left",
+          "fromLengthM": 132,
+          "intoRadiiM": [
+            38.6,
+            110
+          ],
+          "radiusRatio": 2.85,
+          "varianceGain": 0.378
+        }
+      ]
+    },
+    {
+      "trackId": "the_bend_international",
+      "confirmedCorners": 18,
+      "detectedCorners": 18,
+      "delta": 0,
+      "status": "MATCH",
+      "countSource": "constrained_to_target",
+      "startFinishSource": "longest_straight",
+      "detectorConfidence": 0.821,
+      "excludedTrackDetailsLayout": false,
+      "autonomousCount": 18,
+      "constraintActions": []
+    },
+    {
+      "trackId": "wakefield_park",
+      "confirmedCorners": 10,
+      "detectedCorners": 10,
+      "delta": 0,
+      "status": "MATCH",
+      "countSource": "constrained_to_target",
+      "startFinishSource": "longest_straight",
+      "detectorConfidence": 0.811,
+      "excludedTrackDetailsLayout": false,
+      "autonomousCount": 10,
+      "constraintActions": []
+    },
+    {
+      "trackId": "wanneroo",
+      "confirmedCorners": 7,
+      "detectedCorners": 7,
+      "delta": 0,
+      "status": "MATCH",
+      "countSource": "constrained_to_target",
+      "startFinishSource": "longest_straight",
+      "detectorConfidence": 0.879,
+      "excludedTrackDetailsLayout": true,
+      "autonomousCount": 6,
+      "constraintActions": [
+        {
+          "type": "split",
+          "hand": "right",
+          "fromLengthM": 160,
+          "intoRadiiM": [
+            91.3,
+            30.4
+          ],
+          "radiusRatio": 3,
+          "varianceGain": 0.513
+        }
+      ]
+    },
+    {
+      "trackId": "winton",
+      "confirmedCorners": 12,
+      "detectedCorners": 12,
+      "delta": 0,
+      "status": "MATCH",
+      "countSource": "constrained_to_target",
+      "startFinishSource": "longest_straight",
+      "detectorConfidence": 0.888,
+      "excludedTrackDetailsLayout": false,
+      "autonomousCount": 12,
+      "constraintActions": []
+    }
+  ]
+}

@@ -33,7 +33,7 @@
       "lengthM": 170,
       "previousStraightM": 164,
       "direction": null,
-      "summary": "Turn 1 is a opening corner after a 164 m straight. About 114° of heading change, 38 m minimum radius.",
+      "summary": "Turn 1 is a right opening corner after a 164 m straight. About 114° of heading change, 38 m minimum radius.",
       "approachFrom": "start/finish straight"
     },
     {
@@ -117,7 +117,7 @@
       "lengthM": 112,
       "previousStraightM": 0,
       "direction": null,
-      "summary": "Turn 4 is a opening corner. About 104° of heading change, 36 m minimum radius.",
+      "summary": "Turn 4 is an opening corner. About 104° of heading change, 36 m minimum radius.",
       "approachFrom": "T3 exit"
     },
     {
@@ -145,7 +145,7 @@
       "lengthM": 126,
       "previousStraightM": 172,
       "direction": null,
-      "summary": "Turn 5 is a opening corner after a 172 m straight. About 86° of heading change, 52 m minimum radius.",
+      "summary": "Turn 5 is a left opening corner after a 172 m straight. About 86° of heading change, 52 m minimum radius.",
       "approachFrom": "T4 exit"
     },
     {
@@ -173,7 +173,7 @@
       "lengthM": 138,
       "previousStraightM": 120,
       "direction": null,
-      "summary": "Turn 6 is a opening corner after a 120 m straight. About 88° of heading change, 51 m minimum radius.",
+      "summary": "Turn 6 is a left opening corner after a 120 m straight. About 88° of heading change, 51 m minimum radius.",
       "approachFrom": "T5 exit"
     },
     {
@@ -201,7 +201,7 @@
       "lengthM": 294,
       "previousStraightM": 463.9,
       "direction": null,
-      "summary": "Turn 7 is a hairpin after a 464 m straight. About 197° of heading change, 33 m minimum radius.",
+      "summary": "Turn 7 is a left hairpin after a 464 m straight. About 197° of heading change, 33 m minimum radius.",
       "approachFrom": "T6 exit"
     }
   ]

@@ -1,0 +1,221 @@
+{
+  "generatedAt": "2026-09-07T10:05:23.640Z",
+  "profile": "rider",
+  "mode": "autonomous",
+  "gpxDir": "C:\\Users\\Administrator\\.cursor\\Send-It\\scripts\\track-memory-gpx",
+  "catalogPath": "C:\\Users\\Administrator\\.cursor\\Send-It\\app\\src\\data\\tracks.json",
+  "totalTracks": 19,
+  "matchedTracks": 12,
+  "mismatchedTracks": 7,
+  "rows": [
+    {
+      "trackId": "baskerville",
+      "confirmedCorners": 10,
+      "detectedCorners": 8,
+      "delta": -2,
+      "status": "MISMATCH",
+      "countSource": "autonomous",
+      "startFinishSource": "longest_straight",
+      "detectorConfidence": 0.917,
+      "excludedTrackDetailsLayout": false
+    },
+    {
+      "trackId": "broadford",
+      "confirmedCorners": 12,
+      "detectedCorners": 10,
+      "delta": -2,
+      "status": "MISMATCH",
+      "countSource": "autonomous",
+      "startFinishSource": "longest_straight",
+      "detectorConfidence": 0.854,
+      "excludedTrackDetailsLayout": false
+    },
+    {
+      "trackId": "calder_park",
+      "confirmedCorners": 10,
+      "detectedCorners": 10,
+      "delta": 0,
+      "status": "MATCH",
+      "countSource": "autonomous",
+      "startFinishSource": "longest_straight",
+      "detectorConfidence": 0.809,
+      "excludedTrackDetailsLayout": false
+    },
+    {
+      "trackId": "hidden_valley",
+      "confirmedCorners": 14,
+      "detectedCorners": 13,
+      "delta": -1,
+      "status": "MISMATCH",
+      "countSource": "autonomous",
+      "startFinishSource": "longest_straight",
+      "detectorConfidence": 0.758,
+      "excludedTrackDetailsLayout": false
+    },
+    {
+      "trackId": "lakeside",
+      "confirmedCorners": 9,
+      "detectedCorners": 8,
+      "delta": -1,
+      "status": "MISMATCH",
+      "countSource": "autonomous",
+      "startFinishSource": "longest_straight",
+      "detectorConfidence": 0.764,
+      "excludedTrackDetailsLayout": false
+    },
+    {
+      "trackId": "mac_park",
+      "confirmedCorners": 12,
+      "detectedCorners": 11,
+      "delta": -1,
+      "status": "MISMATCH",
+      "countSource": "autonomous",
+      "startFinishSource": "longest_straight",
+      "detectorConfidence": 0.844,
+      "excludedTrackDetailsLayout": false
+    },
+    {
+      "trackId": "mallala",
+      "confirmedCorners": 9,
+      "detectedCorners": 9,
+      "delta": 0,
+      "status": "MATCH",
+      "countSource": "autonomous",
+      "startFinishSource": "longest_straight",
+      "detectorConfidence": 0.867,
+      "excludedTrackDetailsLayout": false
+    },
+    {
+      "trackId": "morgan_park",
+      "confirmedCorners": 12,
+      "detectedCorners": 12,
+      "delta": 0,
+      "status": "MATCH",
+      "countSource": "autonomous",
+      "startFinishSource": "longest_straight",
+      "detectorConfidence": 0.82,
+      "excludedTrackDetailsLayout": false
+    },
+    {
+      "trackId": "phillip_island",
+      "confirmedCorners": 12,
+      "detectedCorners": 12,
+      "delta": 0,
+      "status": "MATCH",
+      "countSource": "autonomous",
+      "startFinishSource": "longest_straight",
+      "detectorConfidence": 0.813,
+      "excludedTrackDetailsLayout": false
+    },
+    {
+      "trackId": "queensland_raceway",
+      "confirmedCorners": 6,
+      "detectedCorners": 6,
+      "delta": 0,
+      "status": "MATCH",
+      "countSource": "autonomous",
+      "startFinishSource": "longest_straight",
+      "detectorConfidence": 0.902,
+      "excludedTrackDetailsLayout": false
+    },
+    {
+      "trackId": "sandown",
+      "confirmedCorners": 13,
+      "detectedCorners": 13,
+      "delta": 0,
+      "status": "MATCH",
+      "countSource": "autonomous",
+      "startFinishSource": "longest_straight",
+      "detectorConfidence": 0.746,
+      "excludedTrackDetailsLayout": false
+    },
+    {
+      "trackId": "smp_brabham",
+      "confirmedCorners": 18,
+      "detectedCorners": 18,
+      "delta": 0,
+      "status": "MATCH",
+      "countSource": "autonomous",
+      "startFinishSource": "longest_straight",
+      "detectorConfidence": 0.866,
+      "excludedTrackDetailsLayout": false
+    },
+    {
+      "trackId": "smp_druitt",
+      "confirmedCorners": 8,
+      "detectedCorners": 8,
+      "delta": 0,
+      "status": "MATCH",
+      "countSource": "autonomous",
+      "startFinishSource": "longest_straight",
+      "detectorConfidence": 0.84,
+      "excludedTrackDetailsLayout": false
+    },
+    {
+      "trackId": "smp_gardner",
+      "confirmedCorners": 11,
+      "detectedCorners": 11,
+      "delta": 0,
+      "status": "MATCH",
+      "countSource": "autonomous",
+      "startFinishSource": "longest_straight",
+      "detectorConfidence": 0.888,
+      "excludedTrackDetailsLayout": false
+    },
+    {
+      "trackId": "the_bend_gt",
+      "confirmedCorners": 35,
+      "detectedCorners": 32,
+      "delta": -3,
+      "status": "MISMATCH",
+      "countSource": "autonomous",
+      "startFinishSource": "longest_straight",
+      "detectorConfidence": 0.833,
+      "excludedTrackDetailsLayout": false
+    },
+    {
+      "trackId": "the_bend_international",
+      "confirmedCorners": 18,
+      "detectedCorners": 18,
+      "delta": 0,
+      "status": "MATCH",
+      "countSource": "autonomous",
+      "startFinishSource": "longest_straight",
+      "detectorConfidence": 0.821,
+      "excludedTrackDetailsLayout": false
+    },
+    {
+      "trackId": "wakefield_park",
+      "confirmedCorners": 10,
+      "detectedCorners": 10,
+      "delta": 0,
+      "status": "MATCH",
+      "countSource": "autonomous",
+      "startFinishSource": "longest_straight",
+      "detectorConfidence": 0.811,
+      "excludedTrackDetailsLayout": false
+    },
+    {
+      "trackId": "wanneroo",
+      "confirmedCorners": 7,
+      "detectedCorners": 6,
+      "delta": -1,
+      "status": "MISMATCH",
+      "countSource": "autonomous",
+      "startFinishSource": "longest_straight",
+      "detectorConfidence": 0.898,
+      "excludedTrackDetailsLayout": true
+    },
+    {
+      "trackId": "winton",
+      "confirmedCorners": 12,
+      "detectedCorners": 12,
+      "delta": 0,
+      "status": "MATCH",
+      "countSource": "autonomous",
+      "startFinishSource": "longest_straight",
+      "detectorConfidence": 0.888,
+      "excludedTrackDetailsLayout": false
+    }
+  ]
+}

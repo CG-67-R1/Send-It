@@ -83,13 +83,13 @@
         21.95,
         45.52
       ],
-      "classification": "chicane_element",
+      "classification": "constant_radius",
       "headingChangeDeg": 102,
       "minimumRadiusM": 62.6,
       "lengthM": 192,
       "previousStraightM": 30,
       "direction": "right",
-      "summary": "Turn 3 is a right chicane after a 30 m run. About 102° of heading change, 63 m minimum radius.",
+      "summary": "Turn 3 is a right corner after a 30 m run. About 102° of heading change, 63 m minimum radius.",
       "approachFrom": "T2 exit"
     },
     {

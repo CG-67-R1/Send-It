@@ -60,6 +60,14 @@ Then **Save**. You should **not** upload a document for this app.
 
 If a build still asks every upload, confirm the production Info.plist includes `ITSAppUsesNonExemptEncryption` = `NO` (Expo sets this from `app.json` above).
 
+## Version 1.0.1 — What's New (required for an update)
+
+Paste into **What's New in This Version** (en-AU and en-GB). Screenshots can be replaced on this version once it exists.
+
+```
+Home follows the screen size, Events cards are quieter, and Coach labels send and photo remove. Tyre-wear analysis no longer fails on a large photo.
+```
+
 ## Version 1.0 — English (Australia)
 
 ### Description
@@ -90,15 +98,17 @@ motorcycle,racing,motogp,superbike,track day,bike setup,coach,calendar
 
 | Field | Value |
 |--------|--------|
-| Support URL | `https://github.com/CG-67-R1/Send-It` |
-| Marketing URL (optional) | `https://send-it-cg-67-r1s-projects.vercel.app/promo` |
+| Support URL | `https://roadracer.info` |
+| Marketing URL (optional) | `https://roadracer.info` |
 | Privacy Policy URL | (also under App Privacy — same GitHub PRIVACY.md link) |
 
 ### Promotional Text (optional, 170 chars)
 
 ```
-GPS circuit maps, calendar, track walk, and AI coach for motorcycle road racing — setups stay on your device.
+Prep the bike in the garage: track briefing, events, gearing, and tyre-wear notes — plus an AI coach. Setups stay on your device.
 ```
+
+(Character count: 129 — editable on a live version without a new review.)
 
 ## Version 1.0 — United Kingdom localization (English / en-GB)
 
@@ -131,8 +141,10 @@ motorcycle,racing,BSB,superbike,track day,bike setup,coach,calendar
 ### Promotional Text (UK, optional, 170 chars)
 
 ```
-GPS circuit maps, BSB calendar, UK track walk, and AI coach for motorcycle road racing — setups stay on your device.
+Prep the bike in the garage: track briefing, BSB events, gearing, and tyre-wear notes — plus an AI coach. Setups stay on your device.
 ```
+
+(Character count: 133 — BSB instead of a generic events mention.)
 
 UK review contact: same as AU (`projectapex@outlook.com.au`; phone may remain +61).
 

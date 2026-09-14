@@ -116,9 +116,25 @@ function verifiedHand(verify, trackId, number, countsMatch) {
   return hand === 'left' || hand === 'right' ? hand : null;
 }
 
+/** Need this much non-turn before naming a GPX hand. Same length as the chicane gap. */
+const NOTE_HAND_STRAIGHT_M = 15;
+
+function detectorHand(corner) {
+  const hand = corner.direction;
+  return hand === 'left' || hand === 'right' ? hand : null;
+}
+
+function noteHand(corner, verified) {
+  if (verified) return verified;
+  if (corner.classification === 'chicane_element') return null;
+  if (corner.previousStraightM < NOTE_HAND_STRAIGHT_M) return null;
+  return detectorHand(corner);
+}
+
 function summaryFor(corner, hand) {
   const shape = shapePhrase(corner.classification);
   const named = hand ? `${hand} ${shape}` : shape;
+  const article = /^[aeiou]/i.test(named) ? 'an' : 'a';
   const lead =
     corner.previousStraightM >= 80
       ? ` after a ${Math.round(corner.previousStraightM)} m straight`
@@ -126,7 +142,7 @@ function summaryFor(corner, hand) {
         ? ` after a ${Math.round(corner.previousStraightM)} m run`
         : '';
   return (
-    `Turn ${corner.number} is a ${named}${lead}. ` +
+    `Turn ${corner.number} is ${article} ${named}${lead}. ` +
     `About ${Math.round(corner.headingChangeDeg)}° of heading change, ` +
     `${Math.round(corner.minimumRadiusM)} m minimum radius.`
   );
@@ -218,7 +234,8 @@ function buildOne(id, catalog, verify, shifts) {
     const apex = onRibbon(fitted, corner.sourceEvent.apexIndex, map.polyline);
     const entry = onRibbon(fitted, corner.sourceEvent.startIndex, map.polyline);
     const exit = onRibbon(fitted, corner.sourceEvent.endIndex, map.polyline);
-    const hand = verifiedHand(verify, id, corner.number, countsMatch);
+    const verified = verifiedHand(verify, id, corner.number, countsMatch);
+    const wordingHand = noteHand(corner, verified);
     return {
       id: `${id}_t${corner.number}`,
       number: corner.number,
@@ -231,8 +248,8 @@ function buildOne(id, catalog, verify, shifts) {
       minimumRadiusM: corner.minimumRadiusM,
       lengthM: corner.lengthM,
       previousStraightM: corner.previousStraightM,
-      direction: hand,
-      summary: summaryFor(corner, hand),
+      direction: verified,
+      summary: summaryFor(corner, wordingHand),
       approachFrom: approachFor(corner),
     };
   });

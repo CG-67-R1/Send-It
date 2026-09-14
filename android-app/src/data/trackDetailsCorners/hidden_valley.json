@@ -33,7 +33,7 @@
       "lengthM": 194,
       "previousStraightM": 780,
       "direction": null,
-      "summary": "Turn 1 is a hairpin after a 780 m straight. About 202° of heading change, 35 m minimum radius.",
+      "summary": "Turn 1 is a left hairpin after a 780 m straight. About 202° of heading change, 35 m minimum radius.",
       "approachFrom": "start/finish straight"
     },
     {
@@ -61,7 +61,7 @@
       "lengthM": 146,
       "previousStraightM": 98,
       "direction": null,
-      "summary": "Turn 2 is a double-apex corner after a 98 m straight. About 49° of heading change, 86 m minimum radius.",
+      "summary": "Turn 2 is a right double-apex corner after a 98 m straight. About 49° of heading change, 86 m minimum radius.",
       "approachFrom": "T1 exit"
     },
     {
@@ -117,7 +117,7 @@
       "lengthM": 86,
       "previousStraightM": 108,
       "direction": null,
-      "summary": "Turn 4 is a double-apex corner after a 108 m straight. About 109° of heading change, 29 m minimum radius.",
+      "summary": "Turn 4 is a right double-apex corner after a 108 m straight. About 109° of heading change, 29 m minimum radius.",
       "approachFrom": "T3 exit"
     },
     {
@@ -145,7 +145,7 @@
       "lengthM": 98,
       "previousStraightM": 170,
       "direction": null,
-      "summary": "Turn 5 is a hairpin after a 170 m straight. About 190° of heading change, 17 m minimum radius.",
+      "summary": "Turn 5 is a left hairpin after a 170 m straight. About 190° of heading change, 17 m minimum radius.",
       "approachFrom": "T4 exit"
     },
     {
@@ -173,7 +173,7 @@
       "lengthM": 84,
       "previousStraightM": 122,
       "direction": null,
-      "summary": "Turn 6 is a double-apex corner after a 122 m straight. About 75° of heading change, 44 m minimum radius.",
+      "summary": "Turn 6 is a right double-apex corner after a 122 m straight. About 75° of heading change, 44 m minimum radius.",
       "approachFrom": "T5 exit"
     },
     {
@@ -201,7 +201,7 @@
       "lengthM": 44,
       "previousStraightM": 44,
       "direction": null,
-      "summary": "Turn 7 is a corner after a 44 m run. About 35° of heading change, 41 m minimum radius.",
+      "summary": "Turn 7 is a right corner after a 44 m run. About 35° of heading change, 41 m minimum radius.",
       "approachFrom": "T6 exit"
     },
     {
@@ -229,7 +229,7 @@
       "lengthM": 32,
       "previousStraightM": 66,
       "direction": null,
-      "summary": "Turn 8 is a corner after a 66 m run. About 15° of heading change, 79 m minimum radius.",
+      "summary": "Turn 8 is a left corner after a 66 m run. About 15° of heading change, 79 m minimum radius.",
       "approachFrom": "T7 exit"
     },
     {
@@ -257,7 +257,7 @@
       "lengthM": 48,
       "previousStraightM": 60,
       "direction": null,
-      "summary": "Turn 9 is a corner after a 60 m run. About 48° of heading change, 33 m minimum radius.",
+      "summary": "Turn 9 is a left corner after a 60 m run. About 48° of heading change, 33 m minimum radius.",
       "approachFrom": "T8 exit"
     },
     {
@@ -313,7 +313,7 @@
       "lengthM": 40,
       "previousStraightM": 40,
       "direction": null,
-      "summary": "Turn 11 is a tightening corner after a 40 m run. About 20° of heading change, 66 m minimum radius.",
+      "summary": "Turn 11 is a right tightening corner after a 40 m run. About 20° of heading change, 66 m minimum radius.",
       "approachFrom": "T10 exit"
     },
     {
@@ -335,13 +335,13 @@
         11.7,
         71.72
       ],
-      "classification": "chicane_element",
+      "classification": "opening",
       "headingChangeDeg": 45,
       "minimumRadiusM": 34.1,
       "lengthM": 52,
       "previousStraightM": 28,
       "direction": null,
-      "summary": "Turn 12 is a chicane after a 28 m run. About 45° of heading change, 34 m minimum radius.",
+      "summary": "Turn 12 is a left opening corner after a 28 m run. About 45° of heading change, 34 m minimum radius.",
       "approachFrom": "T11 exit"
     },
     {

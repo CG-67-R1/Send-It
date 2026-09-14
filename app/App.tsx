@@ -1,6 +1,7 @@
 import React, { useCallback, useEffect, useState } from 'react';
 import { ActivityIndicator, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 import { GestureHandlerRootView } from 'react-native-gesture-handler';
+import { Ionicons } from '@expo/vector-icons';
 import { StatusBar } from 'expo-status-bar';
 import { useFonts } from 'expo-font';
 import { NavigationContainer, type NavigationState } from '@react-navigation/native';
@@ -271,19 +272,46 @@ function MainTabs() {
         tabBarLabelStyle: { fontWeight: '600', fontSize: 11 },
       }}
     >
-      <Tab.Screen name="HeadlinesTab" component={HeadlinesStack} options={{ title: 'Home' }} />
-      <Tab.Screen name="CalendarTab" component={CalendarScreen} options={{ title: 'Events' }} />
+      <Tab.Screen
+        name="HeadlinesTab"
+        component={HeadlinesStack}
+        options={{
+          title: 'Home',
+          tabBarIcon: ({ color, size }) => <Ionicons name="home" color={color} size={size} />,
+        }}
+      />
       <Tab.Screen
         name="RiderCoachTab"
         component={RiderCoachStack}
-        options={{ title: 'Rider Coach' }}
+        options={{
+          title: 'Rider Coach',
+          tabBarIcon: ({ color, size }) => <Ionicons name="school" color={color} size={size} />,
+        }}
       />
       <Tab.Screen
         name="BikeSetupTab"
         component={BikeSetupStack}
-        options={{ title: 'Bike Setup' }}
+        options={{
+          title: 'Bike Setup',
+          tabBarIcon: ({ color, size }) => <Ionicons name="construct" color={color} size={size} />,
+        }}
       />
-      <Tab.Screen name="Q&A" component={QAScreen} options={{ title: 'Q & A' }} />
+      <Tab.Screen
+        name="CalendarTab"
+        component={CalendarScreen}
+        options={{
+          title: 'Events',
+          tabBarIcon: ({ color, size }) => <Ionicons name="calendar" color={color} size={size} />,
+        }}
+      />
+      <Tab.Screen
+        name="Q&A"
+        component={QAScreen}
+        options={{
+          title: 'Q&A',
+          tabBarIcon: ({ color, size }) => <Ionicons name="help-circle" color={color} size={size} />,
+        }}
+      />
     </Tab.Navigator>
   );
 }

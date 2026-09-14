@@ -33,7 +33,7 @@
       "lengthM": 96,
       "previousStraightM": 572.2,
       "direction": null,
-      "summary": "Turn 1 is a double-apex corner after a 572 m straight. About 92° of heading change, 35 m minimum radius.",
+      "summary": "Turn 1 is a right double-apex corner after a 572 m straight. About 92° of heading change, 35 m minimum radius.",
       "approachFrom": "start/finish straight"
     },
     {
@@ -61,7 +61,7 @@
       "lengthM": 432.1,
       "previousStraightM": 388.1,
       "direction": null,
-      "summary": "Turn 2 is a hairpin after a 388 m straight. About 219° of heading change, 35 m minimum radius.",
+      "summary": "Turn 2 is a right hairpin after a 388 m straight. About 219° of heading change, 35 m minimum radius.",
       "approachFrom": "T1 exit"
     },
     {
@@ -145,7 +145,7 @@
       "lengthM": 332.1,
       "previousStraightM": 284.1,
       "direction": null,
-      "summary": "Turn 5 is a hairpin after a 284 m straight. About 175° of heading change, 46 m minimum radius.",
+      "summary": "Turn 5 is a right hairpin after a 284 m straight. About 175° of heading change, 46 m minimum radius.",
       "approachFrom": "T4 exit"
     }
   ]

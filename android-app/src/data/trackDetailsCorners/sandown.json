@@ -33,7 +33,7 @@
       "lengthM": 144,
       "previousStraightM": 735.8,
       "direction": null,
-      "summary": "Turn 1 is a double-apex corner after a 736 m straight. About 52° of heading change, 91 m minimum radius.",
+      "summary": "Turn 1 is a left double-apex corner after a 736 m straight. About 52° of heading change, 91 m minimum radius.",
       "approachFrom": "start/finish straight"
     },
     {
@@ -117,7 +117,7 @@
       "lengthM": 52,
       "previousStraightM": 46,
       "direction": null,
-      "summary": "Turn 4 is a corner after a 46 m run. About 97° of heading change, 16 m minimum radius.",
+      "summary": "Turn 4 is a left corner after a 46 m run. About 97° of heading change, 16 m minimum radius.",
       "approachFrom": "T3 exit"
     },
     {
@@ -145,7 +145,7 @@
       "lengthM": 50,
       "previousStraightM": 128,
       "direction": null,
-      "summary": "Turn 5 is a kink after a 128 m straight. About 16° of heading change, 115 m minimum radius.",
+      "summary": "Turn 5 is a right kink after a 128 m straight. About 16° of heading change, 115 m minimum radius.",
       "approachFrom": "T4 exit"
     },
     {
@@ -173,7 +173,7 @@
       "lengthM": 40,
       "previousStraightM": 160,
       "direction": null,
-      "summary": "Turn 6 is a tightening corner after a 160 m straight. About 55° of heading change, 20 m minimum radius.",
+      "summary": "Turn 6 is a right tightening corner after a 160 m straight. About 55° of heading change, 20 m minimum radius.",
       "approachFrom": "T5 exit"
     },
     {
@@ -195,13 +195,13 @@
         35.33,
         23.56
       ],
-      "classification": "chicane_element",
+      "classification": "opening",
       "headingChangeDeg": 93,
       "minimumRadiusM": 15.3,
       "lengthM": 56,
       "previousStraightM": 24,
       "direction": null,
-      "summary": "Turn 7 is a chicane. About 93° of heading change, 15 m minimum radius.",
+      "summary": "Turn 7 is a left opening corner. About 93° of heading change, 15 m minimum radius.",
       "approachFrom": "T6 exit"
     },
     {
@@ -229,7 +229,7 @@
       "lengthM": 80,
       "previousStraightM": 78,
       "direction": null,
-      "summary": "Turn 8 is a double-apex corner after a 78 m run. About 29° of heading change, 95 m minimum radius.",
+      "summary": "Turn 8 is a left double-apex corner after a 78 m run. About 29° of heading change, 95 m minimum radius.",
       "approachFrom": "T7 exit"
     },
     {
@@ -257,7 +257,7 @@
       "lengthM": 24,
       "previousStraightM": 88,
       "direction": null,
-      "summary": "Turn 9 is a tightening corner after a 88 m straight. About 86° of heading change, 8 m minimum radius.",
+      "summary": "Turn 9 is a right tightening corner after a 88 m straight. About 86° of heading change, 8 m minimum radius.",
       "approachFrom": "T8 exit"
     },
     {
@@ -313,7 +313,7 @@
       "lengthM": 74,
       "previousStraightM": 647.9,
       "direction": null,
-      "summary": "Turn 11 is a double-apex corner after a 648 m straight. About 75° of heading change, 38 m minimum radius.",
+      "summary": "Turn 11 is a left double-apex corner after a 648 m straight. About 75° of heading change, 38 m minimum radius.",
       "approachFrom": "T10 exit"
     },
     {
@@ -341,7 +341,7 @@
       "lengthM": 40,
       "previousStraightM": 184,
       "direction": null,
-      "summary": "Turn 12 is a tightening corner after a 184 m straight. About 68° of heading change, 19 m minimum radius.",
+      "summary": "Turn 12 is a right tightening corner after a 184 m straight. About 68° of heading change, 19 m minimum radius.",
       "approachFrom": "T11 exit"
     },
     {
@@ -397,7 +397,7 @@
       "lengthM": 68,
       "previousStraightM": 46,
       "direction": null,
-      "summary": "Turn 14 is a tightening corner after a 46 m run. About 100° of heading change, 18 m minimum radius.",
+      "summary": "Turn 14 is a left tightening corner after a 46 m run. About 100° of heading change, 18 m minimum radius.",
       "approachFrom": "T13 exit"
     },
     {
@@ -425,7 +425,7 @@
       "lengthM": 32,
       "previousStraightM": 232,
       "direction": null,
-      "summary": "Turn 15 is a tightening corner after a 232 m straight. About 15° of heading change, 75 m minimum radius.",
+      "summary": "Turn 15 is a right tightening corner after a 232 m straight. About 15° of heading change, 75 m minimum radius.",
       "approachFrom": "T14 exit"
     }
   ]

@@ -74,7 +74,7 @@ export const RIDER_PROFILE = Object.freeze({
   enrichMinEventDeg: 24,
   enrichMinSeparationM: 60,
   constrainMinSideM: 25,
-  chicaneGapM: 40,
+  chicaneGapM: 15,
   kinkMaxAngleDeg: 26,
   kinkMinRadiusM: 110,
   hairpinMinAngleDeg: 145,
