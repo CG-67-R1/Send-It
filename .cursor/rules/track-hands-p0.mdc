@@ -1,0 +1,22 @@
+---
+description: Turn hands are P0 — GPX and detectors never set left/right
+globs: app/src/data/tracks.json,android-app/src/data/tracks.json,app/src/data/track_turn_verification.json,android-app/src/data/track_turn_verification.json,app/src/data/trackDetailsCorners/**/*,android-app/src/data/trackDetailsCorners/**/*
+alwaysApply: false
+---
+
+# Turn hands (P0)
+
+Wrong left/right must not ship. Circuit direction is not corner hand (Phillip Island is anticlockwise; Doohan / T1 is a **right**).
+
+## Do
+
+- Allowed hands live in `app/src/data/track_turn_verification.json` (mirror in `android-app/`). Every `left`/`right` needs a `handSources` entry (`rider` | `official_map` | `authoritative_preview`).
+- After catalog hand edits: `node scripts/enforce-turn-verification.mjs --write`, copy `tracks.json` to `android-app/`, then `node scripts/validate-track-data.mjs`.
+- Stop and ask the user before changing a verified hand.
+
+## Do not
+
+- Set `left`/`right` from GPX bearing, detector output, or clockwise/anticlockwise.
+- “Correct” a rider-locked hand from GPX or KB extract.
+
+Implementer playbook: `.cursor/skills/track-details-bake/SKILL.md`.

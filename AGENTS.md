@@ -63,6 +63,7 @@ node scripts/prove-track-maps.mjs
 - `README.md` — quick start and features
 - `ENVIRONMENT.md` — GitHub, Render, and Vercel URLs, branch policy, health checks
 - `docs/hermes/CRON_SETUP.md` — Hermes RR app expert cron setup
+- `.cursor/skills/` + `.cursor/agents/` — Cursor implementer catalog (dual-tree, Hermes P0s, Track Details bake, ASC ship, Coach safety)
 - `docs/gpt-knowledge/README.md` — Custom GPT knowledge pack + Coach/Bike Setup integration map
 - `packs/README.md` — regional pack layout, `active.json` hybrid bundling, validate/sync commands
 - `PROJECT_STATUS_AND_PRE_PRODUCTION.md` — health checks and pre-prod work
@@ -75,6 +76,25 @@ node scripts/prove-track-maps.mjs
 - **Hermes (RR app expert):** scheduled gates, full reviews, coding-improvement reports — see below
 - **Cursor:** in-editor edits, review, and fast targeted changes in this workspace
 - Both read this file; keep project rules here, not duplicated in chat
+
+### Cursor implementer catalog
+
+Hermes stays **report-only**. Do not add Cursor clones of `rr-app-expert`, `mobile-app-expert`, `agent-apple`, `agent-play`, or `ai-enterprise-watch`.
+
+| Kind | Name | Role |
+|------|------|------|
+| Skill | `.cursor/skills/dual-tree-apply/` | Same change in `app/` and `android-app/` |
+| Skill | `.cursor/skills/hermes-p0-fix/` | Implement P0/P1 from `docs/reviews/` |
+| Skill | `.cursor/skills/track-details-bake/` | GPX bake + prove; never set L/R from GPX |
+| Skill | `.cursor/skills/store-listing-ship/` | ASC scripts; submit only when asked |
+| Skill | `.cursor/skills/coach-kb-safety/` | Coach/Q&A/MoMS; keys off-device |
+| Subagent | `.cursor/agents/dual-tree-auditor.md` | Read-only drift report |
+| Subagent | `.cursor/agents/track-baker.md` | Isolated bake + prove |
+| Subagent | `.cursor/agents/store-operator.md` | Isolated ASC prepare; no unattended submit |
+| Rule | `.cursor/rules/dual-tree.mdc` | Edit both trees or say why not |
+| Rule | `.cursor/rules/track-hands-p0.mdc` | GPX never sets left/right |
+
+Built-in subagents to reuse, not recreate: `explore`, `security-review`, `bugbot`, `ci-investigator`.
 
 ### Hermes — RoadRace app expert (standing role)
 
@@ -150,11 +170,11 @@ Invariants:
 
 **Turn hands are P0:** wrong left/right must not ship. Allowed hands live in `app/src/data/track_turn_verification.json`. After catalog edits run `node scripts/enforce-turn-verification.mjs --write` then the validator. GPX alone must never set turn direction.
 
-**Skill sources (in repo):** `docs/hermes/skills/send-it/` — installed to `%LOCALAPPDATA%\hermes\skills\send-it\` by the install script.
+**Skill sources (in repo):** Hermes review skills in `docs/hermes/skills/send-it/` (install to `%LOCALAPPDATA%\hermes\skills\send-it\`). Cursor implementers in `.cursor/skills/` and `.cursor/agents/` — do not clone Hermes reviewers there.
 
-**Reports:** `docs/reviews/` — Hermes writes; Cursor reads P0/P1 and fixes.
+**Reports:** `docs/reviews/` — Hermes writes; Cursor reads P0/P1 and fixes via `.cursor/skills/hermes-p0-fix/`.
 
-**Workflow:** Hermes report → Cursor fixes → `node scripts/mobile-review-preflight.mjs` → merge to `main`.
+**Workflow:** Hermes report → Cursor (`hermes-p0-fix` + dual-tree) → `node scripts/mobile-review-preflight.mjs` → merge to `main`.
 
 ### Hermes health check (review / repair gate)
 

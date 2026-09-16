@@ -1,0 +1,20 @@
+---
+description: Dual-tree apply — edit app/ and android-app/ together or say why not
+globs: app/src/**/*,android-app/src/**/*
+alwaysApply: false
+---
+
+# Dual tree (`app/` + `android-app/`)
+
+`android-app/` is a full copy of the product, not a shared module. A fix in one tree does not update the other.
+
+## Do
+
+- After changing a file under `app/src/`, apply the same change under `android-app/src/` (or the reverse), unless the user asked for one tree only.
+- If a bake script already dual-writes (GPX maps, corners, racing lines), run that script instead of hand-copying JSON.
+- Packs and `tracks.json` enforcement write `app/` only — copy the result to `android-app/` yourself. See `.cursor/skills/dual-tree-apply/SKILL.md`.
+
+## Do not
+
+- Leave `android-app/` stale after an `app/` logic or data fix.
+- Symlink or merge the two trees.

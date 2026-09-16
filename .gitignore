@@ -30,6 +30,10 @@ app/.vercel/
 !.cursor/mcp.json
 !.cursor/rules/
 !.cursor/rules/**
+!.cursor/skills/
+!.cursor/skills/**
+!.cursor/agents/
+!.cursor/agents/**
 
 # OS
 .DS_Store
