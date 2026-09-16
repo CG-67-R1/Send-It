@@ -61,7 +61,9 @@ app.use(
       /^http:\/\/10\./,
       ...extraCorsOrigins,
     ],
-    methods: ['GET', 'POST'],
+    methods: ['GET', 'POST', 'OPTIONS'],
+    allowedHeaders: ['Content-Type', 'x-app-secret'],
+    optionsSuccessStatus: 204,
   })
 );
 

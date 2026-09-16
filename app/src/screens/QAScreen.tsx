@@ -13,7 +13,7 @@ import {
 } from 'react-native';
 import { useFocusEffect, useRoute, type RouteProp } from '@react-navigation/native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import { apiFetch, QA_TRIVIA_URL } from '../../constants/api';
+import { apiFetch, QA_TRIVIA_URL, wakeApi } from '../../constants/api';
 import { logAnalyticsEvent } from '../utils/analytics';
 import { sendAskChat, type AskSource, type MomsOnlineMeta } from '../utils/askChat';
 import { safeOpenUrl } from '../utils/safeOpenUrl';
@@ -152,6 +152,7 @@ export function QAScreen() {
 
   useFocusEffect(
     useCallback(() => {
+      void wakeApi();
       const segment = route.params?.segment;
       if (segment === 'faqs' || segment === 'trivia' || segment === 'ask') {
         setActiveTab(segment);

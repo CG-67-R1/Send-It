@@ -43,20 +43,22 @@ export const ROADRACE_CHAT_URL = `${API_BASE_URL}/roadrace-ai/chat`;
 export const ROADRACE_ASK_URL = `${API_BASE_URL}/roadrace-ai/ask`;
 export const ROADRACE_FAQS_URL = `${API_BASE_URL}/roadrace-ai/faqs`;
 
-/** Public legal docs (GitHub). Update if you host HTML pages elsewhere. */
-export const PRIVACY_POLICY_URL =
-  'https://github.com/CG-67-R1/Send-It/blob/main/docs/legal/PRIVACY.md';
-export const TERMS_OF_USE_URL =
-  'https://github.com/CG-67-R1/Send-It/blob/main/docs/legal/TERMS.md';
+/** Public legal pages on the marketing site. */
+export const PRIVACY_POLICY_URL = 'https://roadracer.info/privacy.html';
+export const TERMS_OF_USE_URL = 'https://roadracer.info/terms.html';
 
 /** Default for callers that do not pass `signal`. LLM routes should pass a longer timeout. */
 export const DEFAULT_API_TIMEOUT_MS = 60_000;
 export const LLM_API_TIMEOUT_MS = 90_000;
+/** Render free/idle instances often need 15–60s before /health returns. */
+export const WAKE_API_TIMEOUT_MS = 75_000;
 export const REQUEST_TIMEOUT_MESSAGE = 'Request timed out — please retry';
 export const PHOTOS_TOO_LARGE_MESSAGE =
   'The photo files are too big to send (file size, not how far the camera is from the tyre). Use one or two photos, or pick smaller images.';
 export const HTML_API_RESPONSE_MESSAGE =
   'Coach could not reach the server. Try again in a moment.';
+export const NETWORK_FETCH_MESSAGE =
+  'Could not reach the server. After idle the API can take about a minute to wake — try again.';
 
 export function isRequestTimeoutError(error: unknown): boolean {
   if (typeof error !== 'object' || error === null) return false;
@@ -64,6 +66,43 @@ export function isRequestTimeoutError(error: unknown): boolean {
   if (name === 'TimeoutError' || name === 'AbortError') return true;
   const message = 'message' in error ? String(error.message).toLowerCase() : '';
   return message.includes('timeout') || message.includes('timed out');
+}
+
+/** Safari/RN surface a dropped Render connection as "Failed to fetch". */
+export function isNetworkFetchError(error: unknown): boolean {
+  const message = (error instanceof Error ? error.message : String(error ?? '')).toLowerCase();
+  return /failed to fetch|network request failed|networkerror|load failed|err_connection|econnreset|socket/.test(
+    message
+  );
+}
+
+function isLocalApiHost(url: string): boolean {
+  return /localhost|127\.0\.0\.1|10\.0\.2\.2/.test(url);
+}
+
+function delay(ms: number): Promise<void> {
+  return new Promise((resolve) => setTimeout(resolve, ms));
+}
+
+function isRetryableStatus(status: number): boolean {
+  return status === 502 || status === 503 || status === 504;
+}
+
+/**
+ * Cheap GET /health with no auth headers (no CORS preflight).
+ * Starts a sleeping Render instance before the JSON POST that Safari otherwise drops.
+ */
+export async function wakeApi(timeoutMs = WAKE_API_TIMEOUT_MS): Promise<boolean> {
+  if (isLocalApiHost(API_BASE_URL)) return true;
+  try {
+    const res = await fetch(`${API_BASE_URL}/health`, {
+      method: 'GET',
+      signal: AbortSignal.timeout(timeoutMs),
+    });
+    return res.ok;
+  } catch {
+    return false;
+  }
 }
 
 /** HTML error pages start with `<` — Safari/RN then throw "Unexpected character: <". */
@@ -77,6 +116,7 @@ export function isHtmlOrJsonParseError(error: unknown): boolean {
 export function apiErrorMessage(error: unknown, fallback = 'Network error'): string {
   if (isRequestTimeoutError(error)) return REQUEST_TIMEOUT_MESSAGE;
   if (isHtmlOrJsonParseError(error)) return HTML_API_RESPONSE_MESSAGE;
+  if (isNetworkFetchError(error)) return NETWORK_FETCH_MESSAGE;
   return error instanceof Error && error.message ? error.message : fallback;
 }
 
@@ -108,5 +148,26 @@ export async function apiFetch(url: string, init: RequestInit = {}): Promise<Res
     headers.set('x-app-secret', secret);
   }
   const signal = init.signal ?? AbortSignal.timeout(DEFAULT_API_TIMEOUT_MS);
-  return fetch(url, { ...init, headers, signal });
+  const attempt = () => fetch(url, { ...init, headers, signal });
+
+  try {
+    const res = await attempt();
+    if (isRetryableStatus(res.status)) {
+      await delay(800);
+      return attempt();
+    }
+    return res;
+  } catch (error) {
+    if (signal.aborted || isRequestTimeoutError(error) || !isNetworkFetchError(error)) {
+      throw error;
+    }
+    await delay(800);
+    return attempt();
+  }
+}
+
+/** Wake a sleeping Render instance, then call the LLM route. */
+export async function apiFetchLlm(url: string, init: RequestInit = {}): Promise<Response> {
+  await wakeApi();
+  return apiFetch(url, init);
 }

@@ -20,6 +20,9 @@ jobs:
     runs-on: ubuntu-latest
     timeout-minutes: 15
     steps:
+      - name: Wake production API
+        run: curl -fsS --retry 2 --retry-delay 8 --max-time 90 https://send-it-ke7r.onrender.com/health || true
+
       - uses: actions/checkout@v4
 
       - uses: actions/setup-node@v4

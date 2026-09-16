@@ -11,6 +11,17 @@ import { formatFaqsForPrompt, loadRiderAiFaqs } from './riderAiFaqs.js';
 import { getAiPrompts, getPrimaryManifest } from './packLoader.js';
 import { stripChatMarkdown } from './stripChatMarkdown.js';
 
+/** Cap below the app's 90s LLM fetch so a hung OpenAI call returns JSON, not a dropped TCP. */
+const OPENAI_TIMEOUT_MS = Number(process.env.OPENAI_TIMEOUT_MS || 70_000);
+
+function createOpenAiClient(apiKey) {
+  return new OpenAI({
+    apiKey,
+    timeout: OPENAI_TIMEOUT_MS,
+    maxRetries: 2,
+  });
+}
+
 function packAi() {
   return getAiPrompts() || {};
 }
@@ -418,7 +429,7 @@ export async function askChat(message, options = {}) {
   }
 
   const mode = options.mode === 'rules' ? 'rules' : 'ask';
-  const client = new OpenAI({ apiKey });
+  const client = createOpenAiClient(apiKey);
   const model = process.env.OPENAI_MODEL || 'gpt-4o-mini';
 
   if (mode === 'rules') {
@@ -666,7 +677,7 @@ export async function chat(messages, mode = 'coach', attachments = [], riderSkil
   const usesVision = normalizedAttachments.some((a) => a.type === 'image');
 
   try {
-    const client = new OpenAI({ apiKey });
+    const client = createOpenAiClient(apiKey);
 
     const completion = await client.chat.completions.create({
       model: usesVision

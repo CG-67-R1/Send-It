@@ -13,7 +13,7 @@ import {
 } from 'react-native';
 import { useNavigation, useRoute, type RouteProp } from '@react-navigation/native';
 import type { NativeStackNavigationProp } from '@react-navigation/native-stack';
-import { apiErrorMessage } from '../../constants/api';
+import { apiErrorMessage, wakeApi } from '../../constants/api';
 import {
   attachmentSummary,
   attachmentsToPayload,
@@ -58,6 +58,10 @@ export function CoachChatScreen() {
   const goalsSeededRef = useRef(false);
   const modeRef = useRef(mode);
   const conversationGenerationRef = useRef(0);
+
+  useEffect(() => {
+    void wakeApi();
+  }, []);
 
   // Reset chat when switching between Coach and Bike Setup screens
   useEffect(() => {

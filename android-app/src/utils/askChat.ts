@@ -1,4 +1,4 @@
-import { apiErrorMessage, apiFetch, LLM_API_TIMEOUT_MS, readApiJson, ROADRACE_ASK_URL } from '../../constants/api';
+import { apiErrorMessage, apiFetchLlm, LLM_API_TIMEOUT_MS, readApiJson, ROADRACE_ASK_URL } from '../../constants/api';
 import { stripChatMarkdown } from './chatMarkdown';
 
 export type AskSource = {
@@ -63,7 +63,7 @@ export async function sendAskChat(
     const body: { message: string; mode?: AskMode } = { message };
     if (options.mode === 'rules') body.mode = 'rules';
 
-    const res = await apiFetch(ROADRACE_ASK_URL, {
+    const res = await apiFetchLlm(ROADRACE_ASK_URL, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify(body),

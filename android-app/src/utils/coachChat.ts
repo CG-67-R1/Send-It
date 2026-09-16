@@ -1,6 +1,6 @@
 import {
   apiErrorMessage,
-  apiFetch,
+  apiFetchLlm,
   LLM_API_TIMEOUT_MS,
   PHOTOS_TOO_LARGE_MESSAGE,
   readApiJson,
@@ -81,7 +81,7 @@ export async function sendCoachChat(
     if (body.length > 7_500_000) {
       return { ok: false, error: PHOTOS_TOO_LARGE_MESSAGE };
     }
-    const res = await apiFetch(ROADRACE_CHAT_URL, {
+    const res = await apiFetchLlm(ROADRACE_CHAT_URL, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body,
