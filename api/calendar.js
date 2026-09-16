@@ -59,22 +59,50 @@ function getSeriesPriority(series) {
   return 999;
 }
 
+function loadFallbackStatic() {
+  try {
+    return JSON.parse(readFileSync(STATIC_PATH, 'utf8'));
+  } catch (e) {
+    console.error('Calendar: failed to load fallback static data', e.message);
+    return { motogp: [], worldsbk: [], australia: [], australia_club: [] };
+  }
+}
+
 function loadStatic() {
+  const fallback = loadFallbackStatic();
   try {
     const fromPack = getCalendarStatic();
     if (fromPack) {
       return {
-        motogp: fromPack.motogp || [],
-        australia: fromPack.national || fromPack.australia || [],
-        australia_club: fromPack.club || fromPack.australia_club || [],
+        motogp: fromPack.motogp || fallback.motogp || [],
+        worldsbk: fromPack.worldsbk || fallback.worldsbk || [],
+        australia: fromPack.national || fromPack.australia || fallback.australia || [],
+        australia_club: fromPack.club || fromPack.australia_club || fallback.australia_club || [],
       };
     }
-    const raw = readFileSync(STATIC_PATH, 'utf8');
-    return JSON.parse(raw);
   } catch (e) {
-    console.error('Calendar: failed to load static data', e.message);
-    return { motogp: [], australia: [] };
+    console.error('Calendar: failed to load pack static data', e.message);
   }
+  return {
+    motogp: fallback.motogp || [],
+    worldsbk: fallback.worldsbk || [],
+    australia: fallback.australia || [],
+    australia_club: fallback.australia_club || [],
+  };
+}
+
+function worldsbkEventKey(ev) {
+  return ev.startDate || '';
+}
+
+function mergeWorldsbk(staticRounds, liveRounds) {
+  const staticNorm = (staticRounds || []).map((e) =>
+    normalizeStaticEvent('worldsbk', { ...e, seriesLabel: 'WorldSBK' })
+  );
+  if (!staticNorm.length) return liveRounds;
+  const keys = new Set(staticNorm.map(worldsbkEventKey));
+  const extras = (liveRounds || []).filter((e) => e.startDate && !keys.has(worldsbkEventKey(e)));
+  return [...staticNorm, ...extras];
 }
 
 function normalizeStaticEvent(series, ev) {
@@ -149,7 +177,8 @@ function loadAuEvents() {
 }
 
 /**
- * Fetch WorldSBK 2025 from TheSportsDB; group by round (one entry per weekend).
+ * Fetch WorldSBK from TheSportsDB; group by round (one entry per weekend).
+ * Static 2026 rounds are the source of truth; this fills gaps only.
  */
 async function fetchWorldSBK(season) {
   const year = season || String(new Date().getFullYear());
@@ -176,7 +205,7 @@ async function fetchWorldSBK(season) {
       const dates = roundEvents.map((e) => e.dateEvent).filter(Boolean);
       const first = roundEvents[0];
       const title = (first.strEvent || '')
-        .replace(/\s*(Race 1|Race 2|Superpole Race)$/i, '')
+        .replace(/\s*(Race 1|Race 2|Superpole Race|Superpole|Free Practice \d+|FP\d+)$/i, '')
         .trim() || `Round ${first.intRound || ''}`;
       rounds.push({
         series: 'worldsbk',
@@ -216,7 +245,7 @@ export async function getCalendarEvents(bypassCache = false) {
     normalizeStaticEvent(e.series || 'au_club', { ...e, seriesLabel: e.seriesLabel || 'AU Road Race' })
   );
   const auClub = [...auClubFromFile, ...auClubStatic];
-  const worldsbk = await fetchWorldSBK();
+  const worldsbk = mergeWorldsbk(staticData.worldsbk || [], await fetchWorldSBK());
   const all = [
     // Highest interest: Aussie national + club/state road-race events
     ...auClub,

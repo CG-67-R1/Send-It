@@ -8,6 +8,7 @@ import {
   RefreshControl,
   StyleSheet,
   Text,
+  TextInput,
   TouchableOpacity,
   View,
 } from 'react-native';
@@ -32,6 +33,16 @@ import {
   getLocalUiLabel,
   getPrimaryLocale,
 } from '../packs/loader';
+import {
+  addExtraWorldSeries,
+  FEATURED_WORLD_SERIES,
+  getExtraWorldSeries,
+  isFeaturedWorldSeries,
+  removeExtraWorldSeries,
+  seriesIdFromLabel,
+  SUGGESTED_WORLD_SERIES,
+  type WorldSeriesOption,
+} from '../storage/worldSeries';
 
 const SERIES_COLORS: Record<string, string> = {
   motogp: '#e11d48',
@@ -45,11 +56,18 @@ const SERIES_COLORS: Record<string, string> = {
   uk_club: '#f59e0b',
   esbk: '#f59e0b',
   civ: '#f59e0b',
+  ewc: '#22c55e',
+  isle_of_man_tt: '#a78bfa',
+  red_bull_rookies: '#f43f5e',
+  arrc: '#14b8a6',
+  motoamerica: '#fb7185',
 };
 
 type CalendarFilter = 'all' | 'local' | 'world';
+type WorldSeriesFilter = 'all' | string;
 
 function isLocalEvent(item: CalendarEvent): boolean {
+  if (isFeaturedWorldSeries(item.series)) return false;
   const localSeries = getLocalSeriesIds();
   const localCountries = getLocalCountryNames();
   return (
@@ -70,11 +88,28 @@ function isUpcomingOrOngoing(item: CalendarEvent): boolean {
   return end >= today;
 }
 
-function filterEvents(events: CalendarEvent[], filter: CalendarFilter): CalendarEvent[] {
+function filterEvents(
+  events: CalendarEvent[],
+  filter: CalendarFilter,
+  worldSeries: WorldSeriesFilter
+): CalendarEvent[] {
   const upcoming = events.filter(isUpcomingOrOngoing);
   if (filter === 'local') return upcoming.filter(isLocalEvent);
-  if (filter === 'world') return upcoming.filter((e) => !isLocalEvent(e));
+  if (filter === 'world') {
+    const world = upcoming.filter((e) => !isLocalEvent(e));
+    if (worldSeries === 'all') return world;
+    return world.filter((e) => e.series.toLowerCase() === worldSeries);
+  }
   return upcoming;
+}
+
+function worldSeriesRequestMailto(label: string): string {
+  return (
+    'mailto:projectapex@outlook.com.au?subject=' +
+    encodeURIComponent('RoadRacer – add world series') +
+    '&body=' +
+    encodeURIComponent(`Please add this world series to Events:\n\n${label}\n`)
+  );
 }
 
 function formatDateRange(start: string, end: string): string {
@@ -143,6 +178,10 @@ async function getWritableCalendar(): Promise<Calendar.ExpoCalendar | null> {
 export function CalendarScreen() {
   const [events, setEvents] = useState<CalendarEvent[]>([]);
   const [filter, setFilter] = useState<CalendarFilter>('local');
+  const [worldSeries, setWorldSeries] = useState<WorldSeriesFilter>('all');
+  const [extraSeries, setExtraSeries] = useState<WorldSeriesOption[]>([]);
+  const [addingSeries, setAddingSeries] = useState(false);
+  const [customSeriesName, setCustomSeriesName] = useState('');
   const [loading, setLoading] = useState(true);
   const [refreshing, setRefreshing] = useState(false);
   const [error, setError] = useState<string | null>(null);
@@ -176,11 +215,68 @@ export function CalendarScreen() {
     }
   }, []);
 
+  const loadExtraSeries = useCallback(async () => {
+    setExtraSeries(await getExtraWorldSeries());
+  }, []);
+
   useFocusEffect(
     useCallback(() => {
       fetchCalendar(false);
-    }, [fetchCalendar])
+      void loadExtraSeries();
+    }, [fetchCalendar, loadExtraSeries])
   );
+
+  const applyAddedSeries = useCallback((next: WorldSeriesOption[], added: WorldSeriesOption) => {
+    setExtraSeries(next);
+    setWorldSeries(added.id);
+    setAddingSeries(false);
+    setCustomSeriesName('');
+  }, []);
+
+  const handleAddSuggestedSeries = useCallback(
+    async (option: WorldSeriesOption) => {
+      const next = await addExtraWorldSeries(option);
+      applyAddedSeries(next, option);
+    },
+    [applyAddedSeries]
+  );
+
+  const handleAddCustomSeries = useCallback(async () => {
+    const label = customSeriesName.trim();
+    const id = seriesIdFromLabel(label);
+    if (label.length < 2 || !id) {
+      Alert.alert('Add series', 'Type the series name (at least 2 characters).');
+      return;
+    }
+    if (isFeaturedWorldSeries(id) || extraSeries.some((s) => s.id === id)) {
+      setWorldSeries(id);
+      setAddingSeries(false);
+      setCustomSeriesName('');
+      return;
+    }
+    if (getLocalSeriesIds().has(id)) {
+      Alert.alert('Add series', 'That series is already in the local Events list.');
+      return;
+    }
+    const option = { id, label };
+    const next = await addExtraWorldSeries(option);
+    applyAddedSeries(next, option);
+  }, [applyAddedSeries, customSeriesName, extraSeries]);
+
+  const handleRemoveExtraSeries = useCallback((option: WorldSeriesOption) => {
+    Alert.alert('Remove series', `Remove ${option.label} from World?`, [
+      { text: 'Cancel', style: 'cancel' },
+      {
+        text: 'Remove',
+        style: 'destructive',
+        onPress: async () => {
+          const next = await removeExtraWorldSeries(option.id);
+          setExtraSeries(next);
+          if (worldSeries === option.id) setWorldSeries('all');
+        },
+      },
+    ]);
+  }, [worldSeries]);
 
   const openLink = (url: string | null) => {
     if (url) void safeOpenUrl(url);
@@ -272,9 +368,28 @@ export function CalendarScreen() {
   const keyExtractor = (item: CalendarEvent) => `${item.series}-${item.startDate}-${item.title}`;
 
   const filteredEvents = useMemo(
-    () => filterEvents(events, filter),
-    [events, filter]
+    () => filterEvents(events, filter, worldSeries),
+    [events, filter, worldSeries]
   );
+
+  const unusedSuggested = useMemo(
+    () => SUGGESTED_WORLD_SERIES.filter((s) => !extraSeries.some((e) => e.id === s.id)),
+    [extraSeries]
+  );
+
+  const selectedWorldLabel = useMemo(() => {
+    if (worldSeries === 'all') return null;
+    return (
+      FEATURED_WORLD_SERIES.find((s) => s.id === worldSeries)?.label ||
+      extraSeries.find((s) => s.id === worldSeries)?.label ||
+      worldSeries
+    );
+  }, [extraSeries, worldSeries]);
+
+  const emptyFilterText =
+    filter === 'world' && worldSeries !== 'all'
+      ? `No upcoming ${selectedWorldLabel} dates yet. You can leave this series pinned — dates appear here when they are in the app.`
+      : 'No events match this filter.';
 
   const listHeader = useMemo(
     () => (
@@ -289,7 +404,10 @@ export function CalendarScreen() {
             <TouchableOpacity
               key={key}
               style={[styles.filterChip, filter === key && styles.filterChipActive]}
-              onPress={() => setFilter(key)}
+              onPress={() => {
+                setFilter(key);
+                if (key !== 'world') setAddingSeries(false);
+              }}
               activeOpacity={0.7}
             >
               <Text style={[styles.filterChipText, filter === key && styles.filterChipTextActive]}>
@@ -302,9 +420,138 @@ export function CalendarScreen() {
             </TouchableOpacity>
           ))}
         </View>
+        {filter === 'world' ? (
+          <View style={styles.worldSeriesBlock}>
+            <Text style={styles.worldSeriesLabel}>World series</Text>
+            <View style={styles.seriesChipRow}>
+              <TouchableOpacity
+                style={[styles.seriesChip, worldSeries === 'all' && styles.seriesChipActive]}
+                onPress={() => setWorldSeries('all')}
+                activeOpacity={0.7}
+              >
+                <Text style={[styles.seriesChipText, worldSeries === 'all' && styles.seriesChipTextActive]}>
+                  All
+                </Text>
+              </TouchableOpacity>
+              {FEATURED_WORLD_SERIES.map((option) => (
+                <TouchableOpacity
+                  key={option.id}
+                  style={[styles.seriesChip, worldSeries === option.id && styles.seriesChipActive]}
+                  onPress={() => setWorldSeries(option.id)}
+                  activeOpacity={0.7}
+                >
+                  <Text
+                    style={[styles.seriesChipText, worldSeries === option.id && styles.seriesChipTextActive]}
+                  >
+                    {option.label}
+                  </Text>
+                </TouchableOpacity>
+              ))}
+              {extraSeries.map((option) => (
+                <TouchableOpacity
+                  key={option.id}
+                  style={[styles.seriesChip, worldSeries === option.id && styles.seriesChipActive]}
+                  onPress={() => setWorldSeries(option.id)}
+                  onLongPress={() => handleRemoveExtraSeries(option)}
+                  activeOpacity={0.7}
+                >
+                  <Text
+                    style={[styles.seriesChipText, worldSeries === option.id && styles.seriesChipTextActive]}
+                  >
+                    {option.label}
+                  </Text>
+                </TouchableOpacity>
+              ))}
+              <TouchableOpacity
+                style={[styles.seriesChip, styles.addSeriesChip, addingSeries && styles.seriesChipActive]}
+                onPress={() => setAddingSeries((open) => !open)}
+                activeOpacity={0.7}
+              >
+                <Text style={[styles.seriesChipText, addingSeries && styles.seriesChipTextActive]}>
+                  + Add series
+                </Text>
+              </TouchableOpacity>
+            </View>
+            {extraSeries.some((s) => s.id === worldSeries) ? (
+              <TouchableOpacity
+                onPress={() => {
+                  const selected = extraSeries.find((s) => s.id === worldSeries);
+                  if (selected) handleRemoveExtraSeries(selected);
+                }}
+                activeOpacity={0.7}
+              >
+                <Text style={styles.removeSeriesText}>Remove this series from World</Text>
+              </TouchableOpacity>
+            ) : null}
+            {addingSeries ? (
+              <View style={styles.addSeriesCard}>
+                <Text style={styles.addSeriesTitle}>Series not showing?</Text>
+                <Text style={styles.addSeriesHint}>
+                  Pin a world series that is missing from this list. Dates appear once we have an official calendar.
+                </Text>
+                {unusedSuggested.length > 0 ? (
+                  <View style={styles.seriesChipRow}>
+                    {unusedSuggested.map((option) => (
+                      <TouchableOpacity
+                        key={option.id}
+                        style={styles.seriesChip}
+                        onPress={() => void handleAddSuggestedSeries(option)}
+                        activeOpacity={0.7}
+                      >
+                        <Text style={styles.seriesChipText}>{option.label}</Text>
+                      </TouchableOpacity>
+                    ))}
+                  </View>
+                ) : null}
+                <TextInput
+                  style={styles.seriesInput}
+                  placeholder="Or type a series name"
+                  placeholderTextColor="#64748b"
+                  value={customSeriesName}
+                  onChangeText={setCustomSeriesName}
+                  autoCapitalize="words"
+                  autoCorrect={false}
+                  maxLength={48}
+                  onSubmitEditing={() => void handleAddCustomSeries()}
+                />
+                <View style={styles.addSeriesActions}>
+                  <TouchableOpacity
+                    style={styles.addSeriesButton}
+                    onPress={() => void handleAddCustomSeries()}
+                    activeOpacity={0.8}
+                  >
+                    <Text style={styles.addSeriesButtonText}>Add</Text>
+                  </TouchableOpacity>
+                  <TouchableOpacity
+                    style={styles.requestSeriesLink}
+                    onPress={() =>
+                      void safeOpenUrl(
+                        worldSeriesRequestMailto(customSeriesName.trim() || 'a series not listed'),
+                        'series request email'
+                      )
+                    }
+                    activeOpacity={0.7}
+                  >
+                    <Text style={styles.requestSeriesText}>Email RoadRacer to add dates</Text>
+                  </TouchableOpacity>
+                </View>
+              </View>
+            ) : null}
+          </View>
+        ) : null}
       </View>
     ),
-    [filter]
+    [
+      addingSeries,
+      customSeriesName,
+      extraSeries,
+      filter,
+      handleAddCustomSeries,
+      handleAddSuggestedSeries,
+      handleRemoveExtraSeries,
+      unusedSuggested,
+      worldSeries,
+    ]
   );
 
   if (loading && events.length === 0) {
@@ -336,7 +583,7 @@ export function CalendarScreen() {
     <FlatList
       key={filter}
       data={filteredEvents}
-      extraData={`${filter}-${events.length}`}
+      extraData={`${filter}-${worldSeries}-${events.length}-${extraSeries.length}`}
       renderItem={renderItem}
       keyExtractor={keyExtractor}
       contentContainerStyle={styles.list}
@@ -349,7 +596,7 @@ export function CalendarScreen() {
       }
       ListHeaderComponent={listHeader}
       ListEmptyComponent={
-        <Text style={styles.emptyFilterText}>No events match this filter.</Text>
+        <Text style={styles.emptyFilterText}>{emptyFilterText}</Text>
       }
     />
   );
@@ -455,6 +702,112 @@ const styles = StyleSheet.create({
   },
   filterChipTextActive: {
     color: '#0f172a',
+  },
+  worldSeriesBlock: {
+    width: '100%',
+    marginTop: 8,
+    gap: 8,
+  },
+  worldSeriesLabel: {
+    fontSize: 12,
+    fontWeight: '700',
+    color: '#64748b',
+    textTransform: 'uppercase',
+    letterSpacing: 0.6,
+    textAlign: 'center',
+  },
+  seriesChipRow: {
+    flexDirection: 'row',
+    flexWrap: 'wrap',
+    gap: 8,
+    justifyContent: 'center',
+  },
+  seriesChip: {
+    paddingHorizontal: 12,
+    paddingVertical: 8,
+    borderRadius: 999,
+    borderWidth: 1,
+    borderColor: '#334155',
+    backgroundColor: '#1e293b',
+    minHeight: 36,
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  addSeriesChip: {
+    borderStyle: 'dashed',
+  },
+  seriesChipActive: {
+    backgroundColor: '#0ea5e9',
+    borderColor: '#0ea5e9',
+  },
+  seriesChipText: {
+    fontSize: 13,
+    fontWeight: '600',
+    color: '#94a3b8',
+  },
+  seriesChipTextActive: {
+    color: '#0f172a',
+  },
+  addSeriesCard: {
+    width: '100%',
+    backgroundColor: '#1e293b',
+    borderRadius: 12,
+    borderWidth: 1,
+    borderColor: '#334155',
+    padding: 14,
+    gap: 10,
+  },
+  addSeriesTitle: {
+    fontSize: 16,
+    fontWeight: '700',
+    color: '#f8fafc',
+  },
+  addSeriesHint: {
+    fontSize: 13,
+    color: '#94a3b8',
+    lineHeight: 18,
+  },
+  seriesInput: {
+    borderWidth: 1,
+    borderColor: '#334155',
+    borderRadius: 10,
+    paddingHorizontal: 12,
+    paddingVertical: 10,
+    minHeight: 44,
+    color: '#f8fafc',
+    backgroundColor: '#0f172a',
+    fontSize: 15,
+  },
+  addSeriesActions: {
+    gap: 8,
+  },
+  addSeriesButton: {
+    backgroundColor: '#f59e0b',
+    borderRadius: 10,
+    minHeight: 44,
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  addSeriesButtonText: {
+    color: '#0f172a',
+    fontWeight: '700',
+    fontSize: 15,
+  },
+  requestSeriesLink: {
+    minHeight: 40,
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  requestSeriesText: {
+    color: '#f59e0b',
+    fontSize: 14,
+    fontWeight: '600',
+  },
+  removeSeriesText: {
+    color: '#94a3b8',
+    fontSize: 13,
+    textAlign: 'center',
+    textDecorationLine: 'underline',
   },
   item: {
     marginHorizontal: 20,

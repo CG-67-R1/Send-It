@@ -177,6 +177,104 @@
       "url": "https://www.motogp.com/en/calendar/2026"
     }
   ],
+  "worldsbk": [
+    {
+      "title": "Australian Round",
+      "venue": "Phillip Island Grand Prix Circuit",
+      "country": "Australia",
+      "startDate": "2026-02-20",
+      "endDate": "2026-02-22",
+      "url": "https://www.worldsbk.com/en/calendar"
+    },
+    {
+      "title": "Portuguese Round",
+      "venue": "Autódromo Internacional do Algarve",
+      "country": "Portugal",
+      "startDate": "2026-03-27",
+      "endDate": "2026-03-29",
+      "url": "https://www.worldsbk.com/en/calendar"
+    },
+    {
+      "title": "Dutch Round",
+      "venue": "TT Circuit Assen",
+      "country": "Netherlands",
+      "startDate": "2026-04-17",
+      "endDate": "2026-04-19",
+      "url": "https://www.worldsbk.com/en/calendar"
+    },
+    {
+      "title": "Hungarian Round",
+      "venue": "Balaton Park Circuit",
+      "country": "Hungary",
+      "startDate": "2026-05-01",
+      "endDate": "2026-05-03",
+      "url": "https://www.worldsbk.com/en/calendar"
+    },
+    {
+      "title": "Czech Round",
+      "venue": "Autodrom Most",
+      "country": "Czechia",
+      "startDate": "2026-05-15",
+      "endDate": "2026-05-17",
+      "url": "https://www.worldsbk.com/en/calendar"
+    },
+    {
+      "title": "Aragon Round",
+      "venue": "MotorLand Aragón",
+      "country": "Spain",
+      "startDate": "2026-05-29",
+      "endDate": "2026-05-31",
+      "url": "https://www.worldsbk.com/en/calendar"
+    },
+    {
+      "title": "Emilia-Romagna Round",
+      "venue": "Misano World Circuit Marco Simoncelli",
+      "country": "Italy",
+      "startDate": "2026-06-12",
+      "endDate": "2026-06-14",
+      "url": "https://www.worldsbk.com/en/calendar"
+    },
+    {
+      "title": "UK Round",
+      "venue": "Donington Park",
+      "country": "UK",
+      "startDate": "2026-07-10",
+      "endDate": "2026-07-12",
+      "url": "https://www.worldsbk.com/en/calendar"
+    },
+    {
+      "title": "French Round",
+      "venue": "Circuit de Nevers Magny-Cours",
+      "country": "France",
+      "startDate": "2026-09-04",
+      "endDate": "2026-09-06",
+      "url": "https://www.worldsbk.com/en/calendar"
+    },
+    {
+      "title": "Italian Round",
+      "venue": "Cremona Circuit",
+      "country": "Italy",
+      "startDate": "2026-09-25",
+      "endDate": "2026-09-27",
+      "url": "https://www.worldsbk.com/en/calendar"
+    },
+    {
+      "title": "Estoril Round",
+      "venue": "Circuito Estoril",
+      "country": "Portugal",
+      "startDate": "2026-10-09",
+      "endDate": "2026-10-11",
+      "url": "https://www.worldsbk.com/en/calendar"
+    },
+    {
+      "title": "Spanish Round",
+      "venue": "Circuito de Jerez – Ángel Nieto",
+      "country": "Spain",
+      "startDate": "2026-10-16",
+      "endDate": "2026-10-18",
+      "url": "https://www.worldsbk.com/en/calendar"
+    }
+  ],
   "national": [
     {
       "title": "ASBK Round 1",
