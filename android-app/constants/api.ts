@@ -1,6 +1,7 @@
 // Use your machine's LAN IP when testing on a physical device (e.g. 'http://192.168.1.13:3001')
 // Android emulator: 'http://10.0.2.2:3001' (do not use expo-constants isDevice — removed in SDK 50+)
 import { Platform } from 'react-native';
+import { fetchLlmAfterWake } from './apiTransport';
 
 const PRODUCTION_API_URL = 'https://send-it-ke7r.onrender.com';
 const API_PORT = 3001;
@@ -168,6 +169,9 @@ export async function apiFetch(url: string, init: RequestInit = {}): Promise<Res
 
 /** Wake a sleeping Render instance, then call the LLM route. */
 export async function apiFetchLlm(url: string, init: RequestInit = {}): Promise<Response> {
-  await wakeApi();
-  return apiFetch(url, init);
+  return fetchLlmAfterWake(url, init, {
+    wakeApi,
+    apiFetch,
+    timeoutMs: LLM_API_TIMEOUT_MS,
+  });
 }

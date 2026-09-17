@@ -1,7 +1,6 @@
 import {
   apiErrorMessage,
   apiFetchLlm,
-  LLM_API_TIMEOUT_MS,
   PHOTOS_TOO_LARGE_MESSAGE,
   readApiJson,
   ROADRACE_CHAT_URL,
@@ -85,7 +84,6 @@ export async function sendCoachChat(
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body,
-      signal: AbortSignal.timeout(LLM_API_TIMEOUT_MS),
     });
     const data = await readApiJson<{ error?: unknown; reply?: unknown; suggestMode?: unknown }>(res);
 

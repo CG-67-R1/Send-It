@@ -1,4 +1,4 @@
-import { apiErrorMessage, apiFetchLlm, LLM_API_TIMEOUT_MS, readApiJson, ROADRACE_ASK_URL } from '../../constants/api';
+import { apiErrorMessage, apiFetchLlm, readApiJson, ROADRACE_ASK_URL } from '../../constants/api';
 import { stripChatMarkdown } from './chatMarkdown';
 
 export type AskSource = {
@@ -67,7 +67,6 @@ export async function sendAskChat(
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify(body),
-      signal: AbortSignal.timeout(LLM_API_TIMEOUT_MS),
     });
     const data = await readApiJson<{
       error?: unknown;
