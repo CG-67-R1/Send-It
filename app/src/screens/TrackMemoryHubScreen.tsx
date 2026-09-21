@@ -1,4 +1,4 @@
-import React, { useCallback, useMemo, useState } from 'react';
+import React, { useCallback, useMemo, useRef, useState } from 'react';
 import { ScrollView, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 import { useFocusEffect, useNavigation } from '@react-navigation/native';
 import type { NativeStackNavigationProp } from '@react-navigation/native-stack';
@@ -60,6 +60,10 @@ type Nav = NativeStackNavigationProp<RiderCoachStackParamList, 'TrackMemoryHub'>
 
 function emptyMarks(trackId: string): RiderTrackMarks {
   return { trackId, corners: [], updatedAt: 0 };
+}
+
+function marksForTrack(marks: RiderTrackMarks, trackId: string): RiderTrackMarks {
+  return marks.trackId === trackId ? marks : emptyMarks(trackId);
 }
 
 function annotationFor(marks: RiderTrackMarks, id: string): RiderCornerMark | undefined {
@@ -137,11 +141,14 @@ export function TrackMemoryHubScreen() {
   const [selectedTurn, setSelectedTurn] = useState<DetailsTurn | null>(null);
   const [riderSkill, setRiderSkill] = useState<RiderAiSkill>('novice');
   const [marks, setMarks] = useState<RiderTrackMarks>(emptyMarks(''));
+  const marksRef = useRef<RiderTrackMarks>(emptyMarks(''));
+  const marksSaveQueue = useRef<Promise<void>>(Promise.resolve());
   const [walkSessions, setWalkSessions] = useState<TrackWalkSession[]>([]);
   const coaching = useMemo(() => trackInfoCoachingForSkill(riderSkill), [riderSkill]);
 
   const loadTrackState = useCallback(async (id: string) => {
     const [savedMarks, sessions] = await Promise.all([getRiderTrackMarks(id), getTrackWalkSessions()]);
+    marksRef.current = savedMarks;
     setMarks(savedMarks);
     setWalkSessions(sessions);
   }, []);
@@ -194,9 +201,14 @@ export function TrackMemoryHubScreen() {
     'Not marked yet.';
   const extraCount = marks.corners.filter((c) => !c.baked).length;
 
-  const persistMarks = useCallback(async (next: RiderTrackMarks) => {
+  const persistMarks = useCallback((updater: (current: RiderTrackMarks) => RiderTrackMarks) => {
+    const next = updater(marksRef.current);
+    marksRef.current = next;
     setMarks(next);
-    await saveRiderTrackMarks(next);
+    marksSaveQueue.current = marksSaveQueue.current
+      .catch(() => undefined)
+      .then(() => saveRiderTrackMarks(next))
+      .catch(() => undefined);
   }, []);
 
   const handleSelectTrack = useCallback(
@@ -236,7 +248,8 @@ export function TrackMemoryHubScreen() {
   const placeCorner = useCallback(
     (point: MapPoint) => {
       if (!trackId) return;
-      const number = nextRiderCornerNumber(marks, layout?.corners.length ?? 0);
+      const base = marksForTrack(marksRef.current, trackId);
+      const number = nextRiderCornerNumber(base, layout?.corners.length ?? 0);
       const created: RiderCornerMark = {
         id: `rider_${trackId}_${Date.now()}`,
         number,
@@ -244,56 +257,58 @@ export function TrackMemoryHubScreen() {
         baked: false,
         note: '',
       };
-      const next = upsertRiderCorner(marks, created);
-      void persistMarks(next);
+      persistMarks((current) => upsertRiderCorner(marksForTrack(current, trackId), created));
       setSelectedTurn(riderToTurn(created, polyline));
     },
-    [trackId, marks, layout?.corners.length, persistMarks, polyline]
+    [trackId, layout?.corners.length, persistMarks, polyline]
   );
 
   const placeStart = useCallback(
     (point: MapPoint) => {
       if (!trackId) return;
-      void persistMarks({ ...marks, startFinish: point });
+      persistMarks((current) => ({ ...marksForTrack(current, trackId), startFinish: point }));
     },
-    [trackId, marks, persistMarks]
+    [trackId, persistMarks]
   );
 
   const setDirection = useCallback(
     (direction: RiderCircuitDirection) => {
       if (!trackId) return;
-      void persistMarks({ ...marks, direction });
+      persistMarks((current) => ({ ...marksForTrack(current, trackId), direction }));
     },
-    [trackId, marks, persistMarks]
+    [trackId, persistMarks]
   );
 
   const patchTurn = useCallback(
     (patch: TurnFieldPatch) => {
       if (!selectedTurn || !trackId) return;
-      const existing = annotationFor(marks, selectedTurn.id);
-      const updated: RiderCornerMark = {
-        id: selectedTurn.id,
-        number: selectedTurn.number,
-        point: existing?.point ?? selectedTurn.point,
-        baked: selectedTurn.baked,
-        surfaceCondition: patch.surfaceCondition ?? existing?.surfaceCondition ?? selectedTurn.surfaceCondition,
-        cornerType: patch.cornerType ?? existing?.cornerType ?? selectedTurn.cornerType,
-        camber: patch.camber ?? existing?.camber ?? selectedTurn.camber,
-        cornerEntry: patch.cornerEntry ?? existing?.cornerEntry ?? selectedTurn.cornerEntry,
-        note: patch.note ?? existing?.note ?? selectedTurn.note,
-      };
-      const next = upsertRiderCorner(marks, updated);
-      void persistMarks(next);
-      setSelectedTurn({ ...selectedTurn, ...patch });
+      persistMarks((current) => {
+        const base = marksForTrack(current, trackId);
+        const existing = annotationFor(base, selectedTurn.id);
+        const updated: RiderCornerMark = {
+          id: selectedTurn.id,
+          number: selectedTurn.number,
+          point: existing?.point ?? selectedTurn.point,
+          baked: selectedTurn.baked,
+          surfaceCondition: patch.surfaceCondition ?? existing?.surfaceCondition ?? selectedTurn.surfaceCondition,
+          cornerType: patch.cornerType ?? existing?.cornerType ?? selectedTurn.cornerType,
+          camber: patch.camber ?? existing?.camber ?? selectedTurn.camber,
+          cornerEntry: patch.cornerEntry ?? existing?.cornerEntry ?? selectedTurn.cornerEntry,
+          note: patch.note ?? existing?.note ?? selectedTurn.note,
+        };
+        return upsertRiderCorner(base, updated);
+      });
+      setSelectedTurn((turn) => (turn && turn.id === selectedTurn.id ? { ...turn, ...patch } : turn));
     },
-    [selectedTurn, trackId, marks, persistMarks]
+    [selectedTurn, trackId, persistMarks]
   );
 
   const deleteTurn = useCallback(() => {
-    if (!selectedTurn || selectedTurn.baked) return;
-    void persistMarks(removeRiderCorner(marks, selectedTurn.id));
+    if (!selectedTurn || selectedTurn.baked || !trackId) return;
+    const cornerId = selectedTurn.id;
+    persistMarks((current) => removeRiderCorner(marksForTrack(current, trackId), cornerId));
     setSelectedTurn(null);
-  }, [selectedTurn, marks, persistMarks]);
+  }, [selectedTurn, trackId, persistMarks]);
 
   const askCoach = useCallback(() => {
     if (!catalog || !selectedTurn) return;
