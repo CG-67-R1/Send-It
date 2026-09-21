@@ -698,6 +698,7 @@
       "lng": -4.4980526,
       "layout": "International / Coastal",
       "direction": "clockwise",
+      "lengthKm": "3.38 km",
       "corners": [],
       "isOther": false,
       "confidence": "official"

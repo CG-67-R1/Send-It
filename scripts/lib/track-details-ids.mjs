@@ -28,8 +28,19 @@ export const TRACK_DETAILS_TRUSTED_IDS = [
   'winton',
 ];
 
-/** Future overseas GPX maps — no trusted S/F or corner overlay. */
-export const TRACK_DETAILS_MAP_ONLY_IDS = [];
+/** Overseas GPX maps — ribbon + optional racing line, no trusted S/F or corners. */
+export const TRACK_DETAILS_MAP_ONLY_IDS = [
+  'brands-hatch',
+  'cadwell-park',
+  'donington',
+  'silverstone',
+  'snetterton',
+  'oulton-park',
+  'thruxton',
+  'knockhill',
+  'anglesey',
+  'mallory-park',
+];
 
 export const TRACK_DETAILS_IDS = [...TRACK_DETAILS_TRUSTED_IDS, ...TRACK_DETAILS_MAP_ONLY_IDS];
 

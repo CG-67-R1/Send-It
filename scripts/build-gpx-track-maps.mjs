@@ -12,12 +12,12 @@ import fs from 'node:fs';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { TRACK_DETAILS_IDS } from './lib/track-details-ids.mjs';
+import { jsIdentFromTrackId, jsKeyFromTrackId, loadMergedTracksById } from './lib/track-catalog.mjs';
 
 const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
 const GPX_DIR = path.join(ROOT, 'scripts', 'track-memory-gpx');
 const APP_OUT = path.join(ROOT, 'app', 'src', 'data', 'gpxTrackMaps');
 const ANDROID_OUT = path.join(ROOT, 'android-app', 'src', 'data', 'gpxTrackMaps');
-const CATALOG_PATH = path.join(ROOT, 'app', 'src', 'data', 'tracks.json');
 
 const PAD_FRAC = 0.1;
 const TARGET_POINTS = 1400;
@@ -724,14 +724,15 @@ function buildOne(trackId, catalogName, targetM) {
 }
 
 function writeIndex(outDir, maps) {
-  const rows = maps.map((m) => {
-    const varName = m.trackId.replace(/_([a-z0-9])/g, (_, c) => c.toUpperCase());
-    return { id: m.trackId, varName };
-  });
+  const rows = maps.map((m) => ({
+    id: m.trackId,
+    varName: jsIdentFromTrackId(m.trackId),
+    key: jsKeyFromTrackId(m.trackId),
+  }));
   const imports = rows
     .map((r) => `import ${r.varName} from './${r.id}.json';`)
     .join('\n');
-  const entries = rows.map((r) => `  ${r.id}: ${r.varName} as GpxTrackMap,`).join('\n');
+  const entries = rows.map((r) => `  ${r.key}: ${r.varName} as GpxTrackMap,`).join('\n');
   const body = `${imports}
 import type { GpxTrackMap } from './types';
 
@@ -753,10 +754,10 @@ export function listGpxTrackMaps(): { id: string; name: string }[] {
 }
 
 function main() {
-  const catalog = JSON.parse(fs.readFileSync(CATALOG_PATH, 'utf8'));
-  const names = Object.fromEntries((catalog.tracks || []).map((t) => [t.id, t.name]));
+  const catalog = loadMergedTracksById(ROOT);
+  const names = Object.fromEntries(Object.values(catalog).map((t) => [t.id, t.name]));
   const lengths = Object.fromEntries(
-    (catalog.tracks || []).map((t) => [t.id, parseLengthM(t.lengthKm)])
+    Object.values(catalog).map((t) => [t.id, parseLengthM(t.lengthKm)])
   );
 
   fs.mkdirSync(APP_OUT, { recursive: true });

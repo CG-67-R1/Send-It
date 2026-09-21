@@ -9,6 +9,7 @@ import fs from 'node:fs';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { TRACK_DETAILS_IDS, TRACK_DETAILS_EXCLUSIONS } from './lib/track-details-ids.mjs';
+import { loadMergedTracksById } from './lib/track-catalog.mjs';
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const ROOT = path.resolve(__dirname, '..');
@@ -331,8 +332,9 @@ console.log('\nTrack Details coverage');
       unexplained += 1;
     }
   }
+  const knownIds = new Set([...trackIds, ...Object.keys(loadMergedTracksById(ROOT))]);
   for (const id of drawn) {
-    if (!trackIds.has(id)) fail(`${id}: drawn in Track Details but missing from the catalog`);
+    if (!knownIds.has(id)) fail(`${id}: drawn in Track Details but missing from the catalog`);
     if (TRACK_DETAILS_EXCLUSIONS[id]) fail(`${id}: listed as a Track Details exclusion but also drawn`);
   }
   if (unexplained === 0) {

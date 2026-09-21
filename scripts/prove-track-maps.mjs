@@ -14,6 +14,7 @@ import {
   isMapOnlyTrackDetailsId,
   isTrustedTrackDetailsId,
 } from './lib/track-details-ids.mjs';
+import { loadMergedTracksById } from './lib/track-catalog.mjs';
 
 const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
 const GPX_DIR = path.join(ROOT, 'scripts', 'track-memory-gpx');
@@ -25,7 +26,6 @@ const APP_CORNER_DIR = path.join(ROOT, 'app', 'src', 'data', 'trackDetailsCorner
 const ANDROID_CORNER_DIR = path.join(ROOT, 'android-app', 'src', 'data', 'trackDetailsCorners');
 // Half the asphalt width the app draws, in map units; see TrackFacilityMap.
 const SURFACE_HALF_UNITS = 0.6;
-const CATALOG_PATH = path.join(ROOT, 'app', 'src', 'data', 'tracks.json');
 const FORBIDDEN = [
   'app/src/assets/trackInfo/boards',
   'android-app/src/assets/trackInfo/boards',
@@ -96,9 +96,9 @@ function closingGap(polyline) {
 }
 
 function catalogLengths() {
-  const doc = JSON.parse(fs.readFileSync(CATALOG_PATH, 'utf8'));
+  const tracks = loadMergedTracksById(ROOT);
   const out = {};
-  for (const t of doc.tracks || []) {
+  for (const t of Object.values(tracks)) {
     const m = String(t.lengthKm || '').match(/([\d.]+)/);
     if (m) out[t.id] = Number(m[1]) * 1000;
   }

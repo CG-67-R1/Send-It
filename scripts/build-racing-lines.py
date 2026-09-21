@@ -33,12 +33,21 @@ MAPS_DIR = REPO / "app" / "src" / "data" / "gpxTrackMaps"
 APP_OUT = REPO / "app" / "src" / "data" / "racingLines"
 ANDROID_OUT = REPO / "android-app" / "src" / "data" / "racingLines"
 CATALOG_PATH = REPO / "app" / "src" / "data" / "tracks.json"
+UK_PACK_PATH = REPO / "app" / "src" / "packs" / "bundled" / "uk" / "tracks" / "tracks.json"
 PREVIEW_DIR = REPO / "tmp" / "racing-line-previews"
 
 
 def catalog_tracks() -> dict[str, dict]:
-    doc = json.loads(CATALOG_PATH.read_text(encoding="utf-8"))
-    return {t["id"]: t for t in doc.get("tracks", [])}
+    by_id: dict[str, dict] = {}
+    for path in (CATALOG_PATH, UK_PACK_PATH):
+        if not path.exists():
+            continue
+        doc = json.loads(path.read_text(encoding="utf-8"))
+        for track in doc.get("tracks", []):
+            track_id = track.get("id")
+            if track_id and track_id not in by_id:
+                by_id[track_id] = track
+    return by_id
 
 
 def parse_length_m(length_km: str | None) -> float | None:
@@ -202,14 +211,31 @@ def build_one(track_id: str, track: dict, bike) -> dict:
     }
 
 
+def _ts_ident(track_id: str) -> str:
+    out = []
+    upper = False
+    for ch in track_id:
+        if ch in "-_":
+            upper = True
+            continue
+        out.append(ch.upper() if upper else ch)
+        upper = False
+    return "".join(out)
+
+
+def _ts_key(track_id: str) -> str:
+    if track_id.isidentifier():
+        return track_id
+    return f"'{track_id}'"
+
+
 def write_index(out_dir: Path, lines: list[dict]) -> None:
     rows = []
     for line in lines:
-        parts = line["trackId"].split("_")
-        var = parts[0] + "".join(p.capitalize() for p in parts[1:])
-        rows.append((line["trackId"], var))
-    imports = "\n".join(f"import {var} from './{tid}.json';" for tid, var in rows)
-    entries = "\n".join(f"  {tid}: {var} as RacingLine," for tid, var in rows)
+        tid = line["trackId"]
+        rows.append((tid, _ts_ident(tid), _ts_key(tid)))
+    imports = "\n".join(f"import {var} from './{tid}.json';" for tid, var, _key in rows)
+    entries = "\n".join(f"  {key}: {var} as RacingLine," for tid, var, key in rows)
     body = f"""{imports}
 import type {{ RacingLine }} from './types';
 
