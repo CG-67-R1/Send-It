@@ -6,6 +6,7 @@ export const STORAGE_KEYS = {
   ONBOARDING_DONE: '@roadrace_onboarding_done',
   ONBOARDING_ANSWERS: '@roadrace_onboarding_answers',
   TRACK_WALK_SESSIONS: '@roadrace_track_walk_sessions',
+  RIDER_TRACK_MARKS: '@roadrace_rider_track_marks',
   BIKE_SETUP_DAY_SHEET: '@roadrace_bike_setup_day_sheet',
   BIKE_SETUP_SESSION_HISTORY: '@roadrace_bike_setup_session_history',
   BIKE_BALANCE_STATE: '@roadrace_bike_balance_state',

@@ -7,6 +7,8 @@ export const CORNER_BLUE = '#2B6CB0';
 export const CORNER_INK = '#14181F';
 export const CORNER_PAPER = '#F7F7F5';
 export const START_YELLOW = '#F5C242';
+export const RIDER_AMBER = '#f59e0b';
+export const DIRECTION_INK = '#0f172a';
 
 export const EDGE_UNITS = 2;
 export const SURFACE_UNITS = 1.2;

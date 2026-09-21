@@ -6,7 +6,7 @@ Paste-ready values for **RoadRacer - Motorsport_Is_Life** (`com.milroadracer.app
 
 | Field | Value |
 |--------|--------|
-| Privacy Policy URL | `https://github.com/CG-67-R1/Send-It/blob/main/docs/legal/PRIVACY.md` |
+| Privacy Policy URL | `https://roadracer.info/privacy.html` |
 
 Also complete the **App Privacy** questionnaire to match reality:
 
@@ -60,12 +60,12 @@ Then **Save**. You should **not** upload a document for this app.
 
 If a build still asks every upload, confirm the production Info.plist includes `ITSAppUsesNonExemptEncryption` = `NO` (Expo sets this from `app.json` above).
 
-## Version 1.0.1 — What's New (required for an update)
+## Version 1.0.2 — What's New (required for an update)
 
 Paste into **What's New in This Version** (en-AU and en-GB). Screenshots can be replaced on this version once it exists.
 
 ```
-Home follows the screen size, Events cards are quieter, and Coach labels send and photo remove. Tyre-wear analysis no longer fails on a large photo.
+Track Details now lets you place your own corner numbers, start/finish, and direction, with surface, camber, and entry notes. Track Walk notes show on the same page. Australian maps still use the confirmed turn numbers.
 ```
 
 ## Version 1.0 — English (Australia)
@@ -73,11 +73,13 @@ Home follows the screen size, Events cards are quieter, and Coach labels send an
 ### Description
 
 ```
-RoadRacer is your motorcycle road-racing companion — circuit study, race calendar, track notes, and AI coaching in one place.
+RoadRacer is your motorcycle road-racing companion — circuit study, race calendar, track notes, bike setup, and AI coaching in one place.
 
-Learn a circuit before you ride it. Track Details draws each layout from its real GPS trace, at the true width of the road, with numbered turns and a suggested racing line. Tap a turn to zoom that corner. The list below uses the same numbers and holds your own notes. Walk the track with typed or spoken notes and photos, then send them straight to your coach.
+Learn a circuit before you ride it. Track Details draws each Australian layout from its real GPS trace, at the true width of the road, with numbered turns and a suggested racing line. Tap a turn to zoom that corner. The list below uses the same numbers and holds your own notes, including notes from Track Walk. On maps we have not confirmed in person you place start/finish, direction, and corner numbers yourself. Walk the track with typed or spoken notes and photos, then send them straight to your coach.
 
-Check the race calendar and add reminders to your own calendar. Keep Day Setup Sheets, bike balance, gearing, and tyre-wear notes on your device. Ask the Rider Coach or Bike Setup AI for practical guidance pitched at how you actually ride, or use Q&A and trivia to sharpen your knowledge.
+Bike Setup keeps the day sheet, gearing, tyre-wear photos, and bike balance on your device. Ask Bike Setup AI about suspension, gearing, and tyres, or ask the Rider Coach about race craft — both pitched at how you actually ride.
+
+Check the race calendar and add reminders to your own calendar, then use Q&A and trivia to sharpen your knowledge.
 
 Your profile, avatar, setups, and track notes stay private on your device. AI chats you send go to the RoadRacer API and may be processed by OpenAI; chat history is not kept on our server after the reply.
 
@@ -92,7 +94,7 @@ Built for track-day riders and race fans who live motorsport.
 motorcycle,racing,motogp,superbike,track day,bike setup,coach,calendar
 ```
 
-(Character count: 78)
+(Character count: 70)
 
 ### URLs
 
@@ -100,15 +102,15 @@ motorcycle,racing,motogp,superbike,track day,bike setup,coach,calendar
 |--------|--------|
 | Support URL | `https://roadracer.info` |
 | Marketing URL (optional) | `https://roadracer.info` |
-| Privacy Policy URL | (also under App Privacy — same GitHub PRIVACY.md link) |
+| Privacy Policy URL | `https://roadracer.info/privacy.html` (App Privacy) |
 
 ### Promotional Text (optional, 170 chars)
 
 ```
-Prep the bike in the garage: track briefing, events, gearing, and tyre-wear notes — plus an AI coach. Setups stay on your device.
+Prep the bike in the garage: track briefing, events, gearing, and tyre-wear notes — plus Bike Setup AI at your level. Setups stay on your device.
 ```
 
-(Character count: 129 — editable on a live version without a new review.)
+(Character count: 145 — editable on a live version without a new review.)
 
 ## Version 1.0 — United Kingdom localization (English / en-GB)
 
@@ -117,11 +119,15 @@ Prep the bike in the garage: track briefing, events, gearing, and tyre-wear note
 ### Description (UK)
 
 ```
-RoadRacer is your motorcycle road-racing companion — circuit study, race calendar, track notes, and AI coaching in one place.
+RoadRacer is your motorcycle road-racing companion — circuit study, race calendar, track notes, bike setup, and AI coaching in one place.
 
-Learn a circuit before you ride it. Track Details draws each layout from its real GPS trace, at the true width of the road, with a suggested racing line you can zoom into and a corner-by-corner list to hold your own notes. Walk Brands Hatch, Donington, Cadwell and more with typed or spoken notes and photos, then send them straight to your coach.
+Learn a circuit before you ride it. When a GPS map is in the app, Track Details draws the layout at the true width of the road, with a suggested racing line you can zoom into. You mark start/finish, track direction, and corner numbers yourself, then add surface, camber, entry, and a personal note. Track Walk notes appear on the same page. Walk Brands Hatch, Donington, Cadwell and more with typed or spoken notes and photos, then send them straight to your coach.
 
-Check the race calendar and add reminders to your own calendar. Keep Day Setup Sheets, bike balance, gearing, and tyre-wear notes on your device. Ask the Rider Coach or Bike Setup AI for practical guidance for UK track days and club racing, or use Q&A and trivia to sharpen your knowledge.
+UK Track Details maps are added as GPS traces become available. Until then, UK circuits are in Track Walk and the calendar; Australian maps already include confirmed turn numbers.
+
+Bike Setup keeps the day sheet, gearing, tyre-wear photos, and bike balance on your device. Ask Bike Setup AI about suspension, gearing, and tyres, or ask the Rider Coach about race craft — both pitched at how you ride on a UK track day or club weekend.
+
+Check the race calendar and add reminders to your own calendar, then use Q&A and trivia to sharpen your knowledge.
 
 Your profile, avatar, setups, and track notes stay private on your device. AI chats you send go to the RoadRacer API and may be processed by OpenAI; chat history is not kept on our server after the reply.
 
@@ -141,10 +147,10 @@ motorcycle,racing,BSB,superbike,track day,bike setup,coach,calendar
 ### Promotional Text (UK, optional, 170 chars)
 
 ```
-Prep the bike in the garage: track briefing, BSB events, gearing, and tyre-wear notes — plus an AI coach. Setups stay on your device.
+Prep the bike in the garage: track briefing, BSB events, gearing, and tyre-wear notes — plus Bike Setup AI at your level. Setups stay on your device.
 ```
 
-(Character count: 133 — BSB instead of a generic events mention.)
+(Character count: 149 — BSB instead of a generic events mention.)
 
 UK review contact: same as AU (`projectapex@outlook.com.au`; phone may remain +61).
 
@@ -183,7 +189,9 @@ Required sizes include:
 - **1242 × 2688** or **1284 × 2778** (portrait)
 - Landscape equivalents if you upload landscape
 
-Upload **at least 3** screenshots for iPhone 6.5" Display. Ready files (all **1284 × 2778**):
+**1.0.1 listing (current):** only the garage photos — Gearing Guide, then Tyre Wear. Old Track/Setup/Tyre UI shots and all iPad shots were removed.
+
+Ready files (all **1284 × 2778**):
 
 > **Slot 1 must be recaptured before the next submission.** The `-01-news` files show the removed News feature. Uploading them with a build that has no News is a Guideline 2.3 rejection. Replace with **Track Details** (the GPX map with its suggested line) — it is the strongest screen in the build and the one the description now leads on. Screenshots are locked while the version is in review or Pending Developer Release, so pull the version back first.
 

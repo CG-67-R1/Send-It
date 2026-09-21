@@ -9,7 +9,11 @@
 import fs from 'node:fs';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
-import { TRACK_DETAILS_IDS } from './lib/track-details-ids.mjs';
+import {
+  TRACK_DETAILS_IDS,
+  isMapOnlyTrackDetailsId,
+  isTrustedTrackDetailsId,
+} from './lib/track-details-ids.mjs';
 
 const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
 const GPX_DIR = path.join(ROOT, 'scripts', 'track-memory-gpx');
@@ -246,7 +250,13 @@ for (const id of ids) {
   }
 
   proveRacingLine(id, variants.app);
-  proveCorners(id, variants.app);
+  if (isTrustedTrackDetailsId(id)) {
+    proveCorners(id, variants.app);
+  } else if (isMapOnlyTrackDetailsId(id)) {
+    proveNoTrustedCorners(id);
+  } else {
+    fail(id, 'not in TRACK_DETAILS_TRUSTED_IDS or TRACK_DETAILS_MAP_ONLY_IDS');
+  }
 }
 
 function inMap(p) {
@@ -260,6 +270,22 @@ function inMap(p) {
     p[1] >= -5 &&
     p[1] <= 105
   );
+}
+
+/** Map-only layouts must not ship a detector corner overlay. */
+function proveNoTrustedCorners(id) {
+  for (const [label, dir] of [
+    ['app', APP_CORNER_DIR],
+    ['android-app', ANDROID_CORNER_DIR],
+  ]) {
+    const file = path.join(dir, `${id}.json`);
+    if (fs.existsSync(file)) {
+      fail(
+        id,
+        `${label} trackDetailsCorners/${id}.json must not ship for a map-only layout`
+      );
+    }
+  }
 }
 
 /** Numbered turns baked from the autonomous detector onto the GPX map. */

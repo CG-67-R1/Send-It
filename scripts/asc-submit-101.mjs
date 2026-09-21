@@ -1,8 +1,8 @@
 /**
- * Submit iOS 1.0.1 (build 31) for review. Does not touch live 1.0.0.
+ * Submit the next iOS App Store version (default 1.0.2). Does not edit live 1.0.1.
  *
- *   node scripts/asc-submit-101.mjs
  *   node scripts/asc-submit-101.mjs --diagnose
+ *   node scripts/asc-submit-101.mjs --build 33
  */
 import crypto from 'node:crypto';
 import fs from 'node:fs';
@@ -13,30 +13,37 @@ const APP_ID = '6799806571';
 const ACCOUNT = 'motorsport-is-life';
 const ASC = 'https://api.appstoreconnect.apple.com';
 const EXPO_GQL = 'https://api.expo.dev/graphql';
-const WANT_VERSION = '1.0.1';
-const WANT_BUILD = '31';
+function cliArg(flag, fallback) {
+  const i = process.argv.indexOf(flag);
+  if (i >= 0 && process.argv[i + 1] && !process.argv[i + 1].startsWith('-')) {
+    return process.argv[i + 1];
+  }
+  return fallback;
+}
+const WANT_VERSION = cliArg('--version', '1.0.2');
+const WANT_BUILD = cliArg('--build', '');
 const DIAGNOSE = process.argv.includes('--diagnose');
 
 const WHATS_NEW =
-  'Home follows the screen size, Events cards are quieter, and Coach labels send and photo remove. Tyre-wear analysis no longer fails on a large photo.';
+  'Track Details now lets you place your own corner numbers, start/finish, and direction, with surface, camber, and entry notes. Track Walk notes show on the same page. Australian maps still use the confirmed turn numbers.';
 
-const REVIEW_NOTES = `RoadRacer — App Review notes (version 1.0.1, build ${WANT_BUILD})
+const REVIEW_NOTES = `RoadRacer — App Review notes (version ${WANT_VERSION}${WANT_BUILD ? `, build ${WANT_BUILD}` : ''})
 
 1) NO ACCOUNT
 No registration, login, or account deletion. No IAP or subscriptions. No ATT prompt.
 
 2) WHAT CHANGED
-Home uses the window size, Events cards are quieter, Coach labels send and photo-remove, and tyre-wear analysis accepts a large photo.
+Track Details: riders can place extra corner numbers, start/finish, and direction, plus surface/camber/entry chips and a personal note. Track Walk notes appear on Track Details. Australian GPS maps still show confirmed turn numbers. UK circuits stay in Track Walk and the calendar until those GPS maps ship. We do not claim detector-placed UK corners.
 
 3) HOW TO REVIEW
-Open the app; complete or skip onboarding. Home, Settings, Events, Rider Coach (Track Walk + AI Coach + Track Details), Bike Setup, Q&A. Track Details is on-device GPS maps with numbered turns and a suggested line (suggestion only; no modelled lap times).
+Open the app; complete or skip onboarding. Home, Settings, Events, Rider Coach (Track Walk + AI Coach + Track Details), Bike Setup, Q&A. On Track Details pick an Australian circuit (e.g. Phillip Island): zoom the GPS map, confirmed numbers, optional Place corner / Mark S/F. The suggested line is a suggestion only; no modelled lap times.
 
 4) SERVICES
 API https://send-it-ke7r.onrender.com — calendar, Q&A, Coach proxy. OpenAI for AI replies (not kept after the reply). First call after idle may take ~30s.
 
 5) CONTACT
 projectapex@outlook.com.au
-Privacy: https://github.com/CG-67-R1/Send-It/blob/main/docs/legal/PRIVACY.md
+Privacy: https://roadracer.info/privacy.html
 Support/marketing: https://roadracer.info
 `;
 
@@ -309,7 +316,8 @@ async function submitForReview(token, versionId) {
       },
     });
   } catch (err) {
-    if (!/409|already|exists|ENTITY_ERROR/i.test(err.message)) throw err;
+    if (/cannot be reviewed|SCREENSHOT_REQUIRED/i.test(err.message)) throw err;
+    if (!/already|exists/i.test(err.message)) throw err;
     console.log(`Review item already present: ${err.message}`);
   }
   await asc(token, 'PATCH', `/v1/reviewSubmissions/${subId}`, {
@@ -322,6 +330,10 @@ const creds = await loadAscKey();
 let token = signAscJwt(creds);
 const snap = await diagnose(token);
 if (DIAGNOSE) process.exit(0);
+if (!WANT_BUILD) {
+  console.error('Pass --build <CFBundleVersion> after the EAS production IPA is in ASC (VALID).');
+  process.exit(2);
+}
 if (REVIEW_NOTES.length > 4000) throw new Error(`Review notes ${REVIEW_NOTES.length} chars.`);
 
 token = signAscJwt(creds);
@@ -333,8 +345,8 @@ try {
   version = await ensureVersion(token);
 } catch (err) {
   console.error(err.message);
-  console.error(
-    'Apple is still blocking a new version. In App Store Connect: App Store → iOS App → + Version → 1.0.1. Then rerun this script.',
+    console.error(
+    `Apple is still blocking a new version. In App Store Connect: App Store → iOS App → + Version → ${WANT_VERSION}. Then rerun this script.`,
   );
   process.exit(2);
 }

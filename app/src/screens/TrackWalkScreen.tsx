@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react';
+import React, { useCallback, useEffect, useMemo, useState } from 'react';
 import {
   ActivityIndicator,
   Alert,
@@ -23,6 +23,7 @@ import { COMPACT_LOGO_SIZE } from '../constants/logoSizing';
 import { CornerPicker } from '../components/CornerPicker';
 import { OtherTrackContextForm } from '../components/OtherTrackContextForm';
 import { TrackPicker } from '../components/TrackPicker';
+import { VoiceNoteField } from '../components/VoiceNoteField';
 import type { CornerDefinition, CornerDirection, OtherTrackContext, TrackDefinition } from '../data/tracks';
 import {
   formatCornerHeading,
@@ -54,32 +55,6 @@ const VISIBILITY_OPTIONS: { value: SessionVisibility; label: string }[] = [
   { value: 'team', label: 'Team' },
   { value: 'community', label: 'Community' },
 ];
-
-/** Module-scope speech recognition (optional native module). */
-type SpeechRecognitionModule = {
-  requestPermissionsAsync: () => Promise<{ granted: boolean }>;
-  start: (opts: { lang: string; interimResults: boolean; continuous: boolean }) => void;
-  stop: () => void;
-  addListener?: (
-    event: string,
-    cb: (event: { results?: { transcript?: string }[]; isFinal?: boolean }) => void
-  ) => { remove: () => void };
-};
-
-let speechRecognition: SpeechRecognitionModule | null | undefined;
-
-function getSpeechRecognition(): SpeechRecognitionModule | null {
-  if (speechRecognition !== undefined) return speechRecognition;
-  try {
-    const speechModule = require('expo-speech-recognition') as {
-      ExpoSpeechRecognitionModule?: SpeechRecognitionModule;
-    };
-    speechRecognition = speechModule.ExpoSpeechRecognitionModule ?? null;
-  } catch {
-    speechRecognition = null;
-  }
-  return speechRecognition;
-}
 
 const DEFAULT_OTHER_CONTEXT: OtherTrackContext = {
   customName: '',
@@ -130,10 +105,6 @@ export function TrackWalkScreen() {
   const [saving, setSaving] = useState(false);
   const [exporting, setExporting] = useState(false);
   const [sendingCoach, setSendingCoach] = useState(false);
-  const [voiceAvailable, setVoiceAvailable] = useState<boolean | null>(null);
-  const [recording, setRecording] = useState(false);
-  const [interimTranscript, setInterimTranscript] = useState('');
-  const interimRef = useRef('');
 
   useEffect(() => {
     const id = route.params?.initialTrackId;
@@ -201,100 +172,6 @@ export function TrackWalkScreen() {
     authorExperience,
   ]);
 
-  const requestVoice = useCallback(async (): Promise<'ok' | 'denied' | 'unavailable'> => {
-    try {
-      const ExpoSpeechRecognitionModule = getSpeechRecognition();
-      if (!ExpoSpeechRecognitionModule) {
-        setVoiceAvailable(false);
-        return 'unavailable';
-      }
-      const result = await ExpoSpeechRecognitionModule.requestPermissionsAsync();
-      if (!result.granted) {
-        Alert.alert('Microphone', 'Allow microphone access to use voice notes.');
-        return 'denied';
-      }
-      setVoiceAvailable(true);
-      return 'ok';
-    } catch (e) {
-      if (__DEV__) console.warn('[TrackWalk] speech permission', e);
-      setVoiceAvailable(false);
-      return 'unavailable';
-    }
-  }, []);
-
-  const startRecording = useCallback(async () => {
-    if (voiceAvailable === false) {
-      Alert.alert('Voice', 'Voice input is not available on this device.');
-      return;
-    }
-    if (voiceAvailable === null) {
-      const status = await requestVoice();
-      if (status === 'denied') return;
-      if (status !== 'ok') {
-        Alert.alert('Voice', 'Voice input is not available on this device.');
-        return;
-      }
-    }
-    try {
-      const ExpoSpeechRecognitionModule = getSpeechRecognition();
-      if (!ExpoSpeechRecognitionModule) {
-        setVoiceAvailable(false);
-        Alert.alert('Voice', 'Voice input is not available on this device.');
-        return;
-      }
-      setInterimTranscript('');
-      interimRef.current = '';
-      ExpoSpeechRecognitionModule.start({ lang: getPrimaryLocale(), interimResults: true, continuous: true });
-      setRecording(true);
-    } catch (e) {
-      if (__DEV__) console.warn('[TrackWalk] speech start', e);
-      setVoiceAvailable(false);
-      Alert.alert('Voice', 'Voice input is not available on this device.');
-    }
-  }, [voiceAvailable, requestVoice]);
-
-  const stopRecording = useCallback(() => {
-    try {
-      getSpeechRecognition()?.stop();
-    } catch (e) {
-      if (__DEV__) console.warn('[TrackWalk] speech stop', e);
-    }
-    setRecording(false);
-    const pending = interimRef.current.trim();
-    if (pending) {
-      setDraftText((prev) => (prev ? `${prev} ${pending}` : pending));
-      interimRef.current = '';
-      setInterimTranscript('');
-    }
-  }, []);
-
-  React.useEffect(() => {
-    let resultSub: { remove: () => void } | null = null;
-    try {
-      const ExpoSpeechRecognitionModule = getSpeechRecognition();
-      if (ExpoSpeechRecognitionModule?.addListener) {
-        resultSub = ExpoSpeechRecognitionModule.addListener(
-          'result',
-          (event: { results?: { transcript?: string }[]; isFinal?: boolean }) => {
-            const transcript =
-              (event.results?.[0] as { transcript?: string } | undefined)?.transcript ?? '';
-            if (event.isFinal) {
-              setDraftText((prev) => (prev ? `${prev} ${transcript}` : transcript));
-              interimRef.current = '';
-              setInterimTranscript('');
-            } else {
-              interimRef.current = transcript;
-              setInterimTranscript(transcript);
-            }
-          }
-        );
-      }
-    } catch (e) {
-      if (__DEV__) console.warn('[TrackWalk] speech listener', e);
-    }
-    return () => resultSub?.remove?.();
-  }, []);
-
   const resetDraft = useCallback(() => {
     setAddingMode(null);
     setDraftText('');
@@ -302,9 +179,7 @@ export function TrackWalkScreen() {
     setDraftDirection(null);
     setDraftNickname('');
     setDraftPhotos([]);
-    setInterimTranscript('');
-    if (recording) stopRecording();
-  }, [recording, stopRecording]);
+  }, []);
 
   const resetWalk = useCallback(() => {
     setEntries([]);
@@ -369,7 +244,7 @@ export function TrackWalkScreen() {
   }, []);
 
   const addEntry = useCallback(async () => {
-    const text = (draftText || interimTranscript).trim();
+    const text = draftText.trim();
     if (!addingMode || !text) return;
 
     if (addingMode === 'corner') {
@@ -404,7 +279,6 @@ export function TrackWalkScreen() {
   }, [
     addingMode,
     draftText,
-    interimTranscript,
     draftCornerId,
     selectedTrack,
     trackId,
@@ -608,24 +482,7 @@ export function TrackWalkScreen() {
               </>
             )}
 
-            <View style={styles.draftRow}>
-              <TextInput
-                style={styles.draftInput}
-                value={draftText}
-                onChangeText={setDraftText}
-                placeholder={recording ? 'Listening…' : 'Type or use mic'}
-                placeholderTextColor="#64748b"
-                multiline
-                editable={!recording}
-              />
-              <TouchableOpacity
-                style={[styles.micButton, recording && styles.micButtonActive]}
-                onPress={recording ? stopRecording : startRecording}
-              >
-                <Text style={styles.micButtonText}>{recording ? 'Stop' : '🎤'}</Text>
-              </TouchableOpacity>
-            </View>
-            {interimTranscript ? <Text style={styles.interimText}>{interimTranscript}</Text> : null}
+            <VoiceNoteField value={draftText} onChange={setDraftText} />
             <View style={styles.draftActions}>
               <TouchableOpacity style={styles.cancelDraftButton} onPress={resetDraft}>
                 <Text style={styles.cancelDraftText}>Cancel</Text>
@@ -633,10 +490,10 @@ export function TrackWalkScreen() {
               <TouchableOpacity
                 style={[
                   styles.saveDraftButton,
-                  (!draftText.trim() && !interimTranscript) && styles.saveDraftDisabled,
+                  !draftText.trim() && styles.saveDraftDisabled,
                 ]}
                 onPress={() => void addEntry()}
-                disabled={!draftText.trim() && !interimTranscript}
+                disabled={!draftText.trim()}
               >
                 <Text style={styles.saveDraftText}>Save</Text>
               </TouchableOpacity>
@@ -860,21 +717,6 @@ const styles = StyleSheet.create({
     marginBottom: 8,
   },
   approachHint: { fontSize: 12, color: '#64748b', fontStyle: 'italic', marginBottom: 8 },
-  draftRow: { flexDirection: 'row', alignItems: 'flex-start', gap: 8 },
-  draftInput: {
-    flex: 1,
-    backgroundColor: '#0f172a',
-    borderRadius: 8,
-    padding: 12,
-    fontSize: 15,
-    color: '#f8fafc',
-    minHeight: 80,
-    textAlignVertical: 'top',
-  },
-  micButton: { padding: 14, backgroundColor: '#334155', borderRadius: 10, minWidth: 52, alignItems: 'center' },
-  micButtonActive: { backgroundColor: '#dc2626' },
-  micButtonText: { fontSize: 20 },
-  interimText: { fontSize: 13, color: '#94a3b8', fontStyle: 'italic', marginTop: 6 },
   draftActions: { flexDirection: 'row', justifyContent: 'flex-end', gap: 12, marginTop: 12 },
   cancelDraftButton: { paddingVertical: 10, paddingHorizontal: 16 },
   cancelDraftText: { fontSize: 15, color: '#94a3b8', fontWeight: '600' },

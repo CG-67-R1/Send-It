@@ -13,6 +13,7 @@
 import { spawnSync } from 'node:child_process';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
+import { isMapOnlyTrackDetailsId } from './lib/track-details-ids.mjs';
 
 const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
 
@@ -49,8 +50,14 @@ function main() {
   console.log('1/3  GPX ribbon maps');
   run('node', ['scripts/build-gpx-track-maps.mjs', ...ids]);
 
-  console.log('2/3  Corner numbers from the locked detector');
-  run('node', ['scripts/build-track-details-corners.mjs', ...ids]);
+  const cornerIds = ids.length ? ids.filter((id) => !isMapOnlyTrackDetailsId(id)) : [];
+  const skipAllCorners = ids.length > 0 && cornerIds.length === 0;
+  if (skipAllCorners) {
+    console.log('2/3  Corner numbers skipped (map-only layouts — riders place marks)');
+  } else {
+    console.log('2/3  Corner numbers from the locked detector');
+    run('node', ['scripts/build-track-details-corners.mjs', ...cornerIds]);
+  }
 
   if (withLines) {
     console.log('3/3  Racing lines');

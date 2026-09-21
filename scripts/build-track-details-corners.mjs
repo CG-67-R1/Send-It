@@ -20,7 +20,7 @@ import {
   pointOnFitted,
   snapToRibbon,
 } from './lib/track-details-from-detector.mjs';
-import { TRACK_DETAILS_IDS } from './lib/track-details-ids.mjs';
+import { TRACK_DETAILS_TRUSTED_IDS, isMapOnlyTrackDetailsId } from './lib/track-details-ids.mjs';
 
 const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
 const GPX_DIR = path.join(ROOT, 'scripts', 'track-memory-gpx');
@@ -271,7 +271,14 @@ function main() {
   }
 
   const requested = process.argv.slice(2).filter((a) => !a.startsWith('-'));
-  const ids = requested.length ? requested : TRACK_DETAILS_IDS;
+  const blocked = requested.filter((id) => isMapOnlyTrackDetailsId(id));
+  if (blocked.length) {
+    console.error(
+      `Map-only layouts cannot bake detector corners: ${blocked.join(', ')}`
+    );
+    process.exit(1);
+  }
+  const ids = requested.length ? requested : TRACK_DETAILS_TRUSTED_IDS;
   const catalog = JSON.parse(fs.readFileSync(CATALOG_PATH, 'utf8'));
   const verify = JSON.parse(fs.readFileSync(VERIFY_PATH, 'utf8'));
   const shifts = loadCornerShifts();

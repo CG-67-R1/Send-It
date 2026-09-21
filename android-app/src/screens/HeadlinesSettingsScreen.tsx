@@ -43,6 +43,7 @@ import {
 } from '../storage/bikeSetupSheet';
 import { clearBikeBalanceState, loadBikeBalanceState } from '../storage/bikeBalance';
 import { clearGearingGuideState } from '../storage/gearingGuide';
+import { clearRiderTrackMarks } from '../storage/riderTrackMarks';
 import { clearTrackWalkSessions } from '../storage/trackWalk';
 import { clearTyreWearAnalysisState } from '../storage/tyreWearAnalysis';
 import { clearBikePhoto } from '../storage/bikePhoto';
@@ -261,7 +262,7 @@ export function HeadlinesSettingsScreen() {
     if (!onboardingReset) return;
     Alert.alert(
       'Delete all local data?',
-      'This permanently removes your profile, photos, Bike Setup Sheet and saved setups, Bike Balance, Gearing Guide, Tyre Wear, and Track Walk notes from this device, then restarts onboarding.',
+      'This permanently removes your profile, photos, Bike Setup Sheet and saved setups, Bike Balance, Gearing Guide, Tyre Wear, Track Walk notes, and Track Details marks from this device, then restarts onboarding.',
       [
         { text: 'Cancel', style: 'cancel' },
         {
@@ -275,6 +276,7 @@ export function HeadlinesSettingsScreen() {
                 clearGearingGuideState(),
                 clearTyreWearAnalysisState(),
                 clearTrackWalkSessions(),
+                clearRiderTrackMarks(),
                 clearAvatarFacePhoto(),
                 clearBikePhoto(),
               ]);

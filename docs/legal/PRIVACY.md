@@ -1,6 +1,6 @@
 # RoadRacer Privacy Policy
 
-**Last updated:** 26 July 2026
+**Last updated:** 21 September 2026
 
 RoadRacer (“we”, “the app”) is a motorcycle road-racing companion app. This policy explains what data is handled and how.
 
@@ -12,6 +12,7 @@ The following are stored locally on your phone or browser (AsyncStorage / device
 - Bike photo and avatar face photo (if you add them)
 - Day Setup Sheet, saved setup snapshots, and Bike Balance calculator state
 - Track Walk notes and photos you save
+- Track Details marks you place (start/finish, direction, corner numbers, surface/camber/entry chips, and personal notes)
 - News source preferences and notification settings
 - Trivia high score
 

@@ -3,7 +3,7 @@
     "name": "RoadRacer - Motorsport_Is_Life",
     "slug": "roadracer",
     "owner": "motorsport-is-life",
-    "version": "1.0.1",
+    "version": "1.0.2",
     "orientation": "portrait",
     "icon": "./assets/icon.png",
     "userInterfaceStyle": "automatic",
@@ -57,8 +57,8 @@
       [
         "expo-speech-recognition",
         {
-          "microphonePermission": "RoadRacer uses the microphone to transcribe voice notes in Track Walk.",
-          "speechRecognitionPermission": "RoadRacer uses speech recognition to transcribe voice notes in Track Walk."
+          "microphonePermission": "RoadRacer uses the microphone to transcribe voice notes in Track Walk and Track Details.",
+          "speechRecognitionPermission": "RoadRacer uses speech recognition to transcribe voice notes in Track Walk and Track Details."
         }
       ],
       [
@@ -97,8 +97,8 @@
       ]
     ],
     "extra": {
-      "privacyPolicyUrl": "https://github.com/CG-67-R1/Send-It/blob/main/docs/legal/PRIVACY.md",
-      "termsOfUseUrl": "https://github.com/CG-67-R1/Send-It/blob/main/docs/legal/TERMS.md",
+      "privacyPolicyUrl": "https://roadracer.info/privacy.html",
+      "termsOfUseUrl": "https://roadracer.info/terms.html",
       "eas": {
         "projectId": "c3447188-53ab-4806-96af-6eb1b5417de3"
       }

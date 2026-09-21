@@ -168,7 +168,7 @@ export function TrackPrepHubScreen() {
         <Text style={styles.navSub}>
           {trackId === 'other'
             ? 'Maps are for catalog circuits only'
-            : 'Map, pits, records, and saved corner notes'}
+            : 'Map, records, and your corner notes'}
         </Text>
       </TouchableOpacity>
     </ScrollView>
