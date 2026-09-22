@@ -1,4 +1,4 @@
-import React, { useCallback, useMemo, useState } from 'react';
+import React, { useCallback, useMemo, useRef, useState } from 'react';
 import { ScrollView, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 import { useFocusEffect, useNavigation } from '@react-navigation/native';
 import type { NativeStackNavigationProp } from '@react-navigation/native-stack';
@@ -131,17 +131,25 @@ function shapeLabel(classification: string): string {
 export function TrackMemoryHubScreen() {
   const navigation = useNavigation<Nav>();
   const infoTracks = useMemo(() => listTrackInfoTracks(), []);
-  const [trackId, setTrackId] = useState<string | null>(
-    infoTracks.length === 1 ? infoTracks[0].id : null
-  );
+  const initialTrackId = infoTracks.length === 1 ? infoTracks[0].id : null;
+  const [trackId, setTrackId] = useState<string | null>(initialTrackId);
   const [selectedTurn, setSelectedTurn] = useState<DetailsTurn | null>(null);
   const [riderSkill, setRiderSkill] = useState<RiderAiSkill>('novice');
   const [marks, setMarks] = useState<RiderTrackMarks>(emptyMarks(''));
   const [walkSessions, setWalkSessions] = useState<TrackWalkSession[]>([]);
+  const activeTrackIdRef = useRef<string | null>(initialTrackId);
+  const trackLoadGenerationRef = useRef(0);
   const coaching = useMemo(() => trackInfoCoachingForSkill(riderSkill), [riderSkill]);
 
+  const setActiveTrackId = useCallback((id: string | null) => {
+    activeTrackIdRef.current = id;
+    setTrackId(id);
+  }, []);
+
   const loadTrackState = useCallback(async (id: string) => {
+    const generation = (trackLoadGenerationRef.current += 1);
     const [savedMarks, sessions] = await Promise.all([getRiderTrackMarks(id), getTrackWalkSessions()]);
+    if (generation !== trackLoadGenerationRef.current || activeTrackIdRef.current !== id) return;
     setMarks(savedMarks);
     setWalkSessions(sessions);
   }, []);
@@ -156,16 +164,17 @@ export function TrackMemoryHubScreen() {
         ]);
         if (cancelled) return;
         setRiderSkill(skill);
-        const nextId = saved && hasTrackInfoMap(saved.trackId) ? saved.trackId : trackId;
+        const nextId = saved && hasTrackInfoMap(saved.trackId) ? saved.trackId : activeTrackIdRef.current;
         if (nextId && hasTrackInfoMap(nextId)) {
-          setTrackId(nextId);
+          setActiveTrackId(nextId);
           await loadTrackState(nextId);
         }
       })();
       return () => {
         cancelled = true;
+        trackLoadGenerationRef.current += 1;
       };
-    }, [loadTrackState, trackId])
+    }, [loadTrackState, setActiveTrackId])
   );
 
   const map = trackId ? getGpxTrackMap(trackId) : undefined;
@@ -176,9 +185,13 @@ export function TrackMemoryHubScreen() {
   const facts = trackId ? getTrackInfoFacts(trackId) : undefined;
   const asbk = facts?.asbkRecords?.filter((r) => r.time) ?? [];
   const polyline = map?.polyline ?? [];
+  const currentMarks = useMemo(
+    () => (trackId && marks.trackId === trackId ? marks : emptyMarks(trackId ?? '')),
+    [trackId, marks]
+  );
   const turns = useMemo(
-    () => buildTurns(layout?.corners, marks, polyline),
-    [layout?.corners, marks, polyline]
+    () => buildTurns(layout?.corners, currentMarks, polyline),
+    [layout?.corners, currentMarks, polyline]
   );
   const walkNotes = useMemo(
     () => (trackId ? walkNotesForTrack(walkSessions, trackId, turns) : walkNotesForTrack([], '', [])),
@@ -189,12 +202,14 @@ export function TrackMemoryHubScreen() {
     ? `${(layout.lengthM / 1000).toFixed(2)} km`
     : catalog?.lengthKm ?? 'Length not available.';
   const directionLabel =
-    marks.direction ??
+    currentMarks.direction ??
     (catalog?.direction && catalog.direction !== 'unknown' ? catalog.direction : null) ??
     'Not marked yet.';
-  const extraCount = marks.corners.filter((c) => !c.baked).length;
+  const extraCount = currentMarks.corners.filter((c) => !c.baked).length;
 
   const persistMarks = useCallback(async (next: RiderTrackMarks) => {
+    if (activeTrackIdRef.current !== next.trackId) return;
+    trackLoadGenerationRef.current += 1;
     setMarks(next);
     await saveRiderTrackMarks(next);
   }, []);
@@ -202,7 +217,7 @@ export function TrackMemoryHubScreen() {
   const handleSelectTrack = useCallback(
     (track: TrackDefinition) => {
       if (!hasTrackInfoMap(track.id)) return;
-      setTrackId(track.id);
+      setActiveTrackId(track.id);
       setSelectedTurn(null);
       void saveTrackPrepSelectedTrack({
         trackId: track.id,
@@ -210,7 +225,7 @@ export function TrackMemoryHubScreen() {
       });
       void loadTrackState(track.id);
     },
-    [loadTrackState]
+    [loadTrackState, setActiveTrackId]
   );
 
   const openTurn = useCallback((turn: DetailsTurn) => {
@@ -236,7 +251,7 @@ export function TrackMemoryHubScreen() {
   const placeCorner = useCallback(
     (point: MapPoint) => {
       if (!trackId) return;
-      const number = nextRiderCornerNumber(marks, layout?.corners.length ?? 0);
+      const number = nextRiderCornerNumber(currentMarks, layout?.corners.length ?? 0);
       const created: RiderCornerMark = {
         id: `rider_${trackId}_${Date.now()}`,
         number,
@@ -244,33 +259,33 @@ export function TrackMemoryHubScreen() {
         baked: false,
         note: '',
       };
-      const next = upsertRiderCorner(marks, created);
+      const next = upsertRiderCorner(currentMarks, created);
       void persistMarks(next);
       setSelectedTurn(riderToTurn(created, polyline));
     },
-    [trackId, marks, layout?.corners.length, persistMarks, polyline]
+    [trackId, currentMarks, layout?.corners.length, persistMarks, polyline]
   );
 
   const placeStart = useCallback(
     (point: MapPoint) => {
       if (!trackId) return;
-      void persistMarks({ ...marks, startFinish: point });
+      void persistMarks({ ...currentMarks, startFinish: point });
     },
-    [trackId, marks, persistMarks]
+    [trackId, currentMarks, persistMarks]
   );
 
   const setDirection = useCallback(
     (direction: RiderCircuitDirection) => {
       if (!trackId) return;
-      void persistMarks({ ...marks, direction });
+      void persistMarks({ ...currentMarks, direction });
     },
-    [trackId, marks, persistMarks]
+    [trackId, currentMarks, persistMarks]
   );
 
   const patchTurn = useCallback(
     (patch: TurnFieldPatch) => {
       if (!selectedTurn || !trackId) return;
-      const existing = annotationFor(marks, selectedTurn.id);
+      const existing = annotationFor(currentMarks, selectedTurn.id);
       const updated: RiderCornerMark = {
         id: selectedTurn.id,
         number: selectedTurn.number,
@@ -282,18 +297,18 @@ export function TrackMemoryHubScreen() {
         cornerEntry: patch.cornerEntry ?? existing?.cornerEntry ?? selectedTurn.cornerEntry,
         note: patch.note ?? existing?.note ?? selectedTurn.note,
       };
-      const next = upsertRiderCorner(marks, updated);
+      const next = upsertRiderCorner(currentMarks, updated);
       void persistMarks(next);
       setSelectedTurn({ ...selectedTurn, ...patch });
     },
-    [selectedTurn, trackId, marks, persistMarks]
+    [selectedTurn, trackId, currentMarks, persistMarks]
   );
 
   const deleteTurn = useCallback(() => {
     if (!selectedTurn || selectedTurn.baked) return;
-    void persistMarks(removeRiderCorner(marks, selectedTurn.id));
+    void persistMarks(removeRiderCorner(currentMarks, selectedTurn.id));
     setSelectedTurn(null);
-  }, [selectedTurn, marks, persistMarks]);
+  }, [selectedTurn, currentMarks, persistMarks]);
 
   const askCoach = useCallback(() => {
     if (!catalog || !selectedTurn) return;
@@ -367,7 +382,7 @@ export function TrackMemoryHubScreen() {
               map={map}
               racingLine={racingLine}
               baked={layout}
-              riderMarks={trackId && marks.trackId === trackId ? marks : emptyMarks(trackId ?? '')}
+              riderMarks={currentMarks}
               catalogDirection={catalog.direction}
               onBakedPress={openBaked}
               onRiderPress={openRider}
