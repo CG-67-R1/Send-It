@@ -3,7 +3,7 @@
   "tracks": [
     {
       "id": "motegi",
-      "name": "Twin Ring Motegi",
+      "name": "Mobility Resort Motegi",
       "nodeId": "jp",
       "kind": "road_circuit",
       "lat": 36.5412,
@@ -11,7 +11,7 @@
       "corners": [],
       "isOther": false,
       "confidence": "official",
-      "notes": "Motegi, Tochigi. 4.801 km; hosts MFJ Superbike and Japanese MotoGP GP."
+      "notes": "モビリティリゾートもてぎ (Tochigi). Formerly Twin Ring Motegi (Honda Mobilityland rename effective 2022-03-01). ~4.801 km; hosts MFJ All Japan / JRR and Japanese MotoGP. Site: https://www.mr-motegi.jp"
     },
     {
       "id": "suzuka",
@@ -23,7 +23,7 @@
       "corners": [],
       "isOther": false,
       "confidence": "official",
-      "notes": "Suzuka, Mie. 5.807 km figure-8 circuit; famous 8 Hours endurance race."
+      "notes": "Suzuka, Mie. 5.807 km figure-8 circuit; hosts MFJ GP and the FIM EWC Suzuka 8 Hours."
     },
     {
       "id": "autopolis",
@@ -35,7 +35,7 @@
       "corners": [],
       "isOther": false,
       "confidence": "official",
-      "notes": "Kamitsue, Oita. 4.674 km; MFJ Superbike round."
+      "notes": "Kamitsue, Oita. 4.674 km; MFJ All Japan / JRR round."
     },
     {
       "id": "okayama",
@@ -47,7 +47,7 @@
       "corners": [],
       "isOther": false,
       "confidence": "official",
-      "notes": "Aida, Okayama. 3.703 km; MFJ rounds."
+      "notes": "Aida, Okayama. 3.703 km; MFJ All Japan / JRR rounds."
     },
     {
       "id": "sugo",
@@ -59,10 +59,10 @@
       "corners": [],
       "isOther": false,
       "confidence": "official",
-      "notes": "Murata, Miyagi. 3.704 km; MFJ Superbike round."
+      "notes": "Murata, Miyagi. 3.704 km; MFJ All Japan / JRR superbike round."
     },
     {
-      "id": "sepang-international-circuit-jp",
+      "id": "tsukuba",
       "name": "Tsukuba Circuit",
       "nodeId": "jp",
       "kind": "road_circuit",
@@ -71,7 +71,7 @@
       "corners": [],
       "isOther": false,
       "confidence": "official",
-      "notes": "Tsukuba, Ibaraki. 2.07 km club circuit; popular for club racing and time attack."
+      "notes": "Tsukuba, Ibaraki. ~2.07 km club circuit; All-Japan support rounds (J-GP3, JP-SPORT in 2026). Id corrected from copy-paste `sepang-international-circuit-jp`."
     }
   ]
 }

@@ -5,9 +5,18 @@
       "name": "Ikatan Motor Indonesia (IMI)",
       "role": "federation",
       "nodeId": "id",
-      "website": "https://www.imi.co.id",
+      "website": "https://www.imi.id",
       "confidence": "official",
-      "notes": "FIM affiliate; national governing body for all motorsport in Indonesia including motorcycle road racing."
+      "notes": "FIM Asia FMN (FIM directory: imi.id). Canonical public host is imi.id. Support email may still use @imi.co.id — treat imi.co.id as stale canonical. 2026 motorcycle regulations: https://www.imi.id/regulasi-olahraga-sepeda-motor/"
+    },
+    {
+      "id": "myimi",
+      "name": "MyIMI",
+      "role": "other",
+      "nodeId": "id",
+      "website": "https://myimi.id",
+      "confidence": "official",
+      "notes": "2026 IMI digital membership / KIS portal (from 1 Mar 2026). Registration guide: https://www.imi.id/registrasi/"
     }
   ]
 }

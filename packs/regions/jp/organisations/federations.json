@@ -2,21 +2,21 @@
   "items": [
     {
       "id": "mfj",
-      "name": "Motorcycle Federation of Japan (MFJ) \u2014 \u65e5\u672c\u30e2\u30fc\u30bf\u30fc\u30b5\u30a4\u30af\u30eb\u30b9\u30dd\u30fc\u30c4\u5354\u4f1a",
+      "name": "Motorcycle Federation of Japan (MFJ) — 一般財団法人日本モーターサイクルスポーツ協会",
       "role": "federation",
       "nodeId": "jp",
       "website": "https://www.mfj.or.jp",
       "confidence": "official",
-      "notes": "FIM affiliate; governs all motorcycle sport in Japan including road racing (JSB1000, ST1000, J-GP series)."
+      "notes": "FIM affiliate; governs motorcycle sport in Japan including the All Japan Road Race Championship (JSB1000, ST1000, ST600, J-GP3, JP-SPORT)."
     },
     {
-      "id": "jar",
-      "name": "Japan Auto Racing",
-      "role": "promoter",
+      "id": "jrr",
+      "name": "JRR — All Japan Road Race official portal",
+      "role": "series_organiser",
       "nodeId": "jp",
-      "website": "https://www.jar.co.jp",
-      "confidence": "established-press",
-      "notes": "Promotes Suzuka and Motegi domestic events."
+      "website": "https://www.jrr.jp",
+      "confidence": "official",
+      "notes": "Official 全日本ロードレース portal (calendar, results, rider news) for the MFJ All Japan Road Race Championship. Replaces the weakly sourced JAR (jar.co.jp) promoter entry."
     }
   ]
 }

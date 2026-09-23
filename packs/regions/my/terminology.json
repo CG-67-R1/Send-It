@@ -3,13 +3,31 @@
     {
       "id": "mam",
       "term": "MAM",
-      "definition": "Motorsports Association of Malaysia",
+      "definition": "Motorsports Association of Malaysia (FIM affiliate)",
+      "locale": "ms-MY"
+    },
+    {
+      "id": "msbk",
+      "term": "MSBK",
+      "definition": "Malaysia Superbike Championship — 2026 domestic premier asphalt series (malaysiasbk.com)",
       "locale": "ms-MY"
     },
     {
       "id": "mrrc",
       "term": "MRRC",
-      "definition": "Malaysian Road Racing Championship",
+      "definition": "Malaysian Road Racing Championship — historical / stale headline alias; use MSBK for 2026",
+      "locale": "ms-MY"
+    },
+    {
+      "id": "arrc",
+      "term": "ARRC",
+      "definition": "Asia Road Racing Championship (asiaroadracing.com)",
+      "locale": "ms-MY"
+    },
+    {
+      "id": "ub150",
+      "term": "UB150 / underbone",
+      "definition": "Underbone 150cc — popular Malaysian production class",
       "locale": "ms-MY"
     }
   ]

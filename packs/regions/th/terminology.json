@@ -3,13 +3,43 @@
     {
       "id": "fmsct",
       "term": "FMSCT",
-      "definition": "Federation of Motor Sports of Thailand",
+      "definition": "Federation of Motor Sports Clubs of Thailand (FIM affiliate)",
+      "locale": "th-TH"
+    },
+    {
+      "id": "msat",
+      "term": "MSAT",
+      "definition": "Motorcycle Sport Association of Thailand (SAT-recognised; paired with FMSCT)",
       "locale": "th-TH"
     },
     {
       "id": "chang",
       "term": "Chang International Circuit",
-      "definition": "Premier motorcycle racing circuit in Buriram, Thailand",
+      "definition": "Buriram MotoGP / WSBK / ARRC / BRIC venue (bric.co.th)",
+      "locale": "th-TH"
+    },
+    {
+      "id": "thailand-circuit",
+      "term": "Thailand Circuit",
+      "definition": "Thailand Circuit Motorsport Complex, Nakhon Pathom — FMSCT Thailand Superbike venue",
+      "locale": "th-TH"
+    },
+    {
+      "id": "bric",
+      "term": "BRIC Superbike",
+      "definition": "BRIC / NEXZTER Superbike Championship at Chang International Circuit",
+      "locale": "th-TH"
+    },
+    {
+      "id": "arrc",
+      "term": "ARRC",
+      "definition": "Asia Road Racing Championship (asiaroadracing.com)",
+      "locale": "th-TH"
+    },
+    {
+      "id": "ub150",
+      "term": "UB150 / underbone",
+      "definition": "Underbone 150cc — popular SE Asian production class",
       "locale": "th-TH"
     }
   ]
