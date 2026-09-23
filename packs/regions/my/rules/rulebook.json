@@ -3,8 +3,8 @@
   "shortName": "MAM",
   "edition": null,
   "urls": {
-    "sourcePage": "https://www.mam.org.my"
+    "sourcePage": "https://www.mam.org.my/downloads/"
   },
   "chapters": {},
-  "note": "Seed: link-out to MAM regulations. In-app KB not yet ingested."
+  "note": "Seed: link-out to MAM downloads (National Competition Rules and licence forms). Do not invent clause numbers. In-app KB not yet ingested."
 }

@@ -10,9 +10,10 @@
       "id": "mam-calendar",
       "name": "MAM Event Calendar",
       "type": "governing_body_calendar",
-      "url": "https://www.mam.org.my",
+      "url": "https://mam.org.my/calendar/",
       "nodeId": "my",
-      "confidence": "official"
+      "confidence": "official",
+      "notes": "Best official calendar deep-link found. Dedicated MRRC 2026 page not located; Cloudflare may block automated fetches."
     },
     {
       "id": "sepang-calendar",

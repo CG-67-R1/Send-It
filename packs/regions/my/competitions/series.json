@@ -5,9 +5,9 @@
       "name": "Malaysian Road Racing Championship (MRRC)",
       "nodeId": "my",
       "local": true,
-      "website": "https://www.mam.org.my",
-      "confidence": "official",
-      "notes": "MAM-sanctioned national road racing championship."
+      "website": "https://mam.org.my/calendar/",
+      "confidence": "established-press",
+      "notes": "MAM-sanctioned national road racing championship (seed name retained). A dedicated 2026 'MRRC' calendar page was not found in the 2026-09-23 pass — MAM calendar https://mam.org.my/calendar/ is the best official deep-link (Cloudflare-protected). Owner should confirm 2026 branding vs other MAM-permitted national superbike products."
     },
     {
       "id": "moto-malaya",
@@ -22,9 +22,9 @@
       "name": "Asia Road Racing Championship (ARRC)",
       "nodeId": "my",
       "local": false,
-      "website": "https://www.arrc.tv",
+      "website": "https://www.asiaroadracing.com",
       "confidence": "official",
-      "notes": "Regional FIM series; Malaysian riders compete."
+      "notes": "Regional FIM Asia series; Sepang regularly hosts. Malaysian riders compete."
     }
   ]
 }
