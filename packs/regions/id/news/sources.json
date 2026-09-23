@@ -24,9 +24,10 @@
     {
       "id": "imi-news",
       "name": "IMI News",
-      "url": "https://www.imi.co.id/news",
+      "url": "https://imi.id",
       "confidence": "official",
-      "nodeId": "id"
+      "nodeId": "id",
+      "notes": "Replaces seed imi.co.id/news. IMI homepage carries federation news; dedicated /news path not confirmed."
     }
   ]
 }

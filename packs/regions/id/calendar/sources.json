@@ -8,19 +8,21 @@
   "sources": [
     {
       "id": "imi-calendar",
-      "name": "IMI Calendar",
+      "name": "IMI Calendar / news",
       "type": "governing_body_calendar",
-      "url": "https://www.imi.co.id",
+      "url": "https://imi.id",
       "nodeId": "id",
-      "confidence": "official"
+      "confidence": "official",
+      "notes": "imi.id confirmed live. Dedicated road-race calendar deep-link still thin — use MRS series site for 2026 asphalt rounds."
     },
     {
-      "id": "mandalika-events",
-      "name": "Mandalika Circuit Events",
-      "type": "venue_calendar",
-      "url": "https://www.mxgpmandalika.com",
+      "id": "mandalika-racing-series-calendar",
+      "name": "Pertamina Mandalika Racing Series",
+      "type": "series_calendar",
+      "url": "https://mandalikaracingseries.com",
       "nodeId": "id",
-      "confidence": "established-press"
+      "confidence": "established-press",
+      "notes": "Replaces mxgpmandalika.com (MXGP-branded, not the national road-race calendar)."
     }
   ]
 }

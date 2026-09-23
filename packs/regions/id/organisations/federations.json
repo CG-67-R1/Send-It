@@ -5,9 +5,9 @@
       "name": "Ikatan Motor Indonesia (IMI)",
       "role": "federation",
       "nodeId": "id",
-      "website": "https://www.imi.co.id",
+      "website": "https://imi.id",
       "confidence": "official",
-      "notes": "FIM affiliate; national governing body for all motorsport in Indonesia including motorcycle road racing."
+      "notes": "FIM affiliate; national governing body for motorsport in Indonesia. 2026 motorcycle regulations are published on imi.id (e.g. /regulasi-olahraga-sepeda-motor/). Seed domain imi.co.id still appears in IMI support emails; owner should confirm the long-term canonical host. Membership: MyIMI https://myimi.id (from 1 Mar 2026); Gaspol https://web.gaspol.co.id still documents KTA/KIS."
     }
   ]
 }

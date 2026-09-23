@@ -3,7 +3,25 @@
     {
       "id": "imi",
       "term": "IMI",
-      "definition": "Ikatan Motor Indonesia \u2014 national governing body",
+      "definition": "Ikatan Motor Indonesia — national governing body (FIM affiliate)",
+      "locale": "id-ID"
+    },
+    {
+      "id": "kis",
+      "term": "KIS",
+      "definition": "Kartu Izin Start — IMI start permit required to compete",
+      "locale": "id-ID"
+    },
+    {
+      "id": "kta",
+      "term": "KTA",
+      "definition": "Kartu Tanda Anggota — IMI membership card (often via MyIMI / Gaspol)",
+      "locale": "id-ID"
+    },
+    {
+      "id": "mrs",
+      "term": "MRS",
+      "definition": "Pertamina Mandalika Racing Series — 2026 national sportbike championship at Mandalika",
       "locale": "id-ID"
     },
     {

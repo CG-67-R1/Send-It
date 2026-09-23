@@ -2,19 +2,22 @@
   "pathways": [
     {
       "id": "id-imi-competition",
-      "title": "IMI competition licence pathway",
+      "title": "IMI KIS (Kartu Izin Start) pathway",
       "nodeId": "id",
       "steps": [
-        "Register with an IMI-affiliated club",
-        "Obtain IMI membership",
-        "Apply for the appropriate competition licence (Pemula / Nasional / Internasional)",
-        "Complete medical check requirements",
-        "Pass rider licence course"
+        "Register IMI membership (KTA) — MyIMI (myimi.id) is the 2026 membership portal; Gaspol by IMI has also been used for KTA / KIS",
+        "Obtain KIS (Kartu Izin Start) for the road-race / sportbike category required by the event",
+        "Complete medical / fitness documentation as required for the KIS category",
+        "Hold club or regional IMI affiliation (TKT / klub) where the event requires it",
+        "Enter IMI-sanctioned events and pass scrutineering under published IMI sporting / technical regulations"
       ],
       "urls": [
-        "https://www.imi.co.id"
+        "https://imi.id/regulasi-olahraga-sepeda-motor/",
+        "https://myimi.id",
+        "https://web.gaspol.co.id/"
       ],
-      "confidence": "official"
+      "confidence": "established-press",
+      "notes": "High-level only — no invented clause numbers. Name the start permit KIS. MyIMI launched 1 Mar 2026 as IMI's membership hub; Gaspol still describes KIS issuance. Owner should confirm which portal is required for 2026 road-race KIS."
     }
   ]
 }

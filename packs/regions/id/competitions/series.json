@@ -1,22 +1,22 @@
 {
   "series": [
     {
-      "id": "idemitsu-asia-talent",
-      "name": "Idemitsu Asia Talent Cup (IATC)",
+      "id": "pertamina-mandalika-racing-series",
+      "name": "Pertamina Mandalika Racing Series (MRS)",
       "nodeId": "id",
-      "local": false,
-      "website": "https://www.idemitsu-asia-talent-cup.com",
-      "confidence": "official",
-      "notes": "Regional FIM talent pipeline; Indonesian riders compete."
+      "local": true,
+      "website": "https://mandalikaracingseries.com",
+      "confidence": "established-press",
+      "notes": "2026 national sportbike product: five rounds at Pertamina Mandalika International Circuit (Apr, Jun, Aug, Sep, Nov). IMI-sanctioned Kejurnas; distinct from generic IRRC naming."
     },
     {
       "id": "indonesia-road-racing",
       "name": "Indonesia Road Racing Championship (IRRC / Nasional)",
       "nodeId": "id",
       "local": true,
-      "website": "https://www.imi.co.id",
+      "website": "https://imi.id",
       "confidence": "established-press",
-      "notes": "IMI-sanctioned national road racing championship."
+      "notes": "Seed generic national championship name retained. 2026 asphalt Kejurnas branding in open sources is Pertamina Mandalika Racing Series — owner should confirm whether IRRC is still a separate series or an older label for the same national product."
     },
     {
       "id": "honda-one-make",
@@ -24,6 +24,15 @@
       "nodeId": "id",
       "local": true,
       "confidence": "established-press"
+    },
+    {
+      "id": "idemitsu-asia-talent",
+      "name": "Idemitsu Asia Talent Cup (IATC)",
+      "nodeId": "id",
+      "local": false,
+      "website": "https://www.idemitsu-asia-talent-cup.com",
+      "confidence": "official",
+      "notes": "Regional FIM talent pipeline; Indonesian riders compete."
     }
   ]
 }

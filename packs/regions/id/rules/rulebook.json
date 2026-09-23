@@ -3,8 +3,8 @@
   "shortName": "IMI",
   "edition": null,
   "urls": {
-    "sourcePage": "https://www.imi.co.id"
+    "sourcePage": "https://imi.id/regulasi-olahraga-sepeda-motor/"
   },
   "chapters": {},
-  "note": "Seed: link-out to IMI regulations. In-app KB not yet ingested."
+  "note": "Seed: link-out to IMI motorcycle sport regulations (includes 2026 Mandalika Racing Series sporting/technical PDFs). Do not invent clause numbers. In-app KB not yet ingested."
 }
