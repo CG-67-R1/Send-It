@@ -13,13 +13,30 @@
       "url": "https://mam.org.my/calendar/",
       "nodeId": "my",
       "confidence": "official",
-      "notes": "Best official calendar deep-link found. Dedicated MRRC 2026 page not located; Cloudflare may block automated fetches."
+      "notes": "ASN hub (Cloudflare-protected)."
     },
     {
       "id": "sepang-calendar",
       "name": "Sepang Circuit Events",
       "type": "venue_calendar",
-      "url": "https://www.sepang-circuit.com",
+      "url": "https://www.sepangcircuit.com",
+      "nodeId": "my",
+      "confidence": "official",
+      "notes": "Official domain sepangcircuit.com (not hyphenated)."
+    },
+    {
+      "id": "msbk-calendar",
+      "name": "Malaysia Superbike Championship",
+      "type": "series_calendar",
+      "url": "https://malaysiasbk.com",
+      "nodeId": "my",
+      "confidence": "official"
+    },
+    {
+      "id": "arrc-calendar",
+      "name": "Asia Road Racing Championship",
+      "type": "series_calendar",
+      "url": "https://www.asiaroadracing.com",
       "nodeId": "my",
       "confidence": "official"
     }

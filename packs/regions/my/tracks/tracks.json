@@ -11,11 +11,11 @@
       "corners": [],
       "isOther": false,
       "confidence": "official",
-      "notes": "Sepang, Selangor. 5.543 km; hosts MotoGP Malaysian Grand Prix and WSBK."
+      "notes": "PETRONAS Sepang International Circuit, Selangor. ~5.543 km; hosts MotoGP, WSBK, ARRC, and MSBK. Official site https://www.sepangcircuit.com (not hyphenated sepang-circuit.com)."
     },
     {
       "id": "johor-circuit",
-      "name": "Johor Circuit",
+      "name": "Johor Circuit (inactive / redevelopment)",
       "nodeId": "my",
       "kind": "road_circuit",
       "lat": 1.5426,
@@ -23,7 +23,7 @@
       "corners": [],
       "isOther": false,
       "confidence": "established-press",
-      "notes": "Pasir Gudang, Johor. Club-level road racing circuit."
+      "notes": "Pasir Gudang, Johor. INACTIVE — prolonged closure / multi-year redevelopment. Do not present as a currently active race or track-day venue until reopening is confirmed. Historical club-level asphalt only."
     }
   ]
 }
