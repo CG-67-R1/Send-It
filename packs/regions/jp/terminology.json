@@ -3,13 +3,37 @@
     {
       "id": "jsb1000",
       "term": "JSB1000",
-      "definition": "Japan Superbike 1000 \u2014 premier domestic class",
+      "definition": "Japan Superbike 1000 — premier domestic All Japan class",
+      "locale": "ja-JP"
+    },
+    {
+      "id": "st600",
+      "term": "ST600",
+      "definition": "All Japan supersport-style class on the 2026 MFJ calendar",
+      "locale": "ja-JP"
+    },
+    {
+      "id": "jp-sport",
+      "term": "JP-SPORT",
+      "definition": "All Japan production-based class on the 2026 MFJ calendar",
       "locale": "ja-JP"
     },
     {
       "id": "mfj",
       "term": "MFJ",
-      "definition": "Motorcycle Federation of Japan / \u65e5\u672c\u30e2\u30fc\u30bf\u30fc\u30b5\u30a4\u30af\u30eb\u30b9\u30dd\u30fc\u30c4\u5354\u4f1a",
+      "definition": "Motorcycle Federation of Japan / 一般財団法人日本モーターサイクルスポーツ協会",
+      "locale": "ja-JP"
+    },
+    {
+      "id": "jrr",
+      "term": "JRR",
+      "definition": "All Japan Road Race official portal / 全日本ロードレース (jrr.jp)",
+      "locale": "ja-JP"
+    },
+    {
+      "id": "zennihon",
+      "term": "全日本",
+      "definition": "All Japan (MFJ national championship)",
       "locale": "ja-JP"
     }
   ]
