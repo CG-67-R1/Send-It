@@ -8,12 +8,11 @@
   "sources": [
     {
       "id": "imi-calendar",
-      "name": "IMI Calendar / news",
+      "name": "IMI",
       "type": "governing_body_calendar",
-      "url": "https://imi.id",
+      "url": "https://www.imi.id",
       "nodeId": "id",
-      "confidence": "official",
-      "notes": "imi.id confirmed live. Dedicated road-race calendar deep-link still thin — use MRS series site for 2026 asphalt rounds."
+      "confidence": "official"
     },
     {
       "id": "mandalika-racing-series-calendar",
@@ -21,8 +20,24 @@
       "type": "series_calendar",
       "url": "https://mandalikaracingseries.com",
       "nodeId": "id",
-      "confidence": "established-press",
-      "notes": "Replaces mxgpmandalika.com (MXGP-branded, not the national road-race calendar)."
+      "confidence": "official",
+      "notes": "National road-race calendar. mxgpmandalika.com is MXGP / motocross — do not use."
+    },
+    {
+      "id": "arrc-calendar",
+      "name": "Asia Road Racing Championship",
+      "type": "series_calendar",
+      "url": "https://www.asiaroadracing.com",
+      "nodeId": "id",
+      "confidence": "official"
+    },
+    {
+      "id": "moto4-asia-calendar",
+      "name": "Idemitsu Moto4 Asia Cup",
+      "type": "series_calendar",
+      "url": "https://www.moto4asiacup.com",
+      "nodeId": "id",
+      "confidence": "official"
     }
   ]
 }

@@ -3,19 +3,25 @@
     {
       "id": "imi",
       "term": "IMI",
-      "definition": "Ikatan Motor Indonesia — national governing body (FIM affiliate)",
+      "definition": "Ikatan Motor Indonesia — national governing body (FIM affiliate; www.imi.id)",
       "locale": "id-ID"
     },
     {
       "id": "kis",
       "term": "KIS",
-      "definition": "Kartu Izin Start — IMI start permit required to compete",
+      "definition": "Kartu Izin Start — IMI start permit required to compete (MyIMI)",
       "locale": "id-ID"
     },
     {
       "id": "kta",
       "term": "KTA",
-      "definition": "Kartu Tanda Anggota — IMI membership card (often via MyIMI / Gaspol)",
+      "definition": "Kartu Tanda Anggota — IMI membership card via MyIMI (myimi.id)",
+      "locale": "id-ID"
+    },
+    {
+      "id": "motoprix",
+      "term": "Kejurnas Motoprix",
+      "definition": "IMI national underbone / road-race championship (Kejurnas)",
       "locale": "id-ID"
     },
     {
@@ -25,9 +31,9 @@
       "locale": "id-ID"
     },
     {
-      "id": "motoprix",
-      "term": "MotoPrix",
-      "definition": "Popular Indonesian national road racing class",
+      "id": "moto4-asia",
+      "term": "Moto4 Asia Cup",
+      "definition": "Idemitsu Moto4 Asia Cup (formerly IATC) — moto4asiacup.com",
       "locale": "id-ID"
     }
   ]
