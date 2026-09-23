@@ -67,7 +67,21 @@ Optional in-chat attachments (Grok does not keep a ChatGPT-style Knowledge libra
 - UK description from [`ASC_LISTING_COPY.md`](../ios/ASC_LISTING_COPY.md)
 - A draft caption, flyer, or site paragraph you want reviewed
 
-## 4. Modes
+## 4. Routines to assign
+
+Give this bot **three** standing routines, not a pile of listeners. Exact create-blocks: [`GROK_BOT_ROUTINES.md`](GROK_BOT_ROUTINES.md).
+
+| Assign | When (Europe/London) | Job |
+|--------|----------------------|-----|
+| Weekly exposure brief | Monday 08:00 | Last 7 days of X + web; rank ≤7; 0–3 actions |
+| Partner calendar | Wednesday 08:00 | Next 14 days of MSV / No Limits / clubs / BSB |
+| Weekend circuit brief | Friday 08:00 | This weekend’s circuits + unpublished hooks |
+
+Add **Launch-week daily** for seven days when the UK listing goes live, then pause it. Create **BSB Saturday pulse** now but leave it paused except on BSB weekends.
+
+Never schedule auto-replies or “every new mention” watchers. The bot drafts; you post.
+
+## 5. Modes
 
 Start the prompt with a mode. It stays until you change it.
 
@@ -78,7 +92,7 @@ Start the prompt with a mode. It stays until you change it.
 | **MODE:DRAFT** | You will post | Give 1–3 unpublished options (X ≤280, longer caption, short DM) |
 | **MODE:WEEKLY** | Monday review | 7-day brief: opportunities, calendar hooks, copy gaps, 0–3 actions |
 
-## 5. Starter prompts
+## 6. Starter prompts
 
 ### Weekly exposure scout
 
@@ -153,7 +167,7 @@ Rank sampling / flyer / creator-clip chances. Skip crash and fatality threads.
 CTA if any: save notes between sessions — not “official BSB app”.
 ```
 
-## 6. Watchlist
+## 7. Watchlist
 
 ### Circuits (app maps)
 
@@ -191,7 +205,7 @@ Also culturally relevant (do not over-claim maps): Castle Combe, Goodwood, Pembr
 
 MCN, Bennetts BikeSocial, Visordown, Crash.net, Road Racing News, IOM TT official news, NW200 official news. Facebook / WhatsApp UK track-day groups. Two or three UK YouTube creators who already walk Brands / Cadwell / Donington.
 
-## 7. Scoring (how the bot should rank)
+## 8. Scoring (how the bot should rank)
 
 Each opportunity needs a **1–5** and a confidence tag: `official` | `established-press` | `community` | `unverified`.
 
@@ -205,7 +219,7 @@ Each opportunity needs a **1–5** and a confidence tag: `official` | `establish
 
 Prefer **Pathway 1–2** (operators and clubs) over shouting into BSB trending topics.
 
-## 8. Expected reply shape
+## 9. Expected reply shape
 
 ```text
 Headline: …
@@ -227,7 +241,7 @@ Actions for you (0–3)
 
 Never “I posted”, “I DMed”, or “I left a review”.
 
-## 9. Hard limits
+## 10. Hard limits
 
 - **Human posts.** No auto-replies, no follow/unfollow schemes, no fake reviews, no astroturf.
 - **No trademark stuffing** in paid keywords or hashtag walls. “British Superbike” / “track day” as description is fine; do not imply official series affiliation.
@@ -237,11 +251,12 @@ Never “I posted”, “I DMed”, or “I left a review”.
 - **No official X handle** is recorded in the repo. Do not invent `@RoadRacer`. Ask before drafting as the brand account.
 - **Accuracy over momentum.** If a map, feature, or listing is unconfirmed, say so.
 
-## 10. Related docs
+## 11. Related docs
 
 | Doc | Role |
 |-----|------|
 | [`GROK_BOT_PASTE.txt`](GROK_BOT_PASTE.txt) | Exact Grok Instructions field (≤4000 chars) |
+| [`GROK_BOT_ROUTINES.md`](GROK_BOT_ROUTINES.md) | Routines to assign + paste-ready create blocks |
 | [`MARKETING_PATHWAYS.md`](MARKETING_PATHWAYS.md) | Operators / clubs / content sequence |
 | [`RESEARCH.md`](RESEARCH.md) | Licensing, circuits, calendars, legal |
 | [`GPT_UK_UPLOAD.md`](GPT_UK_UPLOAD.md) | Separate **Coach** GPT — do not mix roles |
