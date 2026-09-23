@@ -6,48 +6,48 @@
       "name": "Chang International Circuit",
       "nodeId": "th",
       "kind": "road_circuit",
-      "lat": 15.0678,
-      "lng": 103.0779,
+      "lat": 14.963,
+      "lng": 103.085,
       "corners": [],
       "isOther": false,
       "confidence": "official",
-      "notes": "Buriram. 4.554 km; hosts MotoGP PTT Thailand Grand Prix, WSBK, ARRC, and NEXZTER BRIC Superbike."
+      "notes": "Buriram. ~4.554 km; hosts MotoGP, WSBK, ARRC, and BRIC / NEXZTER Superbike. Consumer site https://bric.co.th. GPS tightened to established circuit centroid (~14.963, 103.085); previous seed 15.0678, 103.0779 was ~12 km north."
     },
     {
       "id": "thailand-circuit",
       "name": "Thailand Circuit Motorsport Complex",
       "nodeId": "th",
       "kind": "road_circuit",
-      "lat": 13.9118,
-      "lng": 100.1679,
+      "lat": 13.911,
+      "lng": 100.168,
       "corners": [],
       "isOther": false,
       "confidence": "established-press",
-      "notes": "Nakhon Chai Si, Nakhon Pathom. Primary 2025–26 FMSCT Thailand Superbike / Thailand Road Racing venue. Approx GPS from RacingCalendar / latitude.to (venue centroid, not surveyed). Site: https://thailandcircuit.racing/home"
+      "notes": "Nakhon Chai Si, Nakhon Pathom. Primary 2026 FMSCT Thailand Superbike / Thailand Road Racing venue. Approx GPS (venue centroid, not surveyed). Site: https://thailandcircuit.racing/home"
     },
     {
       "id": "bira-circuit",
       "name": "Bira International Circuit",
       "nodeId": "th",
       "kind": "road_circuit",
-      "lat": 12.7483,
-      "lng": 100.9958,
+      "lat": 12.921,
+      "lng": 101.009,
       "corners": [],
       "isOther": false,
       "confidence": "established-press",
-      "notes": "Pattaya, Chonburi. 2.41 km club circuit; popular for regional racing."
+      "notes": "Pattaya / Chonburi club-regional asphalt. GPS tightened to ~12.921, 101.009 (established-press centroid)."
     },
     {
       "id": "bangsaen-street",
       "name": "Bangsaen Street Circuit",
       "nodeId": "th",
       "kind": "road_circuit",
-      "lat": 13.284,
-      "lng": 100.9182,
+      "lat": 13.308,
+      "lng": 100.907,
       "corners": [],
       "isOther": false,
       "confidence": "established-press",
-      "notes": "Bangsaen, Chonburi. Street circuit used for ARRC and national events."
+      "notes": "Bangsaen, Chonburi. Street circuit; ARRC history. GPS ~13.308, 100.907."
     }
   ]
 }

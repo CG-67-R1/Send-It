@@ -7,16 +7,16 @@
       "local": true,
       "website": "https://www.fmsct-live.com",
       "confidence": "established-press",
-      "notes": "FMSCT national asphalt championship. 2026 rounds listed at Thailand Circuit Motorsport Complex (Nakhon Pathom), not Chang. Distinct from NEXZTER BRIC Superbike."
+      "notes": "FMSCT national asphalt championship. 2026 rounds at Thailand Circuit Motorsport Complex (Nakhon Pathom). Distinct from BRIC / NEXZTER Superbike at Chang."
     },
     {
       "id": "nexzter-bric-superbike",
-      "name": "NEXZTER BRIC Superbike Championship",
+      "name": "BRIC / NEXZTER Superbike Championship",
       "nodeId": "th",
       "local": true,
-      "website": "http://www.bricsuperbike.com/",
+      "website": "https://bric.co.th",
       "confidence": "established-press",
-      "notes": "Chang / Buriram national superbike brand for 2026 (Siam Sport / Motowish). Separate from FMSCT Thailand Superbike at Thailand Circuit."
+      "notes": "Chang / Buriram commercial superbike brand. Consumer site bric.co.th."
     },
     {
       "id": "arrc",
@@ -25,15 +25,15 @@
       "local": false,
       "website": "https://www.asiaroadracing.com",
       "confidence": "official",
-      "notes": "Regional FIM Asia series with Thailand rounds at Chang / Bangsaen."
+      "notes": "Regional FIM Asia series; Chang hosts 2026 rounds."
     },
     {
       "id": "pttrrc",
-      "name": "PTT Thailand Road Racing Championship (naming unverified for 2026)",
+      "name": "PTT Thailand Road Racing Championship (historical / unverified 2026)",
       "nodeId": "th",
       "local": true,
       "confidence": "unverified",
-      "notes": "Seed name retained. 2026 open-web listings emphasise FMSCT Thailand Superbike and NEXZTER BRIC Superbike instead — owner should confirm whether PTT RRC branding is still used."
+      "notes": "Stale seed title. No strong 2026 official calendar hit — keep as historical alias only until owner confirms."
     }
   ]
 }
