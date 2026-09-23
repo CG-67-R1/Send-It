@@ -11,7 +11,19 @@
       "corners": [],
       "isOther": false,
       "confidence": "official",
-      "notes": "Buriram. 4.554 km; hosts MotoGP PTT Thailand Grand Prix and WSBK."
+      "notes": "Buriram. 4.554 km; hosts MotoGP PTT Thailand Grand Prix, WSBK, ARRC, and NEXZTER BRIC Superbike."
+    },
+    {
+      "id": "thailand-circuit",
+      "name": "Thailand Circuit Motorsport Complex",
+      "nodeId": "th",
+      "kind": "road_circuit",
+      "lat": 13.9118,
+      "lng": 100.1679,
+      "corners": [],
+      "isOther": false,
+      "confidence": "established-press",
+      "notes": "Nakhon Chai Si, Nakhon Pathom. Primary 2025–26 FMSCT Thailand Superbike / Thailand Road Racing venue. Approx GPS from RacingCalendar / latitude.to (venue centroid, not surveyed). Site: https://thailandcircuit.racing/home"
     },
     {
       "id": "bira-circuit",

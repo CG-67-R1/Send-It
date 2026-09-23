@@ -3,13 +3,25 @@
     {
       "id": "fmsct",
       "term": "FMSCT",
-      "definition": "Federation of Motor Sports of Thailand",
+      "definition": "Federation of Motor Sports Clubs of Thailand (FIM affiliate)",
       "locale": "th-TH"
     },
     {
       "id": "chang",
       "term": "Chang International Circuit",
-      "definition": "Premier motorcycle racing circuit in Buriram, Thailand",
+      "definition": "Premier motorcycle racing circuit in Buriram; MotoGP / WSBK / BRIC venue",
+      "locale": "th-TH"
+    },
+    {
+      "id": "thailand-circuit",
+      "term": "Thailand Circuit",
+      "definition": "Thailand Circuit Motorsport Complex, Nakhon Pathom — FMSCT Thailand Superbike venue",
+      "locale": "th-TH"
+    },
+    {
+      "id": "bric",
+      "term": "BRIC Superbike",
+      "definition": "NEXZTER BRIC Superbike Championship at Chang International Circuit",
       "locale": "th-TH"
     }
   ]

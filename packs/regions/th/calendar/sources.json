@@ -10,9 +10,19 @@
       "id": "fmsct-calendar",
       "name": "FMSCT Event Calendar",
       "type": "governing_body_calendar",
-      "url": "https://www.fmsct.or.th",
+      "url": "https://www.fmsct-live.com",
       "nodeId": "th",
-      "confidence": "official"
+      "confidence": "official",
+      "notes": "Replaces stale fmsct.or.th homepage. Dedicated applicants / calendar deep-link not published on the live landing page — owner spot-check."
+    },
+    {
+      "id": "thailand-circuit-calendar",
+      "name": "Thailand Circuit events",
+      "type": "venue_calendar",
+      "url": "https://thailandcircuit.racing/events",
+      "nodeId": "th",
+      "confidence": "established-press",
+      "notes": "Lists 2026 FMSCT Thailand Road Racing rounds at Nakhon Pathom."
     },
     {
       "id": "chang-calendar",

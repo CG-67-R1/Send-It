@@ -2,12 +2,12 @@
   "items": [
     {
       "id": "fmsct",
-      "name": "Federation of Motor Sports of Thailand (FMSCT) \u2014 \u0e2a\u0e2b\u0e1e\u0e31\u0e19\u0e18\u0e4c\u0e01\u0e35\u0e2c\u0e32\u0e21\u0e2d\u0e40\u0e15\u0e2d\u0e23\u0e4c\u0e2a\u0e1b\u0e2d\u0e23\u0e4c\u0e15\u0e41\u0e2b\u0e48\u0e07\u0e1b\u0e23\u0e30\u0e40\u0e17\u0e28\u0e44\u0e17\u0e22",
+      "name": "Federation of Motor Sports Clubs of Thailand (FMSCT) — สมาพันธ์กีฬาแข่งรถจักรยานยนต์แห่งประเทศไทย",
       "role": "federation",
       "nodeId": "th",
-      "website": "https://www.fmsct.or.th",
+      "website": "https://www.fmsct-live.com",
       "confidence": "official",
-      "notes": "FIM affiliate; national governing body for motorsport in Thailand including motorcycle road racing."
+      "notes": "FIM Asia FMN since 1988. FIM listing and live site: fmsct-live.com. Seed URL fmsct.or.th failed (HTTP 500) in the 2026-09-23 research pass — treat as stale until it recovers."
     }
   ]
 }
