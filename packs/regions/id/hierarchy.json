@@ -11,7 +11,9 @@
         "en"
       ],
       "timezones": [
-        "Asia/Jakarta"
+        "Asia/Jakarta",
+        "Asia/Makassar",
+        "Asia/Jayapura"
       ],
       "isoCountries": [
         "ID"

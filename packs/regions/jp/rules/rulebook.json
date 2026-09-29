@@ -3,8 +3,8 @@
   "shortName": "MFJ",
   "edition": null,
   "urls": {
-    "sourcePage": "https://www.mfj.or.jp/rule"
+    "sourcePage": "https://www.mfj.or.jp/rule/roadrace/"
   },
   "chapters": {},
-  "note": "Seed: link-out to MFJ technical regulations. In-app KB not yet ingested."
+  "note": "Seed: link-out only to MFJ road-race regulations hub. Do not invent clause numbers. 2026 domestic technical PDFs (JSB1000, ST1000, ST600, JP-SPORT, etc.) are published from this page. In-app KB not yet ingested."
 }

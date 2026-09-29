@@ -1,13 +1,22 @@
 {
   "series": [
     {
-      "id": "mrrc",
-      "name": "Malaysian Road Racing Championship (MRRC)",
+      "id": "msbk",
+      "name": "Malaysia Superbike Championship (MSBK)",
       "nodeId": "my",
       "local": true,
-      "website": "https://www.mam.org.my",
+      "website": "https://malaysiasbk.com",
       "confidence": "official",
-      "notes": "MAM-sanctioned national road racing championship."
+      "notes": "2026 domestic premier asphalt series (Sepang + TWMR). Replaces MRRC as the pack headline product."
+    },
+    {
+      "id": "mrrc",
+      "name": "Malaysian Road Racing Championship (MRRC, historical alias)",
+      "nodeId": "my",
+      "local": true,
+      "website": "https://mam.org.my/calendar/",
+      "confidence": "unverified",
+      "notes": "Historical / stale headline name. Not evidenced as the 2026 premier product — use MSBK (malaysiasbk.com)."
     },
     {
       "id": "moto-malaya",
@@ -15,16 +24,16 @@
       "nodeId": "my",
       "local": true,
       "confidence": "established-press",
-      "notes": "Club-level road race series."
+      "notes": "Club-level road race series. Verify annually."
     },
     {
       "id": "arrc",
       "name": "Asia Road Racing Championship (ARRC)",
       "nodeId": "my",
       "local": false,
-      "website": "https://www.arrc.tv",
+      "website": "https://www.asiaroadracing.com",
       "confidence": "official",
-      "notes": "Regional FIM series; Malaysian riders compete."
+      "notes": "Regional FIM Asia series; Sepang hosts 2026 rounds."
     }
   ]
 }

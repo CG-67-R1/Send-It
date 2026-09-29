@@ -8,19 +8,29 @@
   "sources": [
     {
       "id": "mfj-calendar",
-      "name": "MFJ Race Calendar",
+      "name": "2026 MFJ All Japan Road Race Championship",
       "type": "governing_body_calendar",
-      "url": "https://www.mfj.or.jp/race_calendar",
+      "url": "https://www.mfj.or.jp/national/2026-mfj-all-japan-roadrace-championship/",
+      "nodeId": "jp",
+      "confidence": "official",
+      "notes": "Replaces stale /race_calendar 404. Official 2026 national series calendar (Motegi, SUGO, Autopolis, Tsukuba, Okayama, Suzuka)."
+    },
+    {
+      "id": "jrr-calendar",
+      "name": "JRR All Japan Road Race portal",
+      "type": "series_calendar",
+      "url": "https://www.jrr.jp",
       "nodeId": "jp",
       "confidence": "official"
     },
     {
       "id": "suzuka-8h-calendar",
-      "name": "Suzuka 8 Hours",
+      "name": "Suzuka 8 Hours (FIM EWC)",
       "type": "series_calendar",
-      "url": "https://www.suzuka-8h.com",
+      "url": "https://www.suzukacircuit.jp/eng/8tai/",
       "nodeId": "jp",
-      "confidence": "official"
+      "confidence": "official",
+      "notes": "Suzuka Circuit official event page. Previous suzuka-8h.com branding retired in this refresh."
     }
   ]
 }

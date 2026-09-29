@@ -2,19 +2,23 @@
   "pathways": [
     {
       "id": "id-imi-competition",
-      "title": "IMI competition licence pathway",
+      "title": "IMI KIS (Kartu Izin Start) pathway",
       "nodeId": "id",
       "steps": [
-        "Register with an IMI-affiliated club",
-        "Obtain IMI membership",
-        "Apply for the appropriate competition licence (Pemula / Nasional / Internasional)",
-        "Complete medical check requirements",
-        "Pass rider licence course"
+        "Register IMI membership (KTA) via MyIMI at https://myimi.id (see also https://www.imi.id/registrasi/)",
+        "Affiliate with an IMI club as required for competition",
+        "Obtain KIS (Kartu Izin Start) / the competition licence grade listed on MyIMI for the event",
+        "Complete medical requirements for that tier",
+        "Complete any required rider course or briefings and enter IMI-sanctioned events (Kejurnas Motoprix, MRS, etc.)"
       ],
       "urls": [
-        "https://www.imi.co.id"
+        "https://www.imi.id",
+        "https://www.imi.id/registrasi/",
+        "https://myimi.id",
+        "https://www.imi.id/regulasi-olahraga-sepeda-motor/"
       ],
-      "confidence": "official"
+      "confidence": "official",
+      "notes": "High-level only — no invented pasal / clause numbers. MyIMI is the 2026 membership/KIS deep-link. Confirm season grade labels on the portal."
     }
   ]
 }

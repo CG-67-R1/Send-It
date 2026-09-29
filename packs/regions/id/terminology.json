@@ -3,13 +3,37 @@
     {
       "id": "imi",
       "term": "IMI",
-      "definition": "Ikatan Motor Indonesia \u2014 national governing body",
+      "definition": "Ikatan Motor Indonesia — national governing body (FIM affiliate; www.imi.id)",
+      "locale": "id-ID"
+    },
+    {
+      "id": "kis",
+      "term": "KIS",
+      "definition": "Kartu Izin Start — IMI start permit required to compete (MyIMI)",
+      "locale": "id-ID"
+    },
+    {
+      "id": "kta",
+      "term": "KTA",
+      "definition": "Kartu Tanda Anggota — IMI membership card via MyIMI (myimi.id)",
       "locale": "id-ID"
     },
     {
       "id": "motoprix",
-      "term": "MotoPrix",
-      "definition": "Popular Indonesian national road racing class",
+      "term": "Kejurnas Motoprix",
+      "definition": "IMI national underbone / road-race championship (Kejurnas)",
+      "locale": "id-ID"
+    },
+    {
+      "id": "mrs",
+      "term": "MRS",
+      "definition": "Pertamina Mandalika Racing Series — 2026 national sportbike championship at Mandalika",
+      "locale": "id-ID"
+    },
+    {
+      "id": "moto4-asia",
+      "term": "Moto4 Asia Cup",
+      "definition": "Idemitsu Moto4 Asia Cup (formerly IATC) — moto4asiacup.com",
       "locale": "id-ID"
     }
   ]

@@ -5,16 +5,17 @@
       "title": "MFJ competition licence pathway",
       "nodeId": "jp",
       "steps": [
-        "Join an MFJ-affiliated club (\u30af\u30e9\u30d6\u767b\u9332)",
-        "Obtain MFJ membership",
-        "Apply for the appropriate competition licence (\u666e\u901a\u7af6\u6280 / \u56fd\u5185 / \u56fd\u969b A/B)",
-        "Complete required medical examination",
-        "Pass MFJ licence course or novice orientation at sanctioned event"
+        "Join an MFJ-affiliated club (クラブ登録) / obtain MFJ membership as published for the season",
+        "Choose the appropriate road-race licence category (International / Domestic / Freshman / Junior — names as published by MFJ)",
+        "Complete the required in-person circuit practical course at an MFJ-approved road-race circuit (WEB講習 is not available for road race)",
+        "Complete medical / equipment requirements as published for the licence year",
+        "Apply via MFJ licence channels; licences follow the Apr 1–Mar 31 year"
       ],
       "urls": [
-        "https://www.mfj.or.jp/licence"
+        "https://www.mfj.or.jp/licence/for-applicants/"
       ],
-      "confidence": "official"
+      "confidence": "official",
+      "notes": "High-level only — no invented clause numbers. Road-race applicants need an in-person circuit course at an MFJ-listed venue (Motegi, SUGO, Tsukuba, Fuji, Suzuka, Okayama, Autopolis, and others on the applicants page)."
     }
   ]
 }

@@ -2,16 +2,17 @@
   "sources": [
     {
       "id": "mfj-news",
-      "name": "MFJ News",
-      "url": "https://www.mfj.or.jp/news",
+      "name": "MFJ / JRR official fan site",
+      "url": "https://www.mfj.or.jp/moto-media/superbike-jp/",
       "confidence": "official",
-      "nodeId": "jp"
+      "nodeId": "jp",
+      "notes": "Replaces 404 /news. MFJ Online Magazine JRR 全日本ロードレース hub."
     },
     {
-      "id": "gpone-jp",
-      "name": "GPone Japan",
-      "url": "https://www.gpone.com/ja",
-      "confidence": "established-press",
+      "id": "jrr-news",
+      "name": "JRR All Japan Road Race",
+      "url": "https://www.jrr.jp",
+      "confidence": "official",
       "nodeId": "jp"
     },
     {
@@ -22,9 +23,17 @@
       "nodeId": "jp"
     },
     {
-      "id": "motegi-news",
-      "name": "Twin Ring Motegi / Honda Racing",
-      "url": "https://www.honda-racing.jp",
+      "id": "honda-racing-jrr",
+      "name": "Honda.Racing JRR",
+      "url": "https://honda.racing/ja/jrr",
+      "confidence": "official",
+      "nodeId": "jp",
+      "notes": "Replaces 404 honda-racing.jp Motegi/Honda Racing listing."
+    },
+    {
+      "id": "gpone-jp",
+      "name": "GPone Japan",
+      "url": "https://www.gpone.com/ja",
       "confidence": "established-press",
       "nodeId": "jp"
     }

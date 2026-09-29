@@ -1,6 +1,14 @@
 {
   "sources": [
     {
+      "id": "imi-news",
+      "name": "IMI News",
+      "url": "https://www.imi.id",
+      "confidence": "official",
+      "nodeId": "id",
+      "notes": "Canonical FMN host. Replaces imi.co.id/news."
+    },
+    {
       "id": "oto-detik",
       "name": "detikOto",
       "url": "https://oto.detik.com",
@@ -15,16 +23,16 @@
       "nodeId": "id"
     },
     {
-      "id": "motorsport-id",
-      "name": "Motorsport.com Indonesia",
-      "url": "https://id.motorsport.com",
-      "confidence": "established-press",
+      "id": "mrs-news",
+      "name": "Pertamina Mandalika Racing Series",
+      "url": "https://mandalikaracingseries.com",
+      "confidence": "official",
       "nodeId": "id"
     },
     {
-      "id": "imi-news",
-      "name": "IMI News",
-      "url": "https://www.imi.co.id/news",
+      "id": "moto4-asia-news",
+      "name": "Idemitsu Moto4 Asia Cup",
+      "url": "https://www.moto4asiacup.com",
       "confidence": "official",
       "nodeId": "id"
     }
