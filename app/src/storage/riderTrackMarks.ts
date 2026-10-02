@@ -87,17 +87,34 @@ async function readAll(): Promise<Record<string, RiderTrackMarks>> {
   }
 }
 
+function parseRawAllForWrite(raw: string | null): Record<string, unknown> {
+  if (!raw) return {};
+  const parsed = JSON.parse(raw) as unknown;
+  if (!parsed || typeof parsed !== 'object' || Array.isArray(parsed)) {
+    throw new Error('Stored rider track marks are not a track map.');
+  }
+  return { ...(parsed as Record<string, unknown>) };
+}
+
+export function serializeRiderTrackMarksForWrite(
+  raw: string | null,
+  marks: RiderTrackMarks,
+  now = Date.now()
+): string {
+  const all = parseRawAllForWrite(raw);
+  all[marks.trackId] = { ...marks, updatedAt: now };
+  return JSON.stringify(all);
+}
+
 export async function getRiderTrackMarks(trackId: string): Promise<RiderTrackMarks> {
   const all = await readAll();
   return all[trackId] ?? emptyMarks(trackId);
 }
 
 export async function saveRiderTrackMarks(marks: RiderTrackMarks): Promise<void> {
-  const next: RiderTrackMarks = { ...marks, updatedAt: Date.now() };
   try {
-    const all = await readAll();
-    all[marks.trackId] = next;
-    await AsyncStorage.setItem(KEY, JSON.stringify(all));
+    const raw = await AsyncStorage.getItem(KEY);
+    await AsyncStorage.setItem(KEY, serializeRiderTrackMarksForWrite(raw, marks));
   } catch (e) {
     logStorageError('saveRiderTrackMarks', e);
     throw e;
