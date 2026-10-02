@@ -14,6 +14,8 @@ export type WalkNotesForTrack = {
   unmatchedCorners: WalkNoteMatch[];
 };
 
+type WalkTurn = { id: string; number: number; baked?: boolean };
+
 function newestSession(
   sessions: TrackWalkSession[],
   trackId: string
@@ -32,7 +34,7 @@ function entryText(entry: TrackWalkEntry): string {
 export function walkNotesForTrack(
   sessions: TrackWalkSession[],
   trackId: string,
-  turns: { id: string; number: number }[]
+  turns: WalkTurn[]
 ): WalkNotesForTrack {
   const session = newestSession(sessions, trackId);
   if (!session) {
@@ -40,7 +42,7 @@ export function walkNotesForTrack(
   }
 
   const ids = new Set(turns.map((t) => t.id));
-  const numbers = new Set(turns.map((t) => t.number));
+  const numbers = new Set(turns.filter((t) => t.baked !== false).map((t) => t.number));
   const byCornerId: Record<string, string> = {};
   const byNumber: Record<number, string> = {};
   const general: WalkNoteMatch[] = [];
@@ -79,9 +81,9 @@ export function walkNotesForTrack(
 
 export function walkNoteForTurn(
   notes: WalkNotesForTrack,
-  turn: { id: string; number: number }
+  turn: WalkTurn
 ): string | null {
-  return notes.byCornerId[turn.id] ?? notes.byNumber[turn.number] ?? null;
+  return notes.byCornerId[turn.id] ?? (turn.baked === false ? null : notes.byNumber[turn.number] ?? null);
 }
 
 export function walkCardLines(notes: WalkNotesForTrack): { heading: string; text: string }[] {

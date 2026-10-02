@@ -23,6 +23,7 @@ import {
   localMidnightFromIso,
   openEventIcsInBrowser,
 } from '../utils/eventIcs';
+import { formatCalendarDateRange, isIsoDateTodayOrFuture } from '../utils/calendarDates';
 import type { CalendarEvent } from '../types';
 import { AppLogo } from '../components/AppLogo';
 import { SCREEN_LOGO_SIZE } from '../constants/logoSizing';
@@ -79,13 +80,7 @@ function isLocalEvent(item: CalendarEvent): boolean {
 
 /** Keep events that have not finished yet (end date is today or later). */
 function isUpcomingOrOngoing(item: CalendarEvent): boolean {
-  const endDate = item.endDate || item.startDate;
-  if (!endDate) return true;
-  const today = new Date();
-  today.setHours(0, 0, 0, 0);
-  const end = new Date(endDate);
-  end.setHours(0, 0, 0, 0);
-  return end >= today;
+  return isIsoDateTodayOrFuture(item.endDate || item.startDate);
 }
 
 function filterEvents(
@@ -113,19 +108,7 @@ function worldSeriesRequestMailto(label: string): string {
 }
 
 function formatDateRange(start: string, end: string): string {
-  if (!start) return '';
-  const locale = getPrimaryLocale();
-  const startDate = new Date(start);
-  const endDate = new Date(end);
-  if (start === end) {
-    return startDate.toLocaleDateString(locale, { day: 'numeric', month: 'short', year: 'numeric' });
-  }
-  const sameMonth =
-    startDate.getMonth() === endDate.getMonth() && startDate.getFullYear() === endDate.getFullYear();
-  if (sameMonth) {
-    return `${startDate.getDate()}–${endDate.getDate()} ${startDate.toLocaleDateString(locale, { month: 'short', year: 'numeric' })}`;
-  }
-  return `${startDate.toLocaleDateString(locale, { day: 'numeric', month: 'short' })} – ${endDate.toLocaleDateString(locale, { day: 'numeric', month: 'short', year: 'numeric' })}`;
+  return formatCalendarDateRange(start, end, getPrimaryLocale());
 }
 
 function getSeriesColor(series: string): string {

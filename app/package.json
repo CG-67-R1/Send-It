@@ -11,6 +11,7 @@
     "build": "expo export --platform web && node -e \"require('fs').copyFileSync('public/promo.html','dist/promo.html')\"",
     "test:bike-balance": "npx --yes tsx src/calc/bikeBalance/__tests__/section8.golden.ts",
     "test:gearing": "npx --yes tsx src/calc/gearing/__tests__/gearing.golden.ts",
+    "test:critical-bugs": "npx --yes tsx src/utils/__tests__/criticalBugFixes.golden.ts",
     "test:tyre-wear": "npx --yes tsx src/calc/tyreWear/__tests__/tyreWear.golden.ts"
   },
   "dependencies": {
