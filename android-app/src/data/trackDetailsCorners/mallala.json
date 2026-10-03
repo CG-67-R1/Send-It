@@ -33,7 +33,7 @@
       "lengthM": 126,
       "previousStraightM": 150,
       "direction": null,
-      "summary": "Turn 1 is a right corner after a 150 m straight. About 53° of heading change, 81 m minimum radius.",
+      "summary": "Turn 1 is a corner after a 150 m straight. About 53° of heading change, 81 m minimum radius.",
       "approachFrom": "start/finish straight"
     },
     {
@@ -117,7 +117,7 @@
       "lengthM": 171.9,
       "previousStraightM": 243.9,
       "direction": null,
-      "summary": "Turn 4 is a right corner after a 244 m straight. About 39° of heading change, 149 m minimum radius.",
+      "summary": "Turn 4 is a corner after a 244 m straight. About 39° of heading change, 149 m minimum radius.",
       "approachFrom": "T3 exit"
     },
     {
@@ -145,7 +145,7 @@
       "lengthM": 92,
       "previousStraightM": 203.9,
       "direction": null,
-      "summary": "Turn 5 is a right hairpin after a 204 m straight. About 154° of heading change, 17 m minimum radius.",
+      "summary": "Turn 5 is a hairpin after a 204 m straight. About 154° of heading change, 17 m minimum radius.",
       "approachFrom": "T4 exit"
     },
     {
@@ -173,7 +173,7 @@
       "lengthM": 173.9,
       "previousStraightM": 16,
       "direction": null,
-      "summary": "Turn 6 is a left opening corner. About 68° of heading change, 90 m minimum radius.",
+      "summary": "Turn 6 is an opening corner. About 68° of heading change, 90 m minimum radius.",
       "approachFrom": "T5 exit"
     },
     {
@@ -201,7 +201,7 @@
       "lengthM": 98,
       "previousStraightM": 285.9,
       "direction": null,
-      "summary": "Turn 7 is a right hairpin after a 286 m straight. About 148° of heading change, 22 m minimum radius.",
+      "summary": "Turn 7 is a hairpin after a 286 m straight. About 148° of heading change, 22 m minimum radius.",
       "approachFrom": "T6 exit"
     },
     {
@@ -229,7 +229,7 @@
       "lengthM": 66,
       "previousStraightM": 20,
       "direction": null,
-      "summary": "Turn 8 is a left double-apex corner. About 39° of heading change, 69 m minimum radius.",
+      "summary": "Turn 8 is a double-apex corner. About 39° of heading change, 69 m minimum radius.",
       "approachFrom": "T7 exit"
     },
     {
