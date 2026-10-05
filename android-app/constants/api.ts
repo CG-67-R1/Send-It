@@ -1,6 +1,7 @@
 // Use your machine's LAN IP when testing on a physical device (e.g. 'http://192.168.1.13:3001')
 // Android emulator: 'http://10.0.2.2:3001' (do not use expo-constants isDevice — removed in SDK 50+)
 import { Platform } from 'react-native';
+import { canRetryApiRequest, shouldRetryApiStatus } from './apiRetry';
 
 const PRODUCTION_API_URL = 'https://send-it-ke7r.onrender.com';
 const API_PORT = 3001;
@@ -84,10 +85,6 @@ function delay(ms: number): Promise<void> {
   return new Promise((resolve) => setTimeout(resolve, ms));
 }
 
-function isRetryableStatus(status: number): boolean {
-  return status === 502 || status === 503 || status === 504;
-}
-
 /**
  * Cheap GET /health with no auth headers (no CORS preflight).
  * Starts a sleeping Render instance before the JSON POST that Safari otherwise drops.
@@ -148,17 +145,18 @@ export async function apiFetch(url: string, init: RequestInit = {}): Promise<Res
     headers.set('x-app-secret', secret);
   }
   const signal = init.signal ?? AbortSignal.timeout(DEFAULT_API_TIMEOUT_MS);
+  const canRetry = canRetryApiRequest(init);
   const attempt = () => fetch(url, { ...init, headers, signal });
 
   try {
     const res = await attempt();
-    if (isRetryableStatus(res.status)) {
+    if (shouldRetryApiStatus(res.status, init)) {
       await delay(800);
       return attempt();
     }
     return res;
   } catch (error) {
-    if (signal.aborted || isRequestTimeoutError(error) || !isNetworkFetchError(error)) {
+    if (!canRetry || signal.aborted || isRequestTimeoutError(error) || !isNetworkFetchError(error)) {
       throw error;
     }
     await delay(800);
