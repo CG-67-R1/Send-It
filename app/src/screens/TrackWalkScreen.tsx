@@ -43,7 +43,7 @@ import {
 } from '../storage/trackWalk';
 import { exportTrackWalkSession } from '../utils/exportTrackWalk';
 import { formatTrackNotesForCoach, sendCoachChat } from '../utils/coachChat';
-import { photoUrisToCoachPayloads } from '../utils/coachAttachments';
+import { getCoachPhotoPayloadError, photoUrisToCoachPayloads } from '../utils/coachAttachments';
 import { getPrimaryLocale } from '../packs/loader';
 import type { RiderCoachStackParamList } from './RiderCoachScreen';
 
@@ -346,6 +346,11 @@ export function TrackWalkScreen() {
       const coachMessage = formatTrackNotesForCoach({ ...session, id: '', createdAt: 0 });
       const photoUris = session.entries.flatMap((e) => e.photoUris ?? []);
       const attachments = photoUris.length ? await photoUrisToCoachPayloads(photoUris) : [];
+      const photoError = getCoachPhotoPayloadError(photoUris, attachments);
+      if (photoError) {
+        Alert.alert('Photos not attached', photoError);
+        return;
+      }
       const result = await sendCoachChat(coachMessage, 'coach', [], attachments);
       if (!result.ok) {
         Alert.alert('Coach unavailable', result.error);
