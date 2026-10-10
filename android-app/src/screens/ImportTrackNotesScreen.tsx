@@ -25,7 +25,7 @@ import { navigateToCoachChat } from '../navigation/rootNavigation';
 import type { RiderCoachStackParamList } from './RiderCoachScreen';
 import { sessionReadyForCoach } from '../storage/trackWalk';
 import { formatTrackNotesForCoach, sendCoachChat } from '../utils/coachChat';
-import { photoUrisToCoachPayloads } from '../utils/coachAttachments';
+import { getCoachPhotoPayloadError, photoUrisToCoachPayloads } from '../utils/coachAttachments';
 
 type ImportNav = NativeStackNavigationProp<RiderCoachStackParamList, 'ImportTrackNotes'>;
 
@@ -143,6 +143,11 @@ export function ImportTrackNotesScreen() {
     setSending(true);
     try {
       const attachments = photos.length ? await photoUrisToCoachPayloads(photos) : [];
+      const photoError = getCoachPhotoPayloadError(photos, attachments);
+      if (photoError) {
+        Alert.alert('Photos not attached', photoError);
+        return;
+      }
       const result = await sendCoachChat(coachMessage, 'coach', [], attachments);
       if (!result.ok) {
         Alert.alert('Coach unavailable', result.error);
