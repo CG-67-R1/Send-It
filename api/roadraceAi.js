@@ -1,6 +1,8 @@
 /**
  * RoadRace AI – in-app Rider Coach & Bike Setup.
- * Uses OpenAI Chat Completions with a system prompt derived from ST (Track Day GPT).
+ * Coach / Bike Setup / Official rule check: OpenAI Chat Completions.
+ * Ask (web): Responses API + hosted web_search.
+ * Model: COACH_MODEL or OPENAI_MODEL, default gpt-4o-mini (production unchanged).
  * API key must be set in OPENAI_API_KEY (server-side only).
  */
 
@@ -13,6 +15,108 @@ import { stripChatMarkdown } from './stripChatMarkdown.js';
 
 /** Cap below the app's 90s LLM fetch so a hung OpenAI call returns JSON, not a dropped TCP. */
 const OPENAI_TIMEOUT_MS = Number(process.env.OPENAI_TIMEOUT_MS || 70_000);
+
+/** Production default. Do not change unless a deploy explicitly sets COACH_MODEL / OPENAI_MODEL. */
+export const DEFAULT_COACH_MODEL = 'gpt-4o-mini';
+
+const GPT6_MODEL_RE = /^gpt-6/i;
+
+function firstEnv(...keys) {
+  for (const key of keys) {
+    const raw = process.env[key];
+    if (typeof raw === 'string' && raw.trim()) return raw.trim();
+  }
+  return '';
+}
+
+/**
+ * Coach / Ask / Rules model. COACH_MODEL wins over the older OPENAI_MODEL alias.
+ * Unset / blank → gpt-4o-mini so production is unchanged.
+ * @returns {string}
+ */
+export function getCoachModel() {
+  return firstEnv('COACH_MODEL', 'OPENAI_MODEL') || DEFAULT_COACH_MODEL;
+}
+
+/**
+ * Vision attachments: OPENAI_VISION_MODEL, else the Coach/Ask model.
+ * @returns {string}
+ */
+export function getCoachVisionModel() {
+  return firstEnv('OPENAI_VISION_MODEL') || getCoachModel();
+}
+
+/** @param {string} [model] */
+export function isGpt6FamilyModel(model) {
+  return GPT6_MODEL_RE.test(String(model || ''));
+}
+
+/**
+ * GPT-6 Luna/Sol default to medium reasoning. Pin `none` unless COACH_REASONING_EFFORT is set
+ * so a Luna eval stays cheap and Chat Completions `temperature` stays valid.
+ * Non-GPT-6 models ignore this (empty string).
+ * @param {string} [model]
+ * @returns {string}
+ */
+export function getCoachReasoningEffort(model = getCoachModel()) {
+  if (!isGpt6FamilyModel(model)) return '';
+  return firstEnv('COACH_REASONING_EFFORT') || 'none';
+}
+
+/**
+ * Chat Completions body. GPT-6 uses max_completion_tokens + reasoning_effort;
+ * gpt-4o-mini keeps max_tokens and no reasoning field.
+ * @param {string} model
+ * @param {{ messages: object[], maxTokens?: number, temperature?: number }} opts
+ */
+export function buildChatCompletionRequest(model, opts) {
+  const request = { model, messages: opts.messages };
+  const effort = getCoachReasoningEffort(model);
+  if (effort) request.reasoning_effort = effort;
+  if (typeof opts.temperature === 'number') {
+    if (!effort || effort === 'none') request.temperature = opts.temperature;
+  }
+  if (typeof opts.maxTokens === 'number') {
+    if (isGpt6FamilyModel(model)) request.max_completion_tokens = opts.maxTokens;
+    else request.max_tokens = opts.maxTokens;
+  }
+  return request;
+}
+
+/**
+ * Responses API extras for GPT-6 (hosted web_search / tools). No-op for gpt-4o-mini.
+ * @param {string} model
+ * @param {object} request
+ */
+export function withGpt6ResponsesOptions(model, request) {
+  const effort = getCoachReasoningEffort(model);
+  if (!effort) return request;
+  return { ...request, reasoning: { effort } };
+}
+
+/**
+ * Normalise Chat Completions or Responses usage for the comparison harness.
+ * @param {object|null|undefined} usage
+ * @returns {{ input: number, output: number, cached: number, reasoning: number, total: number }|null}
+ */
+export function normalizeOpenAiUsage(usage) {
+  if (!usage || typeof usage !== 'object') return null;
+  const input = Number(usage.prompt_tokens ?? usage.input_tokens ?? 0);
+  const output = Number(usage.completion_tokens ?? usage.output_tokens ?? 0);
+  const cached = Number(
+    usage.prompt_tokens_details?.cached_tokens ?? usage.input_tokens_details?.cached_tokens ?? 0
+  );
+  const reasoning = Number(
+    usage.completion_tokens_details?.reasoning_tokens ?? usage.output_tokens_details?.reasoning_tokens ?? 0
+  );
+  return {
+    input,
+    output,
+    cached,
+    reasoning,
+    total: Number(usage.total_tokens ?? input + output),
+  };
+}
 
 function createOpenAiClient(apiKey) {
   return new OpenAI({
@@ -205,15 +309,16 @@ Do not answer the user's question.`;
  */
 async function rewriteRulesKeywords(client, question) {
   try {
-    const completion = await client.chat.completions.create({
-      model: process.env.OPENAI_MODEL || 'gpt-4o-mini',
-      messages: [
-        { role: 'system', content: RULES_KEYWORD_REWRITE_SYSTEM },
-        { role: 'user', content: question },
-      ],
-      max_tokens: 48,
-      temperature: 0,
-    });
+    const completion = await client.chat.completions.create(
+      buildChatCompletionRequest(getCoachModel(), {
+        messages: [
+          { role: 'system', content: RULES_KEYWORD_REWRITE_SYSTEM },
+          { role: 'user', content: question },
+        ],
+        maxTokens: 48,
+        temperature: 0,
+      })
+    );
     const raw = completion.choices?.[0]?.message?.content?.trim() || '';
     if (!raw) return null;
     // Keep alphanumeric tokens only; drop fluff if the model returns a sentence
@@ -264,22 +369,23 @@ async function rerankRulesChunks(client, question, candidates, limit = 6) {
     return `${i + 1}. ${loc} — ${snippet}`;
   });
   try {
-    const completion = await client.chat.completions.create({
-      model: process.env.OPENAI_MODEL || 'gpt-4o-mini',
-      messages: [
-        {
-          role: 'system',
-          content:
-            'You rank Manual of Motorcycle Sport (MoMS) excerpts for relevance to the user question. Reply with up to 6 comma-separated excerpt numbers only (e.g. 3,1,7). Prefer excerpts that answer the question; skip boilerplate that only shares common words like "permitted".',
-        },
-        {
-          role: 'user',
-          content: `Question: ${question}\n\nExcerpts:\n${catalog.join('\n')}`,
-        },
-      ],
-      max_tokens: 32,
-      temperature: 0,
-    });
+    const completion = await client.chat.completions.create(
+      buildChatCompletionRequest(getCoachModel(), {
+        messages: [
+          {
+            role: 'system',
+            content:
+              'You rank Manual of Motorcycle Sport (MoMS) excerpts for relevance to the user question. Reply with up to 6 comma-separated excerpt numbers only (e.g. 3,1,7). Prefer excerpts that answer the question; skip boilerplate that only shares common words like "permitted".',
+          },
+          {
+            role: 'user',
+            content: `Question: ${question}\n\nExcerpts:\n${catalog.join('\n')}`,
+          },
+        ],
+        maxTokens: 32,
+        temperature: 0,
+      })
+    );
     const raw = completion.choices?.[0]?.message?.content?.trim() || '';
     const nums = [...raw.matchAll(/\d+/g)]
       .map((m) => Number(m[0]))
@@ -430,7 +536,7 @@ export async function askChat(message, options = {}) {
 
   const mode = options.mode === 'rules' ? 'rules' : 'ask';
   const client = createOpenAiClient(apiKey);
-  const model = process.env.OPENAI_MODEL || 'gpt-4o-mini';
+  const model = getCoachModel();
 
   if (mode === 'rules') {
     const { merged: searchQuery, keywords } = await prepareRulesSearchQuery(client, text);
@@ -465,17 +571,18 @@ export async function askChat(message, options = {}) {
     const { sources, momsOnline } = await enrichRulesSources(mapRulesSources(chunks));
 
     try {
-      const completion = await client.chat.completions.create({
-        model,
-        messages: [
-          { role: 'system', content: systemPrompt },
-          { role: 'user', content: text },
-        ],
-        max_tokens: 1024,
-      });
+      const completion = await client.chat.completions.create(
+        buildChatCompletionRequest(model, {
+          messages: [
+            { role: 'system', content: systemPrompt },
+            { role: 'user', content: text },
+          ],
+          maxTokens: 1024,
+        })
+      );
 
       const content = stripChatMarkdown(completion.choices?.[0]?.message?.content?.trim() || '');
-      return { content, sources, fromKb, momsOnline };
+      return { content, sources, fromKb, momsOnline, model, usage: normalizeOpenAiUsage(completion.usage) };
     } catch (err) {
       const msg = err?.message || String(err);
       console.error('RoadRace AI ask error:', msg);
@@ -492,27 +599,29 @@ export async function askChat(message, options = {}) {
 
   // General Ask: Responses API + hosted web search (Australia-first, then world).
   try {
-    const response = await client.responses.create({
-      model,
-      instructions: ASK_SYSTEM,
-      input: text,
-      tools: [
-        {
-          type: 'web_search',
-          user_location: {
-            type: 'approximate',
-            country: webSearchCountry(),
+    const response = await client.responses.create(
+      withGpt6ResponsesOptions(model, {
+        model,
+        instructions: ASK_SYSTEM,
+        input: text,
+        tools: [
+          {
+            type: 'web_search',
+            user_location: {
+              type: 'approximate',
+              country: webSearchCountry(),
+            },
+            search_context_size: 'medium',
+            filters: {
+              blocked_domains: ['reddit.com', 'quora.com'],
+            },
           },
-          search_context_size: 'medium',
-          filters: {
-            blocked_domains: ['reddit.com', 'quora.com'],
-          },
-        },
-      ],
-      tool_choice: 'auto',
-      include: ['web_search_call.action.sources'],
-      max_output_tokens: 1024,
-    });
+        ],
+        tool_choice: 'auto',
+        include: ['web_search_call.action.sources'],
+        max_output_tokens: 1024,
+      })
+    );
 
     const content = stripChatMarkdown((response.output_text || '').trim());
     if (!content) {
@@ -524,29 +633,31 @@ export async function askChat(message, options = {}) {
       };
     }
     const sources = extractWebSources(response);
-    return { content, sources, fromKb: false };
+    return { content, sources, fromKb: false, model, usage: normalizeOpenAiUsage(response.usage) };
   } catch (err) {
     const msg = err?.message || String(err);
     console.error('RoadRace AI ask web-search error:', msg);
     // Retry once without include/filters if the model rejects newer web_search options
     if (/unknown|unsupported|invalid|include|filters|search_context/i.test(msg)) {
       try {
-        const fallback = await client.responses.create({
-          model,
-          instructions: ASK_SYSTEM,
-          input: text,
-          tools: [
-            {
-              type: 'web_search',
-              user_location: {
-                type: 'approximate',
-                country: webSearchCountry(),
+        const fallback = await client.responses.create(
+          withGpt6ResponsesOptions(model, {
+            model,
+            instructions: ASK_SYSTEM,
+            input: text,
+            tools: [
+              {
+                type: 'web_search',
+                user_location: {
+                  type: 'approximate',
+                  country: webSearchCountry(),
+                },
               },
-            },
-          ],
-          tool_choice: 'auto',
-          max_output_tokens: 1024,
-        });
+            ],
+            tool_choice: 'auto',
+            max_output_tokens: 1024,
+          })
+        );
         const content = stripChatMarkdown((fallback.output_text || '').trim());
         if (!content) {
           return {
@@ -556,7 +667,13 @@ export async function askChat(message, options = {}) {
             error: 'Ask returned an empty response.',
           };
         }
-        return { content, sources: extractWebSources(fallback), fromKb: false };
+        return {
+          content,
+          sources: extractWebSources(fallback),
+          fromKb: false,
+          model,
+          usage: normalizeOpenAiUsage(fallback.usage),
+        };
       } catch (err2) {
         console.error('RoadRace AI ask web-search fallback error:', err2?.message || err2);
       }
@@ -679,16 +796,20 @@ export async function chat(messages, mode = 'coach', attachments = [], riderSkil
   try {
     const client = createOpenAiClient(apiKey);
 
-    const completion = await client.chat.completions.create({
-      model: usesVision
-        ? process.env.OPENAI_VISION_MODEL || process.env.OPENAI_MODEL || 'gpt-4o-mini'
-        : process.env.OPENAI_MODEL || 'gpt-4o-mini',
-      messages: openaiMessages,
-      max_tokens: SKILL_MAX_TOKENS[skill],
-    });
+    const model = usesVision ? getCoachVisionModel() : getCoachModel();
+    const completion = await client.chat.completions.create(
+      buildChatCompletionRequest(model, {
+        messages: openaiMessages,
+        maxTokens: SKILL_MAX_TOKENS[skill],
+      })
+    );
 
     const content = completion.choices?.[0]?.message?.content?.trim() || '';
-    return parseSuggestMode(content, mode === 'bikesetup' ? 'bikesetup' : 'coach');
+    return {
+      ...parseSuggestMode(content, mode === 'bikesetup' ? 'bikesetup' : 'coach'),
+      model,
+      usage: normalizeOpenAiUsage(completion.usage),
+    };
   } catch (err) {
     const message = err?.message || String(err);
     console.error('RoadRace AI error:', message);

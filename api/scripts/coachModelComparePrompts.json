@@ -1,0 +1,56 @@
+[
+  {
+    "id": "coach-running-wide",
+    "surface": "coach",
+    "mode": "coach",
+    "skill": "novice",
+    "prompt": "I keep running wide out of turn 2 at Phillip Island on my R7. Novice track-day rider. What should I focus on next session?"
+  },
+  {
+    "id": "coach-trail-braking",
+    "surface": "coach",
+    "mode": "coach",
+    "skill": "novice",
+    "prompt": "Can you help me with trail braking? I am a novice on a Yamaha R3 at Wakefield Park and I am still getting consistent brake markers."
+  },
+  {
+    "id": "coach-session-plan",
+    "surface": "coach",
+    "mode": "coach",
+    "skill": "intermediate",
+    "prompt": "Give me a one-focus session plan for Wakefield Park. I am intermediate. Last time I was inconsistent on throttle pickup out of the last corner."
+  },
+  {
+    "id": "coach-confidence",
+    "surface": "coach",
+    "mode": "coach",
+    "skill": "novice",
+    "prompt": "I had a small rear slide on the exit of a second-gear corner at The Bend GT and I am nervous to open the throttle now. Help me rebuild confidence without telling me to push harder."
+  },
+  {
+    "id": "coach-vs-setup",
+    "surface": "coach",
+    "mode": "coach",
+    "skill": "intermediate",
+    "prompt": "The bike feels vague on front-end entry into slow hairpins at Morgan Park. I am not sure if that is my braking or the bike. I ride a 2022 Yamaha R6."
+  },
+  {
+    "id": "bikesetup-front-vague",
+    "surface": "bikesetup",
+    "mode": "bikesetup",
+    "skill": "novice",
+    "prompt": "Front feels vague on corner entry. I have not measured sag. What should I check first? Do not invent click counts."
+  },
+  {
+    "id": "ask-asbk",
+    "surface": "ask",
+    "mode": "ask",
+    "prompt": "Who won the Australian Superbike Championship most recently, and which manufacturer?"
+  },
+  {
+    "id": "ask-offtopic-cars",
+    "surface": "ask",
+    "mode": "ask",
+    "prompt": "Who won the last Formula 1 world championship?"
+  }
+]
