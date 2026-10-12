@@ -7,6 +7,7 @@ import { search, getTriviaQuestion } from './qa.js';
 import { getCalendarEvents } from './calendar.js';
 import { chat as roadraceAiChat, askChat } from './roadraceAi.js';
 import { loadRiderAiFaqs } from './riderAiFaqs.js';
+import { packIdFromRequest } from './packRequest.js';
 
 const app = express();
 const PORT = process.env.PORT || 3001;
@@ -62,7 +63,7 @@ app.use(
       ...extraCorsOrigins,
     ],
     methods: ['GET', 'POST', 'OPTIONS'],
-    allowedHeaders: ['Content-Type', 'x-app-secret'],
+    allowedHeaders: ['Content-Type', 'x-app-secret', 'x-pack'],
     optionsSuccessStatus: 204,
   })
 );
@@ -129,7 +130,8 @@ app.get('/qa/trivia', async (req, res) => {
   const rawDifficulty = parseInt(String(req.query.difficulty ?? ''), 10);
   const difficulty = Number.isFinite(rawDifficulty) ? rawDifficulty : undefined;
   const regionParam = (req.query.region || '').toString().toLowerCase();
-  const region = regionParam === 'au' ? 'au' : 'global';
+  const packId = packIdFromRequest(req);
+  const region = packId === 'uk' || regionParam === 'uk' ? 'uk' : regionParam === 'au' ? 'au' : 'global';
   try {
     const payload = await getTriviaQuestion(used, { difficulty, region });
     if (payload.error) {
@@ -146,7 +148,7 @@ app.get('/calendar', async (req, res) => {
   if (!requireAppSecretForRefresh(req, res)) return;
   const bypassCache = req.query.refresh === '1';
   try {
-    const events = await getCalendarEvents(bypassCache);
+    const events = await getCalendarEvents(bypassCache, packIdFromRequest(req));
     res.json({ events });
   } catch (e) {
     logError('calendar', e);
@@ -177,7 +179,7 @@ app.post('/roadrace-ai/ask', async (req, res) => {
   }
   const askMode = mode === 'rules' ? 'rules' : 'ask';
   try {
-    const result = await askChat(text, { mode: askMode });
+    const result = await askChat(text, { mode: askMode, packId: packIdFromRequest(req) });
     if (result.error) {
       return res.status(500).json({
         error: result.error,
@@ -191,6 +193,7 @@ app.post('/roadrace-ai/ask', async (req, res) => {
       sources: result.sources || [],
       fromKb: Boolean(result.fromKb),
       ...(result.momsOnline ? { momsOnline: result.momsOnline } : {}),
+      ...(result.rulebook ? { rulebook: result.rulebook } : {}),
     });
   } catch (e) {
     logError('roadrace-ai/ask', e);
@@ -227,7 +230,13 @@ app.post('/roadrace-ai/chat', async (req, res) => {
     : [];
   messages.push({ role: 'user', content: text || 'Please review the attached file(s).' });
   try {
-    const result = await roadraceAiChat(messages, validMode, attachments, riderSkill);
+    const result = await roadraceAiChat(
+      messages,
+      validMode,
+      attachments,
+      riderSkill,
+      packIdFromRequest(req)
+    );
     if (result.error) {
       return res.status(500).json({ error: result.error, reply: '' });
     }

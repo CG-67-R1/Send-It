@@ -9,6 +9,7 @@ import { fileURLToPath } from 'url';
 import { dirname, join } from 'path';
 import { dedupeEvents } from './calendarScrapers.js';
 import {
+  getCalendarSources,
   getCalendarStatic,
   getLocalSeriesIds,
   getPrimaryManifest,
@@ -226,10 +227,102 @@ async function fetchWorldSBK(season) {
   }
 }
 
+function seriesForUkSource(src) {
+  if (src.id === 'bsb_calendar') return 'bsb';
+  if (src.id === 'iom_tt') return 'isle_of_man_tt';
+  if (src.id === 'manx_gp') return 'manx_gp';
+  if (src.id === 'nw200_calendar') return 'uk_club';
+  if (src.type === 'club_calendar' || src.type === 'track_day_operator') return 'uk_club';
+  return 'uk_national';
+}
+
+/** Official UK calendars. No invented meeting dates. */
+function ukSourcePointers() {
+  const sources = getCalendarSources('uk');
+  return (sources?.sources || []).map((src) => ({
+    series: seriesForUkSource(src),
+    seriesLabel: src.name,
+    title: src.name,
+    venue: null,
+    country: 'United Kingdom',
+    startDate: '',
+    endDate: '',
+    url: src.url || null,
+    organiser: src.name,
+    notes: src.notes
+      ? `${src.notes} Dates stay on the official calendar.`
+      : 'Dates stay on the official calendar. This app does not invent meeting dates.',
+    detailTier: 'full',
+    confidence: src.confidence || 'official',
+  }));
+}
+
+let ukCache = { data: null, ts: 0 };
+
+function mapDatedEvents(fallbackSeries, events, label) {
+  return (events || [])
+    .filter((e) => e.startDate)
+    .map((e) =>
+      normalizeStaticEvent(e.series || e.seriesId || fallbackSeries, {
+        ...e,
+        seriesLabel: e.seriesLabel || label,
+      })
+    );
+}
+
+function calendarEventKey(ev) {
+  return `${ev.series}|${ev.startDate}|${ev.title}`;
+}
+
+/** Later events replace earlier ones with the same series, date, and title. */
+function mergeCalendarEvents(base, overlay) {
+  const map = new Map();
+  for (const ev of base) map.set(calendarEventKey(ev), ev);
+  for (const ev of overlay) map.set(calendarEventKey(ev), ev);
+  return [...map.values()];
+}
+
+/**
+ * UK pack only: British national rounds, world championships, and official
+ * calendar links. Does not load the Australian scraper or Australian club list.
+ */
+function getUkCalendarEvents(bypassCache) {
+  if (!bypassCache && ukCache.data && Date.now() - ukCache.ts < CACHE_TTL_MS) {
+    return ukCache.data;
+  }
+  const fromPack = getCalendarStatic('uk') || {};
+  const world = loadFallbackStatic();
+  const motogp = mergeCalendarEvents(
+    mapDatedEvents('motogp', world.motogp, 'MotoGP'),
+    mapDatedEvents('motogp', fromPack.motogp, 'MotoGP')
+  );
+  const worldsbk = mergeCalendarEvents(
+    mapDatedEvents('worldsbk', world.worldsbk, 'WorldSBK'),
+    mapDatedEvents('worldsbk', fromPack.worldsbk, 'WorldSBK')
+  );
+  const national = [
+    ...mapDatedEvents('bsb', fromPack.national, 'BSB'),
+    ...mapDatedEvents('uk_club', fromPack.club, 'UK Club'),
+  ];
+  const hasDatedBsb = national.some((ev) => ev.series === 'bsb');
+  const pointers = ukSourcePointers().filter((ev) => !(hasDatedBsb && ev.series === 'bsb'));
+  const all = [...national, ...motogp, ...worldsbk, ...pointers];
+  all.sort((a, b) => {
+    const da = a.startDate || '9999-99-99';
+    const db = b.startDate || '9999-99-99';
+    if (da !== db) return da.localeCompare(db);
+    return (a.title || '').localeCompare(b.title || '');
+  });
+  ukCache = { data: all, ts: Date.now() };
+  return all;
+}
+
 /**
  * Returns all calendar events (MotoGP, WorldSBK, Australia) sorted by startDate.
+ * packId `uk` returns the UK list only.
  */
-export async function getCalendarEvents(bypassCache = false) {
+export async function getCalendarEvents(bypassCache = false, packId = null) {
+  if (packId === 'uk') return getUkCalendarEvents(bypassCache);
   if (!bypassCache && cache.data && Date.now() - cache.ts < CACHE_TTL_MS) {
     return cache.data;
   }

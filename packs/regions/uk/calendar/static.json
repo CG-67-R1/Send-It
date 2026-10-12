@@ -1,23 +1,167 @@
 {
-  "national": [
+  "motogp": [
     {
-      "id": "bsb-placeholder-season",
-      "title": "Bennetts British Superbike Championship (check official calendar)",
-      "seriesId": "bsb",
-      "url": "https://www.britishsuperbike.com",
-      "nodeId": "uk",
-      "confidence": "community",
-      "notes": "Populate concrete round dates from britishsuperbike.com each season; do not invent venues/dates."
+      "title": "British GP",
+      "venue": "Silverstone",
+      "country": "United Kingdom",
+      "startDate": "2026-08-07",
+      "endDate": "2026-08-09",
+      "url": "https://www.motogp.com/en/calendar/2026",
+      "seriesLabel": "MotoGP"
+    },
+    {
+      "title": "British GP",
+      "venue": "Silverstone",
+      "country": "United Kingdom",
+      "startDate": "2027-08-13",
+      "endDate": "2027-08-15",
+      "url": "https://www.motogp.com/en/calendar/2027",
+      "seriesLabel": "MotoGP",
+      "notes": "2027 British Grand Prix, 13–15 August, Silverstone."
     }
   ],
-  "club": [
+  "worldsbk": [
     {
-      "id": "uk-club-racing-hub",
-      "title": "UK club road racing (Bemsee / No Limits / Thundersport / NG)",
-      "url": "https://www.acu.org.uk",
-      "nodeId": "uk-england",
-      "confidence": "community",
-      "notes": "Point riders to club calendars; static placeholders avoid inventing meeting dates."
+      "title": "UK Round",
+      "venue": "Donington Park",
+      "country": "United Kingdom",
+      "startDate": "2026-07-10",
+      "endDate": "2026-07-12",
+      "url": "https://www.worldsbk.com/en/calendar",
+      "seriesLabel": "WorldSBK"
+    },
+    {
+      "title": "UK Round",
+      "venue": "Donington Park",
+      "country": "United Kingdom",
+      "startDate": "2027-07-09",
+      "endDate": "2027-07-11",
+      "url": "https://www.worldsbk.com/en/calendar",
+      "seriesLabel": "WorldSBK",
+      "notes": "Provisional 2027 WorldSBK round, 9–11 July, Donington Park."
+    }
+  ],
+  "national": [
+    {
+      "title": "Round 1 – Oulton Park",
+      "series": "bsb",
+      "seriesLabel": "BSB",
+      "venue": "Oulton Park",
+      "country": "United Kingdom",
+      "startDate": "2026-05-02",
+      "endDate": "2026-05-04",
+      "url": "https://www.britishsuperbike.com/calendar/2026",
+      "notes": "Provisional 2026 BSB calendar (britishsuperbike.com)."
+    },
+    {
+      "title": "Round 2 – Donington Park GP",
+      "series": "bsb",
+      "seriesLabel": "BSB",
+      "venue": "Donington Park",
+      "country": "United Kingdom",
+      "startDate": "2026-05-15",
+      "endDate": "2026-05-17",
+      "url": "https://www.britishsuperbike.com/calendar/2026",
+      "notes": "Provisional 2026 BSB calendar (britishsuperbike.com)."
+    },
+    {
+      "title": "Round 3 – Knockhill",
+      "series": "bsb",
+      "seriesLabel": "BSB",
+      "venue": "Knockhill",
+      "country": "United Kingdom",
+      "startDate": "2026-06-19",
+      "endDate": "2026-06-21",
+      "url": "https://www.britishsuperbike.com/calendar/2026",
+      "notes": "Provisional 2026 BSB calendar (britishsuperbike.com)."
+    },
+    {
+      "title": "Round 4 – Snetterton",
+      "series": "bsb",
+      "seriesLabel": "BSB",
+      "venue": "Snetterton",
+      "country": "United Kingdom",
+      "startDate": "2026-07-03",
+      "endDate": "2026-07-05",
+      "url": "https://www.britishsuperbike.com/calendar/2026",
+      "notes": "Provisional 2026 BSB calendar (britishsuperbike.com)."
+    },
+    {
+      "title": "Round 5 – Brands Hatch GP",
+      "series": "bsb",
+      "seriesLabel": "BSB",
+      "venue": "Brands Hatch",
+      "country": "United Kingdom",
+      "startDate": "2026-07-17",
+      "endDate": "2026-07-19",
+      "url": "https://www.britishsuperbike.com/calendar/2026",
+      "notes": "Provisional 2026 BSB calendar (britishsuperbike.com)."
+    },
+    {
+      "title": "Round 6 – Oulton Park",
+      "series": "bsb",
+      "seriesLabel": "BSB",
+      "venue": "Oulton Park",
+      "country": "United Kingdom",
+      "startDate": "2026-07-31",
+      "endDate": "2026-08-02",
+      "url": "https://www.britishsuperbike.com/calendar/2026",
+      "notes": "Provisional 2026 BSB calendar (britishsuperbike.com)."
+    },
+    {
+      "title": "Round 7 – Thruxton",
+      "series": "bsb",
+      "seriesLabel": "BSB",
+      "venue": "Thruxton",
+      "country": "United Kingdom",
+      "startDate": "2026-08-14",
+      "endDate": "2026-08-16",
+      "url": "https://www.britishsuperbike.com/calendar/2026",
+      "notes": "Provisional 2026 BSB calendar (britishsuperbike.com)."
+    },
+    {
+      "title": "Round 8 – Cadwell Park",
+      "series": "bsb",
+      "seriesLabel": "BSB",
+      "venue": "Cadwell Park",
+      "country": "United Kingdom",
+      "startDate": "2026-08-29",
+      "endDate": "2026-08-31",
+      "url": "https://www.britishsuperbike.com/calendar/2026",
+      "notes": "Provisional 2026 BSB calendar (britishsuperbike.com)."
+    },
+    {
+      "title": "Round 9 – TT Circuit Assen",
+      "series": "bsb",
+      "seriesLabel": "BSB",
+      "venue": "TT Circuit Assen",
+      "country": "Netherlands",
+      "startDate": "2026-09-18",
+      "endDate": "2026-09-20",
+      "url": "https://www.britishsuperbike.com/calendar/2026",
+      "notes": "Provisional 2026 BSB calendar (britishsuperbike.com)."
+    },
+    {
+      "title": "Round 10 – Donington Park GP",
+      "series": "bsb",
+      "seriesLabel": "BSB",
+      "venue": "Donington Park",
+      "country": "United Kingdom",
+      "startDate": "2026-10-02",
+      "endDate": "2026-10-04",
+      "url": "https://www.britishsuperbike.com/calendar/2026",
+      "notes": "Provisional 2026 BSB calendar (britishsuperbike.com)."
+    },
+    {
+      "title": "Round 11 – Brands Hatch GP",
+      "series": "bsb",
+      "seriesLabel": "BSB",
+      "venue": "Brands Hatch",
+      "country": "United Kingdom",
+      "startDate": "2026-10-16",
+      "endDate": "2026-10-18",
+      "url": "https://www.britishsuperbike.com/calendar/2026",
+      "notes": "Provisional 2026 BSB calendar (britishsuperbike.com)."
     }
   ]
 }

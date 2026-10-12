@@ -12,5 +12,7 @@ services:
     buildFilter:
       paths:
         - api/**
+        - packs/regions/uk/calendar/**
+        - packs/regions/au/calendar/**
       ignoredPaths:
         - api/data/au-road-race-events.json
