@@ -46,8 +46,8 @@ Set on **Render** → service `send-it-ke7r` → **Environment**:
 | Variable | Required | Notes |
 |----------|----------|--------|
 | `OPENAI_API_KEY` | Yes | From [platform.openai.com/api-keys](https://platform.openai.com/api-keys) |
-| `COACH_MODEL` | No | Coach / Ask / Rules model. Default `gpt-4o-mini`. Wins over `OPENAI_MODEL`. Leave unset in production. |
-| `OPENAI_MODEL` | No | Older alias for `COACH_MODEL`. Default `gpt-4o-mini`. |
+| `COACH_MODEL` | No | Coach / Ask / Rules model. Default `gpt-6-luna`. Wins over `OPENAI_MODEL`. Set `gpt-4o-mini` to roll back. |
+| `OPENAI_MODEL` | No | Older alias for `COACH_MODEL`. If this is already set on Render, it overrides the code default. |
 | `OPENAI_VISION_MODEL` | No | Photo attachments. Defaults to the Coach/Ask model. |
 | `COACH_REASONING_EFFORT` | No | GPT-6 only. Default `none` so Luna stays cheap and Chat Completions `temperature` stays valid. |
 

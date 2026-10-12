@@ -28,8 +28,8 @@ The **Q&A → Ask** tab uses OpenAI **Responses API + web search** (Australia-fi
 
 ## Optional
 
-- **Model**: Default is `gpt-4o-mini`. Leave it unset in production. To evaluate a replacement (for example `gpt-6-luna`), set `COACH_MODEL` on the server. `OPENAI_MODEL` is still read as a fallback alias. Photo attachments use `OPENAI_VISION_MODEL` when set.
-- **GPT-6 Luna notes**: Coach / Bike Setup / Official rule check use **Chat Completions** with no function tools. Ask uses the **Responses API** + hosted `web_search`. Luna supports both. Chat Completions function calling is only allowed when `reasoning_effort` is `none` — we pin `COACH_REASONING_EFFORT=none` for GPT-6 so Rules `temperature: 0` stays valid and a Luna trial stays cheap. Luna's API default is `medium` if we omitted that field.
+- **Model**: Default is `gpt-6-luna`. Roll back with `COACH_MODEL=gpt-4o-mini` on the server. `OPENAI_MODEL` is still read as a fallback alias (and will override the code default if it is already set on Render). Photo attachments use `OPENAI_VISION_MODEL` when set.
+- **GPT-6 Luna notes**: Coach / Bike Setup / Official rule check use **Chat Completions** with no function tools. Ask uses the **Responses API** + hosted `web_search`. Luna supports both. Chat Completions function calling is only allowed when `reasoning_effort` is `none` — we pin `COACH_REASONING_EFFORT=none` for GPT-6 so Rules `temperature: 0` stays valid and cost stays comparable to mini. Luna's API default is `medium` if we omitted that field.
 - **Compare models (manual, needs `OPENAI_API_KEY`)**: `cd api && npm run compare-coach-models` writes `tmp/coach-model-compare.md` (gitignored). Not run in CI. Do not commit the report.
 - **FAQs**: Edit `api/data/rider_ai_faqs.json` (and sync to the app bundle). The file has `coach` and `bikesetup` arrays of `{ id, question, answer }`. FAQs appear as dropdowns in the Rider Coach screen and are injected into the AI system prompt for interrogation.
   ```bash

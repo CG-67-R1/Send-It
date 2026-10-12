@@ -2,7 +2,7 @@
  * RoadRace AI – in-app Rider Coach & Bike Setup.
  * Coach / Bike Setup / Official rule check: OpenAI Chat Completions.
  * Ask (web): Responses API + hosted web_search.
- * Model: COACH_MODEL or OPENAI_MODEL, default gpt-4o-mini (production unchanged).
+ * Model: COACH_MODEL or OPENAI_MODEL, default gpt-6-luna. Set COACH_MODEL=gpt-4o-mini to roll back.
  * API key must be set in OPENAI_API_KEY (server-side only).
  */
 
@@ -16,8 +16,8 @@ import { stripChatMarkdown } from './stripChatMarkdown.js';
 /** Cap below the app's 90s LLM fetch so a hung OpenAI call returns JSON, not a dropped TCP. */
 const OPENAI_TIMEOUT_MS = Number(process.env.OPENAI_TIMEOUT_MS || 70_000);
 
-/** Production default. Do not change unless a deploy explicitly sets COACH_MODEL / OPENAI_MODEL. */
-export const DEFAULT_COACH_MODEL = 'gpt-4o-mini';
+/** Production default. Override with COACH_MODEL or OPENAI_MODEL (e.g. gpt-4o-mini to roll back). */
+export const DEFAULT_COACH_MODEL = 'gpt-6-luna';
 
 const GPT6_MODEL_RE = /^gpt-6/i;
 
@@ -31,7 +31,7 @@ function firstEnv(...keys) {
 
 /**
  * Coach / Ask / Rules model. COACH_MODEL wins over the older OPENAI_MODEL alias.
- * Unset / blank → gpt-4o-mini so production is unchanged.
+ * Unset / blank → gpt-6-luna.
  * @returns {string}
  */
 export function getCoachModel() {

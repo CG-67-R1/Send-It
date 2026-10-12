@@ -49,8 +49,8 @@ try {
     OPENAI_VISION_MODEL: undefined,
     COACH_REASONING_EFFORT: undefined,
   });
-  assert('default is gpt-4o-mini', getCoachModel() === DEFAULT_COACH_MODEL && DEFAULT_COACH_MODEL === 'gpt-4o-mini');
-  assert('blank COACH_MODEL falls back', (setEnv({ COACH_MODEL: '  ' }), getCoachModel() === 'gpt-4o-mini'));
+  assert('default is gpt-6-luna', getCoachModel() === DEFAULT_COACH_MODEL && DEFAULT_COACH_MODEL === 'gpt-6-luna');
+  assert('blank COACH_MODEL falls back', (setEnv({ COACH_MODEL: '  ' }), getCoachModel() === 'gpt-6-luna'));
   assert('OPENAI_MODEL alias', (setEnv({ COACH_MODEL: undefined, OPENAI_MODEL: 'gpt-4o' }), getCoachModel() === 'gpt-4o'));
   assert(
     'COACH_MODEL wins over OPENAI_MODEL',
