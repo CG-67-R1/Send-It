@@ -15,6 +15,7 @@ import {
 import { useFocusEffect } from '@react-navigation/native';
 import * as Calendar from 'expo-calendar';
 import { apiFetch, CALENDAR_URL } from '../../constants/api';
+import { releasePackId } from '../../constants/releasePack';
 import { safeOpenUrl } from '../utils/safeOpenUrl';
 import {
   buildEventIcs,
@@ -66,15 +67,21 @@ const SERIES_COLORS: Record<string, string> = {
 type CalendarFilter = 'all' | 'local' | 'world';
 type WorldSeriesFilter = 'all' | string;
 
+function isHomeCountry(item: CalendarEvent): boolean {
+  return !!item.country && getLocalCountryNames().has(item.country);
+}
+
 function isLocalEvent(item: CalendarEvent): boolean {
-  if (isFeaturedWorldSeries(item.series)) return false;
-  const localSeries = getLocalSeriesIds();
-  const localCountries = getLocalCountryNames();
-  return (
-    localSeries.has(item.series) ||
-    item.detailTier === 'full' ||
-    (!!item.country && localCountries.has(item.country))
-  );
+  if (getLocalSeriesIds().has(item.series)) return true;
+  // A world championship round in the home country belongs on the local list.
+  if (isFeaturedWorldSeries(item.series)) return isHomeCountry(item);
+  return isHomeCountry(item);
+}
+
+/** UK binary: drop other countries' national series. World championships stay. */
+function visibleForRelease(events: CalendarEvent[]): CalendarEvent[] {
+  if (releasePackId() !== 'uk') return events;
+  return events.filter((item) => isLocalEvent(item) || isFeaturedWorldSeries(item.series));
 }
 
 /** Keep events that have not finished yet (end date is today or later). */
@@ -93,10 +100,10 @@ function filterEvents(
   filter: CalendarFilter,
   worldSeries: WorldSeriesFilter
 ): CalendarEvent[] {
-  const upcoming = events.filter(isUpcomingOrOngoing);
+  const upcoming = visibleForRelease(events).filter(isUpcomingOrOngoing);
   if (filter === 'local') return upcoming.filter(isLocalEvent);
   if (filter === 'world') {
-    const world = upcoming.filter((e) => !isLocalEvent(e));
+    const world = upcoming.filter((e) => isFeaturedWorldSeries(e.series) || !isLocalEvent(e));
     if (worldSeries === 'all') return world;
     return world.filter((e) => e.series.toLowerCase() === worldSeries);
   }
@@ -328,11 +335,22 @@ export function CalendarScreen() {
         activeOpacity={0.7}
         disabled={!item.url}
         style={styles.itemContent}
+        accessibilityRole={item.url ? 'link' : 'text'}
+        accessibilityLabel={`${isLocalEvent(item) ? 'Local. ' : ''}${item.seriesLabel}. ${item.title}`}
       >
         <View style={styles.itemMain}>
           <View style={styles.itemHeader}>
-            <Text style={[styles.series, { color: getSeriesColor(item.series) }]}>{item.seriesLabel}</Text>
-            <Text style={styles.date}>{formatDateRange(item.startDate, item.endDate)}</Text>
+            <Text
+              style={[styles.series, { color: getSeriesColor(item.series) }]}
+              numberOfLines={1}
+              maxFontSizeMultiplier={1.4}
+            >
+              {isLocalEvent(item) ? '📍 ' : ''}
+              {item.seriesLabel}
+            </Text>
+            <Text style={styles.date} maxFontSizeMultiplier={1.4}>
+              {formatDateRange(item.startDate, item.endDate)}
+            </Text>
           </View>
           <Text style={styles.title} numberOfLines={2}>{item.title}</Text>
           {(item.venue || item.country) && (
@@ -359,8 +377,12 @@ export function CalendarScreen() {
         style={styles.reminderButton}
         onPress={() => addReminder(item)}
         activeOpacity={0.7}
+        accessibilityRole="button"
+        accessibilityLabel={`Add reminder for ${item.title}`}
       >
-        <Text style={styles.reminderButtonText}>+ Add reminder</Text>
+        <Text style={styles.reminderButtonText} maxFontSizeMultiplier={1.4}>
+          + Add reminder
+        </Text>
       </TouchableOpacity>
     </View>
   );
@@ -400,7 +422,14 @@ export function CalendarScreen() {
           {getLocalUiLabel()} club & state road racing • MotoGP • WorldSBK. Tap to open links.
         </Text>
         <View style={styles.filterRow}>
-          {(['local', 'world', 'all'] as CalendarFilter[]).map((key) => (
+          {(['local', 'world', 'all'] as CalendarFilter[]).map((key) => {
+            const label =
+              key === 'all'
+                ? 'All'
+                : key === 'local'
+                  ? getI18nString('localCalendar', getLocalUiLabel())
+                  : getI18nString('worldFeed', 'World');
+            return (
             <TouchableOpacity
               key={key}
               style={[styles.filterChip, filter === key && styles.filterChipActive]}
@@ -409,16 +438,19 @@ export function CalendarScreen() {
                 if (key !== 'world') setAddingSeries(false);
               }}
               activeOpacity={0.7}
+              accessibilityRole="button"
+              accessibilityState={{ selected: filter === key }}
+              accessibilityLabel={`${label} events`}
             >
-              <Text style={[styles.filterChipText, filter === key && styles.filterChipTextActive]}>
-                {key === 'all'
-                  ? 'All'
-                  : key === 'local'
-                    ? getI18nString('localCalendar', getLocalUiLabel())
-                    : getI18nString('worldFeed', 'World')}
+              <Text
+                style={[styles.filterChipText, filter === key && styles.filterChipTextActive]}
+                maxFontSizeMultiplier={1.4}
+              >
+                {label}
               </Text>
             </TouchableOpacity>
-          ))}
+            );
+          })}
         </View>
         {filter === 'world' ? (
           <View style={styles.worldSeriesBlock}>
@@ -583,6 +615,7 @@ export function CalendarScreen() {
     <FlatList
       key={filter}
       data={filteredEvents}
+      removeClippedSubviews={false}
       extraData={`${filter}-${worldSeries}-${events.length}-${extraSeries.length}`}
       renderItem={renderItem}
       keyExtractor={keyExtractor}
@@ -678,7 +711,9 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
   },
   filterChip: {
-    flex: 1,
+    flexGrow: 1,
+    flexShrink: 1,
+    maxWidth: '100%',
     minWidth: 88,
     paddingHorizontal: 12,
     paddingVertical: 10,
@@ -859,12 +894,15 @@ const styles = StyleSheet.create({
     marginBottom: 6,
   },
   series: {
+    flex: 1,
+    marginRight: 8,
     fontSize: 13,
     fontWeight: '600',
     textTransform: 'uppercase',
     letterSpacing: 0.5,
   },
   date: {
+    flexShrink: 0,
     fontSize: 13,
     color: '#94a3b8',
   },

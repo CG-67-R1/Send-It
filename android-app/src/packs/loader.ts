@@ -2,6 +2,7 @@
  * App-side regional pack loader (bundled subset of packs/).
  * Re-run `npm run sync-app-packs` from api/ or repo root after pack edits.
  */
+import { isUkReleaseTrack, releasePackId } from '../../constants/releasePack';
 import active from './bundled/active.json';
 import registry from './bundled/registry.json';
 import auManifest from './bundled/au/manifest.json';
@@ -75,6 +76,8 @@ export interface RacingArea {
 }
 
 export function listActivePacks(): string[] {
+  const release = releasePackId();
+  if (release) return [release];
   return (active.packs as string[]) || ['au'];
 }
 
@@ -113,7 +116,10 @@ export function getLocalCountryNames(): Set<string> {
     if (m?.displayName) names.add(m.displayName);
     for (const countryCode of m?.isoCountries || []) {
       if (countryCode === 'AU') names.add('Australia');
-      if (countryCode === 'GB') names.add('United Kingdom');
+      if (countryCode === 'GB') {
+        names.add('United Kingdom');
+        names.add('UK');
+      }
       if (countryCode === 'ES') names.add('Spain');
       if (countryCode === 'IT') names.add('Italy');
     }
@@ -140,6 +146,7 @@ export function getBundledTracksCatalog(): { version: number; tracks: unknown[] 
     for (const track of trackCatalog.tracks || []) {
       const id = (track as { id?: string }).id;
       if (!id || seen.has(id)) continue;
+      if (releasePackId() === 'uk' && !isUkReleaseTrack(id)) continue;
       seen.add(id);
       tracks.push(track);
     }
