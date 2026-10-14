@@ -122,8 +122,13 @@ export function getPrimaryPackId() {
 }
 
 export function getPrimaryManifest() {
+  return getManifest();
+}
+
+export function getManifest(packId = null) {
   const cache = loadCache();
-  return cache.manifests.get(getPrimaryPackId()) || null;
+  const id = packId || getPrimaryPackId();
+  return cache.manifests.get(id) || null;
 }
 
 export function getNode(id) {
