@@ -8,7 +8,7 @@ import OpenAI from 'openai';
 import { enrichRulesSources } from './momsOnlineUrls.js';
 import { prepareRulesQueryTokens, retrieveForRules } from './qa.js';
 import { formatFaqsForPrompt, loadRiderAiFaqs } from './riderAiFaqs.js';
-import { getAiPrompts, getPrimaryManifest } from './packLoader.js';
+import { getAiPrompts, getManifest, getPrimaryManifest } from './packLoader.js';
 import { stripChatMarkdown } from './stripChatMarkdown.js';
 
 /** Cap below the app's 90s LLM fetch so a hung OpenAI call returns JSON, not a dropped TCP. */
@@ -22,51 +22,67 @@ function createOpenAiClient(apiKey) {
   });
 }
 
-function packAi() {
-  return getAiPrompts() || {};
+function packAi(packId = null) {
+  return getAiPrompts(packId) || {};
 }
 
-function coachHome() {
+function packManifest(packId = null) {
+  return getManifest(packId) || getPrimaryManifest();
+}
+
+function coachHome(packId = null) {
   return (
-    packAi().coachHomeContext ||
+    packAi(packId).coachHomeContext ||
     'You are an expert motorcycle road racing and track day coach specializing in Australian track day riding. Keep Australian context and safety first.'
   );
 }
 
-function bikeHome() {
+function bikeHome(packId = null) {
   return (
-    packAi().bikeSetupHomeContext ||
+    packAi(packId).bikeSetupHomeContext ||
     'You are an expert motorcycle road racing and track day technical advisor specializing in Australian track day riding.'
   );
 }
 
-function askPriority() {
+function askPriority(packId = null) {
   return (
-    packAi().askPriority ||
+    packAi(packId).askPriority ||
     'Priority order: Australia first (ASBK, Motorcycling Australia, state/club motorcycle road racing, Australian circuits and riders), then world level (MotoGP, WorldSBK, international motorcycle road racing).'
   );
 }
 
-function webSearchCountry() {
-  return packAi().webSearchCountry || getPrimaryManifest()?.isoCountries?.[0] || 'AU';
+function webSearchCountry(packId = null) {
+  return packAi(packId).webSearchCountry || packManifest(packId)?.isoCountries?.[0] || 'AU';
 }
 
-function rulesHome() {
+function rulesHome(packId = null) {
   return (
-    packAi().rulesHomeContext ||
+    packAi(packId).rulesHomeContext ||
     'You are an official Manual of Motorcycle Sport (MoMS) rule-check assistant for Australian motorcycle sport.'
   );
 }
 
-function rulesModeName() {
-  return packAi().rulesModeName || 'Manual of Motorcycle Sport (MoMS)';
+function rulesModeName(packId = null) {
+  return packAi(packId).rulesModeName || 'Manual of Motorcycle Sport (MoMS)';
 }
 
-function localeContextLabel() {
-  return getPrimaryManifest()?.displayName || 'Australian';
+function localeContextLabel(packId = null) {
+  return packManifest(packId)?.displayName || 'Australian';
 }
 
-const COACH_SYSTEM = `${coachHome()} You give direct, practical motorsport advice.
+function supportsLocalRulesKnowledge(packId = null) {
+  return packManifest(packId)?.id === 'au';
+}
+
+function rulesCoverageNote(packId = null) {
+  if (supportsLocalRulesKnowledge(packId)) {
+    return '- This index fully covers GCRs (chs 1-5), Road Race (6), Historic Road Race (7), and Appendices (17). Other disciplines may appear only as a reference pointer - if so, say the chapter number/page and that full text is not in this index.';
+  }
+  return "- Use only excerpts supplied in this prompt. If a region's rule index is incomplete, say so and point to official rule books / supplementary regulations without inventing clauses.";
+}
+
+function coachSystem(packId = null) {
+  return `${coachHome(packId)} You give direct, practical motorsport advice.
 
 Sign off briefly as "RoadRacer AI Coach".
 
@@ -75,8 +91,10 @@ Your guidance is informational only. Setup changes should be made incrementally,
 Do not recommend shortening suspension travel, adding internal spacers, changing ride height, or carrying out internal shock/fork work unless the user has provided the motorcycle make/model/year, current suspension components, and clear symptoms. Even when those details are present, explain the uncertainty and state that a qualified technician should verify the proposed change.
 
 Current mode: RIDER COACH. Focus on: technique, cornering, braking, body position, lines, race craft, track-specific tips, session feedback, and mental approach. Keep regional context and safety first. If the user hasn't said their bike or track, ask briefly but stay helpful with reasonable assumptions. Be encouraging and concise.`;
+}
 
-const BIKESETUP_SYSTEM = `${bikeHome()} You give direct, practical motorsport advice on bike setup.
+function bikeSetupSystem(packId = null) {
+  return `${bikeHome(packId)} You give direct, practical motorsport advice on bike setup.
 
 Sign off briefly as "RoadRacer AI Bike Setup".
 
@@ -96,8 +114,10 @@ If required context is missing, ask for it and give only general educational pri
 Do not recommend shortening suspension travel, adding internal spacers, changing ride height, or carrying out internal shock/fork work unless the user has provided the motorcycle make/model/year, current suspension components, and clear symptoms. Even when those details are present, explain the uncertainty and state that a qualified technician should verify the proposed change.
 
 Current mode: BIKE SETUP / TECHNICAL. Focus on: suspension (sag, damping, spring rate), geometry (rake, trail, ride height), tyres (pressures, wear, compounds), gearing, and setup changes. Use motion ratio, spring rate, and geometry principles when relevant. If the user has not supplied the required bike or issue details, ask briefly and limit the answer to safe general principles. Be encouraging and concise.`;
+}
 
-const ASK_SYSTEM = `You are a knowledgeable motorcycle road racing Q&A assistant for the Send-It / RoadRace app.
+function askSystem(packId = null) {
+  return `You are a knowledgeable motorcycle road racing Q&A assistant for the Send-It / RoadRace app.
 
 Current mode: GENERAL Q&A WITH WEB SEARCH. Answer factual questions about motorcycle road racing and motorcycle track motorsport only: history, series and events, terminology, bike technology concepts, riders, and circuits.
 
@@ -108,7 +128,7 @@ Scope (critical):
 
 Search and priority:
 - Use web search for factual claims. Prefer authoritative motorcycle motorsport sources.
-- ${askPriority()}
+- ${askPriority(packId)}
 - Stay on motorcycle road racing / motorcycle track motorsport. If the question is off-topic, say briefly and redirect.
 - If search finds nothing reliable, say so clearly. Do not invent dates, results, venues, or rules.
 
@@ -116,30 +136,35 @@ Style:
 - One clear, concise answer (a few short paragraphs at most). No sign-off joke.
 - Mention key sources briefly when useful.
 - If the user asks for personalized coaching, session feedback, corner-by-corner advice, or detailed bike setup for their bike/session, give a brief general pointer only and tell them to use the Coach & Bike Setup tab.
-- Official ${rulesModeName()} lookups belong in Official rule check? — do not invent clause numbers.
+- Official ${rulesModeName(packId)} lookups belong in Official rule check? — do not invent clause numbers.
 - Safety first. Do not encourage reckless riding.
 - Write in plain text for a phone chat bubble. Do not use Markdown. Do not start lines with hash marks. Do not wrap words in asterisks or backticks.`;
+}
 
-const RULES_SYSTEM = `${rulesHome()}
+function rulesSystem(packId = null) {
+  const modeName = rulesModeName(packId);
+  return `${rulesHome(packId)}
 
-Current mode: OFFICIAL RULE CHECK. Answer ONLY from the MoMS excerpts provided in this prompt. Do not use the internet, browsing, or general training knowledge for rule substance. Do not invent clause numbers or requirements.
+Current mode: OFFICIAL RULE CHECK. Answer ONLY from the ${modeName} excerpts provided in this prompt. Do not use the internet, browsing, or general training knowledge for rule substance. Do not invent clause numbers or requirements.
 
 Required answer format (plain text labels, no Markdown hashes or asterisks):
 1) Answer — Plain-language yes/no or short explanation in everyday words (not a raw dump of the clause). Base it only on the excerpts.
 2) Quote — Verbatim quotation from the most relevant excerpt (use the excerpt text; do not invent wording).
-3) Citation — Exactly: MoMS {edition}, clause {clauseId or Location}, effective {effectiveDate}. If edition/date are in the excerpt headers, use them. Never say only "the latest rule book uploaded".
+3) Citation — Exactly: ${modeName} {edition}, clause {clauseId or Location}, effective {effectiveDate}. If edition/date are in the excerpt headers, use them. Never say only "the latest rule book uploaded".
 4) Note — One line: club/series Supplementary Regulations may also apply; guidance only, not legal advice.
 
 Rules:
 - Prefer the excerpt whose Location/clauseId best matches the question.
-- This index fully covers GCRs (chs 1–5), Road Race (6), Historic Road Race (7), and Appendices (17). Other disciplines may appear only as a reference pointer — if so, say the chapter number/page and that full text is not in this index.
-- If excerpts do not cover the question, say you could not find a matching rule in the uploaded MoMS index and do not guess. Still use the heading structure briefly.
+${rulesCoverageNote(packId)}
+- If excerpts do not cover the question, say you could not find a matching rule in the uploaded ${modeName} index and do not guess. Still use the heading structure briefly.
 - Keep answers concise. No coaching advice, no sign-off joke.
 - Write in plain text for a phone chat bubble. Do not use Markdown. Do not start lines with hash marks. Do not wrap words in asterisks or backticks.`;
+}
 
-const SHARED_RULES = `
+function sharedRules(packId = null) {
+  return `
 
-Style: Friendly, practical, safety first. Never make users feel bad about not knowing. ${localeContextLabel()} context.
+Style: Friendly, practical, safety first. Never make users feel bad about not knowing. ${localeContextLabel(packId)} context.
 
 Write in plain text for a phone chat bubble. Do not use Markdown. Do not start lines with hash marks. Do not wrap words in asterisks or backticks. Short paragraphs, numbered lists, and simple dashes are fine.
 
@@ -148,6 +173,7 @@ Limitations: You cannot physically inspect bikes or guarantee lap times. Recomme
 Rider vs bike ambiguity: Riders often do not know if a problem is riding technique or bike setup. If the user's issue is clearly better handled by the other mode, give a short useful answer in your current mode, then say which tab to try next and why (e.g. body position / lines → Coach; sag / damping / tyre pressure / gearing → Bike Setup). End your reply with exactly one of these markers on its own last line (omit the marker if staying in the current mode):
 [[SUGGEST_MODE:coach]]
 [[SUGGEST_MODE:bikesetup]]`;
+}
 
 const SUGGEST_MODE_RE = /\[\[SUGGEST_MODE:(coach|bikesetup)\]\]\s*$/i;
 
@@ -350,10 +376,38 @@ export function normalizeRiderSkill(raw) {
   return 'novice';
 }
 
-function getSystemPrompt(mode, faqs, riderSkill = 'novice') {
+function getSystemPrompt(mode, faqs, riderSkill = 'novice', packId = null) {
   const skill = normalizeRiderSkill(riderSkill);
-  const base = mode === 'bikesetup' ? BIKESETUP_SYSTEM : COACH_SYSTEM;
-  return `${base}${SHARED_RULES}${RIDER_SKILL_LAYERS[skill]}${formatFaqsForPrompt(faqs, mode, skill)}`;
+  const base = mode === 'bikesetup' ? bikeSetupSystem(packId) : coachSystem(packId);
+  return `${base}${sharedRules(packId)}${RIDER_SKILL_LAYERS[skill]}${formatFaqsForPrompt(faqs, mode, skill)}`;
+}
+
+export function buildCoachSystemPrompt(mode = 'coach', riderSkill = 'novice', packId = null, faqs = null) {
+  const emptyFaqs = { global_principles: [], novice_guidelines: '', coach: [], bikesetup: [] };
+  return getSystemPrompt(
+    mode === 'bikesetup' ? 'bikesetup' : 'coach',
+    faqs || emptyFaqs,
+    riderSkill,
+    packId
+  );
+}
+
+export function buildAskSystemPrompt(packId = null) {
+  return askSystem(packId);
+}
+
+export function buildRulesSystemPrompt(packId = null) {
+  return rulesSystem(packId);
+}
+
+function unsupportedRulesResult(packId = null) {
+  const modeName = rulesModeName(packId);
+  const home = rulesHome(packId);
+  return {
+    content: `Official ${modeName} lookups are not available in RoadRacer's in-app rule index for this region yet. ${home} Check the current governing-body rule book and event supplementary regulations, and do not rely on Australian MoMS clauses for this region.`,
+    sources: [],
+    fromKb: false,
+  };
 }
 
 /**
@@ -407,12 +461,24 @@ function extractWebSources(response) {
 }
 
 /**
- * Single-shot Ask: web search (Responses API). Rules mode: MoMS local JSON only.
+ * Single-shot Ask: web search (Responses API). Rules mode uses the AU MoMS local
+ * JSON index; regional packs without a rule index get a safe unsupported message.
  * @param {string} message
- * @param {{ mode?: 'ask' | 'rules' }} [options]
+ * @param {{ mode?: 'ask' | 'rules', packId?: string }} [options]
  * @returns {Promise<{ content: string, sources: Array<object>, fromKb: boolean, momsOnline?: object, error?: string }>}
  */
 export async function askChat(message, options = {}) {
+  const text = (message || '').trim();
+  if (!text) {
+    return { content: '', sources: [], fromKb: false, error: 'message is required' };
+  }
+
+  const mode = options.mode === 'rules' ? 'rules' : 'ask';
+  const packId = typeof options.packId === 'string' ? options.packId : null;
+  if (mode === 'rules' && !supportsLocalRulesKnowledge(packId)) {
+    return unsupportedRulesResult(packId);
+  }
+
   const apiKey = process.env.OPENAI_API_KEY;
   if (!apiKey) {
     return {
@@ -423,12 +489,6 @@ export async function askChat(message, options = {}) {
     };
   }
 
-  const text = (message || '').trim();
-  if (!text) {
-    return { content: '', sources: [], fromKb: false, error: 'message is required' };
-  }
-
-  const mode = options.mode === 'rules' ? 'rules' : 'ask';
   const client = createOpenAiClient(apiKey);
   const model = process.env.OPENAI_MODEL || 'gpt-4o-mini';
 
@@ -461,7 +521,7 @@ export async function askChat(message, options = {}) {
     candidates = candidates.slice(0, 14);
     const chunks = await rerankRulesChunks(client, text, candidates, 6);
     const fromKb = chunks.length > 0;
-    const systemPrompt = RULES_SYSTEM + formatRulesContext(chunks);
+    const systemPrompt = rulesSystem(packId) + formatRulesContext(chunks);
     const { sources, momsOnline } = await enrichRulesSources(mapRulesSources(chunks));
 
     try {
@@ -494,14 +554,14 @@ export async function askChat(message, options = {}) {
   try {
     const response = await client.responses.create({
       model,
-      instructions: ASK_SYSTEM,
+      instructions: askSystem(packId),
       input: text,
       tools: [
         {
           type: 'web_search',
           user_location: {
             type: 'approximate',
-            country: webSearchCountry(),
+            country: webSearchCountry(packId),
           },
           search_context_size: 'medium',
           filters: {
@@ -533,14 +593,14 @@ export async function askChat(message, options = {}) {
       try {
         const fallback = await client.responses.create({
           model,
-          instructions: ASK_SYSTEM,
+          instructions: askSystem(packId),
           input: text,
           tools: [
             {
               type: 'web_search',
               user_location: {
                 type: 'approximate',
-                country: webSearchCountry(),
+                country: webSearchCountry(packId),
               },
             },
           ],
@@ -586,6 +646,7 @@ const ALLOWED_FILE_TYPES = [
  * @param {'coach' | 'bikesetup'} mode
  * @param {Array<{ type: 'image'|'file', name: string, mimeType?: string, data?: string, content?: string }>} attachments - only applied to the final user turn
  * @param {'novice' | 'intermediate' | 'advanced'} [riderSkill]
+ * @param {string|null} [packId]
  * @returns {Promise<{ content: string, error?: string }>}
  */
 function buildUserContent(text, attachments = []) {
@@ -649,7 +710,13 @@ function normalizeAttachments(raw) {
   return out;
 }
 
-export async function chat(messages, mode = 'coach', attachments = [], riderSkill = 'novice') {
+export async function chat(
+  messages,
+  mode = 'coach',
+  attachments = [],
+  riderSkill = 'novice',
+  packId = null
+) {
   const apiKey = process.env.OPENAI_API_KEY;
   if (!apiKey) {
     return { content: '', error: 'RoadRace AI is not configured. Set OPENAI_API_KEY on the server.' };
@@ -657,7 +724,7 @@ export async function chat(messages, mode = 'coach', attachments = [], riderSkil
 
   const skill = normalizeRiderSkill(riderSkill);
   const faqs = await loadRiderAiFaqs();
-  const systemPrompt = getSystemPrompt(mode, faqs, skill);
+  const systemPrompt = getSystemPrompt(mode, faqs, skill, packId);
   const normalizedAttachments = normalizeAttachments(attachments);
   const openaiMessages = [{ role: 'system', content: systemPrompt }];
 

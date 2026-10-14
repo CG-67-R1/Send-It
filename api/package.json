@@ -20,7 +20,8 @@
     "bootstrap-packs": "node ../scripts/bootstrap-region-packs.mjs",
     "migrate-au-pack": "node ../scripts/migrate-au-pack.mjs",
     "seed-pilot-packs": "node ../scripts/seed-pilot-packs.mjs",
-    "sync-app-packs": "node ../scripts/sync-app-packs.mjs"
+    "sync-app-packs": "node ../scripts/sync-app-packs.mjs",
+    "test-pack-ai-prompts": "node scripts/testPackAiPrompts.mjs"
   },
   "dependencies": {
     "cheerio": "^1.0.0",
