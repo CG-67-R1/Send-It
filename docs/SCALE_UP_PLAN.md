@@ -34,7 +34,7 @@ flowchart LR
 
 ## Current baseline
 
-Request path: **app → Render API → OpenAI** (`gpt-4o-mini`). The OpenAI key is server-side only. See [`ENVIRONMENT.md`](../ENVIRONMENT.md) and [`api/roadraceAi.js`](../api/roadraceAi.js).
+Request path: **app → Render API → OpenAI** (`gpt-6-luna` by default; `COACH_MODEL=gpt-4o-mini` rolls back). The OpenAI key is server-side only. See [`ENVIRONMENT.md`](../ENVIRONMENT.md) and [`api/roadraceAi.js`](../api/roadraceAi.js).
 
 | Item | Today |
 |------|--------|
@@ -55,7 +55,7 @@ Request path: **app → Render API → OpenAI** (`gpt-4o-mini`). The OpenAI key 
 | Area | Action |
 |------|--------|
 | Hosting | Keep PoC hosting (Render + Vercel). Cold start after idle (~30s) is expected. |
-| OpenAI | Stay on `gpt-4o-mini`. Set a **billing alert and a hard monthly cap** in the OpenAI dashboard. |
+| OpenAI | Stay on `gpt-6-luna` (or `COACH_MODEL=gpt-4o-mini` to roll back). Set a **billing alert and a hard monthly cap** in the OpenAI dashboard. |
 | Rate limits | Leave 10 / 15 min / IP as-is. |
 | App / API work | Confirm `APP_API_SECRET` on Render if AI routes are public. No architecture change. |
 | Monthly cost band | OpenAI typically a few dollars; Render free or idle. |
@@ -70,7 +70,7 @@ Request path: **app → Render API → OpenAI** (`gpt-4o-mini`). The OpenAI key 
 | Area | Action |
 |------|--------|
 | Hosting | **Paid, always-on Render.** Stop free-tier spin-down. One instance is enough. |
-| OpenAI | Stay on `gpt-4o-mini`. Keep the spend cap. Watch 429s in Render logs. |
+| OpenAI | Stay on `gpt-6-luna` (roll back with `COACH_MODEL=gpt-4o-mini`). Keep the spend cap. Watch 429s in Render logs. |
 | Rate limits | Keep 10 / 15 min / IP, but treat **shared-IP as a known failure**. For a planned track-day test, temporarily raise `max` or add a tester bypass header. |
 | App / API work | None required beyond hosting and the secret. |
 | Monthly cost band | Render on the order of tens of $/mo + OpenAI typically **under ~$20/mo**. |
@@ -104,7 +104,7 @@ Peak GPT concurrent at this band is typically **tens**, not 1,000. Design for ab
 | Area | Action |
 |------|--------|
 | Hosting | Larger Render instance (**1–2 GB**). Still **one** process until Redis exists. |
-| OpenAI | Confirm paid **Tier 2+** as spend grows. Keep `gpt-4o-mini`; do not default to `gpt-4o`. |
+| OpenAI | Confirm paid **Tier 2+** as spend grows. Keep `gpt-6-luna`; do not default to `gpt-4o`. |
 | Prompts | Stop stuffing full FAQ blobs into every Coach call (token × user multiplier). Retrieve **1–3** FAQs per request. |
 | UX | Optional: stream Coach replies (SSE) so the 90s spinner is not the only wait state. |
 | Abuse | Device id is not enough if the app secret leaks. Add a lightweight attested token or signed request — still not full accounts. |
@@ -150,7 +150,7 @@ True “1,000 simultaneous GPT chats” only belongs here (or a special event mo
 - Expo app on Vercel (static web) and EAS for stores — 10,000 users do not require a new front-end host.
 - Headlines and calendar caches; trivia JSON.
 - Server does not persist GPT chat history after the reply (privacy posture in [`docs/legal/PRIVACY.md`](legal/PRIVACY.md)).
-- Default model remains `gpt-4o-mini` unless a stage explicitly says otherwise.
+- Default model remains `gpt-6-luna` unless a stage explicitly says otherwise. Roll back with `COACH_MODEL=gpt-4o-mini`.
 
 ## Related
 

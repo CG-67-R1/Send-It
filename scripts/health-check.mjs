@@ -200,6 +200,7 @@ console.log('\nAPI modules');
 run('node', ['--check', 'server.js'], API_DIR, 'server.js syntax');
 run('node', ['--check', 'qa.js'], API_DIR, 'qa.js syntax');
 run('node', ['--check', 'roadraceAi.js'], API_DIR, 'roadraceAi.js syntax');
+run('node', ['scripts/testCoachModel.mjs'], API_DIR, 'coach model env resolver');
 try {
   await checkAskRetrieval();
 } catch (e) {
