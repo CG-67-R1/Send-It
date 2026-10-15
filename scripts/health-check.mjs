@@ -8,6 +8,7 @@ import { spawnSync } from 'node:child_process';
 import fs from 'node:fs';
 import path from 'node:path';
 import { fileURLToPath, pathToFileURL } from 'node:url';
+import { fetchLive } from './liveFetch.mjs';
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const ROOT = path.resolve(__dirname, '..');
@@ -17,9 +18,9 @@ const API_DIR = path.join(ROOT, 'api');
 const AU_CALENDAR_CACHE = path.join(API_DIR, 'data', 'au-road-race-events.json');
 
 const API_URL = process.env.API_URL || 'http://localhost:3001';
-// The hosted API sleeps on Render's free tier and takes 15-30 s to wake, so a
-// shorter probe reports a live API as unreachable.
-const HEALTH_TIMEOUT_MS = 45_000;
+// Render's free tier often answers with 502, or with nothing, for more than
+// 40s while the instance wakes. Wait that out before calling the API down.
+const HEALTH_TIMEOUT_MS = 120_000;
 const failures = [];
 
 function pass(msg) {
@@ -83,9 +84,7 @@ async function checkCalendarModule() {
 
 async function checkLiveApi() {
   try {
-    const health = await fetch(`${API_URL}/health`, {
-      signal: AbortSignal.timeout(HEALTH_TIMEOUT_MS),
-    });
+    const health = await fetchLive(`${API_URL}/health`, HEALTH_TIMEOUT_MS);
     if (!health.ok) {
       fail(`API /health HTTP ${health.status} at ${API_URL}`);
       return;
@@ -102,7 +101,7 @@ async function checkLiveApi() {
       fail('API /health response not valid JSON');
     }
 
-    const calendarRes = await fetch(`${API_URL}/calendar`, { signal: AbortSignal.timeout(30000) });
+    const calendarRes = await fetchLive(`${API_URL}/calendar`, 45_000);
     if (!calendarRes.ok) {
       fail(`API /calendar HTTP ${calendarRes.status}`);
       return;

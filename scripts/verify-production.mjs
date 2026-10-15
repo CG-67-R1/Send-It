@@ -4,6 +4,8 @@
  * Usage: node scripts/verify-production.mjs
  * Env: API_URL (default https://send-it-ke7r.onrender.com)
  */
+import { fetchLive } from './liveFetch.mjs';
+
 const API_URL = (process.env.API_URL || 'https://send-it-ke7r.onrender.com').replace(/\/$/, '');
 const TIMEOUT_MS = Number(process.env.PROD_TIMEOUT_MS || 120000);
 
@@ -20,7 +22,7 @@ function pass(msg) {
 
 async function fetchJson(path, label) {
   const url = `${API_URL}${path}`;
-  const res = await fetch(url, { signal: AbortSignal.timeout(TIMEOUT_MS) });
+  const res = await fetchLive(url, TIMEOUT_MS);
   if (!res.ok) {
     fail(`${label} HTTP ${res.status}`);
     return null;
