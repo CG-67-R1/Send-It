@@ -60,6 +60,10 @@ h2 { font-size: clamp(36px, 4vw, 58px); line-height: 1.04; letter-spacing: -2px;
 h3 { font-size: 25px; letter-spacing: -.8px; margin: 22px 0 12px; }
 .feature-grid p { font-size: 14px; color: var(--muted); min-height: 76px; max-width: 340px; }
 .feature-grid img { width: 100%; aspect-ratio: 4 / 3; object-fit: cover; object-position: top center; margin-top: 15px; background: #181a1a; }
+.feature-grid img.map { object-fit: contain; }
+.store-badge { display: inline-flex; line-height: 0; }
+.store-badge img { height: 40px; width: auto; }
+.download .store-badge { background: #fff; padding: 8px 10px; margin-top: 26px; }
 
 .setup { background: var(--ink); color: var(--paper); display: grid; grid-template-columns: 1fr 1fr; gap: 10%; align-items: center; }
 .setup .red, .setup .eyebrow .dot { color: var(--red-on-dark); }

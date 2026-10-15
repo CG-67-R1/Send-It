@@ -2,7 +2,7 @@
 
 `roadracer.info` is served from LiteSpeed hosting, not this Vercel app. This folder is the homepage to upload into that site’s document root (same place as the live `index.html`).
 
-Replace the live `index.html` and upload the `badges/` folder (official Apple badge). Leave `css/`, `assets/`, `privacy.html`, `terms.html`, and `copyright.html` on the host.
+Replace the live `index.html` and upload `css/look.css` and `app.js` with it. Leave `assets/`, `privacy.html`, `terms.html`, and `copyright.html` on the host. The homepage and the UK page share `css/look.css`. The older dark rules stay in the host `css/site.css` for the legal pages.
 
 What changed vs the 3 Sep 2026 live page:
 
@@ -13,9 +13,9 @@ What changed vs the 3 Sep 2026 live page:
 
 ## UK landing page (`roadracer.info/uk/`)
 
-`uk/` is a standalone page in the same editorial design as the ChatGPT-built AU preview (`road-racer-au.groovyllama257.chatgpt.site`): paper background, red `#c92c18` accent, big condensed-feel headlines, red ticker, dark Bike Setup block. Files: `index.html`, `style.css`, `app.js`, `img/`. Upload the whole `uk/` folder to the document root so it serves at `https://roadracer.info/uk/`.
+`uk/` uses the same editorial design as the homepage: paper background, red `#c92c18` accent, big headlines, red ticker, dark Bike Setup block. Shared files are `css/look.css` and `app.js`. UK-only files are `uk/index.html` and `uk/img/`. Upload those so the page serves at `https://roadracer.info/uk/`.
 
-- **Self-contained styling.** `uk/style.css` does not use the host's `css/site.css` (the AU homepage still does). Changing the UK design never touches the AU page.
+- **Shared styling.** Both pages link `css/look.css`. Do not point the homepage back at `css/site.css`.
 - **Reused from the host:** `../assets/header-icon.png`, `../assets/RR-in-app.png`, `../assets/gallery/{tyre-wear,gearing,bike-balance-steering}.jpg`, and `../privacy.html`, `../terms.html`, `../copyright.html`. Nothing else needs uploading.
 - **UK images** in `uk/img/` are crops of `docs/ios/screenshots/uk-iphone-6.5/` (Brands Hatch for the hero, Donington for the first card). Those captures are bare Track Details maps with no race line or numbered turns, so the page claims only the map. Retake them with the race line and turns, then swap the files.
 - **No App Store badge.** The UK app (ASC `6815475540`, bundle `com.milroadracer.uk`) was not live when this was written (`apps.apple.com/gb/app/id6815475540` returned 404), so the page says "Coming soon" and links an email. **When live:** replace the hero button, the `.micro` line and the `#get` block with the official badge from `docs/website/badges/` linked to the UK App Store URL, change the meta description, and rename "Get updates" in the header.
