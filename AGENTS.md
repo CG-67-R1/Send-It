@@ -80,7 +80,7 @@ node scripts/prove-track-maps.mjs
 
 ### Cursor implementer catalog
 
-Hermes stays **report-only**. Do not add Cursor clones of `rr-app-expert`, `mobile-app-expert`, `agent-apple`, or `agent-play`.
+Hermes stays **report-only**. Do not add Cursor clones of `rr-app-expert`, `mobile-app-expert`, `agent-apple`, `agent-play`, or `app-site-designer`.
 
 | Kind | Name | Role |
 |------|------|------|
@@ -89,6 +89,7 @@ Hermes stays **report-only**. Do not add Cursor clones of `rr-app-expert`, `mobi
 | Skill | `.cursor/skills/track-details-bake/` | GPX bake + prove; never set L/R from GPX |
 | Skill | `.cursor/skills/store-listing-ship/` | ASC scripts; submit only when asked |
 | Skill | `.cursor/skills/coach-kb-safety/` | Coach/Q&A/MoMS; keys off-device |
+| Skill | `.cursor/skills/app-marketing-site/` | Build `docs/website/` from the real app; apply SITE_DESIGN reviews |
 | Subagent | `.cursor/agents/dual-tree-auditor.md` | Read-only drift report |
 | Subagent | `.cursor/agents/track-baker.md` | Isolated bake + prove |
 | Subagent | `.cursor/agents/store-operator.md` | Isolated ASC prepare; no unattended submit |
@@ -108,7 +109,8 @@ Hermes is the **Send-It / RoadRace app expert**. It runs regular health gates an
 | **Weekly** (Wednesday) | `send-it/mobile-app-expert` + `send-it/mobile-review` | `docs/reviews/MOBILE_OPS_YYYY-MM-DD.md` — HEALTHY or CURSOR ALERT (perf/security/iOS+Android) |
 | **Weekly** (Thursday) | `send-it/agent-play` (weekly-skills **and** pre-submit) | Refresh Agent Play `CURRENT.md` + `AGENT_PLAY_SKILLS_YYYY-MM-DD.md` + `PLAY_PREFLIGHT_YYYY-MM-DD.md` (android-app code/security) |
 | **Weekly** (Friday) | `send-it/agent-apple` (weekly-skills) | Refresh Agent Apple `CURRENT.md` + `docs/reviews/AGENT_APPLE_SKILLS_YYYY-MM-DD.md` |
-| **On-demand** | `/rr-app-expert`, `/mobile-app-expert`, `/track-data-analyst`, `/agent-apple`, or `/agent-play` | Full report + top Cursor fixes; Agent Apple = pre-ASC; Agent Play = pre-Play |
+| **Weekly** (Tuesday) | `send-it/app-site-designer` (ui-benchmark) | Refresh site-designer `CURRENT.md` + `docs/reviews/SITE_DESIGN_YYYY-MM-DD.md` — phone purchase confidence |
+| **On-demand** | `/rr-app-expert`, `/mobile-app-expert`, `/track-data-analyst`, `/agent-apple`, `/agent-play`, or `/app-site-designer` | Full report + top Cursor fixes; Agent Apple = pre-ASC; Agent Play = pre-Play; site designer = homepage confidence |
 
 **Setup (one-time):** `.\scripts\install-hermes-skills.ps1` then follow [`docs/hermes/CRON_SETUP.md`](docs/hermes/CRON_SETUP.md) to create Hermes cron jobs.
 
@@ -130,6 +132,9 @@ hermes
 # /agent-play
 # Ask: "Review this app before submitting to Google Play. Identify Android issues. Report only."
 # Ask: "Update your skillset. weekly-skills. Refresh CURRENT.md from Android/Play/Expo sources."
+# /app-site-designer
+# Ask: "Run ui-benchmark. Write docs/reviews/SITE_DESIGN_<date>.md. Report only."
+# Ask: "Mode site-brief. Plan the homepage from the real app. Do not edit HTML."
 ```
 
 Track structural gate (also part of mobile-review preflight):

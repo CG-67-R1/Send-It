@@ -2,9 +2,11 @@
 
 Hermes is the **standing RR app expert**: daily health gates + weekly full reviews with coding-improvement suggestions. Fixes happen in **Cursor**; Hermes writes reports only.
 
-## Status (2026-09-25)
+## Status (2026-10-15)
 
-All Hermes cron jobs on this host are **paused**. Do not run [`scripts/setup-hermes-cron.ps1`](../../scripts/setup-hermes-cron.ps1) or paste Create-cron blocks unless the user asks to turn them back on.
+Standing review jobs on this host stay **paused**. Do not run [`scripts/setup-hermes-cron.ps1`](../../scripts/setup-hermes-cron.ps1) — it removes every Send-It job and recreates the set.
+
+The **Send-It app site designer** job (Tuesdays 9:00) is the one the owner asked to add. Create that job alone with `hermes cron create` (see the Tuesday block). Do not resume the other jobs unless the owner asks.
 
 ```powershell
 hermes cron list --all
@@ -92,6 +94,19 @@ Create a cron job:
 - continuable: true
 ```
 
+**App site designer — marketing homepage** (Tuesdays 9:00 AM):
+
+Paste this block so the website designer samples current professional mobile-app homepages and reviews [roadracer.info](https://roadracer.info/) for purchase confidence. Install skills first (`.\scripts\install-hermes-skills.ps1`) so `send-it/app-site-designer` is available. Cursor applies the report with `.cursor/skills/app-marketing-site/`.
+
+```
+Create a cron job:
+- schedule: 0 9 * * 2
+- workdir: C:\Users\Administrator\.cursor\Send-It
+- skills: ["send-it/app-site-designer"]
+- prompt: You are the app site designer. Run ui-benchmark. Fetch three current professional mobile-app marketing homepages (sport, coaching, or utility — start with Strava, AllTrails, TrainingPeaks or Headspace; replace any that fail). Record layout patterns only in docs/hermes/skills/send-it/app-site-designer/CURRENT.md (As of today; keep last 8 weeks). Do not copy their sentences, screenshots, or trademarks. Review docs/website/index.html and https://roadracer.info/ against the real RoadRacer app (SCREEN_BRIEF_FOR_VISUALS.md and patterns.md). Write docs/reviews/SITE_DESIGN_<today>.md. Judge whether a rider on a phone would understand the benefit and feel confident to get the app. Open with SITE: READY or SITE: CURSOR ALERT. For every P0/P1 give an Apply or Suggest line and a concrete Cursor edit. Do not edit docs/website/, app/, android-app/, or api/. Do not upload to the host. Then run .\scripts\install-hermes-skills.ps1. End with P0/P1/P2 and top Cursor fixes.
+- continuable: true
+```
+
 **Agent Apple — grow iOS/ASC skillset** (Fridays 9:00 AM):
 
 Paste this block so Agent Apple refreshes dated iOS/Xcode/ASC knowledge. Install skills first (`.\scripts\install-hermes-skills.ps1`) so `send-it/agent-apple` is available.
@@ -142,6 +157,13 @@ Or for Agent Play (pre-Google Play Android review):
 Review this app before submitting to Google Play. Identify Android issues. Report only.
 ```
 
+Or for the marketing site (purchase confidence):
+
+```
+/app-site-designer
+Run ui-benchmark. Write docs/reviews/SITE_DESIGN_<today>.md. Report only.
+```
+
 Then open the report in Cursor and implement P0/P1 items.
 
 ## Manual commands
@@ -163,6 +185,7 @@ Then open the report in Cursor and implement P0/P1 items.
 | On-demand Track Memory | In Hermes: `/track-data-analyst` then ask for track memory review |
 | On-demand Agent Apple | In Hermes: `/agent-apple` then ask for pre-ASC iOS review |
 | On-demand Agent Play | In Hermes: `/agent-play` then ask for pre-Play Android review |
+| On-demand site designer | In Hermes: `/app-site-designer` then ask for ui-benchmark |
 
 ## Reports
 
@@ -177,6 +200,7 @@ Written to `docs/reviews/`:
 - `AGENT_APPLE_SKILLS_YYYY-MM-DD.md` — weekly Agent Apple CURRENT.md refresh
 - `PLAY_PREFLIGHT_YYYY-MM-DD.md` — Agent Play pre-Google Play Android review (SUBMIT / HOLD)
 - `AGENT_PLAY_SKILLS_YYYY-MM-DD.md` — weekly Agent Play CURRENT.md refresh
+- `SITE_DESIGN_YYYY-MM-DD.md` — weekly app site designer review (READY or CURSOR ALERT)
 
 ## Cursor ↔ Hermes split
 

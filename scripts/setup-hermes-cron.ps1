@@ -92,6 +92,17 @@ hermes cron create "0 9 * * 4" $playPrompt `
   --workdir $RepoRoot `
   --deliver $deliver
 
+$sitePrompt = @'
+You are the app site designer. Run ui-benchmark. Fetch three current professional mobile-app marketing homepages (sport, coaching, or utility — start with Strava, AllTrails, TrainingPeaks or Headspace; replace any that fail). Record layout patterns only in docs/hermes/skills/send-it/app-site-designer/CURRENT.md (As of today; keep last 8 weeks). Do not copy their sentences, screenshots, or trademarks. Review docs/website/index.html and https://roadracer.info/ against the real RoadRacer app (SCREEN_BRIEF_FOR_VISUALS.md and patterns.md). Write docs/reviews/SITE_DESIGN_<today>.md. Judge whether a rider on a phone would understand the benefit and feel confident to get the app. Open with SITE: READY or SITE: CURSOR ALERT. For every P0/P1 give an Apply or Suggest line and a concrete Cursor edit. Do not edit docs/website/, app/, android-app/, or api/. Do not upload to the host. Then run .\scripts\install-hermes-skills.ps1. End with P0/P1/P2 and top Cursor fixes.
+'@
+
+Write-Host "Creating app site designer (Tuesdays 9:00)..." -ForegroundColor Cyan
+hermes cron create "0 9 * * 2" $sitePrompt `
+  --name "Send-It app site designer" `
+  --skill send-it/app-site-designer `
+  --workdir $RepoRoot `
+  --deliver $deliver
+
 Write-Host "`nCron jobs:" -ForegroundColor Cyan
 hermes cron list
 
@@ -104,7 +115,7 @@ if ($gw -notmatch "Gateway process running") {
   Write-Host "`nGateway already running." -ForegroundColor Green
 }
 
-Write-Host "`nDone. Daily gate is script-only (silent on pass). Weekly review and Agent Play use Nous credits." -ForegroundColor Green
+Write-Host "`nDone. Daily gate is script-only (silent on pass). Weekly review, Agent Play, and the Tuesday site designer use Nous credits." -ForegroundColor Green
 $dailyPath = Join-Path $HermesScripts "send-it-daily-gate.py"
 Write-Host "Test daily gate now: python $dailyPath" -ForegroundColor DarkGray
 Write-Host 'Manual weekly run: hermes cron run WEEKLY_JOB_ID' -ForegroundColor DarkGray
