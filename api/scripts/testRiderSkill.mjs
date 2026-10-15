@@ -20,20 +20,31 @@ assert('null → novice', normalizeRiderSkill(null) === 'novice');
 assert('object → novice', normalizeRiderSkill({ skill: 'advanced' }) === 'novice');
 
 const faqs = {
-  global_principles: ['One change at a time.'],
-  novice_guidelines: 'Ask at most two questions.',
-  coach: [],
+  global_principles: ['One change at a time.', '---'],
+  novice_guidelines: 'Make reasonable assumptions and use typical values.',
+  coach: [
+    {
+      question: 'Why do I run wide on the exit?',
+      answer: 'Early throttle or an early apex.',
+    },
+    {
+      question: 'How do I set sag?',
+      answer: 'Measure static and rider sag before changing springs.',
+    },
+  ],
   bikesetup: [],
 };
 
-const novicePrompt = formatFaqsForPrompt(faqs, 'coach', 'novice');
-const advancedPrompt = formatFaqsForPrompt(faqs, 'coach', 'advanced');
-assert('novice prompt includes novice guidelines', novicePrompt.includes('Ask at most two questions.'));
-assert(
-  'advanced prompt skips novice guidelines',
-  !advancedPrompt.includes('Ask at most two questions.')
-);
-assert('both include global principles', advancedPrompt.includes('One change at a time.'));
+const widePrompt = formatFaqsForPrompt(faqs, 'coach', 'novice', 'I keep running wide');
+const setupPrompt = formatFaqsForPrompt(faqs, 'coach', 'novice', 'what sag should I run');
+const barePrompt = formatFaqsForPrompt(faqs, 'coach', 'advanced', '');
+assert('matching question includes that FAQ', widePrompt.includes('running wide') || widePrompt.includes('Early throttle'));
+assert('unrelated FAQ stays out', !widePrompt.includes('static and rider sag'));
+assert('novice prompt does not teach assumed values', !widePrompt.includes('typical values'));
+assert('separator principle is dropped', !barePrompt.includes('---'));
+assert('principles stay', barePrompt.includes('One change at a time.'));
+assert('no query means no FAQ dump', !barePrompt.includes('Early throttle'));
+assert('sag question can match the sag FAQ', setupPrompt.includes('rider sag'));
 
 if (failed) {
   console.error(`\n${failed} failed`);

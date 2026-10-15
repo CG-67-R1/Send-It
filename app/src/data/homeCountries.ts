@@ -39,7 +39,10 @@ export function getHomeCountry(code: HomeCountryCode): HomeCountry {
   return HOME_COUNTRIES[code];
 }
 
-/** Header flag for this binary: primary pack ISO country, else pack id. */
+/**
+ * Header flag for this binary: primary pack ISO country, else pack id.
+ * An alternate country pack must resolve to its own flag, not Australia.
+ */
 export function getReleaseCountryCode(primaryPackId: string, isoCountry?: string): HomeCountryCode {
   if (isoCountry && isHomeCountryCode(isoCountry)) return isoCountry;
   return PACK_TO_FLAG[primaryPackId] ?? 'AU';

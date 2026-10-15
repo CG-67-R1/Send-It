@@ -1,29 +1,39 @@
 {
   "series": [
     {
-      "id": "idemitsu-asia-talent",
-      "name": "Idemitsu Asia Talent Cup (IATC)",
-      "nodeId": "id",
-      "local": false,
-      "website": "https://www.idemitsu-asia-talent-cup.com",
-      "confidence": "official",
-      "notes": "Regional FIM talent pipeline; Indonesian riders compete."
-    },
-    {
-      "id": "indonesia-road-racing",
-      "name": "Indonesia Road Racing Championship (IRRC / Nasional)",
+      "id": "kejurnas-motoprix",
+      "name": "Kejurnas Motoprix",
       "nodeId": "id",
       "local": true,
-      "website": "https://www.imi.co.id",
+      "website": "https://www.imi.id",
       "confidence": "established-press",
-      "notes": "IMI-sanctioned national road racing championship."
+      "notes": "IMI national underbone / road-race pathway (Kejurnas). Replaces vague IRRC / Nasional headline naming."
+    },
+    {
+      "id": "pertamina-mandalika-racing-series",
+      "name": "Pertamina Mandalika Racing Series (MRS)",
+      "nodeId": "id",
+      "local": true,
+      "website": "https://mandalikaracingseries.com",
+      "confidence": "official",
+      "notes": "2026 national sportbike product: five rounds at Pertamina Mandalika International Circuit. IMI-sanctioned Kejurnas."
+    },
+    {
+      "id": "idemitsu-moto4-asia",
+      "name": "Idemitsu Moto4 Asia Cup",
+      "nodeId": "id",
+      "local": false,
+      "website": "https://www.moto4asiacup.com",
+      "confidence": "official",
+      "notes": "Regional talent cup; formerly Idemitsu Asia Talent Cup (IATC). Mandalika remains on the talent-cup calendar."
     },
     {
       "id": "honda-one-make",
       "name": "Honda One Make Race Indonesia",
       "nodeId": "id",
       "local": true,
-      "confidence": "established-press"
+      "confidence": "unverified",
+      "notes": "Plausible OEM cup; 2026 activity not deeply verified — owner confirm before treating as current."
     }
   ]
 }

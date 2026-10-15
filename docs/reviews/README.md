@@ -28,14 +28,13 @@ P0/P1 from this folder are implemented with project skills, not a second reviewe
 | `AGENT_APPLE_SKILLS_YYYY-MM-DD.md` | `send-it/agent-apple` | Weekly Agent Apple CURRENT.md refresh |
 | `PLAY_PREFLIGHT_YYYY-MM-DD.md` | `send-it/agent-play` | Pre-Google Play Android review — SUBMIT / HOLD |
 | `AGENT_PLAY_SKILLS_YYYY-MM-DD.md` | `send-it/agent-play` | Weekly Agent Play CURRENT.md refresh |
-| `AI_ENTERPRISE_WATCH_YYYY-MM-DD.md` | `send-it/ai-enterprise-watch` | Weekly enterprise AI landscape (short form goes to Telegram) |
 | `TRACK_*_YYYY-MM-DD.md` | `send-it/track-data-analyst` | Track catalog / GPX / Track Memory deep audits |
 | `SECURITY_REVIEW_YYYY-MM-DD.md` | on-demand | Security-focused audit |
 | `UI_DESIGN_*_YYYY-MM-DD.md` | on-demand (no Hermes skill) | UI/UX design review vs `SCREEN_BRIEF_FOR_VISUALS.md` |
 | `MARKET_FILL_*.md` | `send-it/market-pack` | Regional pack research fills |
 | `GPT_*_AUDIT_*.md` | on-demand (`scripts/gpt-repo-parity-audit.mjs`) | Custom GPT knowledge pack audits |
 
-One-off handoff docs (no date suffix, e.g. `GPX_CORNER_DETECTOR_95_ACCURACY_HANDOFF.md`) are allowed but should be rare.
+One-off handoff docs should use the same `FAMILY_YYYY-MM-DD.md` name. Reports dated before 2026-09-14 were removed. Do not cite them. Restate a finding only when a review dated 2026-09-14 or later says it.
 
 ## Workflow
 

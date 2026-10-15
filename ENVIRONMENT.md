@@ -46,7 +46,10 @@ Set on **Render** → service `send-it-ke7r` → **Environment**:
 | Variable | Required | Notes |
 |----------|----------|--------|
 | `OPENAI_API_KEY` | Yes | From [platform.openai.com/api-keys](https://platform.openai.com/api-keys) |
-| `OPENAI_MODEL` | No | Default `gpt-4o-mini` |
+| `COACH_MODEL` | No | Coach / Ask / Rules model. Default `gpt-4o-mini`. Wins over `OPENAI_MODEL`. Leave unset in production. |
+| `OPENAI_MODEL` | No | Older alias for `COACH_MODEL`. Default `gpt-4o-mini`. |
+| `OPENAI_VISION_MODEL` | No | Photo attachments. Defaults to the Coach/Ask model. |
+| `COACH_REASONING_EFFORT` | No | GPT-6 only. Default `none` so Luna stays cheap and Chat Completions `temperature` stays valid. |
 
 Verify after save (Render redeploys automatically):
 
@@ -184,10 +187,16 @@ Play Android lives in **`android-app/`** — a separate Expo copy with a committ
 | App name | RoadRacer - Motorsport_Is_Life |
 | Package | `com.milroadracer.app` |
 | targetSdk / compileSdk | 36 |
+| Play Developer account | Personal — ID `7065822239432452180` |
+| Developer name (public) | Motorsport Is Life |
+| Account owner | `cgreene@cybersafefamilies.com.au` |
+| Google contact (not shown on Play) | `roadracer.au@outlook.com.au` / +61 438 887 259 |
+| Website | https://roadracer.info |
+| Play app id | **Not assigned yet** — this is not the developer account ID. Record it here when Console creates the app. |
 | Expo account | [motorsport-is-life](https://expo.dev/accounts/motorsport-is-life) |
 | EAS project | `@motorsport-is-life/roadracer` (`c3447188-53ab-4806-96af-6eb1b5417de3`) |
 | EAS config | [`android-app/eas.json`](android-app/eas.json) (Android-only profiles; production AAB, preview APK) |
-| Play submit | **Not wired** — no `submit.production.android` (no Play service-account JSON in repo). Do not invent a Play app id. |
+| Play submit | **Not wired** — no `submit.production.android` (no Play service-account JSON in repo). |
 | Setup | [`android-app/README.md`](android-app/README.md) |
 | Play listing / Data safety | [`docs/play/PLAY_LISTING_COPY.md`](docs/play/PLAY_LISTING_COPY.md) |
 | Play Console how-to | [`docs/play/PLAY_CONSOLE_SETUP.md`](docs/play/PLAY_CONSOLE_SETUP.md) |

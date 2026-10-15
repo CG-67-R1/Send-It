@@ -38,6 +38,7 @@ node scripts/prove-track-maps.mjs
 
 ## Configuration
 
+- Home header flag follows the **release pack**, beside “RoadRacer”. Australia (no `EXPO_PUBLIC_PACK`, or `au`) keeps the Australian flag. A UK binary (`EXPO_PUBLIC_PACK=uk`, EAS profile `production-uk`) shows the UK flag. Any other country pack must do the same: map its pack id in `app/src/data/homeCountries.ts` (and the android-app copy) and ship that flag PNG. Do not leave the Australian flag on an alternate-country build.
 - App API URL: `app/constants/api.ts` and the Android copy `android-app/constants/api.ts` (`getApiBaseUrl()`)
   - Android emulator: `http://10.0.2.2:3001`
   - iOS simulator: `http://localhost:3001`
@@ -79,7 +80,7 @@ node scripts/prove-track-maps.mjs
 
 ### Cursor implementer catalog
 
-Hermes stays **report-only**. Do not add Cursor clones of `rr-app-expert`, `mobile-app-expert`, `agent-apple`, `agent-play`, or `ai-enterprise-watch`.
+Hermes stays **report-only**. Do not add Cursor clones of `rr-app-expert`, `mobile-app-expert`, `agent-apple`, or `agent-play`.
 
 | Kind | Name | Role |
 |------|------|------|
@@ -107,8 +108,7 @@ Hermes is the **Send-It / RoadRace app expert**. It runs regular health gates an
 | **Weekly** (Wednesday) | `send-it/mobile-app-expert` + `send-it/mobile-review` | `docs/reviews/MOBILE_OPS_YYYY-MM-DD.md` — HEALTHY or CURSOR ALERT (perf/security/iOS+Android) |
 | **Weekly** (Thursday) | `send-it/agent-play` (weekly-skills **and** pre-submit) | Refresh Agent Play `CURRENT.md` + `AGENT_PLAY_SKILLS_YYYY-MM-DD.md` + `PLAY_PREFLIGHT_YYYY-MM-DD.md` (android-app code/security) |
 | **Weekly** (Friday) | `send-it/agent-apple` (weekly-skills) | Refresh Agent Apple `CURRENT.md` + `docs/reviews/AGENT_APPLE_SKILLS_YYYY-MM-DD.md` |
-| **Weekly** (Sunday 18:00) | `send-it/ai-enterprise-watch` | Short Telegram message + `docs/reviews/AI_ENTERPRISE_WATCH_YYYY-MM-DD.md` (enterprise AI; hype called out) |
-| **On-demand** | `/rr-app-expert`, `/mobile-app-expert`, `/track-data-analyst`, `/agent-apple`, `/agent-play`, or `/ai-enterprise-watch` | Full report + top Cursor fixes; Agent Apple = pre-ASC; Agent Play = pre-Play; AI watch = enterprise landscape |
+| **On-demand** | `/rr-app-expert`, `/mobile-app-expert`, `/track-data-analyst`, `/agent-apple`, or `/agent-play` | Full report + top Cursor fixes; Agent Apple = pre-ASC; Agent Play = pre-Play |
 
 **Setup (one-time):** `.\scripts\install-hermes-skills.ps1` then follow [`docs/hermes/CRON_SETUP.md`](docs/hermes/CRON_SETUP.md) to create Hermes cron jobs.
 
@@ -130,8 +130,6 @@ hermes
 # /agent-play
 # Ask: "Review this app before submitting to Google Play. Identify Android issues. Report only."
 # Ask: "Update your skillset. weekly-skills. Refresh CURRENT.md from Android/Play/Expo sources."
-# /ai-enterprise-watch
-# Ask: "Run weekly-watch. Relevant outcomes only. Flag hype. Report only."
 ```
 
 Track structural gate (also part of mobile-review preflight):

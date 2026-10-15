@@ -1,6 +1,21 @@
 {
   "sources": [
     {
+      "id": "sepang-news",
+      "name": "Sepang International Circuit News",
+      "url": "https://www.sepangcircuit.com",
+      "confidence": "official",
+      "nodeId": "my",
+      "notes": "Replaces hyphenated sepang-circuit.com."
+    },
+    {
+      "id": "msbk-news",
+      "name": "Malaysia Superbike Championship",
+      "url": "https://malaysiasbk.com",
+      "confidence": "official",
+      "nodeId": "my"
+    },
+    {
       "id": "motomalaya-news",
       "name": "MotoMalaya",
       "url": "https://www.motomalaya.net",
@@ -8,9 +23,9 @@
       "nodeId": "my"
     },
     {
-      "id": "sepang-news",
-      "name": "Sepang International Circuit News",
-      "url": "https://www.sepang-circuit.com/news",
+      "id": "arrc-news",
+      "name": "Asia Road Racing Championship",
+      "url": "https://www.asiaroadracing.com",
       "confidence": "official",
       "nodeId": "my"
     },
@@ -18,13 +33,6 @@
       "id": "motorsport-my",
       "name": "Motorsport.com Malaysia",
       "url": "https://my.motorsport.com",
-      "confidence": "established-press",
-      "nodeId": "my"
-    },
-    {
-      "id": "bikesrepublic",
-      "name": "BikesRepublic",
-      "url": "https://www.bikesrepublic.com",
       "confidence": "established-press",
       "nodeId": "my"
     }

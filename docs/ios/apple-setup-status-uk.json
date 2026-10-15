@@ -1,0 +1,16 @@
+{
+  "updatedAt": "2026-09-24T01:25:00.000Z",
+  "bundleId": {
+    "identifier": "com.milroadracer.uk",
+    "resourceId": "SL69W7VGMX",
+    "name": "RoadRacer UK",
+    "pushNotifications": true
+  },
+  "appStoreConnectApp": {
+    "appleId": "6815475540",
+    "name": "RoadRacer_UK- MIL",
+    "sku": "roadracer-uk-ios-001",
+    "primaryLocale": "en-GB",
+    "bundleId": "com.milroadracer.uk"
+  }
+}

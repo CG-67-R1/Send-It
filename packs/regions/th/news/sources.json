@@ -1,16 +1,17 @@
 {
   "sources": [
     {
-      "id": "motorsportth",
-      "name": "Motorsport Thailand",
-      "url": "https://www.motorsportth.com",
-      "confidence": "established-press",
-      "nodeId": "th"
+      "id": "changcircuit-news",
+      "name": "BRIC / Chang International Circuit",
+      "url": "https://bric.co.th",
+      "confidence": "official",
+      "nodeId": "th",
+      "notes": "Replaces chang-international-circuit.com."
     },
     {
-      "id": "changcircuit-news",
-      "name": "Chang International Circuit News",
-      "url": "https://www.chang-international-circuit.com",
+      "id": "fmsct-news",
+      "name": "FMSCT",
+      "url": "https://www.fmsct-live.com",
       "confidence": "official",
       "nodeId": "th"
     },
@@ -22,10 +23,17 @@
       "nodeId": "th"
     },
     {
-      "id": "bikethailand",
-      "name": "BikeThailand.net",
-      "url": "https://www.bikethailand.net",
-      "confidence": "community",
+      "id": "arrc-news",
+      "name": "Asia Road Racing Championship",
+      "url": "https://www.asiaroadracing.com",
+      "confidence": "official",
+      "nodeId": "th"
+    },
+    {
+      "id": "thailandcircuit-news",
+      "name": "Thailand Circuit Motorsport Complex",
+      "url": "https://thailandcircuit.racing",
+      "confidence": "established-press",
       "nodeId": "th"
     }
   ]

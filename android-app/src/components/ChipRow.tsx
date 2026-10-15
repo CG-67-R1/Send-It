@@ -17,8 +17,17 @@ export function ChipRow<T extends string>({ options, value, onChange }: Props<T>
             key={opt.id}
             style={[styles.chip, active && styles.chipActive]}
             onPress={() => onChange(opt.id)}
+            accessibilityRole="radio"
+            accessibilityState={{ selected: active }}
+            accessibilityLabel={opt.label}
           >
-            <Text style={[styles.chipText, active && styles.chipTextActive]}>{opt.label}</Text>
+            <Text
+              style={[styles.chipText, active && styles.chipTextActive]}
+              maxFontSizeMultiplier={1.4}
+            >
+              {active ? '✓ ' : ''}
+              {opt.label}
+            </Text>
           </TouchableOpacity>
         );
       })}
@@ -32,12 +41,13 @@ const styles = StyleSheet.create({
     backgroundColor: '#1e293b',
     borderRadius: 20,
     paddingHorizontal: 12,
-    paddingVertical: 8,
+    minHeight: 44,
+    justifyContent: 'center',
     borderWidth: 1,
     borderColor: '#334155',
   },
-  chipActive: { borderColor: '#f59e0b', backgroundColor: 'rgba(245,158,11,0.15)' },
+  chipActive: { borderColor: '#f59e0b', backgroundColor: '#f59e0b' },
   chipText: { color: '#cbd5e1', fontSize: 13, fontWeight: '600' },
-  chipTextActive: { color: '#fbbf24' },
+  chipTextActive: { color: '#0f172a' },
 });
 

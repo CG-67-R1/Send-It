@@ -1,4 +1,4 @@
-RoadRacer! Local track events, corner coaching, bike setup, and AI tyre analysis. Upload your data. Dial in—and ride with confidence!
+RoadRacer! Local track events, corner coaching, bike setup, and AI tyre analysis. Setups stay on your device. Dial in—and ride with confidence!
 
 # Voice: en-AU-WilliamMultilingualNeural (Australian, excited)
 # Rate: +18%  Pitch: +6Hz

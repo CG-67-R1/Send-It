@@ -95,7 +95,7 @@ export function RiderCoachScreen() {
       </View>
 
       <Text style={styles.sectionLabel}>Rider Coach</Text>
-      <Text style={styles.privacyNote}>
+      <Text style={styles.privacyNote} maxFontSizeMultiplier={1.4}>
         Ask the coach when nobody is in the garage. Prep a track, walk corners, or study the
         layout before the day.
       </Text>
@@ -103,36 +103,56 @@ export function RiderCoachScreen() {
         style={styles.navButton}
         onPress={() => navigation.navigate('CoachChat', { mode: 'coach' })}
         activeOpacity={0.8}
+        accessibilityRole="button"
+        accessibilityLabel="RR AI Coach"
       >
-        <Text style={styles.navButtonText}>RR AI Coach</Text>
+        <Text style={styles.navButtonText} maxFontSizeMultiplier={1.4}>
+          RR AI Coach
+        </Text>
       </TouchableOpacity>
       <TouchableOpacity
         style={styles.navButton}
         onPress={() => navigation.navigate('TrackPrep')}
         activeOpacity={0.8}
+        accessibilityRole="button"
+        accessibilityLabel="Track Prep"
       >
-        <Text style={styles.navButtonText}>Track Prep</Text>
+        <Text style={styles.navButtonText} maxFontSizeMultiplier={1.4}>
+          Track Prep
+        </Text>
       </TouchableOpacity>
       <TouchableOpacity
         style={styles.navButton}
         onPress={() => navigation.navigate('BikeSetupBasics')}
         activeOpacity={0.8}
+        accessibilityRole="button"
+        accessibilityLabel="Bike Setup Basics"
       >
-        <Text style={styles.navButtonText}>Bike Setup Basics</Text>
+        <Text style={styles.navButtonText} maxFontSizeMultiplier={1.4}>
+          Bike Setup Basics
+        </Text>
       </TouchableOpacity>
       <TouchableOpacity
         style={styles.navButton}
         onPress={() => navigation.navigate('TyreWearAnalysis')}
         activeOpacity={0.8}
+        accessibilityRole="button"
+        accessibilityLabel="Tyre Wear Analysis"
       >
-        <Text style={styles.navButtonText}>Tyre Wear Analysis</Text>
+        <Text style={styles.navButtonText} maxFontSizeMultiplier={1.4}>
+          Tyre Wear Analysis
+        </Text>
       </TouchableOpacity>
       <TouchableOpacity
         style={styles.navButton}
         onPress={() => navigation.navigate('TrackMemoryHub')}
         activeOpacity={0.8}
+        accessibilityRole="button"
+        accessibilityLabel="Track Details"
       >
-        <Text style={styles.navButtonText}>Track Details</Text>
+        <Text style={styles.navButtonText} maxFontSizeMultiplier={1.4}>
+          Track Details
+        </Text>
       </TouchableOpacity>
 
       <TouchableOpacity

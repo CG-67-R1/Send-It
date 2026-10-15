@@ -42,12 +42,24 @@
       "env": {
         "SENTRY_ALLOW_FAILURE": "true"
       }
+    },
+    "production-uk": {
+      "extends": "production",
+      "env": {
+        "EXPO_PUBLIC_PACK": "uk",
+        "SENTRY_ALLOW_FAILURE": "true"
+      }
     }
   },
   "submit": {
     "production": {
       "ios": {
         "ascAppId": "6799806571"
+      }
+    },
+    "production-uk": {
+      "ios": {
+        "ascAppId": "6815475540"
       }
     }
   }

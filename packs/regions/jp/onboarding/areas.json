@@ -13,14 +13,15 @@
       ],
       "classes": [
         "JSB1000",
-        "J-GP2",
         "ST1000",
-        "ST600"
+        "ST600",
+        "J-GP3",
+        "JP-SPORT"
       ],
       "coaches": [
         {
           "name": "Circuit coaching providers",
-          "description": "Suzuka, Motegi, and Autopolis offer circuit riding schools and track days."
+          "description": "Suzuka, Mobility Resort Motegi, and Autopolis offer circuit riding schools and track days."
         }
       ]
     }

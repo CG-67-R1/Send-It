@@ -492,20 +492,38 @@ export function QAScreen() {
         <TouchableOpacity
           style={[styles.tab, activeTab === 'ask' && styles.tabActive]}
           onPress={() => setActiveTab('ask')}
+          accessibilityRole="button"
+          accessibilityState={{ selected: activeTab === 'ask' }}
+          accessibilityLabel="Ask"
         >
-          <Text style={[styles.tabText, activeTab === 'ask' && styles.tabTextActive]}>Ask</Text>
+          <Text style={[styles.tabText, activeTab === 'ask' && styles.tabTextActive]} maxFontSizeMultiplier={1.4}>
+            Ask
+          </Text>
         </TouchableOpacity>
         <TouchableOpacity
           style={[styles.tab, activeTab === 'trivia' && styles.tabActive]}
           onPress={() => setActiveTab('trivia')}
+          accessibilityRole="button"
+          accessibilityState={{ selected: activeTab === 'trivia' }}
+          accessibilityLabel="Trivia"
         >
-          <Text style={[styles.tabText, activeTab === 'trivia' && styles.tabTextActive]}>Trivia</Text>
+          <Text
+            style={[styles.tabText, activeTab === 'trivia' && styles.tabTextActive]}
+            maxFontSizeMultiplier={1.4}
+          >
+            Trivia
+          </Text>
         </TouchableOpacity>
         <TouchableOpacity
           style={[styles.tab, activeTab === 'faqs' && styles.tabActive]}
           onPress={() => setActiveTab('faqs')}
+          accessibilityRole="button"
+          accessibilityState={{ selected: activeTab === 'faqs' }}
+          accessibilityLabel="FAQs"
         >
-          <Text style={[styles.tabText, activeTab === 'faqs' && styles.tabTextActive]}>FAQs</Text>
+          <Text style={[styles.tabText, activeTab === 'faqs' && styles.tabTextActive]} maxFontSizeMultiplier={1.4}>
+            FAQs
+          </Text>
         </TouchableOpacity>
       </View>
 
@@ -738,15 +756,21 @@ export function QAScreen() {
               </Text>
               <Text style={styles.bestScore}>Best: {triviaBestScore}</Text>
             </View>
-            <Text style={styles.questionText}>{triviaQuestion.question}</Text>
+            <Text style={styles.questionText} maxFontSizeMultiplier={1.4}>
+              {triviaQuestion.question}
+            </Text>
             {triviaQuestion.options.map((opt, i) => (
               <TouchableOpacity
                 key={i}
                 style={styles.optionBtn}
                 onPress={() => onTriviaAnswer(i)}
                 disabled={triviaLoading}
+                accessibilityRole="button"
+                accessibilityLabel={opt}
               >
-                <Text style={styles.optionText}>{opt}</Text>
+                <Text style={styles.optionText} maxFontSizeMultiplier={1.4}>
+                  {opt}
+                </Text>
               </TouchableOpacity>
             ))}
           </View>

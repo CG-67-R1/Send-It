@@ -2,16 +2,37 @@
 
 How-to for creating the Google Play app and Internal testing. Paste-ready listing and Data safety answers live in [`PLAY_LISTING_COPY.md`](PLAY_LISTING_COPY.md).
 
-**Do not invent a Play app id.** When Console assigns one, record it here and in [`ENVIRONMENT.md`](../../ENVIRONMENT.md).
+**Do not invent a Play app id.** The developer account ID is **not** the app id. When Console assigns an app id, record it here and in [`ENVIRONMENT.md`](../../ENVIRONMENT.md).
+
+## Account (About you)
+
+| Item | Value |
+|------|--------|
+| Account type | Personal |
+| Developer account ID | `7065822239432452180` |
+| Developer name | Motorsport Is Life |
+| Account owner | `cgreene@cybersafefamilies.com.au` |
+| Legal entity | Chris Greene (Individual, AU) |
+| Website | https://roadracer.info |
+| Google contact email | `roadracer.au@outlook.com.au` (Console-only; not the store listing) |
+| Google contact phone | +61 438 887 259 |
 
 ## Preconditions
 
-- Google Play Developer account (one-time registration).
+- Google Play Developer account (above).
 - Package **`com.milroadracer.app`** — must match [`android-app/app.json`](../../android-app/app.json).
 - Privacy policy live: `https://github.com/CG-67-R1/Send-It/blob/main/docs/legal/PRIVACY.md`
 - Signed **AAB** from EAS production (`cd android-app` then `npx eas-cli@latest build -p android --profile production`).
 
 `eas submit` is **not** wired. Upload the AAB in Play Console (or add a service-account JSON later and then `submit.production.android`).
+
+## Developer page
+
+Assets in [`developer-page/`](developer-page/):
+
+1. **Developer icon** — upload `play-developer-icon-512.png`
+2. **Header image** — upload `play-developer-header-4096x2304.jpg`
+3. **Featured app** — skip until the RoadRacer app exists, then select it
 
 ## Create the app
 

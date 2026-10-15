@@ -155,13 +155,7 @@ export function HeadlinesScreen() {
       contentContainerStyle={[styles.content, { minHeight: windowHeight }]}
       showsVerticalScrollIndicator={false}
     >
-      <TouchableOpacity
-        style={[styles.heroTouchable, { height: heroHeight }]}
-        onPress={pickBikePhoto}
-        onLongPress={bikePhotoUri ? removeBikePhoto : undefined}
-        activeOpacity={0.95}
-        disabled={pickingPhoto}
-      >
+      <View style={[styles.heroTouchable, { height: heroHeight }]}>
         <View style={[styles.heroImageContainer, { height: heroHeight }]}>
           {bikePhotoUri ? (
             <Image
@@ -215,14 +209,50 @@ export function HeadlinesScreen() {
           </View>
           {!bikePhotoUri && !pickingPhoto ? (
             <View style={styles.heroHintWrap} pointerEvents="none">
-              <Text style={styles.heroHintText}>Tap to add your bike photo</Text>
-              <Text style={styles.heroPlaceholderCaption}>
+              <Text style={styles.heroHintText} maxFontSizeMultiplier={1.4}>
+                Add your bike photo
+              </Text>
+              <Text style={styles.heroPlaceholderCaption} maxFontSizeMultiplier={1.4}>
                 {favouriteBike
                   ? `Favourite: ${favouriteBike} · photo is a placeholder until you upload yours.`
-                  : 'Placeholder photo — upload your bike below. Your favourite bike from onboarding is saved in Profile.'}
+                  : 'Placeholder photo — upload your bike with the button below. Your favourite bike from onboarding is saved in Profile.'}
               </Text>
             </View>
           ) : null}
+          <View
+            style={[
+              styles.photoActions,
+              { paddingBottom: Math.max(insets.bottom, 12), paddingLeft: Math.max(insets.left, 16) },
+            ]}
+          >
+            <TouchableOpacity
+              style={styles.photoChip}
+              onPress={pickBikePhoto}
+              onLongPress={bikePhotoUri ? removeBikePhoto : undefined}
+              disabled={pickingPhoto}
+              activeOpacity={0.85}
+              accessibilityRole="button"
+              accessibilityLabel={bikePhotoUri ? 'Edit bike photo' : 'Add bike photo'}
+            >
+              <Text style={styles.photoChipText} maxFontSizeMultiplier={1.4}>
+                {bikePhotoUri ? 'Edit photo' : 'Add photo'}
+              </Text>
+            </TouchableOpacity>
+            {bikePhotoUri ? (
+              <TouchableOpacity
+                style={styles.photoRemoveChip}
+                onPress={removeBikePhoto}
+                disabled={pickingPhoto}
+                activeOpacity={0.85}
+                accessibilityRole="button"
+                accessibilityLabel="Remove bike photo"
+              >
+                <Text style={styles.photoRemoveText} maxFontSizeMultiplier={1.4}>
+                  Remove
+                </Text>
+              </TouchableOpacity>
+            ) : null}
+          </View>
           {/* Avatar + rider name: bottom-right, over bike photo */}
           <View
             style={[
@@ -238,6 +268,7 @@ export function HeadlinesScreen() {
                 style={styles.avatarShadowWrap}
                 onPress={goToSettings}
                 activeOpacity={0.85}
+                accessibilityRole="button"
                 accessibilityLabel="Edit profile and avatar"
               >
                 <View style={styles.avatarBadge}>
@@ -256,16 +287,31 @@ export function HeadlinesScreen() {
                 </View>
               </TouchableOpacity>
             ) : (
-              <TouchableOpacity style={styles.addAvatarBtn} onPress={goToSettings} activeOpacity={0.85}>
-                <Text style={styles.addAvatarBtnText}>Add avatar</Text>
+              <TouchableOpacity
+                style={styles.addAvatarBtn}
+                onPress={goToSettings}
+                activeOpacity={0.85}
+                accessibilityRole="button"
+                accessibilityLabel="Add avatar"
+              >
+                <Text style={styles.addAvatarBtnText} maxFontSizeMultiplier={1.4}>
+                  Add avatar
+                </Text>
               </TouchableOpacity>
             )}
-            <TouchableOpacity onPress={goToSettings} activeOpacity={0.85}>
-              <Text style={styles.nicknameHero}>{displayName}</Text>
+            <TouchableOpacity
+              onPress={goToSettings}
+              activeOpacity={0.85}
+              accessibilityRole="button"
+              accessibilityLabel="Edit profile and avatar"
+            >
+              <Text style={styles.nicknameHero} maxFontSizeMultiplier={1.4}>
+                {displayName}
+              </Text>
             </TouchableOpacity>
           </View>
         </View>
-      </TouchableOpacity>
+      </View>
 
       <View style={[styles.buttons, { minHeight: buttonsHeight }]}>
         {homeMode === 'setup' ? (
@@ -273,6 +319,8 @@ export function HeadlinesScreen() {
             style={styles.activityCard}
             onPress={goToBikeSheet}
             activeOpacity={0.85}
+            accessibilityRole="button"
+            accessibilityLabel="Open last bike setup session"
           >
             <Text style={styles.activityLabel}>Last session</Text>
             {lastSession ? (
@@ -292,6 +340,8 @@ export function HeadlinesScreen() {
             style={styles.activityCard}
             onPress={goToTrackPrep}
             activeOpacity={0.85}
+            accessibilityRole="button"
+            accessibilityLabel="Open last track prep"
           >
             <Text style={styles.activityLabel}>Last track prep</Text>
             {lastPrep ? (
@@ -308,20 +358,60 @@ export function HeadlinesScreen() {
           </TouchableOpacity>
         ) : null}
 
-        <TouchableOpacity style={styles.navButton} onPress={goToRiderCoach} activeOpacity={0.8}>
-          <Text style={styles.navButtonText}>Rider Coach</Text>
+        <TouchableOpacity
+          style={styles.navButton}
+          onPress={goToRiderCoach}
+          activeOpacity={0.8}
+          accessibilityRole="button"
+          accessibilityLabel="Rider Coach"
+        >
+          <Text style={styles.navButtonText} maxFontSizeMultiplier={1.4}>
+            Rider Coach
+          </Text>
         </TouchableOpacity>
-        <TouchableOpacity style={styles.navButton} onPress={goToBikeSetup} activeOpacity={0.8}>
-          <Text style={styles.navButtonText}>Bike Setup</Text>
+        <TouchableOpacity
+          style={styles.navButton}
+          onPress={goToBikeSetup}
+          activeOpacity={0.8}
+          accessibilityRole="button"
+          accessibilityLabel="Bike Setup"
+        >
+          <Text style={styles.navButtonText} maxFontSizeMultiplier={1.4}>
+            Bike Setup
+          </Text>
         </TouchableOpacity>
-        <TouchableOpacity style={styles.navButton} onPress={goToEvents} activeOpacity={0.8}>
-          <Text style={styles.navButtonText}>Events</Text>
+        <TouchableOpacity
+          style={styles.navButton}
+          onPress={goToEvents}
+          activeOpacity={0.8}
+          accessibilityRole="button"
+          accessibilityLabel="Events"
+        >
+          <Text style={styles.navButtonText} maxFontSizeMultiplier={1.4}>
+            Events
+          </Text>
         </TouchableOpacity>
-        <TouchableOpacity style={styles.navButton} onPress={goToQA} activeOpacity={0.8}>
-          <Text style={styles.navButtonText}>Q&A</Text>
+        <TouchableOpacity
+          style={styles.navButton}
+          onPress={goToQA}
+          activeOpacity={0.8}
+          accessibilityRole="button"
+          accessibilityLabel="Q&A"
+        >
+          <Text style={styles.navButtonText} maxFontSizeMultiplier={1.4}>
+            Q&A
+          </Text>
         </TouchableOpacity>
-        <TouchableOpacity style={styles.settingsButton} onPress={goToSettings} activeOpacity={0.8}>
-          <Text style={styles.settingsButtonText}>Profile & settings</Text>
+        <TouchableOpacity
+          style={styles.settingsButton}
+          onPress={goToSettings}
+          activeOpacity={0.8}
+          accessibilityRole="button"
+          accessibilityLabel="Profile and settings"
+        >
+          <Text style={styles.settingsButtonText} maxFontSizeMultiplier={1.4}>
+            Profile & settings
+          </Text>
         </TouchableOpacity>
       </View>
     </ScrollView>
@@ -394,10 +484,48 @@ const styles = StyleSheet.create({
     gap: 8,
     maxWidth: '92%',
   },
+  photoActions: {
+    position: 'absolute',
+    left: 0,
+    bottom: 0,
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: 8,
+    zIndex: 2,
+  },
+  photoChip: {
+    minHeight: 44,
+    minWidth: 44,
+    paddingHorizontal: 14,
+    borderRadius: 10,
+    backgroundColor: '#f59e0b',
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  photoChipText: {
+    color: '#0f172a',
+    fontSize: 14,
+    fontWeight: '700',
+  },
+  photoRemoveChip: {
+    minHeight: 44,
+    paddingHorizontal: 14,
+    borderRadius: 10,
+    borderWidth: 1,
+    borderColor: '#f59e0b',
+    backgroundColor: 'rgba(15, 23, 42, 0.82)',
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  photoRemoveText: {
+    color: '#f59e0b',
+    fontSize: 14,
+    fontWeight: '700',
+  },
   heroHintWrap: {
     position: 'absolute',
     left: 20,
-    bottom: 20,
+    bottom: 72,
     paddingHorizontal: 12,
     paddingVertical: 8,
     borderRadius: 8,

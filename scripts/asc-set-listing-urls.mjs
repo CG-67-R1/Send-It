@@ -16,6 +16,7 @@ const EXPO_GQL = 'https://api.expo.dev/graphql';
 
 const SUPPORT_URL = 'https://roadracer.info';
 const MARKETING_URL = 'https://roadracer.info';
+const PRIVACY_URL = 'https://roadracer.info/privacy.html';
 
 function b64url(buf) {
   return Buffer.from(buf).toString('base64').replace(/=/g, '').replace(/\+/g, '-').replace(/\//g, '_');
@@ -104,17 +105,43 @@ for (const loc of locs.data ?? []) {
     supportUrl: loc.attributes.supportUrl,
     marketingUrl: loc.attributes.marketingUrl,
   };
-  await asc(token, 'PATCH', `/v1/appStoreVersionLocalizations/${loc.id}`, {
-    data: {
-      type: 'appStoreVersionLocalizations',
-      id: loc.id,
-      attributes: {
-        supportUrl: SUPPORT_URL,
-        marketingUrl: MARKETING_URL,
+  try {
+    await asc(token, 'PATCH', `/v1/appStoreVersionLocalizations/${loc.id}`, {
+      data: {
+        type: 'appStoreVersionLocalizations',
+        id: loc.id,
+        attributes: {
+          supportUrl: SUPPORT_URL,
+          marketingUrl: MARKETING_URL,
+        },
       },
-    },
-  });
-  console.log(
-    `${loc.attributes.locale}: support ${before.supportUrl} → ${SUPPORT_URL}; marketing ${before.marketingUrl} → ${MARKETING_URL}`,
-  );
+    });
+    console.log(
+      `${loc.attributes.locale}: support ${before.supportUrl} → ${SUPPORT_URL}; marketing ${before.marketingUrl} → ${MARKETING_URL}`,
+    );
+  } catch (err) {
+    console.log(
+      `${loc.attributes.locale}: support=${before.supportUrl} marketing=${before.marketingUrl} (${err.message})`,
+    );
+  }
+}
+
+const infos = await asc(token, 'GET', `/v1/apps/${APP_ID}/appInfos`);
+for (const info of infos.data ?? []) {
+  const infoLocs = await asc(token, 'GET', `/v1/appInfos/${info.id}/appInfoLocalizations`);
+  for (const loc of infoLocs.data ?? []) {
+    const before = loc.attributes.privacyPolicyUrl;
+    try {
+      await asc(token, 'PATCH', `/v1/appInfoLocalizations/${loc.id}`, {
+        data: {
+          type: 'appInfoLocalizations',
+          id: loc.id,
+          attributes: { privacyPolicyUrl: PRIVACY_URL },
+        },
+      });
+      console.log(`${loc.attributes.locale} privacy ${before} → ${PRIVACY_URL}`);
+    } catch (err) {
+      console.log(`${loc.attributes.locale} privacy=${before} (${err.message})`);
+    }
+  }
 }

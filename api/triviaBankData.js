@@ -170,7 +170,7 @@ export const EASY_QA = [
   { q: 'What is turn-in point?', a: 'Where the rider begins to lean and turn into a corner.' },
   { q: 'What is exit speed?', a: 'The speed at which the bike leaves a corner.' },
   { q: 'What is drive?', a: 'Acceleration out of a corner.' },
-  { q: 'What is a straight?', a: 'A long straight section of track.' },
+  { q: 'On a race track, what is a straight?', a: 'A stretch with no corner, where the bike is not leaned over.' },
   { q: 'What is a hairpin?', a: 'A very tight corner, often 180 degrees.' },
   { q: 'What is an esses?', a: 'A series of S-shaped bends.' },
   { q: 'What is a kink?', a: 'A slight bend in an otherwise straight section.' },

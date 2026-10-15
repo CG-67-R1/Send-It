@@ -3,27 +3,44 @@
     {
       "id": "jsb1000",
       "name": "JSB1000 / Superbike",
-      "nodeId": "jp"
-    },
-    {
-      "id": "j-gp2",
-      "name": "J-GP2 (Moto2 spec)",
-      "nodeId": "jp"
-    },
-    {
-      "id": "j-gp3",
-      "name": "J-GP3 (Moto3 spec)",
-      "nodeId": "jp"
+      "nodeId": "jp",
+      "confidence": "official",
+      "notes": "2026 All Japan class."
     },
     {
       "id": "st1000",
       "name": "ST1000 (Superstock)",
-      "nodeId": "jp"
+      "nodeId": "jp",
+      "confidence": "official",
+      "notes": "2026 All Japan class."
     },
     {
       "id": "st600",
       "name": "ST600 (Supersport)",
-      "nodeId": "jp"
+      "nodeId": "jp",
+      "confidence": "official",
+      "notes": "2026 All Japan class."
+    },
+    {
+      "id": "j-gp3",
+      "name": "J-GP3 (Moto3 spec)",
+      "nodeId": "jp",
+      "confidence": "official",
+      "notes": "2026 All Japan class."
+    },
+    {
+      "id": "jp-sport",
+      "name": "JP-SPORT",
+      "nodeId": "jp",
+      "confidence": "official",
+      "notes": "2026 All Japan class."
+    },
+    {
+      "id": "j-gp2",
+      "name": "J-GP2 (historical / not on 2026 calendar)",
+      "nodeId": "jp",
+      "confidence": "official",
+      "notes": "Retained as historical. Not called out on the 2026 MFJ All Japan Road Race calendar."
     }
   ]
 }

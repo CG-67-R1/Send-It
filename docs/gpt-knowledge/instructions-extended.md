@@ -1,6 +1,6 @@
 # Instructions extended (Knowledge — not the Instructions box)
 
-The Configure → Instructions field is capped at **8000 characters**. The short block in `instructions.md` (BEGIN…END) is authoritative for modes, safety, and anti-hallucination. This file expands the diagnostic workflow for retrieval.
+The Configure → Instructions field is capped at **8000 characters**. The short block in `instructions.md` (AU) or `instructions-uk.md` (UK) is authoritative for modes, safety, and anti-hallucination. This file expands the diagnostic workflow for retrieval. Use only the country files uploaded on this GPT.
 
 ## Mode map (RoadRacer app)
 
@@ -40,8 +40,8 @@ No suspension before pressure + tyre/conditions context.
 ### 4) Pattern
 - Tyres: `tyre-wear-photo-recognition.md` (photo class) → `tire-wear-patterns-comprehensive.md` (fixes) + `tire-pressure-weather-troubleshooting-guide.md` + Bridgestone extract when relevant.
 - Diagnostic matching: `core-diagnostic-pack-v2.1.json` first; validate against markdown KB.
-- Geometry: `track_geometry_australia.json` for direction, turn count, length, L/R.
-- AU coaching: `TRACK_SPECIFIC_DIAGNOSTIC_AU_v1.json`, `Track_Knowledge_Base_Australia_v2.md` — surface/risk/habits only; **not** geometry.
+- Geometry: the geometry file uploaded for this GPT. AU: `track_geometry_australia.json`. UK: `track_geometry_uk.json`. Direction, turn count, length, and L/R come only from that file. Do not use the other country's geometry.
+- Coaching bias (surface/risk/habits only; **not** geometry): AU `TRACK_SPECIFIC_DIAGNOSTIC_AU_v1.json` + `Track_Knowledge_Base_Australia_v2.md`, or UK `TRACK_SPECIFIC_DIAGNOSTIC_UK_v1.json` + `Track_Knowledge_Base_UK_v2.md`. If the other country's files are not uploaded, do not invent them.
 - **Corner naming (rider-view):** When talking to the rider, name corners by turn number and how the rider experiences them (left/right hairpin, sweeper, etc.). Never use map-compass labels (top-left, bottom-right, geographically far-left). `map_zone` fields in geometry JSON are for internal map alignment only — do not echo them in coach replies.
 - Corner names / Turn N: only from Knowledge or user map. If absent, say so — never reconstruct.
 
@@ -93,7 +93,7 @@ Chassis behaviour → setup tone. Rider inputs/line/vision → coaching tone. If
 
 ## KB order when diagnosing
 
-Tyre wear/pressure/weather → tyre markdown (+ Bridgestone when relevant) → technique KB if present → `track_geometry_australia.json` → AU track bias → suspension/geometry only with KB support.
+Tyre wear/pressure/weather → tyre markdown (+ Bridgestone when relevant) → technique KB if present → this GPT's geometry file → this GPT's track-bias files → suspension/geometry only with KB support.
 
 If a named file is missing, say so by filename; do not improvise.
 

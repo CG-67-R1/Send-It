@@ -1,7 +1,9 @@
 import fs from 'fs/promises';
 import path from 'path';
 import { fileURLToPath } from 'url';
+import { isReadableTrivia } from './triviaLanguage.js';
 import { AU_EXTRA_TRIVIA } from './triviaAuExtra.js';
+import { UK_TRIVIA } from './triviaUk.js';
 import {
   filterAvailableIndices,
   pickTriviaIndex,
@@ -695,6 +697,7 @@ function convertTriviaBankItem(item, rating) {
     correctIndex = options.findIndex((t) => t === item.correct);
   }
   if (!item.q || options.length < 2 || correctIndex < 0) return null;
+  if (!isReadableTrivia(item.q, item.correct || options[correctIndex])) return null;
   return {
     question: item.q,
     options,
@@ -824,13 +827,14 @@ async function loadAusRatedTrivia() {
 }
 
 export async function getTriviaQuestion(usedIndices = [], options = {}) {
-  const region = options.region === 'au' ? 'au' : 'global';
+  const region = options.region === 'uk' ? 'uk' : options.region === 'au' ? 'au' : 'global';
   const difficulty =
     typeof options.difficulty === 'number' && !Number.isNaN(options.difficulty)
       ? options.difficulty
       : undefined;
 
-  const bank = region === 'au' ? await loadAusRatedTrivia() : await loadGlobalRatedTrivia();
+  const bank =
+    region === 'uk' ? UK_TRIVIA : region === 'au' ? await loadAusRatedTrivia() : await loadGlobalRatedTrivia();
   if (bank.length > 0) {
     const available = filterAvailableIndices(bank, usedIndices, (item) => item.question || item.q || '');
     if (available.length === 0) return { error: 'No more questions.' };

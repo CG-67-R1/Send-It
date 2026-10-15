@@ -8,19 +8,36 @@
   "sources": [
     {
       "id": "imi-calendar",
-      "name": "IMI Calendar",
+      "name": "IMI",
       "type": "governing_body_calendar",
-      "url": "https://www.imi.co.id",
+      "url": "https://www.imi.id",
       "nodeId": "id",
       "confidence": "official"
     },
     {
-      "id": "mandalika-events",
-      "name": "Mandalika Circuit Events",
-      "type": "venue_calendar",
-      "url": "https://www.mxgpmandalika.com",
+      "id": "mandalika-racing-series-calendar",
+      "name": "Pertamina Mandalika Racing Series",
+      "type": "series_calendar",
+      "url": "https://mandalikaracingseries.com",
       "nodeId": "id",
-      "confidence": "established-press"
+      "confidence": "official",
+      "notes": "National road-race calendar. mxgpmandalika.com is MXGP / motocross — do not use."
+    },
+    {
+      "id": "arrc-calendar",
+      "name": "Asia Road Racing Championship",
+      "type": "series_calendar",
+      "url": "https://www.asiaroadracing.com",
+      "nodeId": "id",
+      "confidence": "official"
+    },
+    {
+      "id": "moto4-asia-calendar",
+      "name": "Idemitsu Moto4 Asia Cup",
+      "type": "series_calendar",
+      "url": "https://www.moto4asiacup.com",
+      "nodeId": "id",
+      "confidence": "official"
     }
   ]
 }

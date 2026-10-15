@@ -1,0 +1,1541 @@
+{
+  "tracks": [
+    {
+      "pack": "au",
+      "id": "one_raceway",
+      "group": "one_raceway",
+      "venue": "One Raceway",
+      "layout": "wakefield cw",
+      "match": [
+        "one raceway",
+        "wakefield park raceway",
+        "wakefield",
+        "wakefield park"
+      ],
+      "layoutMatch": [
+        "wakefield"
+      ],
+      "lengthKm": 2.35,
+      "turnCount": 13,
+      "direction": "",
+      "turns": [
+        {
+          "n": 2,
+          "hand": "left"
+        }
+      ],
+      "bias": ""
+    },
+    {
+      "pack": "au",
+      "id": "winton_motor_raceway",
+      "group": "winton_motor_raceway",
+      "venue": "Winton Motor Raceway",
+      "match": [
+        "winton motor raceway",
+        "winton"
+      ],
+      "layoutMatch": [],
+      "lengthKm": 3,
+      "turnCount": 12,
+      "direction": "clockwise",
+      "turns": [
+        {
+          "n": 3,
+          "hand": "left"
+        },
+        {
+          "n": 4,
+          "hand": "right"
+        },
+        {
+          "n": 5,
+          "hand": "left"
+        },
+        {
+          "n": 6,
+          "hand": "right"
+        },
+        {
+          "n": 7,
+          "hand": "left"
+        },
+        {
+          "n": 8,
+          "hand": "right"
+        },
+        {
+          "n": 9,
+          "hand": "right"
+        },
+        {
+          "n": 10,
+          "hand": "right"
+        }
+      ],
+      "bias": ""
+    },
+    {
+      "pack": "au",
+      "id": "broadford",
+      "group": "broadford",
+      "venue": "Broadford State Motorcycle Sports Complex",
+      "match": [
+        "broadford state motorcycle sports complex",
+        "broadford"
+      ],
+      "layoutMatch": [],
+      "lengthKm": 2.16,
+      "turnCount": 12,
+      "direction": "clockwise",
+      "turns": [
+        {
+          "n": 1,
+          "hand": "right"
+        },
+        {
+          "n": 2,
+          "hand": "right"
+        },
+        {
+          "n": 6,
+          "hand": "right"
+        },
+        {
+          "n": 7,
+          "hand": "right"
+        },
+        {
+          "n": 8,
+          "hand": "left"
+        },
+        {
+          "n": 9,
+          "hand": "right"
+        }
+      ],
+      "bias": "surface tight, off camber, elevation changes. issues rear spin off camber, front push downhill, highside risk. priority smoothness and control"
+    },
+    {
+      "pack": "au",
+      "id": "phillip_island",
+      "group": "phillip_island",
+      "venue": "Phillip Island Grand Prix Circuit",
+      "match": [
+        "phillip island grand prix circuit",
+        "phillip island"
+      ],
+      "layoutMatch": [],
+      "lengthKm": 4.448,
+      "turnCount": 12,
+      "direction": "anticlockwise",
+      "turns": [
+        {
+          "n": 1,
+          "hand": "right"
+        },
+        {
+          "n": 2,
+          "hand": "left"
+        },
+        {
+          "n": 3,
+          "hand": "left"
+        },
+        {
+          "n": 4,
+          "hand": "right"
+        },
+        {
+          "n": 5,
+          "hand": "right"
+        },
+        {
+          "n": 6,
+          "hand": "left"
+        },
+        {
+          "n": 7,
+          "hand": "right"
+        },
+        {
+          "n": 8,
+          "hand": "left"
+        },
+        {
+          "n": 9,
+          "hand": "left"
+        },
+        {
+          "n": 10,
+          "hand": "right"
+        },
+        {
+          "n": 11,
+          "hand": "left"
+        },
+        {
+          "n": 12,
+          "hand": "left"
+        }
+      ],
+      "bias": "surface high speed, long corners, wind exposure. issues edge grip overload, tyre wear on edge, wind instability. priority stability and edge support"
+    },
+    {
+      "pack": "au",
+      "id": "hidden_valley",
+      "group": "hidden_valley",
+      "venue": "Hidden Valley Raceway",
+      "match": [
+        "hidden valley raceway",
+        "hidden valley",
+        "darwin"
+      ],
+      "layoutMatch": [],
+      "lengthKm": 2.87,
+      "turnCount": 14,
+      "direction": "anticlockwise",
+      "turns": [
+        {
+          "n": 1,
+          "hand": "left"
+        },
+        {
+          "n": 2,
+          "hand": "left"
+        },
+        {
+          "n": 3,
+          "hand": "right"
+        },
+        {
+          "n": 4,
+          "hand": "left"
+        },
+        {
+          "n": 5,
+          "hand": "right"
+        },
+        {
+          "n": 6,
+          "hand": "left"
+        },
+        {
+          "n": 7,
+          "hand": "right"
+        },
+        {
+          "n": 8,
+          "hand": "right"
+        },
+        {
+          "n": 9,
+          "hand": "left"
+        },
+        {
+          "n": 10,
+          "hand": "left"
+        },
+        {
+          "n": 11,
+          "hand": "left"
+        },
+        {
+          "n": 12,
+          "hand": "right"
+        },
+        {
+          "n": 13,
+          "hand": "right"
+        },
+        {
+          "n": 14,
+          "hand": "left"
+        }
+      ],
+      "bias": ""
+    },
+    {
+      "pack": "au",
+      "id": "queensland_raceway_national",
+      "group": "queensland_raceway_national",
+      "venue": "Queensland Raceway",
+      "match": [
+        "queensland raceway",
+        "queensland raceway national"
+      ],
+      "layoutMatch": [],
+      "lengthKm": 3.126,
+      "turnCount": 6,
+      "direction": "clockwise",
+      "turns": [
+        {
+          "n": 1,
+          "hand": "right"
+        },
+        {
+          "n": 2,
+          "hand": "right"
+        },
+        {
+          "n": 3,
+          "hand": "right"
+        },
+        {
+          "n": 4,
+          "hand": "right"
+        },
+        {
+          "n": 5,
+          "hand": "right"
+        },
+        {
+          "n": 6,
+          "hand": "right"
+        }
+      ],
+      "bias": ""
+    },
+    {
+      "pack": "au",
+      "id": "the_bend_motorsport_park",
+      "group": "the_bend_motorsport_park",
+      "venue": "The Bend Motorsport Park",
+      "layout": "International Circuit",
+      "match": [
+        "the bend motorsport park",
+        "the bend"
+      ],
+      "layoutMatch": [],
+      "lengthKm": 4.95,
+      "turnCount": 18,
+      "direction": "",
+      "turns": [
+        {
+          "n": 1,
+          "hand": "right"
+        },
+        {
+          "n": 2,
+          "hand": "right"
+        },
+        {
+          "n": 3,
+          "hand": "right"
+        },
+        {
+          "n": 4,
+          "hand": "left"
+        },
+        {
+          "n": 5,
+          "hand": "right"
+        },
+        {
+          "n": 6,
+          "hand": "left"
+        },
+        {
+          "n": 7,
+          "hand": "right"
+        },
+        {
+          "n": 8,
+          "hand": "right"
+        },
+        {
+          "n": 9,
+          "hand": "left"
+        },
+        {
+          "n": 10,
+          "hand": "left"
+        },
+        {
+          "n": 11,
+          "hand": "right"
+        },
+        {
+          "n": 12,
+          "hand": "left"
+        },
+        {
+          "n": 13,
+          "hand": "right"
+        },
+        {
+          "n": 14,
+          "hand": "left"
+        },
+        {
+          "n": 15,
+          "hand": "right"
+        },
+        {
+          "n": 16,
+          "hand": "left"
+        },
+        {
+          "n": 17,
+          "hand": "left"
+        },
+        {
+          "n": 18,
+          "hand": "right"
+        }
+      ],
+      "bias": ""
+    },
+    {
+      "pack": "au",
+      "id": "the_bend_motorsport_park",
+      "group": "the_bend_motorsport_park",
+      "venue": "The Bend Motorsport Park",
+      "layout": "GT Circuit",
+      "match": [
+        "the bend motorsport park",
+        "the bend"
+      ],
+      "layoutMatch": [],
+      "lengthKm": 7.77,
+      "turnCount": 35,
+      "direction": "",
+      "turns": [
+        {
+          "n": 1,
+          "hand": "right"
+        },
+        {
+          "n": 2,
+          "hand": "right"
+        },
+        {
+          "n": 3,
+          "hand": "right"
+        },
+        {
+          "n": 4,
+          "hand": "left"
+        },
+        {
+          "n": 5,
+          "hand": "left"
+        },
+        {
+          "n": 6,
+          "hand": "right"
+        },
+        {
+          "n": 7,
+          "hand": "left"
+        },
+        {
+          "n": 8,
+          "hand": "right"
+        },
+        {
+          "n": 9,
+          "hand": "right"
+        },
+        {
+          "n": 10,
+          "hand": "left"
+        },
+        {
+          "n": 11,
+          "hand": "left"
+        },
+        {
+          "n": 12,
+          "hand": "right"
+        },
+        {
+          "n": 13,
+          "hand": "right"
+        },
+        {
+          "n": 14,
+          "hand": "right"
+        },
+        {
+          "n": 15,
+          "hand": "right"
+        },
+        {
+          "n": 16,
+          "hand": "right"
+        },
+        {
+          "n": 17,
+          "hand": "right"
+        },
+        {
+          "n": 18,
+          "hand": "left"
+        },
+        {
+          "n": 19,
+          "hand": "right"
+        },
+        {
+          "n": 20,
+          "hand": "left"
+        },
+        {
+          "n": 21,
+          "hand": "right"
+        },
+        {
+          "n": 22,
+          "hand": "left"
+        },
+        {
+          "n": 23,
+          "hand": "right"
+        },
+        {
+          "n": 24,
+          "hand": "right"
+        },
+        {
+          "n": 25,
+          "hand": "right"
+        },
+        {
+          "n": 26,
+          "hand": "left"
+        },
+        {
+          "n": 27,
+          "hand": "right"
+        },
+        {
+          "n": 28,
+          "hand": "left"
+        },
+        {
+          "n": 29,
+          "hand": "right"
+        },
+        {
+          "n": 30,
+          "hand": "left"
+        },
+        {
+          "n": 31,
+          "hand": "right"
+        },
+        {
+          "n": 32,
+          "hand": "right"
+        },
+        {
+          "n": 33,
+          "hand": "left"
+        },
+        {
+          "n": 34,
+          "hand": "right"
+        },
+        {
+          "n": 35,
+          "hand": "right"
+        }
+      ],
+      "bias": ""
+    },
+    {
+      "pack": "au",
+      "id": "the_bend_motorsport_park",
+      "group": "the_bend_motorsport_park",
+      "venue": "The Bend Motorsport Park",
+      "layout": "West Circuit",
+      "match": [
+        "the bend motorsport park",
+        "the bend"
+      ],
+      "layoutMatch": [
+        "west"
+      ],
+      "lengthKm": 3.41,
+      "turnCount": 12,
+      "direction": "",
+      "turns": [
+        {
+          "n": 1,
+          "hand": "right"
+        },
+        {
+          "n": 2,
+          "hand": "right"
+        },
+        {
+          "n": 3,
+          "hand": "right"
+        },
+        {
+          "n": 4,
+          "hand": "right"
+        },
+        {
+          "n": 5,
+          "hand": "left"
+        },
+        {
+          "n": 6,
+          "hand": "left"
+        },
+        {
+          "n": 7,
+          "hand": "right"
+        },
+        {
+          "n": 8,
+          "hand": "right"
+        },
+        {
+          "n": 9,
+          "hand": "left"
+        },
+        {
+          "n": 11,
+          "hand": "left"
+        },
+        {
+          "n": 12,
+          "hand": "left"
+        }
+      ],
+      "bias": ""
+    },
+    {
+      "pack": "au",
+      "id": "the_bend_motorsport_park",
+      "group": "the_bend_motorsport_park",
+      "venue": "The Bend Motorsport Park",
+      "layout": "East Circuit",
+      "match": [
+        "the bend motorsport park",
+        "the bend"
+      ],
+      "layoutMatch": [
+        "east"
+      ],
+      "lengthKm": 3.93,
+      "turnCount": 22,
+      "direction": "",
+      "turns": [
+        {
+          "n": 1,
+          "hand": "right"
+        },
+        {
+          "n": 2,
+          "hand": "right"
+        },
+        {
+          "n": 3,
+          "hand": "left"
+        },
+        {
+          "n": 4,
+          "hand": "right"
+        },
+        {
+          "n": 5,
+          "hand": "right"
+        },
+        {
+          "n": 6,
+          "hand": "left"
+        },
+        {
+          "n": 7,
+          "hand": "right"
+        },
+        {
+          "n": 8,
+          "hand": "right"
+        },
+        {
+          "n": 9,
+          "hand": "left"
+        },
+        {
+          "n": 10,
+          "hand": "right"
+        },
+        {
+          "n": 11,
+          "hand": "right"
+        },
+        {
+          "n": 12,
+          "hand": "right"
+        },
+        {
+          "n": 13,
+          "hand": "left"
+        },
+        {
+          "n": 14,
+          "hand": "right"
+        },
+        {
+          "n": 15,
+          "hand": "left"
+        },
+        {
+          "n": 16,
+          "hand": "right"
+        },
+        {
+          "n": 17,
+          "hand": "left"
+        },
+        {
+          "n": 18,
+          "hand": "right"
+        },
+        {
+          "n": 19,
+          "hand": "left"
+        },
+        {
+          "n": 20,
+          "hand": "right"
+        },
+        {
+          "n": 21,
+          "hand": "left"
+        },
+        {
+          "n": 22,
+          "hand": "right"
+        }
+      ],
+      "bias": ""
+    },
+    {
+      "pack": "au",
+      "id": "mallala",
+      "group": "mallala",
+      "venue": "Mallala Motor Sport Park",
+      "match": [
+        "mallala motor sport park",
+        "mallala"
+      ],
+      "layoutMatch": [],
+      "lengthKm": 2.601,
+      "turnCount": 9,
+      "direction": "clockwise",
+      "turns": [
+        {
+          "n": 2,
+          "hand": "left"
+        },
+        {
+          "n": 3,
+          "hand": "right"
+        },
+        {
+          "n": 6,
+          "hand": "left"
+        },
+        {
+          "n": 7,
+          "hand": "right"
+        }
+      ],
+      "bias": "surface bumpy, low grip offline, heavy braking zones. issues front instability over bumps, rear unload on exit, braking instability. priority stability over aggression"
+    },
+    {
+      "pack": "au",
+      "id": "morgan_park",
+      "group": "morgan_park",
+      "venue": "Morgan Park Raceway",
+      "match": [
+        "morgan park raceway",
+        "morgan park"
+      ],
+      "layoutMatch": [],
+      "lengthKm": 2.967,
+      "turnCount": 12,
+      "direction": "clockwise",
+      "turns": [
+        {
+          "n": 1,
+          "hand": "right"
+        },
+        {
+          "n": 2,
+          "hand": "right"
+        },
+        {
+          "n": 3,
+          "hand": "right"
+        },
+        {
+          "n": 4,
+          "hand": "left"
+        },
+        {
+          "n": 5,
+          "hand": "right"
+        },
+        {
+          "n": 8,
+          "hand": "left"
+        },
+        {
+          "n": 9,
+          "hand": "right"
+        },
+        {
+          "n": 10,
+          "hand": "right"
+        }
+      ],
+      "bias": ""
+    },
+    {
+      "pack": "au",
+      "id": "mount_panorama",
+      "group": "mount_panorama",
+      "venue": "Mount Panorama Circuit",
+      "match": [
+        "mount panorama circuit",
+        "mount panorama",
+        "bathurst"
+      ],
+      "layoutMatch": [],
+      "lengthKm": 6.213,
+      "turnCount": 23,
+      "direction": "clockwise",
+      "turns": [
+        {
+          "n": 1,
+          "hand": "right"
+        },
+        {
+          "n": 2,
+          "hand": "right"
+        },
+        {
+          "n": 3,
+          "hand": "left"
+        },
+        {
+          "n": 4,
+          "hand": "right"
+        },
+        {
+          "n": 5,
+          "hand": "left"
+        },
+        {
+          "n": 6,
+          "hand": "right"
+        },
+        {
+          "n": 7,
+          "hand": "right"
+        },
+        {
+          "n": 8,
+          "hand": "left"
+        },
+        {
+          "n": 9,
+          "hand": "right"
+        },
+        {
+          "n": 10,
+          "hand": "left"
+        },
+        {
+          "n": 11,
+          "hand": "left"
+        },
+        {
+          "n": 12,
+          "hand": "left"
+        },
+        {
+          "n": 13,
+          "hand": "right"
+        },
+        {
+          "n": 14,
+          "hand": "right"
+        },
+        {
+          "n": 15,
+          "hand": "left"
+        },
+        {
+          "n": 16,
+          "hand": "right"
+        },
+        {
+          "n": 17,
+          "hand": "left"
+        },
+        {
+          "n": 18,
+          "hand": "right"
+        },
+        {
+          "n": 19,
+          "hand": "left"
+        },
+        {
+          "n": 20,
+          "hand": "right"
+        },
+        {
+          "n": 21,
+          "hand": "right"
+        },
+        {
+          "n": 22,
+          "hand": "right"
+        },
+        {
+          "n": 23,
+          "hand": "left"
+        }
+      ],
+      "bias": ""
+    },
+    {
+      "pack": "au",
+      "id": "sandown",
+      "group": "sandown",
+      "venue": "Sandown International Motor Raceway",
+      "match": [
+        "sandown international motor raceway",
+        "sandown"
+      ],
+      "layoutMatch": [],
+      "lengthKm": 3.104,
+      "turnCount": 13,
+      "direction": "anticlockwise",
+      "turns": [
+        {
+          "n": 1,
+          "hand": "right"
+        },
+        {
+          "n": 2,
+          "hand": "right"
+        },
+        {
+          "n": 3,
+          "hand": "right"
+        },
+        {
+          "n": 4,
+          "hand": "left"
+        },
+        {
+          "n": 5,
+          "hand": "left"
+        },
+        {
+          "n": 6,
+          "hand": "right"
+        },
+        {
+          "n": 7,
+          "hand": "left"
+        },
+        {
+          "n": 8,
+          "hand": "right"
+        },
+        {
+          "n": 9,
+          "hand": "left"
+        },
+        {
+          "n": 10,
+          "hand": "right"
+        },
+        {
+          "n": 11,
+          "hand": "left"
+        },
+        {
+          "n": 12,
+          "hand": "right"
+        },
+        {
+          "n": 13,
+          "hand": "left"
+        }
+      ],
+      "bias": ""
+    },
+    {
+      "pack": "au",
+      "id": "sydney_motorsport_park",
+      "group": "sydney_motorsport_park",
+      "venue": "Sydney Motorsport Park",
+      "layout": "Gardner Grand Prix Circuit",
+      "match": [
+        "sydney motorsport park",
+        "eastern creek international raceway 1990 2012",
+        "smsp",
+        "eastern creek"
+      ],
+      "layoutMatch": [
+        "gardner"
+      ],
+      "lengthKm": 3.91,
+      "turnCount": 11,
+      "direction": "anticlockwise",
+      "turns": [
+        {
+          "n": 1,
+          "hand": "left"
+        },
+        {
+          "n": 2,
+          "hand": "right"
+        },
+        {
+          "n": 3,
+          "hand": "left"
+        },
+        {
+          "n": 4,
+          "hand": "right"
+        },
+        {
+          "n": 5,
+          "hand": "left"
+        },
+        {
+          "n": 6,
+          "hand": "right"
+        },
+        {
+          "n": 7,
+          "hand": "right"
+        },
+        {
+          "n": 8,
+          "hand": "left"
+        },
+        {
+          "n": 9,
+          "hand": "right"
+        },
+        {
+          "n": 10,
+          "hand": "left"
+        },
+        {
+          "n": 11,
+          "hand": "left"
+        }
+      ],
+      "bias": "surface good grip, high speed, flowing layout. issues overconfidence front, high speed instability, exit drive errors. priority precision over stability"
+    },
+    {
+      "pack": "au",
+      "id": "sydney_motorsport_park",
+      "group": "sydney_motorsport_park",
+      "venue": "Sydney Motorsport Park",
+      "layout": "Brabham Extended Circuit",
+      "match": [
+        "sydney motorsport park",
+        "eastern creek international raceway 1990 2012",
+        "smsp",
+        "eastern creek"
+      ],
+      "layoutMatch": [
+        "brabham"
+      ],
+      "lengthKm": 4.5,
+      "turnCount": 16,
+      "direction": "anticlockwise",
+      "turns": [
+        {
+          "n": 1,
+          "hand": "left"
+        },
+        {
+          "n": 2,
+          "hand": "right"
+        },
+        {
+          "n": 3,
+          "hand": "left"
+        },
+        {
+          "n": 4,
+          "hand": "right"
+        },
+        {
+          "n": 5,
+          "hand": "left"
+        },
+        {
+          "n": 6,
+          "hand": "right"
+        },
+        {
+          "n": 7,
+          "hand": "right"
+        },
+        {
+          "n": 8,
+          "hand": "left"
+        },
+        {
+          "n": 9,
+          "hand": "right"
+        },
+        {
+          "n": 10,
+          "hand": "left"
+        },
+        {
+          "n": 11,
+          "hand": "right"
+        },
+        {
+          "n": 12,
+          "hand": "left"
+        },
+        {
+          "n": 13,
+          "hand": "right"
+        },
+        {
+          "n": 14,
+          "hand": "left"
+        },
+        {
+          "n": 15,
+          "hand": "right"
+        },
+        {
+          "n": 16,
+          "hand": "left"
+        }
+      ],
+      "bias": "surface good grip, high speed, flowing layout. issues overconfidence front, high speed instability, exit drive errors. priority precision over stability"
+    },
+    {
+      "pack": "au",
+      "id": "sydney_motorsport_park",
+      "group": "sydney_motorsport_park",
+      "venue": "Sydney Motorsport Park",
+      "layout": "Druitt North Circuit",
+      "match": [
+        "sydney motorsport park",
+        "eastern creek international raceway 1990 2012",
+        "smsp",
+        "eastern creek"
+      ],
+      "layoutMatch": [
+        "druitt"
+      ],
+      "lengthKm": 2.84,
+      "turnCount": 9,
+      "direction": "anticlockwise",
+      "turns": [
+        {
+          "n": 1,
+          "hand": "left"
+        },
+        {
+          "n": 2,
+          "hand": "right"
+        },
+        {
+          "n": 3,
+          "hand": "left"
+        },
+        {
+          "n": 4,
+          "hand": "right"
+        },
+        {
+          "n": 5,
+          "hand": "left"
+        },
+        {
+          "n": 6,
+          "hand": "right"
+        },
+        {
+          "n": 7,
+          "hand": "right"
+        },
+        {
+          "n": 8,
+          "hand": "left"
+        },
+        {
+          "n": 9,
+          "hand": "left"
+        }
+      ],
+      "bias": "surface good grip, high speed, flowing layout. issues overconfidence front, high speed instability, exit drive errors. priority precision over stability"
+    },
+    {
+      "pack": "au",
+      "id": "calder_park",
+      "group": "calder_park",
+      "venue": "Calder Park Raceway",
+      "match": [
+        "calder park raceway",
+        "calder park"
+      ],
+      "layoutMatch": [],
+      "lengthKm": 1.801,
+      "turnCount": 4,
+      "direction": "clockwise",
+      "turns": [
+        {
+          "n": 1,
+          "hand": "right"
+        },
+        {
+          "n": 2,
+          "hand": "right"
+        },
+        {
+          "n": 3,
+          "hand": "right"
+        },
+        {
+          "n": 4,
+          "hand": "right"
+        }
+      ],
+      "bias": ""
+    },
+    {
+      "pack": "au",
+      "id": "mac_park",
+      "group": "mac_park",
+      "venue": "mac park",
+      "match": [
+        "mac park"
+      ],
+      "layoutMatch": [],
+      "lengthKm": null,
+      "turnCount": null,
+      "direction": "",
+      "turns": [],
+      "bias": "surface elevation changes, blind crests, high grip. issues unsettled on crests, rear spin after landing, line choice critical. priority compliance and stability"
+    },
+    {
+      "pack": "uk",
+      "id": "brands_hatch",
+      "group": "brands_hatch",
+      "venue": "Brands Hatch",
+      "match": [
+        "brands hatch",
+        "brands"
+      ],
+      "layoutMatch": [],
+      "lengthKm": 3.916,
+      "turnCount": 9,
+      "direction": "clockwise",
+      "turns": [
+        {
+          "n": 1,
+          "hand": "right",
+          "label": "Paddock Hill Bend"
+        },
+        {
+          "n": 2,
+          "hand": "right",
+          "label": "Druids"
+        },
+        {
+          "n": 3,
+          "hand": "left",
+          "label": "Graham Hill Bend"
+        },
+        {
+          "n": 4,
+          "hand": "right",
+          "label": "Surtees"
+        },
+        {
+          "n": 5,
+          "hand": "right",
+          "label": "Hawthorn Bend"
+        },
+        {
+          "n": 6,
+          "hand": "right",
+          "label": "Westfield Bend"
+        },
+        {
+          "n": 7,
+          "hand": "left",
+          "label": "Sheene Curve"
+        },
+        {
+          "n": 8,
+          "hand": "left",
+          "label": "Stirling's"
+        },
+        {
+          "n": 9,
+          "hand": "right",
+          "label": "Clark Curve"
+        }
+      ],
+      "bias": "surface elevation changes, camber changes, high commitment entry. issues paddock hill unload, druids late apex loss, sheene blind apex. priority stability over aggression"
+    },
+    {
+      "pack": "uk",
+      "id": "donington",
+      "group": "donington",
+      "venue": "Donington Park",
+      "match": [
+        "donington park",
+        "donington"
+      ],
+      "layoutMatch": [],
+      "lengthKm": 3.19,
+      "turnCount": 9,
+      "direction": "clockwise",
+      "turns": [
+        {
+          "n": 1,
+          "hand": "right",
+          "label": "Redgate"
+        },
+        {
+          "n": 2,
+          "hand": "right",
+          "label": "Hollywood"
+        },
+        {
+          "n": 3,
+          "hand": "left",
+          "label": "Craner Curves"
+        },
+        {
+          "n": 4,
+          "hand": "right",
+          "label": "Old Hairpin"
+        },
+        {
+          "n": 5,
+          "hand": "left",
+          "label": "Starkey's Bridge"
+        },
+        {
+          "n": 6,
+          "hand": "left",
+          "label": "Schwantz Curve"
+        },
+        {
+          "n": 7,
+          "hand": "right",
+          "label": "McLean's"
+        },
+        {
+          "n": 8,
+          "hand": "right",
+          "label": "Coppice"
+        }
+      ],
+      "bias": "surface elevation, fast left commitment, mixed grip offline. issues craner lift off oversteer, old hairpin entry positioning, mcleans off camber apex. priority stability and confidence"
+    },
+    {
+      "pack": "uk",
+      "id": "silverstone",
+      "group": "silverstone",
+      "venue": "Silverstone Circuit",
+      "match": [
+        "silverstone circuit",
+        "silverstone"
+      ],
+      "layoutMatch": [],
+      "lengthKm": 2.64,
+      "turnCount": 6,
+      "direction": "clockwise",
+      "turns": [
+        {
+          "n": 1,
+          "hand": "right",
+          "label": "Copse"
+        },
+        {
+          "n": 2,
+          "hand": "left",
+          "label": "Maggotts"
+        },
+        {
+          "n": 4,
+          "hand": "left",
+          "label": "Brooklands"
+        },
+        {
+          "n": 5,
+          "hand": "right",
+          "label": "Luffield"
+        },
+        {
+          "n": 6,
+          "hand": "right",
+          "label": "Woodcote"
+        }
+      ],
+      "bias": "surface high speed, long sweepers, wind exposure. issues edge grip on sweepers, becketts combined load, tyre heat management. priority edge support and stability"
+    },
+    {
+      "pack": "uk",
+      "id": "snetterton",
+      "group": "snetterton",
+      "venue": "Snetterton Circuit",
+      "match": [
+        "snetterton circuit",
+        "snetterton"
+      ],
+      "layoutMatch": [],
+      "lengthKm": 4.78,
+      "turnCount": 12,
+      "direction": "clockwise",
+      "turns": [
+        {
+          "n": 1,
+          "hand": "right",
+          "label": "Riches"
+        },
+        {
+          "n": 2,
+          "hand": "right",
+          "label": "Montreal"
+        },
+        {
+          "n": 3,
+          "hand": "right",
+          "label": "Palmer"
+        },
+        {
+          "n": 4,
+          "hand": "left",
+          "label": "Agostini"
+        },
+        {
+          "n": 5,
+          "hand": "left",
+          "label": "Hamilton"
+        },
+        {
+          "n": 6,
+          "hand": "right",
+          "label": "Oggies"
+        },
+        {
+          "n": 7,
+          "hand": "right",
+          "label": "Williams"
+        },
+        {
+          "n": 8,
+          "hand": "right",
+          "label": "Brundle"
+        },
+        {
+          "n": 9,
+          "hand": "left",
+          "label": "Nelson"
+        },
+        {
+          "n": 10,
+          "hand": "right",
+          "label": "Bomb Hole"
+        },
+        {
+          "n": 11,
+          "hand": "right",
+          "label": "Coram"
+        },
+        {
+          "n": 12,
+          "hand": "left",
+          "label": "Murrays"
+        }
+      ],
+      "bias": "surface long straights, heavy braking zones, fast final sector. issues riches over brake, coram murrays exit drive, rear spin on drive out. priority stable braking and drive"
+    },
+    {
+      "pack": "uk",
+      "id": "cadwell_park",
+      "group": "cadwell_park",
+      "venue": "Cadwell Park",
+      "match": [
+        "cadwell park",
+        "cadwell"
+      ],
+      "layoutMatch": [],
+      "lengthKm": 3.52,
+      "turnCount": 0,
+      "direction": "clockwise",
+      "turns": [],
+      "bias": "surface narrow, blind crests, elevation extreme. issues mountain wheelie crest, charlies commitment, armco proximity. priority confidence and stability"
+    },
+    {
+      "pack": "uk",
+      "id": "oulton_park",
+      "group": "oulton_park",
+      "venue": "Oulton Park",
+      "match": [
+        "oulton park",
+        "oulton"
+      ],
+      "layoutMatch": [],
+      "lengthKm": null,
+      "turnCount": 0,
+      "direction": "clockwise",
+      "turns": [],
+      "bias": ""
+    },
+    {
+      "pack": "uk",
+      "id": "thruxton",
+      "group": "thruxton",
+      "venue": "Thruxton Circuit",
+      "match": [
+        "thruxton circuit",
+        "thruxton"
+      ],
+      "layoutMatch": [],
+      "lengthKm": 3.79,
+      "turnCount": 0,
+      "direction": "clockwise",
+      "turns": [],
+      "bias": ""
+    },
+    {
+      "pack": "uk",
+      "id": "knockhill",
+      "group": "knockhill",
+      "venue": "Knockhill Racing Circuit",
+      "match": [
+        "knockhill racing circuit",
+        "knockhill"
+      ],
+      "layoutMatch": [],
+      "lengthKm": 2.09,
+      "turnCount": 0,
+      "direction": "clockwise",
+      "turns": [],
+      "bias": ""
+    }
+  ]
+}

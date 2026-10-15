@@ -344,7 +344,10 @@ export function CoachChatScreen() {
                 )
               )}
               {m.content ? (
-                <Text style={m.role === 'user' ? styles.bubbleTextUser : styles.bubbleTextAssistant}>
+                <Text
+                  style={m.role === 'user' ? styles.bubbleTextUser : styles.bubbleTextAssistant}
+                  maxFontSizeMultiplier={1.4}
+                >
                   {m.content}
                 </Text>
               ) : null}
@@ -416,6 +419,7 @@ export function CoachChatScreen() {
             style={[styles.attachBtn, loading && styles.attachBtnDisabled]}
             onPress={openAttachMenu}
             disabled={loading}
+            accessibilityRole="button"
             accessibilityLabel="Attach photo or file"
           >
             <Text style={styles.attachBtnText}>+</Text>
@@ -434,13 +438,14 @@ export function CoachChatScreen() {
             editable={!loading}
             multiline
             maxLength={2000}
+            maxFontSizeMultiplier={1.4}
           />
           <TouchableOpacity
             style={[styles.sendBtn, !canSend && styles.sendBtnDisabled]}
             onPress={sendMessage}
             disabled={!canSend}
             accessibilityRole="button"
-            accessibilityLabel={loading ? 'Sending' : undefined}
+            accessibilityLabel={loading ? 'Sending' : 'Send'}
             accessibilityState={{ disabled: !canSend, busy: loading }}
           >
             {loading ? (

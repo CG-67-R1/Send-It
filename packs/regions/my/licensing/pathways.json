@@ -5,16 +5,19 @@
       "title": "MAM competition licence pathway",
       "nodeId": "my",
       "steps": [
-        "Join a MAM-affiliated club",
-        "Obtain MAM membership",
-        "Apply for appropriate competition licence (Novice / National / International)",
-        "Complete medical check",
-        "Pass rider licence / novice orientation"
+        "Join a MAM-affiliated club and keep proof of club membership",
+        "Complete a medical examination (ECG commonly required) using the MAM medical form",
+        "Prepare application materials (IC, photo, blood group, payment) as listed on the licence form",
+        "Choose the road-racing licence grade published on the form — National A / National B (and National C if offered for the year) vs International A / International B (International grades subject to FIM on the form)",
+        "Submit via https://license-mam.com/pubLicenseForm (required) or MAM office / designated 2-wheel contact",
+        "Enter MAM-sanctioned events such as MSBK with the matching grade"
       ],
       "urls": [
-        "https://www.mam.org.my"
+        "https://license-mam.com/pubLicenseForm",
+        "https://www.mam.org.my/downloads/"
       ],
-      "confidence": "official"
+      "confidence": "official",
+      "notes": "High-level only — no invented clause numbers or fees. Grades are as listed on license-mam.com (National A/B, International). Portal is required for 2026 applications."
     }
   ]
 }

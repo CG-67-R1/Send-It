@@ -12,7 +12,11 @@ import {
 import type { GpxTrackMap } from '../data/gpxTrackMaps/types';
 import type { RacingLine } from '../data/racingLines/types';
 import type { TrackDetailsCorner, TrackDetailsCorners } from '../data/trackDetailsCorners/types';
-import type { RiderCircuitDirection, RiderTrackMarks } from '../storage/riderTrackMarks';
+import {
+  nextRiderCornerNumber,
+  type RiderCircuitDirection,
+  type RiderTrackMarks,
+} from '../storage/riderTrackMarks';
 import {
   directionArrowOnRibbon,
   hitBadge,
@@ -107,6 +111,7 @@ export function TrackFacilityMap({
   }, [activeStart, direction, map.polyline]);
 
   const placing = tool === 'placeCorner' || tool === 'markStart';
+  const nextCorner = nextRiderCornerNumber(riderMarks, baked?.corners.length ?? 0);
 
   const handleMapTap = useCallback(
     (e: GestureResponderEvent) => {
@@ -171,6 +176,7 @@ export function TrackFacilityMap({
         />
         <ToolBtn
           label="Mark S/F"
+          accessibilityLabel="Mark start and finish line"
           active={tool === 'markStart'}
           onPress={() => setTool((t) => (t === 'markStart' ? 'idle' : 'markStart'))}
         />
@@ -246,6 +252,26 @@ export function TrackFacilityMap({
           </ScrollView>
         </ScrollView>
 
+        {placing ? (
+          <View style={styles.placeBanner} pointerEvents="box-none">
+            <Text style={styles.placeBannerText} maxFontSizeMultiplier={1.4}>
+              {tool === 'placeCorner'
+                ? `Tap the road to place corner ${nextCorner}`
+                : 'Tap the road to mark start and finish'}
+            </Text>
+            <TouchableOpacity
+              style={styles.placeDone}
+              onPress={() => setTool('idle')}
+              accessibilityRole="button"
+              accessibilityLabel="Done placing"
+            >
+              <Text style={styles.placeDoneText} maxFontSizeMultiplier={1.4}>
+                Done
+              </Text>
+            </TouchableOpacity>
+          </View>
+        ) : null}
+
         <View style={styles.zoomBar} pointerEvents="box-none">
           <TouchableOpacity
             style={styles.zoomBtn}
@@ -255,7 +281,9 @@ export function TrackFacilityMap({
           >
             <Text style={styles.zoomBtnText}>−</Text>
           </TouchableOpacity>
-          <Text style={styles.zoomLabel}>{zoom.toFixed(1)}×</Text>
+          <Text style={styles.zoomLabel} accessible={false}>
+            {zoom.toFixed(1)}×
+          </Text>
           <TouchableOpacity
             style={styles.zoomBtn}
             onPress={() => setZoom((z) => clampZoom(z + ZOOM_STEP))}
@@ -266,17 +294,23 @@ export function TrackFacilityMap({
           </TouchableOpacity>
         </View>
       </View>
-      <Text style={styles.hint}>{hint}</Text>
+      {placing ? null : (
+        <Text style={styles.hint} maxFontSizeMultiplier={1.4}>
+          {hint}
+        </Text>
+      )}
     </View>
   );
 }
 
 function ToolBtn({
   label,
+  accessibilityLabel,
   active,
   onPress,
 }: {
   label: string;
+  accessibilityLabel?: string;
   active: boolean;
   onPress: () => void;
 }) {
@@ -286,8 +320,14 @@ function ToolBtn({
       onPress={onPress}
       accessibilityRole="button"
       accessibilityState={{ selected: active }}
+      accessibilityLabel={accessibilityLabel ?? label}
     >
-      <Text style={[styles.toolBtnText, active && styles.toolBtnTextActive]}>{label}</Text>
+      <Text
+        style={[styles.toolBtnText, active && styles.toolBtnTextActive]}
+        maxFontSizeMultiplier={1.4}
+      >
+        {label}
+      </Text>
     </TouchableOpacity>
   );
 }
@@ -308,15 +348,18 @@ const styles = StyleSheet.create({
     marginBottom: 8,
   },
   toolBtn: {
-    paddingHorizontal: 10,
+    minHeight: 44,
+    paddingHorizontal: 14,
     paddingVertical: 8,
     borderRadius: 8,
     backgroundColor: '#1e293b',
     borderWidth: 1,
     borderColor: '#334155',
+    alignItems: 'center',
+    justifyContent: 'center',
   },
   toolBtnActive: { borderColor: RIDER_AMBER, backgroundColor: 'rgba(245,158,11,0.18)' },
-  toolBtnText: { color: '#cbd5e1', fontSize: 12, fontWeight: '700' },
+  toolBtnText: { color: '#cbd5e1', fontSize: 13, fontWeight: '700' },
   toolBtnTextActive: { color: '#fbbf24' },
   mapWrap: {
     width: '100%',
@@ -346,9 +389,41 @@ const styles = StyleSheet.create({
     paddingHorizontal: 6,
     paddingVertical: 4,
   },
+  placeBanner: {
+    position: 'absolute',
+    top: 8,
+    left: 8,
+    right: 8,
+    zIndex: 2,
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: 8,
+    backgroundColor: '#f59e0b',
+    borderRadius: 10,
+    paddingLeft: 12,
+  },
+  placeBannerText: {
+    flex: 1,
+    color: '#0f172a',
+    fontSize: 14,
+    fontWeight: '700',
+    paddingVertical: 8,
+  },
+  placeDone: {
+    minWidth: 44,
+    minHeight: 44,
+    paddingHorizontal: 12,
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  placeDoneText: {
+    color: '#0f172a',
+    fontSize: 14,
+    fontWeight: '800',
+  },
   zoomBtn: {
-    minWidth: 36,
-    minHeight: 36,
+    minWidth: 44,
+    minHeight: 44,
     borderRadius: 6,
     backgroundColor: '#334155',
     alignItems: 'center',
@@ -369,7 +444,7 @@ const styles = StyleSheet.create({
   },
   hint: {
     color: '#94a3b8',
-    fontSize: 11,
+    fontSize: 12,
     marginTop: 6,
     paddingHorizontal: 20,
   },

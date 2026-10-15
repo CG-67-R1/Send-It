@@ -112,22 +112,20 @@ Prep the bike in the garage: track briefing, events, gearing, and tyre-wear note
 
 (Character count: 145 — editable on a live version without a new review.)
 
-## Version 1.0 — United Kingdom localization (English / en-GB)
+## United Kingdom app (English / en-GB)
 
-**Primary App Store locale remains English (Australia).** Add a UK localization in ASC for App Store UK storefront.
+This copy is for the separate UK app (`com.milroadracer.uk`), primary locale **en-GB**, sold only in the United Kingdom. The Australian app stays English (Australia).
 
 ### Description (UK)
 
 ```
 RoadRacer is your motorcycle road-racing companion — circuit study, race calendar, track notes, bike setup, and AI coaching in one place.
 
-Learn a circuit before you ride it. When a GPS map is in the app, Track Details draws the layout at the true width of the road, with a suggested racing line you can zoom into. You mark start/finish, track direction, and corner numbers yourself, then add surface, camber, entry, and a personal note. Track Walk notes appear on the same page. Walk Brands Hatch, Donington, Cadwell and more with typed or spoken notes and photos, then send them straight to your coach.
+Learn a circuit before you ride it. Track Details draws Brands Hatch, Donington Park, Silverstone, Cadwell Park, Snetterton, Oulton Park, Thruxton, Knockhill, Anglesey, and Mallory Park from their GPS traces, at the true width of the road, with a suggested racing line. Tap a turn to zoom that corner. Track Walk notes sit on the same page.
 
-UK Track Details maps are added as GPS traces become available. Until then, UK circuits are in Track Walk and the calendar; Australian maps already include confirmed turn numbers.
+The calendar lists UK championship rounds that have a sourced date, plus official BSB, club, and track-day calendars. Trivia is UK. Official rule check points to the ACU Standing Regulations and does not cite clause numbers.
 
 Bike Setup keeps the day sheet, gearing, tyre-wear photos, and bike balance on your device. Ask Bike Setup AI about suspension, gearing, and tyres, or ask the Rider Coach about race craft — both pitched at how you ride on a UK track day or club weekend.
-
-Check the race calendar and add reminders to your own calendar, then use Q&A and trivia to sharpen your knowledge.
 
 Your profile, avatar, setups, and track notes stay private on your device. AI chats you send go to the RoadRacer API and may be processed by OpenAI; chat history is not kept on our server after the reply.
 

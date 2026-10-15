@@ -1,7 +1,7 @@
+import { adviceForQuery } from './coachKnowledge.js';
 import fs from 'fs/promises';
 import path from 'path';
 import { fileURLToPath } from 'url';
-import { stripChatMarkdown } from './stripChatMarkdown.js';
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const FAQ_FILE = path.join(__dirname, 'data', 'rider_ai_faqs.json');
@@ -109,10 +109,6 @@ export async function loadRiderAiFaqs(force = false) {
   }
 }
 
-export function faqsForMode(faqs, mode) {
-  return mode === 'bikesetup' ? faqs.bikesetup : faqs.coach;
-}
-
 function formatFaqBlock(items) {
   if (!items.length) return '';
   return items
@@ -127,26 +123,39 @@ function formatFaqBlock(items) {
     .join('\n\n');
 }
 
-export function formatFaqsForPrompt(faqs, mode, riderSkill = 'novice') {
+export function formatFaqsForPrompt(faqs, mode, _riderSkill = 'novice', query = '', packId = 'au') {
   const sections = [];
+  const principles = (faqs.global_principles || []).filter((line) => {
+    const text = String(line || '').trim();
+    return text && text !== '---';
+  });
 
-  if (faqs.global_principles?.length) {
-    sections.push(
-      `Global principles (always follow):\n${faqs.global_principles.map((p) => `- ${p}`).join('\n')}`
-    );
+  if (principles.length) {
+    sections.push(`Rules for this reply:\n${principles.map((line) => `- ${line}`).join('\n')}`);
   }
 
-  if (faqs.novice_guidelines && riderSkill === 'novice') {
-    sections.push(
-      `Novice-friendly response guidelines (profile already chose simple coaching — do not ask the rider to pick Quick vs Detailed):\n${stripChatMarkdown(faqs.novice_guidelines)}`
-    );
-  }
-
-  const items = faqsForMode(faqs, mode);
-  const faqBody = formatFaqBlock(items);
+  const advice = adviceForQuery(faqs, mode, query, packId);
+  const faqBody = formatFaqBlock(advice.primary);
   if (faqBody) {
     sections.push(
-      `Reference FAQs (ground truth for interrogation — when a user question matches these topics, align your answer with this guidance; you may expand with context but do not contradict it):\n${faqBody}`
+      `Notes for this reply. Use a cause that is written here. Do not add a fact these notes do not contain:\n${faqBody}`
+    );
+  }
+  const otherBody = formatFaqBlock(advice.other);
+  if (otherBody) {
+    const otherName = mode === 'bikesetup' ? 'Coach' : 'Bike Setup';
+    sections.push(
+      `The same problem can also be riding or the bike. ${otherName} notes, one line only. Do not give a full second plan:\n${otherBody}`
+    );
+  }
+  if (advice.drill) {
+    sections.push(`Drill to write in the reply. Do not promise to explain it later:\n${advice.drill}`);
+  }
+  if (advice.spansBoth) {
+    sections.push(
+      mode === 'bikesetup'
+        ? 'Start with pressure and what the rider did. If the cause is the line or the throttle, name that and point to Coach.'
+        : 'Start with the riding drill. If pressure, wear, or squat is still unknown, name that and point to Bike Setup.'
     );
   }
 

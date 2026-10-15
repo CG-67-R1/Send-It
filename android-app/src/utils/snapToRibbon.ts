@@ -150,6 +150,32 @@ function walkAlong(
   return null;
 }
 
+/**
+ * The baked racing line follows the GPX direction. The opposite circuit
+ * direction uses the other side of the asphalt: each point is mirrored
+ * through the nearest centreline point. Reversing the points keeps brake
+ * and throttle colours on those same places.
+ */
+export function mirrorLineForDirection<T extends { polyline: number[][]; bands: number[] }>(
+  line: T,
+  ribbon: number[][],
+  direction: 'clockwise' | 'anticlockwise' | null
+): T {
+  if (!direction || line.polyline.length < 2 || ribbon.length < 2) return line;
+  const gpxClockwise = polylineSignedArea(ribbon) > 0;
+  const gpxDirection = gpxClockwise ? 'clockwise' : 'anticlockwise';
+  if (direction === gpxDirection) return line;
+  const mirrored = line.polyline.map((point) => {
+    const centre = snapToRibbon([point[0], point[1]], ribbon);
+    return [2 * centre[0] - point[0], 2 * centre[1] - point[1]];
+  });
+  return {
+    ...line,
+    polyline: mirrored.reverse(),
+    bands: line.bands.slice().reverse(),
+  };
+}
+
 export function hitBadge(
   point: MapPoint,
   badges: { id: string; at: MapPoint }[],

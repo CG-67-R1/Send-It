@@ -268,8 +268,8 @@ function MainTabs() {
         tabBarHideOnKeyboard: true,
         tabBarStyle: { backgroundColor: '#0f172a', borderTopColor: '#1e293b' },
         tabBarActiveTintColor: '#f59e0b',
-        tabBarInactiveTintColor: '#64748b',
-        tabBarLabelStyle: { fontWeight: '600', fontSize: 11 },
+        tabBarInactiveTintColor: '#94a3b8',
+        tabBarLabelStyle: { fontWeight: '600', fontSize: 12 },
       }}
     >
       <Tab.Screen

@@ -24,11 +24,23 @@ It does the jobs you’d otherwise split across notes, forums, and a race engine
 - **Track Details** — map of the circuit (numbers on the picture), distance, weather, ASBK records where we have them, and a row per corner for your notes.
 - **Track Prep** — a briefing for the day you’re going.
 - **Track Walk** — corner notes, photos, voice, then send that to Coach.
-- **Bike Setup** — AI, a day sheet on the phone, balance, gearing, tyre-wear from a photo, and a basics picture of the bike.
+- **Bike Setup** — Bike Setup AI, a day sheet on the phone, Gearing Guide, tyre-wear from a photo, Bike Setup Basics, and Bike Balance.
 - **Events** — MotoGP, WorldSBK, ASBK, with a reminder on your calendar.
 - **Q&A** — ask a question, trivia, FAQs, and an official-rules check.
 
 Coach and setup follow **How you ride** in Settings, so a track-day rider is not talked to like a national racer.
+
+---
+
+## What is Bike Setup?
+
+**Short**
+
+Garage tools on the phone: Bike Setup AI, a day sheet, Gearing Guide, tyre-wear from a photo, and a basics picture of the bike. Setups stay on the device unless you send a chat.
+
+**If they want more**
+
+Write Saturday’s pressures, sag, clicks, and notes so Sunday is not a guess. Photograph a tyre and add the facts a picture cannot show, then ask Bike Setup AI. Gearing Guide works through sprockets and hands the brief to the same chat. It is an informational aid — not a race engineer or a substitute for a qualified technician.
 
 ---
 

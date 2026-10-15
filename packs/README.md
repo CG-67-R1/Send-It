@@ -33,3 +33,5 @@ npm run sync-app-packs       # copy active pack slices into app/src/packs/bundle
 Edit `active.json` (or set `PACK_ACTIVE=au,uk`) then run `sync-app-packs` before building the app.
 
 Current default hybrid for UK scale launch: `["au","uk"]` (Australia home + United Kingdom). See `docs/uk-launch/`.
+
+The home header flag is the primary pack’s country. The hybrid stays on the Australian flag because `au` is first. A country binary sets `EXPO_PUBLIC_PACK` so that pack is primary (UK → `uk` → the UK flag). Add the flag in `homeCountries.ts` and `src/assets/flags/` in both app trees before shipping any other country pack.

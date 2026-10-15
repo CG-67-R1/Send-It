@@ -60,7 +60,7 @@ Target audience: adults interested in motorcycle road racing (not children). Inf
 - Q & A: Ask, Official rule check, Trivia, FAQs. Needs network for Ask/rules.
 - Settings → track arrival: optional foreground location near a known circuit.
 - Settings → Your data & privacy: export/delete local data; Privacy Policy and Terms.
-If AI is slow after idle, wait ~30s for the API to wake (Render). Privacy: https://github.com/CG-67-R1/Send-It/blob/main/docs/legal/PRIVACY.md
+If AI is slow after idle, wait ~30s for the API to wake (Render). Privacy: https://roadracer.info/privacy.html
 
 5) EXTERNAL SERVICES
 - RoadRacer API (Render): https://send-it-ke7r.onrender.com — calendar, Q&A, Coach/Bike Setup proxy

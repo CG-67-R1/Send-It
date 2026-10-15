@@ -5,7 +5,7 @@ You are the Send-It track-data analyst expert for this session. The user EXPLICI
 2. Check each GPX layout against corner lists in tracks.json (and ST KB where helpful).
 3. Fix incorrect corner data in tracks.json (direction, labels, numbering, missing corners)
 4. Build a more detailed kb of each track with turn by turn data relevant for human coaching.
-5. Write a findings report to docs/reviews/TRACK_GPX_ALIGN_2026-07-14.md.
+5. Write a findings report to docs/reviews/TRACK_GPX_ALIGN_<today>.md. Do not update or cite a report dated before 2026-09-14.
 
 ## Paths
 - Repo: C:\Users\Administrator\.cursor\Send-It

@@ -78,6 +78,24 @@
       "pixels": "481x640"
     },
     {
+      "id": "rr-lifestyle-06-tyre-wear-slick-hires",
+      "file": "lifestyle/rr-lifestyle-06-tyre-wear-slick-hires.jpg",
+      "kind": "lifestyle",
+      "pillar": "bike-setup",
+      "screen": "Tyre Wear Analysis",
+      "use": "promo",
+      "pixels": "4032x3024"
+    },
+    {
+      "id": "rr-lifestyle-07-gearing-guide-r6-hires",
+      "file": "lifestyle/rr-lifestyle-07-gearing-guide-r6-hires.jpg",
+      "kind": "lifestyle",
+      "pillar": "bike-setup",
+      "screen": "Gearing Guide",
+      "use": "promo",
+      "pixels": "5712x4284"
+    },
+    {
       "id": "rr-art-01-pitlane-background",
       "file": "art/rr-art-01-pitlane-background.jpg",
       "kind": "art",

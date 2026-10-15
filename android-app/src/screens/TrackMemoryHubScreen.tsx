@@ -51,6 +51,7 @@ import {
 import { getSavedRiderAiSkill } from '../utils/riderSkillSaved';
 import { trackInfoCoachingForSkill } from '../utils/riderSkillCopy';
 import { riderBadgeLabel } from '../components/TrackMapView';
+import { mirrorLineForDirection } from '../utils/snapToRibbon';
 import { walkCardLines, walkNoteForTurn, walkNotesForTrack } from '../utils/trackWalkOnDetails';
 import type { MapPoint } from '../utils/snapToRibbon';
 import type { RiderCoachStackParamList } from './RiderCoachScreen';
@@ -173,6 +174,15 @@ export function TrackMemoryHubScreen() {
   const trusted = trackId ? isTrustedTrackDetails(trackId) : false;
   const layout = trusted && trackId ? getTrackDetailsCorners(trackId) : undefined;
   const catalog = trackId ? getTrackById(trackId) : undefined;
+  const circuitDirection =
+    marks.direction ??
+    (catalog?.direction === 'clockwise' || catalog?.direction === 'anticlockwise'
+      ? catalog.direction
+      : null);
+  const guideLine = useMemo(() => {
+    if (!racingLine || !map) return racingLine;
+    return mirrorLineForDirection(racingLine, map.polyline, circuitDirection);
+  }, [racingLine, map, circuitDirection]);
   const facts = trackId ? getTrackInfoFacts(trackId) : undefined;
   const asbk = facts?.asbkRecords?.filter((r) => r.time) ?? [];
   const polyline = map?.polyline ?? [];
@@ -365,7 +375,7 @@ export function TrackMemoryHubScreen() {
           <View style={styles.mapBleed}>
             <TrackFacilityMap
               map={map}
-              racingLine={racingLine}
+              racingLine={guideLine}
               baked={layout}
               riderMarks={trackId && marks.trackId === trackId ? marks : emptyMarks(trackId ?? '')}
               catalogDirection={catalog.direction}
@@ -485,7 +495,7 @@ export function TrackMemoryHubScreen() {
       <TrackCornerSheet
         turn={selectedTurn}
         map={map}
-        racingLine={racingLine}
+        racingLine={guideLine}
         startFinish={marks.startFinish ?? layout?.startFinish}
         walkNote={selectedWalkNote}
         onChange={patchTurn}

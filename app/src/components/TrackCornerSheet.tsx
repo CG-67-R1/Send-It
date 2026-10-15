@@ -1,14 +1,18 @@
 import React, { useCallback, useEffect, useState } from 'react';
 import {
   Alert,
+  KeyboardAvoidingView,
   LayoutChangeEvent,
   Modal,
+  Platform,
   ScrollView,
   StyleSheet,
   Text,
   TouchableOpacity,
+  useWindowDimensions,
   View,
 } from 'react-native';
+import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import type { GpxTrackMap } from '../data/gpxTrackMaps/types';
 import type { RacingLine } from '../data/racingLines/types';
 import type { TrackDetailsCorner } from '../data/trackDetailsCorners/types';
@@ -101,6 +105,9 @@ export function TrackCornerSheet({
   onDelete,
 }: Props) {
   const open = turn != null;
+  const insets = useSafeAreaInsets();
+  const { height: windowHeight } = useWindowDimensions();
+  const mapCap = Math.round(windowHeight * 0.4);
   const viewBox = turn
     ? turn.baked && turn.entry && turn.exit && turn.apex
       ? cornerViewBox(asBakedCorner(turn))
@@ -114,8 +121,9 @@ export function TrackCornerSheet({
   }, [turn?.id, turn?.note]);
 
   const onZoomLayout = useCallback((e: LayoutChangeEvent) => {
-    const w = e.nativeEvent.layout.width;
-    if (w > 0) setZoomSize(w);
+    const { width, height } = e.nativeEvent.layout;
+    const side = Math.min(width, height);
+    if (side > 0) setZoomSize(side);
   }, []);
 
   const confirmDelete = useCallback(() => {
@@ -129,13 +137,28 @@ export function TrackCornerSheet({
   return (
     <Modal visible={open} transparent animationType="slide" onRequestClose={onClose}>
       <View style={styles.overlay}>
-        <View style={styles.sheet}>
+        <KeyboardAvoidingView
+          style={[styles.sheet, { paddingBottom: Math.max(insets.bottom, 16) }]}
+          behavior={Platform.OS === 'ios' ? 'padding' : undefined}
+        >
           {turn ? (
             <>
               <View style={styles.sheetHeader}>
-                {turn.direction ? <Text style={styles.kindLabel}>{turn.direction}</Text> : null}
-                <Text style={styles.sheetTitle}>{formatDetailsCornerHeading(turn)}</Text>
-                {!turn.baked ? <Text style={styles.riderCue}>You placed this number</Text> : null}
+                <View style={styles.sheetHeaderText}>
+                  {turn.direction ? <Text style={styles.kindLabel}>{turn.direction}</Text> : null}
+                  <Text style={styles.sheetTitle} maxFontSizeMultiplier={1.4}>
+                    {formatDetailsCornerHeading(turn)}
+                  </Text>
+                  {!turn.baked ? <Text style={styles.riderCue}>You placed this number</Text> : null}
+                </View>
+                <TouchableOpacity
+                  style={styles.closeBtn}
+                  onPress={onClose}
+                  accessibilityRole="button"
+                  accessibilityLabel="Close"
+                >
+                  <Text style={styles.closeBtnText}>✕</Text>
+                </TouchableOpacity>
               </View>
 
               <ScrollView
@@ -145,7 +168,7 @@ export function TrackCornerSheet({
                 keyboardShouldPersistTaps="handled"
               >
                 {map && viewBox ? (
-                  <View style={styles.zoomWrap} onLayout={onZoomLayout}>
+                  <View style={[styles.zoomWrap, { height: mapCap }]} onLayout={onZoomLayout}>
                     <TrackMapView
                       map={map}
                       racingLine={racingLine}
@@ -219,25 +242,44 @@ export function TrackCornerSheet({
                 />
               </ScrollView>
 
-              <TouchableOpacity style={styles.aiBtn} onPress={onAskCoach} activeOpacity={0.85}>
-                <Text style={styles.aiBtnText}>Ask coach about this corner</Text>
+              <TouchableOpacity
+                style={styles.aiBtn}
+                onPress={onAskCoach}
+                activeOpacity={0.85}
+                accessibilityRole="button"
+                accessibilityLabel="Ask coach about this corner"
+              >
+                <Text style={styles.aiBtnText} maxFontSizeMultiplier={1.4}>
+                  Ask coach about this corner
+                </Text>
               </TouchableOpacity>
-              <TouchableOpacity style={styles.secondary} onPress={onOpenTrackWalk} activeOpacity={0.85}>
-                <Text style={styles.secondaryText}>
+              <TouchableOpacity
+                style={styles.secondary}
+                onPress={onOpenTrackWalk}
+                activeOpacity={0.85}
+                accessibilityRole="button"
+                accessibilityLabel={walkNote ? 'Edit note in Track Walk' : 'Add a note in Track Walk'}
+              >
+                <Text style={styles.secondaryText} maxFontSizeMultiplier={1.4}>
                   {walkNote ? 'Edit note in Track Walk' : 'Add a note in Track Walk'}
                 </Text>
               </TouchableOpacity>
               {onDelete ? (
-                <TouchableOpacity style={styles.danger} onPress={confirmDelete} activeOpacity={0.85}>
-                  <Text style={styles.dangerText}>Remove this mark</Text>
+                <TouchableOpacity
+                  style={styles.danger}
+                  onPress={confirmDelete}
+                  activeOpacity={0.85}
+                  accessibilityRole="link"
+                  accessibilityLabel="Remove this mark"
+                >
+                  <Text style={styles.dangerText} maxFontSizeMultiplier={1.4}>
+                    Remove this mark
+                  </Text>
                 </TouchableOpacity>
               ) : null}
-              <TouchableOpacity style={styles.cancel} onPress={onClose} activeOpacity={0.85}>
-                <Text style={styles.cancelText}>Close</Text>
-              </TouchableOpacity>
             </>
           ) : null}
-        </View>
+        </KeyboardAvoidingView>
       </View>
     </Modal>
   );
@@ -255,10 +297,22 @@ const styles = StyleSheet.create({
     borderTopRightRadius: 16,
     paddingHorizontal: 20,
     paddingTop: 16,
-    paddingBottom: 28,
     maxHeight: '90%',
   },
-  sheetHeader: { marginBottom: 8 },
+  sheetHeader: {
+    marginBottom: 8,
+    flexDirection: 'row',
+    alignItems: 'flex-start',
+    gap: 8,
+  },
+  sheetHeaderText: { flex: 1 },
+  closeBtn: {
+    minWidth: 44,
+    minHeight: 44,
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  closeBtnText: { color: '#f8fafc', fontSize: 20, fontWeight: '700' },
   kindLabel: {
     fontSize: 12,
     fontWeight: '600',
@@ -275,7 +329,6 @@ const styles = StyleSheet.create({
   riderCue: { fontSize: 12, color: '#fbbf24', marginTop: 4 },
   zoomWrap: {
     alignSelf: 'stretch',
-    aspectRatio: 1,
     backgroundColor: GRASS,
     borderRadius: 12,
     overflow: 'hidden',
@@ -322,16 +375,6 @@ const styles = StyleSheet.create({
     fontWeight: '600',
     color: '#e2e8f0',
   },
-  danger: { marginTop: 8, paddingVertical: 12, alignItems: 'center' },
-  dangerText: { fontSize: 15, fontWeight: '600', color: '#f87171' },
-  cancel: {
-    marginTop: 8,
-    paddingVertical: 12,
-    alignItems: 'center',
-  },
-  cancelText: {
-    fontSize: 15,
-    fontWeight: '600',
-    color: '#94a3b8',
-  },
+  danger: { marginTop: 8, minHeight: 44, justifyContent: 'center', alignItems: 'center' },
+  dangerText: { fontSize: 15, fontWeight: '600', color: '#f87171', textDecorationLine: 'underline' },
 });

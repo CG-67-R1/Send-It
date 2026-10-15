@@ -10,15 +10,33 @@
       "id": "fmsct-calendar",
       "name": "FMSCT Event Calendar",
       "type": "governing_body_calendar",
-      "url": "https://www.fmsct.or.th",
+      "url": "https://www.fmsct-live.com",
       "nodeId": "th",
       "confidence": "official"
     },
     {
-      "id": "chang-calendar",
-      "name": "Chang Circuit Events",
+      "id": "thailand-circuit-calendar",
+      "name": "Thailand Circuit events",
       "type": "venue_calendar",
-      "url": "https://www.chang-international-circuit.com",
+      "url": "https://thailandcircuit.racing/events",
+      "nodeId": "th",
+      "confidence": "established-press",
+      "notes": "2026 FMSCT Thailand Road Racing / Superbike rounds at Nakhon Pathom."
+    },
+    {
+      "id": "bric-chang-calendar",
+      "name": "BRIC / Chang Circuit",
+      "type": "venue_calendar",
+      "url": "https://bric.co.th",
+      "nodeId": "th",
+      "confidence": "official",
+      "notes": "Chang consumer site. Replaces chang-international-circuit.com."
+    },
+    {
+      "id": "arrc-calendar",
+      "name": "Asia Road Racing Championship",
+      "type": "series_calendar",
+      "url": "https://www.asiaroadracing.com",
       "nodeId": "th",
       "confidence": "official"
     }

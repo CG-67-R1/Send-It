@@ -15,6 +15,7 @@
   ],
   "adminAreas": [],
   "status": "seed",
+  "notes": "Seed refresh 2026-09-23 (JRR, Motegi name, Tsukuba id, 2026 classes). Readiness remains Needs owner — do not set active.",
   "defaultLocalLabel": "\u65e5\u672c",
   "spelling": {
     "tyre": "tyre",

@@ -12,6 +12,7 @@
  *
  * Optional:
  *   ASC_BUNDLE_ID        — default com.milroadracer.app
+ *   ASC_BUNDLE_NAME      — developer portal label; default is the app name
  *   ASC_APP_NAME         — default RoadRacer - Motorsport_Is_Life
  *   ASC_SKU              — default roadracer-ios-001
  *   ASC_PRIMARY_LOCALE   — default en-AU
@@ -25,10 +26,13 @@ import { fileURLToPath } from 'node:url';
 const API = 'https://api.appstoreconnect.apple.com';
 const BUNDLE_ID = process.env.ASC_BUNDLE_ID || 'com.milroadracer.app';
 const APP_NAME = process.env.ASC_APP_NAME || 'RoadRacer - Motorsport_Is_Life';
+const BUNDLE_NAME = process.env.ASC_BUNDLE_NAME || APP_NAME;
 const SKU = process.env.ASC_SKU || 'roadracer-ios-001';
 const PRIMARY_LOCALE = process.env.ASC_PRIMARY_LOCALE || 'en-AU';
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
-const STATUS_PATH = path.resolve(__dirname, '../docs/ios/apple-setup-status.json');
+const STATUS_PATH = process.env.ASC_STATUS_PATH
+  ? path.resolve(process.env.ASC_STATUS_PATH)
+  : path.resolve(__dirname, '../docs/ios/apple-setup-status.json');
 
 function requiredEnv(name) {
   const v = process.env[name]?.trim();
@@ -118,7 +122,7 @@ async function ensureBundleId(token) {
     data: {
       type: 'bundleIds',
       attributes: {
-        name: APP_NAME,
+        name: BUNDLE_NAME,
         identifier: BUNDLE_ID,
         platform: 'IOS',
       },
@@ -260,8 +264,14 @@ async function main() {
   console.log(`ASC App ID (for eas.json submit.production.ios.ascAppId): ${app.id}`);
 }
 
-main().catch((err) => {
-  console.error(err.message);
-  if (err.body) console.error(JSON.stringify(err.body, null, 2));
-  process.exit(1);
-});
+const isEntry = process.argv[1] && path.resolve(process.argv[1]) === fileURLToPath(import.meta.url);
+
+if (isEntry) {
+  main().catch((err) => {
+    console.error(err.message);
+    if (err.body) console.error(JSON.stringify(err.body, null, 2));
+    process.exit(1);
+  });
+}
+
+export { main };

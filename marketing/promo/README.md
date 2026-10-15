@@ -36,7 +36,7 @@ npm run build   # both aspect ratios → out/
 
 ### Voice
 
-- Script: [`script.txt`](script.txt) (Australian, excited)
+- Script: [`script.txt`](script.txt) (Australian, excited). Do **not** say “Upload your data” — setups stay on the device. Rebuild the voiceover after any script change (`npm run voice` then `npm run build`).
 - Default voice: `en-AU-WilliamMultilingualNeural` (`+18%` rate, `+6Hz` pitch)
 - Override: `$env:PROMO_VOICE="en-AU-NatashaNeural"; npm run voice`
 

@@ -5,42 +5,63 @@
       "name": "MFJ Superbike (JSB1000)",
       "nodeId": "jp",
       "local": true,
-      "website": "https://www.mfj.or.jp",
+      "website": "https://www.jrr.jp",
       "confidence": "official",
-      "notes": "Premier Japanese domestic superbike championship."
-    },
-    {
-      "id": "j-gp2",
-      "name": "J-GP2",
-      "nodeId": "jp",
-      "local": true,
-      "website": "https://www.mfj.or.jp",
-      "confidence": "official"
-    },
-    {
-      "id": "j-gp3",
-      "name": "J-GP3",
-      "nodeId": "jp",
-      "local": true,
-      "website": "https://www.mfj.or.jp",
-      "confidence": "official"
+      "notes": "Premier Japanese domestic superbike championship; 2026 All Japan class."
     },
     {
       "id": "st1000",
       "name": "ST1000",
       "nodeId": "jp",
       "local": true,
-      "website": "https://www.mfj.or.jp",
-      "confidence": "official"
+      "website": "https://www.jrr.jp",
+      "confidence": "official",
+      "notes": "2026 MFJ All Japan Road Race class (superstock-style)."
+    },
+    {
+      "id": "st600",
+      "name": "ST600",
+      "nodeId": "jp",
+      "local": true,
+      "website": "https://www.jrr.jp",
+      "confidence": "official",
+      "notes": "2026 MFJ All Japan Road Race class (supersport-style)."
+    },
+    {
+      "id": "j-gp3",
+      "name": "J-GP3",
+      "nodeId": "jp",
+      "local": true,
+      "website": "https://www.jrr.jp",
+      "confidence": "official",
+      "notes": "2026 MFJ All Japan Road Race class (Moto3-style)."
+    },
+    {
+      "id": "jp-sport",
+      "name": "JP-SPORT",
+      "nodeId": "jp",
+      "local": true,
+      "website": "https://www.jrr.jp",
+      "confidence": "official",
+      "notes": "2026 MFJ All Japan Road Race class; production-based (see MFJ JP-SPORT technical specification PDFs)."
+    },
+    {
+      "id": "j-gp2",
+      "name": "J-GP2 (historical)",
+      "nodeId": "jp",
+      "local": true,
+      "website": "https://www.mfj.or.jp/national/2026-mfj-all-japan-roadrace-championship/",
+      "confidence": "official",
+      "notes": "Historical All Japan class. Not listed on the 2026 MFJ All Japan Road Race calendar (JSB1000, ST1000, ST600, J-GP3, JP-SPORT)."
     },
     {
       "id": "suzuka-8h",
       "name": "Suzuka 8 Hours",
       "nodeId": "jp",
       "local": true,
-      "website": "https://www.suzuka-8h.com",
+      "website": "https://www.suzukacircuit.jp/eng/8tai/",
       "confidence": "official",
-      "notes": "FIM Endurance World Championship round; internationally renowned."
+      "notes": "FIM Endurance World Championship round at Suzuka Circuit. 2026 edition page on Suzuka Circuit (Coca-Cola Suzuka 8 Hours, 47th)."
     }
   ]
 }

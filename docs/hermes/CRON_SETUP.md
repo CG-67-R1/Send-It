@@ -2,6 +2,15 @@
 
 Hermes is the **standing RR app expert**: daily health gates + weekly full reviews with coding-improvement suggestions. Fixes happen in **Cursor**; Hermes writes reports only.
 
+## Status (2026-09-25)
+
+All Hermes cron jobs on this host are **paused**. Do not run [`scripts/setup-hermes-cron.ps1`](../../scripts/setup-hermes-cron.ps1) or paste Create-cron blocks unless the user asks to turn them back on.
+
+```powershell
+hermes cron list --all
+hermes cron resume <job_id>
+```
+
 ## One-time setup
 
 ### 1. Install skills into Hermes
@@ -26,7 +35,6 @@ This creates:
 - **Mobile app expert cron** — paste the Wednesday block below after install (not auto-created by this script yet)
 - **Agent Play** — Thursdays 9:00: weekly-skills **and** android-app code/security preflight (`PLAY_PREFLIGHT`). Created by `setup-hermes-cron.ps1` (or paste the Thursday block)
 - **Agent Apple skill growth** — paste the Friday block below after install
-- **AI enterprise watch** — paste the Sunday 18:00 block below after install (not auto-created by this script yet)
 
 Manual CLI alternative (if you prefer chat-based setup):
 
@@ -97,19 +105,6 @@ Create a cron job:
 - continuable: true
 ```
 
-**AI enterprise watch** (Sundays 6:00 PM):
-
-Paste this block so Hermes monitors enterprise-approvable AI platforms (OpenAI, Anthropic, Google, Microsoft, Bedrock, GitHub Copilot, Cursor) and delivers a **short Telegram message**. Install skills first (`.\scripts\install-hermes-skills.ps1`) so `send-it/ai-enterprise-watch` is available.
-
-```
-Create a cron job:
-- schedule: 0 18 * * 0
-- workdir: C:\Users\Administrator\.cursor\Send-It
-- skills: ["send-it/ai-enterprise-watch"]
-- prompt: You are the AI enterprise watch. Run weekly-watch. Fetch official sources in docs/hermes/skills/send-it/ai-enterprise-watch/resources.md. Compare to CURRENT.md and the latest docs/reviews/AI_ENTERPRISE_WATCH_*.md. Assess new releases only for real capability, enterprise approval path, and local fit (Send-It Coach/Ask, Cursor, GitHub/GHE, defensive cybersecurity). If a platform made no significant progress, say so. Include an unsubstantiated-hype section. Rewrite docs/hermes/skills/send-it/ai-enterprise-watch/CURRENT.md (As of today; keep last 8 weeks of changelog). Write docs/reviews/AI_ENTERPRISE_WATCH_<today>.md. Then run .\\scripts\\install-hermes-skills.ps1. Do not edit app/ or api/. The delivered message must be the short form only (headline, relevant outcomes, no-progress, hype, 0-2 actions). Do not pad with model scoreboards.
-- continuable: true
-```
-
 ### 3. Verify
 
 In Hermes:
@@ -147,13 +142,6 @@ Or for Agent Play (pre-Google Play Android review):
 Review this app before submitting to Google Play. Identify Android issues. Report only.
 ```
 
-Or for AI enterprise watch:
-
-```
-/ai-enterprise-watch
-Run weekly-watch now. Relevant outcomes only. Flag hype. Report only.
-```
-
 Then open the report in Cursor and implement P0/P1 items.
 
 ## Manual commands
@@ -175,7 +163,6 @@ Then open the report in Cursor and implement P0/P1 items.
 | On-demand Track Memory | In Hermes: `/track-data-analyst` then ask for track memory review |
 | On-demand Agent Apple | In Hermes: `/agent-apple` then ask for pre-ASC iOS review |
 | On-demand Agent Play | In Hermes: `/agent-play` then ask for pre-Play Android review |
-| On-demand AI enterprise watch | In Hermes: `/ai-enterprise-watch` then ask for weekly-watch |
 
 ## Reports
 
@@ -190,7 +177,6 @@ Written to `docs/reviews/`:
 - `AGENT_APPLE_SKILLS_YYYY-MM-DD.md` — weekly Agent Apple CURRENT.md refresh
 - `PLAY_PREFLIGHT_YYYY-MM-DD.md` — Agent Play pre-Google Play Android review (SUBMIT / HOLD)
 - `AGENT_PLAY_SKILLS_YYYY-MM-DD.md` — weekly Agent Play CURRENT.md refresh
-- `AI_ENTERPRISE_WATCH_YYYY-MM-DD.md` — enterprise AI landscape (relevant outcomes + hype); Telegram gets the short form
 
 ## Cursor ↔ Hermes split
 

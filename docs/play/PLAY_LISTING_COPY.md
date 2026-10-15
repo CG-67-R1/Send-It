@@ -2,7 +2,7 @@
 
 Paste-ready values for **RoadRacer - Motorsport_Is_Life** (`com.milroadracer.app`). Setup steps: [`PLAY_CONSOLE_SETUP.md`](PLAY_CONSOLE_SETUP.md). Facts match [`docs/ios/ASC_LISTING_COPY.md`](../ios/ASC_LISTING_COPY.md) and [`docs/legal/PRIVACY.md`](../legal/PRIVACY.md).
 
-**Play app id:** not in the repo. Do not invent one.
+**Play app id:** not in the repo (developer account ID `7065822239432452180` is the account, not the app). Do not invent an app id.
 
 `eas.json` has **no** `submit.production.android`. Upload AABs in Console until a service-account JSON is added on purpose.
 
@@ -15,9 +15,9 @@ Paste-ready values for **RoadRacer - Motorsport_Is_Life** (`com.milroadracer.app
 | Application type | App |
 | Category | **Sports** (secondary optional: **News**) |
 | Tags | motorcycle, racing, motogp, track day (stay accurate; no trademark stuffing) |
-| Email | `projectapex@outlook.com.au` |
-| Phone | (your mobile with country code, e.g. +61…) |
-| Website | `https://github.com/CG-67-R1/Send-It` |
+| Email | `roadracer.au@outlook.com.au` |
+| Phone | `+61 438 887 259` |
+| Website | `https://roadracer.info` |
 | Privacy policy | `https://github.com/CG-67-R1/Send-It/blob/main/docs/legal/PRIVACY.md` |
 | Terms | `https://github.com/CG-67-R1/Send-It/blob/main/docs/legal/TERMS.md` |
 
@@ -106,7 +106,7 @@ New apps and updates need **target API 36** from **31 Aug 2026**. [`android-app/
 
 | Field | Value |
 |--------|--------|
-| Email | `projectapex@outlook.com.au` |
+| Email | `roadracer.au@outlook.com.au` |
 | Demo | No login |
 | Notes | Physical device: cold launch, Track Memory landscape, permission denied paths, Coach after Render cold start (~30s). |
 

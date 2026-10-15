@@ -10,6 +10,7 @@ import fs from 'fs/promises';
 import path from 'path';
 import { fileURLToPath } from 'url';
 import { EASY_QA, HARD_QA, FUNNY_ANSWERS } from './triviaBankData.js';
+import { isReadableTrivia } from './triviaLanguage.js';
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const QA_DIR = path.resolve(__dirname, '..', 'Q&A');
@@ -31,7 +32,7 @@ function extractFromText(text) {
   for (const m of isMatch) {
     const q = (m[1] || '').trim();
     const a = (m[2] || '').trim();
-    if (q && a && a.length > 8) pairs.push({ q: `What is ${q}?`, a });
+    if (q && a && a.length > 8 && isReadableTrivia(`What is ${q}?`, a)) pairs.push({ q: `What is ${q}?`, a });
   }
 
   // "X means Y" / "X refers to Y"
@@ -39,7 +40,7 @@ function extractFromText(text) {
   for (const m of meansMatch) {
     const term = (m[1] || '').trim();
     const a = (m[2] || '').trim();
-    if (term && a) pairs.push({ q: `What does ${term} mean?`, a });
+    if (term && a && isReadableTrivia(`What does ${term} mean?`, a)) pairs.push({ q: `What does ${term} mean?`, a });
   }
 
   // "X: Y" or "X - Y" (title: definition)
@@ -47,7 +48,7 @@ function extractFromText(text) {
   for (const m of colonMatch) {
     const q = (m[1] || '').trim();
     const a = (m[2] || '').trim();
-    if (q && a && !a.startsWith('http')) pairs.push({ q: `What is ${q}?`, a });
+    if (q && a && !a.startsWith('http') && isReadableTrivia(`What is ${q}?`, a)) pairs.push({ q: `What is ${q}?`, a });
   }
 
   return pairs;
@@ -126,7 +127,7 @@ async function run() {
     const key = normalize(qa.q);
     if (seen.has(key)) return;
     seen.add(key);
-    if (qa.q && qa.a) {
+    if (qa.q && qa.a && isReadableTrivia(qa.q, qa.a)) {
       if (difficulty === 'easy') easyPool.push({ q: qa.q, a: qa.a });
       else hardPool.push({ q: qa.q, a: qa.a });
     }

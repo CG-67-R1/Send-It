@@ -1,6 +1,8 @@
 /**
  * RoadRace AI – in-app Rider Coach & Bike Setup.
- * Uses OpenAI Chat Completions with a system prompt derived from ST (Track Day GPT).
+ * Coach / Bike Setup / Official rule check: OpenAI Chat Completions.
+ * Ask (web): Responses API + hosted web_search.
+ * Model: COACH_MODEL or OPENAI_MODEL, default gpt-4o-mini (production unchanged).
  * API key must be set in OPENAI_API_KEY (server-side only).
  */
 
@@ -8,11 +10,114 @@ import OpenAI from 'openai';
 import { enrichRulesSources } from './momsOnlineUrls.js';
 import { prepareRulesQueryTokens, retrieveForRules } from './qa.js';
 import { formatFaqsForPrompt, loadRiderAiFaqs } from './riderAiFaqs.js';
+import { coachEvidenceBlock } from './coachKnowledge.js';
 import { getAiPrompts, getPrimaryManifest } from './packLoader.js';
 import { stripChatMarkdown } from './stripChatMarkdown.js';
 
 /** Cap below the app's 90s LLM fetch so a hung OpenAI call returns JSON, not a dropped TCP. */
 const OPENAI_TIMEOUT_MS = Number(process.env.OPENAI_TIMEOUT_MS || 70_000);
+
+/** Production default. Do not change unless a deploy explicitly sets COACH_MODEL / OPENAI_MODEL. */
+export const DEFAULT_COACH_MODEL = 'gpt-4o-mini';
+
+const GPT6_MODEL_RE = /^gpt-6/i;
+
+function firstEnv(...keys) {
+  for (const key of keys) {
+    const raw = process.env[key];
+    if (typeof raw === 'string' && raw.trim()) return raw.trim();
+  }
+  return '';
+}
+
+/**
+ * Coach / Ask / Rules model. COACH_MODEL wins over the older OPENAI_MODEL alias.
+ * Unset / blank → gpt-4o-mini so production is unchanged.
+ * @returns {string}
+ */
+export function getCoachModel() {
+  return firstEnv('COACH_MODEL', 'OPENAI_MODEL') || DEFAULT_COACH_MODEL;
+}
+
+/**
+ * Vision attachments: OPENAI_VISION_MODEL, else the Coach/Ask model.
+ * @returns {string}
+ */
+export function getCoachVisionModel() {
+  return firstEnv('OPENAI_VISION_MODEL') || getCoachModel();
+}
+
+/** @param {string} [model] */
+export function isGpt6FamilyModel(model) {
+  return GPT6_MODEL_RE.test(String(model || ''));
+}
+
+/**
+ * GPT-6 Luna/Sol default to medium reasoning. Pin `none` unless COACH_REASONING_EFFORT is set
+ * so a Luna eval stays cheap and Chat Completions `temperature` stays valid.
+ * Non-GPT-6 models ignore this (empty string).
+ * @param {string} [model]
+ * @returns {string}
+ */
+export function getCoachReasoningEffort(model = getCoachModel()) {
+  if (!isGpt6FamilyModel(model)) return '';
+  return firstEnv('COACH_REASONING_EFFORT') || 'none';
+}
+
+/**
+ * Chat Completions body. GPT-6 uses max_completion_tokens + reasoning_effort;
+ * gpt-4o-mini keeps max_tokens and no reasoning field.
+ * @param {string} model
+ * @param {{ messages: object[], maxTokens?: number, temperature?: number }} opts
+ */
+export function buildChatCompletionRequest(model, opts) {
+  const request = { model, messages: opts.messages };
+  const effort = getCoachReasoningEffort(model);
+  if (effort) request.reasoning_effort = effort;
+  if (typeof opts.temperature === 'number') {
+    if (!effort || effort === 'none') request.temperature = opts.temperature;
+  }
+  if (typeof opts.maxTokens === 'number') {
+    if (isGpt6FamilyModel(model)) request.max_completion_tokens = opts.maxTokens;
+    else request.max_tokens = opts.maxTokens;
+  }
+  return request;
+}
+
+/**
+ * Responses API extras for GPT-6 (hosted web_search / tools). No-op for gpt-4o-mini.
+ * @param {string} model
+ * @param {object} request
+ */
+export function withGpt6ResponsesOptions(model, request) {
+  const effort = getCoachReasoningEffort(model);
+  if (!effort) return request;
+  return { ...request, reasoning: { effort } };
+}
+
+/**
+ * Normalise Chat Completions or Responses usage for the comparison harness.
+ * @param {object|null|undefined} usage
+ * @returns {{ input: number, output: number, cached: number, reasoning: number, total: number }|null}
+ */
+export function normalizeOpenAiUsage(usage) {
+  if (!usage || typeof usage !== 'object') return null;
+  const input = Number(usage.prompt_tokens ?? usage.input_tokens ?? 0);
+  const output = Number(usage.completion_tokens ?? usage.output_tokens ?? 0);
+  const cached = Number(
+    usage.prompt_tokens_details?.cached_tokens ?? usage.input_tokens_details?.cached_tokens ?? 0
+  );
+  const reasoning = Number(
+    usage.completion_tokens_details?.reasoning_tokens ?? usage.output_tokens_details?.reasoning_tokens ?? 0
+  );
+  return {
+    input,
+    output,
+    cached,
+    reasoning,
+    total: Number(usage.total_tokens ?? input + output),
+  };
+}
 
 function createOpenAiClient(apiKey) {
   return new OpenAI({
@@ -26,18 +131,52 @@ function packAi() {
   return getAiPrompts() || {};
 }
 
-function coachHome() {
+function packHome(packId, mode) {
+  const prompts = getAiPrompts(packId) || {};
+  if (mode === 'bikesetup') {
+    return (
+      prompts.bikeSetupHomeContext ||
+      'You are the RoadRacer bike-setup advisor for a rider who is at the circuit.'
+    );
+  }
   return (
-    packAi().coachHomeContext ||
-    'You are an expert motorcycle road racing and track day coach specializing in Australian track day riding. Keep Australian context and safety first.'
+    prompts.coachHomeContext ||
+    'You are the RoadRacer riding coach for a rider who is at the circuit.'
   );
 }
 
-function bikeHome() {
-  return (
-    packAi().bikeSetupHomeContext ||
-    'You are an expert motorcycle road racing and track day technical advisor specializing in Australian track day riding.'
-  );
+function coachSystem(packId) {
+  return `${packHome(packId, 'coach')}
+
+Sign off exactly: RoadRacer Track Coach. Informational guidance only.
+
+Mode: COACH. Technique, lines, braking, vision, and what the bike is doing under the rider. Do not give sag numbers, click counts, or geometry changes. When the fix is tyre pressure or suspension, say so in one line and point them to Bike Setup.
+
+Reply in plain text, in this order:
+Call: one sentence on the likely cause.
+Why: one sentence.
+Do this: one action for the next session.
+Ask: at most two missing facts. Leave this line out when you already have them.
+
+Do not invent a tyre pressure, a click count, or which way a corner turns. If the track notes do not list a hand, say the hand is not in the notes. One change at a time. No greeting, no style menu, and no typical or assumed setup.`;
+}
+
+function bikeSetupSystem(packId) {
+  return `${packHome(packId, 'bikesetup')}
+
+Sign off exactly: RoadRacer Track Coach. Informational guidance only.
+
+Mode: BIKE SETUP. Tyres, pressures, sag, damping, and gearing.
+
+Reply in plain text, in this order:
+State: only the facts the rider gave.
+Call: the likely cause. Check pressure and temperature before suspension or geometry.
+Do this: one reversible change, or the questions still needed. Do not write a pressure or click count unless the rider stated it.
+Check: what to feel or measure on the next lap.
+
+Before a numeric setup change, you need the bike make, model, and year, the tyre brand and compound, and the cold or hot pressures when the issue is grip. If one of those is missing, ask. Do not fill the gap with a typical value.
+
+Do not recommend shortening suspension travel, adding internal spacers, changing ride height, or internal shock or fork work unless the rider has given the motorcycle make, model, and year, the current suspension parts, and clear symptoms. Even then, a qualified technician has to check the change.`;
 }
 
 function askPriority() {
@@ -61,41 +200,6 @@ function rulesHome() {
 function rulesModeName() {
   return packAi().rulesModeName || 'Manual of Motorcycle Sport (MoMS)';
 }
-
-function localeContextLabel() {
-  return getPrimaryManifest()?.displayName || 'Australian';
-}
-
-const COACH_SYSTEM = `${coachHome()} You give direct, practical motorsport advice.
-
-Sign off briefly as "RoadRacer AI Coach".
-
-Your guidance is informational only. Setup changes should be made incrementally, with one change at a time where practical. Internal suspension or geometry work should be performed or checked by a qualified technician.
-
-Do not recommend shortening suspension travel, adding internal spacers, changing ride height, or carrying out internal shock/fork work unless the user has provided the motorcycle make/model/year, current suspension components, and clear symptoms. Even when those details are present, explain the uncertainty and state that a qualified technician should verify the proposed change.
-
-Current mode: RIDER COACH. Focus on: technique, cornering, braking, body position, lines, race craft, track-specific tips, session feedback, and mental approach. Keep regional context and safety first. If the user hasn't said their bike or track, ask briefly but stay helpful with reasonable assumptions. Be encouraging and concise.`;
-
-const BIKESETUP_SYSTEM = `${bikeHome()} You give direct, practical motorsport advice on bike setup.
-
-Sign off briefly as "RoadRacer AI Bike Setup".
-
-Your guidance is informational only. Setup changes should be made incrementally, with one change at a time where practical. Internal suspension or geometry work should be performed or checked by a qualified technician.
-
-Before recommending suspension travel changes, internal spacers, damping click values, rear ride height, or shock replacement, first collect or confirm from the conversation:
-- motorcycle make/model/year;
-- current suspension components and available adjusters;
-- rider weight and ability where relevant;
-- present travel, sag, and geometry where known;
-- road versus race use;
-- tyres, track, and clear symptoms; and
-- whether the modification is reversible.
-
-If required context is missing, ask for it and give only general educational principles. Do not invent specific click counts or geometry modifications. Avoid recommending irreversible or internal modifications without model-specific evidence.
-
-Do not recommend shortening suspension travel, adding internal spacers, changing ride height, or carrying out internal shock/fork work unless the user has provided the motorcycle make/model/year, current suspension components, and clear symptoms. Even when those details are present, explain the uncertainty and state that a qualified technician should verify the proposed change.
-
-Current mode: BIKE SETUP / TECHNICAL. Focus on: suspension (sag, damping, spring rate), geometry (rake, trail, ride height), tyres (pressures, wear, compounds), gearing, and setup changes. Use motion ratio, spring rate, and geometry principles when relevant. If the user has not supplied the required bike or issue details, ask briefly and limit the answer to safe general principles. Be encouraging and concise.`;
 
 const ASK_SYSTEM = `You are a knowledgeable motorcycle road racing Q&A assistant for the Send-It / RoadRace app.
 
@@ -139,13 +243,13 @@ Rules:
 
 const SHARED_RULES = `
 
-Style: Friendly, practical, safety first. Never make users feel bad about not knowing. ${localeContextLabel()} context.
+Style: Practical and calm. Never make the rider feel bad about not knowing.
 
-Write in plain text for a phone chat bubble. Do not use Markdown. Do not start lines with hash marks. Do not wrap words in asterisks or backticks. Short paragraphs, numbered lists, and simple dashes are fine.
+Write in plain text for a phone chat bubble. Do not use Markdown. Do not start lines with hash marks. Do not wrap words in asterisks or backticks. Short lines are better than a paragraph.
 
-Limitations: You cannot physically inspect bikes or guarantee lap times. Recommend professional help for safety-critical or complex changes.
+Limitations: You cannot see the bike or promise a lap time. Safety-critical or internal work needs a qualified technician.
 
-Rider vs bike ambiguity: Riders often do not know if a problem is riding technique or bike setup. If the user's issue is clearly better handled by the other mode, give a short useful answer in your current mode, then say which tab to try next and why (e.g. body position / lines → Coach; sag / damping / tyre pressure / gearing → Bike Setup). End your reply with exactly one of these markers on its own last line (omit the marker if staying in the current mode):
+Rider vs bike ambiguity: If the issue belongs in the other mode, answer the part you can, then say which tab to open (body position and lines in Coach; sag, damping, tyre pressure, and gearing in Bike Setup). End your reply with exactly one of these markers on its own last line, and omit the marker when staying in the current mode:
 [[SUGGEST_MODE:coach]]
 [[SUGGEST_MODE:bikesetup]]`;
 
@@ -205,15 +309,16 @@ Do not answer the user's question.`;
  */
 async function rewriteRulesKeywords(client, question) {
   try {
-    const completion = await client.chat.completions.create({
-      model: process.env.OPENAI_MODEL || 'gpt-4o-mini',
-      messages: [
-        { role: 'system', content: RULES_KEYWORD_REWRITE_SYSTEM },
-        { role: 'user', content: question },
-      ],
-      max_tokens: 48,
-      temperature: 0,
-    });
+    const completion = await client.chat.completions.create(
+      buildChatCompletionRequest(getCoachModel(), {
+        messages: [
+          { role: 'system', content: RULES_KEYWORD_REWRITE_SYSTEM },
+          { role: 'user', content: question },
+        ],
+        maxTokens: 48,
+        temperature: 0,
+      })
+    );
     const raw = completion.choices?.[0]?.message?.content?.trim() || '';
     if (!raw) return null;
     // Keep alphanumeric tokens only; drop fluff if the model returns a sentence
@@ -264,22 +369,23 @@ async function rerankRulesChunks(client, question, candidates, limit = 6) {
     return `${i + 1}. ${loc} — ${snippet}`;
   });
   try {
-    const completion = await client.chat.completions.create({
-      model: process.env.OPENAI_MODEL || 'gpt-4o-mini',
-      messages: [
-        {
-          role: 'system',
-          content:
-            'You rank Manual of Motorcycle Sport (MoMS) excerpts for relevance to the user question. Reply with up to 6 comma-separated excerpt numbers only (e.g. 3,1,7). Prefer excerpts that answer the question; skip boilerplate that only shares common words like "permitted".',
-        },
-        {
-          role: 'user',
-          content: `Question: ${question}\n\nExcerpts:\n${catalog.join('\n')}`,
-        },
-      ],
-      max_tokens: 32,
-      temperature: 0,
-    });
+    const completion = await client.chat.completions.create(
+      buildChatCompletionRequest(getCoachModel(), {
+        messages: [
+          {
+            role: 'system',
+            content:
+              'You rank Manual of Motorcycle Sport (MoMS) excerpts for relevance to the user question. Reply with up to 6 comma-separated excerpt numbers only (e.g. 3,1,7). Prefer excerpts that answer the question; skip boilerplate that only shares common words like "permitted".',
+          },
+          {
+            role: 'user',
+            content: `Question: ${question}\n\nExcerpts:\n${catalog.join('\n')}`,
+          },
+        ],
+        maxTokens: 32,
+        temperature: 0,
+      })
+    );
     const raw = completion.choices?.[0]?.message?.content?.trim() || '';
     const nums = [...raw.matchAll(/\d+/g)]
       .map((m) => Number(m[0]))
@@ -320,7 +426,7 @@ Rider experience: track days or getting into racing. Simplify prompts and replie
 - Keep replies short: a few sentences or a short list, not a race-engineer dump.
 - Ask at most two follow-up questions.
 - Coaching: throttle control, braking markers, body position basics, vision.
-- Bike setup: safe basics only (tyre pressures, obvious feel). Do not dive into fine clicker, geometry, or ride-height work unless they ask and have data.`,
+- Bike setup: one safe check the rider can do, such as looking at wear or writing down the hot pressure they already measured. Do not give a pressure number or click count.`,
   intermediate: `
 Rider experience: intermediate track rider. Give more coaching and bike-setup detail.
 - Combine technique and setup when relevant.
@@ -350,10 +456,13 @@ export function normalizeRiderSkill(raw) {
   return 'novice';
 }
 
-function getSystemPrompt(mode, faqs, riderSkill = 'novice') {
+function getSystemPrompt(mode, faqs, riderSkill = 'novice', packId = 'au', query = '', hasImage = false) {
   const skill = normalizeRiderSkill(riderSkill);
-  const base = mode === 'bikesetup' ? BIKESETUP_SYSTEM : COACH_SYSTEM;
-  return `${base}${SHARED_RULES}${RIDER_SKILL_LAYERS[skill]}${formatFaqsForPrompt(faqs, mode, skill)}`;
+  const base = mode === 'bikesetup' ? bikeSetupSystem(packId) : coachSystem(packId);
+  const photo = hasImage
+    ? '\n\nThe rider attached a photo. Start with Call, then Why in one line, then Do this. Stop there unless they asked for the technical detail.'
+    : '';
+  return `${base}${photo}${SHARED_RULES}${RIDER_SKILL_LAYERS[skill]}${formatFaqsForPrompt(faqs, mode, skill, query, packId)}${coachEvidenceBlock({ query, packId, hasImage })}`;
 }
 
 /**
@@ -430,7 +539,7 @@ export async function askChat(message, options = {}) {
 
   const mode = options.mode === 'rules' ? 'rules' : 'ask';
   const client = createOpenAiClient(apiKey);
-  const model = process.env.OPENAI_MODEL || 'gpt-4o-mini';
+  const model = getCoachModel();
 
   if (mode === 'rules') {
     const { merged: searchQuery, keywords } = await prepareRulesSearchQuery(client, text);
@@ -465,17 +574,18 @@ export async function askChat(message, options = {}) {
     const { sources, momsOnline } = await enrichRulesSources(mapRulesSources(chunks));
 
     try {
-      const completion = await client.chat.completions.create({
-        model,
-        messages: [
-          { role: 'system', content: systemPrompt },
-          { role: 'user', content: text },
-        ],
-        max_tokens: 1024,
-      });
+      const completion = await client.chat.completions.create(
+        buildChatCompletionRequest(model, {
+          messages: [
+            { role: 'system', content: systemPrompt },
+            { role: 'user', content: text },
+          ],
+          maxTokens: 1024,
+        })
+      );
 
       const content = stripChatMarkdown(completion.choices?.[0]?.message?.content?.trim() || '');
-      return { content, sources, fromKb, momsOnline };
+      return { content, sources, fromKb, momsOnline, model, usage: normalizeOpenAiUsage(completion.usage) };
     } catch (err) {
       const msg = err?.message || String(err);
       console.error('RoadRace AI ask error:', msg);
@@ -492,27 +602,29 @@ export async function askChat(message, options = {}) {
 
   // General Ask: Responses API + hosted web search (Australia-first, then world).
   try {
-    const response = await client.responses.create({
-      model,
-      instructions: ASK_SYSTEM,
-      input: text,
-      tools: [
-        {
-          type: 'web_search',
-          user_location: {
-            type: 'approximate',
-            country: webSearchCountry(),
+    const response = await client.responses.create(
+      withGpt6ResponsesOptions(model, {
+        model,
+        instructions: ASK_SYSTEM,
+        input: text,
+        tools: [
+          {
+            type: 'web_search',
+            user_location: {
+              type: 'approximate',
+              country: webSearchCountry(),
+            },
+            search_context_size: 'medium',
+            filters: {
+              blocked_domains: ['reddit.com', 'quora.com'],
+            },
           },
-          search_context_size: 'medium',
-          filters: {
-            blocked_domains: ['reddit.com', 'quora.com'],
-          },
-        },
-      ],
-      tool_choice: 'auto',
-      include: ['web_search_call.action.sources'],
-      max_output_tokens: 1024,
-    });
+        ],
+        tool_choice: 'auto',
+        include: ['web_search_call.action.sources'],
+        max_output_tokens: 1024,
+      })
+    );
 
     const content = stripChatMarkdown((response.output_text || '').trim());
     if (!content) {
@@ -524,29 +636,31 @@ export async function askChat(message, options = {}) {
       };
     }
     const sources = extractWebSources(response);
-    return { content, sources, fromKb: false };
+    return { content, sources, fromKb: false, model, usage: normalizeOpenAiUsage(response.usage) };
   } catch (err) {
     const msg = err?.message || String(err);
     console.error('RoadRace AI ask web-search error:', msg);
     // Retry once without include/filters if the model rejects newer web_search options
     if (/unknown|unsupported|invalid|include|filters|search_context/i.test(msg)) {
       try {
-        const fallback = await client.responses.create({
-          model,
-          instructions: ASK_SYSTEM,
-          input: text,
-          tools: [
-            {
-              type: 'web_search',
-              user_location: {
-                type: 'approximate',
-                country: webSearchCountry(),
+        const fallback = await client.responses.create(
+          withGpt6ResponsesOptions(model, {
+            model,
+            instructions: ASK_SYSTEM,
+            input: text,
+            tools: [
+              {
+                type: 'web_search',
+                user_location: {
+                  type: 'approximate',
+                  country: webSearchCountry(),
+                },
               },
-            },
-          ],
-          tool_choice: 'auto',
-          max_output_tokens: 1024,
-        });
+            ],
+            tool_choice: 'auto',
+            max_output_tokens: 1024,
+          })
+        );
         const content = stripChatMarkdown((fallback.output_text || '').trim());
         if (!content) {
           return {
@@ -556,7 +670,13 @@ export async function askChat(message, options = {}) {
             error: 'Ask returned an empty response.',
           };
         }
-        return { content, sources: extractWebSources(fallback), fromKb: false };
+        return {
+          content,
+          sources: extractWebSources(fallback),
+          fromKb: false,
+          model,
+          usage: normalizeOpenAiUsage(fallback.usage),
+        };
       } catch (err2) {
         console.error('RoadRace AI ask web-search fallback error:', err2?.message || err2);
       }
@@ -649,7 +769,7 @@ function normalizeAttachments(raw) {
   return out;
 }
 
-export async function chat(messages, mode = 'coach', attachments = [], riderSkill = 'novice') {
+export async function chat(messages, mode = 'coach', attachments = [], riderSkill = 'novice', packId = 'au') {
   const apiKey = process.env.OPENAI_API_KEY;
   if (!apiKey) {
     return { content: '', error: 'RoadRace AI is not configured. Set OPENAI_API_KEY on the server.' };
@@ -657,8 +777,20 @@ export async function chat(messages, mode = 'coach', attachments = [], riderSkil
 
   const skill = normalizeRiderSkill(riderSkill);
   const faqs = await loadRiderAiFaqs();
-  const systemPrompt = getSystemPrompt(mode, faqs, skill);
+  const query = messages
+    .filter((item) => item.role === 'user' && typeof item.content === 'string')
+    .slice(-4)
+    .map((item) => item.content)
+    .join('\n');
   const normalizedAttachments = normalizeAttachments(attachments);
+  const systemPrompt = getSystemPrompt(
+    mode,
+    faqs,
+    skill,
+    packId,
+    query,
+    normalizedAttachments.some((item) => item.type === 'image')
+  );
   const openaiMessages = [{ role: 'system', content: systemPrompt }];
 
   for (let i = 0; i < messages.length; i++) {
@@ -679,16 +811,20 @@ export async function chat(messages, mode = 'coach', attachments = [], riderSkil
   try {
     const client = createOpenAiClient(apiKey);
 
-    const completion = await client.chat.completions.create({
-      model: usesVision
-        ? process.env.OPENAI_VISION_MODEL || process.env.OPENAI_MODEL || 'gpt-4o-mini'
-        : process.env.OPENAI_MODEL || 'gpt-4o-mini',
-      messages: openaiMessages,
-      max_tokens: SKILL_MAX_TOKENS[skill],
-    });
+    const model = usesVision ? getCoachVisionModel() : getCoachModel();
+    const completion = await client.chat.completions.create(
+      buildChatCompletionRequest(model, {
+        messages: openaiMessages,
+        maxTokens: SKILL_MAX_TOKENS[skill],
+      })
+    );
 
     const content = completion.choices?.[0]?.message?.content?.trim() || '';
-    return parseSuggestMode(content, mode === 'bikesetup' ? 'bikesetup' : 'coach');
+    return {
+      ...parseSuggestMode(content, mode === 'bikesetup' ? 'bikesetup' : 'coach'),
+      model,
+      usage: normalizeOpenAiUsage(completion.usage),
+    };
   } catch (err) {
     const message = err?.message || String(err);
     console.error('RoadRace AI error:', message);

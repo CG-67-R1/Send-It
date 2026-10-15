@@ -7,14 +7,15 @@
       "steps": [
         "Join an FMSCT-affiliated club",
         "Obtain FMSCT membership",
-        "Apply for the appropriate competition licence",
-        "Complete medical check",
-        "Pass novice rider orientation"
+        "Apply for the road-racing competition licence for the season",
+        "Complete a medical check as required by the federation / organiser",
+        "Complete novice / orientation requirements as published for the event"
       ],
       "urls": [
-        "https://www.fmsct.or.th"
+        "https://www.fmsct-live.com"
       ],
-      "confidence": "official"
+      "confidence": "community",
+      "notes": "High-level only — no invented clause numbers. Dedicated applicants deep-link was not found on fmsct-live.com in the 2026-09-23 pass; FIM lists racing@fmsct-live.com. Owner should add a licence form URL when the live site publishes one."
     }
   ]
 }

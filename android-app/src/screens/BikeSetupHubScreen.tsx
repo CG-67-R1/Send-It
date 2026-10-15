@@ -23,7 +23,7 @@ export function BikeSetupHubScreen() {
       </View>
 
       <Text style={styles.sectionLabel}>Bike Setup</Text>
-      <Text style={styles.privacyNote}>
+      <Text style={styles.privacyNote} maxFontSizeMultiplier={1.4}>
         Setup tools keep your data private on this device. Save snapshots for later comparison, and
         share a setup as text via Messages only when you choose.
       </Text>
@@ -31,43 +31,67 @@ export function BikeSetupHubScreen() {
         style={styles.navButton}
         onPress={() => navigation.navigate('CoachChat', { mode: 'bikesetup' })}
         activeOpacity={0.8}
+        accessibilityRole="button"
+        accessibilityLabel="Bike Setup AI"
       >
-        <Text style={styles.navButtonText}>Bike Setup AI</Text>
+        <Text style={styles.navButtonText} maxFontSizeMultiplier={1.4}>
+          Bike Setup AI
+        </Text>
       </TouchableOpacity>
       <TouchableOpacity
         style={styles.navButton}
         onPress={() => navigation.navigate('BikeSetupSheet')}
         activeOpacity={0.8}
+        accessibilityRole="button"
+        accessibilityLabel="Bike Setup Sheet"
       >
-        <Text style={styles.navButtonText}>Bike Setup Sheet</Text>
+        <Text style={styles.navButtonText} maxFontSizeMultiplier={1.4}>
+          Bike Setup Sheet
+        </Text>
       </TouchableOpacity>
       <TouchableOpacity
         style={styles.navButton}
         onPress={() => navigation.navigate('BikeBalanceSetup')}
         activeOpacity={0.8}
+        accessibilityRole="button"
+        accessibilityLabel="Bike Balance Setup"
       >
-        <Text style={styles.navButtonText}>Bike Balance Setup</Text>
+        <Text style={styles.navButtonText} maxFontSizeMultiplier={1.4}>
+          Bike Balance Setup
+        </Text>
       </TouchableOpacity>
       <TouchableOpacity
         style={styles.navButton}
         onPress={() => navigation.navigate('GearingGuide')}
         activeOpacity={0.8}
+        accessibilityRole="button"
+        accessibilityLabel="Gearing Guide"
       >
-        <Text style={styles.navButtonText}>Gearing Guide</Text>
+        <Text style={styles.navButtonText} maxFontSizeMultiplier={1.4}>
+          Gearing Guide
+        </Text>
       </TouchableOpacity>
       <TouchableOpacity
         style={styles.navButton}
         onPress={() => navigation.navigate('TyreWearAnalysis')}
         activeOpacity={0.8}
+        accessibilityRole="button"
+        accessibilityLabel="Tyre Wear Analysis"
       >
-        <Text style={styles.navButtonText}>Tyre Wear Analysis</Text>
+        <Text style={styles.navButtonText} maxFontSizeMultiplier={1.4}>
+          Tyre Wear Analysis
+        </Text>
       </TouchableOpacity>
       <TouchableOpacity
         style={styles.navButton}
         onPress={() => navigation.navigate('BikeSetupBasics')}
         activeOpacity={0.8}
+        accessibilityRole="button"
+        accessibilityLabel="Bike Setup Basics"
       >
-        <Text style={styles.navButtonText}>Bike Setup Basics</Text>
+        <Text style={styles.navButtonText} maxFontSizeMultiplier={1.4}>
+          Bike Setup Basics
+        </Text>
       </TouchableOpacity>
     </ScrollView>
   );
