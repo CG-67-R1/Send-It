@@ -1,3 +1,4 @@
+import { isUkReleaseTrack, releasePackId } from '../../../constants/releasePack';
 import factsDoc from './facts.json';
 import { getTrackMemoryLayout } from '../../trackMemory/layouts';
 import { GPX_TRACK_MAP_IDS, getGpxTrackMap, listGpxTrackMaps } from '../gpxTrackMaps';
@@ -5,14 +6,20 @@ import type { TrackInfoFacts } from './types';
 
 const FACTS = factsDoc as Record<string, TrackInfoFacts>;
 
-export const TRACK_INFO_TRACK_IDS = GPX_TRACK_MAP_IDS;
+function visibleTrackIds(): string[] {
+  if (releasePackId() !== 'uk') return GPX_TRACK_MAP_IDS;
+  return GPX_TRACK_MAP_IDS.filter((id) => isUkReleaseTrack(id));
+}
+
+export const TRACK_INFO_TRACK_IDS = visibleTrackIds();
 
 export function listTrackInfoTracks(): { id: string; name: string }[] {
-  return listGpxTrackMaps();
+  const allowed = new Set(TRACK_INFO_TRACK_IDS);
+  return listGpxTrackMaps().filter((track) => allowed.has(track.id));
 }
 
 export function hasTrackInfoMap(trackId: string): boolean {
-  return Boolean(getGpxTrackMap(trackId));
+  return TRACK_INFO_TRACK_IDS.includes(trackId) && Boolean(getGpxTrackMap(trackId));
 }
 
 export function getTrackInfoFacts(trackId: string): TrackInfoFacts | undefined {

@@ -21,6 +21,8 @@ assert('UK circuit stays out of an AU track question', !island.toLowerCase().inc
 const brands = trackNotesForQuery('paddock hill at brands hatch', 'uk');
 assert('Brands Hatch notes are included', brands.includes('Brands Hatch'));
 assert('Paddock Hill hand is copied', brands.includes('Paddock Hill Bend'));
+assert('Brands Hatch does not leak into AU pack notes', trackNotesForQuery('paddock hill at brands hatch', 'au') === '');
+assert('Phillip Island does not leak into UK pack notes', trackNotesForQuery('phillip island turn 4', 'uk') === '');
 
 const bend = trackNotesForQuery('setup for the bend', 'au');
 assert('The Bend asks for a layout', bend.includes('Ask which layout'));
