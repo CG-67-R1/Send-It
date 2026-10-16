@@ -15,7 +15,7 @@ import { useFocusEffect, useRoute, type RouteProp } from '@react-navigation/nati
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { apiFetch, QA_TRIVIA_URL, wakeApi } from '../../constants/api';
 import { logAnalyticsEvent } from '../utils/analytics';
-import { sendAskChat, type AskSource, type MomsOnlineMeta } from '../utils/askChat';
+import { sendAskChat, type AskSource, type MomsOnlineMeta, type RulebookMeta } from '../utils/askChat';
 import { safeOpenUrl } from '../utils/safeOpenUrl';
 import { AppLogo } from '../components/AppLogo';
 import { SCREEN_LOGO_SIZE } from '../constants/logoSizing';
@@ -116,6 +116,7 @@ export function QAScreen() {
   const [rulesReply, setRulesReply] = useState<string | null>(null);
   const [rulesSources, setRulesSources] = useState<AskSource[]>([]);
   const [rulesMomsOnline, setRulesMomsOnline] = useState<MomsOnlineMeta | undefined>();
+  const [rulesRulebook, setRulesRulebook] = useState<RulebookMeta | undefined>();
   const [rulesFromKb, setRulesFromKb] = useState(false);
   const [rulesLoading, setRulesLoading] = useState(false);
   const [rulesError, setRulesError] = useState<string | null>(null);
@@ -258,6 +259,7 @@ export function QAScreen() {
     setRulesReply(null);
     setRulesSources([]);
     setRulesMomsOnline(undefined);
+    setRulesRulebook(undefined);
     setRulesFromKb(false);
     try {
       const result = await sendAskChat(trimmedQuery, { mode: 'rules' });
@@ -267,6 +269,7 @@ export function QAScreen() {
       }
       setRulesReply(result.reply);
       setRulesSources(result.sources);
+      setRulesRulebook(result.rulebook);
       setRulesMomsOnline(result.momsOnline);
       setRulesFromKb(result.fromKb);
     } catch (e) {
@@ -289,6 +292,7 @@ export function QAScreen() {
     setRulesReply(null);
     setRulesSources([]);
     setRulesMomsOnline(undefined);
+    setRulesRulebook(undefined);
     setRulesFromKb(false);
     setRulesError(null);
   }, []);
@@ -641,15 +645,21 @@ export function QAScreen() {
             <View style={styles.results}>
               <View style={[styles.resultCard, styles.rulesResultCard]}>
                 <Text style={styles.resultContent}>{rulesReply}</Text>
-                {rulesSources.length > 0 ? (
+                {rulesSources.length > 0 || rulesRulebook ? (
                   <View style={styles.sourcesBlock}>
                     <Text style={styles.sourcesLabel}>
-                      {rulesFromKb ? 'Location in the rules' : 'Related rule locations'}
+                      {rulesSources.length === 0
+                        ? 'Official rule book'
+                        : rulesFromKb
+                          ? 'Location in the rules'
+                          : 'Related rule locations'}
                     </Text>
                     {rulesSources[0]?.edition || rulesSources[0]?.effectiveDate ? (
                       <Text style={styles.sourceEdition}>
                         {[
-                          rulesSources[0].edition ? `MoMS ${rulesSources[0].edition}` : null,
+                          rulesSources[0].edition
+                            ? `${rulesRulebook?.shortName || 'MoMS'} ${rulesSources[0].edition}`
+                            : null,
                           rulesSources[0].effectiveDate
                             ? `effective ${rulesSources[0].effectiveDate}`
                             : null,
@@ -658,7 +668,25 @@ export function QAScreen() {
                           .join(' — ')}
                       </Text>
                     ) : null}
-                    {rulesMomsOnline ? (
+                    {rulesRulebook ? (
+                      <View style={styles.momsOnlineRow}>
+                        <TouchableOpacity
+                          onPress={() => openExternalLink(rulesRulebook.sourcePage, 'ACU')}
+                          activeOpacity={0.7}
+                        >
+                          <Text style={styles.sourceLink}>ACU website →</Text>
+                        </TouchableOpacity>
+                        {rulesRulebook.handbook ? (
+                          <TouchableOpacity
+                            onPress={() => openExternalLink(rulesRulebook.handbook!, 'ACU Standing Regulations')}
+                            activeOpacity={0.7}
+                          >
+                            <Text style={styles.sourceLink}>ACU Standing Regulations →</Text>
+                          </TouchableOpacity>
+                        ) : null}
+                      </View>
+                    ) : null}
+                    {rulesMomsOnline && !rulesRulebook ? (
                       <View style={styles.momsOnlineRow}>
                         <TouchableOpacity
                           onPress={() => openExternalLink(rulesMomsOnline.sourcePage, 'MoMS page')}
