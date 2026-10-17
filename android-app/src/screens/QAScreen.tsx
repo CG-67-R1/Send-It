@@ -15,7 +15,8 @@ import { useFocusEffect, useRoute, type RouteProp } from '@react-navigation/nati
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { apiFetch, QA_TRIVIA_URL, wakeApi } from '../../constants/api';
 import { logAnalyticsEvent } from '../utils/analytics';
-import { sendAskChat, type AskSource, type MomsOnlineMeta } from '../utils/askChat';
+import { sendAskChat, type AskSource, type MomsOnlineMeta, type RulebookMeta } from '../utils/askChat';
+import { releasePackId } from '../../constants/releasePack';
 import { safeOpenUrl } from '../utils/safeOpenUrl';
 import { AppLogo } from '../components/AppLogo';
 import { SCREEN_LOGO_SIZE } from '../constants/logoSizing';
@@ -42,8 +43,11 @@ function parseUsedIndices(raw: string | null): number[] {
   }
 }
 
-/** 7 Australian + 3 world in every 10 questions. */
-function regionForTriviaOrder(questionIndex: number): 'global' | 'au' {
+type TriviaRegion = 'au' | 'global' | 'uk';
+
+/** 7 Australian + 3 world in every 10 questions. The UK binary is UK only. */
+function regionForTriviaOrder(questionIndex: number): TriviaRegion {
+  if (releasePackId() === 'uk') return 'uk';
   const slot = ((questionIndex % 10) + 10) % 10;
   return slot === 3 || slot === 6 || slot === 9 ? 'global' : 'au';
 }
@@ -116,6 +120,7 @@ export function QAScreen() {
   const [rulesReply, setRulesReply] = useState<string | null>(null);
   const [rulesSources, setRulesSources] = useState<AskSource[]>([]);
   const [rulesMomsOnline, setRulesMomsOnline] = useState<MomsOnlineMeta | undefined>();
+  const [rulesRulebook, setRulesRulebook] = useState<RulebookMeta | undefined>();
   const [rulesFromKb, setRulesFromKb] = useState(false);
   const [rulesLoading, setRulesLoading] = useState(false);
   const [rulesError, setRulesError] = useState<string | null>(null);
@@ -129,7 +134,7 @@ export function QAScreen() {
     options: string[];
     correctIndex: number;
     triviaIndex: number;
-    region: 'au' | 'global';
+    region: TriviaRegion;
   } | null>(null);
   const [triviaLoading, setTriviaLoading] = useState(false);
   const [triviaResult, setTriviaResult] = useState<{ title: string; message: string } | null>(null);
@@ -143,6 +148,8 @@ export function QAScreen() {
   const triviaFeedbackTimerRef = React.useRef<ReturnType<typeof setTimeout> | null>(null);
   const triviaUsedAusRef = React.useRef<number[]>([]);
   const triviaUsedGlobalRef = React.useRef<number[]>([]);
+  const triviaUsedUkRef = React.useRef<number[]>([]);
+  const ukRelease = releasePackId() === 'uk';
 
   useEffect(() => {
     return () => {
@@ -185,17 +192,17 @@ export function QAScreen() {
     let cancelled = false;
     (async () => {
       try {
-        const [bestScore, auRaw, globalRaw] = await Promise.all([
+        const [bestScore, auRaw, globalRaw, ukRaw] = await Promise.all([
           readTriviaBestScore(),
           AsyncStorage.getItem(STORAGE_KEYS.TRIVIA_USED_AU),
           AsyncStorage.getItem(STORAGE_KEYS.TRIVIA_USED_GLOBAL),
+          AsyncStorage.getItem(STORAGE_KEYS.TRIVIA_USED_UK),
         ]);
         if (cancelled) return;
         setTriviaBestScore(bestScore);
-        const auUsed = capTriviaUsed(parseUsedIndices(auRaw));
-        const globalUsed = capTriviaUsed(parseUsedIndices(globalRaw));
-        triviaUsedAusRef.current = auUsed;
-        triviaUsedGlobalRef.current = globalUsed;
+        triviaUsedAusRef.current = capTriviaUsed(parseUsedIndices(auRaw));
+        triviaUsedGlobalRef.current = capTriviaUsed(parseUsedIndices(globalRaw));
+        triviaUsedUkRef.current = capTriviaUsed(parseUsedIndices(ukRaw));
       } catch (_) {}
     })();
     return () => { cancelled = true; };
@@ -211,20 +218,31 @@ export function QAScreen() {
     } catch (_) {}
   }, []);
 
-  const persistTriviaUsed = useCallback((region: 'au' | 'global', next: number[]) => {
+  const persistTriviaUsed = useCallback((region: TriviaRegion, next: number[]) => {
     const capped = capTriviaUsed(next);
     if (region === 'au') {
       triviaUsedAusRef.current = capped;
       void AsyncStorage.setItem(STORAGE_KEYS.TRIVIA_USED_AU, JSON.stringify(capped));
-    } else {
-      triviaUsedGlobalRef.current = capped;
-      void AsyncStorage.setItem(STORAGE_KEYS.TRIVIA_USED_GLOBAL, JSON.stringify(capped));
+      return;
     }
+    if (region === 'uk') {
+      triviaUsedUkRef.current = capped;
+      void AsyncStorage.setItem(STORAGE_KEYS.TRIVIA_USED_UK, JSON.stringify(capped));
+      return;
+    }
+    triviaUsedGlobalRef.current = capped;
+    void AsyncStorage.setItem(STORAGE_KEYS.TRIVIA_USED_GLOBAL, JSON.stringify(capped));
   }, []);
 
-  const getRegionForOrder = useCallback((correct: number, wrong: number): 'global' | 'au' => {
+  const getRegionForOrder = useCallback((correct: number, wrong: number): TriviaRegion => {
     return regionForTriviaOrder(correct + wrong);
   }, []);
+
+  const usedForRegion = (region: TriviaRegion): number[] => {
+    if (region === 'au') return triviaUsedAusRef.current;
+    if (region === 'uk') return triviaUsedUkRef.current;
+    return triviaUsedGlobalRef.current;
+  };
 
   const onSearch = useCallback(async () => {
     const trimmedQuery = query.trim();
@@ -258,6 +276,7 @@ export function QAScreen() {
     setRulesReply(null);
     setRulesSources([]);
     setRulesMomsOnline(undefined);
+    setRulesRulebook(undefined);
     setRulesFromKb(false);
     try {
       const result = await sendAskChat(trimmedQuery, { mode: 'rules' });
@@ -267,6 +286,7 @@ export function QAScreen() {
       }
       setRulesReply(result.reply);
       setRulesSources(result.sources);
+      setRulesRulebook(result.rulebook);
       setRulesMomsOnline(result.momsOnline);
       setRulesFromKb(result.fromKb);
     } catch (e) {
@@ -289,6 +309,7 @@ export function QAScreen() {
     setRulesReply(null);
     setRulesSources([]);
     setRulesMomsOnline(undefined);
+    setRulesRulebook(undefined);
     setRulesFromKb(false);
     setRulesError(null);
   }, []);
@@ -300,9 +321,10 @@ export function QAScreen() {
       const wrong = wrongCount ?? triviaWrong;
       const difficulty = difficultyOverride ?? triviaDifficulty;
       const preferred = getRegionForOrder(correct, wrong);
-      const regions: Array<'au' | 'global'> = preferred === 'au' ? ['au', 'global'] : ['global', 'au'];
+      const regions: TriviaRegion[] =
+        preferred === 'uk' ? ['uk'] : preferred === 'au' ? ['au', 'global'] : ['global', 'au'];
 
-      const request = async (region: 'au' | 'global', used: number[]) => {
+      const request = async (region: TriviaRegion, used: number[]) => {
         const params: string[] = [];
         if (used.length) params.push(`used=${used.join(',')}`);
         if (typeof difficulty === 'number' && Number.isFinite(difficulty)) {
@@ -321,7 +343,7 @@ export function QAScreen() {
         options: string[];
         correctIndex: number;
         triviaIndex: number;
-      }, region: 'au' | 'global') => {
+      }, region: TriviaRegion) => {
         setLastAnswerCorrect(null);
         setTriviaQuestion({
           question: data.question,
@@ -334,7 +356,7 @@ export function QAScreen() {
 
       try {
         for (const region of regions) {
-          const used = region === 'au' ? triviaUsedAusRef.current : triviaUsedGlobalRef.current;
+          const used = usedForRegion(region);
           const { res, data } = await request(region, used);
           if (res.ok && data && typeof data.question === 'string' && Array.isArray(data.options)) {
             applyQuestion(data, region);
@@ -414,7 +436,7 @@ export function QAScreen() {
         triggerGoatExplosion();
       }
 
-      const prevUsed = currentRegion === 'au' ? triviaUsedAusRef.current : triviaUsedGlobalRef.current;
+      const prevUsed = usedForRegion(currentRegion);
       persistTriviaUsed(currentRegion, [...prevUsed, triviaQuestion.triviaIndex]);
       setTriviaCorrect(newCorrect);
       setTriviaWrong(newWrong);
@@ -437,7 +459,11 @@ export function QAScreen() {
         });
         saveTriviaBestIfBetter(newCorrect);
         setTriviaState('failed');
-        setTriviaFailMessage("Three strikes—time to hit the manual and try again.");
+        setTriviaFailMessage(
+          ukRelease
+            ? 'Three strikes — check the ACU Standing Regulations and try again.'
+            : "Three strikes—time to hit the manual and try again."
+        );
         return;
       }
 
@@ -603,8 +629,9 @@ export function QAScreen() {
         <View style={styles.rulesSection}>
           <Text style={styles.sectionTitle}>Official rule check?</Text>
           <Text style={styles.sectionSubtitle}>
-            Ask against the uploaded MoMS and get a quick answer with edition and clause/location
-            citations so you can verify it in the rule book.
+            {ukRelease
+              ? 'Official rule check uses the ACU Standing Regulations. This app links out and does not cite clause numbers.'
+              : 'Ask against the uploaded MoMS and get a quick answer with edition and clause/location citations so you can verify it in the rule book.'}
           </Text>
           <View style={styles.searchRow}>
             <TextInput
@@ -649,7 +676,9 @@ export function QAScreen() {
                     {rulesSources[0]?.edition || rulesSources[0]?.effectiveDate ? (
                       <Text style={styles.sourceEdition}>
                         {[
-                          rulesSources[0].edition ? `MoMS ${rulesSources[0].edition}` : null,
+                          rulesSources[0].edition
+                            ? `${rulesRulebook?.shortName || 'MoMS'} ${rulesSources[0].edition}`
+                            : null,
                           rulesSources[0].effectiveDate
                             ? `effective ${rulesSources[0].effectiveDate}`
                             : null,
@@ -658,7 +687,25 @@ export function QAScreen() {
                           .join(' — ')}
                       </Text>
                     ) : null}
-                    {rulesMomsOnline ? (
+                    {rulesRulebook ? (
+                      <View style={styles.momsOnlineRow}>
+                        <TouchableOpacity
+                          onPress={() => openExternalLink(rulesRulebook.sourcePage, 'ACU')}
+                          activeOpacity={0.7}
+                        >
+                          <Text style={styles.sourceLink}>ACU website →</Text>
+                        </TouchableOpacity>
+                        {rulesRulebook.handbook ? (
+                          <TouchableOpacity
+                            onPress={() => openExternalLink(rulesRulebook.handbook!, 'ACU Standing Regulations')}
+                            activeOpacity={0.7}
+                          >
+                            <Text style={styles.sourceLink}>ACU Standing Regulations →</Text>
+                          </TouchableOpacity>
+                        ) : null}
+                      </View>
+                    ) : null}
+                    {rulesMomsOnline && !rulesRulebook ? (
                       <View style={styles.momsOnlineRow}>
                         <TouchableOpacity
                           onPress={() => openExternalLink(rulesMomsOnline.sourcePage, 'MoMS page')}
