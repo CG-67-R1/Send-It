@@ -16,6 +16,7 @@
     "test-moms-rules": "node scripts/testMomsRulesRetrieval.mjs",
     "test-trivia": "node scripts/testTriviaSelection.mjs",
     "test-coach-model": "node scripts/testCoachModel.mjs",
+    "test-coach-evidence": "node scripts/testCoachEvidenceQuery.mjs",
     "compare-coach-models": "node scripts/compareCoachModels.mjs",
     "build-rider-ai-knowledge": "node ../scripts/build-rider-ai-knowledge.mjs",
     "validate-packs": "node ../scripts/validate-packs.mjs",
