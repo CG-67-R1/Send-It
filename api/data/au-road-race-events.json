@@ -1,7 +1,7 @@
 {
-  "updatedAt": "2026-10-12T14:23:49.427Z",
+  "updatedAt": "2026-10-19T12:04:40.425Z",
   "sourceCount": 26,
-  "eventCount": 75,
+  "eventCount": 76,
   "errors": [],
   "events": [
     {
@@ -145,20 +145,6 @@
       "confidence": "high"
     },
     {
-      "name": "Hartwell Club Championships - CANCELLED Round 3",
-      "start_date": "2026-06-06",
-      "end_date": "2026-06-07",
-      "state": "SA",
-      "venue": "Mac Park",
-      "organiser": "Computime",
-      "source_id": "club_vic_computime",
-      "source_url": "https://www.computime.com.au/calendar/calendar",
-      "entry_url": "https://www.computime.com.au/calendar/calendar",
-      "discipline": "road_race",
-      "notes": null,
-      "confidence": "high"
-    },
-    {
       "name": "Penrite Australian Superbike Championship Round 5",
       "start_date": "2026-06-26",
       "end_date": "2026-06-28",
@@ -226,34 +212,6 @@
       "entry_url": "https://www.computime.com.au/calendar/calendar",
       "discipline": "road_race",
       "notes": null,
-      "confidence": "high"
-    },
-    {
-      "name": "MotoMini Australia: Round 5",
-      "start_date": "2026-10-17",
-      "end_date": "2026-10-18",
-      "state": null,
-      "venue": "Go Kart Club of Victoria",
-      "organiser": "Motorcycling Australia (MA) - National Calendar",
-      "source_id": "gov_ma_national_calendar",
-      "source_url": "https://www.ma.org.au/ma-calendar/",
-      "entry_url": "https://calendar.time.ly/lom2ukea/event/78304967/20261017000000",
-      "discipline": "road_race",
-      "notes": "Timely: Road Race",
-      "confidence": "high"
-    },
-    {
-      "name": "Broadford Raceway",
-      "start_date": "2026-10-17",
-      "end_date": "2026-10-17",
-      "state": "VIC",
-      "venue": "Broadford Raceway",
-      "organiser": "Champions Ride Days",
-      "source_id": "club_au_champions_ride_days",
-      "source_url": "https://championsridedays.com.au/event-calender/",
-      "entry_url": "https://championsridedays.com.au/product/broadford-raceway-158/",
-      "discipline": "track_day",
-      "notes": "Track day — book via Champions Ride Days",
       "confidence": "high"
     },
     {
@@ -1008,6 +966,62 @@
       "source_id": "club_au_champions_ride_days",
       "source_url": "https://championsridedays.com.au/event-calender/",
       "entry_url": "https://championsridedays.com.au/product/broadford-raceway-double-day-special-12-13-december-2026/",
+      "discipline": "track_day",
+      "notes": "Track day — book via Champions Ride Days",
+      "confidence": "high"
+    },
+    {
+      "name": "The Bend Brekky and Bikes - Sun 13 December!",
+      "start_date": "2026-12-13",
+      "end_date": "2026-12-13",
+      "state": "SA",
+      "venue": "The Bend Motorsport Park",
+      "organiser": "Champions Ride Days",
+      "source_id": "club_au_champions_ride_days",
+      "source_url": "https://championsridedays.com.au/event-calender/",
+      "entry_url": "https://championsridedays.com.au/product/the-bend-brekky-and-bikes-sun-13-december/",
+      "discipline": "track_day",
+      "notes": "Track day — book via Champions Ride Days",
+      "confidence": "high"
+    },
+    {
+      "name": "The Bend Motorsport Park INTRO SESSIONS ONLY",
+      "start_date": "2026-12-13",
+      "end_date": "2026-12-13",
+      "state": "SA",
+      "venue": "The Bend Motorsport Park",
+      "organiser": "Champions Ride Days",
+      "source_id": "club_au_champions_ride_days",
+      "source_url": "https://championsridedays.com.au/event-calender/",
+      "entry_url": "https://championsridedays.com.au/product/the-bend-motorsport-park-intro-sessions-only-71/",
+      "discipline": "track_day",
+      "notes": "Track day — book via Champions Ride Days",
+      "confidence": "high"
+    },
+    {
+      "name": "The Bend Motorsport Park",
+      "start_date": "2026-12-13",
+      "end_date": "2026-12-13",
+      "state": "SA",
+      "venue": "The Bend Motorsport Park",
+      "organiser": "Champions Ride Days",
+      "source_id": "club_au_champions_ride_days",
+      "source_url": "https://championsridedays.com.au/event-calender/",
+      "entry_url": "https://championsridedays.com.au/product/the-bend-motorsport-park-145/",
+      "discipline": "track_day",
+      "notes": "Track day — book via Champions Ride Days",
+      "confidence": "high"
+    },
+    {
+      "name": "Broadford Raceway",
+      "start_date": "2026-12-13",
+      "end_date": "2026-12-13",
+      "state": "VIC",
+      "venue": "Broadford Raceway",
+      "organiser": "Champions Ride Days",
+      "source_id": "club_au_champions_ride_days",
+      "source_url": "https://championsridedays.com.au/event-calender/",
+      "entry_url": "https://championsridedays.com.au/product/broadford-raceway-164/",
       "discipline": "track_day",
       "notes": "Track day — book via Champions Ride Days",
       "confidence": "high"
