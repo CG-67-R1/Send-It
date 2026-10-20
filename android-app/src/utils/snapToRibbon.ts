@@ -151,6 +151,30 @@ function walkAlong(
 }
 
 /**
+ * Centreline for a mirrored racing line. Includes the segment that joins the
+ * last point back to the first. The solver treats the lap as closed, but some
+ * ribbons (Mac Park) do not repeat the first point. An open snap then picks a
+ * different part of the road and the mirrored line leaves the asphalt.
+ */
+function snapToClosedRibbon(point: MapPoint, polyline: number[][]): MapPoint {
+  if (polyline.length < 2) return point;
+  let best: MapPoint = [polyline[0][0], polyline[0][1]];
+  let bestD = Infinity;
+  for (let i = 0; i < polyline.length; i++) {
+    const a: MapPoint = [polyline[i][0], polyline[i][1]];
+    const next = polyline[(i + 1) % polyline.length];
+    const b: MapPoint = [next[0], next[1]];
+    const snapped = closestOnSegment(point, a, b);
+    const d = dist(point, snapped);
+    if (d < bestD) {
+      bestD = d;
+      best = snapped;
+    }
+  }
+  return best;
+}
+
+/**
  * The baked racing line follows the GPX direction. The opposite circuit
  * direction uses the other side of the asphalt: each point is mirrored
  * through the nearest centreline point. Reversing the points keeps brake
@@ -166,7 +190,7 @@ export function mirrorLineForDirection<T extends { polyline: number[][]; bands: 
   const gpxDirection = gpxClockwise ? 'clockwise' : 'anticlockwise';
   if (direction === gpxDirection) return line;
   const mirrored = line.polyline.map((point) => {
-    const centre = snapToRibbon([point[0], point[1]], ribbon);
+    const centre = snapToClosedRibbon([point[0], point[1]], ribbon);
     return [2 * centre[0] - point[0], 2 * centre[1] - point[1]];
   });
   return {
