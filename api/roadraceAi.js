@@ -465,6 +465,17 @@ function getSystemPrompt(mode, faqs, riderSkill = 'novice', packId = 'au', query
   return `${base}${photo}${SHARED_RULES}${RIDER_SKILL_LAYERS[skill]}${formatFaqsForPrompt(faqs, mode, skill, query, packId)}${coachEvidenceBlock({ query, packId, hasImage })}`;
 }
 
+export function evidenceQueryFromMessages(messages) {
+  if (!Array.isArray(messages)) return '';
+  for (let i = messages.length - 1; i >= 0; i -= 1) {
+    const item = messages[i];
+    if (item?.role === 'user' && typeof item.content === 'string') {
+      return item.content;
+    }
+  }
+  return '';
+}
+
 /**
  * Collect URL citations / web_search sources from a Responses API payload.
  * @param {object} response
@@ -777,11 +788,7 @@ export async function chat(messages, mode = 'coach', attachments = [], riderSkil
 
   const skill = normalizeRiderSkill(riderSkill);
   const faqs = await loadRiderAiFaqs();
-  const query = messages
-    .filter((item) => item.role === 'user' && typeof item.content === 'string')
-    .slice(-4)
-    .map((item) => item.content)
-    .join('\n');
+  const query = evidenceQueryFromMessages(messages);
   const normalizedAttachments = normalizeAttachments(attachments);
   const systemPrompt = getSystemPrompt(
     mode,

@@ -68,7 +68,7 @@ const SYMPTOM_LINKS = [
       'Do this: one corner, one turn-in point, the same brake release. Judge the session on whether the exit repeats, not on lap time. If that is already repeatable and it still runs wide, finish the turn before driving. Leave the chassis alone until the line and throttle repeat.',
   },
   {
-    pattern: /apex/,
+    pattern: /\bapex(?:es)?\b/i,
     coach: ['coach_007', 'coach_005', 'coach_009'],
     setup: [],
     spansBoth: false,
