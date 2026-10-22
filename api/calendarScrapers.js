@@ -260,15 +260,42 @@ function parseChampionsStart(isoStart) {
   return /^\d{4}-\d{2}-\d{2}$/.test(d) ? d : null;
 }
 
-function parseChampionsEndDate(title, startDate) {
-  const range = title.match(/(\d{1,2})\s*(?:Aug|Sep|Oct|Nov|Dec|Jan|Feb|Mar|Apr|May|Jun|Jul)[a-z]*-(\d{1,2})\s/i);
-  if (!range || !startDate) return startDate;
-  const start = new Date(`${startDate}T12:00:00`);
-  const end = new Date(start);
-  if (parseInt(range[2], 10) > parseInt(range[1], 10)) {
-    end.setDate(end.getDate() + 1);
+function isoCalendarDate(year, monthIndex, day) {
+  if (!Number.isInteger(year) || !Number.isInteger(monthIndex) || !Number.isInteger(day)) return null;
+  const date = new Date(Date.UTC(year, monthIndex, day));
+  if (
+    date.getUTCFullYear() !== year ||
+    date.getUTCMonth() !== monthIndex ||
+    date.getUTCDate() !== day
+  ) {
+    return null;
   }
-  return end.toISOString().slice(0, 10);
+  return date.toISOString().slice(0, 10);
+}
+
+/**
+ * Champions titles put the span before the month ("30-31 Oct", "20-22 November")
+ * or, less often, around it ("30 Oct-31"). The end day is the last number in that span.
+ */
+export function parseChampionsEndDate(title, startDate) {
+  if (!/^\d{4}-\d{2}-\d{2}$/.test(startDate || '')) return startDate || null;
+  const text = String(title || '');
+  const dayDayMonth = text.match(/(\d{1,2})\s*[-–]\s*(\d{1,2})\s+([A-Za-z]{3,9})/i);
+  const dayMonthDay = text.match(/(\d{1,2})\s+([A-Za-z]{3,9})[a-z]*\s*[-–]\s*(\d{1,2})(?!\d)/i);
+  let endDay = null;
+  let monthToken = '';
+  if (dayDayMonth) {
+    endDay = parseInt(dayDayMonth[2], 10);
+    monthToken = dayDayMonth[3];
+  } else if (dayMonthDay) {
+    endDay = parseInt(dayMonthDay[3], 10);
+    monthToken = dayMonthDay[2];
+  }
+  const monthIndex = MONTHS[monthToken.slice(0, 3).toLowerCase()];
+  if (endDay == null || monthIndex === undefined) return startDate;
+  const end = isoCalendarDate(Number(startDate.slice(0, 4)), monthIndex, endDay);
+  if (!end || end < startDate) return startDate;
+  return end;
 }
 
 async function scrapeTrackDayCalendar(source) {
