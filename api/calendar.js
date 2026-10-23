@@ -7,7 +7,7 @@ import fetch from 'node-fetch';
 import { readFileSync } from 'fs';
 import { fileURLToPath } from 'url';
 import { dirname, join } from 'path';
-import { dedupeEvents } from './calendarScrapers.js';
+import { dedupeEvents, normalizeEventDateRange } from './calendarScrapers.js';
 import {
   getCalendarSources,
   getCalendarStatic,
@@ -145,6 +145,7 @@ function loadAuEvents() {
     return deduped
       .filter((ev) => ['road_race', 'track_day'].includes((ev.discipline || '').toLowerCase()))
       .map((ev) => {
+        const dates = normalizeEventDateRange(ev.start_date, ev.end_date || ev.start_date);
         const name = ev.name || 'Road race event';
         const organiser = ev.organiser || '';
         const discipline = (ev.discipline || '').toLowerCase();
@@ -161,8 +162,8 @@ function loadAuEvents() {
           title: name,
           venue: ev.venue || null,
           country: localCountryLabel(),
-          startDate: ev.start_date,
-          endDate: ev.end_date || ev.start_date,
+          startDate: dates.start_date,
+          endDate: dates.end_date,
           url: ev.entry_url || ev.source_url || null,
           state: ev.state || null,
           organiser: organiser || null,
