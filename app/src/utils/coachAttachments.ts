@@ -30,6 +30,8 @@ const MAX_ATTACHMENTS = 3;
 const MAX_IMAGE_BYTES = 1.5 * 1024 * 1024;
 const COACH_IMAGE_MAX_EDGE = 1280;
 const MAX_TEXT_CHARS = 24_000;
+const COACH_PHOTO_PAYLOAD_ERROR =
+  'Coach could not prepare the selected photo files. Pick smaller images, or choose photos still available on this device.';
 
 const TEXT_EXTENSIONS = new Set([
   '.csv',
@@ -275,6 +277,18 @@ export async function photoUrisToCoachPayloads(
     }
   }
   return payloads;
+}
+
+export function getCoachPhotoPayloadError(
+  uris: string[],
+  payloads: CoachAttachmentPayload[],
+  max = MAX_ATTACHMENTS
+): string | null {
+  const attemptedPhotoCount = uris.slice(0, max).filter((uri) => Boolean(uri?.trim())).length;
+  if (attemptedPhotoCount > 0 && payloads.length === 0) {
+    return COACH_PHOTO_PAYLOAD_ERROR;
+  }
+  return null;
 }
 
 export function attachmentSummary(attachments: CoachAttachment[]): string {
