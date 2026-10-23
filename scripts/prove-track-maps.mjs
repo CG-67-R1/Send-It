@@ -335,6 +335,9 @@ function proveCorners(id, map) {
     if (!corner.summary || !corner.approachFrom) {
       fail(id, `T${corner.number} is missing rider copy`);
     }
+    if (corner.direction == null && /\b(left|right)\b/i.test(String(corner.summary))) {
+      fail(id, `T${corner.number} summary names an unverified hand`);
+    }
   }
 }
 
