@@ -18,6 +18,7 @@ import { AU_EXTRA_TRIVIA } from '../triviaAuExtra.js';
 import { getTriviaQuestion } from '../qa.js';
 
 const AUS_QA_FILE = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..', '..', 'Q&A', 'AUS_Q&A.json');
+const TRACKS_FILE = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..', '..', 'app', 'src', 'data', 'tracks.json');
 
 let failed = 0;
 
@@ -114,6 +115,19 @@ function extraBankHasSpread() {
   assert('AU extras cover easy and harder ratings', easy >= 20 && hard >= 20);
 }
 
+function phillipIslandTriviaMatchesCatalog() {
+  const tracks = JSON.parse(fs.readFileSync(TRACKS_FILE, 'utf8')).tracks;
+  const phillipIsland = tracks.find((track) => track.id === 'phillip_island');
+  const gardners = phillipIsland?.corners.find((corner) => corner.label === "Gardner's");
+  const question = AU_EXTRA_TRIVIA.find(
+    (item) => item.question.includes('Phillip Island') && item.options[item.correct_index] === "Gardner's"
+  );
+  assert(
+    "Phillip Island Gardner's trivia uses the catalog turn number",
+    Boolean(gardners && question?.question.includes(`Turn ${gardners.number}`))
+  );
+}
+
 async function liveUniqueDraw() {
   const seen = new Set();
   const used = [];
@@ -141,6 +155,7 @@ difficultyWindowExpands();
 shuffleKeepsAnswer();
 ausQuestionsReadAsHuman();
 extraBankHasSpread();
+phillipIslandTriviaMatchesCatalog();
 await liveUniqueDraw();
 
 if (failed) {

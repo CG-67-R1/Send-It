@@ -6,6 +6,9 @@ import { logStorageError } from './logStorageError';
 import { getPrimaryLocale } from '../packs/loader';
 
 const KEY_SESSIONS = STORAGE_KEYS.TRACK_WALK_SESSIONS;
+const PHILLIP_ISLAND_GARDNERS_SPLIT_AT_MS = Date.parse('2026-09-02T04:24:30.000Z');
+const PHILLIP_ISLAND_OLD_GARDNERS_ID = 'phillip_island_t11';
+const PHILLIP_ISLAND_GARDNERS_ID = 'phillip_island_t12';
 
 /** @deprecated use 'corner' */
 export type TrackWalkEntryType = 'note' | 'turn' | 'corner';
@@ -56,11 +59,45 @@ function normalizeEntry(raw: Record<string, unknown>): TrackWalkEntry {
   };
 }
 
-function normalizeSession(raw: Record<string, unknown>): TrackWalkSession {
-  const entries = Array.isArray(raw.entries)
-    ? (raw.entries as Record<string, unknown>[]).map(normalizeEntry)
-    : [];
+function normalizeLegacyPhillipIslandCorner(
+  trackId: string,
+  createdAt: number,
+  entry: TrackWalkEntry
+): TrackWalkEntry {
+  if (
+    trackId !== 'phillip_island' ||
+    entry.type !== 'corner' ||
+    entry.cornerId !== PHILLIP_ISLAND_OLD_GARDNERS_ID
+  ) {
+    return entry;
+  }
+
+  const label = entry.cornerLabel?.trim() ?? '';
+  const labelPointsAtGardners = /gardner'?s/i.test(label);
+  const wasSavedBeforeGardnersSplit = createdAt < PHILLIP_ISLAND_GARDNERS_SPLIT_AT_MS;
+
+  if (!labelPointsAtGardners && !wasSavedBeforeGardnersSplit) {
+    return entry;
+  }
+
+  return {
+    ...entry,
+    cornerId: PHILLIP_ISLAND_GARDNERS_ID,
+    cornerNumber: 12,
+    cornerLabel: /^turn\s*11\s*\(\s*gardner'?s\s*\)$/i.test(label)
+      ? "Gardner's"
+      : entry.cornerLabel,
+  };
+}
+
+export function normalizeTrackWalkSessionForStorage(raw: Record<string, unknown>): TrackWalkSession {
   const trackId = typeof raw.trackId === 'string' ? raw.trackId : 'other';
+  const createdAt = typeof raw.createdAt === 'number' ? raw.createdAt : Date.now();
+  const entries = Array.isArray(raw.entries)
+    ? (raw.entries as Record<string, unknown>[])
+        .map(normalizeEntry)
+        .map((entry) => normalizeLegacyPhillipIslandCorner(trackId, createdAt, entry))
+    : [];
   const trackName =
     typeof raw.trackName === 'string' ? raw.trackName : (raw.trackName as string) || 'Track walk';
   return {
@@ -78,7 +115,7 @@ function normalizeSession(raw: Record<string, unknown>): TrackWalkSession {
     otherTrackContext: raw.otherTrackContext as OtherTrackContext | undefined,
     entries,
     photoUris: Array.isArray(raw.photoUris) ? (raw.photoUris as string[]) : undefined,
-    createdAt: typeof raw.createdAt === 'number' ? raw.createdAt : Date.now(),
+    createdAt,
   };
 }
 
@@ -87,7 +124,9 @@ export async function getTrackWalkSessions(): Promise<TrackWalkSession[]> {
     const raw = await AsyncStorage.getItem(KEY_SESSIONS);
     if (raw) {
       const parsed = JSON.parse(raw);
-      if (Array.isArray(parsed)) return parsed.map((s) => normalizeSession(s as Record<string, unknown>));
+      if (Array.isArray(parsed)) {
+        return parsed.map((s) => normalizeTrackWalkSessionForStorage(s as Record<string, unknown>));
+      }
     }
   } catch (e) {
     logStorageError('getTrackWalkSessions', e);

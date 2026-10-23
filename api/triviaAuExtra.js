@@ -29,7 +29,7 @@ export const AU_EXTRA_TRIVIA = [
   q('Which fast, exposed Phillip Island corner is nicknamed Siberia?', 'Turn 5', ['Doohan Corner', 'MG Hairpin', 'Gardner\'s'], 'The merch tent', 6),
   q('What is the uphill complex at Phillip Island after Hayshed?', 'Lukey Heights', ['The Dipper', 'The Cutting', 'Skyline'], 'A really steep driveway', 5),
   q('Which turn at Phillip Island is MG Hairpin?', 'Turn 9', ['Turn 1', 'Turn 4', 'Turn 11'], 'The roundabout near the ferry', 6),
-  q('What is Turn 11 at Phillip Island also called?', 'Gardner\'s', ['Rossi\'s', 'Marquez Corner', 'Bayliss Bend'], 'Your uncle\'s driveway', 4),
+  q('What is Turn 12 at Phillip Island also called?', 'Gardner\'s', ['Rossi\'s', 'Marquez Corner', 'Bayliss Bend'], 'Your uncle\'s driveway', 4),
   q('Who was the first Australian to win the 500cc world championship?', 'Wayne Gardner', ['Mick Doohan', 'Casey Stoner', 'Jack Miller'], 'Crocodile Dundee', 5),
   q('In which year did Wayne Gardner win the 500cc world title?', '1987', ['1998', '2007', '2011'], 'The year sliced bread was invented', 7),
   q('How many consecutive 500cc titles did Mick Doohan win?', 'Five (1994–1998)', ['Two', 'Three', 'Seven'], 'Enough to fill a esky', 6),
