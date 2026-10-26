@@ -1,7 +1,7 @@
 {
-  "updatedAt": "2026-10-19T12:04:40.425Z",
+  "updatedAt": "2026-10-26T12:14:21.707Z",
   "sourceCount": 26,
-  "eventCount": 76,
+  "eventCount": 74,
   "errors": [],
   "events": [
     {
@@ -229,34 +229,6 @@
       "confidence": "high"
     },
     {
-      "name": "2027 Australian Superbike Championship - Round 1",
-      "start_date": "2026-10-23",
-      "end_date": "2026-10-25",
-      "state": null,
-      "venue": "Phillip Island Grand Prix Circuit",
-      "organiser": "Motorcycling Australia (MA) - National Calendar",
-      "source_id": "gov_ma_national_calendar",
-      "source_url": "https://www.ma.org.au/ma-calendar/",
-      "entry_url": "https://calendar.time.ly/lom2ukea/event/78311595/20261023000000",
-      "discipline": "road_race",
-      "notes": "Timely: Road Race",
-      "confidence": "high"
-    },
-    {
-      "name": "2027 Australian Superbike Championships (at Australian MotoGP) Round 1",
-      "start_date": "2026-10-23",
-      "end_date": "2026-10-25",
-      "state": "VIC",
-      "venue": "Phillip Island",
-      "organiser": "Computime",
-      "source_id": "club_vic_computime",
-      "source_url": "https://www.computime.com.au/calendar/calendar",
-      "entry_url": "https://www.computime.com.au/calendar/calendar",
-      "discipline": "road_race",
-      "notes": null,
-      "confidence": "high"
-    },
-    {
       "name": "State Titles + Scooter Race",
       "start_date": "2026-10-27",
       "end_date": "2026-10-28",
@@ -285,7 +257,7 @@
       "confidence": "high"
     },
     {
-      "name": "The Bend Motorsport Park",
+      "name": "The Bend Motorsport Park Friday",
       "start_date": "2026-10-30",
       "end_date": "2026-10-30",
       "state": "SA",
@@ -299,7 +271,7 @@
       "confidence": "high"
     },
     {
-      "name": "The Bend Motorsport Park 30-31 Oct, 2026 DOUBLE DAY!!",
+      "name": "The Bend Motorsport Park Fri 30-Sat 31 Oct, 2026 DOUBLE DAY!!",
       "start_date": "2026-10-30",
       "end_date": "2026-10-30",
       "state": "SA",
@@ -313,7 +285,7 @@
       "confidence": "high"
     },
     {
-      "name": "The Bend Motorsport Park INTRO SESSIONS ONLY",
+      "name": "The Bend Motorsport Park Friday INTRO SESSIONS ONLY",
       "start_date": "2026-10-30",
       "end_date": "2026-10-30",
       "state": "SA",
@@ -341,7 +313,7 @@
       "confidence": "high"
     },
     {
-      "name": "The Bend Motorsport Park",
+      "name": "The Bend Motorsport Park Saturday",
       "start_date": "2026-10-31",
       "end_date": "2026-10-31",
       "state": "SA",
@@ -523,7 +495,7 @@
       "confidence": "high"
     },
     {
-      "name": "2027 Australian Superbike Championships Round 2",
+      "name": "2027 Shannons Australian Superbike Championships Round 2",
       "start_date": "2026-11-13",
       "end_date": "2026-11-15",
       "state": "SA",
@@ -789,7 +761,7 @@
       "confidence": "high"
     },
     {
-      "name": "2027 Australian Superbike Championships Round 3",
+      "name": "2027 Shannons Australian Superbike Championships Round 3",
       "start_date": "2026-12-04",
       "end_date": "2026-12-06",
       "state": "NSW",
