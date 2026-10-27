@@ -11,7 +11,7 @@ import { enrichRulesSources } from './momsOnlineUrls.js';
 import { prepareRulesQueryTokens, retrieveForRules } from './qa.js';
 import { formatFaqsForPrompt, loadRiderAiFaqs } from './riderAiFaqs.js';
 import { coachEvidenceBlock } from './coachKnowledge.js';
-import { getAiPrompts, getPrimaryManifest } from './packLoader.js';
+import { getAiPrompts, getPrimaryManifest, readPackFile } from './packLoader.js';
 import { stripChatMarkdown } from './stripChatMarkdown.js';
 
 /** Cap below the app's 90s LLM fetch so a hung OpenAI call returns JSON, not a dropped TCP. */
@@ -516,12 +516,66 @@ function extractWebSources(response) {
 }
 
 /**
- * Single-shot Ask: web search (Responses API). Rules mode: MoMS local JSON only.
+ * UK has no in-app clause text. Official rule check must link out and must not
+ * answer from the Australian MoMS index or invent a clause number.
+ * @param {string} [packId]
+ * @returns {{ content: string, sources: object[], fromKb: boolean, rulebook: object } | null}
+ */
+export function rulesLinkOut(packId) {
+  if (packId !== 'uk') return null;
+  const book = readPackFile('uk', 'rules/rulebook.json');
+  const urls = book?.urls || {};
+  const sourcePage = typeof urls.sourcePage === 'string' ? urls.sourcePage : '';
+  const handbook = typeof urls.handbook === 'string' ? urls.handbook : '';
+  if (!book || typeof book.shortName !== 'string' || !sourcePage) return null;
+
+  const variations =
+    book.regionalVariations && typeof book.regionalVariations === 'object'
+      ? Object.values(book.regionalVariations).filter((line) => typeof line === 'string' && line.trim())
+      : [];
+  const content = [
+    'This app does not keep ACU clause text, so it cannot cite a clause for this question.',
+    typeof book.note === 'string' ? book.note.trim() : '',
+    ...variations.map((line) => line.trim()),
+    handbook ? `Standing Regulations: ${handbook}` : '',
+    `ACU website: ${sourcePage}`,
+  ]
+    .filter(Boolean)
+    .join('\n\n');
+
+  return {
+    content,
+    sources: [],
+    fromKb: false,
+    rulebook: {
+      shortName: book.shortName,
+      ...(typeof book.governingBody === 'string' ? { governingBody: book.governingBody } : {}),
+      sourcePage,
+      ...(handbook ? { handbook } : {}),
+      ...(typeof book.edition === 'string' ? { edition: book.edition } : {}),
+    },
+  };
+}
+
+/**
+ * Single-shot Ask: web search (Responses API). Rules mode: MoMS local JSON for
+ * Australia. The UK pack links out and does not quote MoMS.
  * @param {string} message
- * @param {{ mode?: 'ask' | 'rules' }} [options]
- * @returns {Promise<{ content: string, sources: Array<object>, fromKb: boolean, momsOnline?: object, error?: string }>}
+ * @param {{ mode?: 'ask' | 'rules', packId?: string }} [options]
+ * @returns {Promise<{ content: string, sources: Array<object>, fromKb: boolean, momsOnline?: object, rulebook?: object, error?: string }>}
  */
 export async function askChat(message, options = {}) {
+  const text = (message || '').trim();
+  if (!text) {
+    return { content: '', sources: [], fromKb: false, error: 'message is required' };
+  }
+
+  const mode = options.mode === 'rules' ? 'rules' : 'ask';
+  if (mode === 'rules') {
+    const linkOut = rulesLinkOut(options.packId);
+    if (linkOut) return linkOut;
+  }
+
   const apiKey = process.env.OPENAI_API_KEY;
   if (!apiKey) {
     return {
@@ -532,12 +586,6 @@ export async function askChat(message, options = {}) {
     };
   }
 
-  const text = (message || '').trim();
-  if (!text) {
-    return { content: '', sources: [], fromKb: false, error: 'message is required' };
-  }
-
-  const mode = options.mode === 'rules' ? 'rules' : 'ask';
   const client = createOpenAiClient(apiKey);
   const model = getCoachModel();
 

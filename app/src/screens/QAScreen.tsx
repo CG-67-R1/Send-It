@@ -668,10 +668,14 @@ export function QAScreen() {
             <View style={styles.results}>
               <View style={[styles.resultCard, styles.rulesResultCard]}>
                 <Text style={styles.resultContent}>{rulesReply}</Text>
-                {rulesSources.length > 0 ? (
+                {rulesSources.length > 0 || rulesRulebook ? (
                   <View style={styles.sourcesBlock}>
                     <Text style={styles.sourcesLabel}>
-                      {rulesFromKb ? 'Location in the rules' : 'Related rule locations'}
+                      {rulesSources.length === 0
+                        ? 'Official rule book'
+                        : rulesFromKb
+                          ? 'Location in the rules'
+                          : 'Related rule locations'}
                     </Text>
                     {rulesSources[0]?.edition || rulesSources[0]?.effectiveDate ? (
                       <Text style={styles.sourceEdition}>
