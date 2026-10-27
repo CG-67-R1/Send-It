@@ -2,7 +2,9 @@
 /**
  * Compact track notes for Coach / Bike Setup prompts.
  * Source is the GPT geometry and coaching-bias files. Output lives under api/data
- * so the Render service (rootDir: api) can read it. Hands are copied, never inferred.
+ * so the Render service (rootDir: api) can read it. Geometry hands are copied.
+ * A hand in track_turn_verification.json for the same layout and turn number
+ * replaces that approximation. Missing hands stay missing.
  *
  * Usage: node scripts/build-coach-track-notes.mjs
  */
@@ -94,6 +96,40 @@ function biasLine(bias) {
     bits.push(`priority ${priority.slice(0, 2).join(', ').replaceAll('_', ' ')}`);
   }
   return bits.join('. ');
+}
+
+const VERIFIED_TRACK_IDS = {
+  phillip_island: 'phillip_island',
+  broadford: 'broadford',
+  morgan_park: 'morgan_park',
+  mallala: 'mallala',
+  mac_park: 'mac_park',
+  queensland_raceway_national: 'queensland_raceway',
+  one_raceway: 'wakefield_park',
+};
+
+function verificationId(entry) {
+  const layout = String(entry.layout || '');
+  if (entry.id === 'sydney_motorsport_park') {
+    return /gardner/i.test(layout) ? 'smp_gardner' : null;
+  }
+  if (entry.id === 'the_bend_motorsport_park') {
+    return /\bgt\b/i.test(layout) ? 'the_bend_gt' : null;
+  }
+  return VERIFIED_TRACK_IDS[entry.id] || null;
+}
+
+function applyVerifiedHands(entry, verifiedHands) {
+  const locked = verifiedHands[verificationId(entry) || ''];
+  if (!locked) return entry;
+  return {
+    ...entry,
+    turns: entry.turns.map((turn) => {
+      const hand = locked[String(turn.n)];
+      if (hand === 'left' || hand === 'right') return { ...turn, hand };
+      return turn;
+    }),
+  };
 }
 
 function entryFromTurns(pack, id, venue, match, layoutName, layoutMatch, source, bias) {
@@ -206,11 +242,12 @@ const auGeo = await load('docs/gpt-knowledge/track_geometry_australia.json');
 const ukGeo = await load('docs/gpt-knowledge/track_geometry_uk.json');
 const auBias = await load('docs/gpt-knowledge/TRACK_SPECIFIC_DIAGNOSTIC_AU_v1.json');
 const ukBias = await load('docs/gpt-knowledge/TRACK_SPECIFIC_DIAGNOSTIC_UK_v1.json');
+const verifiedHands = (await load('app/src/data/track_turn_verification.json')).verifiedHands || {};
 
 const tracks = [
   ...trackEntries('au', auGeo, auBias),
   ...trackEntries('uk', ukGeo, ukBias),
-];
+].map((entry) => applyVerifiedHands(entry, verifiedHands));
 
 await fs.writeFile(OUT, `${JSON.stringify({ tracks }, null, 2)}\n`);
 console.log(`Wrote ${tracks.length} track notes to ${path.relative(ROOT, OUT)}`);

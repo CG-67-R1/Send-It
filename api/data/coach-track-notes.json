@@ -21,7 +21,7 @@
       "turns": [
         {
           "n": 2,
-          "hand": "left"
+          "hand": "right"
         }
       ],
       "bias": ""
@@ -91,7 +91,7 @@
       "turns": [
         {
           "n": 1,
-          "hand": "right"
+          "hand": "left"
         },
         {
           "n": 2,
@@ -148,7 +148,7 @@
         },
         {
           "n": 5,
-          "hand": "right"
+          "hand": "left"
         },
         {
           "n": 6,
@@ -164,7 +164,7 @@
         },
         {
           "n": 9,
-          "hand": "left"
+          "hand": "right"
         },
         {
           "n": 10,
@@ -275,7 +275,7 @@
         },
         {
           "n": 2,
-          "hand": "right"
+          "hand": "left"
         },
         {
           "n": 3,
@@ -407,7 +407,7 @@
         },
         {
           "n": 2,
-          "hand": "right"
+          "hand": "left"
         },
         {
           "n": 3,
@@ -415,7 +415,7 @@
         },
         {
           "n": 4,
-          "hand": "left"
+          "hand": "right"
         },
         {
           "n": 5,
@@ -427,11 +427,11 @@
         },
         {
           "n": 7,
-          "hand": "left"
+          "hand": "right"
         },
         {
           "n": 8,
-          "hand": "right"
+          "hand": "left"
         },
         {
           "n": 9,
@@ -773,15 +773,15 @@
         },
         {
           "n": 3,
-          "hand": "right"
-        },
-        {
-          "n": 4,
           "hand": "left"
         },
         {
-          "n": 5,
+          "n": 4,
           "hand": "right"
+        },
+        {
+          "n": 5,
+          "hand": "left"
         },
         {
           "n": 8,
@@ -1002,11 +1002,11 @@
         },
         {
           "n": 2,
-          "hand": "right"
+          "hand": "left"
         },
         {
           "n": 3,
-          "hand": "left"
+          "hand": "right"
         },
         {
           "n": 4,
@@ -1018,7 +1018,7 @@
         },
         {
           "n": 6,
-          "hand": "right"
+          "hand": "left"
         },
         {
           "n": 7,
@@ -1026,7 +1026,7 @@
         },
         {
           "n": 8,
-          "hand": "left"
+          "hand": "right"
         },
         {
           "n": 9,

@@ -16,6 +16,8 @@ function assert(name, pass, detail) {
 const island = trackNotesForQuery('running wide at phillip island turn 4', 'au');
 assert('Phillip Island notes are included', island.includes('Phillip Island'));
 assert('Phillip Island hand is copied', island.includes('T4 right'));
+assert('Phillip Island Siberia stays left', island.includes('T5 left') && !island.includes('T5 right'));
+assert('Phillip Island MG stays right', island.includes('T9 right') && !island.includes('T9 left'));
 assert('UK circuit stays out of an AU track question', !island.toLowerCase().includes('brands'));
 
 const brands = trackNotesForQuery('paddock hill at brands hatch', 'uk');
@@ -29,6 +31,8 @@ assert('The Bend does not dump hands before a layout', !bend.includes('T1 '));
 const gardner = trackNotesForQuery('turn 1 at gardner', 'au');
 assert('Gardner layout is selected', gardner.includes('Gardner'));
 assert('Gardner turn 1 hand is copied', gardner.includes('T1 left'));
+assert('Gardner turn 2 stays left', gardner.includes('T2 left') && !gardner.includes('T2 right'));
+assert('Gardner turn 3 stays right', gardner.includes('T3 right') && !gardner.includes('T3 left'));
 
 const westOnly = trackNotesForQuery('the west side of the tyre', 'au');
 assert('West alone does not select The Bend West', !westOnly.includes('West Circuit'));
@@ -45,6 +49,37 @@ const picked = selectFaqs(
   'running wide on exit'
 );
 assert('FAQ match keeps the wide note', picked.length === 1 && picked[0].question.includes('wide'));
+
+const notes = JSON.parse(readFileSync(new URL('../data/coach-track-notes.json', import.meta.url), 'utf8'));
+const verified = JSON.parse(
+  readFileSync(new URL('../../app/src/data/track_turn_verification.json', import.meta.url), 'utf8')
+).verifiedHands;
+const verifiedId = {
+  phillip_island: 'phillip_island',
+  broadford: 'broadford',
+  morgan_park: 'morgan_park',
+  mallala: 'mallala',
+  mac_park: 'mac_park',
+  queensland_raceway_national: 'queensland_raceway',
+  one_raceway: 'wakefield_park',
+};
+for (const entry of notes.tracks || []) {
+  let key = verifiedId[entry.id] || null;
+  if (entry.id === 'sydney_motorsport_park' && /gardner/i.test(entry.layout || '')) key = 'smp_gardner';
+  if (entry.id === 'the_bend_motorsport_park' && /\bgt\b/i.test(entry.layout || '')) key = 'the_bend_gt';
+  const locked = key ? verified[key] : null;
+  if (!locked) continue;
+  for (const turn of entry.turns || []) {
+    const hand = locked[String(turn.n)];
+    if (hand === 'left' || hand === 'right') {
+      assert(
+        `${entry.id} ${entry.layout || ''} T${turn.n} matches verified hand`,
+        turn.hand === hand,
+        turn.hand === hand ? '' : `notes=${turn.hand} verified=${hand}`
+      );
+    }
+  }
+}
 
 const faqs = JSON.parse(readFileSync(new URL('../data/rider_ai_faqs.json', import.meta.url), 'utf8'));
 const wideCoach = formatFaqsForPrompt(faqs, 'coach', 'intermediate', 'running wide out of turn 4 at brands hatch', 'uk');
