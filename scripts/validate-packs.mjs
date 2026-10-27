@@ -9,6 +9,18 @@ import { fileURLToPath } from 'url';
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const ROOT = path.join(__dirname, '..');
 const PACKS = path.join(ROOT, 'packs');
+const APP_BUNDLED = path.join(ROOT, 'app', 'src', 'packs', 'bundled');
+const ANDROID_BUNDLED = path.join(ROOT, 'android-app', 'src', 'packs', 'bundled');
+
+const PACK_RUNTIME_SLICES = [
+  'manifest.json',
+  'competitions/series.json',
+  'headlines/sources.json',
+  'onboarding/areas.json',
+  'tracks/tracks.json',
+  'i18n/strings.json',
+  'ai/prompts.json',
+];
 
 const errors = [];
 const warnings = [];
@@ -25,6 +37,14 @@ function readJson(filePath) {
     return JSON.parse(fs.readFileSync(filePath, 'utf8'));
   } catch (e) {
     err(`Invalid JSON: ${filePath}: ${e.message}`);
+    return null;
+  }
+}
+
+function readText(filePath) {
+  try {
+    return fs.readFileSync(filePath, 'utf8');
+  } catch {
     return null;
   }
 }
@@ -62,6 +82,30 @@ if (active?.packs) {
   for (const packId of active.packs) {
     const dir = path.join(PACKS, 'regions', packId);
     if (!fs.existsSync(dir)) err(`active pack folder missing: ${packId}`);
+  }
+}
+
+if (active?.packs) {
+  for (const packId of active.packs) {
+    for (const rel of PACK_RUNTIME_SLICES) {
+      const sourcePath = path.join(PACKS, 'regions', packId, rel);
+      if (!fs.existsSync(sourcePath)) continue;
+      const appPath = path.join(APP_BUNDLED, packId, rel);
+      const androidPath = path.join(ANDROID_BUNDLED, packId, rel);
+      const sourceText = readText(sourcePath);
+      const appText = readText(appPath);
+      const androidText = readText(androidPath);
+      if (appText == null) {
+        err(`${packId}: app bundled pack missing ${rel}; run sync-app-packs`);
+      } else if (appText !== sourceText) {
+        err(`${packId}: app bundled pack stale for ${rel}; run sync-app-packs`);
+      }
+      if (androidText == null) {
+        err(`${packId}: android bundled pack missing ${rel}; copy app/src/packs/bundled to android-app`);
+      } else if (appText != null && androidText !== appText) {
+        err(`${packId}: android bundled pack differs for ${rel}; copy app/src/packs/bundled to android-app`);
+      }
+    }
   }
 }
 
