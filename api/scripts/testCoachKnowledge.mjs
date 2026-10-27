@@ -1,5 +1,5 @@
 /**
- * Coach prompt evidence: matching FAQs and copied track hands.
+ * Coach prompt evidence: matching FAQs and verified track hands.
  * Run: node scripts/testCoachKnowledge.mjs
  */
 import { coachEvidenceBlock, selectFaqs, trackNotesForQuery } from '../coachKnowledge.js';
@@ -20,7 +20,7 @@ assert('UK circuit stays out of an AU track question', !island.toLowerCase().inc
 
 const brands = trackNotesForQuery('paddock hill at brands hatch', 'uk');
 assert('Brands Hatch notes are included', brands.includes('Brands Hatch'));
-assert('Paddock Hill hand is copied', brands.includes('Paddock Hill Bend'));
+assert('UK notes do not invent an unverified hand', brands.includes('No verified left or right'));
 
 const bend = trackNotesForQuery('setup for the bend', 'au');
 assert('The Bend asks for a layout', bend.includes('Ask which layout'));

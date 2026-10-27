@@ -20,7 +20,31 @@
       "direction": "",
       "turns": [
         {
+          "n": 1,
+          "hand": "left"
+        },
+        {
           "n": 2,
+          "hand": "right"
+        },
+        {
+          "n": 3,
+          "hand": "left"
+        },
+        {
+          "n": 4,
+          "hand": "left"
+        },
+        {
+          "n": 5,
+          "hand": "right"
+        },
+        {
+          "n": 8,
+          "hand": "left"
+        },
+        {
+          "n": 10,
           "hand": "left"
         }
       ],
@@ -39,40 +63,7 @@
       "lengthKm": 3,
       "turnCount": 12,
       "direction": "clockwise",
-      "turns": [
-        {
-          "n": 3,
-          "hand": "left"
-        },
-        {
-          "n": 4,
-          "hand": "right"
-        },
-        {
-          "n": 5,
-          "hand": "left"
-        },
-        {
-          "n": 6,
-          "hand": "right"
-        },
-        {
-          "n": 7,
-          "hand": "left"
-        },
-        {
-          "n": 8,
-          "hand": "right"
-        },
-        {
-          "n": 9,
-          "hand": "right"
-        },
-        {
-          "n": 10,
-          "hand": "right"
-        }
-      ],
+      "turns": [],
       "bias": ""
     },
     {
@@ -91,27 +82,19 @@
       "turns": [
         {
           "n": 1,
-          "hand": "right"
-        },
-        {
-          "n": 2,
-          "hand": "right"
-        },
-        {
-          "n": 6,
-          "hand": "right"
-        },
-        {
-          "n": 7,
-          "hand": "right"
-        },
-        {
-          "n": 8,
           "hand": "left"
         },
         {
-          "n": 9,
+          "n": 5,
           "hand": "right"
+        },
+        {
+          "n": 10,
+          "hand": "right"
+        },
+        {
+          "n": 12,
+          "hand": "left"
         }
       ],
       "bias": "surface tight, off camber, elevation changes. issues rear spin off camber, front push downhill, highside risk. priority smoothness and control"
@@ -148,35 +131,11 @@
         },
         {
           "n": 5,
-          "hand": "right"
-        },
-        {
-          "n": 6,
-          "hand": "left"
-        },
-        {
-          "n": 7,
-          "hand": "right"
-        },
-        {
-          "n": 8,
           "hand": "left"
         },
         {
           "n": 9,
-          "hand": "left"
-        },
-        {
-          "n": 10,
           "hand": "right"
-        },
-        {
-          "n": 11,
-          "hand": "left"
-        },
-        {
-          "n": 12,
-          "hand": "left"
         }
       ],
       "bias": "surface high speed, long corners, wind exposure. issues edge grip overload, tyre wear on edge, wind instability. priority stability and edge support"
@@ -195,64 +154,7 @@
       "lengthKm": 2.87,
       "turnCount": 14,
       "direction": "anticlockwise",
-      "turns": [
-        {
-          "n": 1,
-          "hand": "left"
-        },
-        {
-          "n": 2,
-          "hand": "left"
-        },
-        {
-          "n": 3,
-          "hand": "right"
-        },
-        {
-          "n": 4,
-          "hand": "left"
-        },
-        {
-          "n": 5,
-          "hand": "right"
-        },
-        {
-          "n": 6,
-          "hand": "left"
-        },
-        {
-          "n": 7,
-          "hand": "right"
-        },
-        {
-          "n": 8,
-          "hand": "right"
-        },
-        {
-          "n": 9,
-          "hand": "left"
-        },
-        {
-          "n": 10,
-          "hand": "left"
-        },
-        {
-          "n": 11,
-          "hand": "left"
-        },
-        {
-          "n": 12,
-          "hand": "right"
-        },
-        {
-          "n": 13,
-          "hand": "right"
-        },
-        {
-          "n": 14,
-          "hand": "left"
-        }
-      ],
+      "turns": [],
       "bias": ""
     },
     {
@@ -275,15 +177,7 @@
         },
         {
           "n": 2,
-          "hand": "right"
-        },
-        {
-          "n": 3,
-          "hand": "right"
-        },
-        {
-          "n": 4,
-          "hand": "right"
+          "hand": "left"
         },
         {
           "n": 5,
@@ -310,80 +204,7 @@
       "lengthKm": 4.95,
       "turnCount": 18,
       "direction": "",
-      "turns": [
-        {
-          "n": 1,
-          "hand": "right"
-        },
-        {
-          "n": 2,
-          "hand": "right"
-        },
-        {
-          "n": 3,
-          "hand": "right"
-        },
-        {
-          "n": 4,
-          "hand": "left"
-        },
-        {
-          "n": 5,
-          "hand": "right"
-        },
-        {
-          "n": 6,
-          "hand": "left"
-        },
-        {
-          "n": 7,
-          "hand": "right"
-        },
-        {
-          "n": 8,
-          "hand": "right"
-        },
-        {
-          "n": 9,
-          "hand": "left"
-        },
-        {
-          "n": 10,
-          "hand": "left"
-        },
-        {
-          "n": 11,
-          "hand": "right"
-        },
-        {
-          "n": 12,
-          "hand": "left"
-        },
-        {
-          "n": 13,
-          "hand": "right"
-        },
-        {
-          "n": 14,
-          "hand": "left"
-        },
-        {
-          "n": 15,
-          "hand": "right"
-        },
-        {
-          "n": 16,
-          "hand": "left"
-        },
-        {
-          "n": 17,
-          "hand": "left"
-        },
-        {
-          "n": 18,
-          "hand": "right"
-        }
-      ],
+      "turns": [],
       "bias": ""
     },
     {
@@ -407,7 +228,7 @@
         },
         {
           "n": 2,
-          "hand": "right"
+          "hand": "left"
         },
         {
           "n": 3,
@@ -415,130 +236,22 @@
         },
         {
           "n": 4,
-          "hand": "left"
+          "hand": "right"
         },
         {
           "n": 5,
           "hand": "left"
         },
         {
-          "n": 6,
-          "hand": "right"
-        },
-        {
           "n": 7,
-          "hand": "left"
+          "hand": "right"
         },
         {
           "n": 8,
-          "hand": "right"
+          "hand": "left"
         },
         {
           "n": 9,
-          "hand": "right"
-        },
-        {
-          "n": 10,
-          "hand": "left"
-        },
-        {
-          "n": 11,
-          "hand": "left"
-        },
-        {
-          "n": 12,
-          "hand": "right"
-        },
-        {
-          "n": 13,
-          "hand": "right"
-        },
-        {
-          "n": 14,
-          "hand": "right"
-        },
-        {
-          "n": 15,
-          "hand": "right"
-        },
-        {
-          "n": 16,
-          "hand": "right"
-        },
-        {
-          "n": 17,
-          "hand": "right"
-        },
-        {
-          "n": 18,
-          "hand": "left"
-        },
-        {
-          "n": 19,
-          "hand": "right"
-        },
-        {
-          "n": 20,
-          "hand": "left"
-        },
-        {
-          "n": 21,
-          "hand": "right"
-        },
-        {
-          "n": 22,
-          "hand": "left"
-        },
-        {
-          "n": 23,
-          "hand": "right"
-        },
-        {
-          "n": 24,
-          "hand": "right"
-        },
-        {
-          "n": 25,
-          "hand": "right"
-        },
-        {
-          "n": 26,
-          "hand": "left"
-        },
-        {
-          "n": 27,
-          "hand": "right"
-        },
-        {
-          "n": 28,
-          "hand": "left"
-        },
-        {
-          "n": 29,
-          "hand": "right"
-        },
-        {
-          "n": 30,
-          "hand": "left"
-        },
-        {
-          "n": 31,
-          "hand": "right"
-        },
-        {
-          "n": 32,
-          "hand": "right"
-        },
-        {
-          "n": 33,
-          "hand": "left"
-        },
-        {
-          "n": 34,
-          "hand": "right"
-        },
-        {
-          "n": 35,
           "hand": "right"
         }
       ],
@@ -560,52 +273,7 @@
       "lengthKm": 3.41,
       "turnCount": 12,
       "direction": "",
-      "turns": [
-        {
-          "n": 1,
-          "hand": "right"
-        },
-        {
-          "n": 2,
-          "hand": "right"
-        },
-        {
-          "n": 3,
-          "hand": "right"
-        },
-        {
-          "n": 4,
-          "hand": "right"
-        },
-        {
-          "n": 5,
-          "hand": "left"
-        },
-        {
-          "n": 6,
-          "hand": "left"
-        },
-        {
-          "n": 7,
-          "hand": "right"
-        },
-        {
-          "n": 8,
-          "hand": "right"
-        },
-        {
-          "n": 9,
-          "hand": "left"
-        },
-        {
-          "n": 11,
-          "hand": "left"
-        },
-        {
-          "n": 12,
-          "hand": "left"
-        }
-      ],
+      "turns": [],
       "bias": ""
     },
     {
@@ -624,96 +292,7 @@
       "lengthKm": 3.93,
       "turnCount": 22,
       "direction": "",
-      "turns": [
-        {
-          "n": 1,
-          "hand": "right"
-        },
-        {
-          "n": 2,
-          "hand": "right"
-        },
-        {
-          "n": 3,
-          "hand": "left"
-        },
-        {
-          "n": 4,
-          "hand": "right"
-        },
-        {
-          "n": 5,
-          "hand": "right"
-        },
-        {
-          "n": 6,
-          "hand": "left"
-        },
-        {
-          "n": 7,
-          "hand": "right"
-        },
-        {
-          "n": 8,
-          "hand": "right"
-        },
-        {
-          "n": 9,
-          "hand": "left"
-        },
-        {
-          "n": 10,
-          "hand": "right"
-        },
-        {
-          "n": 11,
-          "hand": "right"
-        },
-        {
-          "n": 12,
-          "hand": "right"
-        },
-        {
-          "n": 13,
-          "hand": "left"
-        },
-        {
-          "n": 14,
-          "hand": "right"
-        },
-        {
-          "n": 15,
-          "hand": "left"
-        },
-        {
-          "n": 16,
-          "hand": "right"
-        },
-        {
-          "n": 17,
-          "hand": "left"
-        },
-        {
-          "n": 18,
-          "hand": "right"
-        },
-        {
-          "n": 19,
-          "hand": "left"
-        },
-        {
-          "n": 20,
-          "hand": "right"
-        },
-        {
-          "n": 21,
-          "hand": "left"
-        },
-        {
-          "n": 22,
-          "hand": "right"
-        }
-      ],
+      "turns": [],
       "bias": ""
     },
     {
@@ -737,14 +316,6 @@
         {
           "n": 3,
           "hand": "right"
-        },
-        {
-          "n": 6,
-          "hand": "left"
-        },
-        {
-          "n": 7,
-          "hand": "right"
         }
       ],
       "bias": "surface bumpy, low grip offline, heavy braking zones. issues front instability over bumps, rear unload on exit, braking instability. priority stability over aggression"
@@ -764,32 +335,24 @@
       "direction": "clockwise",
       "turns": [
         {
-          "n": 1,
-          "hand": "right"
-        },
-        {
-          "n": 2,
-          "hand": "right"
-        },
-        {
           "n": 3,
-          "hand": "right"
+          "hand": "left"
         },
         {
           "n": 4,
-          "hand": "left"
+          "hand": "right"
         },
         {
           "n": 5,
-          "hand": "right"
-        },
-        {
-          "n": 8,
           "hand": "left"
         },
         {
-          "n": 9,
+          "n": 6,
           "hand": "right"
+        },
+        {
+          "n": 7,
+          "hand": "left"
         },
         {
           "n": 10,
@@ -812,100 +375,7 @@
       "lengthKm": 6.213,
       "turnCount": 23,
       "direction": "clockwise",
-      "turns": [
-        {
-          "n": 1,
-          "hand": "right"
-        },
-        {
-          "n": 2,
-          "hand": "right"
-        },
-        {
-          "n": 3,
-          "hand": "left"
-        },
-        {
-          "n": 4,
-          "hand": "right"
-        },
-        {
-          "n": 5,
-          "hand": "left"
-        },
-        {
-          "n": 6,
-          "hand": "right"
-        },
-        {
-          "n": 7,
-          "hand": "right"
-        },
-        {
-          "n": 8,
-          "hand": "left"
-        },
-        {
-          "n": 9,
-          "hand": "right"
-        },
-        {
-          "n": 10,
-          "hand": "left"
-        },
-        {
-          "n": 11,
-          "hand": "left"
-        },
-        {
-          "n": 12,
-          "hand": "left"
-        },
-        {
-          "n": 13,
-          "hand": "right"
-        },
-        {
-          "n": 14,
-          "hand": "right"
-        },
-        {
-          "n": 15,
-          "hand": "left"
-        },
-        {
-          "n": 16,
-          "hand": "right"
-        },
-        {
-          "n": 17,
-          "hand": "left"
-        },
-        {
-          "n": 18,
-          "hand": "right"
-        },
-        {
-          "n": 19,
-          "hand": "left"
-        },
-        {
-          "n": 20,
-          "hand": "right"
-        },
-        {
-          "n": 21,
-          "hand": "right"
-        },
-        {
-          "n": 22,
-          "hand": "right"
-        },
-        {
-          "n": 23,
-          "hand": "left"
-        }
-      ],
+      "turns": [],
       "bias": ""
     },
     {
@@ -921,60 +391,7 @@
       "lengthKm": 3.104,
       "turnCount": 13,
       "direction": "anticlockwise",
-      "turns": [
-        {
-          "n": 1,
-          "hand": "right"
-        },
-        {
-          "n": 2,
-          "hand": "right"
-        },
-        {
-          "n": 3,
-          "hand": "right"
-        },
-        {
-          "n": 4,
-          "hand": "left"
-        },
-        {
-          "n": 5,
-          "hand": "left"
-        },
-        {
-          "n": 6,
-          "hand": "right"
-        },
-        {
-          "n": 7,
-          "hand": "left"
-        },
-        {
-          "n": 8,
-          "hand": "right"
-        },
-        {
-          "n": 9,
-          "hand": "left"
-        },
-        {
-          "n": 10,
-          "hand": "right"
-        },
-        {
-          "n": 11,
-          "hand": "left"
-        },
-        {
-          "n": 12,
-          "hand": "right"
-        },
-        {
-          "n": 13,
-          "hand": "left"
-        }
-      ],
+      "turns": [],
       "bias": ""
     },
     {
@@ -1002,11 +419,11 @@
         },
         {
           "n": 2,
-          "hand": "right"
+          "hand": "left"
         },
         {
           "n": 3,
-          "hand": "left"
+          "hand": "right"
         },
         {
           "n": 4,
@@ -1018,7 +435,7 @@
         },
         {
           "n": 6,
-          "hand": "right"
+          "hand": "left"
         },
         {
           "n": 7,
@@ -1026,7 +443,7 @@
         },
         {
           "n": 8,
-          "hand": "left"
+          "hand": "right"
         },
         {
           "n": 9,
@@ -1061,72 +478,7 @@
       "lengthKm": 4.5,
       "turnCount": 16,
       "direction": "anticlockwise",
-      "turns": [
-        {
-          "n": 1,
-          "hand": "left"
-        },
-        {
-          "n": 2,
-          "hand": "right"
-        },
-        {
-          "n": 3,
-          "hand": "left"
-        },
-        {
-          "n": 4,
-          "hand": "right"
-        },
-        {
-          "n": 5,
-          "hand": "left"
-        },
-        {
-          "n": 6,
-          "hand": "right"
-        },
-        {
-          "n": 7,
-          "hand": "right"
-        },
-        {
-          "n": 8,
-          "hand": "left"
-        },
-        {
-          "n": 9,
-          "hand": "right"
-        },
-        {
-          "n": 10,
-          "hand": "left"
-        },
-        {
-          "n": 11,
-          "hand": "right"
-        },
-        {
-          "n": 12,
-          "hand": "left"
-        },
-        {
-          "n": 13,
-          "hand": "right"
-        },
-        {
-          "n": 14,
-          "hand": "left"
-        },
-        {
-          "n": 15,
-          "hand": "right"
-        },
-        {
-          "n": 16,
-          "hand": "left"
-        }
-      ],
+      "turns": [],
       "bias": "surface good grip, high speed, flowing layout. issues overconfidence front, high speed instability, exit drive errors. priority precision over stability"
     },
     {
@@ -1147,44 +499,7 @@
       "lengthKm": 2.84,
       "turnCount": 9,
       "direction": "anticlockwise",
-      "turns": [
-        {
-          "n": 1,
-          "hand": "left"
-        },
-        {
-          "n": 2,
-          "hand": "right"
-        },
-        {
-          "n": 3,
-          "hand": "left"
-        },
-        {
-          "n": 4,
-          "hand": "right"
-        },
-        {
-          "n": 5,
-          "hand": "left"
-        },
-        {
-          "n": 6,
-          "hand": "right"
-        },
-        {
-          "n": 7,
-          "hand": "right"
-        },
-        {
-          "n": 8,
-          "hand": "left"
-        },
-        {
-          "n": 9,
-          "hand": "left"
-        }
-      ],
+      "turns": [],
       "bias": "surface good grip, high speed, flowing layout. issues overconfidence front, high speed instability, exit drive errors. priority precision over stability"
     },
     {
@@ -1200,24 +515,7 @@
       "lengthKm": 1.801,
       "turnCount": 4,
       "direction": "clockwise",
-      "turns": [
-        {
-          "n": 1,
-          "hand": "right"
-        },
-        {
-          "n": 2,
-          "hand": "right"
-        },
-        {
-          "n": 3,
-          "hand": "right"
-        },
-        {
-          "n": 4,
-          "hand": "right"
-        }
-      ],
+      "turns": [],
       "bias": ""
     },
     {
@@ -1248,53 +546,7 @@
       "lengthKm": 3.916,
       "turnCount": 9,
       "direction": "clockwise",
-      "turns": [
-        {
-          "n": 1,
-          "hand": "right",
-          "label": "Paddock Hill Bend"
-        },
-        {
-          "n": 2,
-          "hand": "right",
-          "label": "Druids"
-        },
-        {
-          "n": 3,
-          "hand": "left",
-          "label": "Graham Hill Bend"
-        },
-        {
-          "n": 4,
-          "hand": "right",
-          "label": "Surtees"
-        },
-        {
-          "n": 5,
-          "hand": "right",
-          "label": "Hawthorn Bend"
-        },
-        {
-          "n": 6,
-          "hand": "right",
-          "label": "Westfield Bend"
-        },
-        {
-          "n": 7,
-          "hand": "left",
-          "label": "Sheene Curve"
-        },
-        {
-          "n": 8,
-          "hand": "left",
-          "label": "Stirling's"
-        },
-        {
-          "n": 9,
-          "hand": "right",
-          "label": "Clark Curve"
-        }
-      ],
+      "turns": [],
       "bias": "surface elevation changes, camber changes, high commitment entry. issues paddock hill unload, druids late apex loss, sheene blind apex. priority stability over aggression"
     },
     {
@@ -1310,48 +562,7 @@
       "lengthKm": 3.19,
       "turnCount": 9,
       "direction": "clockwise",
-      "turns": [
-        {
-          "n": 1,
-          "hand": "right",
-          "label": "Redgate"
-        },
-        {
-          "n": 2,
-          "hand": "right",
-          "label": "Hollywood"
-        },
-        {
-          "n": 3,
-          "hand": "left",
-          "label": "Craner Curves"
-        },
-        {
-          "n": 4,
-          "hand": "right",
-          "label": "Old Hairpin"
-        },
-        {
-          "n": 5,
-          "hand": "left",
-          "label": "Starkey's Bridge"
-        },
-        {
-          "n": 6,
-          "hand": "left",
-          "label": "Schwantz Curve"
-        },
-        {
-          "n": 7,
-          "hand": "right",
-          "label": "McLean's"
-        },
-        {
-          "n": 8,
-          "hand": "right",
-          "label": "Coppice"
-        }
-      ],
+      "turns": [],
       "bias": "surface elevation, fast left commitment, mixed grip offline. issues craner lift off oversteer, old hairpin entry positioning, mcleans off camber apex. priority stability and confidence"
     },
     {
@@ -1367,33 +578,7 @@
       "lengthKm": 2.64,
       "turnCount": 6,
       "direction": "clockwise",
-      "turns": [
-        {
-          "n": 1,
-          "hand": "right",
-          "label": "Copse"
-        },
-        {
-          "n": 2,
-          "hand": "left",
-          "label": "Maggotts"
-        },
-        {
-          "n": 4,
-          "hand": "left",
-          "label": "Brooklands"
-        },
-        {
-          "n": 5,
-          "hand": "right",
-          "label": "Luffield"
-        },
-        {
-          "n": 6,
-          "hand": "right",
-          "label": "Woodcote"
-        }
-      ],
+      "turns": [],
       "bias": "surface high speed, long sweepers, wind exposure. issues edge grip on sweepers, becketts combined load, tyre heat management. priority edge support and stability"
     },
     {
@@ -1409,68 +594,7 @@
       "lengthKm": 4.78,
       "turnCount": 12,
       "direction": "clockwise",
-      "turns": [
-        {
-          "n": 1,
-          "hand": "right",
-          "label": "Riches"
-        },
-        {
-          "n": 2,
-          "hand": "right",
-          "label": "Montreal"
-        },
-        {
-          "n": 3,
-          "hand": "right",
-          "label": "Palmer"
-        },
-        {
-          "n": 4,
-          "hand": "left",
-          "label": "Agostini"
-        },
-        {
-          "n": 5,
-          "hand": "left",
-          "label": "Hamilton"
-        },
-        {
-          "n": 6,
-          "hand": "right",
-          "label": "Oggies"
-        },
-        {
-          "n": 7,
-          "hand": "right",
-          "label": "Williams"
-        },
-        {
-          "n": 8,
-          "hand": "right",
-          "label": "Brundle"
-        },
-        {
-          "n": 9,
-          "hand": "left",
-          "label": "Nelson"
-        },
-        {
-          "n": 10,
-          "hand": "right",
-          "label": "Bomb Hole"
-        },
-        {
-          "n": 11,
-          "hand": "right",
-          "label": "Coram"
-        },
-        {
-          "n": 12,
-          "hand": "left",
-          "label": "Murrays"
-        }
-      ],
+      "turns": [],
       "bias": "surface long straights, heavy braking zones, fast final sector. issues riches over brake, coram murrays exit drive, rear spin on drive out. priority stable braking and drive"
     },
     {
