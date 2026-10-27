@@ -275,8 +275,8 @@ export function trackNotesForQuery(query, packId = 'au') {
   let pool = layoutHits.length ? layoutHits : venueHits;
   if (!pool.length) return '';
 
-  const samePack = pool.filter((track) => track.pack === preferred);
-  if (samePack.length) pool = samePack;
+  pool = pool.filter((track) => track.pack === preferred);
+  if (!pool.length) return '';
 
   const groups = new Set(pool.map((track) => track.group));
   if (groups.size > 1) {
