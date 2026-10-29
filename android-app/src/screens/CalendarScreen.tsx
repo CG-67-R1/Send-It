@@ -349,7 +349,7 @@ export function CalendarScreen() {
               {item.seriesLabel}
             </Text>
             <Text style={styles.date} maxFontSizeMultiplier={1.4}>
-              {formatDateRange(item.startDate, item.endDate)}
+              {item.startDate ? formatDateRange(item.startDate, item.endDate) : 'Official calendar'}
             </Text>
           </View>
           <Text style={styles.title} numberOfLines={2}>{item.title}</Text>
@@ -373,17 +373,19 @@ export function CalendarScreen() {
           </Text>
         ) : null}
       </TouchableOpacity>
-      <TouchableOpacity
-        style={styles.reminderButton}
-        onPress={() => addReminder(item)}
-        activeOpacity={0.7}
-        accessibilityRole="button"
-        accessibilityLabel={`Add reminder for ${item.title}`}
-      >
-        <Text style={styles.reminderButtonText} maxFontSizeMultiplier={1.4}>
-          + Add reminder
-        </Text>
-      </TouchableOpacity>
+      {item.startDate ? (
+        <TouchableOpacity
+          style={styles.reminderButton}
+          onPress={() => addReminder(item)}
+          activeOpacity={0.7}
+          accessibilityRole="button"
+          accessibilityLabel={`Add reminder for ${item.title}`}
+        >
+          <Text style={styles.reminderButtonText} maxFontSizeMultiplier={1.4}>
+            + Add reminder
+          </Text>
+        </TouchableOpacity>
+      ) : null}
     </View>
   );
 
