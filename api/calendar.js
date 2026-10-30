@@ -274,6 +274,25 @@ function calendarEventKey(ev) {
   return `${ev.series}|${ev.startDate}|${ev.title}`;
 }
 
+/** YYYY-MM-DD in UTC, the same clock as the other calendar date filters. */
+export function utcTodayIso(now = new Date()) {
+  return now.toISOString().slice(0, 10);
+}
+
+/**
+ * Hide the official BSB calendar link only while a dated round is still on
+ * or ahead. Finished rounds must not remove it, or BSB vanishes from Events
+ * until next year's dates are added.
+ */
+export function bsbPointerUnlessCurrentRounds(pointers, datedNational, todayIso) {
+  const hasCurrentBsb = (datedNational || []).some((ev) => {
+    if (ev?.series !== 'bsb') return false;
+    const end = ev.endDate || ev.startDate || '';
+    return end >= todayIso;
+  });
+  return (pointers || []).filter((ev) => !(hasCurrentBsb && ev.series === 'bsb'));
+}
+
 /** Later events replace earlier ones with the same series, date, and title. */
 function mergeCalendarEvents(base, overlay) {
   const map = new Map();
@@ -304,8 +323,7 @@ function getUkCalendarEvents(bypassCache) {
     ...mapDatedEvents('bsb', fromPack.national, 'BSB'),
     ...mapDatedEvents('uk_club', fromPack.club, 'UK Club'),
   ];
-  const hasDatedBsb = national.some((ev) => ev.series === 'bsb');
-  const pointers = ukSourcePointers().filter((ev) => !(hasDatedBsb && ev.series === 'bsb'));
+  const pointers = bsbPointerUnlessCurrentRounds(ukSourcePointers(), national, utcTodayIso());
   const all = [...national, ...motogp, ...worldsbk, ...pointers];
   all.sort((a, b) => {
     const da = a.startDate || '9999-99-99';
