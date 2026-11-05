@@ -18,36 +18,7 @@
       "lengthKm": 2.35,
       "turnCount": 13,
       "direction": "",
-      "turns": [
-        {
-          "n": 1,
-          "hand": "left"
-        },
-        {
-          "n": 2,
-          "hand": "right"
-        },
-        {
-          "n": 3,
-          "hand": "left"
-        },
-        {
-          "n": 4,
-          "hand": "left"
-        },
-        {
-          "n": 5,
-          "hand": "right"
-        },
-        {
-          "n": 8,
-          "hand": "left"
-        },
-        {
-          "n": 10,
-          "hand": "left"
-        }
-      ],
+      "turns": [],
       "bias": ""
     },
     {

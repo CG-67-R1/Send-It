@@ -78,6 +78,11 @@ assert.equal(byId('phillip_island').turns.find((turn) => turn.n === 5)?.hand, 'l
 assert.equal(byId('phillip_island').turns.find((turn) => turn.n === 9)?.hand, 'right');
 assert.equal(byId('sydney_motorsport_park', 'Brabham Extended Circuit').turns.length, 0);
 assert.equal(
+  byId('one_raceway', 'wakefield cw').turns.length,
+  0,
+  'One Raceway 13-turn geometry must not reuse the 10-turn Wakefield verification'
+);
+assert.equal(
   notes.filter((track) => track.pack === 'uk').reduce((sum, track) => sum + track.turns.length, 0),
   0,
   'UK Coach notes must not export turn hands until they have verification entries'
