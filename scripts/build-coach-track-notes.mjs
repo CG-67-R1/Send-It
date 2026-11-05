@@ -13,6 +13,7 @@ import { fileURLToPath } from 'url';
 const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
 const OUT = path.join(ROOT, 'api', 'data', 'coach-track-notes.json');
 const VERIFICATION_FILE = path.join(ROOT, 'app', 'src', 'data', 'track_turn_verification.json');
+const CATALOG_FILE = path.join(ROOT, 'app', 'src', 'data', 'tracks.json');
 
 const GENERIC_LAYOUT_WORDS = new Set([
   'circuit',
@@ -84,9 +85,21 @@ function verificationKey(id, layoutName = '') {
   return id;
 }
 
-function verifiedHandsFor(verification, id, layoutName) {
+function maxNumberedCorner(track) {
+  const nums = (track?.corners || [])
+    .map((corner) => Number(corner?.number))
+    .filter((n) => Number.isFinite(n));
+  return nums.length ? Math.max(...nums) : null;
+}
+
+function verifiedHandsFor(verification, catalogById, id, layoutName, geometry) {
   const key = verificationKey(id, layoutName);
   if (!key || verification.forceAllComplex?.includes(key)) return new Map();
+  // Hands are locked to one catalog layout. A geometry list with a different
+  // turn count is a different map (One Raceway is 13 turns; Wakefield lock is 10).
+  const listed = Number(geometry?.turn_count ?? geometry?.turnCount);
+  const catalogMax = maxNumberedCorner(catalogById.get(key));
+  if (Number.isFinite(listed) && catalogMax != null && listed !== catalogMax) return new Map();
   const allowed = new Set(verification.allowedSourceMethods || []);
   const banned = new Set(verification.bannedSourceMethods || []);
   const byNumber = verification.handSources?.[key] || {};
@@ -132,8 +145,8 @@ function biasLine(bias) {
   return bits.join('. ');
 }
 
-function entryFromTurns(pack, id, venue, match, layoutName, layoutMatch, source, bias, verification) {
-  const turns = turnsFrom(source, verifiedHandsFor(verification, id, layoutName));
+function entryFromTurns(pack, id, venue, match, layoutName, layoutMatch, source, bias, verification, catalogById) {
+  const turns = turnsFrom(source, verifiedHandsFor(verification, catalogById, id, layoutName, source));
   return {
     pack,
     id,
@@ -160,7 +173,7 @@ const EXTRA_MATCH = {
   one_raceway: ['wakefield', 'wakefield park'],
 };
 
-function trackEntries(pack, geometry, biasFile, verification) {
+function trackEntries(pack, geometry, biasFile, verification, catalogById) {
   const entries = [];
   const biasTracks = biasFile?.tracks || {};
   for (const [id, track] of Object.entries(geometry.tracks || {})) {
@@ -181,7 +194,7 @@ function trackEntries(pack, geometry, biasFile, verification) {
       for (const layout of layouts) {
         const name = layout.name || layout.id || '';
         entries.push(
-          entryFromTurns(pack, id, venue, match, name, layoutTokens(name), layout, bias, verification)
+          entryFromTurns(pack, id, venue, match, name, layoutTokens(name), layout, bias, verification, catalogById)
         );
       }
       continue;
@@ -191,7 +204,7 @@ function trackEntries(pack, geometry, biasFile, verification) {
       for (const key of turnKeys) {
         const name = key.replace(/^turns_/, '').replaceAll('_', ' ');
         entries.push(
-          entryFromTurns(pack, id, venue, match, name, layoutTokens(name), { turns: track[key] }, bias, verification)
+          entryFromTurns(pack, id, venue, match, name, layoutTokens(name), { turns: track[key] }, bias, verification, catalogById)
         );
       }
       continue;
@@ -210,7 +223,8 @@ function trackEntries(pack, geometry, biasFile, verification) {
         layoutName ? layoutTokens(layoutName) : [],
         source,
         bias,
-        verification
+        verification,
+        catalogById
       )
     );
   }
@@ -244,10 +258,12 @@ const ukGeo = await load('docs/gpt-knowledge/track_geometry_uk.json');
 const auBias = await load('docs/gpt-knowledge/TRACK_SPECIFIC_DIAGNOSTIC_AU_v1.json');
 const ukBias = await load('docs/gpt-knowledge/TRACK_SPECIFIC_DIAGNOSTIC_UK_v1.json');
 const verification = JSON.parse(await fs.readFile(VERIFICATION_FILE, 'utf8'));
+const catalog = JSON.parse(await fs.readFile(CATALOG_FILE, 'utf8'));
+const catalogById = new Map((catalog.tracks || []).map((track) => [track.id, track]));
 
 const tracks = [
-  ...trackEntries('au', auGeo, auBias, verification),
-  ...trackEntries('uk', ukGeo, ukBias, verification),
+  ...trackEntries('au', auGeo, auBias, verification, catalogById),
+  ...trackEntries('uk', ukGeo, ukBias, verification, catalogById),
 ];
 
 await fs.writeFile(OUT, `${JSON.stringify({ tracks }, null, 2)}\n`);
