@@ -111,18 +111,16 @@ export function getLocalSeriesIds(): Set<string> {
 
 export function getLocalCountryNames(): Set<string> {
   const names = new Set<string>();
-  for (const packId of listActivePacks()) {
-    const m = MANIFESTS[packId];
-    if (m?.displayName) names.add(m.displayName);
-    for (const countryCode of m?.isoCountries || []) {
-      if (countryCode === 'AU') names.add('Australia');
-      if (countryCode === 'GB') {
-        names.add('United Kingdom');
-        names.add('UK');
-      }
-      if (countryCode === 'ES') names.add('Spain');
-      if (countryCode === 'IT') names.add('Italy');
+  const m = MANIFESTS[getPrimaryPackId()];
+  if (m?.displayName) names.add(m.displayName);
+  for (const countryCode of m?.isoCountries || []) {
+    if (countryCode === 'AU') names.add('Australia');
+    if (countryCode === 'GB') {
+      names.add('United Kingdom');
+      names.add('UK');
     }
+    if (countryCode === 'ES') names.add('Spain');
+    if (countryCode === 'IT') names.add('Italy');
   }
   return names;
 }
