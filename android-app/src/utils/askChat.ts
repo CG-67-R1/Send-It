@@ -21,10 +21,25 @@ export type MomsOnlineMeta = {
   edition?: string;
 };
 
+export type RulebookMeta = {
+  shortName: string;
+  governingBody?: string;
+  sourcePage: string;
+  handbook?: string;
+  edition?: string;
+};
+
 export type AskMode = 'ask' | 'rules';
 
 export type AskChatResult =
-  | { ok: true; reply: string; sources: AskSource[]; fromKb: boolean; momsOnline?: MomsOnlineMeta }
+  | {
+      ok: true;
+      reply: string;
+      sources: AskSource[];
+      fromKb: boolean;
+      momsOnline?: MomsOnlineMeta;
+      rulebook?: RulebookMeta;
+    }
   | { ok: false; error: string };
 
 function asAskSource(value: unknown): AskSource | null {
@@ -43,6 +58,17 @@ function asAskSource(value: unknown): AskSource | null {
   if (typeof record.chapterTitle === 'string') source.chapterTitle = record.chapterTitle;
   if (typeof record.onlineUrl === 'string') source.onlineUrl = record.onlineUrl;
   return source;
+}
+
+function asRulebookMeta(value: unknown): RulebookMeta | undefined {
+  if (typeof value !== 'object' || value === null) return undefined;
+  const record = value as Record<string, unknown>;
+  if (typeof record.shortName !== 'string' || typeof record.sourcePage !== 'string') return undefined;
+  const meta: RulebookMeta = { shortName: record.shortName, sourcePage: record.sourcePage };
+  if (typeof record.governingBody === 'string') meta.governingBody = record.governingBody;
+  if (typeof record.handbook === 'string') meta.handbook = record.handbook;
+  if (typeof record.edition === 'string') meta.edition = record.edition;
+  return meta;
 }
 
 function asMomsOnlineMeta(value: unknown): MomsOnlineMeta | undefined {
@@ -75,6 +101,7 @@ export async function sendAskChat(
       sources?: unknown;
       fromKb?: unknown;
       momsOnline?: unknown;
+      rulebook?: unknown;
     }>(res);
 
     if (!res.ok) {
@@ -96,6 +123,7 @@ export async function sendAskChat(
       sources,
       fromKb: Boolean(data.fromKb),
       momsOnline: asMomsOnlineMeta(data.momsOnline),
+      rulebook: asRulebookMeta(data.rulebook),
     };
   } catch (e) {
     return { ok: false, error: apiErrorMessage(e) };
