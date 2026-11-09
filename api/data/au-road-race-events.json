@@ -1,7 +1,7 @@
 {
-  "updatedAt": "2026-11-02T14:44:12.578Z",
+  "updatedAt": "2026-11-09T15:07:03.361Z",
   "sourceCount": 26,
-  "eventCount": 66,
+  "eventCount": 62,
   "errors": [],
   "events": [
     {
@@ -271,48 +271,6 @@
       "confidence": "high"
     },
     {
-      "name": "Morgan Park Raceway 2-3 November 2026 DOUBLE!!",
-      "start_date": "2026-11-02",
-      "end_date": "2026-11-02",
-      "state": "QLD",
-      "venue": "Morgan Park Raceway",
-      "organiser": "Champions Ride Days",
-      "source_id": "club_au_champions_ride_days",
-      "source_url": "https://championsridedays.com.au/event-calender/",
-      "entry_url": "https://championsridedays.com.au/product/morgan-park-raceway-2-3-november-2026-double/",
-      "discipline": "track_day",
-      "notes": "Track day — book via Champions Ride Days",
-      "confidence": "high"
-    },
-    {
-      "name": "Morgan Park Raceway Monday",
-      "start_date": "2026-11-02",
-      "end_date": "2026-11-02",
-      "state": "QLD",
-      "venue": "Morgan Park Raceway",
-      "organiser": "Champions Ride Days",
-      "source_id": "club_au_champions_ride_days",
-      "source_url": "https://championsridedays.com.au/event-calender/",
-      "entry_url": "https://championsridedays.com.au/product/morgan-park-raceway-monday-2/",
-      "discipline": "track_day",
-      "notes": "Track day — book via Champions Ride Days",
-      "confidence": "high"
-    },
-    {
-      "name": "Morgan Park Raceway Tuesday",
-      "start_date": "2026-11-03",
-      "end_date": "2026-11-03",
-      "state": "QLD",
-      "venue": "Morgan Park Raceway",
-      "organiser": "Champions Ride Days",
-      "source_id": "club_au_champions_ride_days",
-      "source_url": "https://championsridedays.com.au/event-calender/",
-      "entry_url": "https://championsridedays.com.au/product/morgan-park-raceway-monday/",
-      "discipline": "track_day",
-      "notes": "Track day — book via Champions Ride Days",
-      "confidence": "high"
-    },
-    {
       "name": "State Titles + Cafnix R4",
       "start_date": "2026-11-03",
       "end_date": "2026-11-04",
@@ -324,20 +282,6 @@
       "entry_url": "https://phoenixmcc.org.au/track-calendar/",
       "discipline": "road_race",
       "notes": null,
-      "confidence": "high"
-    },
-    {
-      "name": "Broadford Raceway",
-      "start_date": "2026-11-06",
-      "end_date": "2026-11-06",
-      "state": "VIC",
-      "venue": "Broadford Raceway",
-      "organiser": "Champions Ride Days",
-      "source_id": "club_au_champions_ride_days",
-      "source_url": "https://championsridedays.com.au/event-calender/",
-      "entry_url": "https://championsridedays.com.au/product/broadford-raceway-160/",
-      "discipline": "track_day",
-      "notes": "Track day — book via Champions Ride Days",
       "confidence": "high"
     },
     {
@@ -355,7 +299,7 @@
       "confidence": "high"
     },
     {
-      "name": "Tasmanian Road Race Club Bracket Event Round 1",
+      "name": "Tasmanian Road Race Club Bracket Event",
       "start_date": "2026-11-08",
       "end_date": "2026-11-08",
       "state": "TAS",
