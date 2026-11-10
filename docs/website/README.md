@@ -2,7 +2,7 @@
 
 `roadracer.info` is served from LiteSpeed hosting, not this Vercel app. This folder is the homepage to upload into that site’s document root (same place as the live `index.html`).
 
-Replace the live `index.html` and upload `css/look.css` and `app.js` with it. Leave `assets/`, `privacy.html`, `terms.html`, and `copyright.html` on the host. The homepage and the UK page share `css/look.css`. The older dark rules stay in the host `css/site.css` for the legal pages.
+Replace the live `index.html` and upload `css/look.css`, `app.js` and `img/app-store-qr.svg` with it. Leave `assets/`, `privacy.html`, `terms.html`, and `copyright.html` on the host. The homepage and the UK page share `css/look.css`. The older dark rules stay in the host `css/site.css` for the legal pages.
 
 What changed vs the 3 Sep 2026 live page:
 

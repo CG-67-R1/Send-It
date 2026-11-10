@@ -7,7 +7,7 @@ platforms: [windows, linux, macos]
 metadata:
   hermes:
     tags: [mobile, expo, react-native, review, qa, send-it, roadrace, expert]
-    related_skills: [send-it/mobile-review, send-it/track-data-analyst]
+    related_skills: [send-it/mobile-review]
 ---
 
 # Send-It RoadRace App Expert
@@ -32,13 +32,13 @@ You are the **standing expert** for the Send-It (RoadRace) Expo mobile app and i
 
 For screen-by-screen audit steps, also follow `send-it/mobile-review` (load that skill for full inventory).
 
-For track catalog / GPX / Track Memory QA on weekly and on-demand reviews, also follow `send-it/track-data-analyst` (load that skill).
+Track catalog / GPX / Track Memory QA is part of weekly and on-demand reviews (Step 4 below).
 
 ## Policy
 
 1. **Report only** — do not commit, push, or edit source unless the user explicitly asks you to fix something.
 2. **Hand off to Cursor** — P0/P1 fixes are implemented in Cursor; you verify with gates after.
-3. **Compare history** — read the latest `docs/reviews/RR_REVIEW_*.md` and note resolved vs new findings.
+3. **Compare history** — read the latest `docs/reviews/RR_REVIEW_*.md` and note resolved vs new findings. Skip everything under **Dismissed findings** in `docs/reviews/README.md`; do not raise or carry those forward.
 4. **Production-aware** — use `API_URL=https://send-it-ke7r.onrender.com` for live API checks when relevant.
 
 ## Step 1 — Gates (every run)
@@ -82,7 +82,7 @@ Compare behavior to `SCREEN_BRIEF_FOR_VISUALS.md`. Flag stale brief vs code.
 
 ## Step 4 — Track data (weekly / on-demand)
 
-Load and follow `send-it/track-data-analyst`:
+Run the track gates from the repo root:
 
 ```powershell
 node scripts/validate-track-data.mjs
@@ -92,9 +92,24 @@ cd app
 npx tsc --noEmit
 ```
 
-If prove-track-maps fails, write **P0 CURSOR ALERT: Track Details GPX maps incomplete**. Rebuild with `node scripts/build-gpx-track-maps.mjs`. Do not restore board PNGs or `mapProof.json`.
+| Gate | Fail as |
+|------|---------|
+| `validate-track-data.mjs` | **P0** |
+| `prove-track-maps.mjs` (every layout has repo GPX + polyline JSON; no board PNGs, `boardMaps.ts`, `mapProof.json`) | **P0 CURSOR ALERT: Track Details GPX maps incomplete**; rebuild with `node scripts/build-gpx-track-maps.mjs` |
+| `diagnose-track-memory.mjs` | **P0** extra-lap or self-cross; **P1** verified-hand miss or pit-straight kink |
+| `npx tsc --noEmit` | **P0** if Track Memory types break |
 
-Add a **Track data** section to the weekly report (validator result, catalog vs geofence coverage, corner/layout P0–P2 findings, Bend/SMP multi-layout backlog, **Track Memory** gate: geometry, elevation, diagnose, compact info maps). Do not edit `tracks.json` or bake layouts unless the user explicitly asks.
+Track rules (report only; never bake or edit `tracks.json` unless the user explicitly asks):
+
+- **Turn hands are P0.** Allowed hands live in `app/src/data/track_turn_verification.json`; GPX is geometry only and never sets left/right. Circuit direction never implies a corner hand (Phillip Island is anticlockwise and Doohan T1 is a right).
+- Never "correct" a rider-locked hand from GPX or KB; flag conflicts as P1.
+- Catalog vs geofence coverage: every `trackId` in `tracks.json` needs an entry in `catalog_track_geofences.json` and vice versa; multi-layout siblings (The Bend, Sydney Motorsport Park) share one centre.
+- The Bend lengths: GT 7.77 km, International 4.95 km, West 3.41 km, East 3.93 km. Flag a catalog mismatch as P0/P1.
+- Baked `lengthM` over 1.22x catalog is P0 (uncropped extra lap); a kink of 14 degrees or more in the first 12% of the lap is P1 (phantom start/finish chicane).
+- Mount Panorama is not in the shipped catalog; do not flag its absence.
+- The known diagnose hand misses (Broadford T12, Mac Park, Queensland Raceway T5, SMP Gardner T7, The Bend International T18, Wakefield T9) are dismissed by the owner. Do not report them; report only new misses.
+
+Add a **Track data** section to the weekly report (validator result, catalog vs geofence coverage, corner/layout P0–P2 findings, Bend/SMP layout backlog) with a **Track Memory** subsection (diagnose, info maps, tsc, GPX source per layout). Compare with prior `TRACK_GPX_ALIGN_*.md` and `TRACK_MEMORY_REVIEW_*.md`. For an on-demand track memory review write `docs/reviews/TRACK_MEMORY_REVIEW_YYYY-MM-DD.md`.
 
 ## Step 5 — Coding improvements (every full review)
 
@@ -134,7 +149,7 @@ Path: `docs/reviews/RR_REVIEW_YYYY-MM-DD.md`
 (commits / files touched)
 
 ## Track data
-(validator + catalog/geofence/corner findings from track-data-analyst)
+(validator + catalog/geofence/corner findings)
 ### Track Memory
 (diagnose-track-memory + track-info maps + tsc; GPX source per layout; geometry/elevation P0–P2)
 

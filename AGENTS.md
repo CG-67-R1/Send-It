@@ -105,12 +105,12 @@ Hermes is the **Send-It / RoadRace app expert**. It runs regular health gates an
 | Cadence | Skill | Output |
 |---------|-------|--------|
 | **Daily** (weekdays) | `send-it/rr-app-expert` (daily-gate) | Short OK / FAIL summary |
-| **Weekly** (Monday) | `send-it/rr-app-expert` + `send-it/mobile-review` + `send-it/track-data-analyst` | `docs/reviews/RR_REVIEW_YYYY-MM-DD.md` (includes Track data + Track Memory gate) |
+| **Weekly** (Monday) | `send-it/rr-app-expert` + `send-it/mobile-review` | `docs/reviews/RR_REVIEW_YYYY-MM-DD.md` (includes Track data + Track Memory gate) |
 | **Weekly** (Wednesday) | `send-it/mobile-app-expert` + `send-it/mobile-review` | `docs/reviews/MOBILE_OPS_YYYY-MM-DD.md` — HEALTHY or CURSOR ALERT (perf/security/iOS+Android) |
 | **Weekly** (Thursday) | `send-it/agent-play` (weekly-skills **and** pre-submit) | Refresh Agent Play `CURRENT.md` + `AGENT_PLAY_SKILLS_YYYY-MM-DD.md` + `PLAY_PREFLIGHT_YYYY-MM-DD.md` (android-app code/security) |
 | **Weekly** (Friday) | `send-it/agent-apple` (weekly-skills) | Refresh Agent Apple `CURRENT.md` + `docs/reviews/AGENT_APPLE_SKILLS_YYYY-MM-DD.md` |
 | **Weekly** (Tuesday) | `send-it/app-site-designer` (ui-benchmark) | Refresh site-designer `CURRENT.md` + `docs/reviews/SITE_DESIGN_YYYY-MM-DD.md` — phone purchase confidence |
-| **On-demand** | `/rr-app-expert`, `/mobile-app-expert`, `/track-data-analyst`, `/agent-apple`, `/agent-play`, or `/app-site-designer` | Full report + top Cursor fixes; Agent Apple = pre-ASC; Agent Play = pre-Play; site designer = homepage confidence |
+| **On-demand** | `/rr-app-expert`, `/mobile-app-expert`, `/agent-apple`, `/agent-play`, or `/app-site-designer` | Full report + top Cursor fixes; Agent Apple = pre-ASC; Agent Play = pre-Play; site designer = homepage confidence |
 
 **Setup (one-time):** `.\scripts\install-hermes-skills.ps1` then follow [`docs/hermes/CRON_SETUP.md`](docs/hermes/CRON_SETUP.md) to create Hermes cron jobs.
 
@@ -123,7 +123,7 @@ hermes
 # Ask: "Run weekly-review. Write docs/reviews/RR_REVIEW_<date>.md. Report only."
 # /mobile-app-expert
 # Ask: "Run full-review. Write docs/reviews/MOBILE_OPS_<date>.md. HEALTHY or CURSOR ALERT. Report only."
-# /track-data-analyst
+# /rr-app-expert
 # Ask: "Run track data review. Include Bend GT/International/West/East lengths. Report only."
 # Ask: "Run track memory review. Geometry + elevation + diagnose + track-info maps. Report only."
 # /agent-apple
@@ -143,7 +143,7 @@ Track structural gate (also part of mobile-review preflight):
 node scripts/validate-track-data.mjs
 ```
 
-Track Memory gate (weekly / on-demand track-data-analyst — report only, do not bake). The in-app screen is labelled **Track Details**.
+Track Memory gate (weekly / on-demand rr-app-expert Step 4 — report only, do not bake). The in-app screen is labelled **Track Details**.
 
 ```powershell
 node scripts/prove-track-maps.mjs

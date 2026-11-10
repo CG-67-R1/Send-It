@@ -71,11 +71,9 @@ function isHomeCountry(item: CalendarEvent): boolean {
   return !!item.country && getLocalCountryNames().has(item.country);
 }
 
+/** Includes world championship rounds held in the home country. */
 function isLocalEvent(item: CalendarEvent): boolean {
-  if (getLocalSeriesIds().has(item.series)) return true;
-  // A world championship round in the home country belongs on the local list.
-  if (isFeaturedWorldSeries(item.series)) return isHomeCountry(item);
-  return isHomeCountry(item);
+  return getLocalSeriesIds().has(item.series) || isHomeCountry(item);
 }
 
 /** UK binary: drop other countries' national series. World championships stay. */

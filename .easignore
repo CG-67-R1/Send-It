@@ -8,7 +8,18 @@
 /api/
 /scripts/
 /tests/
-/android-app/
+# android-app/ is the Android EAS project, so only its local build outputs are excluded.
+# android/build holds a cached autolinking.json with Windows paths that breaks cloud Gradle.
+/android-app/.expo/
+/android-app/android/build/
+/android-app/android/app/build/
+/android-app/android/app/.cxx/
+/android-app/android/local.properties
+/android-app/android/.idea/
+/android-app/android/.artifacts/
+/android-app/android/app/src/main/java/inline/
+# Android Studio pins the Gradle daemon to its own JDK here; EAS must use its JDK 17.
+/android-app/android/gradle/gradle-daemon-jvm.properties
 /BikeTech/
 /DigiMark_Response/
 /tmp/
@@ -36,6 +47,12 @@ AuthKey_*.p8
 *.p8
 *.p12
 *.mobileprovision
+*.keystore
+*.jks
+google-services.json
+play-service-account.json
+# Public React Native debug key; android/app/build.gradle references it.
+!/android-app/android/app/debug.keystore
 .DS_Store
 Thumbs.db
 *.log

@@ -29,6 +29,7 @@ Skip weekly-skills novels (`AGENT_APPLE_SKILLS_*`, `AGENT_PLAY_SKILLS_*`, `AI_EN
 
 - Implement **P0 and P1** only
 - Skip P2 / nits unless the user asked
+- Skip anything under **Dismissed findings** in `docs/reviews/README.md`
 - Apply dual-tree rules (`.cursor/skills/dual-tree-apply/SKILL.md`)
 - Track-hand or bake items: `.cursor/skills/track-details-bake/SKILL.md` — do not invent L/R from GPX
 

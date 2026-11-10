@@ -42,6 +42,7 @@ Default when the user asks Agent Apple to review the app: **pre-submit**.
 3. Hand P0/P1 app fixes to **Cursor**. Every P0/P1 has a concrete recommended fix.
 4. Do not invent App Review outcomes. Cite guideline numbers and code/config evidence.
 5. Compare to the latest `ASC_PREFLIGHT_*.md` and `APP_REVIEW_NOTES.md` (flag stale claims, e.g. “Track Memory not in this build” if the game ships).
+6. Skip everything under **Dismissed findings** in `docs/reviews/README.md`; do not raise or carry those forward.
 
 ## This app (facts)
 
@@ -53,7 +54,7 @@ Default when the user asks Agent Apple to review the app: **pre-submit**.
 | SKU | `roadracer-ios-001` |
 | Team | `UAWP5NV4NQ` (Individual) |
 | EAS | `@motorsport-is-life/roadracer` |
-| Marketing version | Keep `1.0.0` unless the user says otherwise; EAS `production` auto-increments **buildNumber** |
+| Marketing version | `1.0.2` (`app/app.json`); change only when the user says; EAS `production` auto-increments **buildNumber** |
 | Min iOS | `16.4` (`expo-build-properties`) |
 | Stack | Expo SDK 57, React Native. Track Memory is a static SVG info map (no Skia). |
 

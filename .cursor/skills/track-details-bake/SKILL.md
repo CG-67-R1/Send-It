@@ -5,9 +5,9 @@ description: Rebuild Track Details from repo GPX (ribbon, numbered corners, opti
 
 # Track Details bake (implementer)
 
-Cursor implementer for Track Details. Hermes `track-data-analyst` is report-only — do not become a second analyst.
+Cursor implementer for Track Details. Hermes `rr-app-expert` track gates are report-only — do not become a second analyst.
 
-Policy source: `docs/hermes/skills/send-it/track-data-analyst/SKILL.md` and `AGENTS.md`.
+Policy source: Step 4 of `docs/hermes/skills/send-it/rr-app-expert/SKILL.md` and `AGENTS.md`.
 
 ## When to use
 

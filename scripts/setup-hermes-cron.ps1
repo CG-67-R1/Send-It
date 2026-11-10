@@ -69,7 +69,7 @@ hermes cron create "0 8 * * 1-5" `
   --workdir $RepoRoot
 
 $weeklyPrompt = @'
-Run weekly-review mode. Full preflight (includes validate-track-data.mjs), production health-check (API_URL=https://send-it-ke7r.onrender.com), screen audit, track-data-analyst pass (catalog/geofences/corners/Bend+SMP layouts, plus Track Memory geometry + elevation + diagnose-track-memory.mjs + compact info maps). Write docs/reviews/RR_REVIEW_<today>.md with a Track data section that includes a Track Memory subsection. Compare to prior RR_REVIEW_*.md, TRACK_GPX_ALIGN_*.md, TRACK_MEMORY_REVIEW_*.md, and GPT_REPO_PARITY_AUDIT_*.md. Report only - no commits, no bake. End with P0/P1/P2 counts and top 3 Cursor fixes.
+Run weekly-review mode. Full preflight (includes validate-track-data.mjs), production health-check (API_URL=https://send-it-ke7r.onrender.com), screen audit, track data pass (catalog/geofences/corners/Bend+SMP layouts, plus Track Memory geometry + elevation + diagnose-track-memory.mjs + compact info maps). Write docs/reviews/RR_REVIEW_<today>.md with a Track data section that includes a Track Memory subsection. Compare to prior RR_REVIEW_*.md, TRACK_GPX_ALIGN_*.md, TRACK_MEMORY_REVIEW_*.md, and GPT_REPO_PARITY_AUDIT_*.md. Report only - no commits, no bake. End with P0/P1/P2 counts and top 3 Cursor fixes.
 '@
 
 Write-Host "Creating weekly review (Mondays 9:00)..." -ForegroundColor Cyan
@@ -77,7 +77,6 @@ hermes cron create "0 9 * * 1" $weeklyPrompt `
   --name "Send-It weekly review" `
   --skill send-it/rr-app-expert `
   --skill send-it/mobile-review `
-  --skill send-it/track-data-analyst `
   --workdir $RepoRoot `
   --deliver $deliver
 

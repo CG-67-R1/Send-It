@@ -22,10 +22,10 @@ import { AppLogo } from '../components/AppLogo';
 import { SCREEN_LOGO_SIZE } from '../constants/logoSizing';
 import { LEGACY_TRIVIA_BEST_SCORE_KEY, STORAGE_KEYS } from '../constants/storageKeys';
 import { getLocalUiLabel } from '../packs/loader';
+import { logStorageError } from '../storage/logStorageError';
 import { RoadRacerAiFaqsBody } from './RoadRacerAiFaqsScreen';
 import type { QaSegment, RootTabParamList } from '../navigation/rootNavigation';
 
-const TRIVIA_BEST_SCORE_KEY = STORAGE_KEYS.TRIVIA_BEST_SCORE;
 const TRIVIA_USED_CAP = 40;
 
 function capTriviaUsed(used: number[]): number[] {
@@ -53,7 +53,7 @@ function regionForTriviaOrder(questionIndex: number): TriviaRegion {
 }
 
 async function readTriviaBestScore(): Promise<number> {
-  const raw = await AsyncStorage.getItem(TRIVIA_BEST_SCORE_KEY);
+  const raw = await AsyncStorage.getItem(STORAGE_KEYS.TRIVIA_BEST_SCORE);
   if (raw != null) {
     const n = parseInt(raw, 10);
     return Number.isNaN(n) ? 0 : n;
@@ -66,7 +66,7 @@ async function readTriviaBestScore(): Promise<number> {
     await AsyncStorage.removeItem(LEGACY_TRIVIA_BEST_SCORE_KEY);
     return 0;
   }
-  await AsyncStorage.setItem(TRIVIA_BEST_SCORE_KEY, String(legacy));
+  await AsyncStorage.setItem(STORAGE_KEYS.TRIVIA_BEST_SCORE, String(legacy));
   await AsyncStorage.removeItem(LEGACY_TRIVIA_BEST_SCORE_KEY);
   return legacy;
 }
@@ -203,7 +203,9 @@ export function QAScreen() {
         triviaUsedAusRef.current = capTriviaUsed(parseUsedIndices(auRaw));
         triviaUsedGlobalRef.current = capTriviaUsed(parseUsedIndices(globalRaw));
         triviaUsedUkRef.current = capTriviaUsed(parseUsedIndices(ukRaw));
-      } catch (_) {}
+      } catch (e) {
+        logStorageError('loadTriviaState', e);
+      }
     })();
     return () => { cancelled = true; };
   }, []);
@@ -212,10 +214,12 @@ export function QAScreen() {
     try {
       const best = await readTriviaBestScore();
       if (correctCount <= best) return;
-      await AsyncStorage.setItem(TRIVIA_BEST_SCORE_KEY, String(correctCount));
+      await AsyncStorage.setItem(STORAGE_KEYS.TRIVIA_BEST_SCORE, String(correctCount));
       setTriviaBestScore(correctCount);
       setTriviaNewBest(true);
-    } catch (_) {}
+    } catch (e) {
+      logStorageError('saveTriviaBestScore', e);
+    }
   }, []);
 
   const persistTriviaUsed = useCallback((region: TriviaRegion, next: number[]) => {

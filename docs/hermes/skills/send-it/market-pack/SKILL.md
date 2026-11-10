@@ -7,7 +7,7 @@ platforms: [windows, linux, macos]
 metadata:
   hermes:
     tags: [market, region, packs, research, send-it, roadrace]
-    related_skills: [send-it/rr-app-expert, send-it/track-data-analyst]
+    related_skills: [send-it/rr-app-expert]
 ---
 
 # Send-It Market Pack

@@ -45,7 +45,7 @@ Default for cron and “review the site”: **ui-benchmark**.
 3. **Patterns, not copies.** Study live professional homepages. Record layout and hierarchy. Do not copy their sentences, screenshots, logos, or trademarks.
 4. **Phone first.** Judge the first screen at about 390px wide. One primary action: the official Apple badge already in `docs/website/badges/`. Do not redraw it.
 5. **Host files.** `css/site.css`, `assets/`, `privacy.html`, `terms.html`, and `copyright.html` live on the host. Do not tell Cursor to delete them. If a layout needs new CSS, say to add `docs/website/css/site.css` and upload it with `index.html`.
-6. **Compare history.** Read the latest `docs/reviews/SITE_DESIGN_*.md`. Note what is still open.
+6. **Compare history.** Read the latest `docs/reviews/SITE_DESIGN_*.md`. Note what is still open. Skip everything under **Dismissed findings** in `docs/reviews/README.md`.
 
 ## ui-benchmark (cron)
 

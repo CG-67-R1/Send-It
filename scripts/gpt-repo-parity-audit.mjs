@@ -94,7 +94,6 @@ async function pass1Inventory(faqs) {
     { id: 'prompt:shared_rules', location: 'api/roadraceAi.js', section: 'SHARED_RULES', usedBy: ['Coach', 'Bike Setup'] },
     { id: 'faq:global_principles', location: 'api/data/rider_ai_faqs.json', section: 'global_principles', usedBy: ['Coach', 'Bike Setup'] },
     { id: 'faq:novice_guidelines', location: 'api/data/rider_ai_faqs.json', section: 'novice_guidelines', usedBy: ['Coach', 'Bike Setup'] },
-    { id: 'gpt:legacy_url', location: 'app/constants/api.ts', section: 'TRACKDAY_RIDER_AI_URL', usedBy: ['None (unused)'] },
   ];
 
   const gptMirrorFiles = [
@@ -133,8 +132,8 @@ async function pass2Map(inv, faqs) {
       coach: sec.usedBy.includes('Coach chat') || sec.usedBy.includes('Coach'),
       ask: sec.usedBy.includes('Q&A Ask'),
       bikesetup: sec.usedBy.includes('Bike Setup chat') || sec.usedBy.includes('Bike Setup'),
-      status: sec.usedBy[0] === 'None (unused)' ? 'ORPHAN' : 'OK',
-      gap: sec.usedBy[0] === 'None (unused)' ? 'Legacy URL not wired to UI' : '',
+      status: 'OK',
+      gap: '',
     });
   }
 
@@ -152,12 +151,12 @@ async function pass2Map(inv, faqs) {
   rows.push({
     gptItem: 'Australian track corner knowledge',
     canonicalId: 'track:*:corner:*',
-    repoPath: '(missing)',
-    coach: false,
+    repoPath: 'api/data/coach-track-notes.json',
+    coach: true,
     ask: false,
-    bikesetup: false,
-    status: 'MISSING',
-    gap: 'coach_015 references uploaded track knowledge but no structured track/corner store in repo',
+    bikesetup: true,
+    status: 'PARTIAL',
+    gap: 'Coach and Bike Setup prompts include matching track notes (coachKnowledge.js); Ask does not',
   });
 
   for (const p of inv.usablePdfs) {
@@ -267,6 +266,7 @@ async function callAsk(question) {
     body: JSON.stringify({ message: question }),
     signal: AbortSignal.timeout(TIMEOUT_MS),
   });
+  if (res.status === 429) return { status: 429 };
   const body = await res.json();
   return { status: res.status, ...body };
 }
@@ -281,6 +281,7 @@ async function callCoach(question, mode) {
     }),
     signal: AbortSignal.timeout(TIMEOUT_MS),
   });
+  if (res.status === 429) return { status: 429 };
   const body = await res.json();
   return { status: res.status, reply: body.reply || body.content || '', error: body.error };
 }
@@ -292,13 +293,20 @@ async function pass3Test(questions) {
     return { skipped: true, reason: 'roadraceAi false — OPENAI_API_KEY not set on API', results: [] };
   }
 
+  // Production allows 10 AI calls per 15 minutes per client, shared with riders. Stop at the
+  // first 429 so the audit neither scores limiter replies as failures nor drains the bucket.
   const results = [];
+  let rateLimited = false;
   for (const q of questions) {
     const row = { ...q, ask: null, coach: null };
 
     if (q.mode === 'ask' || q.mode === 'coach' || q.mode === 'bikesetup') {
       try {
         const askOut = await callAsk(q.question);
+        if (askOut.status === 429) {
+          rateLimited = true;
+          break;
+        }
         const askText = askOut.reply || '';
         const askRatio = overlapScore(q.expected, askText);
         row.ask = {
@@ -318,6 +326,10 @@ async function pass3Test(questions) {
     if (q.mode === 'coach' || q.mode === 'bikesetup') {
       try {
         const coachOut = await callCoach(q.question, coachMode);
+        if (coachOut.status === 429) {
+          rateLimited = true;
+          break;
+        }
         const coachText = coachOut.reply || '';
         const coachRatio = overlapScore(q.expected, coachText);
         row.coach = {
@@ -337,7 +349,7 @@ async function pass3Test(questions) {
     process.stdout.write('.');
   }
   process.stdout.write('\n');
-  return { skipped: false, health, results };
+  return { skipped: false, health, results, rateLimited, notRun: questions.length - results.length };
 }
 
 function summarizeTests(results) {
@@ -402,8 +414,8 @@ function renderMarkdown(inv, mapRows, testOut, questions) {
     md += `| ${r.gptItem} | ${r.canonicalId} | ${r.repoPath} | ${r.coach ? '✓' : ''} | ${r.ask ? '✓' : ''} | ${r.bikesetup ? '✓' : ''} | ${r.status} | ${r.gap} |\n`;
   }
 
-  md += `\n### Critical gaps (fix Turn 6 in one place)\n\n`;
-  md += `1. **No \`track:{id}:corner:{n}\` canonical store** — corner fixes would require hunting FAQs, prompts, and PDFs.\n`;
+  md += `\n### Critical gaps\n\n`;
+  md += `1. **Ask does not use the track notes** — \`api/data/coach-track-notes.json\` reaches Coach and Bike Setup only.\n`;
   md += `2. **Coach does not RAG the PDF corpus** — Ask-only retrieval; Coach relies on FAQs + model.\n`;
   md += `3. **${inv.emptyPdfCount} GPT-linked PDFs scraped empty** — performanceridingtechniques and others may exist in GPT but not in repo text.\n`;
   md += `4. **Duplicate truth risk** — same topic may exist in FAQ answer + Ask KB + model improvisation.\n\n`;
@@ -414,6 +426,9 @@ function renderMarkdown(inv, mapRows, testOut, questions) {
   } else {
     md += `**Health:** \`${JSON.stringify(testOut.health)}\`  \n`;
     md += `**Scoring:** token overlap vs expected curated answer (≥0.35 PASS, ≥0.20 PARTIAL)\n\n`;
+    if (testOut.rateLimited) {
+      md += `**Stopped early:** the API returned 429 (rate limit). ${testOut.notRun} of ${questions.length} questions were not run; scores cover the rest only.\n\n`;
+    }
     md += `| Surface | PASS | PARTIAL | FAIL | Total |\n|---------|------|---------|------|-------|\n`;
     md += `| Ask | ${summary.ask.pass} | ${summary.ask.partial} | ${summary.ask.fail} | ${summary.ask.total} |\n`;
     md += `| Coach/BikeSetup | ${summary.coach.pass} | ${summary.coach.partial} | ${summary.coach.fail} | ${summary.coach.total} |\n\n`;
@@ -458,6 +473,7 @@ async function main() {
     const s = summarizeTests(testOut.results);
     console.log(`Ask: ${s.ask.pass} pass / ${s.ask.partial} partial / ${s.ask.fail} fail`);
     console.log(`Coach: ${s.coach.pass} pass / ${s.coach.partial} partial / ${s.coach.fail} fail`);
+    if (testOut.rateLimited) console.log(`Stopped at rate limit; ${testOut.notRun} questions not run.`);
   }
 }
 
