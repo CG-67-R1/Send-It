@@ -30,6 +30,11 @@ const gardner = trackNotesForQuery('turn 1 at gardner', 'au');
 assert('Gardner layout is selected', gardner.includes('Gardner'));
 assert('Gardner turn 1 hand is copied', gardner.includes('T1 left'));
 
+const oneRaceway = trackNotesForQuery('which way is turn 2 at one raceway', 'au');
+assert('One Raceway notes describe that circuit', oneRaceway.includes('One Raceway'));
+assert('One Raceway does not reuse the 10-turn Wakefield hands', oneRaceway.includes('No verified left or right'));
+assert('One Raceway does not state a Wakefield hand', !/T\d+ (left|right)/.test(oneRaceway));
+
 const westOnly = trackNotesForQuery('the west side of the tyre', 'au');
 assert('West alone does not select The Bend West', !westOnly.includes('West Circuit'));
 
