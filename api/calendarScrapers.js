@@ -126,6 +126,40 @@ function parseDateToken(token, defaultYear = new Date().getFullYear()) {
   return null;
 }
 
+function isoDateParts(iso) {
+  const match = /^(\d{4})-(\d{2})-(\d{2})$/.exec(iso || '');
+  if (!match) return null;
+  return { y: Number(match[1]), m: Number(match[2]), d: Number(match[3]) };
+}
+
+function formatDate(date) {
+  return date.toISOString().slice(0, 10);
+}
+
+export function normalizeEventDateRange(startDate, endDate) {
+  const start = isoDateParts(startDate);
+  const end = isoDateParts(endDate || startDate);
+  if (!start || !end) return { start_date: startDate, end_date: endDate || startDate };
+
+  const normalizedStart = `${String(start.y).padStart(4, '0')}-${String(start.m).padStart(2, '0')}-${String(start.d).padStart(2, '0')}`;
+  const normalizedEnd = `${String(end.y).padStart(4, '0')}-${String(end.m).padStart(2, '0')}-${String(end.d).padStart(2, '0')}`;
+  if (normalizedEnd >= normalizedStart) {
+    return { start_date: normalizedStart, end_date: normalizedEnd };
+  }
+
+  let repairedEnd = null;
+  if (end.y === start.y && end.m === start.m && start.d >= 28 && end.d < start.d) {
+    repairedEnd = formatDate(new Date(Date.UTC(start.y, start.m, end.d)));
+  } else if (end.y === start.y && start.m === 12 && end.m === 1) {
+    repairedEnd = formatDate(new Date(Date.UTC(start.y + 1, end.m - 1, end.d)));
+  }
+
+  return {
+    start_date: normalizedStart,
+    end_date: repairedEnd && repairedEnd >= normalizedStart ? repairedEnd : normalizedStart,
+  };
+}
+
 function extractDateRange(text) {
   const cleaned = cleanText(text);
   const rangeSep = cleaned.match(
@@ -176,14 +210,15 @@ function makeEvent(source, fields) {
   const name = cleanText(fields.name);
   if (!name || name.length < 4) return null;
   if (!fields.start_date) return null;
+  const dates = normalizeEventDateRange(fields.start_date, fields.end_date || fields.start_date);
 
   const blob = `${name} ${fields.venue || ''} ${fields.notes || ''}`;
   if (!matchesDiscipline(blob, config)) return null;
 
   return {
     name,
-    start_date: fields.start_date,
-    end_date: fields.end_date || fields.start_date,
+    start_date: dates.start_date,
+    end_date: dates.end_date,
     state: fields.state ?? jurisdictionToState(source.jurisdiction),
     venue: fields.venue ? cleanText(fields.venue) : null,
     organiser: fields.organiser ? cleanText(fields.organiser) : source.name,
@@ -199,10 +234,11 @@ function makeEvent(source, fields) {
 function makeTrackDayEvent(source, fields) {
   const name = cleanText(fields.name);
   if (!name || name.length < 4 || !fields.start_date) return null;
+  const dates = normalizeEventDateRange(fields.start_date, fields.end_date || fields.start_date);
   return {
     name,
-    start_date: fields.start_date,
-    end_date: fields.end_date || fields.start_date,
+    start_date: dates.start_date,
+    end_date: dates.end_date,
     state: fields.state ?? jurisdictionToState(source.jurisdiction),
     venue: fields.venue ? cleanText(fields.venue) : null,
     organiser: fields.organiser ? cleanText(fields.organiser) : 'Champions Ride Days',

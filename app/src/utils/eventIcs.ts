@@ -20,6 +20,52 @@ export function parseYmd(iso: string): Ymd {
   return { y: dt.getFullYear(), m: dt.getMonth() + 1, d: dt.getDate() };
 }
 
+function isFiniteYmd(parts: Ymd): boolean {
+  return Number.isFinite(parts.y) && Number.isFinite(parts.m) && Number.isFinite(parts.d);
+}
+
+function ymdFromDate(date: Date): Ymd {
+  return { y: date.getFullYear(), m: date.getMonth() + 1, d: date.getDate() };
+}
+
+function compareYmd(a: Ymd, b: Ymd): number {
+  if (a.y !== b.y) return a.y - b.y;
+  if (a.m !== b.m) return a.m - b.m;
+  return a.d - b.d;
+}
+
+function formatIsoDate(parts: Ymd): string {
+  return `${parts.y}-${pad2(parts.m)}-${pad2(parts.d)}`;
+}
+
+export function normalizeEventDateRange(startIso: string, endIso?: string): { startDate: string; endDate: string } {
+  const start = parseYmd(startIso);
+  const end = parseYmd(endIso || startIso);
+  if (!isFiniteYmd(start) || !isFiniteYmd(end)) {
+    return { startDate: startIso, endDate: endIso || startIso };
+  }
+  const normalizedStart = formatIsoDate(start);
+  const normalizedEnd = formatIsoDate(end);
+  if (compareYmd(end, start) >= 0) {
+    return { startDate: normalizedStart, endDate: normalizedEnd };
+  }
+
+  let repairedEnd: Ymd | null = null;
+  if (end.y === start.y && end.m === start.m && start.d >= 28 && end.d < start.d) {
+    repairedEnd = ymdFromDate(new Date(start.y, start.m, end.d, 12, 0, 0, 0));
+  } else if (end.y === start.y && start.m === 12 && end.m === 1) {
+    repairedEnd = { y: start.y + 1, m: end.m, d: end.d };
+  }
+
+  if (repairedEnd && compareYmd(repairedEnd, start) >= 0) {
+    return {
+      startDate: normalizedStart,
+      endDate: formatIsoDate(repairedEnd),
+    };
+  }
+  return { startDate: normalizedStart, endDate: normalizedStart };
+}
+
 export function localMidnightFromIso(iso: string): Date {
   const { y, m, d } = parseYmd(iso);
   return new Date(y, m - 1, d, 0, 0, 0, 0);
@@ -87,6 +133,7 @@ export function eventIcsFilename(title: string): string {
 
 export function buildEventIcs(input: EventIcsInput, now = new Date()): string {
   const uid = input.uid || `${Date.now()}@roadracer.app`;
+  const dates = normalizeEventDateRange(input.startDate, input.endDate);
   const lines = [
     'BEGIN:VCALENDAR',
     'VERSION:2.0',
@@ -96,8 +143,8 @@ export function buildEventIcs(input: EventIcsInput, now = new Date()): string {
     'BEGIN:VEVENT',
     `UID:${uid}`,
     `DTSTAMP:${icsUtcStamp(now)}`,
-    `DTSTART;VALUE=DATE:${formatIcsDate(parseYmd(input.startDate))}`,
-    `DTEND;VALUE=DATE:${formatIcsDate(exclusiveEndDate(input.endDate))}`,
+    `DTSTART;VALUE=DATE:${formatIcsDate(parseYmd(dates.startDate))}`,
+    `DTEND;VALUE=DATE:${formatIcsDate(exclusiveEndDate(dates.endDate))}`,
     foldIcsLine(`SUMMARY:${escapeIcsText(input.title)}`),
   ];
   if (input.location) {

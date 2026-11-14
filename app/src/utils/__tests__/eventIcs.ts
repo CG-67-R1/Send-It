@@ -1,7 +1,13 @@
 /**
  * Run: npx tsx src/utils/__tests__/eventIcs.ts
  */
-import { buildEventIcs, exclusiveEndDate, eventIcsFilename, parseYmd } from '../eventIcs';
+import {
+  buildEventIcs,
+  exclusiveEndDate,
+  eventIcsFilename,
+  normalizeEventDateRange,
+  parseYmd,
+} from '../eventIcs';
 
 let failed = 0;
 
@@ -37,6 +43,23 @@ function assert(name: string, pass: boolean, detail?: string): void {
   assert('same-day exclusive end is next day', exclusiveEndDate('2026-03-01').d === 2);
   assert('parses ISO date locally', parseYmd('2026-08-20').y === 2026 && parseYmd('2026-08-20').d === 20);
   assert('filename slug', eventIcsFilename('ASBK: Round 1') === 'ASBK-Round-1.ics');
+}
+
+{
+  const dates = normalizeEventDateRange('2026-03-31', '2026-03-01');
+  assert('repairs cross-month parser date range', dates.endDate === '2026-04-01');
+  const ambiguous = normalizeEventDateRange('2026-03-15', '2026-03-01');
+  assert('collapses ambiguous invalid date range', ambiguous.endDate === ambiguous.startDate);
+  const ics = buildEventIcs(
+    {
+      title: 'AU Road Race: State Titles + Easter Cup',
+      startDate: '2026-03-31',
+      endDate: '2026-03-01',
+      uid: 'bad-range@roadracer.app',
+    },
+    new Date('2026-08-18T10:00:00Z')
+  );
+  assert('repairs invalid ICS DTEND', ics.includes('DTEND;VALUE=DATE:20260402'));
 }
 
 if (failed) {
