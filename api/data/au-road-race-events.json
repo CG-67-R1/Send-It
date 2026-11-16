@@ -1,7 +1,7 @@
 {
-  "updatedAt": "2026-11-09T15:07:03.361Z",
+  "updatedAt": "2026-11-16T14:43:40.337Z",
   "sourceCount": 26,
-  "eventCount": 62,
+  "eventCount": 60,
   "errors": [],
   "events": [
     {
@@ -313,20 +313,6 @@
       "confidence": "high"
     },
     {
-      "name": "2027 Australian Superbike Championship - Round 2",
-      "start_date": "2026-11-13",
-      "end_date": "2026-11-15",
-      "state": null,
-      "venue": "The Bend",
-      "organiser": "Motorcycling Australia (MA) - National Calendar",
-      "source_id": "gov_ma_national_calendar",
-      "source_url": "https://www.ma.org.au/ma-calendar/",
-      "entry_url": "https://calendar.time.ly/lom2ukea/event/78314649/20261113000000",
-      "discipline": "road_race",
-      "notes": "Timely: Road Race",
-      "confidence": "high"
-    },
-    {
       "name": "2027 Shannons Australian Superbike Championships Round 2",
       "start_date": "2026-11-13",
       "end_date": "2026-11-15",
@@ -338,20 +324,6 @@
       "entry_url": "https://www.computime.com.au/calendar/calendar",
       "discipline": "road_race",
       "notes": null,
-      "confidence": "high"
-    },
-    {
-      "name": "Broadford Raceway",
-      "start_date": "2026-11-14",
-      "end_date": "2026-11-14",
-      "state": "VIC",
-      "venue": "Broadford Raceway",
-      "organiser": "Champions Ride Days",
-      "source_id": "club_au_champions_ride_days",
-      "source_url": "https://championsridedays.com.au/event-calender/",
-      "entry_url": "https://championsridedays.com.au/product/broadford-raceway-161/",
-      "discipline": "track_day",
-      "notes": "Track day — book via Champions Ride Days",
       "confidence": "high"
     },
     {
