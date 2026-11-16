@@ -14,6 +14,7 @@
     "refresh-au-calendar": "node scripts/refreshAuCalendar.js",
     "health-check": "node ../scripts/health-check.mjs",
     "test-moms-rules": "node scripts/testMomsRulesRetrieval.mjs",
+    "test-uk-rules": "node scripts/testUkRulesLink.mjs",
     "test-trivia": "node scripts/testTriviaSelection.mjs",
     "test-coach-model": "node scripts/testCoachModel.mjs",
     "test-coach-track-notes": "node scripts/testCoachTrackNotesHands.mjs",
