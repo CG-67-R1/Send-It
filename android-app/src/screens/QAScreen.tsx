@@ -14,6 +14,7 @@ import {
 import { useFocusEffect, useRoute, type RouteProp } from '@react-navigation/native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { apiFetch, QA_TRIVIA_URL, wakeApi } from '../../constants/api';
+import { releasePackId } from '../../constants/releasePack';
 import { logAnalyticsEvent } from '../utils/analytics';
 import { sendAskChat, type AskSource, type MomsOnlineMeta } from '../utils/askChat';
 import { safeOpenUrl } from '../utils/safeOpenUrl';
@@ -104,6 +105,7 @@ function getTriviaResult(correct: number, wrong: number): { title: string; messa
 
 export function QAScreen() {
   const route = useRoute<RouteProp<RootTabParamList, 'Q&A'>>();
+  const ukRelease = releasePackId() === 'uk';
   const [activeTab, setActiveTab] = useState<QATab>('ask');
   const [query, setQuery] = useState('');
   const [askReply, setAskReply] = useState<string | null>(null);
@@ -603,8 +605,9 @@ export function QAScreen() {
         <View style={styles.rulesSection}>
           <Text style={styles.sectionTitle}>Official rule check?</Text>
           <Text style={styles.sectionSubtitle}>
-            Ask against the uploaded MoMS and get a quick answer with edition and clause/location
-            citations so you can verify it in the rule book.
+            {ukRelease
+              ? 'Official rule check uses the ACU Standing Regulations. This app links out and does not cite clause numbers.'
+              : 'Ask against the uploaded MoMS and get a quick answer with edition and clause/location citations so you can verify it in the rule book.'}
           </Text>
           <View style={styles.searchRow}>
             <TextInput

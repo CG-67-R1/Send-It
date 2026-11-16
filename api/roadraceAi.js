@@ -11,7 +11,7 @@ import { enrichRulesSources } from './momsOnlineUrls.js';
 import { prepareRulesQueryTokens, retrieveForRules } from './qa.js';
 import { formatFaqsForPrompt, loadRiderAiFaqs } from './riderAiFaqs.js';
 import { coachEvidenceBlock } from './coachKnowledge.js';
-import { getAiPrompts, getPrimaryManifest } from './packLoader.js';
+import { getAiPrompts, getPrimaryManifest, readPackFile } from './packLoader.js';
 import { stripChatMarkdown } from './stripChatMarkdown.js';
 
 /** Cap below the app's 90s LLM fetch so a hung OpenAI call returns JSON, not a dropped TCP. */
@@ -516,12 +516,59 @@ function extractWebSources(response) {
 }
 
 /**
+ * UK has no MoMS index. Official rule check links to the ACU handbook and
+ * does not quote Australian clauses or invent ACU clause numbers.
+ */
+function ukRulesLinkOut() {
+  const book = readPackFile('uk', 'rules/rulebook.json') || {};
+  const urls = book.urls && typeof book.urls === 'object' ? book.urls : {};
+  const sourcePage =
+    typeof urls.sourcePage === 'string' && urls.sourcePage ? urls.sourcePage : 'https://www.acu.org.uk';
+  const handbook = typeof urls.handbook === 'string' ? urls.handbook : '';
+  const sources = [];
+  if (handbook) {
+    sources.push({
+      title: 'ACU Standing Regulations',
+      chapterTitle: 'ACU Standing Regulations',
+      onlineUrl: handbook,
+      origin: 'acu.org.uk',
+    });
+  }
+  sources.push({
+    title: 'ACU',
+    chapterTitle: 'ACU website',
+    onlineUrl: sourcePage,
+    origin: 'acu.org.uk',
+  });
+  const note = typeof book.note === 'string' ? book.note.trim() : '';
+  const content = [
+    'This app does not quote ACU clause numbers, and it will not answer a UK rule question from the Australian Manual of Motorcycle Sport.',
+    note,
+    'Use the links for the current ACU Standing Regulations and the supplementary regulations for the meeting.',
+  ]
+    .filter(Boolean)
+    .join('\n\n');
+  return { content, sources, fromKb: false };
+}
+
+/**
  * Single-shot Ask: web search (Responses API). Rules mode: MoMS local JSON only.
+ * UK rules mode links out to the ACU handbook instead.
  * @param {string} message
- * @param {{ mode?: 'ask' | 'rules' }} [options]
+ * @param {{ mode?: 'ask' | 'rules', packId?: string }} [options]
  * @returns {Promise<{ content: string, sources: Array<object>, fromKb: boolean, momsOnline?: object, error?: string }>}
  */
 export async function askChat(message, options = {}) {
+  const text = (message || '').trim();
+  if (!text) {
+    return { content: '', sources: [], fromKb: false, error: 'message is required' };
+  }
+
+  const mode = options.mode === 'rules' ? 'rules' : 'ask';
+  if (mode === 'rules' && options.packId === 'uk') {
+    return ukRulesLinkOut();
+  }
+
   const apiKey = process.env.OPENAI_API_KEY;
   if (!apiKey) {
     return {
@@ -532,12 +579,6 @@ export async function askChat(message, options = {}) {
     };
   }
 
-  const text = (message || '').trim();
-  if (!text) {
-    return { content: '', sources: [], fromKb: false, error: 'message is required' };
-  }
-
-  const mode = options.mode === 'rules' ? 'rules' : 'ask';
   const client = createOpenAiClient(apiKey);
   const model = getCoachModel();
 
