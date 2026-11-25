@@ -1,7 +1,7 @@
 {
   "updatedAt": "2026-11-23T17:20:36.536Z",
   "sourceCount": 26,
-  "eventCount": 54,
+  "eventCount": 50,
   "errors": [],
   "events": [
     {
@@ -257,20 +257,6 @@
       "confidence": "high"
     },
     {
-      "name": "AUSX Supercross Championships Round 1",
-      "start_date": "2026-10-31",
-      "end_date": "2026-10-31",
-      "state": "VIC",
-      "venue": "Auckland",
-      "organiser": "Computime",
-      "source_id": "club_vic_computime",
-      "source_url": "https://www.computime.com.au/calendar/calendar",
-      "entry_url": "https://www.computime.com.au/calendar/calendar",
-      "discipline": "road_race",
-      "notes": null,
-      "confidence": "high"
-    },
-    {
       "name": "State Titles + Cafnix R4",
       "start_date": "2026-11-03",
       "end_date": "2026-11-04",
@@ -280,20 +266,6 @@
       "source_id": "club_sa_phoenixmcc",
       "source_url": "https://phoenixmcc.org.au/track-calendar/",
       "entry_url": "https://phoenixmcc.org.au/track-calendar/",
-      "discipline": "road_race",
-      "notes": null,
-      "confidence": "high"
-    },
-    {
-      "name": "AUSX Supercross Championships Round 2",
-      "start_date": "2026-11-07",
-      "end_date": "2026-11-07",
-      "state": "VIC",
-      "venue": "Geelong",
-      "organiser": "Computime",
-      "source_id": "club_vic_computime",
-      "source_url": "https://www.computime.com.au/calendar/calendar",
-      "entry_url": "https://www.computime.com.au/calendar/calendar",
       "discipline": "road_race",
       "notes": null,
       "confidence": "high"
@@ -318,20 +290,6 @@
       "end_date": "2026-11-15",
       "state": "SA",
       "venue": "The Bend",
-      "organiser": "Computime",
-      "source_id": "club_vic_computime",
-      "source_url": "https://www.computime.com.au/calendar/calendar",
-      "entry_url": "https://www.computime.com.au/calendar/calendar",
-      "discipline": "road_race",
-      "notes": null,
-      "confidence": "high"
-    },
-    {
-      "name": "AUSX Supercross Championships Round 3",
-      "start_date": "2026-11-14",
-      "end_date": "2026-11-14",
-      "state": "WA",
-      "venue": "Perth",
       "organiser": "Computime",
       "source_id": "club_vic_computime",
       "source_url": "https://www.computime.com.au/calendar/calendar",
@@ -394,20 +352,6 @@
       "entry_url": "https://championsridedays.com.au/product/the-bend-motorsport-park-intro-sessions-only-68/",
       "discipline": "track_day",
       "notes": "Track day — book via Champions Ride Days",
-      "confidence": "high"
-    },
-    {
-      "name": "AUSX Supercross Championships Round 4",
-      "start_date": "2026-11-28",
-      "end_date": "2026-11-28",
-      "state": "NSW",
-      "venue": "Newcastle",
-      "organiser": "Computime",
-      "source_id": "club_vic_computime",
-      "source_url": "https://www.computime.com.au/calendar/calendar",
-      "entry_url": "https://www.computime.com.au/calendar/calendar",
-      "discipline": "road_race",
-      "notes": null,
       "confidence": "high"
     },
     {
